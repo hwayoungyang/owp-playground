@@ -1,0 +1,133 @@
+.code-viewer {
+  background: var(--code-background);
+  color: var(--code-ink);
+  min-width: 0;
+}
+.code-toolbar {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ffffff18;
+  gap: 12px;
+}
+.code-toolbar > div:last-child {
+  display: flex;
+  gap: 8px;
+}
+.code-toolbar .MuiButton-root {
+  color: var(--code-ink);
+  font-size: 11px;
+  height: 30px;
+  min-height: 30px;
+}
+.code-file {
+  min-width: 0;
+  font: 12px var(--font-mono);
+}
+.code-file small {
+  font: 10px var(--font-mono);
+  color: var(--code-muted);
+  margin-left: 8px;
+}
+.code-file .MuiInputBase-root {
+  color: var(--code-ink);
+  font: 11px var(--font-mono);
+  max-width: 250px;
+  height: 30px;
+}
+.code-file .MuiSelect-select {
+  padding-block: 0;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+.code-file .MuiOutlinedInput-notchedOutline {
+  border-color: #ffffff24;
+}
+.code-file .MuiSelect-icon {
+  color: var(--code-muted);
+}
+.code-scroll {
+  height: 480px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--code-muted) transparent;
+  padding: 24px;
+}
+.code-scroll pre {
+  margin: 0;
+  font: 12px / 1.8 var(--font-mono);
+  tab-size: 2;
+  white-space: pre;
+  letter-spacing: 0;
+  font-variant-ligatures: none;
+}
+.code-scroll code {
+  font: inherit;
+}
+.code-status {
+  border-top: 1px solid #ffffff18;
+  padding: 12px 16px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--code-muted);
+}
+.guide-code {
+  border-radius: 6px;
+  overflow: hidden;
+}
+.guide-code .code-toolbar {
+  min-height: 44px;
+  padding-block: 7px;
+}
+.guide-code .code-scroll {
+  height: auto;
+  max-height: none;
+  padding: 16px;
+}
+.hljs-keyword,
+.hljs-literal,
+.hljs-built_in {
+  color: var(--code-purple);
+}
+.hljs-string,
+.hljs-regexp {
+  color: var(--code-mint);
+}
+.hljs-title,
+.hljs-property,
+.hljs-attr,
+.hljs-number {
+  color: var(--code-blue);
+}
+.hljs-comment {
+  color: var(--code-muted);
+}
+.hljs-tag,
+.hljs-name {
+  color: var(--code-purple);
+}
+@media (max-width: 599px) {
+  .code-toolbar {
+    padding: 12px;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .code-toolbar > div:last-child {
+    gap: 2px;
+  }
+  .code-scroll {
+    height: 420px;
+    padding: 16px;
+  }
+  .code-scroll pre {
+    font-size: 11px;
+  }
+  .code-file .MuiInputBase-root {
+    max-width: 190px;
+  }
+}

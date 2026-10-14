@@ -1,0 +1,130 @@
+import { MenuItem, Select } from '@mui/material';
+import { OwpDataGrid } from '@owp/datagrid';
+import type { OwpDataGridColumn, OwpDataGridRowId } from '@owp/datagrid/types';
+import { useEffect, useState } from 'react';
+import { z } from 'zod';
+import { translate } from '../../../shared/i18n/translate';
+import type { Task } from '../model/data';
+import { getRowId, initialTasks, statuses } from '../model/data';
+import type { Definition, ExampleProps } from '../model/types';
+
+const statusClasses: Readonly<Record<string, string>> = {
+  '진행 중': 'status-0',
+  완료: 'status-1',
+  '검토 중': 'status-2',
+  대기: 'status-3',
+};
+
+const baseColumns = [
+  { id: 'project', field: 'project', header: '프로젝트', minWidth: 175, relWidth: 1.4 },
+  { id: 'task', field: 'task', header: '작업', minWidth: 175, relWidth: 1.5 },
+  { id: 'owner', field: 'owner', header: '담당자', minWidth: 100, relWidth: 0.8, align: 'center' },
+  {
+    id: 'status',
+    field: 'status',
+    header: '상태',
+    minWidth: 110,
+    relWidth: 0.9,
+    align: 'center',
+    headerAlign: 'center',
+    type: 'select',
+    valueOptions: statuses.map((value) => ({ value, label: value })),
+    renderCell: ({ row }) =>
+      row.status ? (
+        <span className={`status-badge ${statusClasses[row.status] ?? ''}`}>
+          <span className="status-dot" />
+          {translate(row.status)}
+        </span>
+      ) : null,
+  },
+  {
+    id: 'quantity',
+    field: 'quantity',
+    header: '계획',
+    type: 'number',
+    minWidth: 80,
+    relWidth: 0.6,
+    numberOptions: { maximumFractionDigits: 0 },
+  },
+  {
+    id: 'completed',
+    field: 'completed',
+    header: '완료',
+    type: 'number',
+    minWidth: 80,
+    relWidth: 0.6,
+    numberOptions: { maximumFractionDigits: 0 },
+  },
+  {
+    id: 'date',
+    field: 'date',
+    header: '마감일',
+    type: 'date',
+    minWidth: 150,
+    relWidth: 1.1,
+    align: 'center',
+    headerAlign: 'center',
+    dateOptions: { format: 'YYYY-MM-DD' },
+  },
+] satisfies OwpDataGridColumn<Task>[];
+
+export const exampleDefinition: Definition = {
+  rows: initialTasks,
+  columns: baseColumns,
+  getRowId,
+  rowSelectionMode: 'multiple',
+  height: 420,
+};
+
+const selectionModeSchema = z.enum(['none', 'single', 'multiple']);
+
+export function OwpDataGridExample(props: ExampleProps = {}) {
+  const { gridRef, onRecord, onRowsChange, onBusyChange, onSelectionModeChange, ...gridProps } =
+    props;
+  const [model, setModel] = useState<readonly OwpDataGridRowId[]>([]);
+  const [mode, setMode] = useState<'none' | 'single' | 'multiple'>('multiple');
+  useEffect(() => {
+    const result = selectionModeSchema.safeParse(gridProps.rowSelectionMode);
+    if (result.success) setMode(result.data);
+  }, [gridProps.rowSelectionMode]);
+  return (
+    <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
+      <div className="example-controls">
+        <span>{translate('행 선택 방식')}</span>
+        <Select
+          value={mode}
+          inputProps={{ 'aria-label': translate('행 선택 방식') }}
+          onChange={(event) => {
+            const result = selectionModeSchema.safeParse(event.target.value);
+            if (!result.success) return;
+            setMode(result.data);
+            onSelectionModeChange?.(result.data);
+            setModel([]);
+            gridProps.onRowSelectionModelChange?.([]);
+            onRecord?.('rowSelectionMode', result.data);
+          }}
+        >
+          <MenuItem value="none">{translate('선택 없음')}</MenuItem>
+          <MenuItem value="single">{translate('단일 선택')}</MenuItem>
+          <MenuItem value="multiple">{translate('다중 선택')}</MenuItem>
+        </Select>
+      </div>
+      <div className="example-grid">
+        <OwpDataGrid
+          ref={gridRef}
+          rows={initialTasks}
+          columns={baseColumns}
+          getRowId={getRowId}
+          style={{ height: '100%' }}
+          {...gridProps}
+          rowSelectionMode={mode}
+          rowSelectionModel={gridProps.rowSelectionModel ?? model}
+          onRowSelectionModelChange={(next) => {
+            setModel(next);
+            gridProps.onRowSelectionModelChange?.(next);
+          }}
+        />
+      </div>
+    </div>
+  );
+}
