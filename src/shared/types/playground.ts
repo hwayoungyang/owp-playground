@@ -1,4 +1,4 @@
-export type SampleInfo = {
+export type ExampleMetadata = {
   readonly id: string;
   readonly title: string;
   readonly package: string;
@@ -8,7 +8,7 @@ export type SampleInfo = {
   readonly source: string;
 };
 
-export type SampleCategory = {
+export type NavigationCategory = {
   readonly id: string;
   readonly label: string;
 };

@@ -1,24 +1,24 @@
 import { useTranslation } from 'react-i18next';
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
-import { SampleHeading } from '../../../shared/ui/SampleHeading';
-import { categories, type Sample } from '../catalog';
+import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
+import { categories, type GridCatalogEntry } from '../catalog';
 import source from './getting-started.tsx?raw';
 
 const registry = '@owp:registry=<OWP_REGISTRY_URL>';
 const install = 'pnpm add @owp/datagrid@latest @owp/excel@^1.1.0';
 
-export function GettingStarted({
-  sample,
+export function GridGettingStarted({
+  example,
 }: {
-  readonly sample: Extract<Sample, { readonly kind: 'guide' }>;
+  readonly example: Extract<GridCatalogEntry, { readonly kind: 'guide' }>;
 }) {
   const { t } = useTranslation('app');
   return (
     <section className="workspace getting-started" aria-label={t('설치 및 사용 안내')}>
-      <SampleHeading
-        sample={sample}
+      <WorkspaceHeading
+        example={example}
         packageTitle="OwpDataGrid"
-        categoryLabel={categories.find((entry) => entry.id === sample.category)?.label ?? ''}
+        categoryLabel={categories.find((entry) => entry.id === example.category)?.label ?? ''}
       />
       <div className="guide-sections">
         <section aria-labelledby="registry-heading">
@@ -43,7 +43,7 @@ export function GettingStarted({
               'OWP API 필드명을 field와 getRowId에 연결합니다. 숫자·boolean 변환과 트리 연결 예제는 model/apiData.ts에서 확인할 수 있습니다.',
             )}
           </p>
-          <CodeSnippet label="GettingStarted.tsx" code={source} language="typescript" />
+          <CodeSnippet label="GettingStartedGrid.tsx" code={source} language="typescript" />
         </section>
       </div>
     </section>

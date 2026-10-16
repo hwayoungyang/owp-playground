@@ -1,17 +1,18 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useState } from 'react';
+import type { NativeData, NativeOptions } from '../model/chartTypes';
 import { monthlyRecords } from '../model/data';
 import type { ChartExampleProps } from '../model/types';
 import { useNativeData } from '../model/useNativeData';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Toggle } from '../runtime/Controls';
-import { type NativeData, type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { t } = useOwpTranslation();
   const { data, palette } = useNativeData('bar');
   const [enabled, setEnabled] = useState(true);
 
-  const sample: NativeData = {
+  const chartData: NativeData = {
     ...data,
     datasets: [
       ...data.datasets
@@ -43,7 +44,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Toggle label="Column 누적" value={enabled} onChange={setEnabled} />
       </Controls>
-      <SampleFrame type="bar" data={sample} options={options} {...props} />
+      <ChartCanvas type="bar" data={chartData} options={options} {...props} />
     </>
   );
 }

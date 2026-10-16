@@ -3,7 +3,7 @@ import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, owners, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -81,7 +81,7 @@ import { Button } from '@mui/material';
 import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
 import { useRef, useState } from 'react';
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: editableColumns,
   getRowId,
@@ -89,7 +89,7 @@ export const exampleDefinition: Definition = {
   height: 420,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function ValidationMessagesGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);

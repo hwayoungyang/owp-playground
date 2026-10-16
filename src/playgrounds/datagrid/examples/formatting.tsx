@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const fractionDigits = [1, 2, 3, 4, 5, 6] as const;
 const fractionDigitsSchema = z.coerce.number().int().min(1).max(6);
@@ -89,7 +89,7 @@ const columns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks.map((row) => ({
     ...row,
     time: `${row.time}:00`,
@@ -101,7 +101,7 @@ export const exampleDefinition: Definition = {
   height: 420,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function NumberDateFormatsGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const { t } = useTranslation('app');
   const [precision, setPrecision] = useState(2);
@@ -145,7 +145,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={exampleDefinition.rows}
+          rows={gridConfiguration.rows}
           getRowId={getRowId}
           rowSelectionMode="multiple"
           height={420}

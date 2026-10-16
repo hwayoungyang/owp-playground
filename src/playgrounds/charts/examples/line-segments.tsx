@@ -1,14 +1,15 @@
 import { useState } from 'react';
+import type { NativeData, NativeOptions } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useNativeData } from '../model/useNativeData';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Toggle } from '../runtime/Controls';
-import { type NativeData, type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { data, palette } = useNativeData('line');
   const [enabled, setEnabled] = useState(true);
 
-  const sample: NativeData = {
+  const chartData: NativeData = {
     ...data,
     datasets: [
       {
@@ -33,7 +34,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Toggle label="누락 구간 연결" value={enabled} onChange={setEnabled} />
       </Controls>
-      <SampleFrame type="line" data={sample} options={options} {...props} />
+      <ChartCanvas type="line" data={chartData} options={options} {...props} />
     </>
   );
 }

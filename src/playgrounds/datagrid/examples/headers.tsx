@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -77,7 +77,7 @@ const groupedHeaders: readonly OwpDataGridHeaderRow[] = [
   baseColumns.slice(1).map((column) => ({ columnId: column.id })),
 ];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: baseColumns,
   getRowId,
@@ -87,7 +87,7 @@ export const exampleDefinition: Definition = {
   hideChildHeaderSortButtons: false,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function GroupedHeadersGrid(props: GridViewProps = {}) {
   const { t } = useTranslation('app');
   const [showChildSorting, setShowChildSorting] = useState(true);
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;

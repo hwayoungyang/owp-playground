@@ -6,8 +6,8 @@ import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { createTree, getRowId, initialTasks, statuses } from '../model/data';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 import { loadRows } from '../model/server';
-import type { Definition, ExampleProps } from '../model/types';
 
 const treeRows = createTree();
 const CompletionTrendChart = lazy(() =>
@@ -165,13 +165,13 @@ const baseColumns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-const treeOptions: Definition['treeOptions'] = {
+const treeOptions: GridConfiguration['treeOptions'] = {
   mode: 'parent-reference',
   getParentRowId: (row) => row.parentId,
   defaultExpansionModel: treeRows.filter((row) => row.parentId === null).map(getRowId),
 };
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: treeRows,
   columns: baseColumns,
   getRowId,
@@ -182,7 +182,7 @@ export const exampleDefinition: Definition = {
   rowSelectionPropagation: { descendants: true, parents: true },
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function TaskTreeGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [lazy, setLazy] = useState(false);
@@ -193,7 +193,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
   useEffect(() => {
     onRowsChange?.(rows);
   }, [rows, onRowsChange]);
-  const options = useMemo<Definition['treeOptions']>(
+  const options = useMemo<GridConfiguration['treeOptions']>(
     () =>
       lazy
         ? {

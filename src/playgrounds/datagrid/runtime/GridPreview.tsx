@@ -1,27 +1,27 @@
 import { useEffect, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { GridSample } from '../catalog';
-import { sampleComponents } from '../model/components';
-import type { SettingsValue } from './Settings';
-import type { Demo } from './useDemo';
+import type { GridExample } from '../catalog';
+import { gridRegistry } from '../model/gridRegistry';
+import type { GridViewSettings } from './GridSettingsDrawer';
 import { useGridAccessibility } from './useGridAccessibility';
+import type { GridController } from './useGridController';
 
 export function GridPreview({
-  sample,
-  demo,
+  example,
+  controller,
   settings,
   themeRadius,
 }: {
-  readonly sample: GridSample;
-  readonly demo: Demo;
-  readonly settings: SettingsValue;
+  readonly example: GridExample;
+  readonly controller: GridController;
+  readonly settings: GridViewSettings;
   readonly themeRadius?: number;
 }) {
   const { t } = useTranslation('app');
   const gridHost = useGridAccessibility();
-  const Example = sampleComponents[sample.id];
+  const GridView = gridRegistry[example.id].Component;
   useLayoutEffect(() => {
-    if (sample.id !== 'worksheet') return;
+    if (example.id !== 'worksheet') return;
     const host = gridHost.current;
     const main = host?.closest<HTMLElement>('.main-content');
     const workspace = host?.closest<HTMLElement>('.workspace');
@@ -50,33 +50,44 @@ export function GridPreview({
       observer.disconnect();
       host.style.removeProperty('height');
     };
-  }, [sample.id, gridHost]);
+  }, [example.id, gridHost]);
   useLayoutEffect(() => {
-    const pending = demo.pendingBinding;
-    if (!pending || demo.busy) return;
+    const pending = controller.pendingBinding;
+    if (!pending || controller.busy) return;
     let frame = 0;
     const waitForRows = () => {
       if (pending.controller.signal.aborted) return;
       const rendered = gridHost.current?.querySelector(
         '.OwpDataGrid-row[data-owp-data-grid-row-key]',
       );
-      if (!demo.gridRef.current?.getRow(`task-${pending.count}`) || !rendered) {
+      if (!controller.gridRef.current?.getRow(`task-${pending.count}`) || !rendered) {
         frame = requestAnimationFrame(waitForRows);
         return;
       }
       // The next frame runs after the bound rows have had a chance to paint.
-      frame = requestAnimationFrame(() => demo.finishBinding(pending));
+      frame = requestAnimationFrame(() => controller.finishBinding(pending));
     };
     frame = requestAnimationFrame(waitForRows);
     return () => cancelAnimationFrame(frame);
-  }, [demo.pendingBinding, demo.busy, demo.gridRef, demo.finishBinding, gridHost]);
+  }, [
+    controller.pendingBinding,
+    controller.busy,
+    controller.gridRef,
+    controller.finishBinding,
+    gridHost,
+  ]);
   useEffect(() => {
-    if (demo.definition.treeOptions?.getChildren) {
-      demo.onRowsUpdate(demo.gridRef.current?.getRows() ?? demo.rows);
+    if (controller.configuration.treeOptions?.getChildren) {
+      controller.onRowsUpdate(controller.gridRef.current?.getRows() ?? controller.rows);
     }
-  }, [demo.definition.treeOptions, demo.gridRef, demo.rows, demo.onRowsUpdate]);
-  const handleCommit: NonNullable<typeof demo.definition.onCellValueCommit> = (params) => {
-    demo.record('cell.commit', {
+  }, [
+    controller.configuration.treeOptions,
+    controller.gridRef,
+    controller.rows,
+    controller.onRowsUpdate,
+  ]);
+  const handleCommit: NonNullable<typeof controller.configuration.onCellValueCommit> = (params) => {
+    controller.record('cell.commit', {
       rowId: params.rowId,
       columnId: params.column.id,
       before: params.previousValue,
@@ -87,55 +98,58 @@ export function GridPreview({
     <section
       ref={gridHost}
       className={`grid-preview${(themeRadius ?? settings.radius) ? ' rounded' : ''}`}
-      data-sample={sample.id}
-      aria-label={`${t(sample.title)} ${t('그리드와 탐색 컨트롤')}`}
+      data-sample={example.id}
+      aria-label={`${t(example.title)} ${t('그리드와 탐색 컨트롤')}`}
     >
       <div className="grid-preview-content">
-        <Example
-          key={demo.gridVersion}
-          {...demo.definition}
-          gridRef={demo.gridRef}
-          onRecord={demo.record}
-          onRowsChange={demo.onRowsUpdate}
-          onBusyChange={demo.setBusy}
-          rows={demo.rows}
-          columns={demo.columns}
+        <GridView
+          key={controller.gridVersion}
+          {...controller.configuration}
+          gridRef={controller.gridRef}
+          onRecord={controller.record}
+          onRowsChange={controller.onRowsUpdate}
+          onBusyChange={controller.setBusy}
+          rows={controller.rows}
+          columns={controller.columns}
           height="100%"
           style={
-            demo.definition.visibleRowCount
-              ? demo.definition.style
-              : { ...demo.definition.style, height: '100%' }
+            controller.configuration.visibleRowCount
+              ? controller.configuration.style
+              : { ...controller.configuration.style, height: '100%' }
           }
           radius={themeRadius ?? settings.radius}
-          layout={{ ...demo.definition.layout, filterRow: settings.filter }}
+          layout={{ ...controller.configuration.layout, filterRow: settings.filter }}
           rowSelectionMode={settings.selection}
-          rowSelectionModel={demo.selected}
-          onRowSelectionModelChange={demo.onSelection}
-          sortModel={demo.sort}
-          onSortModelChange={demo.onSort}
-          filterModel={demo.filters}
-          onFilterModelChange={demo.onFilter}
-          loading={demo.loading || demo.busy}
+          rowSelectionModel={controller.selected}
+          onRowSelectionModelChange={controller.onSelection}
+          sortModel={controller.sort}
+          onSortModelChange={controller.onSort}
+          filterModel={controller.filters}
+          onFilterModelChange={controller.onFilter}
+          loading={controller.loading || controller.busy}
           errorOverlay={
-            demo.error
+            controller.error
               ? {
                   message: t('작업을 불러오지 못했습니다.'),
-                  onRetry: demo.retry,
+                  onRetry: controller.retry,
                   retryLabel: t('다시 불러오기'),
                 }
               : undefined
           }
           virtualization={
-            demo.definition.visibleRowCount
+            controller.configuration.visibleRowCount
               ? false
-              : { ...demo.definition.virtualization, rowHeight: settings.compact ? 32 : 40 }
+              : {
+                  ...controller.configuration.virtualization,
+                  rowHeight: settings.compact ? 32 : 40,
+                }
           }
-          onChangesChange={demo.onChanges}
+          onChangesChange={controller.onChanges}
           onCellValueCommit={handleCommit}
           onCellClick={({ rowId, column }) =>
-            demo.record('cell.click', { rowId, columnId: column.id })
+            controller.record('cell.click', { rowId, columnId: column.id })
           }
-          aria-label={t(sample.title)}
+          aria-label={t(example.title)}
         />
       </div>
     </section>

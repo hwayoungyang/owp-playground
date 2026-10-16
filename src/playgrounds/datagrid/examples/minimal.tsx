@@ -3,7 +3,7 @@ import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -65,7 +65,7 @@ const baseColumns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: baseColumns.slice(0, 3),
   getRowId,
@@ -74,17 +74,17 @@ export const exampleDefinition: Definition = {
   canTotalCountRow: false,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function MinimalGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
       ref={gridRef}
-      rows={exampleDefinition.rows}
-      columns={exampleDefinition.columns}
-      getRowId={exampleDefinition.getRowId}
-      rowSelectionMode={exampleDefinition.rowSelectionMode}
-      height={exampleDefinition.height}
-      canTotalCountRow={exampleDefinition.canTotalCountRow}
+      rows={gridConfiguration.rows}
+      columns={gridConfiguration.columns}
+      getRowId={gridConfiguration.getRowId}
+      rowSelectionMode={gridConfiguration.rowSelectionMode}
+      height={gridConfiguration.height}
+      canTotalCountRow={gridConfiguration.canTotalCountRow}
       {...gridProps}
     />
   );

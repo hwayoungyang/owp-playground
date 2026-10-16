@@ -5,13 +5,13 @@ describe('shared playground URLs', () => {
   it('opens the requested package and sample from query parameters', () => {
     const route = readPlaygroundRoute('?package=datagrid&sample=auto-span');
     expect(route.playground.id).toBe('datagrid');
-    expect(route.sample?.id).toBe('auto-span');
+    expect(route.example?.id).toBe('auto-span');
   });
 
   it('keeps sample-only links usable', () => {
     const route = readPlaygroundRoute('?sample=editing');
     expect(route.playground.id).toBe('datagrid');
-    expect(route.sample?.id).toBe('editing');
+    expect(route.example?.id).toBe('editing');
   });
 
   it.each(['', '?package=unknown', '?package=datagrid&sample=unknown'])(
@@ -19,20 +19,20 @@ describe('shared playground URLs', () => {
     (search) => {
       const route = readPlaygroundRoute(search);
       expect(route.playground.id).toBe('datagrid');
-      expect(route.sample?.id).toBe('getting-started');
+      expect(route.example?.id).toBe('getting-started');
     },
   );
 
   it('accepts a scoped package name as a shared URL value', () => {
     const route = readPlaygroundRoute('?package=%40owp%2Fpdf');
     expect(route.playground.id).toBe('pdf');
-    expect(route.sample).toBeNull();
+    expect(route.example).toBeNull();
   });
 
   it('shows the selected planned package without an unrelated sample', () => {
     const route = readPlaygroundRoute('?package=pdf&sample=editing');
     expect(route.playground.id).toBe('pdf');
-    expect(route.sample).toBeNull();
+    expect(route.example).toBeNull();
     expect(route.status).toBe('planned');
   });
 

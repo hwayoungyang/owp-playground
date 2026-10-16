@@ -9,7 +9,7 @@ import { useRef, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, owners, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -83,7 +83,7 @@ const editableColumns = baseColumns.map((column) => ({
     : {}),
 }));
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: editableColumns.map((column) => ({
     ...column,
@@ -103,7 +103,7 @@ export const exampleDefinition: Definition = {
   height: 420,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function InputValidationGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [validation, setValidation] = useState<OwpDataGridValidationResult<Task> | null>(null);
@@ -133,10 +133,10 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={exampleDefinition.rows}
-          columns={exampleDefinition.columns}
-          getRowId={exampleDefinition.getRowId}
-          rowSelectionMode={exampleDefinition.rowSelectionMode}
+          rows={gridConfiguration.rows}
+          columns={gridConfiguration.columns}
+          getRowId={gridConfiguration.getRowId}
+          rowSelectionMode={gridConfiguration.rowSelectionMode}
           {...gridProps}
           style={{ height: '100%' }}
         />

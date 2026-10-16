@@ -6,7 +6,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translate } from '../../../shared/i18n/translate';
 import { getRowId, initialTasks, type Task } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 function createColumns(actions?: {
   readonly complete: (row: Task) => void;
@@ -129,7 +129,7 @@ function createColumns(actions?: {
   ];
 }
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: createColumns(),
   getRowId,
@@ -137,7 +137,7 @@ export const exampleDefinition: Definition = {
   height: 420,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function CellRendererGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const { t } = useTranslation('app');
@@ -183,7 +183,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={exampleDefinition.rows}
+          rows={gridConfiguration.rows}
           getRowId={getRowId}
           rowSelectionMode="none"
           style={{ height: '100%' }}

@@ -1,7 +1,7 @@
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { getRowId, initialTasks, owners, statuses, type Task } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const baseColumns = [
   { id: 'project', field: 'project', header: '프로젝트', minWidth: 150, relWidth: 1 },
@@ -81,7 +81,7 @@ const columns = baseColumns.map((column) => ({
   resizable: true,
 }));
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks.map((row, index) => ({
     ...row,
     task: `${row.task} · 사용자 흐름과 화면 구성, 데이터 입력 조건을 함께 검토합니다.`,
@@ -99,12 +99,12 @@ export const exampleDefinition: Definition = {
   overflowHint: { header: true, cell: true },
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function OverflowHintsGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
       ref={gridRef}
-      rows={exampleDefinition.rows}
+      rows={gridConfiguration.rows}
       columns={columns}
       getRowId={getRowId}
       height={420}

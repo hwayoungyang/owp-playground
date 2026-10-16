@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, owners, seedTask, statuses } from '../model/data';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 import { saveTasks } from '../model/server';
-import type { Definition, ExampleProps } from '../model/types';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -80,7 +80,7 @@ const editableColumns = baseColumns.map((column) => ({
     : {}),
 }));
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: editableColumns,
   getRowId,
@@ -89,7 +89,7 @@ export const exampleDefinition: Definition = {
   rowDeletion: true,
   layout: { rowPanel: { allowAddedRowSelection: true } },
 };
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function ServerSaveGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
@@ -180,13 +180,13 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={exampleDefinition.rows}
+          rows={gridConfiguration.rows}
           columns={editableColumns}
           getRowId={getRowId}
           style={{ height: '100%' }}
           rowSelectionMode="multiple"
           rowDeletion={true}
-          layout={exampleDefinition.layout}
+          layout={gridConfiguration.layout}
           {...gridProps}
           rowSelectionModel={selected}
           onRowSelectionModelChange={(next) => {

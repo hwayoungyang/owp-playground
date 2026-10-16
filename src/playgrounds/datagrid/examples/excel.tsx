@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, owners, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -90,7 +90,7 @@ const groupedHeaders: readonly OwpDataGridHeaderRow[] = [
   baseColumns.slice(1).map((column) => ({ columnId: column.id })),
 ];
 
-const overviewSummary: Definition['summaryRows'] = [
+const overviewSummary: GridConfiguration['summaryRows'] = [
   {
     id: 'total',
     cells: [
@@ -101,7 +101,7 @@ const overviewSummary: Definition['summaryRows'] = [
   },
 ];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: editableColumns.map((column) => ({
     ...column,
@@ -115,7 +115,7 @@ export const exampleDefinition: Definition = {
 };
 
 const scopeSchema = z.enum(['visible', 'all', 'selected']);
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function ExcelExportGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [scope, setScope] = useState<z.infer<typeof scopeSchema>>('visible');
@@ -149,7 +149,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
         <OwpDataGrid
           ref={gridRef}
           rows={initialTasks}
-          columns={exampleDefinition.columns}
+          columns={gridConfiguration.columns}
           getRowId={getRowId}
           rowSelectionMode="multiple"
           headerRows={groupedHeaders}

@@ -23,8 +23,8 @@ export function PackageNotice({ onDataGrid }: { readonly onDataGrid: () => void 
   const { t } = useTranslation('app');
   return (
     <section className="workspace" aria-label={t('예제 준비 중')}>
-      <div className="specimen-frame package-placeholder">
-        <div className="sample-heading">
+      <div className="workspace-frame package-placeholder">
+        <div className="workspace-heading">
           <div>
             <h2>{t('예제 준비 중')}</h2>
             <p>{t('지금은 OwpDataGrid 예제를 볼 수 있어요.')}</p>

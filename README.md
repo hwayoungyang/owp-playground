@@ -73,6 +73,12 @@ src/
 
 새 소스 파일은 재귀 탐색으로 코드 보기와 빌드 리소스에 자동 포함됩니다. 파일 이름이 중복되면 코드 선택 메뉴에 경로를 표시합니다. `features/code/source-paths.ts`는 패키지별 소스 경로와 기존 공개 주소의 호환 매핑만 관리합니다. 재사용할 소스를 받을 때는 새 디렉토리 구조의 `/snippets/<src 상대 경로>`를 기준으로 상대 import를 함께 유지합니다.
 
+공통 컴포넌트와 상태 관리 코드는 역할에 따라 이름을 짓습니다. `WorkspaceHeading`은 제목과 경로, `ChartCanvas`는 차트 렌더링과 높이·이벤트 연결, `useGridController`는 그리드 상태와 동작을 담당합니다. 카탈로그 항목은 `ExampleMetadata`, `GridCatalogEntry`, `ChartCatalogEntry`로 구분하며 내부 탐색에서는 `example`을 사용합니다. 기존 URL의 `sample`, 공개 카탈로그의 `samples` 필드와 소스 주소는 유지합니다.
+
+DataGrid 실행부는 `GridWorkspace`, `GridToolbar`, `GridSettingsDrawer`, `GridStatusBar`로 역할을 구분합니다. 각 실행 파일은 `FixedRowsGrid`, `EditableCellsGrid`, `SelectEditorsGrid`처럼 기능을 나타내는 컴포넌트와 초기 `gridConfiguration`을 내보냅니다. `model/gridTypes.ts`는 `GridConfiguration`·`GridViewProps` 계약을, `model/gridRegistry.ts`는 47개 컴포넌트와 설정의 연결을 관리합니다. `getGridConfiguration`은 등록된 설정에 현재 언어를 적용합니다.
+
+CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styles/shell.css`, 공통 제목·탭·툴바·이벤트·프레임은 `shared/ui/workspace.css`, 공통 가이드는 `shared/ui/guide.css`에 둡니다. DataGrid의 `styles.css`는 import 진입점이며, 실행 화면은 `runtime/workspace.css`, 패키지 스타일 보정은 `runtime/grid-overrides.css`, 예제별 표현은 `examples/styles.css`로 나눕니다. 예제 CSS 진입점은 `controls.css`, `cell-renderers.css`, `detail-panel.css`를 불러오며 선택자는 `.grid-preview` 안에 적용합니다. Drawer와 Dialog는 Portal에 표시되므로 각각 `grid-settings-*`, `grid-row-dialog` 클래스로 범위를 지정합니다. Charts·코드 보기·테마 편집은 각 기능의 CSS를 사용하고, 실행 중 바뀌는 테마 값은 CSS 변수로 전달합니다.
+
 ## 샘플 구성
 
 공통 변경 내역 패널은 표시하지 않습니다. 변경 건수와 이벤트, ‘변경 관리’의 확정·되돌리기 기능은 사용할 수 있습니다. ‘숫자·날짜 서식’은 상단의 ‘금액 소수 자릿수’에서 금액 표시·입력과 Excel 숫자 서식을 소수점 아래 1~6자리로 조정합니다.
@@ -114,7 +120,8 @@ Semi circle은 공정별 처리 수량의 비중을 반원으로 보여줍니다
 
 | 분류 | 예제 수 | 포함 내용 |
 | --- | ---: | --- |
-| 기본 차트 (Basic charts) | 32 | Column·Bar·Line, Floating bars, Grouped stacks, Doughnut·Pie·Semi circle·Radar, Scatter·Bubble·군집 Scatter, Gauge, Box plot, Diverging·Layered·Grouped·Stacked Bar, Mixed·Daily Column/Line, Area·Stacked area, Heatmap·Treemap |
+| 기본 차트 (Basic charts) | 20 | Column·Bar·Line과 그룹·누적·겹치기·예측 변형, Floating bars, Area·Stacked area, Mixed·Daily Column/Line |
+| 확장 차트 (Extended charts) | 12 | Pie·Multi-series pie·Doughnut·Semi circle·Gauge, Scatter·군집 Scatter·Bubble·Box plot, Radar·Heatmap·Treemap |
 | 축 (Axis) | 13 | 백분율, 다중 축, 범위·간격·중앙 배치, 격자·눈금·제목 |
 | 범례 (Legend) | 4 | 범례 위치·point·제목·이벤트 |
 | 툴팁 (Tooltip) | 7 | HTML·내용·탐색·위치·point 표시, hover 영역, 외부 버튼 제어 |

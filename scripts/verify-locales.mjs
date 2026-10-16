@@ -21,10 +21,10 @@ async function data() { await page.getByRole('tab', { name: 'Data', exact: true 
 async function surface() { return page.evaluate(() => ({
   shell: getComputedStyle(document.querySelector('.app-header')).backgroundColor,
   rootCanvas: getComputedStyle(document.documentElement).getPropertyValue('--pg-canvas').trim(),
-  gridCanvas: getComputedStyle(document.querySelector('.sample-theme')).getPropertyValue('--pg-canvas').trim(),
-  gridChrome: getComputedStyle(document.querySelector('.sample-theme')).getPropertyValue('--pg-chrome').trim(),
-  mode: document.querySelector('.sample-theme').dataset.previewMode,
-  preset: document.querySelector('.sample-theme').dataset.previewPreset,
+  gridCanvas: getComputedStyle(document.querySelector('.preview-theme')).getPropertyValue('--pg-canvas').trim(),
+  gridChrome: getComputedStyle(document.querySelector('.preview-theme')).getPropertyValue('--pg-chrome').trim(),
+  mode: document.querySelector('.preview-theme').dataset.previewMode,
+  preset: document.querySelector('.preview-theme').dataset.previewPreset,
 })); }
 try {
   await page.goto(origin + '/?sample=editing');
@@ -39,7 +39,7 @@ try {
   await page.getByRole('heading', { name: 'Cell editing', exact: true }).waitFor();
   assert.equal(await page.locator('html').getAttribute('lang'), 'en');
   await page.getByRole('columnheader', { name: /Project/ }).first().waitFor();
-  await page.waitForFunction(() => document.querySelector('.preview-status').textContent.includes('Selected 1'));
+  await page.waitForFunction(() => document.querySelector('.grid-status-bar').textContent.includes('Selected 1'));
   const current = await data(); assert.equal(current.rows[0].task, '언어 전환 확인'); assert.equal(current.totalRows, 12);
   await page.getByRole('tab', { name: 'Preview', exact: true }).click(); await shot('english-editing');
   pass('language preserves editing and selection', { language: 'en', selected: 1, savedTask: current.rows[0].task, totalRows: current.totalRows });
@@ -84,7 +84,7 @@ try {
   await page.locator('.grid-preview').getByRole('button', { name: 'Add row', exact: true }).click();
   assert.equal(await page.locator('.OwpDataGrid-rowEditToolbar').getByRole('button', { name: 'Restore deleted', exact: true }).count(), 1);
   assert.equal(await page.locator('.OwpDataGrid-rowEditToolbar').getByRole('button', { name: 'Reset changes', exact: true }).count(), 1);
-  await page.waitForFunction(() => document.querySelector('.preview-status').textContent.includes('13 rows'));
+  await page.waitForFunction(() => document.querySelector('.grid-status-bar').textContent.includes('13 rows'));
   pass('native OWP controls in English', { action: 'Add row', totalRows: 13 });
 
   await page.setViewportSize({ width: 375, height: 900 }); await shot('english-mobile');

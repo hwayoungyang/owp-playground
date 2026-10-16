@@ -1,10 +1,11 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useState } from 'react';
+import type { NativeData, NativeOptions } from '../model/chartTypes';
 import { processNames, processValues, years } from '../model/referenceData';
 import type { ChartExampleProps } from '../model/types';
 import { useChartPalette } from '../model/useCartesian';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Toggle } from '../runtime/Controls';
-import { type NativeData, type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { t } = useOwpTranslation();
@@ -49,7 +50,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Toggle label="값 표시" value={labels} onChange={setLabels} />
       </Controls>
-      <SampleFrame type="bar" data={data} options={options} {...props} />
+      <ChartCanvas type="bar" data={data} options={options} {...props} />
     </>
   );
 }

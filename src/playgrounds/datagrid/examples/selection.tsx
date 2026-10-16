@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -68,7 +68,7 @@ const baseColumns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: baseColumns,
   getRowId,
@@ -78,7 +78,7 @@ export const exampleDefinition: Definition = {
 
 const selectionModeSchema = z.enum(['none', 'single', 'multiple']);
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function SelectionGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, onSelectionModeChange, ...gridProps } =
     props;
   const [model, setModel] = useState<readonly OwpDataGridRowId[]>([]);

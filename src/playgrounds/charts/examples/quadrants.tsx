@@ -1,10 +1,10 @@
 import { alpha } from '@mui/material/styles';
 import { useState } from 'react';
-
+import type { NativeData, NativeOptions } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useNativeData } from '../model/useNativeData';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Toggle } from '../runtime/Controls';
-import { type NativeData, type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { data, palette } = useNativeData('line');
@@ -75,7 +75,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Toggle label="사분면 배경 표시" value={enabled} onChange={setEnabled} />
       </Controls>
-      <SampleFrame type="line" data={chartData} options={options} {...props} />
+      <ChartCanvas type="line" data={chartData} options={options} {...props} />
     </>
   );
 }

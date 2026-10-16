@@ -38,7 +38,7 @@ export function PreviewProvider({
   const gridTheme = useMemo(() => createPreviewGridTheme(value, mode), [value, mode]);
   return (
     <div
-      className="sample-theme"
+      className="preview-theme"
       data-preview-preset={value.preset}
       data-preview-mode={mode}
       style={{

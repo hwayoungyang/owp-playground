@@ -2,7 +2,7 @@ import '../src/app/i18n';
 import { access } from 'node:fs/promises';
 import i18next from 'i18next';
 import { describe, expect, it } from 'vitest';
-import { chartCatalog, chartCategories, findChartSample } from '../src/playgrounds/charts/catalog';
+import { chartCatalog, chartCategories, findChartEntry } from '../src/playgrounds/charts/catalog';
 import { chartEnglish } from '../src/playgrounds/charts/locales/en';
 import { hankumChartCoverage } from '../src/playgrounds/charts/model/coverage';
 import {
@@ -36,44 +36,47 @@ describe('charts catalog and shared routes', () => {
     ]);
   });
   it('provides 94 executable examples and one guide, with usable sources and English labels', async () => {
-    expect(chartCatalog.filter((sample) => sample.kind === 'chart')).toHaveLength(94);
-    expect(chartCatalog.filter((sample) => sample.kind === 'guide')).toHaveLength(1);
-    expect(new Set(chartCatalog.map((sample) => sample.id)).size).toBe(95);
+    expect(chartCatalog.filter((example) => example.kind === 'chart')).toHaveLength(94);
+    expect(chartCatalog.filter((example) => example.kind === 'guide')).toHaveLength(1);
+    expect(new Set(chartCatalog.map((example) => example.id)).size).toBe(95);
     expect(
       chartCategories.map(
         ({ id }) =>
-          chartCatalog.filter((sample) => sample.kind === 'chart' && sample.category === id).length,
+          chartCatalog.filter((example) => example.kind === 'chart' && example.category === id)
+            .length,
       ),
-    ).toEqual([32, 13, 4, 7, 5, 7, 10, 5, 2, 9]);
+    ).toEqual([20, 12, 13, 4, 7, 5, 7, 10, 5, 2, 9]);
     expect(chartCategories.at(-1)?.id).toBe('business');
-    expect(findChartSample('gauge').category).toBe('basic');
-    expect(findChartSample('live').kind).toBe('chart');
+    expect(findChartEntry('gauge').category).toBe('other');
+    expect(findChartEntry('live').kind).toBe('chart');
     expect(chartCatalog.at(-1)?.category).toBe('business');
-    for (const sample of chartCatalog) {
-      await access(new URL(`../src/playgrounds/charts/${sample.source}`, import.meta.url));
-      if (sample.kind === 'chart') {
-        expect(chartEnglish[sample.title], sample.id).toBeTruthy();
-        expect(chartEnglish[sample.description], sample.id).toBeTruthy();
+    for (const example of chartCatalog) {
+      await access(new URL(`../src/playgrounds/charts/${example.source}`, import.meta.url));
+      if (example.kind === 'chart') {
+        expect(chartEnglish[example.title], example.id).toBeTruthy();
+        expect(chartEnglish[example.description], example.id).toBeTruthy();
       }
     }
   });
   it('maps every reviewed Hankum renderer to an executable example', () => {
     expect(Object.keys(hankumChartCoverage)).toHaveLength(15);
     for (const examples of Object.values(hankumChartCoverage)) {
-      for (const id of examples) expect(findChartSample(id).kind, id).toBe('chart');
+      for (const id of examples) expect(findChartEntry(id).kind, id).toBe('chart');
     }
   });
   it('keeps identical sample names in their owning package and defaults within charts', () => {
     const chart = readPlaygroundRoute('?package=%40owp%2Fcharts&sample=detail-chart');
     expect(chart.playground.id).toBe('charts');
-    expect(chart.sample?.id).toBe('detail-chart');
-    for (const sample of ['unknown', 'editing', '']) {
-      expect(readPlaygroundRoute(`?package=charts&sample=${sample}`).sample?.id).toBe(
+    expect(chart.example?.id).toBe('detail-chart');
+    for (const example of ['unknown', 'editing', '']) {
+      expect(readPlaygroundRoute(`?package=charts&sample=${example}`).example?.id).toBe(
         'getting-started',
       );
     }
     expect(readPlaygroundRoute('?sample=editing').playground.id).toBe('datagrid');
-    expect(readPlaygroundRoute('?package=datagrid&sample=line').sample?.id).toBe('getting-started');
+    expect(readPlaygroundRoute('?package=datagrid&sample=line').example?.id).toBe(
+      'getting-started',
+    );
     for (const [previous, current] of [
       ['linear-gradient', 'line'],
       ['radial-gradient', 'doughnut'],
@@ -87,8 +90,8 @@ describe('charts catalog and shared routes', () => {
       ['progressive-line', 'line'],
       ['progressive-easing', 'line'],
     ]) {
-      expect(readPlaygroundRoute(`?package=charts&sample=${previous}`).sample?.id).toBe(current);
-      expect(chartCatalog.some((sample) => sample.id === previous)).toBe(false);
+      expect(readPlaygroundRoute(`?package=charts&sample=${previous}`).example?.id).toBe(current);
+      expect(chartCatalog.some((example) => example.id === previous)).toBe(false);
     }
   });
 });

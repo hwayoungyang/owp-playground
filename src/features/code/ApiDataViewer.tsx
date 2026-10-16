@@ -1,15 +1,15 @@
 import { Button, FormControlLabel, Switch } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { SampleInfo } from '../../shared/types/playground';
+import type { ExampleMetadata } from '../../shared/types/playground';
 import { type ApiDataSource, formatApiData } from './api-data';
 import { CodeViewer } from './CodeViewer';
 
 export function ApiDataViewer({
-  sample,
+  example,
   document,
 }: {
-  readonly sample: SampleInfo;
+  readonly example: ExampleMetadata;
   readonly document: ApiDataSource;
 }) {
   const { t } = useTranslation('app');
@@ -54,7 +54,7 @@ export function ApiDataViewer({
         </Button>
       </section>
       <CodeViewer
-        sample={sample}
+        example={example}
         data={data}
         dataFormat={comments ? 'jsonc' : 'json'}
         dataDescription={

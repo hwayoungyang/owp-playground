@@ -3,7 +3,7 @@ import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, owners, seedTask, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -77,7 +77,7 @@ const editableColumns = baseColumns.map((column) => ({
     : {}),
 }));
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: editableColumns,
   getRowId,
@@ -128,7 +128,7 @@ export const exampleDefinition: Definition = {
   ],
   pinnedBottomRowStyle: { backgroundColor: 'var(--pg-chrome)', color: 'var(--pg-secondary)' },
 };
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function SummaryRowsGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
@@ -139,9 +139,9 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       height={420}
       rowSelectionMode="multiple"
       layout={{ filterRow: true }}
-      summaryRows={exampleDefinition.summaryRows}
-      pinnedBottomRows={exampleDefinition.pinnedBottomRows}
-      pinnedBottomRowStyle={exampleDefinition.pinnedBottomRowStyle}
+      summaryRows={gridConfiguration.summaryRows}
+      pinnedBottomRows={gridConfiguration.pinnedBottomRows}
+      pinnedBottomRowStyle={gridConfiguration.pinnedBottomRowStyle}
       {...gridProps}
     />
   );

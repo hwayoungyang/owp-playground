@@ -1,23 +1,23 @@
 import { describe, expect, it } from 'vitest';
-import { chartCatalog, findChartSample } from '../src/playgrounds/charts/catalog';
+import { chartCatalog, findChartEntry } from '../src/playgrounds/charts/catalog';
 import { chartjsCoverage } from '../src/playgrounds/charts/model/chartjsCoverage';
 import { nativeSnapshot } from '../src/playgrounds/charts/model/nativeSnapshot';
 
 describe('Chart.js sample coverage', () => {
   it('accounts for every official executable sample without broken or silent fallback routes', () => {
     expect(chartjsCoverage).toHaveLength(75);
-    expect(new Set(chartjsCoverage.map((sample) => sample.path)).size).toBe(75);
-    expect(chartjsCoverage.filter((sample) => sample.status === 'unavailable')).toHaveLength(10);
-    const added = chartjsCoverage.filter((sample) => sample.status === 'added');
+    expect(new Set(chartjsCoverage.map((example) => example.path)).size).toBe(75);
+    expect(chartjsCoverage.filter((example) => example.status === 'unavailable')).toHaveLength(10);
+    const added = chartjsCoverage.filter((example) => example.status === 'added');
     expect(added).toHaveLength(37);
-    expect(chartjsCoverage.filter((sample) => sample.status === 'excluded')).toHaveLength(8);
-    for (const sample of chartjsCoverage) {
-      if ('exampleId' in sample) {
-        expect(findChartSample(sample.exampleId).id).toBe(sample.exampleId);
+    expect(chartjsCoverage.filter((example) => example.status === 'excluded')).toHaveLength(8);
+    for (const example of chartjsCoverage) {
+      if ('exampleId' in example) {
+        expect(findChartEntry(example.exampleId).id).toBe(example.exampleId);
         expect(
-          chartCatalog.some((entry) => entry.id === sample.exampleId && entry.kind === 'chart'),
+          chartCatalog.some((entry) => entry.id === example.exampleId && entry.kind === 'chart'),
         ).toBe(true);
-      } else expect(sample.note.length).toBeGreaterThan(10);
+      } else expect(example.note.length).toBeGreaterThan(10);
     }
   });
 });

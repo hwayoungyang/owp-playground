@@ -3,7 +3,7 @@ import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -65,7 +65,7 @@ const baseColumns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: [],
   columns: baseColumns,
   getRowId,
@@ -74,17 +74,17 @@ export const exampleDefinition: Definition = {
   noDataMessage: '조회된 작업이 없습니다.',
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function EmptyStateGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
       ref={gridRef}
-      rows={exampleDefinition.rows}
-      columns={exampleDefinition.columns}
-      getRowId={exampleDefinition.getRowId}
-      rowSelectionMode={exampleDefinition.rowSelectionMode}
-      height={exampleDefinition.height}
-      noDataMessage={exampleDefinition.noDataMessage}
+      rows={gridConfiguration.rows}
+      columns={gridConfiguration.columns}
+      getRowId={gridConfiguration.getRowId}
+      rowSelectionMode={gridConfiguration.rowSelectionMode}
+      height={gridConfiguration.height}
+      noDataMessage={gridConfiguration.noDataMessage}
       loading={false}
       {...gridProps}
     />

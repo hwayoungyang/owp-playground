@@ -1,0 +1,22 @@
+.guide-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 32px;
+  max-width: 960px;
+}
+.guide-sections h2 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 550;
+}
+.guide-sections p {
+  margin: 0 0 12px;
+  font-size: 12px;
+  line-height: 1.75;
+  color: var(--pg-secondary);
+}
+.guide-sections .guide-note {
+  margin: 8px 0 0;
+  color: var(--pg-muted);
+}

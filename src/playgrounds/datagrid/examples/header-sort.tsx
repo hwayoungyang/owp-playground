@@ -3,7 +3,7 @@ import type { OwpDataGridColumn, OwpDataGridHeaderRow } from '@owp/datagrid/type
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -74,7 +74,7 @@ const groupedHeaders: readonly OwpDataGridHeaderRow[] = [
   baseColumns.slice(1).map((column) => ({ columnId: column.id })),
 ];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: baseColumns,
   getRowId,
@@ -84,17 +84,17 @@ export const exampleDefinition: Definition = {
   hideChildHeaderSortButtons: false,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function HeaderSortGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
       ref={gridRef}
-      rows={exampleDefinition.rows}
-      columns={exampleDefinition.columns}
-      getRowId={exampleDefinition.getRowId}
-      rowSelectionMode={exampleDefinition.rowSelectionMode}
-      height={exampleDefinition.height}
-      headerRows={exampleDefinition.headerRows}
+      rows={gridConfiguration.rows}
+      columns={gridConfiguration.columns}
+      getRowId={gridConfiguration.getRowId}
+      rowSelectionMode={gridConfiguration.rowSelectionMode}
+      height={gridConfiguration.height}
+      headerRows={gridConfiguration.headerRows}
       hideChildHeaderSortButtons={false}
       {...gridProps}
     />

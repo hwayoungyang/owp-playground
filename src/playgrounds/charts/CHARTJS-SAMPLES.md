@@ -88,7 +88,7 @@ Live chart는 앱에서 1초 간격으로 새 값을 추가합니다. `OwpLiveCh
 | [tooltip/point-style](https://www.chartjs.org/docs/latest/samples/tooltip/point-style.html)                                     | [tooltip-point-style](http://127.0.0.1:4173/?package=charts&sample=tooltip-point-style) | 신규                                                                                                                              |
 | [tooltip/position](https://www.chartjs.org/docs/latest/samples/tooltip/position.html)                                           | [tooltip-position](http://127.0.0.1:4173/?package=charts&sample=tooltip-position)       | 신규                                                                                                                              |
 
-새 예제의 코드 탭에서 실행 원본을 확인할 수 있습니다. 공통 기본 스타일·범례·HTML 툴팁·반응형 설정은 `ChartFrame preset="owp"`가 제공합니다. Area·Box plot·Treemap·Radar·원형·Heatmap·Live는 `Owp*Chart` API를 사용합니다. `SampleFrame.tsx`는 카드 높이, 데이터 탭과 샘플 조작 기록만 연결합니다.
+새 예제의 코드 탭에서 실행 원본을 확인할 수 있습니다. 공통 기본 스타일·범례·HTML 툴팁·반응형 설정은 `ChartFrame preset="owp"`가 제공합니다. Area·Box plot·Treemap·Radar·원형·Heatmap·Live는 `Owp*Chart` API를 사용합니다. `ChartCanvas.tsx`는 차트 높이, 데이터 탭과 이벤트 기록만 연결합니다.
 
 공식 예제와 연결한 행은 동일한 설정 원리나 공개 확장 지점을 설명합니다. 원본의 모든 버튼·전환 상태를 복제한다는 뜻은 아닙니다. 범위는 각 행에 적었습니다.
 

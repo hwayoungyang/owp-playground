@@ -32,7 +32,7 @@ const entry = <T extends string>(
   source: `examples/${id}.tsx`,
 });
 
-export const sampleCatalog = [
+export const gridCatalog = [
   {
     id: 'getting-started',
     kind: 'guide',
@@ -288,11 +288,11 @@ export const sampleCatalog = [
   }),
 ] as const;
 
-export type Sample = (typeof sampleCatalog)[number];
-export type GridSample = Extract<Sample, { readonly kind: 'grid' }>;
-export type SampleId = GridSample['id'];
+export type GridCatalogEntry = (typeof gridCatalog)[number];
+export type GridExample = Extract<GridCatalogEntry, { readonly kind: 'grid' }>;
+export type GridExampleId = GridExample['id'];
 
-export const sampleAliases: Readonly<Record<string, string>> = {
+export const gridAliases: Readonly<Record<string, string>> = {
   minimal: 'overview',
   'visible-rows': 'overview',
   loading: 'empty',
@@ -308,6 +308,6 @@ export const sampleAliases: Readonly<Record<string, string>> = {
   transactions: 'ref-data',
 };
 
-export const findSample = (id: string | null): Sample =>
-  sampleCatalog.find((sample) => sample.id === (id === null ? null : (sampleAliases[id] ?? id))) ??
-  sampleCatalog[0];
+export const findGridEntry = (id: string | null): GridCatalogEntry =>
+  gridCatalog.find((example) => example.id === (id === null ? null : (gridAliases[id] ?? id))) ??
+  gridCatalog[0];

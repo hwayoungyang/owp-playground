@@ -331,10 +331,9 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '셀을 누르면 편집할 수 있습니다.': 'Click a cell to edit.',
   '헤더를 누르면 정렬 순서가 바뀝니다.': 'Click a header to sort.',
   '행 선택과 헤더 정렬을 지원합니다.': 'Select a row or click a header to sort.',
-  '최근 {{count}}개 · 최대 40개': 'Latest {{count}} · up to 40',
-  '로그 지우기': 'Clear log',
-  '아직 기록이 없습니다.': 'No events yet.',
-  '선택·정렬·편집하면 이벤트가 여기에 표시됩니다.': 'Select, sort or edit to see events here.',
+  '최근 {{count}}개 · 최대 {{limit}}개': 'Latest {{count}} · up to {{limit}}',
+  '이벤트 지우기': 'Clear events',
+  '아직 기록된 이벤트가 없습니다.': 'No events yet.',
   '예제로 돌아가기': 'Back to preview',
   '4번째 작업의 완료 수량을 바꾸면 5번째 작업에도 반영됩니다. 금액은 완료 수량 × 단가입니다.':
     'Changing task 4 completed units also updates task 5. Amount = completed units × unit price.',

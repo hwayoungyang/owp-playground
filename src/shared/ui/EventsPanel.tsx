@@ -1,31 +1,32 @@
 import { Button } from '@mui/material';
-import { BracketsCurlyIcon } from '@phosphor-icons/react';
+import { BracketsCurlyIcon, CaretRightIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
-import type { DemoEvent } from './useDemo';
+import type { EventLogEntry } from '../types/events';
 
 export function EventsPanel({
   events,
+  limit,
   onClear,
   onPreview,
 }: {
-  readonly events: readonly DemoEvent[];
+  readonly events: readonly EventLogEntry[];
+  readonly limit: number;
   readonly onClear: () => void;
   readonly onPreview: () => void;
 }) {
   const { t } = useTranslation('app');
   return (
-    <>
+    <div className="events-panel">
       <div className="events-toolbar">
-        <span>{t('최근 {{count}}개 · 최대 40개', { count: events.length })}</span>
+        <span>{t('최근 {{count}}개 · 최대 {{limit}}개', { count: events.length, limit })}</span>
         <Button onClick={onClear} disabled={events.length === 0}>
-          {t('로그 지우기')}
+          {t('이벤트 지우기')}
         </Button>
       </div>
       {events.length === 0 ? (
         <div className="events-empty">
-          <BracketsCurlyIcon size={28} />
-          <h3>{t('아직 기록이 없습니다.')}</h3>
-          <p>{t('선택·정렬·편집하면 이벤트가 여기에 표시됩니다.')}</p>
+          <BracketsCurlyIcon size={28} aria-hidden />
+          <h3>{t('아직 기록된 이벤트가 없습니다.')}</h3>
           <Button variant="outlined" onClick={onPreview}>
             {t('예제로 돌아가기')}
           </Button>
@@ -35,15 +36,16 @@ export function EventsPanel({
           {events.map((event) => (
             <details key={event.id}>
               <summary>
+                <CaretRightIcon className="event-chevron" size={12} aria-hidden />
                 <time>{event.time}</time>
-                <span>{event.name}</span>
-                <span>#{event.id}</span>
+                <span className="event-name">{event.name}</span>
+                <span className="event-id">#{event.id}</span>
               </summary>
               <pre>{event.value}</pre>
             </details>
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }

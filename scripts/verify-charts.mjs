@@ -62,14 +62,14 @@ try {
       assert.ok((await readChartData(page)).series.length > 0, sample.id);
       assert.equal(await page.locator('[role=tabpanel]:not([hidden]) table').count(), 0, sample.id);
       await page.getByRole('tab', { name: '코드', exact: true }).click();
-      await page.waitForFunction(() => /ChartFrame|CoreChart|SampleFrame|Owp(?:Area|BoxPlot|Treemap|Radar|Radial|Heatmap|Live)Chart/.test(document.querySelector('pre')?.textContent ?? ''));
+      await page.waitForFunction(() => /ChartFrame|CoreChart|ChartCanvas|Owp(?:Area|BoxPlot|Treemap|Radar|Radial|Heatmap|Live)Chart/.test(document.querySelector('pre')?.textContent ?? ''));
     }
     const source = await context.request.get(`${origin}/snippets/playgrounds/charts/${sample.source}`);
     assert.equal(source.status(), 200, sample.id);
     const publishedSource = await source.text();
     const localSource = await readFile(new URL(`../src/playgrounds/charts/${sample.source}`, import.meta.url), 'utf8');
     assert.equal(publishedSource, localSource, `${sample.id}: published snippet must match the executable source`);
-    assert.match(publishedSource, /<(?:ChartFrame|CoreChart|SampleFrame|Owp(?:Area|BoxPlot|Treemap|Radar|Radial|Heatmap|Live)Chart)\b/, sample.id);
+    assert.match(publishedSource, /<(?:ChartFrame|CoreChart|ChartCanvas|Owp(?:Area|BoxPlot|Treemap|Radar|Radial|Heatmap|Live)Chart)\b/, sample.id);
     assert.doesNotMatch(publishedSource, /NativeCanvas|NativeLegend/, sample.id);
     console.log('verified source', sample.id);
   }

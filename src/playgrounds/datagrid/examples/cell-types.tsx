@@ -2,7 +2,7 @@ import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, owners } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const cellTypeColumns: readonly OwpDataGridColumn<Task>[] = [
   {
@@ -91,7 +91,7 @@ const cellTypeColumns: readonly OwpDataGridColumn<Task>[] = [
 
 const typeColumns = cellTypeColumns;
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: typeColumns,
   getRowId,
@@ -99,16 +99,16 @@ export const exampleDefinition: Definition = {
   height: 420,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function CellTypesGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
       ref={gridRef}
-      rows={exampleDefinition.rows}
-      columns={exampleDefinition.columns}
-      getRowId={exampleDefinition.getRowId}
-      rowSelectionMode={exampleDefinition.rowSelectionMode}
-      height={exampleDefinition.height}
+      rows={gridConfiguration.rows}
+      columns={gridConfiguration.columns}
+      getRowId={gridConfiguration.getRowId}
+      rowSelectionMode={gridConfiguration.rowSelectionMode}
+      height={gridConfiguration.height}
       {...gridProps}
     />
   );

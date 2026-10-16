@@ -17,11 +17,11 @@ import {
   packageCatalog,
 } from '../../playgrounds/registry';
 import type { ColorMode } from '../../shared/theme/tokens';
-import type { SampleInfo } from '../../shared/types/playground';
+import type { ExampleMetadata } from '../../shared/types/playground';
 
 export function Header({
   playground,
-  sample,
+  example,
   categoryLabel,
   onPackageChange,
   mode,
@@ -30,7 +30,7 @@ export function Header({
   onThemeOpen,
 }: {
   readonly playground: PlaygroundPackage;
-  readonly sample: SampleInfo | null;
+  readonly example: ExampleMetadata | null;
   readonly categoryLabel: string;
   readonly onPackageChange: (playground: PlaygroundPackage) => void;
   readonly mode: ColorMode;
@@ -71,13 +71,13 @@ export function Header({
         <nav className="header-breadcrumb" aria-label={t('현재 위치')}>
           <ol>
             <li>{playground.title}</li>
-            {sample && (
+            {example && (
               <>
                 <li>{t(categoryLabel)}</li>
-                <li aria-current="page">{t(sample.title)}</li>
+                <li aria-current="page">{t(example.title)}</li>
               </>
             )}
-            {!sample && <li aria-current="page">{t('준비 중')}</li>}
+            {!example && <li aria-current="page">{t('준비 중')}</li>}
           </ol>
         </nav>
       </div>

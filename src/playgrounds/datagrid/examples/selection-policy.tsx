@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, owners, seedTask, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -79,7 +79,7 @@ const editableColumns = baseColumns.map((column) => ({
     : {}),
 }));
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: editableColumns,
   getRowId,
@@ -97,7 +97,7 @@ export const exampleDefinition: Definition = {
     },
   },
 };
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function NewRowSelectionGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [allowAddedSelection, setAllowAddedSelection] = useState(true);

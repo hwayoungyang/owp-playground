@@ -47,7 +47,7 @@ try {
   }
   await load('nested-tree'); assert.ok(await page.locator('[aria-level="4"]').count()); pass('four visible hierarchy levels',{deepRows:await page.locator('[aria-level="4"]').count()});
   await load('summary-rows');
-  const lines = await page.evaluate(() => ({outer:getComputedStyle(document.querySelector('.specimen-frame')).borderLeftWidth, summary:getComputedStyle(document.querySelector('.OwpDataGrid-summary'),'::after').borderBottomWidth, summaryLeft:getComputedStyle(document.querySelector('.OwpDataGrid-summary'),'::after').borderLeftWidth, pinnedLeft:getComputedStyle(document.querySelector('.OwpDataGrid-pinnedBottom'),'::after').borderLeftWidth}));
+  const lines = await page.evaluate(() => ({outer:getComputedStyle(document.querySelector('.workspace-frame')).borderLeftWidth, summary:getComputedStyle(document.querySelector('.OwpDataGrid-summary'),'::after').borderBottomWidth, summaryLeft:getComputedStyle(document.querySelector('.OwpDataGrid-summary'),'::after').borderLeftWidth, pinnedLeft:getComputedStyle(document.querySelector('.OwpDataGrid-pinnedBottom'),'::after').borderLeftWidth}));
   assert.equal(lines.outer,'0px'); assert.equal(lines.summary,'1px'); assert.equal(lines.summaryLeft,'1px'); assert.equal(lines.pinnedLeft,'1px');
   await settle(); await page.screenshot({path:`${output}/summary-border.png`}); pass('single perimeter and summary separator',lines);
   for (const width of [1440,768,375]) {

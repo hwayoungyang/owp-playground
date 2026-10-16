@@ -1,0 +1,36 @@
+.grid-preview .status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 4px;
+  padding: 3px 7px;
+  font-size: 10px;
+  line-height: 1.4;
+  font-weight: 450;
+  color: var(--pg-secondary);
+  background: var(--pg-subtle);
+  white-space: nowrap;
+}
+.grid-preview .status-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.grid-preview .status-0,
+.grid-preview .status-1 {
+  background: var(--pg-success-wash);
+  color: var(--pg-success);
+}
+.grid-preview .status-2 {
+  background: var(--pg-warning-wash);
+  color: var(--pg-warning);
+}
+.grid-preview .progress-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  font: 11px var(--font-mono);
+}

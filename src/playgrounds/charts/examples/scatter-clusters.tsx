@@ -3,12 +3,12 @@ import { ChartFrame } from '@owp/charts';
 import { createChartOptions } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
+import type { NativeData, NativeOptions } from '../model/chartTypes';
 import { nativeSnapshot } from '../model/nativeSnapshot';
 import { createScatterClusters } from '../model/statistics';
 import type { ChartExampleProps } from '../model/types';
 import { useChartPalette } from '../model/useCartesian';
 import { Controls, Range } from '../runtime/Controls';
-import type { NativeData, NativeOptions } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { t } = useOwpTranslation();

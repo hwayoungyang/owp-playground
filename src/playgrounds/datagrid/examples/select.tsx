@@ -4,7 +4,7 @@ import type { OwpDataGridColumn, OwpDataGridRef } from '@owp/datagrid/types';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getRowId, initialTasks, owners, statuses, type Task } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const tagOptions = [
   { value: 'design', label: '디자인' },
@@ -78,7 +78,7 @@ const columns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks.map((row) => ({ ...row, tags: row.tags.split(',')[0] ?? '' })),
   columns,
   getRowId,
@@ -86,7 +86,7 @@ export const exampleDefinition: Definition = {
   height: 420,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function SelectEditorsGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const { t } = useTranslation('app');
@@ -199,7 +199,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={exampleDefinition.rows}
+          rows={gridConfiguration.rows}
           getRowId={getRowId}
           rowSelectionMode="none"
           style={{ height: '100%' }}

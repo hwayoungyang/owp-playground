@@ -2,14 +2,14 @@ import { Alert, IconButton, Snackbar, Tooltip } from '@mui/material';
 import { LinkIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { SampleInfo } from '../types/playground';
+import type { ExampleMetadata } from '../types/playground';
 
-export function SampleHeading({
-  sample,
+export function WorkspaceHeading({
+  example,
   packageTitle,
   categoryLabel,
 }: {
-  readonly sample: SampleInfo;
+  readonly example: ExampleMetadata;
   readonly packageTitle: string;
   readonly categoryLabel: string;
 }) {
@@ -27,21 +27,21 @@ export function SampleHeading({
   };
   return (
     <>
-      <div className="sample-breadcrumb">
+      <div className="workspace-breadcrumb">
         <span>{packageTitle}</span>
         <span>/</span>
         <span>{t(categoryLabel)}</span>
       </div>
-      <div className="sample-heading">
-        <div className="sample-title-row">
-          <h1>{t(sample.title)}</h1>
+      <div className="workspace-heading">
+        <div className="workspace-title-row">
+          <h1>{t(example.title)}</h1>
           <Tooltip title={t('링크 복사')}>
             <IconButton className="share-button" onClick={copyLink} aria-label={t('링크 복사')}>
               <LinkIcon size={20} />
             </IconButton>
           </Tooltip>
         </div>
-        {sample.description && <p>{t(sample.description)}</p>}
+        {example.description && <p>{t(example.description)}</p>}
       </div>
       <Snackbar
         open={Boolean(notice)}

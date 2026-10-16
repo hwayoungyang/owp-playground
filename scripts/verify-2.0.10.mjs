@@ -113,17 +113,17 @@ try {
   pass('legacy autocomplete link resolves to the merged sample', { url: page.url() });
 
   await load('visible-rows');
-  assert.equal(await page.locator('.sample-heading h1').textContent(), '표시 행 수 고정');
+  assert.equal(await page.locator('.workspace-heading h1').textContent(), '표시 행 수 고정');
   assert.equal(await page.locator('.grid-preview [data-owp-data-grid-row-key^="string:task-"]').count(), 10);
   await page.locator('.grid-preview input[type=checkbox]').nth(1).check();
-  assert.match(await page.locator('.preview-status').textContent(), /선택 1/);
+  assert.match(await page.locator('.grid-status-bar').textContent(), /선택 1/);
   assert.ok((await page.locator('.OwpDataGrid-summary').textContent()).includes('전체 합계'));
   assert.equal((await data()).totalRows, 10);
   await preview(); await shot('fixed-rows');
   pass('fixed rows retain ten populated rows, selection and totals', { count: 10 });
 
   await load('minimal');
-  assert.equal(await page.locator('.sample-heading h1').textContent(), '표시 행 수 고정');
+  assert.equal(await page.locator('.workspace-heading h1').textContent(), '표시 행 수 고정');
   const catalog = await (await page.request.get(`${origin}/catalog.json`)).json();
   assert.equal(catalog.samples.filter(sample => sample.kind === 'grid').length, 47);
   assert.equal(catalog.samples[0].id, 'getting-started');
@@ -131,7 +131,7 @@ try {
   pass('removed samples resolve to current examples and catalog has 47 entries', { count: 47 });
 
   await load('loading');
-  assert.equal(await page.locator('.sample-heading h1').textContent(), '데이터 없음');
+  assert.equal(await page.locator('.workspace-heading h1').textContent(), '데이터 없음');
   assert.equal(await page.getByRole('button', { name: '로딩 시작', exact: true }).getAttribute('aria-pressed'), 'false');
   assert.ok((await page.locator('.grid-preview').textContent()).includes('조회된 작업이 없습니다.'));
   await page.getByRole('button', { name: '로딩 시작', exact: true }).click();
@@ -199,7 +199,7 @@ try {
   const dark = await styles();
   await shot('custom-style-dark');
   assert.notEqual(dark.headerColor, styled.headerColor);
-  assert.equal(await page.locator('.sample-theme').getAttribute('data-preview-mode'), 'dark');
+  assert.equal(await page.locator('.preview-theme').getAttribute('data-preview-mode'), 'dark');
   const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
   await writeFile(`${output}/axe-custom-dark.json`, JSON.stringify(axe, null, 2));
   assert.deepEqual(axe.violations, []);

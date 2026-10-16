@@ -6,8 +6,8 @@ import type {
 import type { RefObject } from 'react';
 import type { Task } from './data';
 
-export type Definition = OwpDataGridProps<Task, Task>;
-export type ExampleProps = Partial<Definition> & {
+export type GridConfiguration = OwpDataGridProps<Task, Task>;
+export type GridViewProps = Partial<GridConfiguration> & {
   readonly gridRef?: RefObject<OwpDataGridRef<Task> | null>;
   readonly onRecord?: (name: string, value: unknown) => void;
   readonly onRowsChange?: (rows: readonly Task[]) => void;

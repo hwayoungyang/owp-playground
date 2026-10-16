@@ -1,15 +1,15 @@
 import { access } from 'node:fs/promises';
 import { describe, expect, it } from 'vitest';
-import { legacySourcePaths, sampleSourcePath } from '../src/features/code/source-paths';
+import { exampleSourcePath, legacySourcePaths } from '../src/features/code/source-paths';
 
 describe('package source resources', () => {
   it('keeps identical sample filenames in their owning package', () => {
-    const samples = [
+    const examples = [
       { package: '@owp/datagrid', source: 'examples/overview.tsx' },
       { package: '@owp/components', source: 'examples/overview.tsx' },
     ];
 
-    const paths = samples.map(sampleSourcePath);
+    const paths = examples.map(exampleSourcePath);
 
     expect(paths).toEqual([
       'playgrounds/datagrid/examples/overview.tsx',

@@ -1,10 +1,11 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
+import type { NativeData, NativeOptions } from '../model/chartTypes';
 import { createProcessSeries } from '../model/factoryData';
 import type { ChartExampleProps } from '../model/types';
 import { useChartPalette } from '../model/useCartesian';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Toggle } from '../runtime/Controls';
-import { type NativeData, type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 
 const hourly = createProcessSeries({
   anchors: [10.6, 9.8, 12.4, 9.2, 11.7, 10.8, 9.6, 8.8, 7.2, 9.5, 10.2],
@@ -105,7 +106,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Toggle label="일별 평균 표시" value={average} onChange={setAverage} />
       </Controls>
-      <SampleFrame type="bar" data={data} options={options} onRecord={props.onRecord} />
+      <ChartCanvas type="bar" data={data} options={options} onRecord={props.onRecord} />
     </>
   );
 }

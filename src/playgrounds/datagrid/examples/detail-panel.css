@@ -1,0 +1,120 @@
+.grid-preview .detail-grid-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+.grid-preview .detail-grid-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+  padding: 4px 0 8px;
+  font-size: 12px;
+}
+.grid-preview .detail-grid-toolbar .MuiButton-root {
+  height: 30px;
+}
+.grid-preview .project-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: min(100%, calc(100cqi - 16px));
+  box-sizing: border-box;
+  position: sticky;
+  left: 0;
+  overflow-y: auto;
+  padding: 24px 32px;
+  gap: 24px;
+  background: var(--pg-chrome);
+  color: var(--pg-ink);
+}
+.grid-preview .project-detail h3 {
+  font-size: 19px;
+  letter-spacing: -0.025em;
+  margin: 12px 0 8px;
+}
+.grid-preview .project-progress {
+  min-width: 0;
+}
+.grid-preview .project-progress dl {
+  margin: 16px 0 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.grid-preview .project-progress dt,
+.grid-preview .project-progress-note {
+  color: var(--pg-secondary);
+  font-size: 11px;
+  line-height: 1.7;
+}
+.grid-preview .project-progress dd {
+  margin: 8px 0 0;
+  font: 24px var(--font-mono);
+  color: var(--pg-ink);
+}
+.grid-preview .project-detail p {
+  font-size: 12px;
+  color: var(--pg-secondary);
+}
+.grid-preview .weekly-chart {
+  min-width: 240px;
+  font-size: 11px;
+  color: var(--pg-secondary);
+}
+.grid-preview .weekly-chart > div {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  height: 120px;
+}
+.grid-preview .weekly-chart > div > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+}
+.grid-preview .weekly-chart i {
+  display: block;
+  width: 100%;
+  background: var(--pg-success);
+  border-radius: 3px 3px 0 0;
+}
+.grid-preview .weekly-chart b {
+  font: 10px var(--font-mono);
+  font-weight: 400;
+}
+@container (max-width: 900px) {
+  .grid-preview .project-detail {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-content: start;
+  }
+  .grid-preview .project-detail .weekly-chart {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+}
+@container (max-width: 500px) {
+  .grid-preview .project-detail {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 16px;
+  }
+}
+@media (max-width: 599px) {
+  .grid-preview .project-detail {
+    padding: 16px;
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+  .grid-preview .weekly-chart {
+    width: 100%;
+    min-width: 0;
+  }
+}

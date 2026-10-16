@@ -1,9 +1,10 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useState } from 'react';
+import type { NativeOptions } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useNativeData } from '../model/useNativeData';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Toggle } from '../runtime/Controls';
-import { type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { t } = useOwpTranslation();
@@ -20,7 +21,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Toggle label="범례 제목 표시" value={enabled} onChange={setEnabled} />
       </Controls>
-      <SampleFrame type="bar" data={data} options={options} {...props} />
+      <ChartCanvas type="bar" data={data} options={options} {...props} />
     </>
   );
 }

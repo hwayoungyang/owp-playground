@@ -3,7 +3,7 @@ import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -65,7 +65,7 @@ const baseColumns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-const overviewSummary: Definition['summaryRows'] = [
+const overviewSummary: GridConfiguration['summaryRows'] = [
   {
     id: 'total',
     cells: [
@@ -76,7 +76,7 @@ const overviewSummary: Definition['summaryRows'] = [
   },
 ];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks.slice(0, 10),
   columns: baseColumns,
   getRowId,
@@ -86,18 +86,18 @@ export const exampleDefinition: Definition = {
   summaryRows: overviewSummary,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function FixedRowsGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
       ref={gridRef}
-      rows={exampleDefinition.rows}
-      columns={exampleDefinition.columns}
-      getRowId={exampleDefinition.getRowId}
-      rowSelectionMode={exampleDefinition.rowSelectionMode}
-      height={exampleDefinition.height}
-      visibleRowCount={exampleDefinition.visibleRowCount}
-      summaryRows={exampleDefinition.summaryRows}
+      rows={gridConfiguration.rows}
+      columns={gridConfiguration.columns}
+      getRowId={gridConfiguration.getRowId}
+      rowSelectionMode={gridConfiguration.rowSelectionMode}
+      height={gridConfiguration.height}
+      visibleRowCount={gridConfiguration.visibleRowCount}
+      summaryRows={gridConfiguration.summaryRows}
       {...gridProps}
     />
   );

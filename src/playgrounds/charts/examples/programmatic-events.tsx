@@ -1,10 +1,11 @@
 import { Button } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useRef, useState } from 'react';
+import type { NativeInstance } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useNativeData } from '../model/useNativeData';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Range } from '../runtime/Controls';
-import { type NativeInstance, SampleFrame } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { t } = useOwpTranslation();
@@ -34,7 +35,7 @@ export function ChartExample(props: ChartExampleProps) {
           {t('선택 해제')}
         </Button>
       </Controls>
-      <SampleFrame type="bar" data={data} chartRef={chart} {...props} />
+      <ChartCanvas type="bar" data={data} chartRef={chart} {...props} />
     </>
   );
 }

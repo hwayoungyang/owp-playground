@@ -5,8 +5,8 @@ import { useRef, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { createTree, getRowId, initialTasks, owners, statuses } from '../model/data';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 import { loadRows } from '../model/server';
-import type { Definition, ExampleProps } from '../model/types';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -80,7 +80,7 @@ const editableColumns = baseColumns.map((column) => ({
     : {}),
 }));
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: createTree().filter((row) => row.parentId === null),
   columns: editableColumns,
   getRowId,
@@ -103,7 +103,7 @@ export const exampleDefinition: Definition = {
   },
   rowSelectionPropagation: { descendants: true, parents: false },
 };
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function LazyTreeGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
@@ -142,13 +142,13 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={exampleDefinition.rows}
+          rows={gridConfiguration.rows}
           columns={editableColumns}
           getRowId={getRowId}
           style={{ height: '100%' }}
           rowSelectionMode="multiple"
-          treeOptions={exampleDefinition.treeOptions}
-          rowSelectionPropagation={exampleDefinition.rowSelectionPropagation}
+          treeOptions={gridConfiguration.treeOptions}
+          rowSelectionPropagation={gridConfiguration.rowSelectionPropagation}
           {...gridProps}
           rowSelectionModel={selected}
           onRowSelectionModelChange={(next) => {

@@ -182,7 +182,10 @@ try{
   }
   pass('all eight native selection controls change mode',{});
   await open('programmatic-events');await page.getByRole('button',{name:'Point 선택',exact:true}).click();
-  await page.getByRole('tab',{name:'이벤트',exact:true}).click();assert.match(await page.locator('.chart-events').textContent(),/activate · 2/);
+  await page.getByRole('tab',{name:/^이벤트/}).click();
+  const activationEvent=page.locator('.event-list details').filter({hasText:'activate'}).first();
+  await activationEvent.locator('summary').click();
+  assert.equal(await activationEvent.locator('pre').innerText(),'2');
   pass('external tooltip selection records the selected point',{});
   for(const id of ['bar','axis-stacks','live']){
     await open(id);

@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 import { legacySourcePaths } from './src/features/code/source-paths.ts';
 import { chartCatalog } from './src/playgrounds/charts/catalog.ts';
 import { chartEnglish } from './src/playgrounds/charts/locales/en.ts';
-import { sampleCatalog } from './src/playgrounds/datagrid/catalog.ts';
+import { gridCatalog } from './src/playgrounds/datagrid/catalog.ts';
 import { catalogEnglish } from './src/playgrounds/datagrid/locales/catalog.en.ts';
 import { packageCatalog } from './src/playgrounds/registry.ts';
 
@@ -12,7 +12,7 @@ export default defineConfig({
   plugins: [
     react(),
     {
-      name: 'sample-resources',
+      name: 'playground-resources',
       async generateBundle() {
         this.emitFile({
           type: 'asset',
@@ -23,7 +23,7 @@ export default defineConfig({
           type: 'asset',
           fileName: 'catalog.json',
           source: JSON.stringify(
-            { version: 1, package: '@owp/datagrid', samples: sampleCatalog },
+            { version: 1, package: '@owp/datagrid', samples: gridCatalog },
             null,
             2,
           ),
@@ -36,10 +36,10 @@ export default defineConfig({
               version: 1,
               language: 'en',
               package: '@owp/datagrid',
-              samples: sampleCatalog.map((sample) => ({
-                ...sample,
-                title: catalogEnglish[sample.title] ?? sample.title,
-                description: catalogEnglish[sample.description] ?? sample.description,
+              samples: gridCatalog.map((example) => ({
+                ...example,
+                title: catalogEnglish[example.title] ?? example.title,
+                description: catalogEnglish[example.description] ?? example.description,
               })),
             },
             null,
@@ -55,16 +55,18 @@ export default defineConfig({
                 version: 1,
                 package: '@owp/charts',
                 language,
-                samples: chartCatalog.map((sample) => ({
-                  ...sample,
+                samples: chartCatalog.map((example) => ({
+                  ...example,
                   title:
                     language === 'en'
-                      ? (chartEnglish[sample.title] ?? catalogEnglish[sample.title] ?? sample.title)
-                      : sample.title,
+                      ? (chartEnglish[example.title] ??
+                        catalogEnglish[example.title] ??
+                        example.title)
+                      : example.title,
                   description:
                     language === 'en'
-                      ? (chartEnglish[sample.description] ?? sample.description)
-                      : sample.description,
+                      ? (chartEnglish[example.description] ?? example.description)
+                      : example.description,
                 })),
               },
               null,

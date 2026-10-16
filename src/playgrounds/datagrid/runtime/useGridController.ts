@@ -7,16 +7,10 @@ import type {
 } from '@owp/datagrid/types';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { GridSample } from '../catalog';
+import type { EventLogEntry } from '../../../shared/types/events';
+import type { GridExample } from '../catalog';
 import { generateTasks, initialTasks, type Task } from '../model/data';
-import { getDefinition } from '../model/definitions';
-
-export type DemoEvent = {
-  readonly id: number;
-  readonly time: string;
-  readonly name: string;
-  readonly value: string;
-};
+import { getGridConfiguration } from '../model/gridConfiguration';
 
 type PendingBinding = {
   readonly controller: AbortController;
@@ -24,35 +18,38 @@ type PendingBinding = {
   readonly startedAt: number;
 };
 
-export function useDemo(sample: GridSample) {
+export function useGridController(example: GridExample) {
   const { i18n } = useTranslation('app');
   const language = i18n.language;
-  const definition = useMemo(() => getDefinition(sample.id, language), [sample.id, language]);
+  const configuration = useMemo(
+    () => getGridConfiguration(example.id, language),
+    [example.id, language],
+  );
   const gridRef = useRef<OwpDataGridRef<Task>>(null);
   const [pendingBinding, setPendingBinding] = useState<PendingBinding | null>(() =>
-    sample.id === 'large-data'
+    example.id === 'large-data'
       ? {
           controller: new AbortController(),
-          count: definition.rows.length,
+          count: configuration.rows.length,
           startedAt: performance.now(),
         }
       : null,
   );
   const request = useRef<AbortController | null>(pendingBinding?.controller ?? null);
   const sequence = useRef(0);
-  const [rows, setRows] = useState(definition.rows);
+  const [rows, setRows] = useState(configuration.rows);
   const [busy, setBusy] = useState(false);
-  const [loading, setLoading] = useState(Boolean(definition.loading));
-  const [error, setError] = useState(sample.id === 'error');
-  const [events, setEvents] = useState<readonly DemoEvent[]>([]);
+  const [loading, setLoading] = useState(Boolean(configuration.loading));
+  const [error, setError] = useState(example.id === 'error');
+  const [events, setEvents] = useState<readonly EventLogEntry[]>([]);
   const [selected, setSelected] = useState<readonly OwpDataGridRowId[]>(
-    definition.defaultRowSelectionModel ?? [],
+    configuration.defaultRowSelectionModel ?? [],
   );
   const [sort, setSort] = useState<readonly OwpDataGridSortItem[]>(
-    definition.defaultSortModel ?? [],
+    configuration.defaultSortModel ?? [],
   );
   const [filters, setFilters] = useState<readonly OwpDataGridFilterItem[]>(
-    definition.defaultFilterModel ?? [],
+    configuration.defaultFilterModel ?? [],
   );
   const [changeCount, setChangeCount] = useState(0);
   const [rowCount, setRowCount] = useState(rows.length);
@@ -100,23 +97,23 @@ export function useDemo(sample: GridSample) {
 
   const reset = () => {
     request.current?.abort();
-    const controller = sample.id === 'large-data' ? new AbortController() : null;
+    const controller = example.id === 'large-data' ? new AbortController() : null;
     request.current = controller;
     setPendingBinding(
       controller
-        ? { controller, count: definition.rows.length, startedAt: performance.now() }
+        ? { controller, count: configuration.rows.length, startedAt: performance.now() }
         : null,
     );
     setBindingTime(null);
     setBusy(false);
-    setRows(definition.rows);
+    setRows(configuration.rows);
     setGridVersion((version) => version + 1);
-    setRowCount(definition.rows.length);
-    setSelected(definition.defaultRowSelectionModel ?? []);
-    setSort(definition.defaultSortModel ?? []);
-    setFilters(definition.defaultFilterModel ?? []);
-    setLoading(Boolean(definition.loading));
-    setError(sample.id === 'error');
+    setRowCount(configuration.rows.length);
+    setSelected(configuration.defaultRowSelectionModel ?? []);
+    setSort(configuration.defaultSortModel ?? []);
+    setFilters(configuration.defaultFilterModel ?? []);
+    setLoading(Boolean(configuration.loading));
+    setError(example.id === 'error');
     setChangeCount(0);
     setEvents([]);
   };
@@ -189,7 +186,7 @@ export function useDemo(sample: GridSample) {
   };
 
   return {
-    definition,
+    configuration,
     gridRef,
     rows,
     busy,
@@ -209,7 +206,7 @@ export function useDemo(sample: GridSample) {
     pendingBinding,
     bindingTime,
     finishBinding,
-    columns: definition.columns,
+    columns: configuration.columns,
     record,
     onChanges,
     reset,
@@ -223,4 +220,4 @@ export function useDemo(sample: GridSample) {
   };
 }
 
-export type Demo = ReturnType<typeof useDemo>;
+export type GridController = ReturnType<typeof useGridController>;

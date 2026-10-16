@@ -1,15 +1,16 @@
 import { useState } from 'react';
+import type { NativeData, NativeOptions } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useNativeData } from '../model/useNativeData';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Range } from '../runtime/Controls';
-import { type NativeData, type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 import { ThresholdExplanation } from '../runtime/ThresholdExplanation';
 
 export function ChartExample(props: ChartExampleProps) {
   const { data, palette } = useNativeData('doughnut');
   const [value, setValue] = useState(40);
 
-  const sample: NativeData = {
+  const chartData: NativeData = {
     ...data,
     datasets: data.datasets.map((dataset) => ({
       ...dataset,
@@ -31,7 +32,7 @@ export function ChartExample(props: ChartExampleProps) {
         />
       </Controls>
       <ThresholdExplanation value={value} kind="pie" />
-      <SampleFrame type="doughnut" data={sample} options={options} radial {...props} />
+      <ChartCanvas type="doughnut" data={chartData} options={options} radial {...props} />
     </>
   );
 }

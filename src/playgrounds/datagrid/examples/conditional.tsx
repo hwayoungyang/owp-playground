@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, owners, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -81,7 +81,7 @@ const editableColumns = baseColumns.map((column) => ({
     : {}),
 }));
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: editableColumns,
   getRowId,
@@ -91,7 +91,7 @@ export const exampleDefinition: Definition = {
 
 const backgroundScopeSchema = z.enum(['cell', 'row']);
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function ConditionalStylesGrid(props: GridViewProps = {}) {
   const { t } = useTranslation('app');
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [backgroundScope, setBackgroundScope] = useState<'cell' | 'row'>(() =>

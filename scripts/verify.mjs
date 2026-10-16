@@ -23,7 +23,7 @@ async function load(id) {
 }
 
 async function waitStatus(text) {
-  await page.waitForFunction((text) => document.querySelector('.preview-status')?.textContent.includes(text), text);
+  await page.waitForFunction((text) => document.querySelector('.grid-status-bar')?.textContent.includes(text), text);
 }
 
 async function edit(rowId, index, value) {

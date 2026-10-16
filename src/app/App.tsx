@@ -8,9 +8,9 @@ import {
 import { supportsThemeStudio } from '../features/theme-studio/model/studio';
 import { chartCatalog, chartCategories } from '../playgrounds/charts/catalog';
 import {
+  gridAliases,
+  gridCatalog,
   categories as gridCategories,
-  sampleAliases,
-  sampleCatalog,
 } from '../playgrounds/datagrid/catalog';
 import {
   createPlaygroundUrl,
@@ -26,15 +26,15 @@ import { PackageNotice, PackageSidebar } from './layout/PackageNotice';
 import { Sidebar } from './layout/Sidebar';
 import { Provider } from './providers/Provider';
 
-const Workspace = lazy(() =>
-  import('../playgrounds/datagrid/runtime/Workspace').then((module) => ({
-    default: module.Workspace,
+const GridWorkspace = lazy(() =>
+  import('../playgrounds/datagrid/runtime/GridWorkspace').then((module) => ({
+    default: module.GridWorkspace,
   })),
 );
 
-const GettingStarted = lazy(() =>
-  import('../playgrounds/datagrid/guides/GettingStarted').then((module) => ({
-    default: module.GettingStarted,
+const GridGettingStarted = lazy(() =>
+  import('../playgrounds/datagrid/guides/GridGettingStarted').then((module) => ({
+    default: module.GridGettingStarted,
   })),
 );
 const ThemeStudio = lazy(() =>
@@ -77,25 +77,25 @@ export function App() {
     setMenuOpen(false);
     setThemeOpen(false);
   };
-  const navigateSample = (id: string) => navigate(getPlaygroundRoute(route.playground, id));
-  const samples = route.status === 'charts' ? chartCatalog : sampleCatalog;
+  const navigateExample = (id: string) => navigate(getPlaygroundRoute(route.playground, id));
+  const examples = route.status === 'charts' ? chartCatalog : gridCatalog;
   const categories = route.status === 'charts' ? chartCategories : gridCategories;
   const sidebarProps = {
     playground: route.playground,
-    samples,
+    examples,
     categories,
-    exampleCount: samples.filter((entry) => entry.kind !== 'guide').length,
-    getSampleUrl: (id: string) =>
+    exampleCount: examples.filter((entry) => entry.kind !== 'guide').length,
+    getExampleUrl: (id: string) =>
       createPlaygroundUrl(location.href, getPlaygroundRoute(route.playground, id)).href,
   };
   const navigatePackage = (next: PlaygroundPackage) => {
     if (next.id !== route.playground.id) navigate(getPlaygroundRoute(next));
   };
-  const navigation = route.sample ? (
+  const navigation = route.example ? (
     <Sidebar
       {...sidebarProps}
-      sample={route.sample}
-      onNavigate={navigateSample}
+      example={route.example}
+      onNavigate={navigateExample}
       searchRef={desktopSearch}
     />
   ) : (
@@ -104,9 +104,9 @@ export function App() {
   useEffect(() => {
     const normalizeUrl = (next: PlaygroundRoute) => {
       const url = createPlaygroundUrl(location.href, next);
-      const sampleId = new URLSearchParams(location.search).get('sample');
-      if (sampleId && next.status === 'ready' && sampleAliases[sampleId] === next.sample.id) {
-        url.searchParams.set('sample', sampleId);
+      const exampleId = new URLSearchParams(location.search).get('sample');
+      if (exampleId && next.status === 'ready' && gridAliases[exampleId] === next.example.id) {
+        url.searchParams.set('sample', exampleId);
       }
       if (url.href !== location.href) history.replaceState(null, '', url);
     };
@@ -133,7 +133,7 @@ export function App() {
     };
   }, []);
   useEffect(() => {
-    document.title = `${t(route.sample?.title ?? route.playground.title)} — OWP Playground`;
+    document.title = `${t(route.example?.title ?? route.playground.title)} — OWP Playground`;
     document.documentElement.lang = i18n.language;
   }, [route, t, i18n.language]);
   return (
@@ -144,9 +144,9 @@ export function App() {
       <div className="app-shell">
         <Header
           playground={route.playground}
-          sample={route.sample}
+          example={route.example}
           categoryLabel={
-            categories.find((entry) => entry.id === route.sample?.category)?.label ?? ''
+            categories.find((entry) => entry.id === route.example?.category)?.label ?? ''
           }
           onPackageChange={navigatePackage}
           mode={mode}
@@ -160,11 +160,11 @@ export function App() {
           onClose={() => setMenuOpen(false)}
           slotProps={{ transition: { onEntered: () => mobileSearch.current?.focus() } }}
         >
-          {route.sample ? (
+          {route.example ? (
             <Sidebar
               {...sidebarProps}
-              sample={route.sample}
-              onNavigate={navigateSample}
+              example={route.example}
+              onNavigate={navigateExample}
               searchRef={mobileSearch}
             />
           ) : (
@@ -172,7 +172,7 @@ export function App() {
           )}
         </Drawer>
         <main id="main-content" className="main-content" tabIndex={-1}>
-          {!route.sample && (
+          {!route.example && (
             <div className="package-heading">
               <div>
                 <h1>
@@ -181,9 +181,9 @@ export function App() {
                     <span className="package-version">v{route.playground.version}</span>
                   )}
                 </h1>
-                {!route.sample && <p>{t('예제를 차례로 추가하고 있어요.')}</p>}
+                {!route.example && <p>{t('예제를 차례로 추가하고 있어요.')}</p>}
               </div>
-              {!route.sample && <div className="package-note">{route.playground.name}</div>}
+              {!route.example && <div className="package-note">{route.playground.name}</div>}
             </div>
           )}
           <Suspense
@@ -194,18 +194,18 @@ export function App() {
             }
           >
             {route.status === 'charts' ? (
-              route.sample.kind === 'guide' ? (
-                <ChartsGettingStarted key={`charts-${route.sample.id}`} sample={route.sample} />
+              route.example.kind === 'guide' ? (
+                <ChartsGettingStarted key={`charts-${route.example.id}`} example={route.example} />
               ) : (
-                <ChartsWorkspace key={`charts-${route.sample.id}`} sample={route.sample} />
+                <ChartsWorkspace key={`charts-${route.example.id}`} example={route.example} />
               )
-            ) : route.sample ? (
-              route.sample.kind === 'guide' ? (
-                <GettingStarted key={route.sample.id} sample={route.sample} />
+            ) : route.example ? (
+              route.example.kind === 'guide' ? (
+                <GridGettingStarted key={route.example.id} example={route.example} />
               ) : (
-                <Workspace
-                  key={route.sample.id}
-                  sample={route.sample}
+                <GridWorkspace
+                  key={route.example.id}
+                  example={route.example}
                   theme={previewTheme}
                   onThemeChange={setPreviewTheme}
                   onThemeOpen={() => setThemeOpen(true)}

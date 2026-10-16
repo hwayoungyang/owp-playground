@@ -3,6 +3,7 @@ import { referenceCatalog } from './model/referenceCatalog.ts';
 
 export const chartCategories = [
   { id: 'basic', label: '기본 차트 (Basic charts)' },
+  { id: 'other', label: '확장 차트 (Extended charts)' },
   { id: 'axes', label: '축 (Axis)' },
   { id: 'legend', label: '범례 (Legend)' },
   { id: 'tooltip', label: '툴팁 (Tooltip)' },
@@ -29,21 +30,21 @@ const baseChartCatalog = [
     {
       id: 'semi-circle',
       title: 'Semi circle',
-      category: 'basic',
+      category: 'other',
       description: '공정별 처리 수량의 비중을 반원으로 비교합니다.',
       api: ['OwpRadialChart', 'semiCircle', 'cutout'],
     },
     {
       id: 'radar',
       title: 'Radar',
-      category: 'basic',
+      category: 'other',
       description: '생산 라인 두 곳의 핵심 역량 6가지를 같은 척도로 비교합니다.',
       api: ['OwpRadarChart', 'series', 'labelOptions'],
     },
     {
       id: 'box-plot',
       title: 'Box plot',
-      category: 'basic',
+      category: 'other',
       description: '사분위수·중앙값·수염·이상치로 측정값 분포를 비교합니다.',
       api: ['OwpBoxPlotChart', 'summarizeBox', 'datasetOptions'],
     },
@@ -57,15 +58,15 @@ const baseChartCatalog = [
     {
       id: 'scatter-clusters',
       title: 'Scatter clusters',
-      category: 'basic',
+      category: 'other',
       description: '네 군집의 밀집된 점을 비교하고 X/Y 범위를 확대합니다.',
       api: ['ChartFrame', 'ChartLegend', 'zoomSlider'],
     },
-  ].map((sample) => ({
-    ...sample,
+  ].map((example) => ({
+    ...example,
     kind: 'chart' as const,
     package: '@owp/charts' as const,
-    source: `examples/${sample.id}.tsx`,
+    source: `examples/${example.id}.tsx`,
   })),
   {
     id: 'bar',
@@ -140,7 +141,7 @@ const baseChartCatalog = [
   {
     id: 'doughnut',
     title: 'Doughnut',
-    category: 'basic',
+    category: 'other',
     description: '라인별 생산 비중과 도넛의 두께를 바꿉니다.',
     api: ['OwpRadialChart', 'cutout', 'outsideLabels'],
     kind: 'chart',
@@ -150,7 +151,7 @@ const baseChartCatalog = [
   {
     id: 'gauge',
     title: 'Gauge',
-    category: 'basic',
+    category: 'other',
     description: '게이지 값을 실시간으로 갱신하고 바늘의 움직임을 확인합니다.',
     api: ['createGaugeChartData', 'createGaugeChartOptions'],
     kind: 'chart',
@@ -469,9 +470,9 @@ const baseChartCatalog = [
   },
 ] as const;
 
-const allChartSamples = [...baseChartCatalog, ...chartjsCatalog, ...referenceCatalog] as const;
+const chartEntries = [...baseChartCatalog, ...chartjsCatalog, ...referenceCatalog] as const;
 
-const chartSampleOrder = {
+const chartEntryOrder = {
   basic: [
     'getting-started',
     'bar',
@@ -494,6 +495,8 @@ const chartSampleOrder = {
     'stacked-combo',
     'mixed-time-series',
     'daily-combo',
+  ],
+  other: [
     'pie',
     'multi-series-pie',
     'doughnut',
@@ -571,10 +574,10 @@ const chartSampleOrder = {
 
 export const chartCatalog = chartCategories.flatMap(({ id }) => {
   const order = new Map<string, number>(
-    chartSampleOrder[id].map((sampleId, index) => [sampleId, index]),
+    chartEntryOrder[id].map((exampleId, index) => [exampleId, index]),
   );
-  return allChartSamples
-    .filter((sample) => sample.category === id)
+  return chartEntries
+    .filter((example) => example.category === id)
     .sort(
       (left, right) =>
         (order.get(left.id) ?? Number.MAX_SAFE_INTEGER) -
@@ -582,8 +585,8 @@ export const chartCatalog = chartCategories.flatMap(({ id }) => {
     );
 });
 
-export type ChartSample = (typeof chartCatalog)[number];
-export type ChartExample = Extract<ChartSample, { readonly kind: 'chart' }>;
+export type ChartCatalogEntry = (typeof chartCatalog)[number];
+export type ChartExample = Extract<ChartCatalogEntry, { readonly kind: 'chart' }>;
 const chartAliases = new Map([
   ['linear-gradient', 'line'],
   ['radial-gradient', 'doughnut'],
@@ -597,7 +600,7 @@ const chartAliases = new Map([
   ['progressive-line', 'line'],
   ['progressive-easing', 'line'],
 ]);
-export function findChartSample(id: string | null): ChartSample {
+export function findChartEntry(id: string | null): ChartCatalogEntry {
   const canonicalId = id ? (chartAliases.get(id) ?? id) : id;
-  return chartCatalog.find((sample) => sample.id === canonicalId) ?? baseChartCatalog[0];
+  return chartCatalog.find((example) => example.id === canonicalId) ?? baseChartCatalog[0];
 }

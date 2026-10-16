@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { describe, expect, it } from 'vitest';
 import { highlightSource } from '../src/features/code/highlight';
-import { sampleCatalog } from '../src/playgrounds/datagrid/catalog';
+import { gridCatalog } from '../src/playgrounds/datagrid/catalog';
 
 describe('TSX source highlighting', () => {
   it('colors component tags and their props within a JSX return block', () => {
@@ -13,13 +13,13 @@ describe('TSX source highlighting', () => {
     expect(html).toContain('<span class="hljs-string">&quot;100%&quot;</span>');
   });
   it('highlights the actual grid tag in every executing sample', async () => {
-    for (const sample of sampleCatalog.filter((entry) => entry.kind === 'grid')) {
+    for (const example of gridCatalog.filter((entry) => entry.kind === 'grid')) {
       const source = await readFile(
-        new URL(`../src/playgrounds/datagrid/${sample.source}`, import.meta.url),
+        new URL(`../src/playgrounds/datagrid/${example.source}`, import.meta.url),
         'utf8',
       );
       const html = highlightSource(source, 'typescript');
-      expect(html, sample.id).toContain('<span class="hljs-name">OwpDataGrid</span>');
+      expect(html, example.id).toContain('<span class="hljs-name">OwpDataGrid</span>');
     }
   });
 });

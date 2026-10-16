@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { createTree, getRowId, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const treeRows = createTree();
 
@@ -69,13 +69,13 @@ const baseColumns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-const treeOptions: Definition['treeOptions'] = {
+const treeOptions: GridConfiguration['treeOptions'] = {
   mode: 'parent-reference',
   getParentRowId: (row) => row.parentId,
   defaultExpansionModel: treeRows.filter((row) => row.parentId === null).map(getRowId),
 };
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: treeRows,
   columns: baseColumns,
   getRowId,
@@ -86,7 +86,7 @@ export const exampleDefinition: Definition = {
     column.id === 'project' && row.parentId !== null ? `${row.parentId}:${row.project}` : undefined,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function SpanningTreeGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
 
@@ -100,12 +100,12 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          treeOptions={exampleDefinition.treeOptions}
-          rows={exampleDefinition.rows}
-          columns={exampleDefinition.columns}
-          getRowId={exampleDefinition.getRowId}
-          rowSelectionMode={exampleDefinition.rowSelectionMode}
-          getCellRowSpanKey={exampleDefinition.getCellRowSpanKey}
+          treeOptions={gridConfiguration.treeOptions}
+          rows={gridConfiguration.rows}
+          columns={gridConfiguration.columns}
+          getRowId={gridConfiguration.getRowId}
+          rowSelectionMode={gridConfiguration.rowSelectionMode}
+          getCellRowSpanKey={gridConfiguration.getCellRowSpanKey}
           {...gridProps}
           style={{ height: '100%' }}
         />

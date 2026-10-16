@@ -1,9 +1,11 @@
-import { Button } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { type ComponentType, lazy, memo, Suspense, useCallback, useMemo, useState } from 'react';
 import { ApiDataViewer } from '../../../features/code/ApiDataViewer';
 import { CodeViewer } from '../../../features/code/CodeViewer';
-import { SampleHeading } from '../../../shared/ui/SampleHeading';
+import type { EventLogEntry } from '../../../shared/types/events';
+import { EventsPanel } from '../../../shared/ui/EventsPanel';
+import { PreviewToolbar } from '../../../shared/ui/PreviewToolbar';
+import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
 import { type WorkspaceTab, WorkspaceTabs } from '../../../shared/ui/WorkspaceTabs';
 import { useGridAccessibility } from '../../datagrid/runtime/useGridAccessibility';
 import { type ChartExample, chartCategories } from '../catalog';
@@ -18,13 +20,13 @@ const modules = import.meta.glob<{ ChartExample: ComponentType<ChartExampleProps
   '../examples/*.tsx',
 );
 const ChartPreview = memo(function ChartPreview({
-  sample,
+  example,
   ...props
-}: ChartExampleProps & { readonly sample: ChartExample }) {
+}: ChartExampleProps & { readonly example: ChartExample }) {
   const [Example] = useState(() =>
     lazy(async () => {
-      const load = modules[`../examples/${sample.id}.tsx`];
-      if (!load) throw new RangeError(`Unknown chart sample: ${sample.id}`);
+      const load = modules[`../examples/${example.id}.tsx`];
+      if (!load) throw new RangeError(`Unknown chart example: ${example.id}`);
       return { default: (await load()).ChartExample };
     }),
   );
@@ -33,7 +35,7 @@ const ChartPreview = memo(function ChartPreview({
   useChartAccessibility(host);
   useAvailableChartHeight(true, host);
   return (
-    <section ref={host} className="chart-preview owp-chart-surface" aria-label={t(sample.title)}>
+    <section ref={host} className="chart-preview owp-chart-surface" aria-label={t(example.title)}>
       <Suspense
         fallback={
           <div className="chart-loading" role="status">
@@ -47,18 +49,16 @@ const ChartPreview = memo(function ChartPreview({
   );
 });
 
-export function ChartsWorkspace({ sample }: { readonly sample: ChartExample }) {
+export function ChartsWorkspace({ example }: { readonly example: ChartExample }) {
   const { t } = useOwpTranslation();
   const [tab, setTab] = useState<WorkspaceTab>('preview');
   const [version, setVersion] = useState(0);
   const [snapshot, setSnapshot] = useState<ChartSnapshot>({ labels: [], series: [] });
   const apiDocument = useMemo(
-    () => chartApiDocument(snapshot, sample.id, t),
-    [snapshot, sample.id, t],
+    () => chartApiDocument(snapshot, example.id, t),
+    [snapshot, example.id, t],
   );
-  const [events, setEvents] = useState<
-    readonly { readonly id: number; readonly name: string; readonly detail: string }[]
-  >([]);
+  const [events, setEvents] = useState<readonly EventLogEntry[]>([]);
   const onData = useCallback(
     (next: ChartSnapshot) =>
       setSnapshot((previous) =>
@@ -66,48 +66,43 @@ export function ChartsWorkspace({ sample }: { readonly sample: ChartExample }) {
       ),
     [],
   );
-  const onRecord = useCallback(
-    (name: string, detail: string) =>
-      setEvents((previous) =>
-        [{ id: (previous[0]?.id ?? 0) + 1, name, detail }, ...previous].slice(0, 50),
-      ),
-    [],
-  );
-  const prefix = `charts-${sample.id}`;
+  const onRecord = useCallback((name: string, detail: string) => {
+    const time = new Date().toLocaleTimeString('ko-KR', { hour12: false });
+    setEvents((previous) =>
+      [{ id: (previous[0]?.id ?? 0) + 1, time, name, value: detail }, ...previous].slice(0, 50),
+    );
+  }, []);
+  const prefix = `charts-${example.id}`;
   return (
     <section
-      className={`workspace charts-workspace${(['gauge', 'doughnut'].includes(sample.id) || ('layout' in sample && sample.layout === 'radial')) && tab === 'preview' ? ' chart-workspace-radial' : ''}`}
+      className={`workspace charts-workspace${(['gauge', 'doughnut'].includes(example.id) || ('layout' in example && example.layout === 'radial')) && tab === 'preview' ? ' chart-workspace-radial' : ''}`}
       aria-label={t('차트 실행 영역')}
     >
-      <SampleHeading
-        sample={sample}
+      <WorkspaceHeading
+        example={example}
         packageTitle="OwpCharts"
         categoryLabel={
-          chartCategories.find((category) => category.id === sample.category)?.label ?? ''
+          chartCategories.find((category) => category.id === example.category)?.label ?? ''
         }
       />
-      <WorkspaceTabs idPrefix={prefix} value={tab} onChange={setTab} />
-      <div className="specimen-frame">
+      <WorkspaceTabs idPrefix={prefix} value={tab} eventCount={events.length} onChange={setTab} />
+      <div className="workspace-frame">
         <div
           hidden={tab !== 'preview'}
           role="tabpanel"
           id={`${prefix}-panel-preview`}
           aria-labelledby={`${prefix}-tab-preview`}
         >
-          <div className="chart-toolbar">
-            <Button
-              variant="outlined"
-              onClick={() => {
-                setVersion((value) => value + 1);
-                setEvents([]);
-              }}
-            >
-              {t('초기화')}
-            </Button>
-          </div>
+          <PreviewToolbar
+            divider
+            onReset={() => {
+              setVersion((value) => value + 1);
+              setEvents([]);
+            }}
+          />
           <ChartPreview
-            key={`${sample.id}-${version}`}
-            sample={sample}
+            key={`${example.id}-${version}`}
+            example={example}
             onData={onData}
             onRecord={onRecord}
           />
@@ -119,7 +114,7 @@ export function ChartsWorkspace({ sample }: { readonly sample: ChartExample }) {
         </div>
         {tab === 'code' && (
           <div role="tabpanel" id={`${prefix}-panel-code`} aria-labelledby={`${prefix}-tab-code`}>
-            <CodeViewer sample={sample} />
+            <CodeViewer example={example} />
           </div>
         )}
         {tab === 'data' && (
@@ -129,37 +124,28 @@ export function ChartsWorkspace({ sample }: { readonly sample: ChartExample }) {
             id={`${prefix}-panel-data`}
             aria-labelledby={`${prefix}-tab-data`}
           >
-            <ApiDataViewer sample={sample} document={apiDocument} />
+            <ApiDataViewer example={example} document={apiDocument} />
           </div>
         )}
         {tab === 'events' && (
           <div
-            className="chart-events"
             role="tabpanel"
             id={`${prefix}-panel-events`}
             aria-labelledby={`${prefix}-tab-events`}
           >
-            <Button variant="outlined" onClick={() => setEvents([])}>
-              {t('이벤트 지우기')}
-            </Button>
-            {events.length ? (
-              <ol>
-                {events.map((event) => (
-                  <li key={event.id}>
-                    {event.name} · {event.detail}
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <p className="chart-note">{t('아직 기록된 이벤트가 없습니다.')}</p>
-            )}
+            <EventsPanel
+              events={events}
+              limit={50}
+              onClear={() => setEvents([])}
+              onPreview={() => setTab('preview')}
+            />
           </div>
         )}
       </div>
-      <div className="sample-footnote">
+      <div className="workspace-api-reference">
         <span>Props · API</span>
         <div>
-          {sample.api.map((api) => (
+          {example.api.map((api) => (
             <code key={api}>{api}</code>
           ))}
         </div>

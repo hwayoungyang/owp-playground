@@ -7,15 +7,7 @@ import { nativeSnapshot } from '../model/nativeSnapshot';
 import type { ChartExampleProps } from '../model/types';
 import { useAvailableChartHeight } from './useAvailableChartHeight';
 
-export type {
-  NativeData,
-  NativeInstance,
-  NativeOptions,
-  NativePlugin,
-  NativeValue,
-} from '../model/chartTypes';
-
-type SampleFrameProps = ChartExampleProps & {
+type ChartCanvasProps = ChartExampleProps & {
   readonly type: 'bar' | 'line' | 'doughnut';
   readonly data: NativeData;
   readonly options?: NativeOptions;
@@ -28,8 +20,8 @@ type SampleFrameProps = ChartExampleProps & {
   readonly recordLegendHover?: boolean;
 };
 
-/** 샘플 카드 높이·데이터·기록을 연결하고 패키지의 애니메이션 기본값을 적용합니다. */
-export function SampleFrame({
+/** 차트 높이·데이터·이벤트 기록을 연결하고 패키지의 애니메이션 기본값을 적용합니다. */
+export function ChartCanvas({
   data,
   type,
   options,
@@ -40,7 +32,7 @@ export function SampleFrame({
   recordLegendHover,
   onData,
   onRecord,
-}: SampleFrameProps) {
+}: ChartCanvasProps) {
   const { t } = useOwpTranslation();
   const plot = useAvailableChartHeight(Boolean(radial));
   useEffect(() => onData?.(nativeSnapshot(data)), [data, onData]);

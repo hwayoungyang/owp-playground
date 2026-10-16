@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -67,7 +67,7 @@ const baseColumns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: baseColumns,
   getRowId,
@@ -79,7 +79,7 @@ export const exampleDefinition: Definition = {
       : undefined,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function ExplicitRowSpanGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [size, setSize] = useState(4);
   return (

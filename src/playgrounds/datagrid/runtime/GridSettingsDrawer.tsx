@@ -14,7 +14,7 @@ import { z } from 'zod';
 import type { PreviewThemeSettings } from '../../../features/theme-studio/model/preview';
 import { ThemeSettings } from '../../../features/theme-studio/ThemeSettings';
 
-export type SettingsValue = {
+export type GridViewSettings = {
   readonly selection: OwpDataGridRowSelectionMode;
   readonly filter: boolean;
   readonly compact: boolean;
@@ -22,7 +22,7 @@ export type SettingsValue = {
 };
 const selectionSchema = z.enum(['none', 'single', 'multiple']);
 
-export function Settings({
+export function GridSettingsDrawer({
   open,
   onClose,
   value,
@@ -33,8 +33,8 @@ export function Settings({
 }: {
   readonly open: boolean;
   readonly onClose: () => void;
-  readonly value: SettingsValue;
-  readonly onChange: (value: SettingsValue) => void;
+  readonly value: GridViewSettings;
+  readonly onChange: (value: GridViewSettings) => void;
   readonly theme: PreviewThemeSettings;
   readonly onThemeChange: (value: PreviewThemeSettings) => void;
   readonly onThemeOpen: () => void;
@@ -42,15 +42,15 @@ export function Settings({
   const { t } = useTranslation('app');
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
-      <div className="settings-panel">
-        <div className="settings-heading">
+      <div className="grid-settings-panel">
+        <div className="grid-settings-heading">
           <h2>{t('설정')}</h2>
           <IconButton aria-label={t('설정 닫기')} onClick={onClose}>
             <XIcon size={20} />
           </IconButton>
         </div>
         <p>{t('선택·필터·화면 설정을 바꿀 수 있습니다.')}</p>
-        <div className="setting-field">
+        <div className="grid-settings-field">
           <label htmlFor="selection-mode">{t('행 선택 방식')}</label>
           <Select
             value={value.selection}
@@ -86,7 +86,7 @@ export function Settings({
           }
           label={t('행 높이 줄이기')}
         />
-        <div className="setting-field">
+        <div className="grid-settings-field">
           <label htmlFor="radius-size">{t('모서리 둥글기')}</label>
           <Select
             id="radius-size"
@@ -108,7 +108,9 @@ export function Settings({
         </div>
         <ThemeSettings value={theme} onChange={onThemeChange} />
         <Button onClick={onThemeOpen}>{t('상세 테마 편집')}</Button>
-        <div className="settings-note">{t('초기화하면 데이터와 그리드 설정을 되돌립니다.')}</div>
+        <div className="grid-settings-note">
+          {t('초기화하면 데이터와 그리드 설정을 되돌립니다.')}
+        </div>
         <Button variant="outlined" onClick={onClose}>
           {t('닫기')}
         </Button>

@@ -30,10 +30,10 @@ export function chartFromApi(
 
 export function chartApiDocument(
   snapshot: ChartSnapshot,
-  sampleId: string,
+  exampleId: string,
   localize: typeof translate = translate,
 ): ApiDataSource {
-  const coordinate = ['scatter', 'scatter-clusters', 'bubble'].includes(sampleId);
+  const coordinate = ['scatter', 'scatter-clusters', 'bubble'].includes(exampleId);
   return {
     totalRows: snapshot.labels.length,
     fields: [

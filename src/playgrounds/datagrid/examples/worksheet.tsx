@@ -5,7 +5,7 @@ import type { OwpDataGridColumn, OwpDataGridRef } from '@owp/datagrid/types';
 import { useRef, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import { getRowId, type Task } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 import { worksheetRows } from '../model/worksheet-data';
 
 const amount = (row: Task) => row.completed * row.cost;
@@ -140,7 +140,7 @@ const worksheetColumns = columns.map(
   }),
 );
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: worksheetRows,
   columns: worksheetColumns,
   getRowId,
@@ -208,7 +208,7 @@ export const exampleDefinition: Definition = {
   })),
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function CalculatedCellsGrid(props: GridViewProps = {}) {
   const compact = useMediaQuery('(max-width:599px)');
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
@@ -262,8 +262,8 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
           getRowId={getRowId}
           rowSelectionMode="none"
           style={{ height: '100%' }}
-          getCellRowSpanKey={exampleDefinition.getCellRowSpanKey}
-          summaryRows={exampleDefinition.summaryRows}
+          getCellRowSpanKey={gridConfiguration.getCellRowSpanKey}
+          summaryRows={gridConfiguration.summaryRows}
           {...gridProps}
           sx={{
             '& .OwpDataGrid-summary > [role="row"]': {
@@ -271,7 +271,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
               color: 'var(--pg-success)',
             },
           }}
-          headerRows={compact ? undefined : (gridProps.headerRows ?? exampleDefinition.headerRows)}
+          headerRows={compact ? undefined : (gridProps.headerRows ?? gridConfiguration.headerRows)}
           layout={
             compact
               ? {
@@ -286,7 +286,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
                     },
                   ],
                 }
-              : (gridProps.layout ?? exampleDefinition.layout)
+              : (gridProps.layout ?? gridConfiguration.layout)
           }
           onCellValueCommit={(params) => {
             const grid = gridRef.current;

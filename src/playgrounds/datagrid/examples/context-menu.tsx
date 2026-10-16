@@ -16,7 +16,7 @@ import { z } from 'zod';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, owners, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -90,7 +90,7 @@ const editableColumns = baseColumns.map((column) => ({
     : {}),
 }));
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: editableColumns,
   getRowId,
@@ -131,7 +131,7 @@ function RowEditor({
   return (
     <Dialog open onClose={onClose} fullWidth maxWidth="xs">
       <DialogTitle>{translate(editable ? '작업 수정' : '작업 상세')}</DialogTitle>
-      <DialogContent className="row-dialog">
+      <DialogContent className="grid-row-dialog">
         <span className="eyebrow">{row.project}</span>
         <TextField
           label={translate('작업명')}
@@ -156,7 +156,7 @@ function RowEditor({
           })}
         </p>
         {error && (
-          <p role="alert" className="error-text">
+          <p role="alert" className="grid-error-text">
             {translate(error)}
           </p>
         )}
@@ -172,7 +172,7 @@ function RowEditor({
     </Dialog>
   );
 }
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function ContextMenuGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [editor, setEditor] = useState<{ readonly row: Task; readonly editable: boolean } | null>(

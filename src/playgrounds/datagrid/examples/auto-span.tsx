@@ -3,7 +3,7 @@ import type { OwpDataGridCellRowSpanKeyGetter, OwpDataGridColumn } from '@owp/da
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -68,7 +68,7 @@ const baseColumns = [
 const projectSpanKey: OwpDataGridCellRowSpanKeyGetter<Task> = ({ row, column }) =>
   column.id === 'project' && row.parentId === null ? row.project : undefined;
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks.map((row, index) => ({
     ...row,
     project: index < 2 ? '웹 서비스' : index < 7 ? '모바일 앱' : '업무 시스템',
@@ -81,18 +81,18 @@ export const exampleDefinition: Definition = {
   layout: { filterRow: true },
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function AutomaticRowSpanGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
       ref={gridRef}
-      rows={exampleDefinition.rows}
-      columns={exampleDefinition.columns}
-      getRowId={exampleDefinition.getRowId}
-      rowSelectionMode={exampleDefinition.rowSelectionMode}
-      height={exampleDefinition.height}
-      getCellRowSpanKey={exampleDefinition.getCellRowSpanKey}
-      layout={exampleDefinition.layout}
+      rows={gridConfiguration.rows}
+      columns={gridConfiguration.columns}
+      getRowId={gridConfiguration.getRowId}
+      rowSelectionMode={gridConfiguration.rowSelectionMode}
+      height={gridConfiguration.height}
+      getCellRowSpanKey={gridConfiguration.getCellRowSpanKey}
+      layout={gridConfiguration.layout}
       {...gridProps}
     />
   );

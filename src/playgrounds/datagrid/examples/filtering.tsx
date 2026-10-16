@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -66,7 +66,7 @@ const baseColumns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: baseColumns,
   getRowId,
@@ -75,10 +75,10 @@ export const exampleDefinition: Definition = {
   layout: { filterRow: true },
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function ColumnFiltersGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [model, setModel] = useState<readonly OwpDataGridFilterItem[]>(
-    exampleDefinition.defaultFilterModel ?? [],
+    gridConfiguration.defaultFilterModel ?? [],
   );
   return (
     <OwpDataGrid

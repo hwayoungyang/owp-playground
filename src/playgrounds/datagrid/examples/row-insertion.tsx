@@ -3,7 +3,7 @@ import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, owners, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -85,7 +85,7 @@ import type {
 } from '@owp/datagrid/types';
 import { useRef, useState } from 'react';
 import { seedTask } from '../model/data';
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: editableColumns,
   getRowId,
@@ -95,7 +95,7 @@ export const exampleDefinition: Definition = {
   layout: { rowPanel: { allowAddedRowSelection: true } },
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function RowInsertionGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
@@ -140,8 +140,8 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
           getRowId={getRowId}
           rowSelectionMode="multiple"
           style={{ height: '100%' }}
-          rowDeletion={exampleDefinition.rowDeletion}
-          layout={exampleDefinition.layout}
+          rowDeletion={gridConfiguration.rowDeletion}
+          layout={gridConfiguration.layout}
           {...gridProps}
           rowSelectionModel={selected}
           onRowSelectionModelChange={(next) => {

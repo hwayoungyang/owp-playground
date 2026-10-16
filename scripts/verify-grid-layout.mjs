@@ -94,7 +94,7 @@ try {
 
   await load('formatting');
   assert.equal(await page.getByRole('heading', { level: 1 }).textContent(), '숫자·날짜 서식');
-  assert.match(await page.locator('.sample-heading p').textContent(), /숫자와 날짜·시간 서식/);
+  assert.match(await page.locator('.workspace-heading p').textContent(), /숫자와 날짜·시간 서식/);
   await choose('금액 소수 자릿수', 6);
   const firstAmount = page.locator('[data-owp-data-grid-row-key="string:task-1"] .OwpDataGrid-cell').nth(2);
   assert.equal((await firstAmount.textContent()).trim(), '12,000.000000');
@@ -131,8 +131,8 @@ try {
 
   await load('large-data');
   const generate = page.getByRole('button', { name: '데이터 생성', exact: true });
-  await page.locator('.binding-time').waitFor();
-  assert.match(await page.locator('.binding-time').textContent(), /그리드 반영 시간 [\d.]+ ms/);
+  await page.locator('.grid-binding-time').waitFor();
+  assert.match(await page.locator('.grid-binding-time').textContent(), /그리드 반영 시간 [\d.]+ ms/);
   const initial = await datasetEvent();
   assert.equal(initial.count, 10000);
   assert.ok(initial.milliseconds > 0);
@@ -146,9 +146,9 @@ try {
     window.qaStarted = performance.now();
   });
   await generate.click();
-  await page.locator('.binding-time').waitFor();
+  await page.locator('.grid-binding-time').waitFor();
   const elapsed = await page.evaluate(() => performance.now() - window.qaStarted);
-  const timing = await page.locator('.binding-time').textContent();
+  const timing = await page.locator('.grid-binding-time').textContent();
   assert.match(timing, /그리드 반영 시간 [\d.]+ ms/);
   assert.match(timing, /테스트 환경에 따라/);
   assert.ok((await generate.getAttribute('class')).includes('MuiButton-outlined'));
@@ -157,10 +157,10 @@ try {
   assert.ok(event.milliseconds > 0 && event.milliseconds < elapsed - 1000, JSON.stringify({ elapsed, event }));
   assert.equal(event.text.includes('generationMs'), false);
   await page.getByRole('tab', { name: '예제', exact: true }).click();
-  assert.match(await page.locator('.preview-status').textContent(), /100,000행/);
+  assert.match(await page.locator('.grid-status-bar').textContent(), /100,000행/);
   await shot('large-bound');
   await page.getByRole('button', { name: '초기화', exact: true }).click();
-  await page.locator('.binding-time').waitFor();
+  await page.locator('.grid-binding-time').waitFor();
   const reset = await datasetEvent();
   assert.equal(reset.count, 10000);
   assert.ok(reset.milliseconds > 0);
@@ -171,18 +171,18 @@ try {
   await page.getByRole('button', { name: '취소', exact: true }).click();
   await generate.waitFor();
   assert.equal(await generate.isDisabled(), false);
-  assert.equal(await page.locator('.binding-time').count(), 0);
-  assert.match(await page.locator('.preview-status').textContent(), /0행/);
+  assert.equal(await page.locator('.grid-binding-time').count(), 0);
+  assert.match(await page.locator('.grid-status-bar').textContent(), /0행/);
   await page.getByRole('button', { name: '초기화', exact: true }).click();
-  await page.locator('.binding-time').waitFor();
-  assert.match(await page.locator('.preview-status').textContent(), /10,000행/);
+  await page.locator('.grid-binding-time').waitFor();
+  assert.match(await page.locator('.grid-status-bar').textContent(), /10,000행/);
   pass('large-data measures initial load and reset, highlights unapplied counts, excludes deliberately slow generation, and clears timing on cancel', { initialBindingMs: initial.milliseconds, resetBindingMs: reset.milliseconds, count: event.count, bindingMs: event.milliseconds, elapsedMs: Math.round(elapsed), cancelled: true });
 
   await load('large-data');
   await choose('생성할 데이터 건수', 1000000);
   await generate.click();
-  await page.locator('.binding-time').waitFor({ timeout: 60000 });
-  assert.match(await page.locator('.preview-status').textContent(), /1,000,000행/);
+  await page.locator('.grid-binding-time').waitFor({ timeout: 60000 });
+  assert.match(await page.locator('.grid-status-bar').textContent(), /1,000,000행/);
   assert.ok(await page.locator('.OwpDataGrid-row[data-owp-data-grid-row-key]').count() < 100);
   const million = await datasetEvent();
   assert.equal(million.count, 1000000);
@@ -205,7 +205,7 @@ try {
     for (const id of ['getting-started', 'combined-span', 'formatting', 'excel', 'large-data', 'custom-style']) {
       await load(id);
       if (id === 'custom-style') { await choose('헤더 단계', 3); await preset('강조').click(); }
-      if (id === 'large-data') { await generate.click(); await page.locator('.binding-time').waitFor(); }
+      if (id === 'large-data') { await generate.click(); await page.locator('.grid-binding-time').waitFor(); }
       assert.equal(await noOverflow(), true, `${id}/${width}`);
       await shot(`${id}-${width}`);
     }

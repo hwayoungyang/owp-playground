@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import type { NativeOptions } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useNativeData } from '../model/useNativeData';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Range } from '../runtime/Controls';
-import { type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { data } = useNativeData('bar');
@@ -16,7 +17,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Range label="눈금 간격" value={value} min={10} max={50} step={10} onChange={setValue} />
       </Controls>
-      <SampleFrame type="bar" data={data} options={options} {...props} />
+      <ChartCanvas type="bar" data={data} options={options} {...props} />
     </>
   );
 }

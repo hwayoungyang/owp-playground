@@ -2,17 +2,17 @@ import { lazy, Suspense, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { PreviewThemeSettings } from '../../../features/theme-studio/model/preview';
 import { PreviewProvider } from '../../../features/theme-studio/PreviewProvider';
-import { SampleHeading } from '../../../shared/ui/SampleHeading';
+import { EventsPanel } from '../../../shared/ui/EventsPanel';
+import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
 import { type WorkspaceTab, WorkspaceTabs } from '../../../shared/ui/WorkspaceTabs';
-import { categories, type GridSample } from '../catalog';
+import { categories, type GridExample } from '../catalog';
 import { gridApiDocument } from '../model/apiData';
 import type { Task } from '../model/data';
-import { EventsPanel } from './EventsPanel';
 import { GridPreview } from './GridPreview';
-import { PreviewStatus } from './PreviewStatus';
-import { Settings, type SettingsValue } from './Settings';
-import { Toolbar } from './Toolbar';
-import { useDemo } from './useDemo';
+import { GridSettingsDrawer, type GridViewSettings } from './GridSettingsDrawer';
+import { GridStatusBar } from './GridStatusBar';
+import { GridToolbar } from './GridToolbar';
+import { useGridController } from './useGridController';
 
 const ApiDataViewer = lazy(() =>
   import('../../../features/code/ApiDataViewer').then((module) => ({
@@ -23,25 +23,26 @@ const CodeViewer = lazy(() =>
   import('../../../features/code/CodeViewer').then((module) => ({ default: module.CodeViewer })),
 );
 
-export function Workspace({
-  sample,
+export function GridWorkspace({
+  example,
   theme,
   onThemeChange,
   onThemeOpen,
 }: {
-  readonly sample: GridSample;
+  readonly example: GridExample;
   readonly theme: PreviewThemeSettings;
   readonly onThemeChange: (next: PreviewThemeSettings) => void;
   readonly onThemeOpen: () => void;
 }) {
   const { t } = useTranslation('app');
-  const prefix = `sample-${sample.id}`;
-  const demo = useDemo(sample);
-  const defaultSettings: SettingsValue = {
-    selection: demo.definition.rowSelectionMode ?? 'none',
-    filter: Boolean(demo.definition.layout?.filterRow),
+  const prefix = `example-${example.id}`;
+  const controller = useGridController(example);
+  const defaultSettings: GridViewSettings = {
+    selection: controller.configuration.rowSelectionMode ?? 'none',
+    filter: Boolean(controller.configuration.layout?.filterRow),
     compact: false,
-    radius: typeof demo.definition.radius === 'number' ? demo.definition.radius : 0,
+    radius:
+      typeof controller.configuration.radius === 'number' ? controller.configuration.radius : 0,
   };
   const [settings, setSettings] = useState(defaultSettings);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -50,26 +51,26 @@ export function Workspace({
   const apiDocument = useMemo(() => gridApiDocument(data, t), [data, t]);
   return (
     <section className="workspace" aria-label={t('예제 실행 영역')}>
-      <SampleHeading
-        sample={sample}
+      <WorkspaceHeading
+        example={example}
         packageTitle="OwpDataGrid"
-        categoryLabel={categories.find((entry) => entry.id === sample.category)?.label ?? ''}
+        categoryLabel={categories.find((entry) => entry.id === example.category)?.label ?? ''}
       />
       <WorkspaceTabs
         idPrefix={prefix}
         value={tab}
-        eventCount={demo.events.length}
+        eventCount={controller.events.length}
         onChange={(next) => {
           setTab(next);
           if (next === 'data') {
-            const rows = demo.gridRef.current?.getRows() ?? demo.rows;
+            const rows = controller.gridRef.current?.getRows() ?? controller.rows;
             setData(rows);
           } else {
             setData([]);
           }
         }}
       />
-      <div className="specimen-frame">
+      <div className="workspace-frame" data-rounded={Boolean(theme.radius ?? settings.radius)}>
         <div
           hidden={tab !== 'preview'}
           role="tabpanel"
@@ -77,25 +78,25 @@ export function Workspace({
           aria-labelledby={`${prefix}-tab-preview`}
           aria-label={t('실행 예제')}
         >
-          <Toolbar
-            sample={sample}
-            demo={demo}
+          <GridToolbar
+            example={example}
+            controller={controller}
             onSettings={() => setSettingsOpen(true)}
             onReset={() => {
-              demo.reset();
+              controller.reset();
               setSettings(defaultSettings);
             }}
           />
           <PreviewProvider value={theme}>
             <GridPreview
-              key={demo.gridVersion}
-              sample={sample}
-              demo={demo}
+              key={controller.gridVersion}
+              example={example}
+              controller={controller}
               settings={settings}
               themeRadius={theme.radius}
             />
           </PreviewProvider>
-          <PreviewStatus demo={demo} />
+          <GridStatusBar controller={controller} />
         </div>
         {tab === 'code' && (
           <div
@@ -107,7 +108,7 @@ export function Workspace({
             <Suspense
               fallback={<div className="workspace-loading">{t('소스를 불러오는 중…')}</div>}
             >
-              <CodeViewer sample={sample} />
+              <CodeViewer example={example} />
             </Suspense>
           </div>
         )}
@@ -121,7 +122,7 @@ export function Workspace({
             <Suspense
               fallback={<div className="workspace-loading">{t('데이터를 준비하는 중…')}</div>}
             >
-              <ApiDataViewer sample={sample} document={apiDocument} />
+              <ApiDataViewer example={example} document={apiDocument} />
             </Suspense>
           </div>
         )}
@@ -131,32 +132,32 @@ export function Workspace({
             id={`${prefix}-panel-events`}
             aria-labelledby={`${prefix}-tab-events`}
             aria-label={t('이벤트')}
-            className="events-panel"
           >
             <EventsPanel
-              events={demo.events}
-              onClear={() => demo.setEvents([])}
+              events={controller.events}
+              limit={40}
+              onClear={() => controller.setEvents([])}
               onPreview={() => setTab('preview')}
             />
           </div>
         )}
       </div>
-      <div className="sample-footnote">
+      <div className="workspace-api-reference">
         <span>{t('Props · API')}</span>
         <div>
-          {sample.api.map((api) => (
+          {example.api.map((api) => (
             <code key={api}>{api}</code>
           ))}
         </div>
       </div>
-      {sample.id === 'row-span' && (
-        <p className="behavior-note">
+      {example.id === 'row-span' && (
+        <p className="grid-behavior-note">
           {t(
             '1~4번째, 5~8번째처럼 지정한 행 수만큼 병합합니다. 자동 행 병합은 같은 값이 연속된 셀만 묶습니다.',
           )}
         </p>
       )}
-      <Settings
+      <GridSettingsDrawer
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}
         value={{ ...settings, radius: theme.radius ?? settings.radius }}
@@ -167,7 +168,7 @@ export function Workspace({
           onThemeOpen();
         }}
         onChange={(next) => {
-          if (next.selection !== settings.selection) demo.onSelection([]);
+          if (next.selection !== settings.selection) controller.onSelection([]);
           if (next.radius !== (theme.radius ?? settings.radius))
             onThemeChange({ ...theme, radius: next.radius });
           setSettings({ ...next, radius: settings.radius });

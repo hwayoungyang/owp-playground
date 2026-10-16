@@ -1,14 +1,15 @@
 import { useState } from 'react';
+import type { NativeData, NativeOptions } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useNativeData } from '../model/useNativeData';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Choice, Controls } from '../runtime/Controls';
-import { type NativeData, type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { data } = useNativeData('line');
   const [mode, setMode] = useState<'linear' | 'cubic' | 'monotone'>('linear');
 
-  const sample: NativeData = {
+  const chartData: NativeData = {
     ...data,
     datasets: data.datasets.map((dataset) => ({
       ...dataset,
@@ -27,7 +28,7 @@ export function ChartExample(props: ChartExampleProps) {
           onChange={setMode}
         />
       </Controls>
-      <SampleFrame type="line" data={sample} options={options} {...props} />
+      <ChartCanvas type="line" data={chartData} options={options} {...props} />
     </>
   );
 }

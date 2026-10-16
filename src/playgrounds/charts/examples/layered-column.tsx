@@ -1,10 +1,11 @@
 import { alpha } from '@mui/material/styles';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useState } from 'react';
+import type { NativeData } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useChartPalette } from '../model/useCartesian';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Toggle } from '../runtime/Controls';
-import { type NativeData, SampleFrame } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { t } = useOwpTranslation();
@@ -42,7 +43,7 @@ export function ChartExample(props: ChartExampleProps) {
         <Toggle label="Column 겹치기" value={layered} onChange={setLayered} />
         <Toggle label="값 표시" value={labels} onChange={setLabels} />
       </Controls>
-      <SampleFrame
+      <ChartCanvas
         type="bar"
         data={data}
         options={{

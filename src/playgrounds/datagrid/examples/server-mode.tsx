@@ -8,8 +8,8 @@ import { useEffect, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, owners, statuses } from '../model/data';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 import { queryTasks } from '../model/server';
-import type { Definition, ExampleProps } from '../model/types';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -83,7 +83,7 @@ const editableColumns = baseColumns.map((column) => ({
     : {}),
 }));
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: editableColumns.map((column) => ({ ...column, editable: false })),
   getRowId,
@@ -93,7 +93,7 @@ export const exampleDefinition: Definition = {
   filteringMode: 'manual',
   layout: { filterRow: true },
 };
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function ServerQueryGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [rows, setRows] = useState<readonly Task[]>(initialTasks);
   const [sort, setSort] = useState<readonly OwpDataGridSortItem[]>([]);
@@ -135,7 +135,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       getRowId={getRowId}
       height={420}
       rowSelectionMode="multiple"
-      columns={exampleDefinition.columns}
+      columns={gridConfiguration.columns}
       sortingMode="manual"
       filteringMode="manual"
       layout={{ filterRow: true }}

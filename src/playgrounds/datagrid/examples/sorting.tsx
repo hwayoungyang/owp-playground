@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -66,7 +66,7 @@ const baseColumns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: baseColumns,
   getRowId,
@@ -80,10 +80,10 @@ export const exampleDefinition: Definition = {
   maxSortColumns: 3,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function MultiSortGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [model, setModel] = useState<readonly OwpDataGridSortItem[]>(
-    exampleDefinition.defaultSortModel ?? [],
+    gridConfiguration.defaultSortModel ?? [],
   );
   return (
     <OwpDataGrid
@@ -93,7 +93,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       getRowId={getRowId}
       rowSelectionMode="multiple"
       height={420}
-      defaultSortModel={exampleDefinition.defaultSortModel}
+      defaultSortModel={gridConfiguration.defaultSortModel}
       sortInteraction="priority"
       maxSortColumns={3}
       multiSort={true}

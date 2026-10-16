@@ -28,7 +28,7 @@ const noOverflow = () => page.evaluate(() => document.documentElement.scrollWidt
 async function settings() { await page.getByRole('button', { name: '설정 열기', exact: true }).click(); }
 async function closeSettings() {
   await page.getByRole('button', { name: '설정 닫기', exact: true }).click();
-  await page.locator('.settings-panel').waitFor({ state: 'hidden' });
+  await page.locator('.grid-settings-panel').waitFor({ state: 'hidden' });
 }
 async function panels(selector = '.grid-preview') {
   return page.locator(selector).evaluate(host => {
@@ -119,7 +119,7 @@ try {
   assert.notEqual(light.icon, light.panel);
   await shot('panel-after-light');
   await page.getByRole('button', { name: '다크 모드로 전환' }).click();
-  await page.waitForFunction(() => document.querySelector('.sample-theme').dataset.previewMode === 'dark');
+  await page.waitForFunction(() => document.querySelector('.preview-theme').dataset.previewMode === 'dark');
   const dark = await panels();
   assert.equal(dark.drag, dark.panel);
   assert.equal(dark.filter, dark.panel);

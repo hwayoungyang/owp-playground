@@ -2,7 +2,7 @@ import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const baseColumns = [
   { id: 'project', field: 'project', header: '프로젝트', minWidth: 150, relWidth: 1.2 },
@@ -46,7 +46,7 @@ const columns: readonly OwpDataGridColumn<Task>[] = baseColumns.map((column) => 
         : undefined,
 }));
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns,
   getRowId,
@@ -54,12 +54,12 @@ export const exampleDefinition: Definition = {
   height: 420,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function RowBackgroundGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
       ref={gridRef}
-      rows={exampleDefinition.rows}
+      rows={gridConfiguration.rows}
       columns={columns}
       getRowId={getRowId}
       rowSelectionMode="multiple"

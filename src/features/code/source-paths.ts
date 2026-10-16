@@ -1,24 +1,39 @@
-import type { SampleInfo } from '../../shared/types/playground.ts';
+import type { ExampleMetadata } from '../../shared/types/playground.ts';
 
-export function sampleSourcePath(sample: Pick<SampleInfo, 'package' | 'source'>): string {
-  return `playgrounds/${sample.package.replace(/^@owp\//, '')}/${sample.source}`;
+export function exampleSourcePath(example: Pick<ExampleMetadata, 'package' | 'source'>): string {
+  return `playgrounds/${example.package.replace(/^@owp\//, '')}/${example.source}`;
 }
 
 // Preserve published source URLs when physical ownership changes.
 export const legacySourcePaths: Readonly<Record<string, string>> = {
+  'playgrounds/datagrid/guides/GettingStarted.tsx':
+    'playgrounds/datagrid/guides/GridGettingStarted.tsx',
+  'playgrounds/datagrid/model/definitions.ts': 'playgrounds/datagrid/model/gridConfiguration.ts',
+  'playgrounds/datagrid/model/components.ts': 'playgrounds/datagrid/model/gridRegistry.ts',
+  'playgrounds/datagrid/model/types.ts': 'playgrounds/datagrid/model/gridTypes.ts',
+  'playgrounds/datagrid/runtime/PreviewStatus.tsx':
+    'playgrounds/datagrid/runtime/GridStatusBar.tsx',
+  'playgrounds/datagrid/runtime/Settings.tsx':
+    'playgrounds/datagrid/runtime/GridSettingsDrawer.tsx',
+  'playgrounds/datagrid/runtime/Toolbar.tsx': 'playgrounds/datagrid/runtime/GridToolbar.tsx',
+  'playgrounds/datagrid/runtime/Workspace.tsx': 'playgrounds/datagrid/runtime/GridWorkspace.tsx',
+  'playgrounds/datagrid/runtime/useDemo.ts': 'playgrounds/datagrid/runtime/useGridController.ts',
+  'shared/ui/SampleHeading.tsx': 'shared/ui/WorkspaceHeading.tsx',
+  'playgrounds/charts/runtime/SampleFrame.tsx': 'playgrounds/charts/runtime/ChartCanvas.tsx',
   'app/Header.tsx': 'app/layout/Header.tsx',
   'app/Sidebar.tsx': 'app/layout/Sidebar.tsx',
   'app/PackageNotice.tsx': 'app/layout/PackageNotice.tsx',
-  'app/Workspace.tsx': 'playgrounds/datagrid/runtime/Workspace.tsx',
+  'app/Workspace.tsx': 'playgrounds/datagrid/runtime/GridWorkspace.tsx',
   'app/GridPreview.tsx': 'playgrounds/datagrid/runtime/GridPreview.tsx',
-  'app/Toolbar.tsx': 'playgrounds/datagrid/runtime/Toolbar.tsx',
-  'app/Settings.tsx': 'playgrounds/datagrid/runtime/Settings.tsx',
-  'app/PreviewStatus.tsx': 'playgrounds/datagrid/runtime/PreviewStatus.tsx',
-  'app/EventsPanel.tsx': 'playgrounds/datagrid/runtime/EventsPanel.tsx',
-  'app/useDemo.ts': 'playgrounds/datagrid/runtime/useDemo.ts',
+  'app/Toolbar.tsx': 'playgrounds/datagrid/runtime/GridToolbar.tsx',
+  'app/Settings.tsx': 'playgrounds/datagrid/runtime/GridSettingsDrawer.tsx',
+  'app/PreviewStatus.tsx': 'playgrounds/datagrid/runtime/GridStatusBar.tsx',
+  'app/EventsPanel.tsx': 'shared/ui/EventsPanel.tsx',
+  'playgrounds/datagrid/runtime/EventsPanel.tsx': 'shared/ui/EventsPanel.tsx',
+  'app/useDemo.ts': 'playgrounds/datagrid/runtime/useGridController.ts',
   'app/useGridAccessibility.ts': 'playgrounds/datagrid/runtime/useGridAccessibility.ts',
-  'app/GettingStarted.tsx': 'playgrounds/datagrid/guides/GettingStarted.tsx',
-  'app/SampleHeading.tsx': 'shared/ui/SampleHeading.tsx',
+  'app/GettingStarted.tsx': 'playgrounds/datagrid/guides/GridGettingStarted.tsx',
+  'app/SampleHeading.tsx': 'shared/ui/WorkspaceHeading.tsx',
   'app/CodeViewer.tsx': 'features/code/CodeViewer.tsx',
   'app/CodeSnippet.tsx': 'features/code/CodeSnippet.tsx',
   'app/HighlightedCode.tsx': 'features/code/HighlightedCode.tsx',
@@ -43,12 +58,12 @@ export const legacySourcePaths: Readonly<Record<string, string>> = {
   'styles/shell.css': 'app/styles/shell.css',
   'styles/workspace.css': 'app/styles/workspace.css',
   'styles/code.css': 'features/code/styles.css',
-  'samples/components.ts': 'playgrounds/datagrid/model/components.ts',
+  'samples/components.ts': 'playgrounds/datagrid/model/gridRegistry.ts',
   'samples/data.ts': 'playgrounds/datagrid/model/data.ts',
-  'samples/definitions.ts': 'playgrounds/datagrid/model/definitions.ts',
+  'samples/definitions.ts': 'playgrounds/datagrid/model/gridConfiguration.ts',
   'samples/localize.ts': 'playgrounds/datagrid/model/localize.ts',
   'samples/server.ts': 'playgrounds/datagrid/model/server.ts',
-  'samples/types.ts': 'playgrounds/datagrid/model/types.ts',
+  'samples/types.ts': 'playgrounds/datagrid/model/gridTypes.ts',
   'samples/worksheet-data.ts': 'playgrounds/datagrid/model/worksheet-data.ts',
   'samples/guides/getting-started.tsx': 'playgrounds/datagrid/guides/getting-started.tsx',
   'samples/examples/auto-span.tsx': 'playgrounds/datagrid/examples/auto-span.tsx',

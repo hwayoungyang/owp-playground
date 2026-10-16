@@ -32,11 +32,11 @@ function noHistory() { return page.locator('.change-history, .change-list').coun
 try {
   await page.goto(`${origin}/?sample=getting-started`);
   await page.locator('.getting-started').waitFor();
-  assert.equal(await page.locator('.sample-heading p').count(), 0);
+  assert.equal(await page.locator('.workspace-heading p').count(), 0);
   assert.equal(await page.locator('.guide-code').count(), 3);
   await shot('guide-ko');
   await page.getByRole('button', { name: '영어로 전환', exact: true }).click();
-  assert.equal(await page.locator('.sample-heading p').count(), 0);
+  assert.equal(await page.locator('.workspace-heading p').count(), 0);
   await shot('guide-en');
   await page.getByRole('button', { name: 'Switch to Korean', exact: true }).click();
   pass('guide has a title without a subtitle and retains setup, dependencies and usage', { subtitle: false, codeBlocks: 3 });
@@ -73,7 +73,7 @@ try {
   assert.equal((await data())[0].cost, 1234.567);
   await preview();
   assert.equal(await noHistory(), 0);
-  assert.match(await page.locator('.preview-status').textContent(), /변경 1/);
+  assert.match(await page.locator('.grid-status-bar').textContent(), /변경 1/);
   await cell('task-1', 6).click();
   await page.keyboard.press('Enter');
   assert.equal(await row('task-1').locator('input:not([type=checkbox])').inputValue(), '09:30:00');
@@ -117,7 +117,7 @@ try {
   await shot('custom-three-en');
   await page.getByRole('button', { name: 'Switch to Korean', exact: true }).click();
   await page.getByRole('button', { name: '다크 모드로 전환' }).click();
-  await page.waitForFunction(() => document.querySelector('.sample-theme').dataset.previewMode === 'dark');
+  await page.waitForFunction(() => document.querySelector('.preview-theme').dataset.previewMode === 'dark');
   await page.waitForFunction(() => getComputedStyle(document.querySelector('.package-selector')).color === 'rgb(237, 237, 237)');
   await settle();
   axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
@@ -147,19 +147,19 @@ try {
   await edit('task-1', 1, '확정된 작업');
   await page.locator('.example-controls').getByRole('button', { name: '변경 확정', exact: true }).click();
   assert.equal((await cell('task-1', 1).textContent()).trim(), '확정된 작업');
-  assert.match(await page.locator('.preview-status').textContent(), /변경 0/);
+  assert.match(await page.locator('.grid-status-bar').textContent(), /변경 0/);
   pass('removing the shared history leaves native change approval and rollback functional', { approved: true, rolledBack: true, historyPanel: false });
 
   const catalog = await (await page.request.get(`${origin}/catalog.json`)).json();
-  const gridSamples = catalog.samples.filter(sample => sample.kind === 'grid');
-  for (const sample of gridSamples) {
+  const gridExamples = catalog.samples.filter(sample => sample.kind === 'grid');
+  for (const sample of gridExamples) {
     await load(sample.id);
     await settle();
     assert.equal(await noHistory(), 0, sample.id);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, sample.id);
     await shot(`desktop-${sample.id}`);
   }
-  pass('all grid routes load without the shared history or page overflow', { routes: gridSamples.length, width: 1280 });
+  pass('all grid routes load without the shared history or page overflow', { routes: gridExamples.length, width: 1280 });
   for (const width of [768, 375]) {
     await page.setViewportSize({ width, height: 1000 });
     for (const id of ['getting-started', 'overview', 'formatting', 'custom-style']) {

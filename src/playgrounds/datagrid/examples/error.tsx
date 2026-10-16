@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -66,7 +66,7 @@ const baseColumns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: [],
   columns: baseColumns,
   getRowId,
@@ -75,7 +75,7 @@ export const exampleDefinition: Definition = {
   errorOverlay: { message: '작업 목록을 불러오지 못했습니다.' },
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function RetryStateGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [rows, setRows] = useState<readonly Task[]>([]);
   const [failed, setFailed] = useState(true);

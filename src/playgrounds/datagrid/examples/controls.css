@@ -1,0 +1,107 @@
+.grid-preview .example-with-controls {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+.grid-preview .example-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  flex: 0 0 auto;
+  font-size: 12px;
+  color: var(--pg-secondary);
+}
+.grid-preview fieldset.example-controls {
+  margin: 0;
+  border: 0;
+  min-width: 0;
+}
+.grid-preview .example-option-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px 8px;
+  padding: 12px;
+  width: min(100%, 360px);
+  box-sizing: border-box;
+  flex: 0 0 auto;
+}
+.grid-preview .example-option-row {
+  display: grid;
+  grid-template-columns: 5.5rem repeat(2, minmax(0, 1fr));
+  padding: 0;
+  min-width: 0;
+}
+.grid-preview .example-option-row > span {
+  min-width: 0;
+}
+.grid-preview .example-with-controls > .example-caption:first-child {
+  padding-top: 12px;
+}
+.grid-preview .example-controls .MuiButton-root {
+  height: 30px;
+  padding-inline: 9px;
+  white-space: nowrap;
+}
+.grid-preview .example-controls .MuiInputBase-root {
+  height: 30px;
+}
+.grid-preview .example-controls .MuiSelect-select {
+  padding-block: 0;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+}
+.grid-preview .example-result {
+  display: block;
+  flex: 0 0 auto;
+  max-height: 84px;
+  overflow: auto;
+  margin: 0;
+  padding: 8px 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 11px / 1.5 var(--font-mono);
+  color: var(--pg-secondary);
+}
+.grid-preview .example-grid {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+.grid-preview .example-caption {
+  margin: 0;
+  padding: 0 12px 10px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--pg-secondary);
+  flex: 0 0 auto;
+}
+.grid-preview .custom-style-size {
+  display: flex;
+  align-items: center;
+  width: min(280px, 100%);
+}
+.grid-preview .custom-style-size > span {
+  flex-shrink: 0;
+}
+.grid-preview .custom-style-size .MuiSlider-root {
+  width: auto;
+  flex: 1;
+  margin-inline: 8px;
+}
+.grid-preview .worksheet-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.grid-preview .worksheet-legend-swatch {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--pg-line);
+  border-radius: 2px;
+}

@@ -1,14 +1,15 @@
 import { useState } from 'react';
+import type { NativeData, NativeOptions } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useNativeData } from '../model/useNativeData';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Range } from '../runtime/Controls';
-import { type NativeData, type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { data } = useNativeData('bar');
   const [value, setValue] = useState(10);
 
-  const sample: NativeData = {
+  const chartData: NativeData = {
     ...data,
     datasets: [
       {
@@ -30,7 +31,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Range label="구간 이동" value={value} min={-20} max={20} step={1} onChange={setValue} />
       </Controls>
-      <SampleFrame type="bar" data={sample} options={options} {...props} />
+      <ChartCanvas type="bar" data={chartData} options={options} {...props} />
     </>
   );
 }

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -67,7 +67,7 @@ const baseColumns = [
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: baseColumns,
   getRowId,
@@ -76,7 +76,7 @@ export const exampleDefinition: Definition = {
   radius: 0.25,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function RadiusGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, onRadiusChange, ...gridProps } = props;
   const [radius, setRadius] = useState(0.25);
   useEffect(() => {
@@ -107,7 +107,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       <div className="example-grid" style={{ padding: 12 }}>
         <OwpDataGrid
           ref={gridRef}
-          rows={exampleDefinition.rows}
+          rows={gridConfiguration.rows}
           columns={baseColumns}
           getRowId={getRowId}
           rowSelectionMode="multiple"

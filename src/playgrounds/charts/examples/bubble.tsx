@@ -1,10 +1,10 @@
 import { useState } from 'react';
-
+import type { NativeData, NativeOptions } from '../model/chartTypes';
 import { factoryNoise } from '../model/factoryData';
 import type { ChartExampleProps } from '../model/types';
 import { useNativeData } from '../model/useNativeData';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Range } from '../runtime/Controls';
-import { type NativeData, type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 
 export function ChartExample(props: ChartExampleProps) {
   const { data } = useNativeData('line');
@@ -42,7 +42,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Range label="크기 배율" value={scale} min={0.5} max={2} step={0.25} onChange={setScale} />
       </Controls>
-      <SampleFrame type="line" data={chartData} options={options} {...props} />
+      <ChartCanvas type="line" data={chartData} options={options} {...props} />
     </>
   );
 }

@@ -2,10 +2,10 @@ import { Button, MenuItem, Select } from '@mui/material';
 import { CheckIcon, CopyIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { SampleInfo } from '../../shared/types/playground';
+import type { ExampleMetadata } from '../../shared/types/playground';
 import { HighlightedCode } from './HighlightedCode';
 import { highlightSource } from './highlight';
-import { sampleSourcePath } from './source-paths';
+import { exampleSourcePath } from './source-paths';
 
 const allSources = import.meta.glob<string>('/src/**/*.{ts,tsx,css}', {
   query: '?raw',
@@ -13,18 +13,18 @@ const allSources = import.meta.glob<string>('/src/**/*.{ts,tsx,css}', {
 });
 
 export function CodeViewer({
-  sample,
+  example,
   data,
   dataFormat = 'json',
   dataDescription,
 }: {
-  readonly sample: SampleInfo;
+  readonly example: ExampleMetadata;
   readonly data?: string;
   readonly dataFormat?: 'json' | 'jsonc';
   readonly dataDescription?: string;
 }) {
   const { t } = useTranslation('app');
-  const initialFile = `/src/${sampleSourcePath(sample)}`;
+  const initialFile = `/src/${exampleSourcePath(example)}`;
   const [file, setFile] = useState(initialFile);
   const [source, setSource] = useState<{ readonly file: string; readonly content: string } | null>(
     null,
@@ -75,7 +75,9 @@ export function CodeViewer({
     const anchor = document.createElement('a');
     anchor.href = url;
     anchor.download =
-      data !== undefined ? `${sample.id}.${dataFormat}` : (file.split('/').at(-1) ?? 'sample.tsx');
+      data !== undefined
+        ? `${example.id}.${dataFormat}`
+        : (file.split('/').at(-1) ?? 'example.tsx');
     anchor.click();
     URL.revokeObjectURL(url);
   };
@@ -86,7 +88,7 @@ export function CodeViewer({
         (path) =>
           path !== initialFile &&
           (!path.startsWith('/src/playgrounds/') ||
-            path.startsWith(`/src/playgrounds/${sample.package.replace(/^@owp\//, '')}/`)),
+            path.startsWith(`/src/playgrounds/${example.package.replace(/^@owp\//, '')}/`)),
       )
       .sort(),
   ];

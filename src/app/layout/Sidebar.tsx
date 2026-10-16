@@ -7,26 +7,26 @@ import {
 import { type RefObject, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { PlaygroundPackage } from '../../playgrounds/registry';
-import type { SampleCategory, SampleInfo } from '../../shared/types/playground';
+import type { ExampleMetadata, NavigationCategory } from '../../shared/types/playground';
 
 export function Sidebar({
-  sample,
+  example,
   onNavigate,
   searchRef,
   playground,
-  samples,
+  examples,
   categories,
   exampleCount,
-  getSampleUrl,
+  getExampleUrl,
 }: {
-  readonly sample: SampleInfo;
+  readonly example: ExampleMetadata;
   readonly onNavigate: (id: string) => void;
   readonly searchRef: RefObject<HTMLInputElement | null>;
   readonly playground: PlaygroundPackage;
-  readonly samples: readonly SampleInfo[];
-  readonly categories: readonly SampleCategory[];
+  readonly examples: readonly ExampleMetadata[];
+  readonly categories: readonly NavigationCategory[];
   readonly exampleCount: number;
-  readonly getSampleUrl: (id: string) => string;
+  readonly getExampleUrl: (id: string) => string;
 }) {
   const { t } = useTranslation('app');
   const [query, setQuery] = useState('');
@@ -34,12 +34,12 @@ export function Sidebar({
   const listRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     setCollapsed((previous) => {
-      if (!previous.has(sample.category)) return previous;
+      if (!previous.has(example.category)) return previous;
       const next = new Set(previous);
-      next.delete(sample.category);
+      next.delete(example.category);
       return next;
     });
-  }, [sample]);
+  }, [example]);
   useLayoutEffect(() => {
     const list = listRef.current;
     if (!list) return;
@@ -47,7 +47,7 @@ export function Sidebar({
       const active = list.querySelector<HTMLAnchorElement>('[aria-current="page"]');
       if (
         !active ||
-        new URL(active.href).searchParams.get('sample') !== sample.id ||
+        new URL(active.href).searchParams.get('sample') !== example.id ||
         list.clientHeight === 0
       )
         return;
@@ -74,8 +74,8 @@ export function Sidebar({
       mutations.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [sample.id]);
-  const filtered = samples.filter((entry) =>
+  }, [example.id]);
+  const filtered = examples.filter((entry) =>
     `${t(entry.title)} ${t(entry.description)} ${entry.title} ${entry.api.join(' ')}`
       .toLocaleLowerCase()
       .includes(query.toLocaleLowerCase()),
@@ -87,7 +87,7 @@ export function Sidebar({
         <span>{playground.title}</span>
         <span className="version">{playground.version}</span>
       </div>
-      <label className="sample-search">
+      <label className="navigation-search">
         <MagnifyingGlassIcon size={16} />
         <input
           ref={searchRef}
@@ -125,9 +125,9 @@ export function Sidebar({
                 entries.map((entry) => (
                   <a
                     key={entry.id}
-                    href={getSampleUrl(entry.id)}
-                    aria-current={sample.id === entry.id ? 'page' : undefined}
-                    className={`nav-item ${sample.id === entry.id ? 'active' : ''}`}
+                    href={getExampleUrl(entry.id)}
+                    aria-current={example.id === entry.id ? 'page' : undefined}
+                    className={`nav-item ${example.id === entry.id ? 'active' : ''}`}
                     onClick={(event) => {
                       if (
                         event.button !== 0 ||
@@ -142,7 +142,7 @@ export function Sidebar({
                     }}
                   >
                     <span>{t(entry.title)}</span>
-                    {sample.id === entry.id && <CheckIcon size={13} />}
+                    {example.id === entry.id && <CheckIcon size={13} />}
                   </a>
                 ))}
             </section>

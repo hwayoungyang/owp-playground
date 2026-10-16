@@ -1,7 +1,7 @@
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import i18next, { type TFunction } from 'i18next';
 import type { Task } from './data';
-import type { Definition } from './types';
+import type { GridConfiguration } from './gridTypes';
 
 function translateColumns(
   columns: readonly OwpDataGridColumn<Task>[],
@@ -20,9 +20,9 @@ function translateColumns(
 }
 
 function translateSummary(
-  rows: Definition['summaryRows'],
+  rows: GridConfiguration['summaryRows'],
   t: TFunction,
-): Definition['summaryRows'] {
+): GridConfiguration['summaryRows'] {
   return rows?.map((row) => ({
     ...row,
     cells: row.cells.map((cell) => ({
@@ -32,24 +32,27 @@ function translateSummary(
   }));
 }
 
-export function translateDefinition(definition: Definition, language: string): Definition {
+export function translateGridConfiguration(
+  configuration: GridConfiguration,
+  language: string,
+): GridConfiguration {
   const t = i18next.getFixedT(language, 'app');
-  const detail = definition.detailPanel;
+  const detail = configuration.detailPanel;
   return {
-    ...definition,
-    columns: translateColumns(definition.columns, t, language),
-    headerRows: definition.headerRows?.map((row) =>
+    ...configuration,
+    columns: translateColumns(configuration.columns, t, language),
+    headerRows: configuration.headerRows?.map((row) =>
       row.map((cell) => ({
         ...cell,
         header: typeof cell.header === 'string' ? t(cell.header) : cell.header,
       })),
     ),
-    summaryRows: translateSummary(definition.summaryRows, t),
+    summaryRows: translateSummary(configuration.summaryRows, t),
     noDataMessage:
-      typeof definition.noDataMessage === 'string'
-        ? t(definition.noDataMessage)
-        : definition.noDataMessage,
-    pinnedBottomRows: definition.pinnedBottomRows?.map((row) => ({
+      typeof configuration.noDataMessage === 'string'
+        ? t(configuration.noDataMessage)
+        : configuration.noDataMessage,
+    pinnedBottomRows: configuration.pinnedBottomRows?.map((row) => ({
       ...row,
       project: t(row.project),
       task: t(row.task),

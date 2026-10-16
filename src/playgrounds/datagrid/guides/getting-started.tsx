@@ -13,7 +13,7 @@ const columns: OwpDataGridColumn<ApiRow>[] = [
   { id: 'task', field: 'OWP_DATA.DATA2', header: '작업', relWidth: 1, minWidth: 180 },
 ];
 
-export function GettingStartedExample() {
+export function GettingStartedGrid() {
   return (
     <OwpDataGrid
       columns={columns}

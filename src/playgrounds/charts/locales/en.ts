@@ -20,6 +20,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '0–100점의 가상 점수이며, 높을수록 우수합니다.':
     'Simulated scores from 0 to 100. Higher is better.',
   '기본 차트 (Basic charts)': 'Basic charts',
+  '확장 차트 (Extended charts)': 'Extended charts',
   '축 (Axis)': 'Axis',
   '범례 (Legend)': 'Legend',
   '툴팁 (Tooltip)': 'Tooltip',
@@ -315,8 +316,6 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '가상 데이터': 'Sample data',
   '차트 데이터 표': 'Chart data table',
   'JSON 보기': 'View JSON',
-  '이벤트 지우기': 'Clear events',
-  '아직 기록된 이벤트가 없습니다.': 'No events yet.',
   정상: 'Ready',
   로딩: 'Loading',
   오류: 'Error',

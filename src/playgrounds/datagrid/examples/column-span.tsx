@@ -3,7 +3,7 @@ import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const bannerRows = initialTasks.map((row, index) => ({
   ...row,
@@ -73,9 +73,9 @@ const baseColumns = [
 const bannerColumns = [
   { id: 'note', field: 'note', header: '요약', minWidth: 260, relWidth: 2 },
   ...baseColumns.slice(1),
-] satisfies Definition['columns'];
+] satisfies GridConfiguration['columns'];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: bannerRows,
   columns: bannerColumns,
   getRowId,
@@ -84,17 +84,17 @@ export const exampleDefinition: Definition = {
   getCellSpan: ({ row, column }) => (row.note && column.id === 'note' ? { colSpan: 3 } : undefined),
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function ColumnSpanGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
       ref={gridRef}
-      rows={exampleDefinition.rows}
-      columns={exampleDefinition.columns}
-      getRowId={exampleDefinition.getRowId}
-      rowSelectionMode={exampleDefinition.rowSelectionMode}
-      height={exampleDefinition.height}
-      getCellSpan={exampleDefinition.getCellSpan}
+      rows={gridConfiguration.rows}
+      columns={gridConfiguration.columns}
+      getRowId={gridConfiguration.getRowId}
+      rowSelectionMode={gridConfiguration.rowSelectionMode}
+      height={gridConfiguration.height}
+      getCellSpan={gridConfiguration.getCellSpan}
       {...gridProps}
     />
   );

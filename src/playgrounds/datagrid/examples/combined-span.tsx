@@ -7,7 +7,7 @@ import type {
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const bannerRows = initialTasks.map((row, index) => ({
   ...row,
@@ -87,7 +87,7 @@ const groupedHeaders: readonly OwpDataGridHeaderRow[] = [
   baseColumns.slice(1).map((column) => ({ columnId: column.id })),
 ];
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: bannerRows,
   columns: baseColumns,
   getRowId,
@@ -98,19 +98,19 @@ export const exampleDefinition: Definition = {
   headerRows: groupedHeaders,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function CombinedSpanGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
       ref={gridRef}
-      rows={exampleDefinition.rows}
-      columns={exampleDefinition.columns}
-      getRowId={exampleDefinition.getRowId}
-      rowSelectionMode={exampleDefinition.rowSelectionMode}
-      height={exampleDefinition.height}
-      getCellRowSpanKey={exampleDefinition.getCellRowSpanKey}
-      getCellSpan={exampleDefinition.getCellSpan}
-      headerRows={exampleDefinition.headerRows}
+      rows={gridConfiguration.rows}
+      columns={gridConfiguration.columns}
+      getRowId={gridConfiguration.getRowId}
+      rowSelectionMode={gridConfiguration.rowSelectionMode}
+      height={gridConfiguration.height}
+      getCellRowSpanKey={gridConfiguration.getCellRowSpanKey}
+      getCellSpan={gridConfiguration.getCellSpan}
+      headerRows={gridConfiguration.headerRows}
       {...gridProps}
     />
   );

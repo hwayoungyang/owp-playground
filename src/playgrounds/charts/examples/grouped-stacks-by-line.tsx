@@ -2,10 +2,11 @@ import { alpha } from '@mui/material/styles';
 import { createGroupedAxisLabelsPlugin } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
+import type { NativeData, NativeOptions } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useChartPalette } from '../model/useCartesian';
+import { ChartCanvas } from '../runtime/ChartCanvas';
 import { Controls, Toggle } from '../runtime/Controls';
-import { type NativeData, type NativeOptions, SampleFrame } from '../runtime/SampleFrame';
 
 const outputs = [
   [
@@ -120,7 +121,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Toggle label="값 표시" value={values} onChange={setValues} />
       </Controls>
-      <SampleFrame
+      <ChartCanvas
         type="bar"
         data={data}
         options={options}

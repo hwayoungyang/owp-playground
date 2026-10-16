@@ -42,7 +42,7 @@ try {
   const copied = page.getByRole('alert').filter({ hasText: '링크를 복사했습니다.' });
   await copied.waitFor();
   const snackbar = await topCenter(copied);
-  assert.equal(await page.locator('.sample-heading').getByText('링크를 복사했습니다.').count(), 0);
+  assert.equal(await page.locator('.workspace-heading').getByText('링크를 복사했습니다.').count(), 0);
   assert.equal(await page.evaluate(() => navigator.clipboard.readText()), page.url());
   await shot('copy-top-center');
   pass('OWP favicon and top-centered link snackbar', { favicon, snackbar });

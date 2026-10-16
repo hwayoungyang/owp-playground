@@ -7,7 +7,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { getRowId, initialTasks, owners, type Task } from '../model/data';
-import type { Definition, ExampleProps } from '../model/types';
+import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const headerDepthSchema = z.coerce.number().pipe(z.union([z.literal(2), z.literal(3)]));
 
@@ -67,7 +67,7 @@ const stateSx = (theme: Theme) => ({
   '& .OwpDataGrid-cell:focus-within .OwpDataGrid-cellContent': { fontWeight: 600 },
 });
 
-export const exampleDefinition: Definition = {
+export const gridConfiguration: GridConfiguration = {
   rows: initialTasks.map((row, index) => ({
     ...row,
     note:
@@ -82,7 +82,7 @@ export const exampleDefinition: Definition = {
   height: 420,
 };
 
-export function OwpDataGridExample(props: ExampleProps = {}) {
+export function StyledHeadersGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const { t } = useTranslation('app');
   const [preset, setPreset] = useState<'default' | 'striped' | 'emphasis'>('striped');
@@ -138,7 +138,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
   );
   const completedRowsSx: Record<string, { bgcolor: string; fontWeight: number }> =
     Object.fromEntries(
-      (gridProps.rows ?? exampleDefinition.rows)
+      (gridProps.rows ?? gridConfiguration.rows)
         .filter((row) => row.status === '완료')
         .map((row) => [
           `& .OwpDataGrid-row[data-owp-data-grid-row-key="string:${row.id}"] .OwpDataGrid-cell`,
@@ -233,7 +233,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
         <OwpThemeProvider dataGrid={dataGrid}>
           <OwpDataGrid
             ref={gridRef}
-            rows={exampleDefinition.rows}
+            rows={gridConfiguration.rows}
             getRowId={getRowId}
             rowSelectionMode="none"
             height={420}

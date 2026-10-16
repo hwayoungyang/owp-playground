@@ -1,22 +1,22 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
-import { SampleHeading } from '../../../shared/ui/SampleHeading';
+import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
 import { chartsPackage } from '../../registry';
-import { type ChartSample, chartCatalog } from '../catalog';
+import { type ChartCatalogEntry, chartCatalog } from '../catalog';
 import layoutSource from './chart-layout.css?raw';
 import source from './getting-started.tsx?raw';
 import '../styles.css';
 
 export function ChartsGettingStarted({
-  sample,
+  example,
 }: {
-  readonly sample: Extract<ChartSample, { readonly kind: 'guide' }>;
+  readonly example: Extract<ChartCatalogEntry, { readonly kind: 'guide' }>;
 }) {
   const { t } = useOwpTranslation();
   const exampleCount = chartCatalog.filter((entry) => entry.kind === 'chart').length;
   return (
     <section className="workspace getting-started" aria-label={t('설치 및 사용 안내')}>
-      <SampleHeading sample={sample} packageTitle="OwpCharts" categoryLabel="기본 차트" />
+      <WorkspaceHeading example={example} packageTitle="OwpCharts" categoryLabel="기본 차트" />
       <div className="guide-sections">
         <section aria-labelledby="charts-registry">
           <h2 id="charts-registry">{t('레지스트리 설정')}</h2>
