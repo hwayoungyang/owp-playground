@@ -15,6 +15,7 @@ import {
   themeFieldLabels,
   themeGroupLabels,
 } from './model/studioLabels';
+import type { ThemeFieldCommitResult } from './model/validation';
 import { ThemeField } from './ThemeField';
 
 export function ComponentColors({
@@ -22,7 +23,7 @@ export function ComponentColors({
   onCommit,
 }: {
   readonly palette: ReturnType<typeof editableMuiTheme>['palette'];
-  readonly onCommit: (field: string, value: unknown, group?: string) => boolean;
+  readonly onCommit: (field: string, value: unknown, group?: string) => ThemeFieldCommitResult;
 }) {
   const { t } = useTranslation('app');
   return (
@@ -62,7 +63,7 @@ export function GridFields({
   onCommit,
 }: {
   readonly grid: ReturnType<typeof resolveOwpGridTheme>;
-  readonly onCommit: (group: string, field: string, value: unknown) => boolean;
+  readonly onCommit: (group: string, field: string, value: unknown) => ThemeFieldCommitResult;
 }) {
   const { t } = useTranslation('app');
   return (

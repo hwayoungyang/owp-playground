@@ -29,7 +29,16 @@ export function useDemo(sample: GridSample) {
   const language = i18n.language;
   const definition = useMemo(() => getDefinition(sample.id, language), [sample.id, language]);
   const gridRef = useRef<OwpDataGridRef<Task>>(null);
-  const request = useRef<AbortController | null>(null);
+  const [pendingBinding, setPendingBinding] = useState<PendingBinding | null>(() =>
+    sample.id === 'large-data'
+      ? {
+          controller: new AbortController(),
+          count: definition.rows.length,
+          startedAt: performance.now(),
+        }
+      : null,
+  );
+  const request = useRef<AbortController | null>(pendingBinding?.controller ?? null);
   const sequence = useRef(0);
   const [rows, setRows] = useState(definition.rows);
   const [busy, setBusy] = useState(false);
@@ -48,7 +57,6 @@ export function useDemo(sample: GridSample) {
   const [changeCount, setChangeCount] = useState(0);
   const [rowCount, setRowCount] = useState(rows.length);
   const [gridVersion, setGridVersion] = useState(0);
-  const [pendingBinding, setPendingBinding] = useState<PendingBinding | null>(null);
   const [bindingTime, setBindingTime] = useState<{
     readonly count: number;
     readonly milliseconds: number;
@@ -92,8 +100,13 @@ export function useDemo(sample: GridSample) {
 
   const reset = () => {
     request.current?.abort();
-    request.current = null;
-    setPendingBinding(null);
+    const controller = sample.id === 'large-data' ? new AbortController() : null;
+    request.current = controller;
+    setPendingBinding(
+      controller
+        ? { controller, count: definition.rows.length, startedAt: performance.now() }
+        : null,
+    );
     setBindingTime(null);
     setBusy(false);
     setRows(definition.rows);

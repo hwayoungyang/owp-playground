@@ -1,3 +1,6 @@
+import type { ApiRow } from '../../../features/code/api-data';
+import { taskFromApi } from './apiData';
+
 export type Task = {
   readonly id: string;
   readonly project: string;
@@ -24,34 +27,39 @@ export type Task = {
 };
 
 const projects = ['웹 서비스', '모바일 앱', '업무 시스템'] as const;
-const tasks = ['분석 및 요구사항', '화면 설계', '컴포넌트 개발', '검증 및 배포'] as const;
+const tasks = ['요구사항 분석', '화면 설계', '컴포넌트 개발', '검증 및 배포'] as const;
 export const owners = ['김서윤', '박민재', '이지우', '정윤호'] as const;
 export const statuses = ['진행 중', '완료', '검토 중', '대기'] as const;
 
-export function createTask(index: number): Task {
+export function createTaskApi(index: number): ApiRow {
   const quantity = 40 + (index % 5) * 12;
   const completed = index % 4 === 1 ? quantity : 8 + ((index * 7) % 32);
   const date = `2026-10-${String(14 + (index % 14)).padStart(2, '0')}`;
   return {
-    id: `task-${index + 1}`,
-    project: projects[Math.floor(index / 4) % 3] ?? projects[0],
-    task: tasks[index % 4] ?? tasks[0],
-    owner: owners[index % 4] ?? owners[0],
-    status: statuses[index % 4] ?? statuses[0],
-    quantity,
-    completed,
-    cost: 12000 + (index % 4) * 3000,
-    date,
-    year: String(2024 + (index % 4)),
-    month: `2026-${String((index % 12) + 1).padStart(2, '0')}`,
-    time: '09:30',
-    datetime: `${date} 09:30`,
-    active: index % 5 !== 0,
-    tags: index % 2 === 0 ? 'design,web' : 'web',
-    note: index % 3 === 0 ? '주간 검토 후 다음 단계로 진행' : '',
-    parentId: null,
-    mixed: index % 2 === 0 ? quantity : '검토 필요',
+    'OWP_DATA.DATA1': `task-${index + 1}`, // 행 식별자 (id)
+    'OWP_DATA.DATA2': projects[Math.floor(index / 4) % 3] ?? projects[0],
+    'OWP_DATA.DATA3': tasks[index % 4] ?? tasks[0],
+    'OWP_DATA.DATA4': owners[index % 4] ?? owners[0],
+    'OWP_DATA.DATA5': statuses[index % 4] ?? statuses[0],
+    'OWP_DATA.DATA6': String(quantity),
+    'OWP_DATA.DATA7': String(completed),
+    'OWP_DATA.DATA8': String(12000 + (index % 4) * 3000),
+    'OWP_DATA.DATA9': date,
+    'OWP_DATA.DATA10': String(2024 + (index % 4)),
+    'OWP_DATA.DATA11': `2026-${String((index % 12) + 1).padStart(2, '0')}`,
+    'OWP_DATA.DATA12': '09:30',
+    'OWP_DATA.DATA13': `${date} 09:30`,
+    'OWP_DATA.DATA14': index % 5 !== 0 ? '1' : '0',
+    'OWP_DATA.DATA15': index % 2 === 0 ? 'design,web' : 'web',
+    'OWP_DATA.DATA16': index % 3 === 0 ? '주간 검토 후 다음 단계로 진행' : '',
+    'OWP_DATA.DATA17': null, // 부모 행의 DATA1을 참조합니다. 일반 행은 부모가 없습니다.
+    'OWP_DATA.DATA18': index % 2 === 0 ? String(quantity) : '검토 필요',
   };
+}
+
+/** 가상 API response를 숫자·boolean·트리 속성이 있는 화면 모델로 변환합니다. */
+export function createTask(index: number): Task {
+  return taskFromApi(createTaskApi(index));
 }
 
 export function createTasks(count = 12): Task[] {

@@ -23,6 +23,29 @@ try {
   assert.equal(await page.locator('.sample-heading h1').textContent(), '시작');
   pass('package-only entry opens the default sample', { package: query().get('package'), sample: query().get('sample') });
 
+  const sidebar = page.locator('.desktop-sidebar');
+  const rowGroup = sidebar.locator('.nav-category').filter({ has: page.getByRole('button', { name: '행 관리 (Row management)', exact: true }) });
+  const exportGroup = sidebar.locator('.nav-category').filter({ has: page.getByRole('button', { name: '내보내기 (Export)', exact: true }) });
+  const sampleIds = group => group.locator('.nav-item').evaluateAll(links => links.map(link => new URL(link.href).searchParams.get('sample')));
+  assert.equal(await sidebar.locator('.nav-category').count(), 12);
+  assert.equal(await sidebar.locator('.nav-item').count(), 48);
+  assert.deepEqual(await sampleIds(rowGroup), ['row-actions', 'row-insertion', 'row-deletion', 'reordering', 'ref-move', 'ref-data', 'ref-changes']);
+  assert.deepEqual(await sampleIds(exportGroup), ['excel', 'excel-snapshot', 'span-export']);
+  pass('DataGrid groups related controls and Ref APIs without losing examples', { groups: 12, samples: 48 });
+
+  await rowGroup.getByRole('button').click();
+  assert.equal(await rowGroup.locator('.nav-item').count(), 0);
+  await sidebar.getByRole('textbox', { name: '예제 검색', exact: true }).fill('행 이동');
+  assert.deepEqual(await sampleIds(rowGroup), ['reordering', 'ref-move']);
+  await sidebar.getByRole('textbox', { name: '예제 검색', exact: true }).fill('');
+  assert.equal(await rowGroup.locator('.nav-item').count(), 0);
+  await rowGroup.getByRole('button').click();
+  await page.getByRole('button', { name: '영어로 전환', exact: true }).click();
+  assert.equal(await sidebar.getByRole('button', { name: 'Row management', exact: true }).count(), 1);
+  assert.equal(await sidebar.getByRole('button', { name: 'Export', exact: true }).count(), 1);
+  await page.getByRole('button', { name: 'Switch to Korean', exact: true }).click();
+  pass('feature groups retain collapse, search and language switching', { search: ['reordering', 'ref-move'], translatedGroups: true });
+
   await page.goto(origin + '/?package=%40owp%2Fdatagrid&sample=auto-span');
   await gridReady();
   assert.equal(query().get('package'), 'datagrid');
@@ -40,26 +63,36 @@ try {
   assert.equal(query().get('package'), 'datagrid');
   assert.equal(query().get('sample'), 'editing');
   await page.getByRole('button', { name: '패키지 선택', exact: true }).click();
-  await page.locator('[role="menuitem"][data-package="pdf"]').click();
-  await page.getByRole('heading', { name: 'OwpPdf', exact: true }).waitFor();
-  assert.equal(query().get('package'), 'pdf');
-  assert.equal(query().has('sample'), false);
+  const packageItems = page.locator('[role="menuitem"][data-package]');
+  assert.deepEqual((await packageItems.evaluateAll(items => items.map(item => item.dataset.package))).slice(0, 2), ['datagrid', 'charts']);
+  for (const item of (await packageItems.all()).slice(2)) {
+    assert.equal(await item.getAttribute('aria-disabled'), 'true');
+    assert.match(await item.textContent(), /준비 중/);
+  }
+  await page.keyboard.press('End');
+  assert.equal(await page.locator('[data-package="charts"]').evaluate(element => element === document.activeElement), true);
+  await page.keyboard.press('Enter');
+  await page.locator('.getting-started').waitFor();
+  assert.equal(query().get('package'), 'charts');
+  assert.equal(query().get('sample'), 'getting-started');
   assert.equal(query().get('ref'), 'docs');
   assert.equal(new URL(page.url()).hash, '#main-content');
   assert.equal(await page.locator('.grid-preview').count(), 0);
-  pass('package menu changes route and clears the previous sample', { package: query().get('package'), ref: query().get('ref'), fragment: new URL(page.url()).hash, gridCount: await page.locator('.grid-preview').count() });
+  pass('ready packages lead the menu and keyboard navigation skips disabled planned entries', { package: query().get('package'), ref: query().get('ref'), fragment: new URL(page.url()).hash });
 
   await page.goBack();
   await gridReady();
   assert.equal(await page.locator('.sample-heading h1').textContent(), '셀 편집');
   assert.equal(query().get('sample'), 'editing');
   await page.goForward();
-  await page.getByRole('heading', { name: 'OwpPdf', exact: true }).waitFor();
-  assert.equal(query().get('package'), 'pdf');
+  await page.locator('.getting-started').waitFor();
+  assert.equal(query().get('package'), 'charts');
   await page.reload();
-  await page.getByRole('heading', { name: 'OwpPdf', exact: true }).waitFor();
-  pass('history and reload restore the selected playground', { backSample: 'editing', forwardPackage: query().get('package'), reloadedHeading: await page.locator('.package-heading h1').textContent() });
+  await page.locator('.getting-started').waitFor();
+  pass('history and reload restore the selected playground', { backSample: 'editing', forwardPackage: query().get('package'), reloadedHeading: await page.locator('.sample-heading h1').textContent() });
 
+  await page.goto(origin + '/?package=pdf&ref=docs#main-content');
+  await page.getByRole('heading', { name: 'OwpPdf', exact: true }).waitFor();
   await page.getByRole('button', { name: 'OwpDataGrid 보기', exact: true }).click();
   await page.locator('.getting-started').waitFor();
   const sampleLink = page.locator('.desktop-sidebar .nav-item').filter({ hasText: '자동 행 병합' });

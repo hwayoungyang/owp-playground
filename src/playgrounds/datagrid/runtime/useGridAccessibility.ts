@@ -19,7 +19,10 @@ export function useGridAccessibility() {
         if (!content) continue;
         // Data rows own the grid role; native scrollbars and toolbars remain accessible siblings.
         setAttribute(root, 'role', 'group');
-        setAttribute(content, 'role', 'grid');
+        const tree = Array.from(content.querySelectorAll('[role="row"][aria-level]')).some(
+          (row) => row.closest('.OwpDataGrid-root') === root,
+        );
+        setAttribute(content, 'role', tree ? 'treegrid' : 'grid');
         for (const attribute of ['aria-label', 'aria-colcount', 'aria-rowcount']) {
           const value = root.getAttribute(attribute);
           if (value !== null) setAttribute(content, attribute, value);

@@ -43,7 +43,7 @@ export function Header({
   return (
     <header className="app-header">
       <div className="brand">
-        <IconButton className="mobile-menu" aria-label={t('샘플 메뉴 열기')} onClick={onMenuOpen}>
+        <IconButton className="mobile-menu" aria-label={t('예제 메뉴 열기')} onClick={onMenuOpen}>
           <ListIcon size={20} />
         </IconButton>
         <a
@@ -92,26 +92,32 @@ export function Header({
         >
           {playground.name}
         </Button>
-        <Menu anchorEl={anchor} open={Boolean(anchor)} onClose={() => setAnchor(null)}>
+        <Menu
+          anchorEl={anchor}
+          open={Boolean(anchor)}
+          onClose={() => setAnchor(null)}
+          slotProps={{ paper: { role: 'navigation', 'aria-label': t('패키지 선택') } }}
+        >
           {packageCatalog.map((entry) => (
             <MenuItem
               key={entry.id}
               data-package={entry.id}
               aria-current={entry.id === playground.id ? 'true' : undefined}
               selected={entry.id === playground.id}
+              disabled={entry.status === 'planned'}
               onClick={() => {
                 if (entry.id !== playground.id) onPackageChange(entry);
                 setAnchor(null);
               }}
             >
               <span className="package-menu-name">{entry.name}</span>
-              {entry.id === playground.id ? (
+              {entry.status === 'planned' ? (
+                <span className="package-menu-state">{t('준비 중')}</span>
+              ) : entry.id === playground.id ? (
                 <span className="package-menu-state">
                   <CheckIcon size={14} />
                   {t('선택됨')}
                 </span>
-              ) : entry.status === 'planned' ? (
-                <span className="package-menu-state">{t('준비 중')}</span>
               ) : null}
             </MenuItem>
           ))}

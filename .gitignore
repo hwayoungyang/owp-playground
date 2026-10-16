@@ -4,3 +4,4 @@ dist/
 .env.local
 .omo/evidence/
 *.tsbuildinfo
+/AGENTS.md

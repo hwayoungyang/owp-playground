@@ -81,7 +81,7 @@ export function Sidebar({
       .includes(query.toLocaleLowerCase()),
   );
   return (
-    <nav className="sidebar" aria-label={t('샘플 탐색')}>
+    <nav className="sidebar" aria-label={t('예제 탐색')}>
       <div className="sidebar-package">
         <SquaresFourIcon size={18} weight="bold" />
         <span>{playground.title}</span>
@@ -94,7 +94,7 @@ export function Sidebar({
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder={t('검색 …')}
-          aria-label={t('샘플 검색')}
+          aria-label={t('예제 검색')}
         />
         <kbd>⌘ K</kbd>
       </label>

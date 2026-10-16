@@ -1,7 +1,8 @@
-import { Button, MenuItem, Select } from '@mui/material';
+import { Box, Button, LinearProgress, MenuItem, Select, useTheme } from '@mui/material';
+import type { CoreChartProps } from '@owp/charts/types';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef } from '@owp/datagrid/types';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { createTree, getRowId, initialTasks, statuses } from '../model/data';
@@ -9,6 +10,59 @@ import { loadRows } from '../model/server';
 import type { Definition, ExampleProps } from '../model/types';
 
 const treeRows = createTree();
+const CompletionTrendChart = lazy(() =>
+  import('@owp/charts').then(({ CoreChart }) => ({ default: CoreChart })),
+);
+
+const trendOptions = {
+  animation: false,
+  events: [],
+  maintainAspectRatio: false,
+  plugins: { legend: { display: false }, tooltip: { enabled: false } },
+  scales: { x: { display: false }, y: { display: false, min: -10, max: 110 } },
+} satisfies CoreChartProps<'line'>['options'];
+
+function CompletionTrendCell({ row }: { readonly row: Task }) {
+  const theme = useTheme();
+  const current = row.quantity > 0 ? (row.completed / row.quantity) * 100 : 0;
+  const rising = initialTasks.findIndex((task) => task.id === row.id) % 2 !== 0;
+  const values = [18, 16, 12, 13, 8, 5, 6, 0].map((offset) =>
+    Math.max(0, Math.min(100, current + (rising ? -offset : offset))),
+  );
+  return (
+    <Box
+      role="img"
+      aria-label={translate('{{task}} 완료율 추세 {{direction}}, 현재 {{percent}}%', {
+        task: row.task,
+        direction: translate(rising ? '상승' : '하락'),
+        percent: Math.round(current * 10) / 10,
+      })}
+      sx={{ width: '100%', minWidth: 0, height: 32, py: 0.5, boxSizing: 'border-box' }}
+    >
+      <Box aria-hidden="true" sx={{ height: '100%' }}>
+        <Suspense fallback={null}>
+          <CompletionTrendChart
+            type="line"
+            data={{
+              labels: values.map((_, index) => index + 1),
+              datasets: [
+                {
+                  data: values,
+                  borderColor: rising ? theme.palette.success.main : theme.palette.error.main,
+                  borderWidth: 2,
+                  pointRadius: 0,
+                  tension: 0.35,
+                },
+              ],
+            }}
+            options={trendOptions}
+            height="100%"
+          />
+        </Suspense>
+      </Box>
+    </Box>
+  );
+}
 
 const statusClasses: Readonly<Record<string, string>> = {
   '진행 중': 'status-0',
@@ -56,6 +110,47 @@ const baseColumns = [
     minWidth: 80,
     relWidth: 0.6,
     numberOptions: { maximumFractionDigits: 0 },
+  },
+  {
+    id: 'completionRate',
+    header: '완료율 (%)',
+    type: 'number',
+    minWidth: 200,
+    relWidth: 1.4,
+    headerAlign: 'center',
+    valueGetter: (row) =>
+      row.parentId !== null && row.quantity > 0 ? (row.completed / row.quantity) * 100 : undefined,
+    numberOptions: { maximumFractionDigits: 1 },
+    renderCell: ({ row, value }) =>
+      typeof value === 'number' ? (
+        <div className="progress-cell">
+          <LinearProgress
+            variant="determinate"
+            value={Math.max(0, Math.min(100, value))}
+            aria-label={translate('{{task}} 완료율', { task: row.task })}
+            sx={{
+              flex: 1,
+              height: 8,
+              borderRadius: 1,
+              bgcolor: 'action.hover',
+              '& .MuiLinearProgress-bar': { transition: 'none' },
+            }}
+          />
+          <span>{Math.round(value * 10) / 10}%</span>
+        </div>
+      ) : null,
+    excel: { numFmt: '0.0"%"' },
+  },
+  {
+    id: 'completionTrend',
+    header: '완료율 추세',
+    minWidth: 160,
+    relWidth: 1.1,
+    headerAlign: 'center',
+    sortable: false,
+    filterable: false,
+    excel: false,
+    renderCell: ({ row }) => (row.parentId !== null ? <CompletionTrendCell row={row} /> : null),
   },
   {
     id: 'date',

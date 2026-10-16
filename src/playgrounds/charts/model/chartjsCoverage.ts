@@ -1,0 +1,400 @@
+export const chartjsReference = {
+  sha: '7169e65147a47f3720957a6f156a33c838ab9f57',
+  url: 'https://www.chartjs.org/docs/latest/samples/information.html',
+} as const;
+export const chartjsCoverage = [
+  {
+    path: 'advanced/data-decimation',
+    status: 'adapted',
+    exampleId: 'time-series',
+    note: '공식 Decimation plugin 대신 예제의 min/max 전처리를 사용합니다.',
+  },
+  {
+    path: 'advanced/derived-axis-type',
+    status: 'unavailable',
+    note: 'Custom scale 기반 클래스와 registry가 공개되지 않았습니다.',
+  },
+  {
+    path: 'advanced/derived-chart-type',
+    status: 'unavailable',
+    note: 'Custom controller 기반 클래스와 registry가 공개되지 않았습니다.',
+  },
+  {
+    path: 'advanced/linear-gradient',
+    status: 'excluded',
+    note: '사용자 요청으로 그라데이션 예제를 제외했습니다.',
+  },
+  {
+    path: 'advanced/programmatic-events',
+    status: 'added',
+    exampleId: 'programmatic-events',
+  },
+  {
+    path: 'advanced/progress-bar',
+    status: 'excluded',
+    note: '사용자 요청으로 애니메이션 전용 예제를 제외했습니다.',
+  },
+  {
+    path: 'advanced/radial-gradient',
+    status: 'excluded',
+    note: '사용자 요청으로 그라데이션 예제를 제외했습니다.',
+  },
+  {
+    path: 'animations/delay',
+    status: 'excluded',
+    note: '사용자 요청으로 애니메이션 전용 예제를 제외했습니다.',
+  },
+  {
+    path: 'animations/drop',
+    status: 'excluded',
+    note: '사용자 요청으로 애니메이션 전용 예제를 제외했습니다.',
+  },
+  {
+    path: 'animations/loop',
+    status: 'excluded',
+    note: '사용자 요청으로 애니메이션 전용 예제를 제외했습니다.',
+  },
+  {
+    path: 'animations/progressive-line-easing',
+    status: 'excluded',
+    note: '사용자 요청으로 애니메이션 전용 예제를 제외했습니다.',
+  },
+  {
+    path: 'animations/progressive-line',
+    status: 'excluded',
+    note: '사용자 요청으로 애니메이션 전용 예제를 제외했습니다.',
+  },
+  {
+    path: 'area/line-boundaries',
+    status: 'adapted',
+    exampleId: 'area',
+    note: 'OwpAreaChart의 native Filler로 기준선 채우기를 제공합니다. 공식 경계 전환 UI 전체는 재현하지 않습니다.',
+  },
+  {
+    path: 'area/line-datasets',
+    status: 'adapted',
+    exampleId: 'stacked-area',
+    note: 'Native Filler의 dataset target을 options·datasetOptions로 확장할 수 있습니다. 예제는 누적 채우기를 보여 줍니다.',
+  },
+  {
+    path: 'area/line-drawtime',
+    status: 'adapted',
+    exampleId: 'area',
+    note: 'Native Filler가 등록되어 options.plugins.filler.drawTime을 사용할 수 있습니다. 별도 drawTime 전환 UI는 없습니다.',
+  },
+  {
+    path: 'area/line-stacked',
+    status: 'adapted',
+    exampleId: 'stacked-area',
+    note: 'OwpAreaChart stacked와 native Filler로 누적 영역을 표시합니다.',
+  },
+  {
+    path: 'area/radar',
+    status: 'adapted',
+    exampleId: 'radar',
+    note: 'OwpRadarChart의 native Radar·RadialLinearScale·Filler로 다각형을 채웁니다.',
+  },
+  {
+    path: 'bar/border-radius',
+    status: 'added',
+    exampleId: 'bar-radius',
+  },
+  {
+    path: 'bar/floating',
+    status: 'added',
+    exampleId: 'floating-bar',
+  },
+  {
+    path: 'bar/horizontal',
+    status: 'existing',
+    exampleId: 'horizontal-bar',
+  },
+  {
+    path: 'bar/stacked-groups',
+    status: 'added',
+    exampleId: 'stacked-groups',
+  },
+  {
+    path: 'bar/stacked',
+    status: 'existing',
+    exampleId: 'stacked-bar',
+  },
+  {
+    path: 'bar/vertical',
+    status: 'existing',
+    exampleId: 'bar',
+  },
+  {
+    path: 'legend/events',
+    status: 'added',
+    exampleId: 'legend-events',
+  },
+  {
+    path: 'legend/html',
+    status: 'existing',
+    exampleId: 'legend',
+  },
+  {
+    path: 'legend/point-style',
+    status: 'added',
+    exampleId: 'legend-point-style',
+    note: 'Canvas 범례의 pointStyle 대신 OWP 범례에 Line의 Point 표시 여부를 반영합니다.',
+  },
+  {
+    path: 'legend/position',
+    status: 'existing',
+    exampleId: 'legend',
+  },
+  {
+    path: 'legend/title',
+    status: 'added',
+    exampleId: 'legend-title',
+  },
+  {
+    path: 'line/interpolation',
+    status: 'added',
+    exampleId: 'line-interpolation',
+  },
+  {
+    path: 'line/line',
+    status: 'existing',
+    exampleId: 'line',
+  },
+  {
+    path: 'line/multi-axis',
+    status: 'added',
+    exampleId: 'line-multi-axis',
+  },
+  {
+    path: 'line/point-styling',
+    status: 'added',
+    exampleId: 'point-style',
+  },
+  {
+    path: 'line/segments',
+    status: 'added',
+    exampleId: 'line-segments',
+  },
+  {
+    path: 'line/stepped',
+    status: 'added',
+    exampleId: 'stepped-line',
+  },
+  {
+    path: 'line/styling',
+    status: 'added',
+    exampleId: 'line-style',
+  },
+  {
+    path: 'other-charts/bubble',
+    status: 'added',
+    exampleId: 'bubble',
+    note: 'Line의 showLine: false와 linear 축을 사용합니다. Bubble은 pointRadius로 r을 표시합니다.',
+  },
+  {
+    path: 'other-charts/combo-bar-line',
+    status: 'existing',
+    exampleId: 'dual-axis',
+  },
+  {
+    path: 'other-charts/doughnut',
+    status: 'existing',
+    exampleId: 'doughnut',
+  },
+  {
+    path: 'other-charts/multi-series-pie',
+    status: 'added',
+    exampleId: 'multi-series-pie',
+    note: 'OwpRadialChart의 native Pie·Doughnut과 cutout 설정을 사용합니다.',
+  },
+  {
+    path: 'other-charts/pie',
+    status: 'added',
+    exampleId: 'pie',
+    note: 'OwpRadialChart의 native Pie·Doughnut과 cutout 설정을 사용합니다.',
+  },
+  {
+    path: 'other-charts/polar-area-center-labels',
+    status: 'unavailable',
+    note: 'PolarArea controller가 등록되지 않았습니다.',
+  },
+  {
+    path: 'other-charts/polar-area',
+    status: 'unavailable',
+    note: 'PolarArea controller가 등록되지 않았습니다.',
+  },
+  {
+    path: 'other-charts/radar-skip-points',
+    status: 'adapted',
+    exampleId: 'radar',
+    note: 'Native Radar의 null gap을 지원합니다. 샘플 데이터는 모든 지표에 값이 있습니다.',
+  },
+  {
+    path: 'other-charts/radar',
+    status: 'adapted',
+    exampleId: 'radar',
+    note: 'OwpRadarChart가 native Radar controller와 RadialLinearScale을 사용합니다.',
+  },
+  {
+    path: 'other-charts/scatter-multi-axis',
+    status: 'added',
+    exampleId: 'scatter-multi-axis',
+    note: 'Line의 showLine: false와 linear 축을 사용합니다. Bubble은 pointRadius로 r을 표시합니다.',
+  },
+  {
+    path: 'other-charts/scatter',
+    status: 'added',
+    exampleId: 'scatter',
+    note: 'Line의 showLine: false와 linear 축을 사용합니다. Bubble은 pointRadius로 r을 표시합니다.',
+  },
+  {
+    path: 'other-charts/stacked-bar-line',
+    status: 'added',
+    exampleId: 'stacked-combo',
+  },
+  {
+    path: 'plugins/chart-area-border',
+    status: 'added',
+    exampleId: 'chart-area-border',
+  },
+  {
+    path: 'plugins/doughnut-empty-state',
+    status: 'added',
+    exampleId: 'doughnut-empty',
+  },
+  {
+    path: 'plugins/quadrants',
+    status: 'added',
+    exampleId: 'quadrants',
+    note: 'Line의 showLine: false와 linear 축으로 point를 표시합니다.',
+  },
+  {
+    path: 'scale-options/center',
+    status: 'added',
+    exampleId: 'axis-center',
+  },
+  {
+    path: 'scale-options/grid',
+    status: 'added',
+    exampleId: 'grid-style',
+  },
+  {
+    path: 'scale-options/ticks',
+    status: 'added',
+    exampleId: 'tick-style',
+  },
+  {
+    path: 'scale-options/titles',
+    status: 'added',
+    exampleId: 'axis-titles',
+  },
+  {
+    path: 'scales/linear-min-max-suggested',
+    status: 'adapted',
+    exampleId: 'axis-range',
+    note: '고정·suggested 범위를 같은 예제에서 전환합니다.',
+  },
+  {
+    path: 'scales/linear-min-max',
+    status: 'added',
+    exampleId: 'axis-range',
+  },
+  {
+    path: 'scales/linear-step-size',
+    status: 'added',
+    exampleId: 'axis-step',
+  },
+  {
+    path: 'scales/log',
+    status: 'unavailable',
+    note: 'LogarithmicScale이 등록되지 않았습니다.',
+  },
+  {
+    path: 'scales/stacked',
+    status: 'added',
+    exampleId: 'axis-stacks',
+  },
+  {
+    path: 'scales/time-combo',
+    status: 'unavailable',
+    note: 'TimeScale과 날짜 adapter가 등록되지 않았습니다. 기존 날짜 예제는 category 축입니다.',
+  },
+  {
+    path: 'scales/time-line',
+    status: 'unavailable',
+    note: 'TimeScale과 날짜 adapter가 등록되지 않았습니다. 기존 날짜 예제는 category 축입니다.',
+  },
+  {
+    path: 'scales/time-max-span',
+    status: 'unavailable',
+    note: 'TimeScale과 날짜 adapter가 등록되지 않았습니다. 기존 날짜 예제는 category 축입니다.',
+  },
+  {
+    path: 'scriptable/bar',
+    status: 'added',
+    exampleId: 'scriptable-bar',
+  },
+  {
+    path: 'scriptable/bubble',
+    status: 'adapted',
+    exampleId: 'bubble',
+    note: 'Line pointRadius callback으로 세 번째 값 r을 표시합니다.',
+  },
+  {
+    path: 'scriptable/line',
+    status: 'added',
+    exampleId: 'scriptable-line',
+  },
+  {
+    path: 'scriptable/pie',
+    status: 'added',
+    exampleId: 'scriptable-pie',
+    note: 'Doughnut의 cutout: 0으로 Pie를 구현합니다.',
+  },
+  {
+    path: 'scriptable/polar',
+    status: 'unavailable',
+    note: 'PolarArea controller가 등록되지 않았습니다.',
+  },
+  {
+    path: 'scriptable/radar',
+    status: 'adapted',
+    exampleId: 'radar',
+    note: 'Native Radar datasetOptions로 scriptable 스타일을 확장합니다. 별도 callback 전환 UI는 없습니다.',
+  },
+  {
+    path: 'subtitle/basic',
+    status: 'unavailable',
+    note: 'Subtitle plugin이 등록되지 않았습니다.',
+  },
+  {
+    path: 'title/alignment',
+    status: 'added',
+    exampleId: 'chart-title',
+  },
+  {
+    path: 'tooltip/content',
+    status: 'added',
+    exampleId: 'tooltip-content',
+  },
+  {
+    path: 'tooltip/html',
+    status: 'existing',
+    exampleId: 'external-tooltip',
+  },
+  {
+    path: 'tooltip/interactions',
+    status: 'added',
+    exampleId: 'tooltip-mode',
+  },
+  {
+    path: 'tooltip/point-style',
+    status: 'added',
+    exampleId: 'tooltip-point-style',
+  },
+  {
+    path: 'tooltip/position',
+    status: 'added',
+    exampleId: 'tooltip-position',
+  },
+] as const;

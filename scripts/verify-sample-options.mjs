@@ -1,3 +1,4 @@
+import { readGridData } from './read-api-data.mjs';
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import AxeBuilder from '@axe-core/playwright';
@@ -23,7 +24,7 @@ async function shot(name) { await settle(); const path = `${output}/${name}.png`
 async function load(id) { await page.goto(`${origin}/?sample=${id}`); await page.locator('.OwpDataGrid-root').first().waitFor(); }
 async function choose(name, value) { await page.getByRole('combobox', { name, exact: true }).click(); await page.locator(`[role=option][data-value="${value}"]`).click(); }
 async function preview() { await page.getByRole('tab', { name: '예제', exact: true }).click(); }
-async function data() { await page.getByRole('tab', { name: '데이터', exact: true }).click(); await page.waitForFunction(() => document.querySelector('.code-scroll code')?.textContent.includes('"rows"')); return JSON.parse(await page.locator('.code-scroll code').textContent()).rows; }
+async function data() { await page.getByRole('tab', { name: '데이터', exact: true }).click(); await page.waitForFunction(() => document.querySelector('.code-scroll code')?.textContent.startsWith('[')); return (await readGridData(page)).rows; }
 async function edit(id, index, value) { await cell(id, index).click(); await page.keyboard.press('Enter'); const input = row(id).locator('input:not([type=checkbox])'); await input.fill(String(value)); await input.press('Enter'); }
 async function sourceMatches(id) { await page.getByRole('tab', { name: '코드', exact: true }).click(); const source = await readFile(`src/playgrounds/datagrid/examples/${id}.tsx`, 'utf8'); await page.waitForFunction(source => document.querySelector('.code-scroll code')?.textContent === source, source); const published = await page.request.get(`${origin}/snippets/samples/examples/${id}.tsx`); assert.equal(await published.text(), source); }
 function noHistory() { return page.locator('.change-history, .change-list').count(); }
@@ -42,12 +43,12 @@ try {
 
   await load('formatting');
   assert.equal((await cell('task-1', 2).textContent()).trim(), '12,000.00');
-  await choose('소수점 변경 (금액 (원) 컬럼)', 1);
+  await choose('금액 소수 자릿수', 1);
   await edit('task-1', 2, 1234.5);
   assert.equal((await data())[0].cost, 1234.5);
   await preview();
   assert.equal(await noHistory(), 0);
-  await choose('소수점 변경 (금액 (원) 컬럼)', 6);
+  await choose('금액 소수 자릿수', 6);
   await cell('task-1', 2).click();
   await page.keyboard.press('Enter');
   const amountInput = row('task-1').locator('input:not([type=checkbox])');
@@ -60,14 +61,14 @@ try {
   assert.equal((await data())[0].cost, 1234.123456);
   await preview();
   for (const digits of [1, 2, 3, 4, 5, 6]) {
-    await choose('소수점 변경 (금액 (원) 컬럼)', digits);
+    await choose('금액 소수 자릿수', digits);
     const expected = new Intl.NumberFormat('en-US', { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(1234.123456);
     assert.equal((await cell('task-1', 2).textContent()).trim(), expected);
   }
   assert.equal((await data())[0].cost, 1234.123456);
   await preview();
   await shot('formatting-six-digits');
-  await choose('소수점 변경 (금액 (원) 컬럼)', 3);
+  await choose('금액 소수 자릿수', 3);
   await edit('task-1', 2, 1234.567);
   assert.equal((await data())[0].cost, 1234.567);
   await preview();
@@ -80,7 +81,7 @@ try {
   await sourceMatches('formatting');
   await preview();
   await page.getByRole('button', { name: '초기화', exact: true }).click();
-  assert.equal(await page.getByRole('combobox', { name: '소수점 변경 (금액 (원) 컬럼)', exact: true }).textContent(), '2');
+  assert.equal(await page.getByRole('combobox', { name: '금액 소수 자릿수', exact: true }).textContent(), '2');
   assert.equal((await cell('task-1', 2).textContent()).trim(), '12,000.00');
   pass('amount precision controls display and editing from one through six digits without resetting values', { entered: [1234.5, 1234.123456, 1234.567], extraDigitRejected: true, resetDigits: 2 });
 
@@ -102,6 +103,7 @@ try {
   await fontSlider.focus();
   await fontSlider.press('End');
   assert.equal(await fontSlider.getAttribute('aria-valuenow'), '18');
+  await settle();
   assert.equal(Math.round((await projectHeader.boundingBox()).height), 144);
   assert.equal(Math.round((await row('task-1').boundingBox()).height), 44);
   await shot('custom-three-emphasis-large');

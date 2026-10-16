@@ -1,0 +1,80 @@
+export const referenceCatalog = [
+  {
+    id: 'grouped-stacks-by-line',
+    title: 'Grouped stacks by line',
+    description: '라인별로 연도 구역을 나누고 주간조·야간조의 생산량을 누적합니다.',
+    api: ['ChartFrame', 'createGroupedAxisLabelsPlugin'],
+  },
+  {
+    id: 'divergent-forecast',
+    title: 'Divergent forecast',
+    description: '관측된 누적 생산량에서 갈라지는 세 가지 운영 시나리오의 예측을 비교합니다.',
+    api: ['borderDash', 'data', 'tooltip'],
+  },
+  {
+    id: 'diverging-bar',
+    title: 'Diverging bar',
+    description: '주간조·야간조의 공정별 불량률을 좌우 대칭 Bar로 비교합니다.',
+    api: ['indexAxis', 'stack', 'datalabels'],
+  },
+  {
+    id: 'layered-column',
+    title: 'Layered column',
+    description: '폭이 다른 Column을 겹쳐 두 기간의 라인별 생산량을 비교합니다.',
+    api: ['grouped', 'barPercentage', 'order'],
+  },
+  {
+    id: 'stacked-horizontal-bar',
+    title: 'Stacked bar',
+    description: '공정별 생산량을 가로로 누적하고 연도별 합계를 비교합니다.',
+    api: ['indexAxis', 'stack', 'datalabels'],
+  },
+  {
+    id: 'grouped-horizontal-bar',
+    title: 'Grouped bar',
+    description: '연도별 계획과 실적을 나란한 가로 Bar로 비교합니다.',
+    api: ['indexAxis', 'datalabels'],
+  },
+  {
+    id: 'mixed-time-series',
+    title: 'Mixed chart',
+    description: 'Column과 두 Line을 조합하고 생산량·설비 온도·가동시간을 각각의 축에 연결합니다.',
+    api: ['type', 'yAxisID', 'zoomSlider'],
+  },
+  {
+    id: 'daily-combo',
+    title: 'Daily Column·Line',
+    description: '일별 평균 Column 위에 촘촘한 시간별 진동 Line을 표시합니다.',
+    api: ['ChartFrame', 'barThickness', 'barPercentage'],
+  },
+  {
+    id: 'area',
+    title: 'Area',
+    description: '목표 대비 생산량 차이를 기준선 위와 아래의 색상으로 구분합니다.',
+    api: ['OwpAreaChart', 'baseline', 'above', 'below'],
+  },
+  {
+    id: 'stacked-area',
+    title: 'Stacked area',
+    description: '세 생산 라인의 생산량을 누적 영역과 주요 시점의 기준선으로 표시합니다.',
+    api: ['OwpAreaChart', 'stacked', 'annotation'],
+  },
+  {
+    id: 'heatmap',
+    title: 'Heatmap',
+    description: '요일·시간대별 생산량을 색상의 진하기로 비교합니다.',
+    api: ['OwpHeatmapChart', 'domain', 'valueLabels'],
+  },
+  {
+    id: 'treemap',
+    title: 'Treemap',
+    description: '라인·설비별 생산량을 사각형의 넓이와 색상으로 비교합니다.',
+    api: ['OwpTreemapChart', 'accessors', 'formatter'],
+  },
+].map((sample) => ({
+  ...sample,
+  category: 'basic' as const,
+  kind: 'chart' as const,
+  package: '@owp/charts' as const,
+  source: `examples/${sample.id}.tsx`,
+}));

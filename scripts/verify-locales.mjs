@@ -1,3 +1,4 @@
+import { readGridData } from './read-api-data.mjs';
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
@@ -16,7 +17,7 @@ const pass = (scenario, observed) => { results.push({ scenario, observed, pass: 
 async function settled() { await page.evaluate(async () => { await document.fonts.ready; await Promise.allSettled(document.getAnimations().filter(a => a.effect?.getTiming().iterations !== Infinity).map(a => a.finished)); }); }
 async function shot(name) { await settled(); await page.screenshot({ path: new URL(name + '.png', output).pathname }); }
 async function choose(name, value) { await page.getByRole('combobox', { name, exact: true }).click(); await page.getByRole('option', { name: value, exact: true }).click(); }
-async function data() { await page.getByRole('tab', { name: 'Data', exact: true }).click(); await page.locator('.code-scroll code').waitFor(); return JSON.parse(await page.locator('.code-scroll code').textContent()); }
+async function data() { await page.getByRole('tab', { name: 'Data', exact: true }).click(); await page.locator('.code-scroll code').waitFor(); return await readGridData(page); }
 async function surface() { return page.evaluate(() => ({
   shell: getComputedStyle(document.querySelector('.app-header')).backgroundColor,
   rootCanvas: getComputedStyle(document.documentElement).getPropertyValue('--pg-canvas').trim(),
@@ -88,7 +89,7 @@ try {
 
   await page.setViewportSize({ width: 375, height: 900 }); await shot('english-mobile');
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
-  await page.getByRole('button', { name: 'Open sample menu' }).click(); await shot('english-navigation-mobile');
+  await page.getByRole('button', { name: 'Open example menu' }).click(); await shot('english-navigation-mobile');
   await page.keyboard.press('Escape'); await page.getByRole('button', { name: 'Open settings' }).click();
   await choose('Theme', 'Mint'); await shot('english-settings-mobile');
   pass('English mobile containment', { viewport: 375, pageOverflow: false });

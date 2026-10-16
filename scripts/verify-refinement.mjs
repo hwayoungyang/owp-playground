@@ -1,3 +1,4 @@
+import { readGridData } from './read-api-data.mjs';
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
@@ -9,7 +10,7 @@ const results=[]; const errors=[];
 page.on('pageerror',e=>errors.push(e.message));
 const pass=(scenario,observed)=>{results.push({scenario,observed,pass:true});console.log('PASS',scenario,observed);};
 async function load(id){await page.goto('http://127.0.0.1:4173/?package=datagrid&sample='+id);await page.locator('.grid-preview .OwpDataGrid-root').first().waitFor();}
-async function data(){await page.getByRole('tab',{name:'데이터',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.code-scroll code')?.textContent.startsWith('{'));return JSON.parse(await page.locator('.code-scroll code').textContent()).rows;}
+async function data(){await page.getByRole('tab',{name:'데이터',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.code-scroll code')?.textContent.startsWith('['));return (await readGridData(page)).rows;}
 async function edit(id,column,value){const index=["project","task","quantity","reserved","remaining","gap","completed","cost","amount","rate","appliedAmount","plannedAmount"].indexOf(column); const cells=page.locator(`[data-owp-data-grid-row-key="string:${id}"] .OwpDataGrid-cell`); const cell=cells.nth(index - (12 - await cells.count())); await cell.click();await page.keyboard.press('Enter');await page.locator('.grid-preview input:not([type=checkbox])').fill(String(value));await page.keyboard.press('Enter');}
 async function preview(){await page.getByRole('tab',{name:'예제',exact:true}).click();}
 try{

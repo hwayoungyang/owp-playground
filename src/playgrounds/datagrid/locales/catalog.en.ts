@@ -1,4 +1,16 @@
 export const catalogEnglish: Readonly<Record<string, string>> = {
+  '기본 (Basics)': 'Basics',
+  '셀·컬럼 (Cells & columns)': 'Cells & columns',
+  '스타일 (Style)': 'Style',
+  '셀 병합 (Cell spanning)': 'Cell spanning',
+  '선택·이벤트 (Selection & events)': 'Selection & events',
+  '정렬·필터 (Sorting & filtering)': 'Sorting & filtering',
+  '편집·검증 (Editing & validation)': 'Editing & validation',
+  '행 관리 (Row management)': 'Row management',
+  '집계·계산 (Aggregation)': 'Aggregation',
+  '트리·상세 (Tree & detail)': 'Tree & detail',
+  '데이터·로딩 (Data & loading)': 'Data & loading',
+  '내보내기 (Export)': 'Export',
   시작: 'Getting started',
   선택·합계: 'Selection & totals',
   '행 선택, 상태 배지와 합계를 표시합니다.': 'Display row selection, status badges and totals.',
@@ -121,7 +133,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '셀 값을 바꾸고, 원하는 행과 셀로 이동합니다.':
     'Change a value, scroll to a row and focus a cell.',
   '행 이동 · 버튼': 'Move rows · buttons',
-  '버튼으로 선택 행을 상단·하단에 옮깁니다.':
+  '버튼으로 선택한 행을 맨 위나 맨 아래로 옮깁니다.':
     'Move selected rows to the top or bottom with buttons.',
   '변경 관리': 'Change management',
   '변경된 값을 확인하고, 변경을 확정하거나 되돌립니다.':
@@ -168,7 +180,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
     'Color completed units according to the planned target.',
   '행 배경색': 'Row background',
   '상태에 따라 행 배경색을 바꿉니다.': 'Change row backgrounds by status.',
-  '고정 행': 'Fixed rows',
+  '표시 행 수 고정': 'Fixed row count',
   '표시할 행 수를 고정하고, 행 선택과 합계를 확인합니다.':
     'Set a fixed row count and explore row selection and totals.',
   '외부 버튼으로 행을 선택·해제·삭제합니다.':
@@ -188,10 +200,11 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '전체·필터·선택 행을 조회하고 일괄 변경합니다.':
     'Read all, filtered or selected rows and update them together.',
   '내보낼 데이터와 제외 항목을 확인합니다.': 'Inspect export data and excluded items.',
-  '비용 계산과 프로젝트 내·간 셀 연동 예시입니다.':
+  '비용을 계산하고, 같은 프로젝트와 다른 프로젝트의 셀을 연동하는 예시입니다.':
     'An example of cost calculations and linked cells within and across projects.',
   트리: 'Tree',
-  '하위 행을 펼치고 조회 방식을 바꿉니다.': 'Expand child rows and change the loading mode.',
+  '하위 행의 완료율과 추세를 확인하고 조회 방식을 바꿉니다.':
+    'View child-row completion and trends, and change the loading mode.',
   '다단계 트리': 'Nested tree',
   '여러 단계의 하위 행을 펼치고 접습니다.': 'Expand and collapse multiple levels of child rows.',
   '정렬·필터 조건으로 모의 서버를 조회합니다.':

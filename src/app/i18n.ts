@@ -1,10 +1,12 @@
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { chartEnglish } from '../playgrounds/charts/locales/en';
+import { chartOwpEnglish } from '../playgrounds/charts/locales/owp.en';
 import { catalogEnglish } from '../playgrounds/datagrid/locales/catalog.en';
 import { owpEnglish } from '../playgrounds/datagrid/locales/owp.en';
 import { appEnglish } from '../shared/i18n/app.en';
 
-const english = { ...appEnglish, ...catalogEnglish };
+const english = { ...appEnglish, ...catalogEnglish, ...chartEnglish };
 const korean = Object.fromEntries(
   Object.keys(english).map((key) => [
     key,
@@ -20,8 +22,8 @@ await i18next.use(initReactI18next).init({
   keySeparator: false,
   nsSeparator: false,
   resources: {
-    ko: { app: korean, owp: {} },
-    en: { app: english, owp: owpEnglish },
+    ko: { app: korean, owp: korean },
+    en: { app: english, owp: { ...english, ...owpEnglish, ...chartOwpEnglish } },
   },
   interpolation: { escapeValue: false },
   initAsync: false,

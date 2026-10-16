@@ -98,9 +98,9 @@ try {
     await page.locator('.guide-sections > section').last().scrollIntoViewIfNeeded();
     await shot(`guide-usage-${width}`);
   }
-  await page.getByRole('button', { name: '샘플 메뉴 열기' }).click();
+  await page.getByRole('button', { name: '예제 메뉴 열기' }).click();
   assert.equal(await page.locator('.MuiDrawer-root .nav-item').first().textContent(), '시작');
-  await page.locator('.MuiDrawer-root').getByRole('link', { name: '고정 행', exact: true }).click();
+  await page.locator('.MuiDrawer-root').getByRole('link', { name: '표시 행 수 고정', exact: true }).click();
   await page.locator('.OwpDataGrid-root').waitFor();
   assert.equal(await page.locator('.language-label').count(), 0);
   await page.goBack();

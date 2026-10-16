@@ -1,3 +1,4 @@
+import { readGridData } from './read-api-data.mjs';
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import AxeBuilder from '@axe-core/playwright';
@@ -28,8 +29,8 @@ async function preview() {
 }
 async function data() {
   await page.getByRole('tab', { name: '데이터', exact: true }).click();
-  await page.waitForFunction(() => document.querySelector('.code-scroll code')?.textContent.startsWith('{'));
-  return JSON.parse(await page.locator('.code-scroll code').textContent());
+  await page.waitForFunction(() => document.querySelector('.code-scroll code')?.textContent.startsWith('['));
+  return await readGridData(page);
 }
 async function shot(name) {
   await page.evaluate(async () => {
@@ -112,7 +113,7 @@ try {
   pass('legacy autocomplete link resolves to the merged sample', { url: page.url() });
 
   await load('visible-rows');
-  assert.equal(await page.locator('.sample-heading h1').textContent(), '고정 행');
+  assert.equal(await page.locator('.sample-heading h1').textContent(), '표시 행 수 고정');
   assert.equal(await page.locator('.grid-preview [data-owp-data-grid-row-key^="string:task-"]').count(), 10);
   await page.locator('.grid-preview input[type=checkbox]').nth(1).check();
   assert.match(await page.locator('.preview-status').textContent(), /선택 1/);
@@ -122,7 +123,7 @@ try {
   pass('fixed rows retain ten populated rows, selection and totals', { count: 10 });
 
   await load('minimal');
-  assert.equal(await page.locator('.sample-heading h1').textContent(), '고정 행');
+  assert.equal(await page.locator('.sample-heading h1').textContent(), '표시 행 수 고정');
   const catalog = await (await page.request.get(`${origin}/catalog.json`)).json();
   assert.equal(catalog.samples.filter(sample => sample.kind === 'grid').length, 47);
   assert.equal(catalog.samples[0].id, 'getting-started');

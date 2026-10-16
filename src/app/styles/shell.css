@@ -134,7 +134,7 @@ button {
   align-items: center;
   gap: 4px;
   margin-left: 20px;
-  color: var(--pg-muted);
+  color: var(--pg-secondary);
   font-size: 12px;
 }
 .brand-symbol {

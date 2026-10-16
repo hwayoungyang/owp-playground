@@ -3,7 +3,7 @@ import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef } from '@owp/datagrid/types';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getRowId, initialTasks, type Task } from '../model/data';
+import { getRowId, initialTasks, owners, statuses, type Task } from '../model/data';
 import type { Definition, ExampleProps } from '../model/types';
 
 const tagOptions = [
@@ -20,11 +20,61 @@ const columns = [
     id: 'tags',
     field: 'tags',
     header: '태그',
-    minWidth: 260,
-    relWidth: 1.8,
+    minWidth: 140,
+    relWidth: 0.9,
     type: 'select',
     editable: true,
     valueOptions: tagOptions,
+  },
+  {
+    id: 'owner',
+    field: 'owner',
+    header: '담당자',
+    minWidth: 100,
+    relWidth: 0.7,
+    type: 'select',
+    editable: true,
+    valueOptions: owners.map((value) => ({ value, label: value })),
+  },
+  {
+    id: 'status',
+    field: 'status',
+    header: '상태',
+    minWidth: 110,
+    relWidth: 0.8,
+    type: 'select',
+    editable: true,
+    valueOptions: statuses.map((value) => ({ value, label: value })),
+  },
+  {
+    id: 'quantity',
+    field: 'quantity',
+    header: '계획',
+    minWidth: 85,
+    relWidth: 0.6,
+    type: 'number',
+    editable: true,
+  },
+  {
+    id: 'completed',
+    field: 'completed',
+    header: '완료',
+    minWidth: 85,
+    relWidth: 0.6,
+    type: 'number',
+    editable: true,
+  },
+  {
+    id: 'date',
+    field: 'date',
+    header: '마감일',
+    minWidth: 150,
+    relWidth: 1,
+    type: 'date',
+    editable: true,
+    align: 'center',
+    headerAlign: 'center',
+    dateOptions: { format: 'YYYY-MM-DD' },
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
@@ -50,6 +100,14 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       columns.map((column) => ({
         ...column,
         header: t(column.header),
+        ...('valueOptions' in column && column.valueOptions
+          ? {
+              valueOptions: column.valueOptions.map((option) => ({
+                ...option,
+                label: t(option.label),
+              })),
+            }
+          : {}),
         ...(column.id === 'tags'
           ? {
               valueOptions: tagOptions.map((option) => ({ ...option, label: t(option.label) })),

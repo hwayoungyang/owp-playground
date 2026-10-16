@@ -15,8 +15,9 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ComponentsPreview } from './ComponentsPreview';
 import { createPreviewGridTheme, type PreviewThemeSettings } from './model/preview';
-import { dataGridThemeSchema, muiThemeSchema } from './model/schemas';
+import { dataGridThemeSchema, muiThemeSchema, themeFileSchema } from './model/schemas';
 import { createPreviewMuiTheme, editableMuiTheme, exportTheme, importTheme } from './model/studio';
+import type { ThemeFieldCommitResult } from './model/validation';
 import { PreviewProvider } from './PreviewProvider';
 import { ProjectUsage } from './ProjectUsage';
 import { ThemeField } from './ThemeField';
@@ -58,9 +59,12 @@ export function ThemeStudio({
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
   const load = async (file: File) => {
+    if (file.size > 256 * 1024) {
+      setNotice({ message: '256KiB 이하의 테마 파일을 선택해 주세요.', severity: 'error' });
+      return;
+    }
     setLoading(true);
     try {
-      if (file.size > 256 * 1024) throw new Error('Theme file too large');
       const next = importTheme(await file.text());
       onChange(next);
       setNotice({ message: '테마를 불러왔습니다.', severity: 'success' });
@@ -74,17 +78,22 @@ export function ThemeStudio({
       setLoading(false);
     }
   };
-  const updateGrid = (group: string, field: string, next: unknown): boolean => {
+  const updateGrid = (group: string, field: string, next: unknown): ThemeFieldCommitResult => {
     const current = Object.entries(rawGrid).find(([key]) => key === group)?.[1];
     const parsed = dataGridThemeSchema.safeParse({
       ...rawGrid,
       [group]: { ...current, [field]: next },
     });
-    if (!parsed.success) return false;
+    if (!parsed.success) return parsed;
     onChange({ ...value, grid: parsed.data });
-    return true;
+    return { success: true };
   };
-  const updateMui = (group: string, field: string, next: unknown, subgroup?: string): boolean => {
+  const updateMui = (
+    group: string,
+    field: string,
+    next: unknown,
+    subgroup?: string,
+  ): ThemeFieldCommitResult => {
     const current = Object.entries(mui).find(([key]) => key === group)?.[1];
     const nested =
       subgroup && current
@@ -94,9 +103,9 @@ export function ThemeStudio({
       ...mui,
       [group]: { ...current, [subgroup ?? field]: subgroup ? { ...nested, [field]: next } : next },
     });
-    if (!parsed.success) return false;
+    if (!parsed.success) return parsed;
     onChange({ ...value, mui: parsed.data });
-    return true;
+    return { success: true };
   };
   return (
     <Drawer
@@ -144,21 +153,21 @@ export function ThemeStudio({
                     cell: { ...rawGrid.cell, fontSize: next },
                     header: { ...rawGrid.header, fontSize: next },
                   });
-                  if (!parsed.success) return false;
+                  if (!parsed.success) return parsed;
                   onChange({ ...value, grid: parsed.data });
-                  return true;
+                  return { success: true };
                 }}
               />
               <ThemeField
                 key="radius"
-                label={t(target === 'datagrid' ? '모서리 둥글기 (rem)' : '모서리 둥글기 (px)')}
+                label={t(target === 'datagrid' ? 'radius (rem)' : 'borderRadius (px)')}
                 value={target === 'datagrid' ? (value.radius ?? 0) : mui.shape.borderRadius}
                 onCommit={(next) => {
                   if (target !== 'datagrid') return updateMui('shape', 'borderRadius', next);
-                  if (typeof next !== 'number' || !Number.isFinite(next) || next < 0 || next > 2)
-                    return false;
-                  onChange({ ...value, radius: next });
-                  return true;
+                  const parsed = themeFileSchema.shape.dataGridProps.shape.radius.safeParse(next);
+                  if (!parsed.success) return parsed;
+                  onChange({ ...value, radius: parsed.data });
+                  return { success: true };
                 }}
               />
             </AccordionDetails>

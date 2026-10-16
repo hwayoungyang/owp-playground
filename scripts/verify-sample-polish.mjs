@@ -95,7 +95,7 @@ try {
   await load('formatting');
   assert.equal(await page.getByRole('heading', { level: 1 }).textContent(), '숫자·날짜 서식');
   assert.match(await page.locator('.sample-heading p').textContent(), /숫자와 날짜·시간 서식/);
-  await choose('소수점 변경 (금액 (원) 컬럼)', 6);
+  await choose('금액 소수 자릿수', 6);
   const firstAmount = page.locator('[data-owp-data-grid-row-key="string:task-1"] .OwpDataGrid-cell').nth(2);
   assert.equal((await firstAmount.textContent()).trim(), '12,000.000000');
   await shot('formatting-copy');
@@ -131,6 +131,12 @@ try {
 
   await load('large-data');
   const generate = page.getByRole('button', { name: '데이터 생성', exact: true });
+  await page.locator('.binding-time').waitFor();
+  assert.match(await page.locator('.binding-time').textContent(), /그리드 반영 시간 [\d.]+ ms/);
+  const initial = await datasetEvent();
+  assert.equal(initial.count, 10000);
+  assert.ok(initial.milliseconds > 0);
+  await page.getByRole('tab', { name: '예제', exact: true }).click();
   assert.ok((await generate.getAttribute('class')).includes('MuiButton-outlined'));
   await choose('생성할 데이터 건수', 100000);
   assert.ok((await generate.getAttribute('class')).includes('MuiButton-contained'));
@@ -154,7 +160,11 @@ try {
   assert.match(await page.locator('.preview-status').textContent(), /100,000행/);
   await shot('large-bound');
   await page.getByRole('button', { name: '초기화', exact: true }).click();
-  assert.equal(await page.locator('.binding-time').count(), 0);
+  await page.locator('.binding-time').waitFor();
+  const reset = await datasetEvent();
+  assert.equal(reset.count, 10000);
+  assert.ok(reset.milliseconds > 0);
+  await page.getByRole('tab', { name: '예제', exact: true }).click();
   assert.ok((await generate.getAttribute('class')).includes('MuiButton-outlined'));
   await choose('생성할 데이터 건수', 1000000);
   await generate.click();
@@ -164,8 +174,9 @@ try {
   assert.equal(await page.locator('.binding-time').count(), 0);
   assert.match(await page.locator('.preview-status').textContent(), /0행/);
   await page.getByRole('button', { name: '초기화', exact: true }).click();
+  await page.locator('.binding-time').waitFor();
   assert.match(await page.locator('.preview-status').textContent(), /10,000행/);
-  pass('large-data highlights unapplied counts, excludes deliberately slow generation, and clears timing on reset/cancel', { count: event.count, bindingMs: event.milliseconds, elapsedMs: Math.round(elapsed), cancelled: true });
+  pass('large-data measures initial load and reset, highlights unapplied counts, excludes deliberately slow generation, and clears timing on cancel', { initialBindingMs: initial.milliseconds, resetBindingMs: reset.milliseconds, count: event.count, bindingMs: event.milliseconds, elapsedMs: Math.round(elapsed), cancelled: true });
 
   await load('large-data');
   await choose('생성할 데이터 건수', 1000000);

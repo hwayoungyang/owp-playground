@@ -5,8 +5,8 @@ export const appEnglish: Readonly<Record<string, string>> = {
     'Pass the extended MUI theme to the existing OwpStyleProvider.',
 
   '글자 크기·모서리': 'Font size & corners',
-  '모서리 둥글기 (rem)': 'Corner radius (rem)',
-  '모서리 둥글기 (px)': 'Corner radius (px)',
+  'radius (rem)': 'radius (rem)',
+  'borderRadius (px)': 'borderRadius (px)',
   'MUI 색상 팔레트': 'MUI color palette',
   '색상 팔레트 닫기': 'Close color palette',
   'MUI 색상 선택': 'Choose MUI color',
@@ -62,13 +62,13 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '글자 굵기': 'Font weight',
   높이: 'Height',
   '정렬 아이콘 색상': 'Sort icon color',
-  '비활성 정렬 아이콘 투명도': 'Inactive sort icon opacity',
+  '비활성 정렬 아이콘 opacity': 'Inactive sort icon opacity',
   '첫 번째 정렬 색상': 'First sort color',
   '두 번째 정렬 색상': 'Second sort color',
   '세 번째 정렬 색상': 'Third sort color',
   '크기 조절 핸들 색상': 'Resize handle color',
   '빈 영역 배경색': 'Empty area background',
-  '고정 행 배경색': 'Solid row background',
+  solidBackgroundColor: 'solidBackgroundColor',
   '호버 배경색': 'Hover background',
   '호버 테두리 색상': 'Hover border',
   '호버 행 배경색': 'Hovered row background',
@@ -91,7 +91,7 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '날짜 입력 글자 크기': 'Date input font size',
   '하단 테두리 색상': 'Bottom border',
   '조건 아이콘 색상': 'Operator icon color',
-  '비활성 투명도': 'Disabled opacity',
+  '비활성 필터 셀 opacity': 'Disabled filter cell opacity',
   '메뉴 호버 배경색': 'Menu hover background',
   '메뉴 선택 배경색': 'Menu selected background',
   '활성 아이콘 색상': 'Active icon color',
@@ -108,7 +108,7 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '효과 사용': 'Enable effects',
   '동작 시간 (ms)': 'Interaction duration (ms)',
   '경계 효과 시간 (ms)': 'Boundary duration (ms)',
-  '전환 곡선': 'Easing curve',
+  easing: 'easing',
   '경계 효과 색상': 'Boundary effect color',
   '경계 효과 크기': 'Boundary effect size',
   '핸들 색상': 'Handle color',
@@ -155,7 +155,25 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '파일 저장': 'Save file',
   '파일 불러오기': 'Load file',
   '테마 파일': 'Theme file',
-  '지원하는 값을 입력해 주세요.': 'Enter a supported value.',
+  '값을 입력해 주세요.': 'Enter a value.',
+  '{{min}}~{{max}} 사이의 숫자를 입력해 주세요.': 'Enter a number between {{min}} and {{max}}.',
+  '{{min}} 이상의 숫자를 입력해 주세요.': 'Enter a number greater than or equal to {{min}}.',
+  '{{max}} 이하의 숫자를 입력해 주세요.': 'Enter a number less than or equal to {{max}}.',
+  '숫자를 입력해 주세요.': 'Enter a number.',
+  '100~900 사이의 숫자 또는 normal, bold를 입력해 주세요.':
+    'Enter a number from 100 to 900, or normal or bold.',
+  '0~500 사이의 숫자 또는 px, rem, em, % 단위를 붙인 값을 입력해 주세요.':
+    'Enter a number from 0 to 500, or a value with px, rem, em or % units.',
+  'linear, ease, ease-in, ease-out, ease-in-out 또는 cubic-bezier(...)를 입력해 주세요.':
+    'Enter linear, ease, ease-in, ease-out, ease-in-out or cubic-bezier(...).',
+  'HEX, rgb(), rgba(), hsl(), hsla(), transparent 또는 currentColor 형식으로 입력해 주세요.':
+    'Use HEX, rgb(), rgba(), hsl(), hsla(), transparent or currentColor.',
+  'HEX, rgb(), rgba(), hsl() 또는 hsla() 형식으로 입력해 주세요.':
+    'Use HEX, rgb(), rgba(), hsl() or hsla().',
+  'HEX, rgb(), rgba(), hsl(), hsla(), transparent, currentColor 또는 primary.main 같은 팔레트 값을 입력해 주세요.':
+    'Use HEX, rgb(), rgba(), hsl(), hsla(), transparent, currentColor or a palette value such as primary.main.',
+  '입력 형식과 값을 확인해 주세요.': 'Check the input format and value.',
+  '256KiB 이하의 테마 파일을 선택해 주세요.': 'Choose a theme file no larger than 256KiB.',
   '색상 선택': 'Choose color',
   일반: 'General',
   '설치 및 사용 안내': 'Installation and usage guide',
@@ -171,7 +189,7 @@ export const appEnglish: Readonly<Record<string, string>> = {
     'Define columns and rows, and identify rows with getRowId.',
   소수점: 'Decimal places',
   '그리드 반영 시간 {{ms}} ms': 'Grid update time {{ms}} ms',
-  '소수점 변경 (금액 (원) 컬럼)': 'Decimal places (Amount (KRW) column)',
+  '금액 소수 자릿수': 'Amount decimal places',
   '측정 시간은 테스트 환경에 따라 달라질 수 있습니다.':
     'Measured time may vary with the test environment.',
   '헤더 단계': 'Header levels',
@@ -231,11 +249,11 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '기본 적용률은 프로젝트 전체에, 작업 3의 완료 수량은 작업 4에 반영합니다. 첫 프로젝트 작업 4는 다음 프로젝트 작업 4에도 연결됩니다.':
     'The base rate applies to the whole project. Task 3 completed units affect task 4; task 4 in the first project also affects task 4 in the next project.',
   '기본 적용률': 'Base rate',
-  '계획과 차이': 'Difference from plan',
+  '계획·완료 수량 차이': 'Planned − completed units',
   '직접 입력': 'Direct inputs',
   '계산 결과': 'Calculated results',
   '아직 변경한 값이 없습니다.': 'No values have been changed yet.',
-  '연동 값을 반영하지 못했습니다. 샘플을 초기화한 뒤 다시 입력해 주세요.':
+  '연동 값을 반영하지 못했습니다. 예제를 초기화한 뒤 다시 입력해 주세요.':
     'Could not update linked values. Reset the example and try again.',
   '{{project}} 기본 적용률 변경 → 프로젝트 전체의 적용 금액을 반영했습니다.':
     '{{project}} base rate changed → updated applied costs across the project.',
@@ -254,22 +272,22 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '계획 비용 (원)': 'Planned cost (KRW)',
   '현재 위치': 'Current location',
   '컴포넌트 예제': 'Component examples',
-  '샘플 모음': 'Sample collection',
+  '예제 모음': 'Example collection',
   '본문으로 이동': 'Skip to content',
-  '샘플을 불러오는 중…': 'Loading example…',
-  '샘플 메뉴 열기': 'Open sample menu',
+  '예제를 불러오는 중…': 'Loading example…',
+  '예제 메뉴 열기': 'Open example menu',
   'OWP Playground 처음으로': 'OWP Playground home',
-  '샘플 탐색': 'Sample navigation',
-  '샘플 검색': 'Search samples',
+  '예제 탐색': 'Example navigation',
+  '예제 검색': 'Search examples',
   '검색 …': 'Search …',
-  '검색 결과가 없습니다.': 'No samples found.',
+  '검색 결과가 없습니다.': 'No examples found.',
   '검색 지우기': 'Clear search',
   '예제 {{count}}개': '{{count}} examples',
   선택됨: 'Selected',
   '준비 중': 'Coming soon',
   '패키지 선택': 'Select package',
-  '샘플 준비 중': 'Samples coming soon',
-  '샘플을 차례로 추가하고 있어요.': 'More package examples are on the way.',
+  '예제 준비 중': 'Examples coming soon',
+  '예제를 차례로 추가하고 있어요.': 'More package examples are on the way.',
   '지금은 OwpDataGrid 예제를 볼 수 있어요.': 'Explore the OwpDataGrid examples in the meantime.',
   'OwpDataGrid 보기': 'Open OwpDataGrid',
   '어두운 화면': 'Dark screen',
@@ -286,8 +304,9 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '셀 병합': 'Cell spans',
   편집: 'Editing',
   응용: 'Advanced',
-  '샘플 실행 영역': 'Sample workspace',
-  '예제 보기 방식': 'Sample views',
+  '예제 실행 영역': 'Example workspace',
+  '예제 보기 방식': 'Example views',
+  '이벤트 {{count}}': 'Events {{count}}',
   예제: 'Preview',
   코드: 'Code',
   데이터: 'Data',
@@ -328,9 +347,7 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '복사했습니다.': 'Copied to clipboard.',
   '자동으로 복사하지 못했습니다. 코드를 선택해 복사할 수 있습니다.':
     'Copy failed. Select the code and copy it manually.',
-  '샘플 데이터': 'Sample data',
   '실행 원본 코드': 'Actual source code',
-  '현재 데이터의 앞 100행입니다.': 'Showing the first 100 rows of the current data.',
   '실행에 사용한 원본 코드입니다.': 'This is the source used by the example.',
   '처리 중': 'Working',
   '입력값에 문제가 없습니다.': 'No issues found in the input.',
@@ -564,7 +581,8 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '로딩 시작': 'Start loading',
   '로딩 종료': 'Stop loading',
   '단일 선택은 첫 값만 유지합니다.': 'Single selection keeps the first value.',
-  '버튼·스위치의 속성과 이벤트를 설정합니다.': 'Configure button and switch properties and events.',
+  '버튼으로 작업을 완료하고, 스위치로 알림을 켜고 끕니다.':
+    'Complete tasks with buttons and turn notifications on or off with switches.',
   '선택한 행은 함께 이동합니다.': 'Selected rows move together.',
   '결과는 이벤트에서 확인합니다.': 'See the results in Events.',
   입력: 'Input',
@@ -573,4 +591,90 @@ export const appEnglish: Readonly<Record<string, string>> = {
   합계: 'Totals',
   '기본 적용률 → 프로젝트 전체': 'Base rate → whole project',
   '작업 3 → 작업 4 → 다음 프로젝트': 'Task 3 → task 4 → next project',
+  '완료율 (%)': 'Completion (%)',
+  '완료율 추세': 'Completion trend',
+  '{{task}} 완료율': '{{task}} completion',
+  '{{task}} 완료율 추세 {{direction}}, 현재 {{percent}}%':
+    '{{task}} completion trend {{direction}}, currently {{percent}}%',
+  상승: 'rising',
+  하락: 'falling',
+  '검토 내용': 'Review details',
+  '인수인계 사항': 'Handover notes',
+  '담당자와 담당 업무': 'Owner and responsibilities',
+  '상태와 후속 조치': 'Status and next steps',
+  '관련 업무': 'Related work',
+  '전체 계획 건수': 'Total planned units',
+  '누적 완료 건수': 'Total completed units',
+  '총 예상 비용 (원)': 'Total estimated cost (KRW)',
+  '디자인 · 사용자 흐름과 반응형 화면 구성 검토':
+    'Design · Review user flows and responsive layouts',
+  '웹 · 브라우저 호환성과 키보드 접근성 검증':
+    'Web · Verify browser compatibility and keyboard accessibility',
+  '모바일 · 작은 화면의 입력과 스크롤 동작 확인':
+    'Mobile · Check input and scrolling on small screens',
+  '김서윤 · 웹 서비스 화면 설계 및 접근성 검토 담당':
+    '김서윤 · Web layout design and accessibility review',
+  '박민재 · 웹 서비스 화면 설계 및 접근성 검토 담당':
+    '박민재 · Web layout design and accessibility review',
+  '이지우 · 웹 서비스 화면 설계 및 접근성 검토 담당':
+    '이지우 · Web layout design and accessibility review',
+  '정윤호 · 웹 서비스 화면 설계 및 접근성 검토 담당':
+    '정윤호 · Web layout design and accessibility review',
+  '진행 중 · 검토 의견과 배포 일정을 확인한 뒤 다음 단계로 진행':
+    'In progress · Check review feedback and the release schedule before proceeding',
+  '완료 · 검토 의견과 배포 일정을 확인한 뒤 다음 단계로 진행':
+    'Complete · Check review feedback and the release schedule before proceeding',
+  '검토 중 · 검토 의견과 배포 일정을 확인한 뒤 다음 단계로 진행':
+    'In review · Check review feedback and the release schedule before proceeding',
+  '대기 · 검토 의견과 배포 일정을 확인한 뒤 다음 단계로 진행':
+    'Waiting · Check review feedback and the release schedule before proceeding',
+  '필드 설명 주석': 'Field comments',
+  'OWP_DATA.DATA* 형식의 가상 API 데이터입니다. 숫자와 boolean 값은 문자열로 전달합니다.':
+    'Mock API data uses OWP_DATA.DATA* keys. Numbers and booleans are sent as strings.',
+  '데이터 표시 범위': 'Data range',
+  '전체 {{total}}개 중 {{start}}–{{end}}번째 데이터': 'Records {{start}}–{{end}} of {{total}}',
+  '이전 100개': 'Previous 100',
+  '다음 100개': 'Next 100',
+  '필드와 참조 관계를 설명한 JSONC입니다. 주석을 끄면 JSON으로 복사·다운로드할 수 있습니다.':
+    'JSONC includes field and reference comments. Turn comments off to copy or download JSON.',
+  '현재 화면에 적용된 가상 API 데이터입니다.': 'Mock API data currently used by the example.',
+  'X 좌표. 다른 series도 같은 X 값을 참조합니다.':
+    'X coordinate. Other series reference the same X value.',
+  '분류·시각 라벨. 같은 행의 DATA2 이후 값과 대응합니다.':
+    'Category or time label, paired with DATA2 and subsequent values in this row.',
+  '값: {{name}}. 숫자 문자열이며 null은 해당 위치의 데이터가 없음을 뜻합니다.':
+    'Value: {{name}}. A numeric string; null means no data at this position.',
+  '행 식별자 (id). 모든 행에서 고유해야 합니다.': 'Row identifier (id), unique across all rows.',
+  '프로젝트 (project)': 'Project (project)',
+  '작업명 (task)': 'Task name (task)',
+  '담당자 (owner)': 'Owner (owner)',
+  '상태 (status)': 'Status (status)',
+  '계획 수량 (quantity). Number로 변환합니다.': 'Planned quantity (quantity). Convert with Number.',
+  '완료 수량 (completed). Number로 변환합니다.':
+    'Completed quantity (completed). Convert with Number.',
+  '비용 (cost). Number로 변환합니다.': 'Cost (cost). Convert with Number.',
+  '날짜 (date): YYYY-MM-DD': 'Date (date): YYYY-MM-DD',
+  '연도 (year): YYYY': 'Year (year): YYYY',
+  '월 (month): YYYY-MM': 'Month (month): YYYY-MM',
+  '시간 (time): HH:mm': 'Time (time): HH:mm',
+  '일시 (datetime): YYYY-MM-DD HH:mm': 'Date and time (datetime): YYYY-MM-DD HH:mm',
+  '활성 여부 (active): "1"이면 true, "0"이면 false':
+    'Active (active): "1" means true; "0" means false',
+  '태그 (tags). 여러 값은 쉼표로 구분합니다.': 'Tags (tags). Separate multiple values with commas.',
+  '비고 (note). 빈 문자열도 유효한 값입니다.': 'Notes (note). An empty string is valid.',
+  '부모 참조 (parentId). 부모 행의 DATA1을 참조하며 루트 행은 null입니다.':
+    'Parent reference (parentId), pointing to the parent row DATA1; null for roots.',
+  '숫자·문자 혼합 값 (mixed). 숫자 문자열만 Number로 변환합니다.':
+    'Mixed numeric or text value (mixed). Convert numeric strings with Number.',
+  '자식 행 배열 (children). nested 모드의 getChildren에 연결하며 같은 DATA 필드 구조를 반복합니다.':
+    'Child rows (children). Connect to getChildren in nested mode, repeating the same DATA field structure.',
+  '워크시트 행 구분 (worksheetKind): item 또는 rate':
+    'Worksheet row kind (worksheetKind): item or rate',
+  '예약 수량 (reserved). Number로 변환합니다.':
+    'Reserved quantity (reserved). Convert with Number.',
+  '비율 (rate). Number로 변환합니다.': 'Rate (rate). Convert with Number.',
+  'OWP API 필드명을 field와 getRowId에 연결합니다. 숫자·boolean 변환과 트리 연결 예제는 model/apiData.ts에서 확인할 수 있습니다.':
+    'Connect OWP API field names to field and getRowId. See model/apiData.ts for number and boolean conversion and tree mappings.',
+  'OWP API의 문자열 값을 숫자로 변환한 뒤 ChartFrame에 전달합니다. 데이터 탭에는 같은 값을 OWP_DATA 필드로 표시합니다.':
+    'Convert numeric OWP API strings before passing them to ChartFrame. The Data tab shows the same values using OWP_DATA fields.',
 };

@@ -172,7 +172,9 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
 
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <p className="example-caption">{t('버튼·스위치의 속성과 이벤트를 설정합니다.')}</p>
+      <p className="example-caption">
+        {t('버튼으로 작업을 완료하고, 스위치로 알림을 켜고 끕니다.')}
+      </p>
       {error && (
         <output className="example-caption" role="alert">
           {t(error)}

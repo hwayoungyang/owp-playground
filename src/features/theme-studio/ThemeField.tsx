@@ -3,6 +3,11 @@ import { PaletteIcon } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ColorPalette } from './ColorPalette';
+import {
+  type ThemeFieldCommitResult,
+  type ThemeFieldMessage,
+  themeFieldMessage,
+} from './model/validation';
 
 export function ThemeField({
   label,
@@ -11,23 +16,28 @@ export function ThemeField({
 }: {
   readonly label: string;
   readonly value: string | number;
-  readonly onCommit: (value: string | number) => boolean;
+  readonly onCommit: (value: string | number) => ThemeFieldCommitResult;
 }) {
   const { t } = useTranslation('app');
   const [draft, setDraft] = useState(String(value));
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<ThemeFieldMessage>();
   const [paletteOpen, setPaletteOpen] = useState(false);
   useEffect(() => {
     setDraft(String(value));
-    setError(false);
+    setError(undefined);
   }, [value]);
   const commit = (next: string) => {
     if (String(value) === next) {
-      setError(false);
+      setError(undefined);
+      return;
+    }
+    if (next.trim() === '') {
+      setError({ key: '값을 입력해 주세요.' });
       return;
     }
     const parsed = typeof value === 'number' || /^\d+(?:\.\d+)?$/.test(next) ? Number(next) : next;
-    setError(next.trim() === '' || !onCommit(parsed));
+    const result = onCommit(parsed);
+    setError(result.success ? undefined : themeFieldMessage(result.error));
   };
   const isColor =
     typeof value === 'string' &&
@@ -41,11 +51,11 @@ export function ThemeField({
         fullWidth
         label={label}
         value={draft}
-        error={error}
-        helperText={error ? t('지원하는 값을 입력해 주세요.') : undefined}
+        error={error !== undefined}
+        helperText={error ? t(error.key, error.options) : undefined}
         onChange={(event) => {
           setDraft(event.target.value);
-          setError(false);
+          setError(undefined);
         }}
         onBlur={() => commit(draft)}
         onKeyDown={(event) => {

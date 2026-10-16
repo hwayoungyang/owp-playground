@@ -125,11 +125,11 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
       <div className="example-controls">
-        <label htmlFor="amount-precision">{t('소수점 변경 (금액 (원) 컬럼)')}</label>
+        <label htmlFor="amount-precision">{t('금액 소수 자릿수')}</label>
         <Select
           id="amount-precision"
           value={precision}
-          inputProps={{ 'aria-label': t('소수점 변경 (금액 (원) 컬럼)') }}
+          inputProps={{ 'aria-label': t('금액 소수 자릿수') }}
           onChange={(event) => {
             const result = fractionDigitsSchema.safeParse(event.target.value);
             if (result.success) setPrecision(result.data);

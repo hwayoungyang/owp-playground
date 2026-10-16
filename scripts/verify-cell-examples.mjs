@@ -1,3 +1,4 @@
+import { readGridData } from './read-api-data.mjs';
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
@@ -24,9 +25,9 @@ async function load(id) {
 async function data(language = 'ko') {
   await page.getByRole('tab', { name: language === 'ko' ? '데이터' : 'Data', exact: true }).click();
   await page.waitForFunction(() =>
-    document.querySelector('.code-scroll code')?.textContent.startsWith('{'),
+    document.querySelector('.code-scroll code')?.textContent.startsWith('['),
   );
-  return JSON.parse(await page.locator('.code-scroll code').textContent()).rows;
+  return (await readGridData(page)).rows;
 }
 async function preview(language = 'ko') {
   await page

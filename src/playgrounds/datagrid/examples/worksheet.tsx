@@ -57,7 +57,7 @@ const columns: readonly OwpDataGridColumn<Task>[] = [
   },
   {
     id: 'gap',
-    header: '계획과 차이',
+    header: '계획·완료 수량 차이',
     ...numericColumn,
     valueGetter: (row) => row.quantity - row.completed,
   },
@@ -247,7 +247,7 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
       {(error || update.message) && (
         <output className="example-caption" role={error ? 'alert' : 'status'}>
           {error
-            ? translate('연동 값을 반영하지 못했습니다. 샘플을 초기화한 뒤 다시 입력해 주세요.')
+            ? translate('연동 값을 반영하지 못했습니다. 예제를 초기화한 뒤 다시 입력해 주세요.')
             : translate(update.message, {
                 project: translate(update.project),
                 task: translate(update.task),

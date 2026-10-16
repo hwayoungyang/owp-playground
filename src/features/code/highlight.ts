@@ -41,8 +41,15 @@ const jsxXml: LanguageFn = (api) => {
 hljs.registerLanguage('xml', jsxXml);
 hljs.registerLanguage('typescript', typescript);
 hljs.registerLanguage('json', json);
+hljs.registerLanguage('jsonc', (api) => ({
+  ...json(api),
+  contains: [...json(api).contains, api.C_LINE_COMMENT_MODE, api.C_BLOCK_COMMENT_MODE],
+}));
 hljs.registerLanguage('css', css);
 
-export function highlightSource(content: string, language: 'typescript' | 'json' | 'css') {
+export function highlightSource(
+  content: string,
+  language: 'typescript' | 'json' | 'jsonc' | 'css',
+) {
   return hljs.highlight(content, { language }).value;
 }

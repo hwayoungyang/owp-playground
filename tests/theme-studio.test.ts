@@ -109,7 +109,7 @@ describe('project theme files', () => {
       'components',
     ]);
   });
-  it('translates every supported group and field without exposing native keys as labels', () => {
+  it('provides locale entries for every supported group and field label', () => {
     for (const labels of [themeGroupLabels, themeFieldLabels, muiPaletteLabels, muiColorLabels]) {
       for (const label of Object.values(labels)) expect(appEnglish[label], label).toBeTruthy();
     }

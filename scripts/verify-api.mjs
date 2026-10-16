@@ -1,3 +1,4 @@
+import { readGridData } from './read-api-data.mjs';
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
@@ -13,7 +14,7 @@ page.on('console', message => { if (message.type() === 'error') errors.push(mess
 const pass = (scenario, observed) => { results.push({ scenario, observed, pass: true }); console.log('PASS', scenario, observed); };
 async function load(id) { await page.goto(`${origin}/?package=datagrid&sample=${id}`); await page.locator('.grid-preview .OwpDataGrid-root').first().waitFor(); }
 async function preview() { await page.getByRole('tab', { name: '예제', exact: true }).click(); }
-async function data() { await page.getByRole('tab', { name: '데이터', exact: true }).click(); await page.waitForFunction(() => document.querySelector('.code-scroll code')?.textContent.startsWith('{')); return JSON.parse(await page.locator('.code-scroll code').textContent()); }
+async function data() { await page.getByRole('tab', { name: '데이터', exact: true }).click(); await page.waitForFunction(() => document.querySelector('.code-scroll code')?.textContent.startsWith('[')); return await readGridData(page); }
 async function action(name) { await page.locator('.example-controls').getByRole('button', { name, exact: true }).click(); }
 async function result(api) { await page.waitForFunction(api => { const raw = document.querySelector('.example-result')?.textContent; return raw && JSON.parse(raw).api === api; }, api); return JSON.parse(await page.locator('.example-result').textContent()).value; }
 async function select(index) { await page.locator('.grid-preview input[type=checkbox]').nth(index + 1).check(); }
@@ -95,7 +96,7 @@ try {
   let keys = await page.locator('.grid-preview .OwpDataGrid-row[data-owp-data-grid-row-key]').evaluateAll(items => [...new Set(items.map(item => item.getAttribute('data-owp-data-grid-row-key')))]);
   assert.equal(keys.length, 3); await action('전체 펼치기'); await settle();
   keys = await page.locator('.grid-preview .OwpDataGrid-row[data-owp-data-grid-row-key]').evaluateAll(items => [...new Set(items.map(item => item.getAttribute('data-owp-data-grid-row-key')))]);
-  assert.ok(keys.length > 3); const nested = await data(); assert.equal(nested.totalRows, 45); pass('controlled four-level tree expansion', { collapsed: 3, loaded: nested.totalRows });
+  assert.ok(keys.length > 3); const nested = await data(); const nestedRows = nested.rows.flatMap(function flatten(row) { return [row, ...(row.children ?? []).flatMap(flatten)]; }); assert.equal(nested.totalRows, 3); assert.equal(nestedRows.length, 45); pass('controlled four-level tree expansion and nested API response', { collapsed: 3, roots: nested.totalRows, loaded: nestedRows.length });
 
   await load('selection-policy'); assert.equal(await page.locator('.grid-preview input[type=checkbox]').first().isDisabled(), true);
   await action('새 행 추가'); const addedCheckbox = page.locator('.grid-preview input[type=checkbox]').last(); assert.equal(await addedCheckbox.isEnabled(), true); await addedCheckbox.check();

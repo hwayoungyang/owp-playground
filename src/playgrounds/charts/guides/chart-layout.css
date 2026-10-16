@@ -1,0 +1,96 @@
+/* Tailwind를 사용하지 않는 화면에서 ChartFrame의 레이아웃 utility를 제공합니다. */
+.owp-chart-surface .flex {
+  display: flex;
+}
+.owp-chart-surface .block {
+  display: block;
+}
+.owp-chart-surface .flex-col {
+  flex-direction: column;
+}
+.owp-chart-surface .flex-wrap {
+  flex-wrap: wrap;
+}
+.owp-chart-surface .w-full {
+  width: 100%;
+}
+.owp-chart-surface .h-full {
+  height: 100%;
+}
+.owp-chart-surface .shrink-0 {
+  flex-shrink: 0;
+}
+.owp-chart-surface .items-center {
+  align-items: center;
+}
+.owp-chart-surface .justify-center {
+  justify-content: center;
+}
+.owp-chart-surface .justify-start {
+  justify-content: flex-start;
+}
+.owp-chart-surface .justify-end {
+  justify-content: flex-end;
+}
+.owp-chart-surface .relative {
+  position: relative;
+}
+.owp-chart-surface .absolute {
+  position: absolute;
+}
+.owp-chart-surface .right-0 {
+  right: 0;
+}
+.owp-chart-surface .top-0 {
+  top: 0;
+}
+.owp-chart-surface .z-20 {
+  z-index: 20;
+}
+.owp-chart-surface .z-30 {
+  z-index: 30;
+}
+.owp-chart-surface .pointer-events-auto {
+  pointer-events: auto;
+}
+.owp-chart-surface .cursor-default {
+  cursor: default;
+}
+.owp-chart-surface .rounded-md {
+  border-radius: 6px;
+}
+.owp-chart-surface .px-4 {
+  padding-inline: 4px;
+}
+.owp-chart-surface .py-2 {
+  padding-block: 2px;
+}
+.owp-chart-surface .text-12 {
+  font-size: 12px;
+}
+.owp-chart-surface .leading-none {
+  line-height: 1;
+}
+.owp-chart-surface .transition-colors {
+  transition:
+    background-color 120ms,
+    color 120ms;
+}
+.owp-chart-surface .hover\:bg-\[var\(--chart-legend-hover-bg\)\]:hover {
+  background-color: var(--chart-legend-hover-bg);
+}
+.owp-chart-surface .chart-zoom-slider-handle {
+  transition:
+    box-shadow 120ms,
+    border-color 120ms;
+}
+.owp-chart-surface .chart-zoom-slider-handle:is(:hover, :focus-visible),
+.owp-chart-surface .rc-slider-handle-dragging {
+  box-shadow: 0 0 0 6px var(--chart-zoom-slider-thumb-halo);
+}
+@media (prefers-reduced-motion: reduce) {
+  .owp-chart-surface .transition-colors,
+  .owp-chart-surface .chart-zoom-slider-handle {
+    transition: none;
+  }
+}

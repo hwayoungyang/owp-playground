@@ -131,3 +131,20 @@
     max-width: 190px;
   }
 }
+.api-data-controls,
+.api-data-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 12px 20px;
+  color: var(--pg-secondary);
+  font-size: 13px;
+  border-bottom: 1px solid var(--pg-line);
+}
+
+.api-data-controls > span,
+.api-data-pagination > span {
+  flex: 1;
+  min-width: min(100%, 240px);
+}

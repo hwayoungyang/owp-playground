@@ -6,7 +6,12 @@ import {
   type PreviewThemeSettings,
 } from '../features/theme-studio/model/preview';
 import { supportsThemeStudio } from '../features/theme-studio/model/studio';
-import { categories, sampleAliases, sampleCatalog } from '../playgrounds/datagrid/catalog';
+import { chartCatalog, chartCategories } from '../playgrounds/charts/catalog';
+import {
+  categories as gridCategories,
+  sampleAliases,
+  sampleCatalog,
+} from '../playgrounds/datagrid/catalog';
 import {
   createPlaygroundUrl,
   dataGridPackage,
@@ -38,6 +43,17 @@ const ThemeStudio = lazy(() =>
   })),
 );
 
+const ChartsWorkspace = lazy(() =>
+  import('../playgrounds/charts/runtime/Workspace').then((module) => ({
+    default: module.ChartsWorkspace,
+  })),
+);
+const ChartsGettingStarted = lazy(() =>
+  import('../playgrounds/charts/guides/GettingStarted').then((module) => ({
+    default: module.ChartsGettingStarted,
+  })),
+);
+
 export function App() {
   const { t, i18n } = useTranslation('app');
   const [route, setRoute] = useState(() => readPlaygroundRoute(location.search));
@@ -62,11 +78,13 @@ export function App() {
     setThemeOpen(false);
   };
   const navigateSample = (id: string) => navigate(getPlaygroundRoute(route.playground, id));
+  const samples = route.status === 'charts' ? chartCatalog : sampleCatalog;
+  const categories = route.status === 'charts' ? chartCategories : gridCategories;
   const sidebarProps = {
     playground: route.playground,
-    samples: sampleCatalog,
+    samples,
     categories,
-    exampleCount: sampleCatalog.filter((entry) => entry.kind === 'grid').length,
+    exampleCount: samples.filter((entry) => entry.kind !== 'guide').length,
     getSampleUrl: (id: string) =>
       createPlaygroundUrl(location.href, getPlaygroundRoute(route.playground, id)).href,
   };
@@ -87,7 +105,7 @@ export function App() {
     const normalizeUrl = (next: PlaygroundRoute) => {
       const url = createPlaygroundUrl(location.href, next);
       const sampleId = new URLSearchParams(location.search).get('sample');
-      if (sampleId && next.sample && sampleAliases[sampleId] === next.sample.id) {
+      if (sampleId && next.status === 'ready' && sampleAliases[sampleId] === next.sample.id) {
         url.searchParams.set('sample', sampleId);
       }
       if (url.href !== location.href) history.replaceState(null, '', url);
@@ -163,7 +181,7 @@ export function App() {
                     <span className="package-version">v{route.playground.version}</span>
                   )}
                 </h1>
-                {!route.sample && <p>{t('샘플을 차례로 추가하고 있어요.')}</p>}
+                {!route.sample && <p>{t('예제를 차례로 추가하고 있어요.')}</p>}
               </div>
               {!route.sample && <div className="package-note">{route.playground.name}</div>}
             </div>
@@ -171,11 +189,17 @@ export function App() {
           <Suspense
             fallback={
               <div className="workspace-loading" role="status">
-                {t('샘플을 불러오는 중…')}
+                {t('예제를 불러오는 중…')}
               </div>
             }
           >
-            {route.sample ? (
+            {route.status === 'charts' ? (
+              route.sample.kind === 'guide' ? (
+                <ChartsGettingStarted key={`charts-${route.sample.id}`} sample={route.sample} />
+              ) : (
+                <ChartsWorkspace key={`charts-${route.sample.id}`} sample={route.sample} />
+              )
+            ) : route.sample ? (
               route.sample.kind === 'guide' ? (
                 <GettingStarted key={route.sample.id} sample={route.sample} />
               ) : (

@@ -1,100 +1,111 @@
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
-import { translate } from '../../../shared/i18n/translate';
-import type { Task } from '../model/data';
-import { getRowId, initialTasks, owners, statuses } from '../model/data';
+import { getRowId, initialTasks, owners, statuses, type Task } from '../model/data';
 import type { Definition, ExampleProps } from '../model/types';
 
-const statusClasses: Readonly<Record<string, string>> = {
-  '진행 중': 'status-0',
-  완료: 'status-1',
-  '검토 중': 'status-2',
-  대기: 'status-3',
-};
-
 const baseColumns = [
-  { id: 'project', field: 'project', header: '프로젝트', minWidth: 175, relWidth: 1.4 },
-  { id: 'task', field: 'task', header: '작업', minWidth: 175, relWidth: 1.5 },
-  { id: 'owner', field: 'owner', header: '담당자', minWidth: 100, relWidth: 0.8, align: 'center' },
+  { id: 'project', field: 'project', header: '프로젝트', minWidth: 150, relWidth: 1 },
+  { id: 'task', field: 'task', header: '작업', minWidth: 180, relWidth: 1.2 },
+  { id: 'note', field: 'note', header: '검토 내용', minWidth: 180, relWidth: 1.2 },
+  { id: 'mixed', field: 'mixed', header: '인수인계 사항', minWidth: 160, relWidth: 1 },
+  {
+    id: 'owner',
+    field: 'owner',
+    header: '담당자와 담당 업무',
+    minWidth: 140,
+    relWidth: 0.9,
+    type: 'select',
+    valueOptions: owners.map((value) => ({
+      value,
+      label: `${value} · 웹 서비스 화면 설계 및 접근성 검토 담당`,
+    })),
+  },
   {
     id: 'status',
     field: 'status',
-    header: '상태',
-    minWidth: 110,
+    header: '상태와 후속 조치',
+    minWidth: 140,
     relWidth: 0.9,
-    align: 'center',
-    headerAlign: 'center',
     type: 'select',
-    valueOptions: statuses.map((value) => ({ value, label: value })),
-    renderCell: ({ row }) =>
-      row.status ? (
-        <span className={`status-badge ${statusClasses[row.status] ?? ''}`}>
-          <span className="status-dot" />
-          {translate(row.status)}
-        </span>
-      ) : null,
+    valueOptions: statuses.map((value) => ({
+      value,
+      label: `${value} · 검토 의견과 배포 일정을 확인한 뒤 다음 단계로 진행`,
+    })),
+  },
+  {
+    id: 'tags',
+    field: 'tags',
+    header: '관련 업무',
+    minWidth: 160,
+    relWidth: 1,
+    type: 'select',
+    selectOptions: { multiple: true },
+    valueOptions: [
+      { value: 'design', label: '디자인 · 사용자 흐름과 반응형 화면 구성 검토' },
+      { value: 'web', label: '웹 · 브라우저 호환성과 키보드 접근성 검증' },
+      { value: 'mobile', label: '모바일 · 작은 화면의 입력과 스크롤 동작 확인' },
+    ],
   },
   {
     id: 'quantity',
     field: 'quantity',
-    header: '계획',
+    header: '전체 계획 건수',
+    minWidth: 110,
+    relWidth: 0.7,
     type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
     numberOptions: { maximumFractionDigits: 0 },
   },
   {
     id: 'completed',
     field: 'completed',
-    header: '완료',
+    header: '누적 완료 건수',
+    minWidth: 110,
+    relWidth: 0.7,
     type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
     numberOptions: { maximumFractionDigits: 0 },
   },
   {
-    id: 'date',
-    field: 'date',
-    header: '마감일',
-    type: 'date',
-    minWidth: 150,
-    relWidth: 1.1,
-    align: 'center',
-    headerAlign: 'center',
-    dateOptions: { format: 'YYYY-MM-DD' },
+    id: 'cost',
+    field: 'cost',
+    header: '총 예상 비용 (원)',
+    minWidth: 120,
+    relWidth: 0.8,
+    type: 'number',
+    numberOptions: { minimumFractionDigits: 2, maximumFractionDigits: 2 },
   },
 ] satisfies OwpDataGridColumn<Task>[];
 
-const editableColumns = baseColumns.map((column) => ({
+const columns = baseColumns.map((column) => ({
   ...column,
-  resizable: true,
-  headerAlign: ['status', 'date', 'time', 'datetime'].includes(column.id)
-    ? ('center' as const)
-    : ('left' as const),
   editable: column.id !== 'project',
-  ...(column.id === 'owner'
-    ? { type: 'select' as const, valueOptions: owners.map((value) => ({ value, label: value })) }
-    : {}),
+  resizable: true,
 }));
 
 export const exampleDefinition: Definition = {
-  rows: initialTasks.map((row) => ({
+  rows: initialTasks.map((row, index) => ({
     ...row,
     task: `${row.task} · 사용자 흐름과 화면 구성, 데이터 입력 조건을 함께 검토합니다.`,
+    note: '입력값 검증, 오류 안내, 키보드 이동과 작은 화면의 스크롤 동작을 확인하고 검토 의견을 기록합니다.',
+    mixed:
+      '최종 검토 의견과 변경 이력을 다음 담당자에게 전달하고, 배포 일정과 후속 확인 항목을 함께 공유합니다.',
+    quantity: 9876543210 + index * 23456,
+    completed: 1234567890 + index * 12345,
+    cost: 1234567890123.45 + index * 9876543.21,
   })),
-  columns: editableColumns,
+  columns,
   getRowId,
   height: 420,
   rowSelectionMode: 'none',
   overflowHint: { header: true, cell: true },
 };
+
 export function OwpDataGridExample(props: ExampleProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <OwpDataGrid
       ref={gridRef}
       rows={exampleDefinition.rows}
-      columns={editableColumns}
+      columns={columns}
       getRowId={getRowId}
       height={420}
       rowSelectionMode="none"

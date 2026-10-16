@@ -4,6 +4,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  GlobalStyles,
+  getContrastRatio,
   TextField,
 } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
@@ -203,11 +205,11 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
         id: 'delete',
         label: (
           <span
+            className="datagrid-delete-action"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: 8,
-              color: 'var(--pg-danger)',
             }}
           >
             <TrashIcon size={18} aria-hidden />
@@ -223,6 +225,24 @@ export function OwpDataGridExample(props: ExampleProps = {}) {
   }));
   return (
     <>
+      <GlobalStyles
+        styles={(theme) => {
+          const background = theme.palette.error.dark;
+          const foreground =
+            getContrastRatio(background, theme.palette.common.white) >= 4.5
+              ? theme.palette.common.white
+              : theme.palette.common.black;
+          return {
+            '.MuiMenuItem-root:has(.datagrid-delete-action)': {
+              color: theme.palette.error.main,
+              '&:hover, &:focus, &.Mui-focusVisible': {
+                backgroundColor: background,
+                color: foreground,
+              },
+            },
+          };
+        }}
+      />
       <OwpDataGrid
         ref={gridRef}
         rows={initialTasks}

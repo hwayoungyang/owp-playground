@@ -1,3 +1,4 @@
+import { readGridData } from './read-api-data.mjs';
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
@@ -103,7 +104,7 @@ try {
   await waitStatus('변경 1');
   await page.getByRole('tab', { name: '데이터', exact: true }).click();
   await page.locator('.code-scroll code').waitFor();
-  const edited = JSON.parse(await page.locator('.code-scroll code').textContent());
+  const edited = await readGridData(page);
   assert.equal(edited.rows[0].task, '샘플 작업 수정');
   pass('edit and live data', { value: edited.rows[0].task, totalRows: edited.totalRows });
 
@@ -142,7 +143,7 @@ try {
 
   await load('detail-grid');
   await page.locator('.grid-preview').getByRole('button', { name: '펼치기', exact: true }).first().click();
-  await page.locator('.grid-preview .OwpDataGrid-root').nth(1).getByText('분석 및 요구사항', { exact: true }).waitFor();
+  await page.locator('.grid-preview .OwpDataGrid-root').nth(1).getByText('요구사항 분석', { exact: true }).waitFor();
   await page.screenshot({ path: new URL('detail-expanded.png', output).pathname });
   pass('settled nested detail', { nestedGrids: await page.locator('.grid-preview .OwpDataGrid-root').count() });
 
@@ -176,7 +177,7 @@ try {
   assert.ok(virtualRows < 100);
   await page.getByRole('tab', { name: '데이터', exact: true }).click();
   await page.locator('.code-scroll code').waitFor();
-  const large = JSON.parse(await page.locator('.code-scroll code').textContent());
+  const large = await readGridData(page);
   assert.equal(large.totalRows, 1000000); assert.equal(large.rows.length, 100);
   pass('million row dataset', { totalRows: large.totalRows, virtualRows, displayedJsonRows: large.rows.length });
   assert.deepEqual(errors, []);

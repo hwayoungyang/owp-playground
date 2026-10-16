@@ -110,8 +110,8 @@ export function ThemeSettings({
           label={t('헤더 배경')}
           value={headerColor}
           onCommit={(next) => {
-            if (!dataGridThemeSchema.safeParse({ header: { backgroundColor: next } }).success)
-              return false;
+            const color = dataGridThemeSchema.safeParse({ header: { backgroundColor: next } });
+            if (!color.success) return color;
             const automatic = createGridTheme(
               getPreviewPalette(value.preset, mode),
               typeof next === 'string' && /^(#|rgb|hsl)/i.test(next) ? next : null,
@@ -125,9 +125,9 @@ export function ThemeSettings({
                 sortIconColor: automatic?.sortIconColor,
               },
             });
-            if (!parsed.success) return false;
+            if (!parsed.success) return parsed;
             onChange({ ...value, grid: parsed.data });
-            return true;
+            return { success: true };
           }}
         />
       )}

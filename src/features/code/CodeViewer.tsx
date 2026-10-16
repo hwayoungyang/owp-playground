@@ -15,9 +15,13 @@ const allSources = import.meta.glob<string>('/src/**/*.{ts,tsx,css}', {
 export function CodeViewer({
   sample,
   data,
+  dataFormat = 'json',
+  dataDescription,
 }: {
   readonly sample: SampleInfo;
   readonly data?: string;
+  readonly dataFormat?: 'json' | 'jsonc';
+  readonly dataDescription?: string;
 }) {
   const { t } = useTranslation('app');
   const initialFile = `/src/${sampleSourcePath(sample)}`;
@@ -51,9 +55,9 @@ export function CodeViewer({
     () =>
       highlightSource(
         content,
-        data !== undefined ? 'json' : file.endsWith('.css') ? 'css' : 'typescript',
+        data !== undefined ? dataFormat : file.endsWith('.css') ? 'css' : 'typescript',
       ),
-    [content, data, file],
+    [content, data, dataFormat, file],
   );
   const copy = async () => {
     try {
@@ -71,7 +75,7 @@ export function CodeViewer({
     const anchor = document.createElement('a');
     anchor.href = url;
     anchor.download =
-      data !== undefined ? `${sample.id}.json` : (file.split('/').at(-1) ?? 'sample.tsx');
+      data !== undefined ? `${sample.id}.${dataFormat}` : (file.split('/').at(-1) ?? 'sample.tsx');
     anchor.click();
     URL.revokeObjectURL(url);
   };
@@ -92,7 +96,7 @@ export function CodeViewer({
         <div className="code-file">
           {data !== undefined ? (
             <span>
-              data.json <small>JSON</small>
+              data.{dataFormat} <small>{dataFormat.toUpperCase()}</small>
             </span>
           ) : (
             <Select
@@ -132,7 +136,7 @@ export function CodeViewer({
         className="code-scroll"
         // biome-ignore lint/a11y/noNoninteractiveTabindex: Keyboard users must be able to scroll the source region.
         tabIndex={0}
-        aria-label={t(data !== undefined ? '샘플 데이터' : '실행 원본 코드')}
+        aria-label={t(data !== undefined ? '데이터' : '실행 원본 코드')}
       >
         <pre>
           <HighlightedCode html={highlighted} />
@@ -144,7 +148,7 @@ export function CodeViewer({
             (!ready
               ? '소스를 불러오는 중…'
               : data !== undefined
-                ? '현재 데이터의 앞 100행입니다.'
+                ? (dataDescription ?? '현재 화면에 적용된 가상 API 데이터입니다.')
                 : '실행에 사용한 원본 코드입니다.'),
         )}
       </div>

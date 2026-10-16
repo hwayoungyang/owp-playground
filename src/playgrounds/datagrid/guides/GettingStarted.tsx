@@ -38,7 +38,11 @@ export function GettingStarted({
         </section>
         <section aria-labelledby="usage-heading">
           <h2 id="usage-heading">Usage</h2>
-          <p>{t('컬럼과 데이터를 정의하고 getRowId로 행을 구분합니다.')}</p>
+          <p>
+            {t(
+              'OWP API 필드명을 field와 getRowId에 연결합니다. 숫자·boolean 변환과 트리 연결 예제는 model/apiData.ts에서 확인할 수 있습니다.',
+            )}
+          </p>
           <CodeSnippet label="GettingStarted.tsx" code={source} language="typescript" />
         </section>
       </div>

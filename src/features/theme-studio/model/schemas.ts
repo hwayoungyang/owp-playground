@@ -45,7 +45,8 @@ const weight = z.union([
   z.number().min(100).max(900),
   z.string().regex(/^(?:[1-9]00|normal|bold)$/),
 ]);
-const opacity = z.number().min(0).max(1);
+export const opacityRange = { min: 0, max: 1 } as const;
+const opacity = z.number().min(opacityRange.min).max(opacityRange.max);
 
 export const dataGridThemeSchema = z.strictObject({
   header: z
