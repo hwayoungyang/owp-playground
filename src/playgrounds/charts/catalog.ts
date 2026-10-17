@@ -363,7 +363,7 @@ const baseChartCatalog = [
     title: '로딩·빈 데이터·오류',
     category: 'integration',
     description: '조회 상태를 바꾸고 오류 후 다시 시도합니다.',
-    api: ['loading', 'data', 'ChartFrame'],
+    api: ['loading', 'noData', 'noDataMessage', 'errorOverlay', 'ChartFrame'],
     kind: 'chart',
     package: '@owp/charts',
     source: 'examples/states.tsx',

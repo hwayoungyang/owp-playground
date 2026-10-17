@@ -188,9 +188,9 @@ try {
 
   await open('states');
   await page.getByRole('button', { name: '로딩', exact: true }).click();
-  assert.equal(await page.locator('.chart-canvas').getAttribute('aria-busy'), 'true');
+  assert.equal(await page.locator('.chart-canvas [aria-busy]').getAttribute('aria-busy'), 'true');
   await page.getByRole('button', { name: '데이터 없음', exact: true }).click();
-  assert.match(await page.locator('.chart-empty').textContent(), /표시할 차트 데이터/);
+  assert.match(await page.locator('.chart-canvas').getByRole('status').filter({ hasText: '표시할 차트 데이터' }).textContent(), /표시할 차트 데이터/);
   await page.getByRole('button', { name: '오류', exact: true }).click();
   await page.getByRole('alert').waitFor();
   await page.getByRole('button', { name: '다시 시도', exact: true }).click();

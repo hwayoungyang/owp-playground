@@ -20,7 +20,6 @@ import { type ChartExample, chartCategories } from '../catalog';
 import { chartApiDocument } from '../model/apiData';
 import type { ChartExampleProps, ChartSnapshot } from '../model/types';
 import { useAvailableChartHeight } from './useAvailableChartHeight';
-import { useChartAccessibility } from './useChartAccessibility';
 import '../styles.css';
 import '../guides/chart-layout.css';
 
@@ -40,7 +39,6 @@ const ChartPreview = memo(function ChartPreview({
   );
   const { t } = useOwpTranslation();
   const host = useRef<HTMLElement>(null);
-  useChartAccessibility(host);
   useAvailableChartHeight(true, host);
   return (
     <section ref={host} className="chart-preview owp-chart-surface" aria-label={t(example.title)}>

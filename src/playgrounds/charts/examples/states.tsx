@@ -40,11 +40,15 @@ export function ChartExample(props: ChartExampleProps) {
           loading={state === 'loading'}
           noData={state === 'empty'}
           noDataMessage={t('표시할 차트 데이터가 없습니다.')}
-          errorOverlay={state === 'error' ? {
-            message: t('차트 데이터를 불러오지 못했습니다.'),
-            onRetry: () => change('ready'),
-            retryLabel: t('다시 시도'),
-          } : undefined}
+          errorOverlay={
+            state === 'error'
+              ? {
+                  message: t('차트 데이터를 불러오지 못했습니다.'),
+                  onRetry: () => change('ready'),
+                  retryLabel: t('다시 시도'),
+                }
+              : undefined
+          }
         />
       </div>
     </>

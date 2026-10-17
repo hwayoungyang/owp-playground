@@ -128,15 +128,6 @@
   color: var(--pg-secondary);
   font-size: 12px;
 }
-.chart-empty {
-  min-height: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  color: var(--pg-secondary);
-}
 .chart-png-preview {
   display: block;
   max-width: 100%;
