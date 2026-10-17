@@ -424,6 +424,8 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '계획 {{quantity}} · 완료 {{completed}} · 마감 {{date}}':
     'Planned {{quantity}} · Completed {{completed}} · Due {{date}}',
   '작업을 불러오지 못했습니다.': 'Could not load tasks.',
+  '작업 목록을 불러오지 못했습니다.': 'Could not load the task list.',
+  '다시 시도': 'Retry',
   '다시 불러오기': 'Retry',
   '그리드와 탐색 컨트롤': 'grid and navigation controls',
   '기본 구성': 'Basic controls',

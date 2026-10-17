@@ -1,44 +1,3 @@
-.grid-preview .OwpDataGrid-rowEditToolbar {
-  flex: 0 0 auto;
-  flex-wrap: wrap;
-  height: auto;
-  min-height: 36px;
-}
-.grid-preview .OwpDataGrid-rowEditToolbar .MuiButton-root {
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.grid-preview .OwpDataGrid-rowEditToolbar .MuiTypography-root {
-  margin-left: 8px;
-}
-.grid-preview .OwpDataGrid-scrollFrame[data-vertical-overflow="true"] {
-  grid-template-columns: minmax(0, 1fr) 24px;
-  --pg-grid-end-border: 0px;
-}
-.grid-preview .OwpDataGrid-scrollFrame[data-vertical-overflow="false"] {
-  --pg-grid-end-border: 1px;
-}
-.grid-preview
-  .OwpDataGrid-verticalScrollbarGutter:has(> .OwpDataGrid-scrollbar[data-overflow="true"]),
-.grid-preview .OwpDataGrid-verticalScrollbarGutter .OwpDataGrid-scrollbar[data-overflow="true"] {
-  width: 24px;
-}
-.grid-preview .OwpDataGrid-scrollbar[data-overflow="true"] > button {
-  width: 24px;
-  height: 24px;
-  min-width: 24px;
-  min-height: 24px;
-  flex-basis: 24px;
-}
-.grid-preview .OwpDataGrid-horizontalScrollPanel:has(.OwpDataGrid-scrollbar[data-overflow="true"]),
-.grid-preview .OwpDataGrid-horizontalScrollPanel .OwpDataGrid-scrollbar[data-overflow="true"] {
-  min-height: 24px;
-  height: 24px;
-}
-.grid-preview .OwpDataGrid-summary,
-.grid-preview .OwpDataGrid-pinnedBottom {
-  position: relative;
-}
 .grid-preview .OwpDataGrid-summary > [role="row"] {
   font-size: 13px;
   line-height: 20px;
@@ -48,51 +7,6 @@
   line-height: 20px;
   font-weight: 400;
   color: var(--pg-secondary);
-}
-.grid-preview .OwpDataGrid-summary::after,
-.grid-preview .OwpDataGrid-pinnedBottom::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  box-sizing: border-box;
-  border-left: 1px solid var(--owp-data-grid-panel-border-color);
-  border-right: var(--pg-grid-end-border, 1px) solid var(--owp-data-grid-panel-border-color);
-  pointer-events: none;
-  z-index: 8;
-}
-.grid-preview .OwpDataGrid-summary::after {
-  border-bottom: 1px solid var(--owp-data-grid-panel-border-color);
-}
-.grid-preview
-  .OwpDataGrid-summary
-  > [role="row"]
-  > [data-owp-data-grid-region-index]:last-child
-  > .OwpDataGrid-regionContent
-  > [role="gridcell"]:last-child {
-  border-right: 0;
-}
-.grid-preview .OwpDataGrid-pinnedBottom + .OwpDataGrid-summary > [role="row"]:first-child {
-  border-top: 0;
-}
-.grid-preview .OwpDataGrid-header::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  box-sizing: border-box;
-  border-left: 1px solid var(--owp-data-grid-panel-border-color);
-  border-right: var(--pg-grid-end-border, 1px) solid var(--owp-data-grid-panel-border-color);
-  pointer-events: none;
-  z-index: 8;
-}
-.grid-preview .OwpDataGrid-scrollFrame::before {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  height: 1px;
-  background: var(--owp-data-grid-panel-border-color);
-  pointer-events: none;
-  z-index: 9;
 }
 .grid-preview .OwpDataGrid-dragHandle:not([aria-disabled="true"]) {
   color: var(--pg-secondary);

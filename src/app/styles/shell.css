@@ -165,6 +165,9 @@ button {
   background: var(--pg-chrome);
 }
 .sidebar {
+  --pg-navigation-group-font-size: 13px;
+  --pg-navigation-subtitle-font-size: 11px;
+  --pg-navigation-item-font-size: 14px;
   height: 100%;
   width: 236px;
   display: flex;
@@ -236,17 +239,30 @@ kbd {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   background: none;
   border: 0;
   text-align: left;
   color: var(--pg-muted);
-  font-size: 11px;
+  font-size: var(--pg-navigation-group-font-size);
   font-weight: 550;
-  padding: 0 9px;
+  line-height: 1.5;
+  padding: 4px 9px;
   margin-bottom: 8px;
-  height: 20px;
+  min-height: 28px;
+}
+.category-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.category-subtitle {
+  font-size: var(--pg-navigation-subtitle-font-size);
+  font-weight: 400;
 }
 .category-label svg {
+  flex-shrink: 0;
   transition: transform 120ms;
 }
 .category-label .collapsed {
@@ -256,11 +272,11 @@ kbd {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 32px;
-  padding: 7px 9px;
+  min-height: 36px;
+  padding: 8px 9px;
   border-radius: 4px;
   color: var(--pg-secondary);
-  font-size: 12px;
+  font-size: var(--pg-navigation-item-font-size);
   line-height: 1.4;
   transition:
     background 120ms,

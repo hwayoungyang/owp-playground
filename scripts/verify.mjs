@@ -20,6 +20,11 @@ page.on('console', (message) => { if (message.type() === 'error') errors.push(me
 async function load(id) {
   await page.goto(`${origin}/?sample=${id}`);
   await page.locator('.grid-preview .OwpDataGrid-root').waitFor();
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+  });
 }
 
 async function waitStatus(text) {
@@ -68,21 +73,21 @@ try {
   pass('accessible overview', { violations: axe.violations.length });
 
   await page.keyboard.press('Meta+k');
-  await page.getByRole('textbox', { name: '샘플 검색' }).fill('getCellRowSpanKey');
+  await page.getByRole('textbox', { name: '예제 검색' }).fill('getCellRowSpanKey');
   assert.ok(await page.locator('.nav-item').count() > 0);
   await page.locator('.nav-item').first().click();
   assert.ok(page.url().includes('sample='));
   pass('keyboard search and sample navigation', { matches: await page.locator('.nav-item').count(), url: page.url() });
 
-  await load('transactions');
+  await load('ref-data');
   await page.getByRole('tab', { name: '코드', exact: true }).click();
   await page.waitForFunction(() => document.querySelector('.code-scroll code')?.textContent.includes('applyTransaction'));
   const sourceDownload = page.waitForEvent('download');
   await page.locator('.code-toolbar').getByRole('button', { name: '다운로드', exact: true }).click();
   const sourceFile = await sourceDownload;
-  const sourcePath = new URL('transactions.tsx', output);
+  const sourcePath = new URL('ref-data.tsx', output);
   await sourceFile.saveAs(sourcePath.pathname);
-  assert.equal(await readFile(sourcePath, 'utf8'), await readFile(new URL('../src/playgrounds/datagrid/examples/transactions.tsx', import.meta.url), 'utf8'));
+  assert.equal(await readFile(sourcePath, 'utf8'), await readFile(new URL('../src/playgrounds/datagrid/examples/ref-data.tsx', import.meta.url), 'utf8'));
   await choose('소스 파일 선택', 'server.ts');
   await page.waitForFunction(() => document.querySelector('.code-scroll code')?.textContent.includes('queryTasks'));
   pass('runtime snippet selection and exact download', { downloadedFile: sourceFile.suggestedFilename(), exactSource: true, supportingFile: 'server.ts' });
@@ -108,14 +113,15 @@ try {
   assert.equal(edited.rows[0].task, '샘플 작업 수정');
   pass('edit and live data', { value: edited.rows[0].task, totalRows: edited.totalRows });
 
-  await load('transactions');
-  await page.getByRole('button', { name: '일괄 완료', exact: true }).click();
+  await load('ref-changes');
+  await edit('task-1', 1, '변경 확정 확인 1');
+  await edit('task-2', 1, '변경 확정 확인 2');
   await waitStatus('변경 2');
-  await page.getByRole('button', { name: '변경 승인', exact: true }).click();
+  await page.getByRole('button', { name: '변경 확정', exact: true }).click();
   await waitStatus('변경 0');
   await page.locator('.preview-actions').getByRole('button', { name: '초기화', exact: true }).click();
   await page.waitForFunction(() => document.querySelector('[data-owp-data-grid-row-key="string:task-1"]')?.textContent.includes('진행 중'));
-  pass('transaction approval and fixture reset', { targeted: 3, changed: 2, afterReset: '진행 중' });
+  pass('change approval and fixture reset', { changed: 2, afterReset: '진행 중' });
 
   await load('validation');
   await edit('task-1', 5, '999');
@@ -125,7 +131,7 @@ try {
   pass('numeric validation', { plan: 40, input: 999, errorCount: 1 });
 
   await load('row-actions');
-  await page.locator('.grid-preview').getByRole('button', { name: '추가', exact: true }).click();
+  await page.locator('.grid-preview').getByRole('button', { name: '새 행 추가', exact: true }).click();
   await waitStatus('13행');
   await page.locator('.grid-preview input[type="checkbox"]').nth(1).check();
   await page.locator('.OwpDataGrid-rowEditToolbar').getByRole('button', { name: '삭제', exact: true }).click();
@@ -134,12 +140,12 @@ try {
   await waitStatus('13행');
   pass('row add/delete/restore', { before: 12, afterAdd: 13, afterDelete: 12, afterRestore: 13 });
 
-  await load('span-selection');
+  await load('auto-span');
   await page.locator('.grid-preview input[type="checkbox"]').nth(1).check();
-  await waitStatus('선택 1그룹');
-  await page.locator('.grid-preview').getByRole('button', { name: '삭제', exact: true }).first().click();
-  await waitStatus('8행');
-  pass('span group selection and deletion', { selectedGroups: 1, deletedRows: 4, remainingRows: 8 });
+  await waitStatus('선택 1');
+  await page.locator('.grid-preview input[type="checkbox"]').nth(2).check();
+  await waitStatus('선택 2');
+  pass('automatic row spans retain individual row selection', { selectedRows: 2, totalRows: 12 });
 
   await load('detail-grid');
   await page.locator('.grid-preview').getByRole('button', { name: '펼치기', exact: true }).first().click();
@@ -153,7 +159,7 @@ try {
   await exportRows('선택 행', 2);
   await exportRows('전체 행', 12);
   await exportRows('현재 표시 행', 12);
-  await page.getByRole('button', { name: '실행 설정 열기' }).click();
+  await page.getByRole('button', { name: '설정 열기', exact: true }).click();
   await page.getByLabel('컬럼 필터 표시').check();
   await page.getByRole('button', { name: '설정 닫기' }).click();
   await page.getByRole('textbox', { name: '프로젝트 필터', exact: true }).fill('웹 서비스');

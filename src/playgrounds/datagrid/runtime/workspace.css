@@ -29,7 +29,7 @@
   min-width: 0;
 }
 .grid-preview[data-sample="worksheet"] {
-  height: min(480px, max(220px, calc(100dvh - 400px)));
+  height: min(480px, max(420px, calc(100dvh - 400px)));
 }
 .grid-preview.rounded {
   padding: 12px;

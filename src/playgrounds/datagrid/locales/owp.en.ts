@@ -70,6 +70,7 @@ export const owpEnglish: Readonly<Record<string, string>> = {
   'Label.하위 항목으로 넣기': 'Make a child',
   'Label.행 이동': 'Move row',
   'Label.행 작업': 'Row actions',
+  'Label.행 선택': 'Row selection',
   'Message.Chip이나 Progress Bar 같은 화면 표시 대신, 해당 값만 엑셀에 저장합니다.':
     'Custom cell visuals are exported as values.',
   'Message.내보내는 동안 그리드 데이터가 변경되었습니다. 다시 시도해 주세요.':

@@ -1,5 +1,14 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import { type ComponentType, lazy, memo, Suspense, useCallback, useMemo, useState } from 'react';
+import {
+  type ComponentType,
+  lazy,
+  memo,
+  Suspense,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { ApiDataViewer } from '../../../features/code/ApiDataViewer';
 import { CodeViewer } from '../../../features/code/CodeViewer';
 import type { EventLogEntry } from '../../../shared/types/events';
@@ -7,7 +16,6 @@ import { EventsPanel } from '../../../shared/ui/EventsPanel';
 import { PreviewToolbar } from '../../../shared/ui/PreviewToolbar';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
 import { type WorkspaceTab, WorkspaceTabs } from '../../../shared/ui/WorkspaceTabs';
-import { useGridAccessibility } from '../../datagrid/runtime/useGridAccessibility';
 import { type ChartExample, chartCategories } from '../catalog';
 import { chartApiDocument } from '../model/apiData';
 import type { ChartExampleProps, ChartSnapshot } from '../model/types';
@@ -31,7 +39,7 @@ const ChartPreview = memo(function ChartPreview({
     }),
   );
   const { t } = useOwpTranslation();
-  const host = useGridAccessibility();
+  const host = useRef<HTMLElement>(null);
   useChartAccessibility(host);
   useAvailableChartHeight(true, host);
   return (

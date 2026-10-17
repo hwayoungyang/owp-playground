@@ -7,6 +7,7 @@ export async function verifyOwpLegendStates(page, open, record) {
     const item = legend(name);
     await item.waitFor({ state: 'visible' });
     assert.equal(await item.count(), 1, `${scenario}: ${name} 범례가 정확히 하나 있어야 합니다`);
+    await item.and(page.locator(`[aria-pressed="${expected}"]`)).waitFor({ state: 'visible' });
     assert.equal(await item.getAttribute('aria-pressed', {}), String(expected), `${scenario}: ${name}`);
   };
   for (const [id, toggleLabel, series, unaffected] of [
@@ -72,8 +73,7 @@ export async function verifyChartInteractions(page, origin, pass) {
     prototype.fillText = function (...args) {
       if (this.canvas.closest('.chart-preview')) {
         const point = this.getTransform().transformPoint({ x: args[1], y: args[2] });
-        const bounds = this.canvas.getBoundingClientRect();
-        window.chartLabelProbe.push({ text: String(args[0]), x: point.x * bounds.width / this.canvas.width, y: point.y * bounds.height / this.canvas.height });
+        window.chartLabelProbe.push({ text: String(args[0]), x: point.x, y: point.y });
       }
       return text.apply(this, args);
     };
@@ -96,7 +96,9 @@ export async function verifyChartInteractions(page, origin, pass) {
     await page.getByRole('tab', { name: '예제', exact: true }).click();
     await settle();
     const rows = await page.evaluate((labels) => {
-      const positions = new Map(window.chartLabelProbe.filter(({ text }) => labels.includes(text)).map((point) => [point.text, point]));
+      const canvas = document.querySelector('.chart-preview canvas');
+      const bounds = canvas.getBoundingClientRect();
+      const positions = new Map(window.chartLabelProbe.filter(({ text }) => labels.includes(text)).map((point) => [point.text, { ...point, x: point.x * bounds.width / canvas.width, y: point.y * bounds.height / canvas.height }]));
       return [...positions.values()].sort((left, right) => left.y - right.y);
     }, labels);
     assert.ok(rows.length >= 3, `${id}: category tick positions were not captured`);
@@ -108,6 +110,7 @@ export async function verifyChartInteractions(page, origin, pass) {
         await settle();
         const tooltip = page.locator('body > [role="tooltip"][aria-hidden="false"]');
         await tooltip.waitFor();
+        await page.waitForFunction((label) => document.querySelector('body > [role="tooltip"][aria-hidden="false"]')?.textContent.startsWith(label), row.text);
         assert.ok((await tooltip.textContent()).startsWith(row.text), `${id}: hovering ${row.text} selected ${await tooltip.textContent()}`);
       }
     }
@@ -119,11 +122,14 @@ export async function verifyChartInteractions(page, origin, pass) {
   const { labels } = await readChartData(page);
   await page.getByRole('tab', { name: '예제', exact: true }).click();
   await settle();
-  const tiles = await page.evaluate((labels) =>
-    window.chartLabelProbe.flatMap((point) => {
+  const tiles = await page.evaluate((labels) => {
+    const canvas = document.querySelector('.chart-preview canvas');
+    const bounds = canvas.getBoundingClientRect();
+    return window.chartLabelProbe.flatMap((point) => {
       const label = labels.find((label) => point.text === label || point.text.startsWith(`${label}: `));
-      return label ? [{ ...point, text: label }] : [];
-    }), labels);
+      return label ? [{ text: label, x: point.x * bounds.width / canvas.width, y: point.y * bounds.height / canvas.height }] : [];
+    });
+  }, labels);
   assert.ok(tiles.length >= 10, 'treemap: tile label positions were not captured');
   const canvas = await page.locator('.chart-preview canvas').boundingBox();
   assert.ok(canvas);
@@ -132,6 +138,7 @@ export async function verifyChartInteractions(page, origin, pass) {
     await settle();
     const tooltip = page.locator('body > [role="tooltip"][aria-hidden="false"]');
     await tooltip.waitFor();
+    await page.waitForFunction((label) => document.querySelector('body > [role="tooltip"][aria-hidden="false"]')?.textContent.startsWith(label), `설비 ${tile.text}`);
     assert.ok((await tooltip.textContent()).startsWith(`설비 ${tile.text}`), `treemap: hovering ${tile.text} selected ${await tooltip.textContent()}`);
   }
   pass('treemap nearest hover follows tiles in both dimensions', { tiles: tiles.length });

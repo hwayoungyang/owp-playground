@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import AxeBuilder from '@axe-core/playwright';
 import { chromium } from 'playwright';
+import dataGridManifest from '@owp/datagrid/package.json' with { type: 'json' };
 
 const origin = process.env.PLAYGROUND_URL ?? 'http://127.0.0.1:4173';
 const output = '.omo/evidence/sample-consolidation';
@@ -26,6 +27,7 @@ async function load(id) {
 }
 async function preview() {
   await page.getByRole('tab', { name: '예제', exact: true }).click();
+  await page.mouse.move(0, 0);
 }
 async function data() {
   await page.getByRole('tab', { name: '데이터', exact: true }).click();
@@ -41,8 +43,15 @@ async function shot(name) {
 }
 async function tag(label, search) {
   await row('task-1').locator('.OwpDataGrid-cell').nth(2).click();
-  if (search !== undefined) await page.getByRole('combobox', { name: '태그', exact: true }).fill(search);
-  await page.getByRole('option').filter({ hasText: label }).click();
+  if (search !== undefined) {
+    const input = page.getByRole('combobox', { name: '태그', exact: true });
+    await input.fill(search);
+    await page.getByRole('option').filter({ hasText: label }).waitFor();
+    await input.press('ArrowDown');
+    await input.press('Enter');
+  } else {
+    await page.getByRole('option').filter({ hasText: label }).click();
+  }
   await row('task-1').locator('.OwpDataGrid-cell').first().click();
 }
 async function edit(id, index, value) {
@@ -70,7 +79,7 @@ async function styles() {
 try {
   // Given a single select cell, choosing a menu item stores its scalar value without search.
   await load('select');
-  assert.equal(await page.locator('.sidebar-package .version').textContent(), '2.0.10');
+  assert.equal(await page.locator('.sidebar-package .version').textContent(), dataGridManifest.version);
   await tag('웹');
   let rows = (await data()).rows;
   assert.equal(rows[0].tags, 'web');
@@ -84,13 +93,14 @@ try {
   assert.equal(await page.getByRole('listbox').isVisible(), true);
   await page.getByRole('option', { name: '검증', exact: true }).click();
   await shot('select-multiple-menu');
-  await page.locator('.MuiBackdrop-root').click({ position: { x: 1, y: 1 } });
+  await row('task-1').locator('.OwpDataGrid-cell').first().click();
   rows = (await data()).rows;
   assert.equal(rows[0].tags, 'web,mobile,qa');
   pass('native multiple select keeps menu open and has no search input', { tags: rows[0].tags });
 
   await preview();
   await row('task-1').locator('.OwpDataGrid-cell').nth(2).click();
+  await page.mouse.move(0, 0);
   await page.getByRole('option', { name: '디자인', exact: true }).click();
   await page.keyboard.press('Escape');
   assert.equal((await data()).rows[0].tags, 'web,mobile,qa');

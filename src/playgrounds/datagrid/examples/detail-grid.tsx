@@ -145,7 +145,7 @@ function DetailGrid({
               ? {
                   message: t('작업을 불러오지 못했습니다.'),
                   onRetry: retry,
-                  retryLabel: t('다시 불러오기'),
+                  retryLabel: t('다시 시도'),
                 }
               : undefined
           }

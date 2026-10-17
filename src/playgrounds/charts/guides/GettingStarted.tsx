@@ -1,4 +1,5 @@
 import { useOwpTranslation } from '@owp/components/hooks';
+import coreManifest from '@owp/core/package.json' with { type: 'json' };
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
 import { chartsPackage } from '../../registry';
@@ -33,7 +34,7 @@ export function ChartsGettingStarted({
           <p>{t('Dependencies: React 19 · Material UI 9 · Emotion 11 · @owp/core 5 또는 6')}</p>
           <CodeSnippet
             label={t('터미널')}
-            code={`pnpm add @owp/charts@${chartsPackage.version} @owp/core@^5.0.0`}
+            code={`pnpm add @owp/charts@${chartsPackage.version} @owp/core@^${coreManifest.version}`}
           />
           <p className="guide-note">
             {t(

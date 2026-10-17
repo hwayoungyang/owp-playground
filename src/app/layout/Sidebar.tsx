@@ -28,7 +28,7 @@ export function Sidebar({
   readonly exampleCount: number;
   readonly getExampleUrl: (id: string) => string;
 }) {
-  const { t } = useTranslation('app');
+  const { t, i18n } = useTranslation('app');
   const [query, setQuery] = useState('');
   const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(() => new Set());
   const listRef = useRef<HTMLDivElement>(null);
@@ -103,11 +103,16 @@ export function Sidebar({
           const entries = filtered.filter((entry) => entry.category === category.id);
           if (entries.length === 0) return null;
           const expanded = query.length > 0 || !collapsed.has(category.id);
+          const label = t(category.label);
+          const bilingual = i18n.language.startsWith('ko')
+            ? label.match(/^(.+) \(([^)]+)\)$/u)
+            : null;
           return (
             <section className="nav-category" key={category.id}>
               <button
                 type="button"
                 className="category-label"
+                aria-label={label}
                 aria-expanded={expanded}
                 onClick={() =>
                   setCollapsed((previous) => {
@@ -118,7 +123,14 @@ export function Sidebar({
                   })
                 }
               >
-                <span>{t(category.label)}</span>
+                <span className="category-copy">
+                  <span>{bilingual?.[1] ?? label}</span>
+                  {bilingual?.[2] && (
+                    <span className="category-subtitle" lang="en">
+                      {bilingual[2]}
+                    </span>
+                  )}
+                </span>
                 <CaretDownIcon size={12} className={expanded ? '' : 'collapsed'} />
               </button>
               {expanded &&

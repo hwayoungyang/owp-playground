@@ -1,9 +1,8 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { GridExample } from '../catalog';
 import { gridRegistry } from '../model/gridRegistry';
 import type { GridViewSettings } from './GridSettingsDrawer';
-import { useGridAccessibility } from './useGridAccessibility';
 import type { GridController } from './useGridController';
 
 export function GridPreview({
@@ -19,7 +18,7 @@ export function GridPreview({
 }) {
   const { finishBinding, onRowsUpdate } = controller;
   const { t } = useTranslation('app');
-  const gridHost = useGridAccessibility();
+  const gridHost = useRef<HTMLElement>(null);
   const GridView = gridRegistry[example.id].Component;
   useLayoutEffect(() => {
     if (example.id !== 'worksheet') return;
@@ -41,7 +40,7 @@ export function GridPreview({
         surrounding -
         footer.offsetHeight -
         Number.parseFloat(footerStyle.marginTop);
-      const height = Math.max(220, Math.min(480, Math.floor(available)));
+      const height = Math.max(420, Math.min(480, Math.floor(available)));
       if (host.style.height !== `${height}px`) host.style.height = `${height}px`;
     };
     fitWorksheet();
@@ -122,7 +121,7 @@ export function GridPreview({
               ? {
                   message: t('작업을 불러오지 못했습니다.'),
                   onRetry: controller.retry,
-                  retryLabel: t('다시 불러오기'),
+                  retryLabel: t('다시 시도'),
                 }
               : undefined
           }

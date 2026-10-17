@@ -47,9 +47,9 @@ try {
   }
   await load('nested-tree'); assert.ok(await page.locator('[aria-level="4"]').count()); pass('four visible hierarchy levels',{deepRows:await page.locator('[aria-level="4"]').count()});
   await load('summary-rows');
-  const lines = await page.evaluate(() => ({outer:getComputedStyle(document.querySelector('.workspace-frame')).borderLeftWidth, summary:getComputedStyle(document.querySelector('.OwpDataGrid-summary'),'::after').borderBottomWidth, summaryLeft:getComputedStyle(document.querySelector('.OwpDataGrid-summary'),'::after').borderLeftWidth, pinnedLeft:getComputedStyle(document.querySelector('.OwpDataGrid-pinnedBottom'),'::after').borderLeftWidth}));
-  assert.equal(lines.outer,'0px'); assert.equal(lines.summary,'1px'); assert.equal(lines.summaryLeft,'1px'); assert.equal(lines.pinnedLeft,'1px');
-  await settle(); await page.screenshot({path:`${output}/summary-border.png`}); pass('single perimeter and summary separator',lines);
+  const lines = await page.evaluate(() => { const border = getComputedStyle(document.querySelector('.OwpDataGrid-scrollFrame'),'::after'); return {outer:getComputedStyle(document.querySelector('.workspace-frame')).borderLeftWidth, bottom:border.borderBottomWidth, left:border.borderLeftWidth, right:border.borderRightWidth}; });
+  assert.equal(lines.outer,'0px'); assert.equal(lines.bottom,'1px'); assert.equal(lines.left,'1px'); assert.equal(lines.right,'1px');
+  await settle(); await page.screenshot({path:`${output}/summary-border.png`}); pass('native grid owns a single perimeter',lines);
   for (const width of [1440,768,375]) {
     await page.setViewportSize({width,height:1100}); await load('detail-custom'); await page.locator('.grid-preview button[aria-expanded]').first().click();
     await page.getByText('남은 수량',{exact:true}).waitFor(); await page.waitForFunction(()=>document.querySelector('.project-progress dd')?.textContent==='232');

@@ -1,11 +1,13 @@
+import excelManifest from '@owp/excel/package.json' with { type: 'json' };
 import { useTranslation } from 'react-i18next';
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
+import { dataGridPackage } from '../../registry';
 import { categories, type GridCatalogEntry } from '../catalog';
 import source from './getting-started.tsx?raw';
 
 const registry = '@owp:registry=<OWP_REGISTRY_URL>';
-const install = 'pnpm add @owp/datagrid@latest @owp/excel@^1.1.0';
+const install = `pnpm add @owp/datagrid@${dataGridPackage.version} @owp/excel@^${excelManifest.version}`;
 
 export function GridGettingStarted({
   example,

@@ -6,7 +6,7 @@
 
 [공식 샘플 목록](https://www.chartjs.org/docs/latest/samples/information.html) · [검토한 소스](https://github.com/chartjs/Chart.js/tree/7169e65147a47f3720957a6f156a33c838ab9f57/docs/samples)
 
-예제는 설치된 `@owp/charts 3.1.1`의 공개 API를 사용합니다. Bar·Line·복합 차트는 `ChartFrame preset="owp"`, Area·Box plot·Treemap·Radar·원형·Heatmap·Live는 전용 `Owp` 컴포넌트로 구성합니다. Area는 native Filler, Radar는 native Radar controller와 RadialLinearScale을 사용합니다. Box plot·Treemap·Heatmap은 패키지 내부 controller와 element가 그리기와 hit test를 담당합니다. 공장 데이터·OWP API 응답 변환·polling·샘플 조작 UI·카드 높이는 앱에서 처리합니다.
+예제는 설치된 `@owp/charts 4.0.0`의 공개 API를 사용합니다. Bar·Line·복합 차트는 `ChartFrame preset="owp"`, Area·Box plot·Treemap·Radar·원형·Heatmap·Live는 전용 `Owp` 컴포넌트로 구성합니다. Area는 native Filler, Radar는 native Radar controller와 RadialLinearScale을 사용합니다. Box plot·Treemap·Heatmap은 패키지 내부 controller와 element가 그리기와 hit test를 담당합니다. 공장 데이터·OWP API 응답 변환·polling·샘플 조작 UI·카드 높이는 앱에서 처리합니다.
 
 Live chart는 앱에서 1초 간격으로 새 값을 추가합니다. `OwpLiveChart`가 표시 구간을 1000ms linear로 이동해 데이터와 X축 시간 눈금·격자선을 함께 그리며, y는 실제 측정값을 유지합니다. 일시정지·탭 숨김·언마운트 시 갱신을 멈추고, 움직임 줄이기 설정에서는 즉시 갱신합니다.
 

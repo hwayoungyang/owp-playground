@@ -31,7 +31,6 @@ export const legacySourcePaths: Readonly<Record<string, string>> = {
   'app/EventsPanel.tsx': 'shared/ui/EventsPanel.tsx',
   'playgrounds/datagrid/runtime/EventsPanel.tsx': 'shared/ui/EventsPanel.tsx',
   'app/useDemo.ts': 'playgrounds/datagrid/runtime/useGridController.ts',
-  'app/useGridAccessibility.ts': 'playgrounds/datagrid/runtime/useGridAccessibility.ts',
   'app/GettingStarted.tsx': 'playgrounds/datagrid/guides/GridGettingStarted.tsx',
   'app/SampleHeading.tsx': 'shared/ui/WorkspaceHeading.tsx',
   'app/CodeViewer.tsx': 'features/code/CodeViewer.tsx',

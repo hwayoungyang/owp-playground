@@ -147,7 +147,7 @@ export function ServerQueryGrid(props: GridViewProps = {}) {
           ? {
               message: error,
               onRetry: () => setRevision((value) => value + 1),
-              retryLabel: translate('다시 불러오기'),
+              retryLabel: translate('다시 시도'),
             }
           : undefined
       }

@@ -16,7 +16,14 @@ async function load(id) { await page.goto(`${origin}/?package=datagrid&sample=${
 async function preview() { await page.getByRole('tab', { name: '예제', exact: true }).click(); }
 async function data() { await page.getByRole('tab', { name: '데이터', exact: true }).click(); await page.waitForFunction(() => document.querySelector('.code-scroll code')?.textContent.startsWith('[')); return await readGridData(page); }
 async function action(name) { await page.locator('.example-controls').getByRole('button', { name, exact: true }).click(); }
-async function result(api) { await page.waitForFunction(api => { const raw = document.querySelector('.example-result')?.textContent; return raw && JSON.parse(raw).api === api; }, api); return JSON.parse(await page.locator('.example-result').textContent()).value; }
+async function result(api) {
+  await page.getByRole('tab', { name: /^이벤트/ }).click();
+  const event = page.locator('.event-list details').filter({ has: page.locator('.event-name').filter({ hasText: new RegExp(`^${api}$`) }) }).first();
+  await event.waitFor({ state: 'attached' });
+  const value = JSON.parse(await event.locator('pre').textContent());
+  await preview();
+  return value;
+}
 async function select(index) { await page.locator('.grid-preview input[type=checkbox]').nth(index + 1).check(); }
 async function edit(id, index, value) { const row = page.locator(`[data-owp-data-grid-row-key="string:${id}"]`); await row.locator('.OwpDataGrid-cell').nth(index).click(); await page.keyboard.press('Enter'); await row.locator('input:not([type=checkbox])').fill(value); await page.keyboard.press('Enter'); }
 async function settle() { await page.evaluate(async () => { await document.fonts.ready; await Promise.allSettled(document.getAnimations().filter(a => a.effect?.getTiming().iterations !== Infinity).map(a => a.finished)); }); }
@@ -48,19 +55,30 @@ try {
   await preview(); await action('새 행 취소'); assert.equal((await data()).totalRows, 12);
   pass('soft delete, restore and discard added rows', { restoredRows: 12 });
 
-  await load('ref-data'); await select(0); await select(1); await action('선택 행 조회'); assert.equal((await result('getSelectedRows')).length, 2);
-  await action('전체 행 조회'); assert.equal((await result('getRows')).length, 12);
+  await load('ref-data'); await select(0); await select(1); await action('선택 행 완료 처리');
+  rows = (await data()).rows;
+  assert.ok(rows.slice(0, 2).every(row => row.completed === row.quantity));
+  assert.ok(rows.slice(2).some(row => row.completed < row.quantity));
+  await preview();
   await page.getByRole('textbox', { name: '프로젝트 필터', exact: true }).fill('웹 서비스'); await page.keyboard.press('Tab');
   await page.waitForFunction(() => document.querySelectorAll('.grid-preview .OwpDataGrid-cell').length < 50);
-  await action('표시 행 조회'); assert.equal((await result('getVisibleRows')).length, 4);
-  await page.locator('.grid-preview input[type=checkbox]').nth(2).uncheck(); await action('한 행 조회'); assert.equal((await result('getRow')).id, 'task-1');
-  pass('read all, filtered, selected and individual rows', { all: 12, filtered: 4, selected: 2 });
+  await action('필터 결과 완료 처리'); rows = (await data()).rows;
+  assert.ok(rows.slice(0, 4).every(row => row.completed === row.quantity));
+  assert.ok(rows.slice(4).some(row => row.completed < row.quantity));
+  await preview(); await page.locator('.grid-preview input[type=checkbox]').nth(2).uncheck();
+  await action('선택 행 확인');
+  assert.equal(await page.locator('[data-owp-data-grid-row-key="string:task-1"]').evaluate(row => row.contains(document.activeElement)), true);
+  await action('전체 행 완료 처리'); rows = (await data()).rows;
+  assert.equal(rows.length, 12); assert.ok(rows.every(row => row.completed === row.quantity));
+  pass('batch updates honor selected, filtered and all row scopes', { all: 12, filtered: 4, selected: 2 });
 
   await load('ref-focus'); const original = (await data()).rows[0].task; await preview(); await action('첫 작업명 변경');
-  assert.notEqual((await data()).rows[0].task, original); await preview(); await action('마지막 행 이동'); assert.equal(await result('scrollToRow'), true);
-  await action('첫 작업 셀 포커스'); assert.equal(await result('focusCell'), true);
+  assert.notEqual((await data()).rows[0].task, original); await preview(); await action('마지막 행 보기'); assert.equal(await result('scrollToRow'), true);
+  await action('첫 작업 셀 포커스');
+  await page.waitForFunction(() => document.querySelector('[data-owp-data-grid-row-key="string:task-1"] .OwpDataGrid-cell:nth-child(2)')?.contains(document.activeElement));
   const focused = await page.evaluate(() => document.querySelector('[data-owp-data-grid-row-key="string:task-1"] .OwpDataGrid-cell:nth-child(2)')?.contains(document.activeElement));
-  assert.equal(focused, true); await action('편집 확정'); assert.equal(await result('commitEditing'), true);
+  assert.equal(focused, true); assert.equal(await result('focusCell'), true);
+  await action('편집 확정'); assert.equal(await result('commitEditing'), true);
   pass('change values, scroll, focus and commit', { focused });
 
   await load('ref-move'); await select(2); await select(3); await action('선택 행 상단 이동');
@@ -69,28 +87,32 @@ try {
   await load('ref-move'); await select(5); await action('한 행 상단 이동'); assert.equal((await data()).rows[0].id, 'task-6');
   pass('atomic multi-row movement and single-row movement', { singleTop: 'task-6' });
 
-  await load('ref-changes'); await edit('task-1', 1, '검증용 변경'); await action('미저장 변경 확인'); assert.equal(await result('hasUnsavedChanges'), true);
-  await action('변경 내역'); assert.equal((await result('getChanges')).length, 1); await action('변경 승인'); assert.equal((await result('acceptChanges')).success, true);
-  await action('미저장 변경 확인'); assert.equal(await result('hasUnsavedChanges'), false);
+  await load('ref-changes'); await edit('task-1', 1, '검증용 변경');
+  await page.waitForFunction(() => document.querySelector('.grid-status-bar')?.textContent.includes('변경 1'));
+  await action('변경 확정');
+  await page.waitForFunction(() => document.querySelector('.grid-status-bar')?.textContent.includes('변경 0'));
   await edit('task-2', 1, '되돌릴 변경'); await action('변경 되돌리기'); assert.equal((await data()).rows[1].task, '화면 설계');
-  pass('inspect, accept and reset working changes', { unsavedAfterApproval: false });
+  pass('accept and reset working changes', { unsavedAfterApproval: false });
 
-  await load('external-validation'); await action('오류 한 개 표시'); await action('오류 조회'); assert.equal((await result('getCellErrors')).length, 1);
-  await action('오류 여러 개 표시'); await action('오류 조회'); assert.equal((await result('getCellErrors')).length, 2);
-  await action('첫 작업 검증'); const validation = await result('validate'); assert.equal(validation.valid, false); assert.equal(validation.errors.length, 1);
-  await action('첫 오류 해제'); await action('오류 조회'); assert.equal((await result('getCellErrors')).length, 1);
-  await action('전체 오류 해제'); await action('오류 조회'); assert.equal((await result('getCellErrors')).length, 0);
-  pass('external errors and scoped validation', { scopedErrors: validation.errors.length, afterClear: 0 });
+  await load('external-validation'); await action('메시지 1건 표시'); await action('검증 메시지 확인'); assert.equal((await result('getCellErrors')).length, 1);
+  await action('메시지 2건 표시'); await action('검증 메시지 확인'); assert.equal((await result('getCellErrors')).length, 2);
+  await action('전체 작업 검증'); const validation = await result('validate'); assert.equal(validation.valid, false); assert.equal(validation.errors.length, 2);
+  await action('검증 메시지 전체 해제'); await action('검증 메시지 확인'); assert.equal((await result('getCellErrors')).length, 0);
+  pass('external validation messages and clearing', { errors: validation.errors.length, afterClear: 0 });
 
-  await load('server-save'); await edit('task-1', 1, '  저장 전 작업  '); await action('모의 저장');
-  await edit('task-2', 1, '요청 후 편집'); const saved = await result('applyServerRows'); assert.equal(saved.success, true);
-  rows = (await data()).rows; assert.equal(rows[0].task, '저장 전 작업'); assert.equal(rows[1].task, '요청 후 편집');
-  pass('saved response preserves edits made after submission', { success: saved.success, preservedRow: rows[1].id });
+  await load('server-save'); assert.equal(await page.locator('.workspace-heading h1').textContent(), '변경 관리');
+  await edit('task-1', 1, '기존 링크에서 확정한 작업'); await action('변경 확정');
+  assert.equal((await data()).rows[0].task, '기존 링크에서 확정한 작업');
+  pass('legacy server-save link opens working change tracking', { target: 'ref-changes' });
 
-  await load('lazy-tree'); await action('하위 행 불러오기'); assert.equal(await result('loadChildren'), true);
-  await action('조회 상태'); const children = await result('getChildrenLoadState'); assert.equal(children.status, 'loaded');
-  await action('선택 행 펼치기'); assert.equal((await data()).totalRows, 7); await preview(); await action('하위 행 다시 불러오기'); assert.equal(await result('reloadChildren'), true);
-  pass('load and reload lazy children', { loadedRows: 7, state: children.status });
+  await load('lazy-tree');
+  await page.getByRole('combobox', { name: '하위 데이터', exact: true }).click();
+  await page.getByRole('option', { name: '펼칠 때 불러오기', exact: true }).click();
+  await page.locator('.grid-preview button[aria-expanded="false"]').first().click();
+  await page.locator('[data-owp-data-grid-row-key="string:task-1"]').waitFor();
+  assert.equal((await result('tree.loadChildren')).count, 4);
+  assert.equal((await data()).totalRows, 7);
+  pass('legacy lazy-tree link loads children on expansion', { loadedRows: 7 });
 
   await load('nested-tree'); await action('전체 접기'); await settle();
   let keys = await page.locator('.grid-preview .OwpDataGrid-row[data-owp-data-grid-row-key]').evaluateAll(items => [...new Set(items.map(item => item.getAttribute('data-owp-data-grid-row-key')))]);
@@ -98,8 +120,10 @@ try {
   keys = await page.locator('.grid-preview .OwpDataGrid-row[data-owp-data-grid-row-key]').evaluateAll(items => [...new Set(items.map(item => item.getAttribute('data-owp-data-grid-row-key')))]);
   assert.ok(keys.length > 3); const nested = await data(); const nestedRows = nested.rows.flatMap(function flatten(row) { return [row, ...(row.children ?? []).flatMap(flatten)]; }); assert.equal(nested.totalRows, 3); assert.equal(nestedRows.length, 45); pass('controlled four-level tree expansion and nested API response', { collapsed: 3, roots: nested.totalRows, loaded: nestedRows.length });
 
-  await load('selection-policy'); assert.equal(await page.locator('.grid-preview input[type=checkbox]').first().isDisabled(), true);
-  await action('새 행 추가'); const addedCheckbox = page.locator('.grid-preview input[type=checkbox]').last(); assert.equal(await addedCheckbox.isEnabled(), true); await addedCheckbox.check();
+  await load('selection-policy'); assert.equal(await page.locator('.OwpDataGrid-root input[type=checkbox]').first().isDisabled(), true);
+  await action('새 행 추가'); const added = await result('addRow');
+  const addedCheckbox = page.locator(`[data-owp-data-grid-row-key="string:${added.rowId}"] input[type=checkbox]`);
+  assert.equal(await addedCheckbox.isEnabled(), true); await addedCheckbox.check();
   pass('select-all policy and selectable added rows', { headerDisabled: true, addedSelectable: true });
 
   await load('click-events'); await page.locator('[data-owp-data-grid-row-key="string:task-1"] .OwpDataGrid-cell').nth(1).click();
@@ -109,7 +133,9 @@ try {
 
   await load('excel-snapshot'); await action('데이터 미리보기'); assert.equal((await result('getExcelSnapshot')).count, 10000);
   await action('제외 항목 확인'); assert.ok(await result('getExcelExportWarnings'));
-  await action('1만 행 읽기'); const batches = await result('createExcelExportSession'); assert.equal(batches.count, 10000); assert.ok(batches.batches > 1);
+  await action('1만 행 읽기');
+  await page.getByRole('button', { name: '1만 행 읽기', exact: true }).and(page.locator(':enabled')).waitFor();
+  const batches = await result('createExcelExportSession'); assert.equal(batches.count, 10000); assert.ok(batches.batches > 1);
   pass('Excel snapshot, warnings and batch sessions', { rows: batches.count, batches: batches.batches });
 
   await load('detail-grid'); await page.locator('.grid-preview button[aria-expanded]').first().click();

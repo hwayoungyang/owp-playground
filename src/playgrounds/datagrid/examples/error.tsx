@@ -106,7 +106,7 @@ export function RetryStateGrid(props: GridViewProps = {}) {
         failed
           ? {
               message: translate('작업 목록을 불러오지 못했습니다.'),
-              retryLabel: translate('다시 불러오기'),
+              retryLabel: translate('다시 시도'),
               onRetry: retry,
             }
           : undefined
