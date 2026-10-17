@@ -1,4 +1,5 @@
 import { readdir, readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
 import { legacySourcePaths } from './src/features/code/source-paths.ts';
@@ -53,6 +54,20 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    {
+      name: 'reuse-dev-browser-tab',
+      configureServer() {
+        if (
+          process.platform === 'darwin' &&
+          process.env.BROWSER === undefined &&
+          !process.env.BROWSER_ARGS
+        ) {
+          process.env.BROWSER = fileURLToPath(
+            new URL('./scripts/open-browser.js', import.meta.url),
+          );
+        }
+      },
+    },
     {
       name: 'playground-resources',
       async generateBundle() {
