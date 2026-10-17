@@ -30,7 +30,7 @@
     "@fontsource-variable/geist-mono": "^5.3.0",
     "@mui/material": "^9.5.0",
     "@mui/system": "^9.5.0",
-    "@owp/charts": "4.0.0",
+    "@owp/charts": "4.0.1",
     "@owp/components": "2.0.0",
     "@owp/core": "6.0.0",
     "@owp/datagrid": "3.0.1",
