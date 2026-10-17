@@ -202,7 +202,7 @@ export function SelectEditorsGrid(props: GridViewProps = {}) {
           rows={gridConfiguration.rows}
           getRowId={getRowId}
           rowSelectionMode="none"
-          style={{ height: '100%' }}
+          height="100%"
           {...gridProps}
           columns={currentColumns}
         />

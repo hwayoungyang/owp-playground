@@ -112,7 +112,7 @@ export function GroupedHeadersGrid(props: GridViewProps = {}) {
           columns={baseColumns}
           getRowId={getRowId}
           rowSelectionMode="multiple"
-          style={{ height: '100%' }}
+          height="100%"
           headerRows={groupedHeaders}
           {...gridProps}
           hideChildHeaderSortButtons={!showChildSorting}

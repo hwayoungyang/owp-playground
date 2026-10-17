@@ -111,7 +111,7 @@ export function ExplicitRowSpanGrid(props: GridViewProps = {}) {
           columns={baseColumns}
           getRowId={getRowId}
           rowSelectionMode="multiple"
-          style={{ height: '100%' }}
+          height="100%"
           {...gridProps}
           getCellSpan={({ column, displayIndex }) =>
             column.id === 'project' && displayIndex !== undefined && displayIndex % size === 0

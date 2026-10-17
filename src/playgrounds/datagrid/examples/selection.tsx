@@ -115,7 +115,7 @@ export function SelectionGrid(props: GridViewProps = {}) {
           rows={initialTasks}
           columns={baseColumns}
           getRowId={getRowId}
-          style={{ height: '100%' }}
+          height="100%"
           {...gridProps}
           rowSelectionMode={mode}
           rowSelectionModel={gridProps.rowSelectionModel ?? model}

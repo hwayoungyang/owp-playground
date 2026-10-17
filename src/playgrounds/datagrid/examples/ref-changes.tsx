@@ -68,9 +68,7 @@ const baseColumns = [
 const editableColumns = baseColumns.map((column) => ({
   ...column,
   resizable: true,
-  headerAlign: ['status', 'date', 'time', 'datetime'].includes(column.id)
-    ? ('center' as const)
-    : ('left' as const),
+  headerAlign: 'center' as const,
   editable: column.id !== 'project',
   ...(column.id === 'owner'
     ? { type: 'select' as const, valueOptions: owners.map((value) => ({ value, label: value })) }
@@ -130,7 +128,7 @@ export function ChangeTrackingGrid(props: GridViewProps = {}) {
           columns={editableColumns}
           getRowId={getRowId}
           rowSelectionMode="multiple"
-          style={{ height: '100%' }}
+          height="100%"
           {...gridProps}
           onChangesChange={(next) => {
             setChanges(next);

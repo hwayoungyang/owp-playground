@@ -54,11 +54,14 @@ export function ChartExample(props: ChartExampleProps) {
             y1: createZoomSliderAxis({
               domain: createAxisDomain(0, 160),
               scaleId: 'amount',
+              ariaLabel: t('실적'),
               position: 'left',
             }),
             y2: createZoomSliderAxis({
               domain: createAxisDomain(0, 140),
               scaleId: 'rate',
+              ariaLabel: t('달성률'),
+              valueTextFormatter: (value) => `${value}%`,
               position: 'right',
             }),
           }}

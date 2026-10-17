@@ -252,7 +252,7 @@ export function TaskTreeGrid(props: GridViewProps = {}) {
           {...gridProps}
           rows={rows}
           treeOptions={options}
-          style={{ height: '100%' }}
+          height="100%"
         />
       </div>
     </div>

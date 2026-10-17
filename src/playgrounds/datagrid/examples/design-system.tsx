@@ -129,7 +129,7 @@ export function ExternalControlsGrid(props: GridViewProps = {}) {
           rowSelectionMode="multiple"
           rowDeletion={true}
           {...gridProps}
-          style={{ height: '100%' }}
+          height="100%"
           rowSelectionModel={selected}
           onRowSelectionModelChange={select}
         />

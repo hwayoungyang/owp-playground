@@ -4,6 +4,7 @@
   height: 100%;
   min-width: 0;
   min-height: 0;
+  overflow-y: auto;
 }
 .grid-preview .detail-grid-toolbar {
   display: flex;

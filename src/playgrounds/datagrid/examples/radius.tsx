@@ -111,7 +111,7 @@ export function RadiusGrid(props: GridViewProps = {}) {
           columns={baseColumns}
           getRowId={getRowId}
           rowSelectionMode="multiple"
-          style={{ height: '100%' }}
+          height="100%"
           {...gridProps}
           radius={radius}
         />

@@ -1,3 +1,4 @@
+import { useResponsiveDevice } from '@owp/components/hooks';
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { GridExample } from '../catalog';
@@ -18,10 +19,11 @@ export function GridPreview({
 }) {
   const { finishBinding, onRowsUpdate } = controller;
   const { t } = useTranslation('app');
+  const { isTabletOrDown } = useResponsiveDevice();
   const gridHost = useRef<HTMLElement>(null);
   const GridView = gridRegistry[example.id].Component;
   useLayoutEffect(() => {
-    if (example.id !== 'worksheet') return;
+    if (example.id !== 'worksheet' || isTabletOrDown) return;
     const host = gridHost.current;
     const main = host?.closest<HTMLElement>('.main-content');
     const workspace = host?.closest<HTMLElement>('.workspace');
@@ -50,7 +52,7 @@ export function GridPreview({
       observer.disconnect();
       host.style.removeProperty('height');
     };
-  }, [example.id, gridHost]);
+  }, [example.id, gridHost, isTabletOrDown]);
   useLayoutEffect(() => {
     const pending = controller.pendingBinding;
     if (!pending || controller.busy) return;
@@ -101,11 +103,6 @@ export function GridPreview({
           rows={controller.rows}
           columns={controller.columns}
           height="100%"
-          style={
-            controller.configuration.visibleRowCount
-              ? controller.configuration.style
-              : { ...controller.configuration.style, height: '100%' }
-          }
           radius={themeRadius ?? settings.radius}
           layout={{ ...controller.configuration.layout, filterRow: settings.filter }}
           rowSelectionMode={settings.selection}

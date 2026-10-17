@@ -108,9 +108,7 @@ const baseColumns = [
 const editableColumns = baseColumns.map((column) => ({
   ...column,
   resizable: true,
-  headerAlign: ['status', 'date', 'year', 'month', 'time', 'datetime'].includes(column.id)
-    ? ('center' as const)
-    : ('left' as const),
+  headerAlign: 'center' as const,
   editable: column.id !== 'project',
   ...(column.id === 'owner'
     ? { type: 'select' as const, valueOptions: owners.map((value) => ({ value, label: value })) }

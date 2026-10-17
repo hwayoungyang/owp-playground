@@ -259,7 +259,7 @@ export function CalculatedCellsGrid(props: GridViewProps = {}) {
           columns={worksheetColumns}
           getRowId={getRowId}
           rowSelectionMode="none"
-          style={{ height: '100%' }}
+          height="100%"
           getCellRowSpanKey={gridConfiguration.getCellRowSpanKey}
           summaryRows={gridConfiguration.summaryRows}
           {...gridProps}

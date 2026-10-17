@@ -1,4 +1,7 @@
 export const chartOwpEnglish: Readonly<Record<string, string>> = {
+  'Label.차트': 'Chart',
+  'Message.차트 데이터를 불러오는 중입니다.': 'Loading chart data.',
+  'Message.조회 결과가 없습니다.': 'No data found.',
   'Label.차트 메뉴': 'Chart menu',
   'Label.PNG 다운로드': 'Download PNG',
   'Label.줌 초기화': 'Reset zoom',

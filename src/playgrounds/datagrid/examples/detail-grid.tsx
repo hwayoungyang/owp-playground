@@ -127,7 +127,7 @@ function DetailGrid({
           rows={rows}
           columns={columns}
           getRowId={getRowId}
-          style={{ height: '100%' }}
+          height="100%"
           rowSelectionMode="none"
           loading={loading}
           summaryRows={[

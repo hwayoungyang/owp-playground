@@ -236,12 +236,11 @@ export function StyledHeadersGrid(props: GridViewProps = {}) {
             rows={gridConfiguration.rows}
             getRowId={getRowId}
             rowSelectionMode="none"
-            height={420}
             {...gridProps}
             columns={currentColumns}
             headerRows={headerRows}
             className="custom-style-grid"
-            style={{ ...gridProps.style, height: '100%' }}
+            height="100%"
             virtualization={
               styled
                 ? {

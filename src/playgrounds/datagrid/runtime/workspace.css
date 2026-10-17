@@ -134,3 +134,13 @@
     font-size: 10px;
   }
 }
+@media (max-width: 1199px) {
+  .grid-preview,
+  .grid-preview[data-sample="worksheet"] {
+    height: auto;
+  }
+  .grid-preview-content,
+  .grid-preview .example-grid {
+    flex: 0 0 auto;
+  }
+}

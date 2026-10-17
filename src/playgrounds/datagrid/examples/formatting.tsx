@@ -148,10 +148,9 @@ export function NumberDateFormatsGrid(props: GridViewProps = {}) {
           rows={gridConfiguration.rows}
           getRowId={getRowId}
           rowSelectionMode="multiple"
-          height={420}
           {...gridProps}
           columns={currentColumns}
-          style={{ ...gridProps.style, height: '100%' }}
+          height="100%"
         />
       </div>
     </div>

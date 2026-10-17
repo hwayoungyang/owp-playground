@@ -72,9 +72,7 @@ const baseColumns = [
 const editableColumns = baseColumns.map((column) => ({
   ...column,
   resizable: true,
-  headerAlign: ['status', 'date', 'time', 'datetime'].includes(column.id)
-    ? ('center' as const)
-    : ('left' as const),
+  headerAlign: 'center' as const,
   editable: column.id !== 'project',
   ...(column.id === 'owner'
     ? { type: 'select' as const, valueOptions: owners.map((value) => ({ value, label: value })) }
@@ -154,7 +152,7 @@ export function ConditionalStylesGrid(props: GridViewProps = {}) {
           rows={initialTasks}
           getRowId={getRowId}
           rowSelectionMode="multiple"
-          style={{ height: '100%' }}
+          height="100%"
           {...gridProps}
           columns={columns}
         />

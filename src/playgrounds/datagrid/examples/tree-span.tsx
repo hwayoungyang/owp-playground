@@ -107,7 +107,7 @@ export function SpanningTreeGrid(props: GridViewProps = {}) {
           rowSelectionMode={gridConfiguration.rowSelectionMode}
           getCellRowSpanKey={gridConfiguration.getCellRowSpanKey}
           {...gridProps}
-          style={{ height: '100%' }}
+          height="100%"
         />
       </div>
     </div>
