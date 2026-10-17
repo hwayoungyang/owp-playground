@@ -56,6 +56,7 @@ const Sparkline = memo(function Sparkline({ values }: { readonly values: readonl
 });
 
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t } = useOwpTranslation();
   const [version, setVersion] = useState(0);
   const records = useMonthlyRecords();
@@ -79,11 +80,11 @@ export function ChartExample(props: ChartExampleProps) {
     [records, version, t],
   );
   useEffect(() => {
-    props.onData?.({
+    onData?.({
       labels: ['1', '2', '3', '4', '5'],
       series: rows.map((row) => ({ label: row.name, values: row.values })),
     });
-  }, [rows, props.onData]);
+  }, [rows, onData]);
   const columns: OwpDataGridColumn<SparkRow>[] = [
     { id: 'name', field: 'name', header: t('라인'), minWidth: 100, relWidth: 1 },
     { id: 'value', field: 'value', header: t('생산량'), type: 'number', minWidth: 80, relWidth: 1 },

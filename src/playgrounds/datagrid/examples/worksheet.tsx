@@ -109,36 +109,34 @@ const columns: readonly OwpDataGridColumn<Task>[] = [
   },
 ];
 
-const worksheetColumns = columns.map(
-  (column): OwpDataGridColumn<Task> => ({
-    ...column,
-    sortable: false,
-    filterable: false,
-    resizable: true,
-    headerAlign: 'center',
-    valueGetter: (row) => {
-      if (column.type === 'number' && row.worksheetKind === 'rate' && column.id !== 'rate')
-        return undefined;
-      if (column.valueGetter) return column.valueGetter(row);
-      return column.field ? row[column.field] : undefined;
-    },
-    cellStyle: (params) => {
-      const input = typeof column.editable === 'function' && column.editable(params);
-      const linked = column.id === 'rate' && ['task-4', 'task-8'].includes(params.row.id);
-      return {
-        backgroundColor: input
-          ? 'var(--pg-warning-wash)'
-          : linked
-            ? 'var(--pg-purple-wash)'
-            : column.type === 'number'
-              ? 'var(--pg-blue-wash)'
-              : undefined,
-        color: linked ? 'var(--pg-purple)' : undefined,
-        fontWeight: linked ? 600 : undefined,
-      };
-    },
-  }),
-);
+const worksheetColumns = columns.map((column): OwpDataGridColumn<Task> => ({
+  ...column,
+  sortable: false,
+  filterable: false,
+  resizable: true,
+  headerAlign: 'center',
+  valueGetter: (row) => {
+    if (column.type === 'number' && row.worksheetKind === 'rate' && column.id !== 'rate')
+      return undefined;
+    if (column.valueGetter) return column.valueGetter(row);
+    return column.field ? row[column.field] : undefined;
+  },
+  cellStyle: (params) => {
+    const input = typeof column.editable === 'function' && column.editable(params);
+    const linked = column.id === 'rate' && ['task-4', 'task-8'].includes(params.row.id);
+    return {
+      backgroundColor: input
+        ? 'var(--pg-warning-wash)'
+        : linked
+          ? 'var(--pg-purple-wash)'
+          : column.type === 'number'
+            ? 'var(--pg-blue-wash)'
+            : undefined,
+      color: linked ? 'var(--pg-purple)' : undefined,
+      fontWeight: linked ? 600 : undefined,
+    };
+  },
+}));
 
 export const gridConfiguration: GridConfiguration = {
   rows: worksheetRows,

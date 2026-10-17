@@ -2,7 +2,7 @@ import { alpha } from '@mui/material/styles';
 import { createGroupedAxisLabelsPlugin } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
-import type { NativeData, NativeOptions } from '../model/chartTypes';
+import type { NativeChartType, NativeData, NativeOptions } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useChartPalette } from '../model/useCartesian';
 import { ChartCanvas } from '../runtime/ChartCanvas';
@@ -24,6 +24,7 @@ const outputs = [
 ] as const;
 
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t } = useOwpTranslation();
   const palette = useChartPalette();
   const [values, setValues] = useState(false);
@@ -48,7 +49,7 @@ export function ChartExample(props: ChartExampleProps) {
       })),
     ),
   };
-  const labels = createGroupedAxisLabelsPlugin<'bar'>({
+  const labels = createGroupedAxisLabelsPlugin<NativeChartType>({
     groups: names.map((name, line) => ({
       id: String(line),
       label: name,
@@ -115,7 +116,7 @@ export function ChartExample(props: ChartExampleProps) {
     }),
     [t],
   );
-  useEffect(() => props.onData?.(snapshot), [snapshot, props.onData]);
+  useEffect(() => onData?.(snapshot), [snapshot, onData]);
   return (
     <>
       <Controls>

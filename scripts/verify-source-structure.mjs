@@ -2,16 +2,37 @@ import assert from 'node:assert/strict';
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
-import ts from 'typescript';
+import { parseSync, Visitor } from 'vite';
+import { legacySourcePaths } from '../src/features/code/source-paths.ts';
 
 const origin = process.env.PLAYGROUND_URL ?? 'http://127.0.0.1:4173';
 const output = '.omo/evidence/structure';
-const manifestSource = await readFile('src/features/code/source-paths.ts', 'utf8');
-const compiled = ts.transpileModule(manifestSource, {
-  compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-}).outputText;
-const { legacySourcePaths } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
 const files = (await readdir('src', { recursive: true })).filter(file => /\.(?:ts|tsx|css)$/.test(file));
+for (const file of files.filter(file => /\.(?:ts|tsx)$/.test(file))) {
+  const source = await readFile(`src/${file}`, 'utf8');
+  const parsed = parseSync(file, source);
+  assert.deepEqual(parsed.errors, [], file);
+  const inspect = (node) => {
+    const specifier = node.source?.value;
+    if (typeof specifier !== 'string' || !specifier.startsWith('.')) return;
+    const base = path.posix.normalize(path.posix.join(path.posix.dirname(file), specifier.split('?')[0]));
+    assert.ok([base, `${base}.ts`, `${base}.tsx`, `${base}.css`, `${base}/index.ts`].some(candidate => files.includes(candidate)), `${file} -> ${specifier}`);
+    if (file.startsWith('shared/') || file.startsWith('features/code/') && file !== 'features/code/source-paths.ts') {
+      assert.ok(!base.startsWith('playgrounds/') && !base.startsWith('app/'), `Shared ownership: ${file} -> ${specifier}`);
+    }
+  };
+  new Visitor({ ImportDeclaration: inspect, ExportNamedDeclaration: inspect, ExportAllDeclaration: inspect }).visit(parsed.program);
+}
+if (process.argv.includes('--static')) {
+  for (const file of files) {
+    assert.equal(await readFile(`dist/snippets/${file}`, 'utf8'), await readFile(`src/${file}`, 'utf8'), file);
+  }
+  for (const [legacy, file] of Object.entries(legacySourcePaths)) {
+    assert.equal(await readFile(`dist/snippets/${legacy}`, 'utf8'), await readFile(`src/${file}`, 'utf8'), legacy);
+  }
+  console.log(`PASS source syntax, imports and snippets: ${files.length} sources, ${Object.keys(legacySourcePaths).length} aliases`);
+  process.exit(0);
+}
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const results = [];
 const errors = [];
@@ -32,21 +53,6 @@ try {
     const response = await page.request.get(`${origin}/snippets/${file}`);
     assert.equal(response.status(), 200, file);
     assert.equal(await response.text(), source, file);
-    if (/\.(?:ts|tsx)$/.test(file)) {
-      const parsed = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
-      function visit(node) {
-        const specifier = (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) && node.moduleSpecifier;
-        if (specifier && ts.isStringLiteral(specifier) && specifier.text.startsWith('.')) {
-          const base = path.posix.normalize(path.posix.join(path.posix.dirname(file), specifier.text.split('?')[0]));
-          assert.ok([base, `${base}.ts`, `${base}.tsx`, `${base}.css`, `${base}/index.ts`].some(candidate => files.includes(candidate)), `${file} -> ${specifier.text}`);
-          if (file.startsWith('shared/') || file.startsWith('features/code/') && file !== 'features/code/source-paths.ts') {
-            assert.ok(!base.startsWith('playgrounds/') && !base.startsWith('app/'), `Shared ownership: ${file} -> ${specifier.text}`);
-          }
-        }
-        ts.forEachChild(node, visit);
-      }
-      visit(parsed);
-    }
   }
   for (const [legacy, file] of Object.entries(legacySourcePaths)) {
     const response = await page.request.get(`${origin}/snippets/${legacy}`);

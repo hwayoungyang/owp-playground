@@ -14,6 +14,7 @@ const output = [
 const lines = ['A', 'B', 'C', 'D'] as const;
 
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t } = useOwpTranslation();
   const [labels, setLabels] = useState(true);
   const plot = useAvailableChartHeight();
@@ -29,14 +30,14 @@ export function ChartExample(props: ChartExampleProps) {
   );
   useEffect(
     () =>
-      props.onData?.({
+      onData?.({
         labels: data.map((item) => item.label),
         series: lines.map((line) => ({
           label: t('라인 {{name}}', { name: line }),
           values: data.map((item) => (item.group === line ? item.value : null)),
         })),
       }),
-    [data, props.onData, t],
+    [data, onData, t],
   );
   const options: OwpTreemapChartProps['options'] = {
     ...chartMotion,

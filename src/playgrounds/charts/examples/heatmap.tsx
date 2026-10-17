@@ -18,6 +18,7 @@ const production = shiftLoad.map((load, hour) =>
 );
 
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t } = useOwpTranslation();
   const palette = useChartPalette();
   const [values, setValues] = useState(false);
@@ -46,7 +47,7 @@ export function ChartExample(props: ChartExampleProps) {
       }
     return points;
   }, [snapshot]);
-  useEffect(() => props.onData?.(snapshot), [props.onData, snapshot]);
+  useEffect(() => onData?.(snapshot), [onData, snapshot]);
   const options: OwpHeatmapChartProps['options'] = {
     ...chartMotion,
     onClick: (_event, items) =>

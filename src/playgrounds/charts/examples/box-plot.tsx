@@ -11,6 +11,7 @@ import { Controls, Toggle } from '../runtime/Controls';
 import { useAvailableChartHeight } from '../runtime/useAvailableChartHeight';
 
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t } = useOwpTranslation();
   const palette = useChartPalette();
   const [outliers, setOutliers] = useState(true);
@@ -62,7 +63,7 @@ export function ChartExample(props: ChartExampleProps) {
   };
   useEffect(
     () =>
-      props.onData?.({
+      onData?.({
         labels: Array.from({ length: 6 }, (_, index) =>
           t('라인 {{number}}', { number: index + 1 }),
         ),
@@ -89,7 +90,7 @@ export function ChartExample(props: ChartExampleProps) {
           },
         ],
       }),
-    [boxes, props.onData, t],
+    [boxes, onData, t],
   );
   return (
     <>

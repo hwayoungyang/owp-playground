@@ -83,10 +83,9 @@ button {
 }
 .brand {
   display: grid;
-  grid-template-columns: calc(var(--pg-navigation-width) - var(--pg-header-padding) - 1px) 1px minmax(
-      0,
-      1fr
-    );
+  grid-template-columns: calc(
+      var(--pg-navigation-width) - var(--pg-header-padding) - 1px
+    ) 1px minmax(0, 1fr);
   gap: 0;
   min-width: 0;
   flex: 1;

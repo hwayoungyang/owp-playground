@@ -23,6 +23,7 @@ const reading = (sequence: number) =>
   );
 
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t, i18n } = useOwpTranslation();
   const palette = useChartPalette();
   const [running, setRunning] = useState(true);
@@ -84,11 +85,11 @@ export function ChartExample(props: ChartExampleProps) {
   );
   useEffect(
     () =>
-      props.onData?.({
+      onData?.({
         labels: points.slice(-count).map((point) => time.format(point.timestamp)),
         series: [{ label: t('측정값'), values: points.slice(-count).map((point) => point.value) }],
       }),
-    [points, count, time, t, props.onData],
+    [points, count, time, t, onData],
   );
   const options = useMemo<OwpLiveChartProps['options']>(
     () => ({

@@ -18,6 +18,7 @@ const daily = Array.from({ length: 10 }, (_, day) => ({
   y: hourly.slice(day * 24, day * 24 + 24).reduce((sum, point) => sum + point.y, 0) / 24,
 }));
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t, i18n } = useOwpTranslation();
   const palette = useChartPalette();
   const [average, setAverage] = useState(true);
@@ -100,7 +101,7 @@ export function ChartExample(props: ChartExampleProps) {
     }),
     [t, average],
   );
-  useEffect(() => props.onData?.(snapshot), [props.onData, snapshot]);
+  useEffect(() => onData?.(snapshot), [onData, snapshot]);
   return (
     <>
       <Controls>

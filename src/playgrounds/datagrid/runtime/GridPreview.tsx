@@ -17,6 +17,7 @@ export function GridPreview({
   readonly settings: GridViewSettings;
   readonly themeRadius?: number;
 }) {
+  const { finishBinding, onRowsUpdate } = controller;
   const { t } = useTranslation('app');
   const gridHost = useGridAccessibility();
   const GridView = gridRegistry[example.id].Component;
@@ -65,27 +66,16 @@ export function GridPreview({
         return;
       }
       // The next frame runs after the bound rows have had a chance to paint.
-      frame = requestAnimationFrame(() => controller.finishBinding(pending));
+      frame = requestAnimationFrame(() => finishBinding(pending));
     };
     frame = requestAnimationFrame(waitForRows);
     return () => cancelAnimationFrame(frame);
-  }, [
-    controller.pendingBinding,
-    controller.busy,
-    controller.gridRef,
-    controller.finishBinding,
-    gridHost,
-  ]);
+  }, [controller.pendingBinding, controller.busy, controller.gridRef, finishBinding, gridHost]);
   useEffect(() => {
     if (controller.configuration.treeOptions?.getChildren) {
-      controller.onRowsUpdate(controller.gridRef.current?.getRows() ?? controller.rows);
+      onRowsUpdate(controller.gridRef.current?.getRows() ?? controller.rows);
     }
-  }, [
-    controller.configuration.treeOptions,
-    controller.gridRef,
-    controller.rows,
-    controller.onRowsUpdate,
-  ]);
+  }, [controller.configuration.treeOptions, controller.gridRef, controller.rows, onRowsUpdate]);
   const handleCommit: NonNullable<typeof controller.configuration.onCellValueCommit> = (params) => {
     controller.record('cell.commit', {
       rowId: params.rowId,
@@ -107,7 +97,7 @@ export function GridPreview({
           {...controller.configuration}
           gridRef={controller.gridRef}
           onRecord={controller.record}
-          onRowsChange={controller.onRowsUpdate}
+          onRowsChange={onRowsUpdate}
           onBusyChange={controller.setBusy}
           rows={controller.rows}
           columns={controller.columns}

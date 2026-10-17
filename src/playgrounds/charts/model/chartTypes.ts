@@ -1,7 +1,8 @@
 import type { CoreChartProps } from '@owp/charts/types';
 
+export type NativeChartType = 'bar' | 'line' | 'doughnut';
 export type NativeValue = number | [number, number] | { x: number; y: number; r?: number } | null;
-type CoreProps = CoreChartProps<'bar' | 'line' | 'doughnut', NativeValue[]>;
+type CoreProps = CoreChartProps<NativeChartType, NativeValue[]>;
 export type NativeData = Omit<CoreProps['data'], 'datasets'> & {
   readonly datasets: (CoreProps['data']['datasets'][number] & { readonly id?: string })[];
 };

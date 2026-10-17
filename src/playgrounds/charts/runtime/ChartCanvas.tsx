@@ -2,13 +2,19 @@ import { ChartFrame } from '@owp/charts';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo } from 'react';
 import { chartMotion } from '../model/chartMotion';
-import type { NativeData, NativeInstance, NativeOptions, NativePlugin } from '../model/chartTypes';
+import type {
+  NativeChartType,
+  NativeData,
+  NativeInstance,
+  NativeOptions,
+  NativePlugin,
+} from '../model/chartTypes';
 import { nativeSnapshot } from '../model/nativeSnapshot';
 import type { ChartExampleProps } from '../model/types';
 import { useAvailableChartHeight } from './useAvailableChartHeight';
 
 type ChartCanvasProps = ChartExampleProps & {
-  readonly type: 'bar' | 'line' | 'doughnut';
+  readonly type: NativeChartType;
   readonly data: NativeData;
   readonly options?: NativeOptions;
   readonly plugins?: NativePlugin[];

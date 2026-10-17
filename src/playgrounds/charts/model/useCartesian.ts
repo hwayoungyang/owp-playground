@@ -31,6 +31,7 @@ export function useCartesian(
   },
   props: ChartExampleProps = {},
 ) {
+  const { onData } = props;
   const palette = useChartPalette();
   const records = useMonthlyRecords();
   const { t } = useOwpTranslation();
@@ -86,14 +87,14 @@ export function useCartesian(
     },
   };
   useEffect(() => {
-    props.onData?.({
+    onData?.({
       labels: (data.labels ?? []).map(String),
       series: data.datasets.map((series) => ({
         label: series.label ?? '',
         values: [...series.data],
       })),
     });
-  }, [data, props.onData]);
+  }, [data, onData]);
   return {
     preset: 'owp' as const,
     datasetIdKey: 'id',

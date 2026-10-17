@@ -4,12 +4,14 @@ MUI 기반의 OWP 컴포넌트 실행·코드 Playground입니다. `@owp/datagri
 
 ## 실행
 
-Node.js 22.12 이상, pnpm 10, 기존 OWP 사내 레지스트리 접근이 필요합니다. `.npmrc`의 `@owp:registry`를 환경에 맞게 설정하세요. 인증 정보는 저장소에 넣지 않습니다.
+Node.js 24 LTS(24.11 이상)와 pnpm 10을 권장하며, 지원하는 Node.js 범위는 `package.json`의 `engines.node`를 따릅니다. 기존 OWP 사내 레지스트리 접근이 필요합니다. `.npmrc`의 `@owp:registry`를 환경에 맞게 설정하세요. 인증 정보는 저장소에 넣지 않습니다.
 
 ```sh
 pnpm install
 pnpm dev
 ```
+
+`pnpm dev`는 개발 서버를 실행하고 브라우저를 자동으로 엽니다. TypeScript 7로 타입을 검사하고, Vite+로 개발·빌드·테스트를 실행합니다. 설치와 스크립트 실행에는 기존 pnpm CLI를 사용합니다. `.npmrc`가 `packageManager`에 고정된 pnpm 버전을 자동으로 선택합니다.
 
 프로덕션 미리보기:
 
@@ -18,7 +20,7 @@ pnpm build
 pnpm preview
 ```
 
-기본 미리보기 주소는 `http://127.0.0.1:4173`입니다. GET 파라미터 `package`로 패키지를, `sample`로 예제를 바로 선택합니다.
+`pnpm preview`도 브라우저를 자동으로 엽니다. 기본 미리보기 주소는 `http://127.0.0.1:4173`입니다. GET 파라미터 `package`로 패키지를, `sample`로 예제를 바로 선택합니다.
 
 | 주소 | 표시 |
 | --- | --- |
@@ -246,7 +248,18 @@ pnpm typecheck
 pnpm check
 pnpm test
 pnpm build
+pnpm test:sources
 ```
+
+`pnpm check`는 Vite+의 Oxlint·Oxfmt 검사와 `pnpm check:assets`의 JSON·HTML·CSS lint를 함께 실행합니다. 타입 검사는 기존 `pnpm typecheck`와 `pnpm build`가 TypeScript 7로 수행합니다.
+
+JS/TS lint와 소스·테스트·루트 JSON 설정·`index.html` 포맷은 `vite.config.ts`에서 관리합니다. `pnpm lint`는 포맷 없이 lint만, `pnpm format`은 Oxfmt 포맷 적용을, `pnpm format:check`는 포맷 차이 검사만 실행합니다. import 순서와 `package.json` 키 순서는 재정렬하지 않으며, CSS는 기존 double quote를 유지합니다. 검증 스크립트·문서·공개 에셋·pnpm YAML 파일은 포맷 범위에서 제외합니다.
+
+Biome은 `biome.json`에 지정한 기존 JSON·HTML·CSS 범위의 lint만 담당하며 formatter와 assist는 사용하지 않습니다. JSON 중복 키, HTML 중복 속성·접근성, CSS 속성 검증을 유지하기 위한 범위입니다. 현재 Oxlint는 이 파일들의 lint를 지원하지 않으므로 Biome을 제거하면 검증이 빠집니다. HTML 포맷은 Oxfmt에 번들된 Prettier가 처리하며 별도 Prettier 설치는 필요하지 않습니다.
+
+Oxlint의 Hook 호출·의존성 검사는 유지합니다. 기존의 사용하지 않는 함수 매개변수 허용과 키보드로 코드 영역을 스크롤하기 위한 두 예외를 보존하며, React Compiler 최적화에 맞추기 위한 동작 변경은 이번 전환에 포함하지 않습니다. 두 도구의 추천 규칙은 같지 않으므로 Biome JS/TS 규칙 전체와의 일대일 대응을 보장하지 않습니다.
+
+`pnpm test:sources`는 빌드된 snippet과 원본의 일치, 기존 URL alias, Oxc를 이용한 TypeScript 구문과 상대 import 경계를 브라우저 없이 검사합니다. API 데이터 검증 스크립트의 JSONC 파싱 회귀 검사는 `pnpm test`에 포함됩니다.
 
 프로덕션 미리보기를 실행한 상태에서 Chrome을 사용하는 실제 브라우저 검증:
 
@@ -263,6 +276,6 @@ pnpm audit:browser
 
 다른 주소는 `PLAYGROUND_URL`로 지정합니다. 브라우저 검증은 편집·검증·행 관리·병합 선택·상세 로딩·실제 XLSX 파일·100만 행 데이터와 취소를 검사합니다. 성능 감사는 공식 Lighthouse 모바일·데스크톱 프로필로 각각 3회 측정하고 중앙값을 기록합니다. 증거는 Git에서 제외한 `.omo/evidence`에 보관합니다.
 
-개발 환경의 react-grab/react-scan 렌더링·스타일 표시는 `import.meta.env.DEV`에서만 로드합니다. `VITE_DISABLE_REACT_DEVTOOLS=1`로 개발 중에도 끌 수 있으며 프로덕션 빌드에는 포함하지 않습니다. 이벤트 탭의 샘플 로그는 제품 기능이므로 빌드 후에도 표시합니다. `pnpm run doctor`로 React 정적 검사를 실행할 수 있습니다.
+개발 환경의 react-grab 요소 선택 도구는 `import.meta.env.DEV`에서만 로드합니다. `VITE_DISABLE_REACT_DEVTOOLS=1`로 개발 중에도 끌 수 있으며 프로덕션 빌드에는 포함하지 않습니다. 이벤트 탭의 샘플 로그는 제품 기능이므로 빌드 후에도 표시합니다.
 
 계산·셀 연동은 프로젝트별 기본 적용률, 작업 간·프로젝트 간 적용률 연동과 비용·합계 계산을 함께 보여줍니다. 행 드래그 이동은 한 행/선택한 행 모드를 전환할 수 있습니다. 본문 제목은 선택한 샘플만 표시하며, 패키지·분류·샘플 경로는 헤더 breadcrumb에서 확인합니다.

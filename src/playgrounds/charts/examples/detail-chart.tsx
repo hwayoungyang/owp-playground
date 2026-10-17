@@ -8,6 +8,7 @@ import { useCartesian, useMonthlyRecords } from '../model/useCartesian';
 
 type DetailRow = { readonly id: number; readonly name: string; readonly value: number };
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t } = useOwpTranslation();
   const records = useMonthlyRecords();
   const rows = records.slice(0, 4).map((record, index) => ({
@@ -17,7 +18,7 @@ export function ChartExample(props: ChartExampleProps) {
   }));
   const chart = useCartesian({}, { onRecord: props.onRecord });
   useEffect(() => {
-    props.onData?.({
+    onData?.({
       labels: [t('월'), t('화'), t('수'), t('목'), t('금'), t('토')],
       series: records.slice(0, 4).map((record, index) => ({
         label: t('라인 {{number}}', { number: index + 1 }),
@@ -31,7 +32,7 @@ export function ChartExample(props: ChartExampleProps) {
         ],
       })),
     });
-  }, [records, props.onData, t]);
+  }, [records, onData, t]);
   const columns: OwpDataGridColumn<DetailRow>[] = [
     { id: 'name', field: 'name', header: t('라인'), minWidth: 140, relWidth: 1 },
     {

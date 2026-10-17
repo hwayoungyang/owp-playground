@@ -10,6 +10,7 @@ import { useAvailableChartHeight } from '../runtime/useAvailableChartHeight';
 import { usePageVisible } from '../runtime/usePageVisible';
 
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t } = useOwpTranslation();
   const palette = useChartPalette();
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
@@ -59,11 +60,11 @@ export function ChartExample(props: ChartExampleProps) {
   });
   useEffect(
     () =>
-      props.onData?.({
+      onData?.({
         labels: [t('운영지수')],
         series: [{ label: t('현재 값'), values: [value] }],
       }),
-    [value, props.onData, t],
+    [value, onData, t],
   );
   return (
     <>

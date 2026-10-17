@@ -11,6 +11,7 @@ import { useChartPalette } from '../model/useCartesian';
 import { Controls, Range } from '../runtime/Controls';
 
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t } = useOwpTranslation();
   const palette = useChartPalette();
   const [count, setCount] = useState(2000);
@@ -35,10 +36,7 @@ export function ChartExample(props: ChartExampleProps) {
     }),
     [clusters, palette, t],
   );
-  useEffect(
-    () => props.onData?.(nativeSnapshot({ datasets: data.datasets })),
-    [data, props.onData],
-  );
+  useEffect(() => onData?.(nativeSnapshot({ datasets: data.datasets })), [data, onData]);
   const options: NativeOptions = {
     responsive: true,
     maintainAspectRatio: false,

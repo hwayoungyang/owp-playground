@@ -6,6 +6,7 @@ import { useCartesian, useMonthlyRecords } from '../model/useCartesian';
 import { Controls, Toggle } from '../runtime/Controls';
 
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t } = useOwpTranslation();
   const group = useId();
   const [enabled, setEnabled] = useState(true);
@@ -19,7 +20,7 @@ export function ChartExample(props: ChartExampleProps) {
     series: [{ dataKey: 'plan', label: t('계획'), type: 'line' }],
   });
   useEffect(() => {
-    props.onData?.({
+    onData?.({
       labels: records.map((record) => record.category),
       series: [
         { label: t('실적'), values: records.map((record) => record.actual) },
@@ -29,7 +30,7 @@ export function ChartExample(props: ChartExampleProps) {
         },
       ],
     });
-  }, [records, props.onData, t]);
+  }, [records, onData, t]);
   const linkedInteraction = {
     enabled,
     group,

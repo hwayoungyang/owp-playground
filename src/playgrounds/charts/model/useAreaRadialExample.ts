@@ -10,9 +10,10 @@ export function useAreaRadialExample(
   props: ChartExampleProps,
   radial: boolean | 'radar' | 'semi-circle' = false,
 ) {
+  const { onData } = props;
   const { t } = useOwpTranslation();
   const plot = useAvailableChartHeight(Boolean(radial));
-  useEffect(() => props.onData?.(snapshot), [snapshot, props.onData]);
+  useEffect(() => onData?.(snapshot), [snapshot, onData]);
   return {
     plot,
     className: `chart-canvas chart-native${radial ? ' chart-canvas-doughnut' : ''}${typeof radial === 'string' ? ` chart-canvas-${radial}` : ''}`,

@@ -18,6 +18,7 @@ const equipmentOutput = (value: number, equipment: number, month: number) =>
   );
 
 export function ChartExample(props: ChartExampleProps) {
+  const { onData } = props;
   const { t } = useOwpTranslation();
   const [count, setCount] = useState(6);
   const palette = useChartPalette();
@@ -33,7 +34,7 @@ export function ChartExample(props: ChartExampleProps) {
     { onRecord: props.onRecord },
   );
   useEffect(() => {
-    props.onData?.({
+    onData?.({
       labels: (chart.data.labels ?? []).map(String),
       series: Array.from({ length: count }, (_, index) => ({
         label: t('설비 {{number}}', { number: index + 1 }),
@@ -42,7 +43,7 @@ export function ChartExample(props: ChartExampleProps) {
         ),
       })),
     });
-  }, [chart.data, count, props.onData, t]);
+  }, [chart.data, count, onData, t]);
   return (
     <>
       <Controls>

@@ -1,18 +1,19 @@
 import assert from 'node:assert/strict';
-import ts from 'typescript';
+import { parse } from 'jsonc-parser';
 
 export const apiDataCode = (page) => page.locator('[role="tabpanel"]:not([hidden]) pre code');
 export async function readApiPage(page) {
   await apiDataCode(page).waitFor();
   const text = await apiDataCode(page).textContent();
-  const parsed = ts.parseConfigFileTextToJson('data.jsonc', '{"rows":' + text + '}');
-  assert.equal(parsed.error, undefined, 'Data must be valid JSON or JSONC');
-  assert.ok(Array.isArray(parsed.config.rows), 'OWP API data must be a row array');
-  for (const row of parsed.config.rows) for (const [key, value] of Object.entries(row)) {
+  const errors = [];
+  const parsed = parse('{"rows":' + text + '}', errors, { allowTrailingComma: true });
+  assert.deepEqual(errors, [], 'Data must be valid JSON or JSONC');
+  assert.ok(Array.isArray(parsed.rows), 'OWP API data must be a row array');
+  for (const row of parsed.rows) for (const [key, value] of Object.entries(row)) {
     assert.match(key, /^OWP_DATA\.DATA[1-9]\d*$/);
     assert.ok(value === null || typeof value === 'string' || Array.isArray(value), key);
   }
-  return { rows: parsed.config.rows, text };
+  return { rows: parsed.rows, text };
 }
 
 const taskFields = ['id', 'project', 'task', 'owner', 'status', 'quantity', 'completed', 'cost', 'date', 'year', 'month', 'time', 'datetime', 'active', 'tags', 'note', 'parentId', 'mixed', 'children', 'worksheetKind', 'reserved', 'rate'];

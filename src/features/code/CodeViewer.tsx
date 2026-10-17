@@ -136,7 +136,7 @@ export function CodeViewer({
       </div>
       <section
         className="code-scroll"
-        // biome-ignore lint/a11y/noNoninteractiveTabindex: Keyboard users must be able to scroll the source region.
+        // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Keyboard users must be able to scroll the source region.
         tabIndex={0}
         aria-label={t(data !== undefined ? '데이터' : '실행 원본 코드')}
       >
