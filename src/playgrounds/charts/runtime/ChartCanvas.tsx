@@ -1,4 +1,5 @@
 import { ChartFrame } from '@owp/charts';
+import type { ChartLegendOptions } from '@owp/charts/types';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo } from 'react';
 import { chartMotion } from '../model/chartMotion';
@@ -23,6 +24,7 @@ type ChartCanvasProps = ChartExampleProps & {
     | { current: NativeInstance | undefined };
   readonly radial?: boolean | 'semi-circle' | 'radar';
   readonly categoryLabel?: (label: string, index: number) => string;
+  readonly legendFormatter?: ChartLegendOptions['formatter'];
   readonly recordLegendHover?: boolean;
 };
 
@@ -35,6 +37,7 @@ export function ChartCanvas({
   chartRef,
   radial = false,
   categoryLabel,
+  legendFormatter,
   recordLegendHover,
   onData,
   onRecord,
@@ -85,10 +88,12 @@ export function ChartCanvas({
                     ? nativeLegend.title.text.join(' ')
                     : nativeLegend.title.text
                   : undefined,
-                formatter: categoryLabel
-                  ? (label, item) =>
-                      item.dataIndex === undefined ? label : categoryLabel(label, item.dataIndex)
-                  : undefined,
+                formatter:
+                  legendFormatter ??
+                  (categoryLabel
+                    ? (label, item) =>
+                        item.dataIndex === undefined ? label : categoryLabel(label, item.dataIndex)
+                    : undefined),
                 onClick: (item) => onRecord?.('legend-click', String(item.label)),
                 onHover: recordLegendHover
                   ? (item) => onRecord?.('legend-hover', String(item.label))

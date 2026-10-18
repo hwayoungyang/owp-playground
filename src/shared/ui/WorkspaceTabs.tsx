@@ -1,6 +1,6 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Tab, Tabs } from '@mui/material';
 import { BracketsCurlyIcon, CodeIcon, DatabaseIcon, PlayIcon } from '@phosphor-icons/react';
-import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 
 const tabDefinitions = [
@@ -23,7 +23,7 @@ export function WorkspaceTabs({
   readonly onChange: (value: WorkspaceTab) => void;
   readonly eventCount?: number;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <div className="workspace-navigation">
       <Tabs

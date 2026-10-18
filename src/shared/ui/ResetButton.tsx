@@ -1,9 +1,9 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Button } from '@mui/material';
 import { ArrowsClockwiseIcon } from '@phosphor-icons/react';
-import { useTranslation } from 'react-i18next';
 
 export function ResetButton({ onReset }: { readonly onReset: () => void }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <Button
       className="workspace-reset-button"

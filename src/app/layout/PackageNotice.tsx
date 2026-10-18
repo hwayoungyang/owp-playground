@@ -1,10 +1,10 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Button } from '@mui/material';
 import { SquaresFourIcon } from '@phosphor-icons/react';
-import { useTranslation } from 'react-i18next';
 import type { PlaygroundPackage } from '../../playgrounds/registry';
 
 export function PackageSidebar({ playground }: { readonly playground: PlaygroundPackage }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <nav className="sidebar" aria-label={t('예제 탐색')}>
       <div className="sidebar-package">
@@ -20,7 +20,7 @@ export function PackageSidebar({ playground }: { readonly playground: Playground
 }
 
 export function PackageNotice({ onDataGrid }: { readonly onDataGrid: () => void }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <section className="workspace" aria-label={t('예제 준비 중')}>
       <div className="workspace-frame package-placeholder">

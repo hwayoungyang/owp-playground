@@ -1,3 +1,4 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import {
   Accordion,
   AccordionDetails,
@@ -7,7 +8,6 @@ import {
 } from '@mui/material';
 import type { resolveOwpGridTheme } from '@owp/theme';
 import { CaretDownIcon } from '@phosphor-icons/react';
-import { useTranslation } from 'react-i18next';
 import type { editableMuiTheme } from './model/studio';
 import {
   muiColorLabels,
@@ -25,7 +25,7 @@ export function ComponentColors({
   readonly palette: ReturnType<typeof editableMuiTheme>['palette'];
   readonly onCommit: (field: string, value: unknown, group?: string) => ThemeFieldCommitResult;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <Accordion disableGutters>
       <AccordionSummary expandIcon={<CaretDownIcon />}>
@@ -65,7 +65,7 @@ export function GridFields({
   readonly grid: ReturnType<typeof resolveOwpGridTheme>;
   readonly onCommit: (group: string, field: string, value: unknown) => ThemeFieldCommitResult;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <div className="theme-grid-fields">
       <h3>{t('그리드 세부 설정')}</h3>

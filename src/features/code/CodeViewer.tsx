@@ -1,29 +1,70 @@
-import { Button, MenuItem, Select } from '@mui/material';
+import { useOwpTranslation } from '@owp/components/hooks';
+import { Button, ListSubheader, MenuItem, Select } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { CheckIcon, CopyIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
 import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import dependencies from 'virtual:playground-source-graph';
 import type { ExampleMetadata } from '../../shared/types/playground';
 import { HighlightedCode } from './HighlightedCode';
 import { highlightSource } from './highlight';
 import { exampleSourcePath } from './source-paths';
+import { groupExampleSources, type SourcePolicy } from './source-groups';
 
 const allSources = import.meta.glob<string>('/src/**/*.{ts,tsx,css}', {
   query: '?raw',
   import: 'default',
 });
 
+function SourceGroupHeader({
+  title,
+  separator = false,
+  pinnedRows = 0,
+}: {
+  readonly title: string;
+  readonly separator?: boolean;
+  readonly pinnedRows?: number;
+}) {
+  return (
+    <ListSubheader
+      role="presentation"
+      sx={(theme) => {
+        const tint = alpha(theme.palette.info.main, theme.palette.mode === 'dark' ? 0.16 : 0.08);
+        return {
+          bgcolor: 'background.paper',
+          backgroundImage: `linear-gradient(${tint}, ${tint})`,
+          backgroundSize: '100% 32px',
+          backgroundPosition: separator ? '0 12px' : '0 0',
+          backgroundRepeat: 'no-repeat',
+          color: theme.palette.mode === 'dark' ? theme.palette.info.light : theme.palette.info.dark,
+          fontWeight: 600,
+          lineHeight: '32px',
+          pb: 0.75,
+          zIndex: 2,
+          top: separator ? { xs: 38 + pinnedRows * 48, sm: 38 + pinnedRows * 36 } : 0,
+          ...(separator ? { borderTop: 1, borderColor: 'divider', pt: 1.5 } : {}),
+        };
+      }}
+    >
+      {title}
+    </ListSubheader>
+  );
+}
+SourceGroupHeader.muiSkipListHighlight = true;
+
 export function CodeViewer({
   example,
   data,
   dataFormat = 'json',
   dataDescription,
+  sourcePolicy,
 }: {
   readonly example: ExampleMetadata;
   readonly data?: string;
   readonly dataFormat?: 'json' | 'jsonc';
   readonly dataDescription?: string;
+  readonly sourcePolicy?: SourcePolicy;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const initialFile = `/src/${exampleSourcePath(example)}`;
   const [file, setFile] = useState(initialFile);
   const [source, setSource] = useState<{ readonly file: string; readonly content: string } | null>(
@@ -81,17 +122,56 @@ export function CodeViewer({
     anchor.click();
     URL.revokeObjectURL(url);
   };
-  const files = [
-    initialFile,
-    ...Object.keys(allSources)
-      .filter(
-        (path) =>
-          path !== initialFile &&
-          (!path.startsWith('/src/playgrounds/') ||
-            path.startsWith(`/src/playgrounds/${example.package.replace(/^@owp\//, '')}/`)),
-      )
-      .sort(),
-  ];
+  const groups = useMemo(
+    () =>
+      groupExampleSources({
+        example,
+        sources: Object.keys(allSources),
+        dependencies,
+        policy: sourcePolicy,
+      }),
+    [example, sourcePolicy],
+  );
+  const files = [...groups.core, ...groups.support];
+  const fileItems = (paths: readonly string[], pinned = false) =>
+    paths.map((path, index) => (
+      <MenuItem
+        key={path}
+        value={path}
+        sx={
+          pinned
+            ? (theme) => {
+                const blend = (color: string, opacity: number) =>
+                  `color-mix(in srgb, ${color} ${opacity * 100}%, ${theme.palette.background.paper})`;
+                const { action, primary } = theme.palette;
+                return {
+                  position: 'sticky',
+                  top: { xs: 38 + index * 48, sm: 38 + index * 36 },
+                  height: { xs: 48, sm: 36 },
+                  minHeight: { xs: 48, sm: 36 },
+                  zIndex: 1,
+                  bgcolor: 'background.paper',
+                  '&:hover': { bgcolor: blend(primary.main, action.hoverOpacity) },
+                  '&.Mui-focusVisible': { bgcolor: blend(primary.main, action.focusOpacity) },
+                  '&.Mui-selected': {
+                    bgcolor: blend(primary.main, action.selectedOpacity),
+                    '&:hover': {
+                      bgcolor: blend(primary.main, action.selectedOpacity + action.hoverOpacity),
+                    },
+                    '&.Mui-focusVisible': {
+                      bgcolor: blend(primary.main, action.selectedOpacity + action.focusOpacity),
+                    },
+                  },
+                };
+              }
+            : undefined
+        }
+      >
+        {files.filter((entry) => entry.split('/').at(-1) === path.split('/').at(-1)).length > 1
+          ? path.replace('/src/', '')
+          : path.split('/').at(-1)}
+      </MenuItem>
+    ));
   return (
     <div className="code-viewer">
       <div className="code-toolbar">
@@ -109,15 +189,23 @@ export function CodeViewer({
                 setNotice('');
               }}
               inputProps={{ 'aria-label': t('소스 파일 선택') }}
+              MenuProps={{
+                slotProps: {
+                  paper: {
+                    sx: {
+                      scrollPaddingTop: {
+                        xs: 38 + groups.core.length * 48 + 51,
+                        sm: 38 + groups.core.length * 36 + 51,
+                      },
+                    },
+                  },
+                },
+              }}
             >
-              {files.map((path) => (
-                <MenuItem key={path} value={path}>
-                  {files.filter((entry) => entry.split('/').at(-1) === path.split('/').at(-1))
-                    .length > 1
-                    ? path.replace('/src/', '')
-                    : path.split('/').at(-1)}
-                </MenuItem>
-              ))}
+              <SourceGroupHeader title={t('주요 구현')} />
+              {fileItems(groups.core, true)}
+              <SourceGroupHeader title={t('공통 코드')} separator pinnedRows={groups.core.length} />
+              {fileItems(groups.support)}
             </Select>
           )}
         </div>

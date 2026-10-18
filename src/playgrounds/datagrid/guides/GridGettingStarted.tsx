@@ -1,5 +1,5 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import excelManifest from '@owp/excel/package.json' with { type: 'json' };
-import { useTranslation } from 'react-i18next';
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
 import { dataGridPackage } from '../../registry';
@@ -14,7 +14,7 @@ export function GridGettingStarted({
 }: {
   readonly example: Extract<GridCatalogEntry, { readonly kind: 'guide' }>;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <section className="workspace getting-started" aria-label={t('설치 및 사용 안내')}>
       <WorkspaceHeading

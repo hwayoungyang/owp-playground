@@ -1,8 +1,8 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { FormControlLabel, MenuItem, Select, Switch } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
@@ -90,7 +90,7 @@ export const gridConfiguration: GridConfiguration = {
 const backgroundScopeSchema = z.enum(['cell', 'row']);
 
 export function ConditionalStylesGrid(props: GridViewProps = {}) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [backgroundScope, setBackgroundScope] = useState<'cell' | 'row'>(() =>
     new URLSearchParams(window.location.search).get('sample') === 'row-background' ? 'row' : 'cell',

@@ -219,7 +219,7 @@ try{
   }
   pass('embedded chart grids use their content height without empty detail space or nested scrolling',{});
   await page.emulateMedia({reducedMotion:'reduce'});
-  for(const id of ['pie','multi-series-pie','scriptable-pie','doughnut-empty']){
+  for(const id of ['pie','multi-series-pie','doughnut']){
     await open(id);
     for(const [width,height] of [[1280,900],[768,720],[375,667]]){
       await page.setViewportSize({width,height});await page.waitForTimeout(180);
@@ -228,7 +228,7 @@ try{
       await shot(`${id}-${width}`);
     }
   }
-  pass('all four radial pages fit desktop, tablet and short mobile viewports',{});
+  pass('all three radial pages fit desktop, tablet and short mobile viewports',{});
   await page.setViewportSize({width:1280,height:900});
   for(const id of ['stacked-groups','multi-series-pie']){
     await open(id);await page.getByRole('button',{name:'영어로 전환',exact:true}).click();

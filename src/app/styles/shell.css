@@ -378,15 +378,6 @@ kbd {
   color: var(--pg-muted);
   padding-bottom: 1px;
 }
-.main-footer {
-  max-width: 1440px;
-  margin: 32px auto 0;
-  display: flex;
-  justify-content: space-between;
-  color: var(--pg-muted);
-  font-size: 10px;
-  gap: 12px;
-}
 .skip-link {
   position: fixed;
   top: 8px;
@@ -484,11 +475,6 @@ kbd {
   .package-heading h1 {
     font-size: 32px;
   }
-  .main-footer {
-    flex-direction: column;
-    gap: 4px;
-    margin-top: 24px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -503,8 +489,5 @@ kbd {
 @media (max-height: 760px) {
   .main-content:has(.charts-workspace) {
     padding-block: 16px;
-  }
-  .main-content:has(.charts-workspace) .main-footer {
-    margin-top: 8px;
   }
 }

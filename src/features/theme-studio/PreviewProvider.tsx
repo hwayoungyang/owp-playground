@@ -1,7 +1,7 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { ThemeProvider, useTheme } from '@mui/material';
 import { OwpThemeProvider } from '@owp/theme';
 import { type ReactNode, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   createPreviewGridTheme,
   getPreviewPalette,
@@ -17,7 +17,7 @@ export function PreviewProvider({
   readonly children: ReactNode;
 }) {
   const appMode = useTheme().palette.mode;
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const mode = value.mui?.palette?.mode ?? (value.preset === 'inherit' ? appMode : value.mode);
   const palette = useMemo(() => getPreviewPalette(value.preset, mode), [value.preset, mode]);
   const selectionLabel = t('행 선택');

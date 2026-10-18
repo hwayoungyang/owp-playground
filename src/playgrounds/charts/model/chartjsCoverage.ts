@@ -260,7 +260,7 @@ export const chartjsCoverage = [
   {
     path: 'plugins/doughnut-empty-state',
     status: 'added',
-    exampleId: 'doughnut-empty',
+    exampleId: 'doughnut',
   },
   {
     path: 'plugins/quadrants',
@@ -331,8 +331,9 @@ export const chartjsCoverage = [
   },
   {
     path: 'scriptable/bar',
-    status: 'added',
+    status: 'adapted',
     exampleId: 'scriptable-bar',
+    note: '조건별 색상을 배열로 전달해 Column과 툴팁의 색상을 일치시킵니다.',
   },
   {
     path: 'scriptable/bubble',
@@ -347,9 +348,9 @@ export const chartjsCoverage = [
   },
   {
     path: 'scriptable/pie',
-    status: 'added',
-    exampleId: 'scriptable-pie',
-    note: 'Doughnut의 cutout: 0으로 Pie를 구현합니다.',
+    status: 'adapted',
+    exampleId: 'pie',
+    note: '기본 Pie의 기준값 옵션으로 통합하고 RadialItem.color로 조각·범례·툴팁 색상을 일치시킵니다.',
   },
   {
     path: 'scriptable/polar',

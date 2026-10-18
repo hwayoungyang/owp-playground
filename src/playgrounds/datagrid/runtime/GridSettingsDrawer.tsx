@@ -1,3 +1,4 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import {
   Button,
   Drawer,
@@ -9,7 +10,6 @@ import {
 } from '@mui/material';
 import type { OwpDataGridRowSelectionMode } from '@owp/datagrid/types';
 import { XIcon } from '@phosphor-icons/react';
-import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import type { PreviewThemeSettings } from '../../../features/theme-studio/model/preview';
 import { ThemeSettings } from '../../../features/theme-studio/ThemeSettings';
@@ -39,7 +39,7 @@ export function GridSettingsDrawer({
   readonly onThemeChange: (value: PreviewThemeSettings) => void;
   readonly onThemeOpen: () => void;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
       <div className="grid-settings-panel">

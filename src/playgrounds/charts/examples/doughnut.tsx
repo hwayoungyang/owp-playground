@@ -4,17 +4,18 @@ import { useState } from 'react';
 import type { ChartExampleProps } from '../model/types';
 import { useAreaRadialExample } from '../model/useAreaRadialExample';
 import { processOutput, useRadialData } from '../model/useRadialData';
-import { Controls, Range } from '../runtime/Controls';
+import { Controls, Range, Toggle } from '../runtime/Controls';
 
 export function ChartExample(props: ChartExampleProps) {
   const { t } = useOwpTranslation();
   const { palette, labels, createItems } = useRadialData();
   const [cutout, setCutout] = useState(60);
+  const [empty, setEmpty] = useState(false);
   const rings = [
     {
       id: 'production',
       label: t('생산량'),
-      items: createItems(processOutput),
+      items: createItems(empty ? processOutput.map(() => 0) : processOutput),
       datasetOptions: {
         borderWidth: 1,
         borderColor: palette.surface,
@@ -45,11 +46,13 @@ export function ChartExample(props: ChartExampleProps) {
           step={5}
           onChange={setCutout}
         />
+        <Toggle label="합계 0으로 표시" value={empty} onChange={setEmpty} />
       </Controls>
       <div ref={chart.plot} className={chart.className}>
         <OwpRadialChart
           rings={rings}
           cutout={`${cutout}%`}
+          emptyState
           outsideLabels
           options={chart.options}
           {...chart.frame}

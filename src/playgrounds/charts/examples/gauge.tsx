@@ -45,7 +45,10 @@ export function ChartExample(props: ChartExampleProps) {
     value,
     radius: '100%',
     layout: { padding: { left: 32, right: 32, top: 24, bottom: 28 } },
-    motion: reducedMotion || !visible ? false : { duration: 500, respectReducedMotion: true },
+    motion:
+      reducedMotion || !visible
+        ? false
+        : { animateOnMount: true, duration: 500, respectReducedMotion: true },
     ticks: { stepSize: 20, color: palette.muted, fontSize: 12, fontFamily: palette.fontFamily },
     bandLabels: { color: palette.ink, fontSize: 14, fontFamily: palette.fontFamily },
     needle: { color: 'auto', hubRadius: 8, baseWidth: 12, tailLengthRatio: 0 },

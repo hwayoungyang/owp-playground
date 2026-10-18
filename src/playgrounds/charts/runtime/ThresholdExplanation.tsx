@@ -14,7 +14,7 @@ export function ThresholdExplanation({
     <div className="chart-threshold-note">
       <p className="chart-note">
         {t(
-          '각 월·라인의 생산량을 기준값 {{value}}개와 비교합니다. 기준값은 생산량을 분류하기 위한 예제 설정입니다.',
+          '각 항목의 생산량을 기준값 {{value}}개와 비교합니다. 기준값은 생산량을 분류하기 위한 예제 설정입니다.',
           { value },
         )}
       </p>
@@ -38,14 +38,14 @@ export function ThresholdExplanation({
       {kind === 'column' && (
         <p className="chart-note">
           {t(
-            '각 월의 왼쪽 Column은 라인 A, 오른쪽은 라인 B입니다. 색상은 생산량과 기준값을 비교한 결과입니다.',
+            '같은 색상이어도 왼쪽 Column은 라인 A, 오른쪽은 라인 B입니다. 툴팁에는 같은 월의 두 라인 값이 표시됩니다.',
           )}
         </p>
       )}
       {kind === 'pie' && (
         <p className="chart-note">
           {t(
-            '색상은 각 조각의 원본 생산량으로 정합니다. 조각 크기는 전체 생산량에서 차지하는 비율입니다.',
+            '조각의 크기는 생산 비중, 색상은 기준값 충족 여부를 나타냅니다. 같은 색상이어도 공정별 조각과 툴팁은 유지됩니다.',
           )}
         </p>
       )}

@@ -1,8 +1,8 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, MenuItem, Select } from '@mui/material';
 import { OwpDataGridExportExcelButton } from '@owp/datagrid';
 import { DownloadSimpleIcon, SlidersHorizontalIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { PreviewToolbar } from '../../../shared/ui/PreviewToolbar';
 import type { GridExample } from '../catalog';
@@ -22,7 +22,7 @@ export function GridToolbar({
   readonly onSettings: () => void;
   readonly onReset: () => void;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const [count, setCount] = useState(10000);
   const generating = controller.busy || controller.pendingBinding !== null;
   const countChanged = count !== (controller.bindingTime?.count ?? controller.rows.length);

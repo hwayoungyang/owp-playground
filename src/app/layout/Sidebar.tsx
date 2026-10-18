@@ -1,3 +1,4 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import {
   CaretDownIcon,
   CheckIcon,
@@ -5,7 +6,6 @@ import {
   SquaresFourIcon,
 } from '@phosphor-icons/react';
 import { type RefObject, useLayoutEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import type { PlaygroundPackage } from '../../playgrounds/registry';
 import type { ExampleMetadata, NavigationCategory } from '../../shared/types/playground';
 
@@ -28,7 +28,7 @@ export function Sidebar({
   readonly exampleCount: number;
   readonly getExampleUrl: (id: string) => string;
 }) {
-  const { t, i18n } = useTranslation('app');
+  const { t, i18n } = useOwpTranslation();
   const [query, setQuery] = useState('');
   const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(() => new Set());
   const listRef = useRef<HTMLDivElement>(null);

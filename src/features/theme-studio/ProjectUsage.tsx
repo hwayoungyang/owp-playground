@@ -1,9 +1,9 @@
-import { useTranslation } from 'react-i18next';
+import { useOwpTranslation } from '@owp/components/hooks';
 import { CodeSnippet } from '../code/CodeSnippet';
 import { componentsThemeUsage, themeUsage } from './model/project-code';
 
 export function ProjectUsage({ target }: { readonly target: 'datagrid' | 'components' }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <section className="theme-project-usage" aria-label={t('프로젝트에 적용')}>
       <h3>{t('프로젝트에 적용')}</h3>

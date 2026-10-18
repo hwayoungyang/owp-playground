@@ -42,7 +42,21 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Toggle label="그룹별 누적" value={enabled} onChange={setEnabled} />
       </Controls>
-      <ChartCanvas type="bar" data={data} options={options} {...props} />
+      <ChartCanvas
+        type="bar"
+        data={data}
+        options={options}
+        legendFormatter={
+          enabled
+            ? (label, item) =>
+                t('그룹 {{number}} · {{series}}', {
+                  number: item.datasetIndex < 2 ? 1 : 2,
+                  series: label,
+                })
+            : undefined
+        }
+        {...props}
+      />
     </>
   );
 }

@@ -1,6 +1,5 @@
-import { useResponsiveDevice } from '@owp/components/hooks';
+import { useOwpTranslation, useResponsiveDevice } from '@owp/components/hooks';
 import { useEffect, useLayoutEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import type { GridExample } from '../catalog';
 import { gridRegistry } from '../model/gridRegistry';
 import type { GridViewSettings } from './GridSettingsDrawer';
@@ -18,7 +17,7 @@ export function GridPreview({
   readonly themeRadius?: number;
 }) {
   const { finishBinding, onRowsUpdate } = controller;
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const { isTabletOrDown } = useResponsiveDevice();
   const gridHost = useRef<HTMLElement>(null);
   const GridView = gridRegistry[example.id].Component;
@@ -27,27 +26,23 @@ export function GridPreview({
     const host = gridHost.current;
     const main = host?.closest<HTMLElement>('.main-content');
     const workspace = host?.closest<HTMLElement>('.workspace');
-    const footer = main?.querySelector<HTMLElement>('.main-footer');
-    if (!host || !main || !workspace || !footer) return;
+    if (!host || !main || !workspace) return;
     const fitWorksheet = () => {
       if (!host.getClientRects().length) return;
       const mainStyle = getComputedStyle(main);
-      const footerStyle = getComputedStyle(footer);
       const surrounding =
         workspace.getBoundingClientRect().height - host.getBoundingClientRect().height;
       const available =
         main.clientHeight -
         Number.parseFloat(mainStyle.paddingTop) -
         Number.parseFloat(mainStyle.paddingBottom) -
-        surrounding -
-        footer.offsetHeight -
-        Number.parseFloat(footerStyle.marginTop);
+        surrounding;
       const height = Math.max(420, Math.min(480, Math.floor(available)));
       if (host.style.height !== `${height}px`) host.style.height = `${height}px`;
     };
     fitWorksheet();
     const observer = new ResizeObserver(fitWorksheet);
-    for (const element of [main, workspace, footer]) observer.observe(element);
+    for (const element of [main, workspace]) observer.observe(element);
     return () => {
       observer.disconnect();
       host.style.removeProperty('height');

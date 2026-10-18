@@ -121,6 +121,7 @@ export function ChartExample(props: ChartExampleProps) {
           rendered: rendered.length,
         })}
       </p>
+      <p className="chart-note">{t('성능을 위해 애니메이션을 사용하지 않습니다.')}</p>
     </>
   );
 }

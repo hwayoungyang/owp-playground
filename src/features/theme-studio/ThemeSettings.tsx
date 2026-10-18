@@ -1,3 +1,4 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import {
   Button,
   ListSubheader,
@@ -7,7 +8,6 @@ import {
   ToggleButtonGroup,
   useTheme,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { createGridTheme } from '../../shared/theme/themes';
 import {
   colorModeSchema,
@@ -32,7 +32,7 @@ export function ThemeSettings({
   readonly onChange: (next: PreviewThemeSettings) => void;
   readonly showHeader?: boolean;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const appMode = useTheme().palette.mode;
   const mode = value.mui?.palette?.mode ?? (value.preset === 'inherit' ? appMode : value.mode);
   const headerColor =
@@ -115,6 +115,7 @@ export function ThemeSettings({
             const automatic = createGridTheme(
               getPreviewPalette(value.preset, mode),
               typeof next === 'string' && /^(#|rgb|hsl)/i.test(next) ? next : null,
+              mode,
             ).header;
             const parsed = dataGridThemeSchema.safeParse({
               ...value.grid,

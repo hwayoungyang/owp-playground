@@ -1,3 +1,4 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import {
   Dialog,
   DialogContent,
@@ -29,7 +30,6 @@ import {
   yellow,
 } from '@mui/material/colors';
 import { CheckIcon, XIcon } from '@phosphor-icons/react';
-import { useTranslation } from 'react-i18next';
 
 const colors = {
   red,
@@ -88,7 +88,7 @@ export function ColorPalette({
   readonly onClose: () => void;
   readonly onSelect: (color: string) => void;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <Dialog open onClose={onClose} maxWidth="md" fullWidth aria-labelledby="color-palette-title">
       <DialogTitle id="color-palette-title" className="color-palette-title">

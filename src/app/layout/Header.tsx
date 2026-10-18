@@ -1,3 +1,4 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import {
   CaretDownIcon,
@@ -8,7 +9,6 @@ import {
   SunIcon,
 } from '@phosphor-icons/react';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   createPlaygroundUrl,
   dataGridPackage,
@@ -38,7 +38,7 @@ export function Header({
   readonly onMenuOpen: () => void;
   readonly onThemeOpen?: () => void;
 }) {
-  const { t, i18n } = useTranslation('app');
+  const { t, i18n } = useOwpTranslation();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   return (
     <header className="app-header">

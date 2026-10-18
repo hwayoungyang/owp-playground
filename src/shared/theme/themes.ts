@@ -1,4 +1,4 @@
-import { createTheme, getContrastRatio, type ThemeOptions } from '@mui/material';
+import { createTheme, getContrastRatio, lighten, type ThemeOptions } from '@mui/material';
 import type { OwpGridThemeConfigType } from '@owp/theme/types';
 import { type ColorMode, fonts, type Palette } from './tokens';
 
@@ -56,8 +56,10 @@ export function createMuiTheme(
 export function createGridTheme(
   palette: Palette,
   headerColor: string | null = null,
+  mode: ColorMode = 'light',
 ): OwpGridThemeConfigType {
   const background = headerColor ?? palette.chrome;
+  const borderColor = mode === 'dark' ? lighten(palette.line, 0.24) : palette.line;
   const foreground = headerColor
     ? getContrastRatio(background, '#171717') >= getContrastRatio(background, '#ffffff')
       ? '#171717'
@@ -67,7 +69,7 @@ export function createGridTheme(
     header: {
       backgroundColor: background,
       color: foreground,
-      borderColor: palette.line,
+      borderColor,
       fontSize: 12,
       fontWeight: 500,
       height: 36,
@@ -79,22 +81,27 @@ export function createGridTheme(
       fillBackgroundColor: palette.canvas,
     },
     row: { backgroundColor: palette.canvas, solidBackgroundColor: palette.chrome },
-    cell: { borderColor: palette.line, fontSize: 13 },
+    cell: { borderColor, fontSize: 13 },
     panel: {
       backgroundColor: palette.chrome,
       color: palette.secondary,
       inactiveFilterColor: palette.secondary,
       activeColor: palette.ink,
     },
+    enumMenu: {
+      hoverBackgroundColor: palette.hover,
+      selectedBackgroundColor: palette.subtle,
+    },
     filter: {
       backgroundColor: palette.chrome,
       color: palette.ink,
-      bottomBorderColor: palette.line,
+      bottomBorderColor: borderColor,
+      operatorColor: palette.secondary,
     },
     state: {
       hoverBackgroundColor: palette.hover,
       hoverCellBackgroundColor: palette.hover,
-      hoverCellBorderColor: palette.line,
+      hoverCellBorderColor: borderColor,
       selectedRowBackgroundColor: palette.hover,
       selectedCellBackgroundColor: palette.subtle,
       focusedRowBackgroundColor: palette.hover,
@@ -113,7 +120,7 @@ export function createGridTheme(
       backgroundColor: palette.chrome,
       thumbColor: palette.line,
       thumbHoverColor: palette.muted,
-      frameBorderColor: palette.line,
+      frameBorderColor: borderColor,
     },
   };
 }

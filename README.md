@@ -1,6 +1,6 @@
 # OWP Playground
 
-MUI 기반의 OWP 컴포넌트 실행·코드 Playground입니다. `@owp/datagrid`와 `@owp/charts`의 실행 예제와 시작 가이드를 제공합니다. 현재 OWP 의존성은 DataGrid 3.0.0, Charts 4.0.0, Core 6.0.0과 Components·DatePicker·Excel·PDF·Theme 2.0.0입니다.
+MUI 기반의 OWP 컴포넌트 실행·코드 Playground입니다. `@owp/datagrid`와 `@owp/charts`의 실행 예제와 시작 가이드를 제공합니다. 현재 OWP 의존성은 DataGrid 3.0.1, Charts 4.0.3, Core 6.0.1과 Components·DatePicker·Excel·PDF·Theme 2.0.0입니다.
 
 ## 실행
 
@@ -110,6 +110,8 @@ CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styl
 
 ‘커스텀 스타일’은 2단·3단 헤더, 기본·줄무늬·강조 프리셋과 12–18px 글자 크기를 즉시 적용합니다. 그룹 헤더와 하위 헤더의 색상·크기를 함께 바꾸며 입력한 값은 유지됩니다. `@owp/datagrid` 3.0.0의 `sx` 객체·테마 콜백·조건부 배열과 공개 클래스 선택자를 사용합니다. 행 높이는 `virtualization.rowHeight`, 헤더 높이는 `OwpThemeProvider.dataGrid.header.height`로 설정합니다. 프리셋과 크기를 바꿔도 편집값과 테마는 유지됩니다. Portal에 표시되는 편집기 목록은 루트 `sx`의 적용 범위 밖입니다.
 
+필터·enum 메뉴의 hover와 선택 배경은 예제 테마의 `enumMenu` 색상을 사용합니다. 다크 모드에서는 Grid 경계색의 밝기를 높여 편집 가능 셀 배경과 구분하며, 화면 전체 경계색과 사용자가 지정한 테마 override는 유지합니다.
+
 숫자·날짜 서식 한 화면에서 YYYY-MM-DD, YYYY, YYYY-MM, 초 단위 시간·일시를 비교합니다. 날짜와 시간은 가운데 정렬합니다.
 
 대용량 데이터는 생성 시작 시 기존 행·선택·변경·필터를 비우고 새로 채웁니다. 취소하면 빈 상태를 유지합니다. 행 수 선택을 변경하면 데이터 생성 버튼이 강조됩니다. 데이터 생성 시간을 제외한 ‘그리드 반영 시간’을 ms 단위로 보여주며, 측정값은 테스트 환경에 따라 다를 수 있습니다. 상세 그리드는 별도 Excel 버튼으로 하위 작업과 합계를 내보냅니다. 서버 조회는 정렬·필터 조건을 외부 함수에 넘기는 방식이며, 이 프로젝트의 조회·저장 함수는 지연 시간을 둔 모의 구현입니다.
@@ -118,7 +120,7 @@ CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styl
 
 ## Charts
 
-`@owp/charts` 4.0.0의 시작 가이드와 실행 예제 94개를 제공합니다. 패키지 메뉴에서 OwpCharts를 선택하거나 `/?package=charts`로 엽니다. 탐색 메뉴의 DataGrid·Charts 버전과 두 시작 가이드의 설치 명령은 설치된 패키지의 버전을 사용합니다. Excel은 2.x, Core는 6.x 기준으로 안내합니다.
+`@owp/charts` 4.0.3의 시작 가이드와 실행 예제 92개를 제공합니다. 패키지 메뉴에서 OwpCharts를 선택하거나 `/?package=charts`로 엽니다. 탐색 메뉴의 DataGrid·Charts 버전과 두 시작 가이드의 설치 명령은 설치된 패키지의 버전을 사용합니다. Excel은 2.x, Core는 6.x 기준으로 안내합니다.
 
 Semi circle은 공정별 처리 수량의 비중을 반원으로 보여줍니다. Radar는 생산 라인 A·B의 생산성, 품질, 가동 안정성, 납기 준수, 에너지 효율, 예방 정비를 같은 0–100점 척도로 비교합니다. Semi circle은 `OwpRadialChart`, Radar는 `OwpRadarChart`를 사용하며 패키지가 native geometry·hit test·OWP HTML 툴팁·범례를 처리합니다. 두 예제 모두 OWP API 문자열 데이터를 `chartFromApi`로 변환합니다.
 
@@ -130,8 +132,8 @@ Semi circle은 공정별 처리 수량의 비중을 반원으로 보여줍니다
 | 범례 (Legend) | 4 | 범례 위치·point·제목·이벤트 |
 | 툴팁 (Tooltip) | 7 | HTML·내용·탐색·위치·point 표시, hover 영역, 외부 버튼 제어 |
 | 확대·동기화 (Zoom·Sync) | 5 | 드래그·휠·pinch zoom, X·Y slider, Crosshair·tooltip 동기화 |
-| 라벨·기준선 (Annotations) | 7 | 데이터 라벨·추세선·목표선·기준 범위, 영역 테두리·사분면·빈 Doughnut |
-| 스타일 (Style) | 10 | Radius, 보간·Stepped·point·dash·segments, 제목, 조건별 색상 |
+| 라벨·기준선 (Annotations) | 6 | 데이터 라벨·추세선·목표선·기준 범위, 영역 테두리·사분면 |
+| 스타일 (Style) | 9 | Radius, 보간·Stepped·point·dash·segments, 제목, 조건별 색상 |
 | 데이터·연동 (Data) | 5 | Live chart, 셀 sparkline, 상세 패널, 대량 시계열, 로딩·빈 데이터·오류 |
 | 내보내기 (Export) | 2 | PNG 메뉴, exportRef |
 | 활용 (Use cases) | 9 | 순위, 계획·실적, 입고, 이행률, OEE, TOP N, Small multiples, Histogram, Pareto |
@@ -152,9 +154,9 @@ Layered column은 `Column 겹치기`와 `값 표시`를 각각 켜고 끌 수 �
 
 `/?package=charts&sample=live`의 **Live chart** 예제는 앱에서 1초마다 가상 측정값을 추가하며, 왼쪽 경계 연결용 한 건을 포함해 최근 61개를 보관합니다. 표시 구간은 10–60개로 바꿀 수 있습니다. X축은 초 단위 눈금을 만들고 화면 폭에 맞춰 최대 16개 라벨을 분:초로 표시합니다. Tooltip과 데이터 탭에서는 전체 시각을 확인할 수 있습니다. 일시정지·다시 시작·한 건 추가를 지원하며, 브라우저 탭이 가려지면 타이머를 멈추고 예제에서 나가면 정리합니다. `OwpLiveChart`가 데이터와 X축의 시간 눈금·격자선을 같은 표시 구간으로 1000ms 동안 함께 이동합니다. 새 값은 오른쪽에서 들어옵니다. 움직임 줄이기 설정에서는 즉시 갱신합니다. 실제 서버에 연결하지 않는 데이터 스트림 예제입니다.
 
-Gauge도 1.5초마다 가상 값을 갱신하며, 바늘과 숫자는 500ms 동안 이동합니다. 일시정지·다시 시작을 지원하고 값을 직접 조절하면 자동 갱신을 멈춥니다. 브라우저 탭이 가려지거나 예제에서 나가면 타이머를 정리하며, 움직임 줄이기 설정에서는 값을 즉시 갱신합니다.
+Gauge는 `motion.animateOnMount: true`로 최솟값(-40)에서 초기값(76)까지 500ms 동안 이동합니다. 이후 1.5초마다 가상 값을 갱신하며, 바늘과 숫자는 같은 500ms 동안 이동합니다. 일시정지·다시 시작을 지원하고 값을 직접 조절하면 자동 갱신을 멈춥니다. 브라우저 탭이 가려지거나 예제에서 나가면 타이머를 정리하며, 움직임 줄이기 설정에서는 값을 즉시 갱신합니다.
 
-Box plot은 실제 관측값에서 Q1·중앙값·Q3와 1.5 IQR 수염·이상치를 계산합니다. Pareto는 발생 건수를 내림차순으로 정렬하고 누적 비율과 80% 기준선을 겹쳐 표시합니다. 군집 Scatter는 네 군집의 반투명 점을 최대 20,000개까지 표시하며 하단 X·오른쪽 Y slider로 범위를 조절합니다.
+Box plot은 실제 관측값에서 Q1·중앙값·Q3와 1.5 IQR 수염·이상치를 계산합니다. Pareto는 발생 건수를 내림차순으로 정렬하고 누적 비율과 80% 기준선을 겹쳐 표시하며, 누적 비율 Line을 Bar 위에 그립니다. 누적 축의 0–100% 범위를 유지하면서 상단 padding과 Line의 clip 여유를 확보해 100% 지점의 점도 온전히 표시합니다. Grouped stacks는 그룹별 누적을 켜면 범례에 그룹 번호를 표시하고, 끄면 series 이름만 표시합니다. 모드를 전환해도 series의 표시·숨김 상태는 유지합니다. `@owp/charts` 4.0.3이 누적 series의 범례 표시 상태에 맞춰 남은 series의 좌표를 다시 계산하며, 샘플은 패키지의 기본 전환을 사용합니다. 군집 Scatter는 네 군집의 반투명 점을 최대 20,000개까지 표시하며 하단 X·오른쪽 Y slider로 범위를 조절합니다.
 
 한국어 화면에서는 그룹명 아래에 영어 이름을 작은 부제로 표시하고, 영어 화면에서는 영어 그룹명만 표시합니다. 범례와 툴팁은 별도 그룹입니다. 표시되는 모든 차트 툴팁은 `ChartFrame`의 `externalTooltip`을 사용하며, Box plot 통계값·날짜 서식·point 표시와 연결 차트의 동기화를 유지합니다. HTML tooltip 예제에서는 화면 경계 여백을 조절할 수 있습니다. 그리드 셀 sparkline은 기존처럼 툴팁을 표시하지 않습니다.
 
@@ -166,9 +168,11 @@ Box plot은 실제 관측값에서 Q1·중앙값·Q3와 1.5 IQR 수염·이상�
 
 정수 축·소수 축·긴 label 처리는 별도 예제에서 제외했습니다. 기존 URL은 각각 눈금 간격·눈금 서식·Bar 예제로 연결합니다. Pie는 9개 공정의 생산 비중을 촘촘한 조각과 항목·비율 라벨로 표시합니다. Multi-series pie는 중앙이 빈 두 고리로 2026·2025년을 비교하며 얇은 경계와 명도로 구분합니다. Doughnut은 같은 단색 팔레트와 둥근 조각을 사용합니다. 넓은 화면에서는 바깥 라벨과 연결선을 표시하고 작은 화면에서는 범례·툴팁에서 항목과 비율을 확인합니다. 그라데이션 로직과 전용 메뉴는 제거했습니다.
 
-애니메이션 그룹과 전용 예제 6개는 사용자 요청으로 제외했습니다. 일반 차트에는 `createChartOptions()`의 애니메이션과 전환 기본값을 적용합니다. Live chart의 데이터 이동과 Gauge의 바늘 움직임도 유지합니다. 대량 시계열·군집 Scatter·그리드 셀 sparkline은 성능을 위해 일반 애니메이션을 끕니다. 기존 애니메이션 예제 URL은 관련 Column·Line 예제로 연결합니다.
+애니메이션 그룹과 전용 예제 6개는 사용자 요청으로 제외했습니다. 일반 차트에는 `createChartOptions()`의 애니메이션과 전환 기본값을 적용합니다. `preset="owp"`는 일반 애니메이션을 기본으로 끄므로, 예제의 움직임을 유지하는 `chartMotion` 설정은 명시적으로 전달합니다. `@owp/charts`는 4.0.2부터 일반 차트의 최초 반응형 레이아웃 조정 중에도 진입 보간을 유지하므로 샘플에서 재생용 timer나 reset을 추가하지 않습니다. Live chart는 패키지 계약에 따라 첫 snapshot을 실제 timestamp 범위에 즉시 표시하고, 후속 데이터부터 기존 시간 창 이동을 적용합니다. Gauge의 최초 바늘 움직임은 전용 driver의 공개 옵션으로 연결합니다. 대량 시계열·군집 Scatter·그리드 셀 sparkline은 성능을 위해 일반 애니메이션을 끕니다. 기존 애니메이션 예제 URL은 관련 Column·Line 예제로 연결합니다.
 
-Chart.js 공식 실행 샘플 75개 중 신규 37개, 기존 9개, 대체·연관 예제 11개를 제공합니다. 애니메이션 전용 6개와 그라데이션 2개는 제외했고, 나머지 10개는 Polar·Log·Time·Subtitle 또는 custom scale/controller 기반 클래스의 공개 지원이 필요합니다. Area·Radar는 패키지가 등록한 native Filler·Radar·RadialLinearScale을 사용합니다. 예제는 설치된 `@owp/charts` 4.0.0의 공개 API를 사용합니다. 정확한 대응 범위는 [Chart.js 샘플 대응표](src/playgrounds/charts/CHARTJS-SAMPLES.md)를 확인합니다.
+`@owp/charts` 4.0.1이 slider의 접근성 속성과 키보드 조작, 범례의 키보드 포커스, zoom 초기화 버튼의 Tab 순서와 포커스 복귀를 처리합니다. 샘플에서 내부 DOM을 수정하지 않으며, 여러 Y축 예제는 `ariaLabel`과 `valueTextFormatter`로 축의 의미와 백분율 서식을 전달합니다. 로딩·빈 데이터·오류 예제는 `ChartFrame`의 `loading`·`noData`·`noDataMessage`·`errorOverlay`를 사용합니다. 패키지가 상태 안내와 오류 Alert·재시도 버튼을 표시하고, 샘플은 상태 선택과 재시도 callback을 담당합니다. 상태 표시 우선순위는 로딩 → 오류 → 빈 데이터이며, `noData`는 호출자가 명시적으로 지정합니다.
+
+Chart.js 공식 실행 샘플 75개 중 신규 37개, 기존 9개, 대체·연관 예제 11개를 제공합니다. 애니메이션 전용 6개와 그라데이션 2개는 제외했고, 나머지 10개는 Polar·Log·Time·Subtitle 또는 custom scale/controller 기반 클래스의 공개 지원이 필요합니다. Area·Radar는 패키지가 등록한 native Filler·Radar·RadialLinearScale을 사용합니다. 예제는 설치된 `@owp/charts` 4.0.3의 공개 API를 사용합니다. 정확한 대응 범위는 [Chart.js 샘플 대응표](src/playgrounds/charts/CHARTJS-SAMPLES.md)를 확인합니다.
 
 패키지 메뉴는 구현된 DataGrid·Charts를 위에 표시하고 나머지는 `준비 중`으로 비활성화합니다. 기존 준비 화면의 직접 URL은 유지합니다.
 
@@ -210,7 +214,7 @@ Charts와 DataGrid의 데이터 탭은 테이블 대신 API response의 행 배�
 - `/catalog.json`: 패키지, 샘플 ID, 분류, 설명, 사용 API와 소스 이름.
 - `/packages.json`: 패키지 선택 값, 이름과 샘플 준비 상태.
 - `/catalog.en.json`: 같은 DataGrid 샘플의 영어 설명.
-- `/catalogs/charts.json`, `/catalogs/charts.en.json`: Charts 가이드와 94개 예제의 한국어·영어 카탈로그.
+- `/catalogs/charts.json`, `/catalogs/charts.en.json`: Charts 가이드와 92개 예제의 한국어·영어 카탈로그.
 - `/snippets/playgrounds/{package}/{source}`: 패키지별 실행 예제와 모델·데이터·타입.
 - `/snippets/features/{feature}/{file}`: 코드 보기·테마 편집 기능의 원본.
 - `/snippets/shared/{area}/{file}`: 공통 UI·테마·번역 함수.

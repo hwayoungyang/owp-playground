@@ -1,8 +1,8 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { MenuItem, Select } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks } from '../model/data';
@@ -103,7 +103,7 @@ export const gridConfiguration: GridConfiguration = {
 
 export function NumberDateFormatsGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const [precision, setPrecision] = useState(2);
   const currentColumns = useMemo(
     () =>

@@ -1,7 +1,7 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Alert, Button, Snackbar } from '@mui/material';
 import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
 import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { HighlightedCode } from './HighlightedCode';
 import { highlightSource } from './highlight';
 
@@ -14,7 +14,7 @@ export function CodeSnippet({
   readonly code: string;
   readonly language?: 'typescript' | 'json' | 'css';
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const [notice, setNotice] = useState('');
   const [copied, setCopied] = useState(false);
   const html = useMemo(() => (language ? highlightSource(code, language) : null), [code, language]);

@@ -9,7 +9,7 @@ describe('Chart.js sample coverage', () => {
     expect(new Set(chartjsCoverage.map((example) => example.path)).size).toBe(75);
     expect(chartjsCoverage.filter((example) => example.status === 'unavailable')).toHaveLength(10);
     const added = chartjsCoverage.filter((example) => example.status === 'added');
-    expect(added).toHaveLength(37);
+    expect(added).toHaveLength(35);
     expect(chartjsCoverage.filter((example) => example.status === 'excluded')).toHaveLength(8);
     for (const example of chartjsCoverage) {
       if ('exampleId' in example) {

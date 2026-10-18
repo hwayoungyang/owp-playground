@@ -1,6 +1,6 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Drawer } from '@mui/material';
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   defaultPreviewTheme,
   type PreviewThemeSettings,
@@ -55,7 +55,7 @@ const ChartsGettingStarted = lazy(() =>
 );
 
 export function App() {
-  const { t, i18n } = useTranslation('app');
+  const { t, i18n } = useOwpTranslation();
   const [route, setRoute] = useState(() => readPlaygroundRoute(location.search));
   const [mode, setMode] = useState<ColorMode>('light');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -215,9 +215,6 @@ export function App() {
               <PackageNotice onDataGrid={() => navigatePackage(dataGridPackage)} />
             )}
           </Suspense>
-          <footer className="main-footer">
-            <span>React · TypeScript · Material UI</span>
-          </footer>
         </main>
       </div>
       {themeOpen && supportsThemeStudio(route.playground) && (

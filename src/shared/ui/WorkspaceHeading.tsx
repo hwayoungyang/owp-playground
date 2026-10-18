@@ -1,7 +1,7 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Alert, IconButton, Snackbar, Tooltip } from '@mui/material';
 import { LinkIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import type { ExampleMetadata } from '../types/playground';
 
 export function WorkspaceHeading({
@@ -13,7 +13,7 @@ export function WorkspaceHeading({
   readonly packageTitle: string;
   readonly categoryLabel: string;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const [notice, setNotice] = useState('');
   const copyLink = async () => {
     try {

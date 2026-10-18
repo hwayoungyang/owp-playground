@@ -18,6 +18,7 @@ import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
 import { type WorkspaceTab, WorkspaceTabs } from '../../../shared/ui/WorkspaceTabs';
 import { type ChartExample, chartCategories } from '../catalog';
 import { chartApiDocument } from '../model/apiData';
+import { chartSourcePolicy } from '../model/sourceFiles';
 import type { ChartExampleProps, ChartSnapshot } from '../model/types';
 import { useAvailableChartHeight } from './useAvailableChartHeight';
 import '../styles.css';
@@ -120,7 +121,7 @@ export function ChartsWorkspace({ example }: { readonly example: ChartExample })
         </div>
         {tab === 'code' && (
           <div role="tabpanel" id={`${prefix}-panel-code`} aria-labelledby={`${prefix}-tab-code`}>
-            <CodeViewer example={example} />
+            <CodeViewer example={example} sourcePolicy={chartSourcePolicy} />
           </div>
         )}
         {tab === 'data' && (

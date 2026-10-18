@@ -21,7 +21,9 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   'Multi-axis line': 'Multi-axis line',
   '두 Line series를 서로 다른 Y축에 연결합니다.': 'Bind two line series to separate Y axes.',
   Pie: 'Pie',
-  'Pie의 회전 각도를 조절합니다.': 'Adjust the rotation of a pie chart.',
+  'Pie의 회전 각도를 조절하고 기준값에 따라 색상을 구분합니다.':
+    'Adjust pie rotation and optionally color slices by an output threshold.',
+  '기준값으로 색상 구분': 'Color by threshold',
   'Multi-series pie': 'Multi-series pie',
   '바깥쪽과 안쪽의 생산 비중을 고리 간격과 명도로 구분합니다.':
     'Compare production shares with separated rings and distinct color intensity.',
@@ -129,8 +131,8 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   'Point 크기': 'Point size',
   '크기 배율': 'Radius multiplier',
   '생산량 기준값 (개)': 'Output threshold (units)',
-  '각 월·라인의 생산량을 기준값 {{value}}개와 비교합니다. 기준값은 생산량을 분류하기 위한 예제 설정입니다.':
-    'Compare each month and line output with {{value}} units. The threshold is an example setting used to classify output.',
+  '각 항목의 생산량을 기준값 {{value}}개와 비교합니다. 기준값은 생산량을 분류하기 위한 예제 설정입니다.':
+    'Compare each output value with {{value}} units. The threshold is an example setting used to classify output.',
   '기준값 이상 (≥ {{value}}개)': 'At or above threshold (≥ {{value}} units)',
   '기준값 미만 (< {{value}}개)': 'Below threshold (< {{value}} units)',
   'Line의 색상은 라인을 구분합니다. Point는 기준값 이상이면 반지름 7px, 미만이면 3px로 표시합니다.':
@@ -141,8 +143,8 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
     'Color and size monthly output points by whether they reach the threshold.',
   '각 조각의 생산량이 기준값 이상인지 비교해 색상을 구분합니다.':
     'Color each slice by whether its output reaches the threshold.',
-  '각 월의 왼쪽 Column은 라인 A, 오른쪽은 라인 B입니다. 색상은 생산량과 기준값을 비교한 결과입니다.':
-    'For each month, the left column is Line A and the right is Line B. Colors indicate the output threshold result.',
-  '색상은 각 조각의 원본 생산량으로 정합니다. 조각 크기는 전체 생산량에서 차지하는 비율입니다.':
-    'Colors use the original output value of each slice. Slice size represents its share of total output.',
+  '같은 색상이어도 왼쪽 Column은 라인 A, 오른쪽은 라인 B입니다. 툴팁에는 같은 월의 두 라인 값이 표시됩니다.':
+    'Even with the same color, the left column is Line A and the right is Line B. The tooltip shows both values for that month.',
+  '조각의 크기는 생산 비중, 색상은 기준값 충족 여부를 나타냅니다. 같은 색상이어도 공정별 조각과 툴팁은 유지됩니다.':
+    'Slice size shows production share, while color indicates whether the threshold is met. Each process retains its slice and tooltip even when colors match.',
 };

@@ -2,6 +2,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
+import { sourceGraphPlugin } from './scripts/source-graph.ts';
 import { legacySourcePaths } from './src/features/code/source-paths.ts';
 import { chartCatalog } from './src/playgrounds/charts/catalog.ts';
 import { chartEnglish } from './src/playgrounds/charts/locales/en.ts';
@@ -54,6 +55,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    sourceGraphPlugin(),
     {
       name: 'reuse-dev-browser-tab',
       configureServer() {

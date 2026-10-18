@@ -144,23 +144,24 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '여러 라인의 생산 추이를 같은 축에서 비교합니다.':
     'Compare production trends for several lines on one axis.',
   도넛: 'Doughnut chart',
-  '라인별 생산 비중과 도넛의 두께를 바꿉니다.':
-    'Inspect production shares and change the doughnut thickness.',
-  '잔여 영역이 있는 순위': 'Ranking with tracks',
+  '공정별 생산 비중과 도넛의 두께를 바꾸고 합계가 0인 상태를 확인합니다.':
+    'Compare production shares by process, adjust the cutout and inspect the zero-total state.',
+  '합계 0으로 표시': 'Show a zero total',
+  'Ranking bar': 'Ranking bar',
   '생산량을 정렬하고 최대값까지 남은 영역을 표시합니다.':
     'Sort output and display the remaining track to the maximum.',
-  계획·실적·달성률: 'Plan, actual & achievement',
+  'Dual-axis Column·Line': 'Dual-axis Column·Line',
   'Column과 Line을 조합해 계획·실적·달성률을 비교합니다.':
     'Combine bars and a line to compare plans, results and achievement.',
-  '월별 입고 비교': 'Monthly receipts',
+  'Grouped column · Zoom': 'Grouped column · Zoom',
   '자재별 월별 입고량을 Grouped column으로 비교합니다.':
     'Compare monthly receipts for multiple materials using grouped bars.',
-  '생산 이행률': 'Production fulfillment',
+  'Multi-line · Percent axis': 'Multi-line · Percent axis',
   '생산 라인별 이행률을 오른쪽 백분율 축으로 비교합니다.':
     'Compare fulfillment by line on a right-side percentage axis.',
-  'OEE 추이': 'OEE trends',
+  'Multi-line · OEE': 'Multi-line · OEE',
   '가동률·성능·품질·OEE를 함께 표시합니다.': 'Compare availability, performance, quality and OEE.',
-  'TOP N': 'Top N',
+  'Top N column': 'Top N column',
   '생산량 순위를 정렬하고 표시 개수를 바꿉니다.':
     'Sort production rankings and change the number of visible items.',
   '작은 통계 차트 모음': 'Small multiples',
@@ -218,7 +219,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   게이지: 'Gauge',
   '음수 범위와 구간별 색상을 가진 게이지 값을 바꿉니다.':
     'Change a gauge value across a domain with negative values and colored bands.',
-  '그리드 셀 sparkline': 'Grid cell sparklines',
+  'DataGrid Sparkline': 'DataGrid Sparkline',
   '그리드 셀 안에 추세를 표시하고 데이터를 갱신합니다.':
     'Display trends inside grid cells and update the data.',
   '그리드 상세 패널': 'Grid detail charts',
@@ -255,7 +256,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '이름 줄여 표시': 'Shorten labels',
   '생산 라인 {{number}} · 정밀 가공 및 최종 검사':
     'Production line {{number}} · Precision machining and final inspection',
-  '범례를 위에 표시': 'Legend on top',
+  '범례를 상단에 표시': 'Legend on top',
   '항목별 범례': 'Item legend',
   'hover 영역 표시': 'Show hover area',
   '기준선 표시': 'Show crosshair',
@@ -271,6 +272,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   목표값: 'Target value',
   '정상 범위 폭': 'Normal range width',
   '값 표시': 'Show values',
+  '그룹 {{number}} · {{series}}': 'Group {{number}} · {{series}}',
   '표시 개수': 'Visible items',
   '라인 {{number}}': 'Line {{number}}',
   '남은 영역': 'Remaining track',
@@ -296,6 +298,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '최대 표시 점 수': 'Maximum displayed points',
   '원본 {{original}}개 → 표시 {{rendered}}개 · min/max 다운샘플링':
     '{{original}} original → {{rendered}} displayed · min/max downsampling',
+  '성능을 위해 애니메이션을 사용하지 않습니다.': 'Animations are disabled for performance.',
   '차트 데이터를 불러오지 못했습니다.': 'Could not load chart data.',
   '표시할 차트 데이터가 없습니다.': 'No chart data to display.',
   '이미지를 저장하지 못했습니다. 다시 시도해 주세요.':

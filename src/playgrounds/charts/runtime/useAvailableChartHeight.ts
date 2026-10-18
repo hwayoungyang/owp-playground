@@ -7,8 +7,7 @@ export function useAvailableChartHeight(enabled = true, root?: RefObject<HTMLEle
     const host = root?.current ?? plot.current;
     const main = host?.closest('main');
     const workspace = host?.closest('.workspace');
-    const footer = main?.querySelector('.main-footer');
-    if (!host || !main || !workspace || !footer) return;
+    if (!host || !main || !workspace) return;
     const resize = () => {
       if (!host.offsetHeight) return;
       const plots = host.matches('.chart-canvas')
@@ -22,7 +21,7 @@ export function useAvailableChartHeight(enabled = true, root?: RefObject<HTMLEle
         rows.set(top, Math.max(rows.get(top) ?? 0, bounds.height));
       }
       const reserved =
-        footer.getBoundingClientRect().bottom -
+        workspace.getBoundingClientRect().bottom -
         main.getBoundingClientRect().top +
         main.scrollTop +
         Number.parseFloat(getComputedStyle(main).paddingBottom) -

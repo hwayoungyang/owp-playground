@@ -1,8 +1,8 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { FormControlLabel, Switch } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridHeaderRow } from '@owp/datagrid/types';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
@@ -88,7 +88,7 @@ export const gridConfiguration: GridConfiguration = {
 };
 
 export function GroupedHeadersGrid(props: GridViewProps = {}) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const [showChildSorting, setShowChildSorting] = useState(true);
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (

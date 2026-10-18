@@ -1,8 +1,8 @@
-import { useTranslation } from 'react-i18next';
+import { useOwpTranslation } from '@owp/components/hooks';
 import type { GridController } from './useGridController';
 
 export function GridStatusBar({ controller }: { readonly controller: GridController }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <div className="grid-status-bar" role="status">
       <span>

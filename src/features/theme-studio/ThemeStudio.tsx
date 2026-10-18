@@ -1,3 +1,4 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import {
   Accordion,
   AccordionDetails,
@@ -12,7 +13,6 @@ import {
 import { resolveOwpGridTheme } from '@owp/theme';
 import { CaretDownIcon, DownloadSimpleIcon, UploadSimpleIcon, XIcon } from '@phosphor-icons/react';
 import { useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { ComponentsPreview } from './ComponentsPreview';
 import { createPreviewGridTheme, type PreviewThemeSettings } from './model/preview';
 import { dataGridThemeSchema, muiThemeSchema, themeFileSchema } from './model/schemas';
@@ -37,7 +37,7 @@ export function ThemeStudio({
   readonly value: PreviewThemeSettings;
   readonly onChange: (next: PreviewThemeSettings) => void;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const appMode = useTheme().palette.mode;
   const mode = value.mui?.palette?.mode ?? (value.preset === 'inherit' ? appMode : value.mode);
   const rawGrid = createPreviewGridTheme(value, mode);

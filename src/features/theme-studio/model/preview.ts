@@ -85,7 +85,7 @@ export function createPreviewGridTheme(
   mode: ColorMode,
 ): OwpGridThemeConfigType {
   const palette = getPreviewPalette(settings.preset, mode);
-  const theme = createGridTheme(palette, settings.headerColor);
+  const theme = createGridTheme(palette, settings.headerColor, mode);
   const base =
     settings.preset === 'hankum' && mode === 'light'
       ? {

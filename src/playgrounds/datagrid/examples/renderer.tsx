@@ -1,9 +1,9 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, Chip, LinearProgress, Switch } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef } from '@owp/datagrid/types';
 import { CheckIcon } from '@phosphor-icons/react';
 import { useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { translate } from '../../../shared/i18n/translate';
 import { getRowId, initialTasks, type Task } from '../model/data';
 import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
@@ -140,7 +140,7 @@ export const gridConfiguration: GridConfiguration = {
 export function CellRendererGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const [error, setError] = useState('');
   const columns = useMemo(
     () =>

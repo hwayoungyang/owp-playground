@@ -33,6 +33,12 @@
 .chart-controls .MuiFormControlLabel-root {
   margin: 0;
 }
+.chart-controls:has(.chart-range) {
+  align-items: flex-end;
+}
+.chart-controls:has(.chart-range) .MuiFormControlLabel-root {
+  min-height: 32px;
+}
 .chart-range {
   display: flex;
   flex-direction: column;
@@ -52,6 +58,8 @@
 }
 .chart-range input {
   width: 100%;
+  height: 32px;
+  margin: 0;
   accent-color: var(--pg-ink);
 }
 .chart-canvas {

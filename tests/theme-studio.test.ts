@@ -1,3 +1,4 @@
+import { getContrastRatio } from '@mui/material';
 import { resolveOwpGridTheme } from '@owp/theme';
 import { describe, expect, it } from 'vitest';
 import {
@@ -22,6 +23,26 @@ import { packageCatalog } from '../src/playgrounds/registry';
 import { appEnglish } from '../src/shared/i18n/app.en';
 
 describe('project theme files', () => {
+  it('keeps dark menu text and editable cell boundaries distinguishable in every preset', () => {
+    for (const preset of previewPresetSchema.options) {
+      const theme = resolveOwpGridTheme(
+        createPreviewGridTheme({ preset, mode: 'dark', headerColor: null }, 'dark'),
+      );
+      for (const background of [
+        theme.filter.menuHoverBackgroundColor,
+        theme.filter.menuSelectedBackgroundColor,
+      ]) {
+        expect(getContrastRatio(theme.filter.color, background), preset).toBeGreaterThanOrEqual(
+          4.5,
+        );
+      }
+      expect(
+        getContrastRatio(theme.cell.borderColor, theme.editable.backgroundColor),
+        preset,
+      ).toBeGreaterThanOrEqual(2);
+    }
+  });
+
   it('round trips every preset in both modes through native theme resolution', () => {
     for (const preset of previewPresetSchema.options) {
       for (const mode of ['light', 'dark'] as const) {

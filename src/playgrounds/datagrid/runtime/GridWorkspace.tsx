@@ -1,5 +1,5 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { lazy, Suspense, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import type { PreviewThemeSettings } from '../../../features/theme-studio/model/preview';
 import { PreviewProvider } from '../../../features/theme-studio/PreviewProvider';
 import { EventsPanel } from '../../../shared/ui/EventsPanel';
@@ -8,6 +8,7 @@ import { type WorkspaceTab, WorkspaceTabs } from '../../../shared/ui/WorkspaceTa
 import { categories, type GridExample } from '../catalog';
 import { gridApiDocument } from '../model/apiData';
 import type { Task } from '../model/data';
+import { gridSourcePolicy } from '../model/sourceFiles';
 import { GridPreview } from './GridPreview';
 import { GridSettingsDrawer, type GridViewSettings } from './GridSettingsDrawer';
 import { GridStatusBar } from './GridStatusBar';
@@ -34,7 +35,7 @@ export function GridWorkspace({
   readonly onThemeChange: (next: PreviewThemeSettings) => void;
   readonly onThemeOpen: () => void;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const prefix = `example-${example.id}`;
   const controller = useGridController(example);
   const defaultSettings: GridViewSettings = {
@@ -108,7 +109,7 @@ export function GridWorkspace({
             <Suspense
               fallback={<div className="workspace-loading">{t('소스를 불러오는 중…')}</div>}
             >
-              <CodeViewer example={example} />
+              <CodeViewer example={example} sourcePolicy={gridSourcePolicy} />
             </Suspense>
           </div>
         )}

@@ -1,6 +1,6 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, FormControlLabel, Switch } from '@mui/material';
 import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import type { ExampleMetadata } from '../../shared/types/playground';
 import { type ApiDataSource, formatApiData } from './api-data';
 import { CodeViewer } from './CodeViewer';
@@ -12,7 +12,7 @@ export function ApiDataViewer({
   readonly example: ExampleMetadata;
   readonly document: ApiDataSource;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const [comments, setComments] = useState(true);
   const [page, setPage] = useState(0);
   const lastPage = Math.max(0, Math.ceil(document.totalRows / 100) - 1);

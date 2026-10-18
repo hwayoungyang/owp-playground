@@ -1,7 +1,7 @@
 import { alpha } from '@mui/material/styles';
 import { OwpBoxPlotChart, useChartPalette } from '@owp/charts';
 import type { BoxPlotData, OwpBoxPlotChartProps } from '@owp/charts/types';
-import { summarizeBox } from '@owp/charts/utils';
+import { createBoxPlotTooltipCallbacks, summarizeBox } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { chartMotion } from '../model/chartMotion';
@@ -55,6 +55,19 @@ export function ChartExample(props: ChartExampleProps) {
   };
   const options: OwpBoxPlotChartProps['options'] = {
     ...chartMotion,
+    plugins: {
+      tooltip: {
+        callbacks: createBoxPlotTooltipCallbacks({
+          min: 'Min',
+          q1: 'Q1',
+          median: 'Median',
+          q3: 'Q3',
+          max: 'Max',
+          whiskers: 'Whiskers',
+          outliers: 'Outliers',
+        }),
+      },
+    },
     onClick: (_event, items) =>
       props.onRecord?.(
         'click',

@@ -1,7 +1,7 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material';
 import { OwpThemeProvider } from '@owp/theme';
 import { type ReactNode, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { createGridTheme, createMuiTheme } from '../../shared/theme/themes';
 import { type ColorMode, codeColors, colors, fonts } from '../../shared/theme/tokens';
 
@@ -12,14 +12,14 @@ export function Provider({
   readonly mode: ColorMode;
   readonly children: ReactNode;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const palette = colors[mode];
   const selectionLabel = t('행 선택');
   const theme = useMemo(
     () => createMuiTheme(palette, mode, selectionLabel),
     [palette, mode, selectionLabel],
   );
-  const gridTheme = useMemo(() => createGridTheme(palette), [palette]);
+  const gridTheme = useMemo(() => createGridTheme(palette, null, mode), [palette, mode]);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

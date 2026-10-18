@@ -1,3 +1,4 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { OwpDataGrid, OwpDataGridExportExcelButton } from '@owp/datagrid';
 import type {
   OwpDataGridColumn,
@@ -6,7 +7,6 @@ import type {
 } from '@owp/datagrid/types';
 import { DownloadSimpleIcon } from '@phosphor-icons/react';
 import { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
@@ -96,7 +96,7 @@ function DetailGrid({
   retry,
 }: OwpDataGridDetailRenderParams<Task, Task>) {
   const gridRef = useRef<OwpDataGridRef<Task>>(null);
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const columns = baseColumns.slice(1).map((column) => ({
     ...column,
     header: t(column.header),

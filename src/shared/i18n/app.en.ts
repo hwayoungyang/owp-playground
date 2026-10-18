@@ -340,6 +340,8 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '표시 위치를 기준으로 병합합니다. 자동 행 병합은 같은 값이 이어진 셀을 묶습니다.':
     'Spans follow visible positions. Use automatic row spans to group by value.',
   '소스 파일 선택': 'Source file',
+  '주요 구현': 'Main implementation',
+  '공통 코드': 'Shared code',
   다운로드: 'Download',
   복사: 'Copy',
   복사됨: 'Copied',

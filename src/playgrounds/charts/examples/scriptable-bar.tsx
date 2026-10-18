@@ -14,8 +14,9 @@ export function ChartExample(props: ChartExampleProps) {
     ...data,
     datasets: data.datasets.map((dataset) => ({
       ...dataset,
-      backgroundColor: (context: { readonly raw: unknown }) =>
-        Number(context.raw) >= value ? palette.colors[0] : palette.colors[1],
+      backgroundColor: dataset.data.map((raw) =>
+        Number(raw) >= value ? palette.colors[0] : palette.colors[1],
+      ),
     })),
   };
   const options: NativeOptions = { plugins: { legend: { display: false } } };

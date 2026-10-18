@@ -1,6 +1,6 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Button } from '@mui/material';
 import { BracketsCurlyIcon, CaretRightIcon } from '@phosphor-icons/react';
-import { useTranslation } from 'react-i18next';
 import type { EventLogEntry } from '../types/events';
 
 export function EventsPanel({
@@ -14,7 +14,7 @@ export function EventsPanel({
   readonly onClear: () => void;
   readonly onPreview: () => void;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <div className="events-panel">
       <div className="events-toolbar">

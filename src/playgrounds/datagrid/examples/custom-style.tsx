@@ -1,10 +1,10 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, MenuItem, Select, Slider } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material/styles';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridHeaderRow } from '@owp/datagrid/types';
 import { OwpThemeProvider, useGridTheme } from '@owp/theme';
 import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { getRowId, initialTasks, owners, type Task } from '../model/data';
 import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
@@ -84,7 +84,7 @@ export const gridConfiguration: GridConfiguration = {
 
 export function StyledHeadersGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const [preset, setPreset] = useState<'default' | 'striped' | 'emphasis'>('striped');
   const [fontSize, setFontSize] = useState(14);
   const [headerDepth, setHeaderDepth] = useState<2 | 3>(2);

@@ -32,6 +32,7 @@ export function ChartExample(props: ChartExampleProps) {
           label: t('발생 건수'),
           type: 'bar',
           datasetOptions: {
+            order: 1,
             backgroundColor: rows.map((_, index) => palette.colors[index] ?? palette.ink),
           },
         },
@@ -42,10 +43,11 @@ export function ChartExample(props: ChartExampleProps) {
           yAxisId: 'y1',
           backgroundColor: palette.ink,
           borderColor: palette.ink,
-          datasetOptions: { tension: 0 },
+          datasetOptions: { tension: 0, order: 0, clip: 8 },
         },
       ],
       options: {
+        layout: { padding: { top: 24, right: 8 } },
         scales: {
           x: { type: 'category' },
           y: { beginAtZero: true },

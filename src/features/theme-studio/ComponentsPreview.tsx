@@ -1,8 +1,8 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, Chip, FormControlLabel, Switch, TextField } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 
 export function ComponentsPreview() {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   return (
     <div className="theme-components-preview">
       <Button variant="contained">{t('버튼')}</Button>

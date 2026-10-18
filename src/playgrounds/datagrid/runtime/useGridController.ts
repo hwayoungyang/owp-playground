@@ -1,3 +1,4 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import type {
   OwpDataGridChange,
   OwpDataGridFilterItem,
@@ -6,7 +7,6 @@ import type {
   OwpDataGridSortItem,
 } from '@owp/datagrid/types';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import type { EventLogEntry } from '../../../shared/types/events';
 import type { GridExample } from '../catalog';
 import { generateTasks, initialTasks, type Task } from '../model/data';
@@ -19,7 +19,7 @@ type PendingBinding = {
 };
 
 export function useGridController(example: GridExample) {
-  const { i18n } = useTranslation('app');
+  const { i18n } = useOwpTranslation();
   const language = i18n.language;
   const configuration = useMemo(
     () => getGridConfiguration(example.id, language),

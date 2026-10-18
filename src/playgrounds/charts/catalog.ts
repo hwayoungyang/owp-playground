@@ -142,8 +142,8 @@ const baseChartCatalog = [
     id: 'doughnut',
     title: 'Doughnut',
     category: 'other',
-    description: '라인별 생산 비중과 도넛의 두께를 바꿉니다.',
-    api: ['OwpRadialChart', 'cutout', 'outsideLabels'],
+    description: '공정별 생산 비중과 도넛의 두께를 바꾸고 합계가 0인 상태를 확인합니다.',
+    api: ['OwpRadialChart', 'cutout', 'outsideLabels', 'emptyState'],
     kind: 'chart',
     package: '@owp/charts',
     source: 'examples/doughnut.tsx',
@@ -330,7 +330,7 @@ const baseChartCatalog = [
   },
   {
     id: 'sparkline',
-    title: '그리드 셀 sparkline',
+    title: 'DataGrid Sparkline',
     category: 'integration',
     description: '그리드 셀 안에 추세를 표시하고 데이터를 갱신합니다.',
     api: ['CoreChart', 'renderCell', 'animation'],
@@ -390,7 +390,7 @@ const baseChartCatalog = [
   },
   {
     id: 'ranking',
-    title: '잔여 영역이 있는 순위',
+    title: 'Ranking bar',
     category: 'business',
     description: '생산량을 정렬하고 최대값까지 남은 영역을 표시합니다.',
     api: ['indexAxis', 'stack', 'datalabels'],
@@ -400,7 +400,7 @@ const baseChartCatalog = [
   },
   {
     id: 'plan-actual',
-    title: '계획·실적·달성률',
+    title: 'Dual-axis Column·Line',
     category: 'business',
     description: 'Column과 Line을 조합해 계획·실적·달성률을 비교합니다.',
     api: ['yAxisId', 'order', 'trendlineLinear'],
@@ -410,7 +410,7 @@ const baseChartCatalog = [
   },
   {
     id: 'monthly-receipt',
-    title: '월별 입고 비교',
+    title: 'Grouped column · Zoom',
     category: 'business',
     description: '자재별 월별 입고량을 Grouped column으로 비교합니다.',
     api: ['createChartColorMap', 'zoomSlider'],
@@ -420,7 +420,7 @@ const baseChartCatalog = [
   },
   {
     id: 'fulfillment',
-    title: '생산 이행률',
+    title: 'Multi-line · Percent axis',
     category: 'business',
     description: '생산 라인별 이행률을 오른쪽 백분율 축으로 비교합니다.',
     api: ['createPercentAxisScale', 'yAxisId'],
@@ -430,7 +430,7 @@ const baseChartCatalog = [
   },
   {
     id: 'oee',
-    title: 'OEE 추이',
+    title: 'Multi-line · OEE',
     category: 'business',
     description: '가동률·성능·품질·OEE를 함께 표시합니다.',
     api: ['series', 'createPercentAxisScale'],
@@ -440,7 +440,7 @@ const baseChartCatalog = [
   },
   {
     id: 'top-n',
-    title: 'TOP N',
+    title: 'Top N column',
     category: 'business',
     description: '생산량 순위를 정렬하고 표시 개수를 바꿉니다.',
     api: ['createIntegerAxisScale', 'data'],
@@ -543,7 +543,6 @@ const chartEntryOrder = {
     'trendline',
     'chart-area-border',
     'quadrants',
-    'doughnut-empty',
   ],
   styling: [
     'chart-title',
@@ -555,7 +554,6 @@ const chartEntryOrder = {
     'line-segments',
     'point-style',
     'scriptable-line',
-    'scriptable-pie',
   ],
   integration: ['live', 'time-series', 'sparkline', 'detail-chart', 'states'],
   export: ['png-export', 'export-ref'],
@@ -588,6 +586,8 @@ export const chartCatalog = chartCategories.flatMap(({ id }) => {
 export type ChartCatalogEntry = (typeof chartCatalog)[number];
 export type ChartExample = Extract<ChartCatalogEntry, { readonly kind: 'chart' }>;
 const chartAliases = new Map([
+  ['doughnut-empty', 'doughnut'],
+  ['scriptable-pie', 'pie'],
   ['linear-gradient', 'line'],
   ['radial-gradient', 'doughnut'],
   ['integer-axis', 'axis-step'],

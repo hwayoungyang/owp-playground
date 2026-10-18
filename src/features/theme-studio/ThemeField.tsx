@@ -1,7 +1,7 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { IconButton, InputAdornment, TextField, Tooltip } from '@mui/material';
 import { PaletteIcon } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { ColorPalette } from './ColorPalette';
 import {
   type ThemeFieldCommitResult,
@@ -18,7 +18,7 @@ export function ThemeField({
   readonly value: string | number;
   readonly onCommit: (value: string | number) => ThemeFieldCommitResult;
 }) {
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const [draft, setDraft] = useState(String(value));
   const [error, setError] = useState<ThemeFieldMessage>();
   const [paletteOpen, setPaletteOpen] = useState(false);

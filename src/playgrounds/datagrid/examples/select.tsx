@@ -1,8 +1,8 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef } from '@owp/datagrid/types';
 import { useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { getRowId, initialTasks, owners, statuses, type Task } from '../model/data';
 import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
@@ -89,7 +89,7 @@ export const gridConfiguration: GridConfiguration = {
 export function SelectEditorsGrid(props: GridViewProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
-  const { t } = useTranslation('app');
+  const { t } = useOwpTranslation();
   const [multiple, setMultiple] = useState(false);
   const [autocomplete, setAutocomplete] = useState(
     () => new URLSearchParams(window.location.search).get('sample') === 'autocomplete',
