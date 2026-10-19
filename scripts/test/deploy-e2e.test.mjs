@@ -32,7 +32,8 @@ async function liveFixture(t) {
   await once(server, 'listening');
   t.after(async () => { server.closeAllConnections(); await new Promise((resolve) => server.close(resolve)); });
   const config = { ...state.config, host: '127.0.0.1', sshPort: server.address().port, url: `http://127.0.0.1:${server.address().port}` };
-  const dependencies = { config, interactive: false, run: state.run, authenticate: async () => {}, log() {} };
+  const dependencies = { config, interactive: false, run: state.run,
+    connect: async (_config, { run }) => ({ run, close: async () => {} }), authenticate: async () => {}, log() {} };
   return { ...state, config, controls, dependencies };
 }
 

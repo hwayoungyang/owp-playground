@@ -28,6 +28,10 @@ function scenario(failure) {
       confirm: record('vpn'),
       checkPort: record('tcp'),
       checkHealth: record('http'),
+      connect: async (_config, { run }) => {
+        await record('connect')();
+        return { run, close: record('disconnect') };
+      },
       authenticate: record('ssh'),
       ready: record('ready'),
       run: record('build'),
@@ -45,20 +49,21 @@ function scenario(failure) {
 test('runs a fresh build through staging, atomic activation and HTTP verification', async () => {
   const { calls, dependencies } = scenario();
   const result = await runDeployment({ assumeVpn: true }, dependencies);
-  assert.deepEqual(calls.map((call) => call.name), ['vpn', 'tcp', 'http', 'ssh', 'ready', 'build', 'validate', 'package', 'upload', 'stage', 'activate', 'cleanup']);
+  assert.deepEqual(calls.map((call) => call.name), ['vpn', 'tcp', 'http', 'connect', 'ssh', 'ready', 'build', 'validate', 'package', 'upload', 'stage', 'activate', 'cleanup', 'disconnect']);
   assert.deepEqual(calls.find((call) => call.name === 'build').args, ['pnpm', ['build']]);
   assert.deepEqual(calls[0].args, [{ interactive: false, assumeVpn: true }]);
   assert.deepEqual(result, { stage: 'deployed', build, uploaded, staged, activated });
   assert.equal(calls.find((call) => call.name === 'activate').args.at(-1).verifyHealth, true);
 });
 
-for (const failure of ['vpn', 'tcp', 'http', 'ssh', 'ready', 'build', 'validate', 'package', 'upload', 'stage', 'activate']) {
+for (const failure of ['vpn', 'tcp', 'http', 'connect', 'ssh', 'ready', 'build', 'validate', 'package', 'upload', 'stage', 'activate']) {
   test(`stops all subsequent work when ${failure} fails`, async () => {
     const { calls, dependencies } = scenario(failure);
     await assert.rejects(runDeployment({ assumeVpn: true }, dependencies), new RegExp(`${failure} failed`));
-    const stages = ['vpn', 'tcp', 'http', 'ssh', 'ready', 'build', 'validate', 'package', 'upload', 'stage', 'activate'];
+    const stages = ['vpn', 'tcp', 'http', 'connect', 'ssh', 'ready', 'build', 'validate', 'package', 'upload', 'stage', 'activate'];
     const expected = stages.slice(0, stages.indexOf(failure) + 1);
     if (['upload', 'stage', 'activate'].includes(failure)) expected.push('cleanup');
+    if (stages.indexOf(failure) > stages.indexOf('connect')) expected.push('disconnect');
     assert.deepEqual(calls.map((call) => call.name), expected);
   });
 }
@@ -66,7 +71,7 @@ for (const failure of ['vpn', 'tcp', 'http', 'ssh', 'ready', 'build', 'validate'
 test('preflight-only performs authentication without starting the build', async () => {
   const { calls, dependencies } = scenario();
   assert.deepEqual(await runDeployment({ preflightOnly: true }, dependencies), { stage: 'preflight-checked' });
-  assert.deepEqual(calls.map((call) => call.name), ['vpn', 'tcp', 'http', 'ssh', 'ready']);
+  assert.deepEqual(calls.map((call) => call.name), ['vpn', 'tcp', 'http', 'connect', 'ssh', 'ready', 'disconnect']);
 });
 
 test('parses explicit approvals and rejects unsupported options or targets', () => {
@@ -113,9 +118,28 @@ test('cleans the local artifact and refuses upload if inputs change during packa
   dependencies.context = async () => ({ ...context, fingerprint: reads++ < 2 ? 'before' : 'after' });
   await assert.rejects(runDeployment({}, dependencies), /빌드·artifact 생성 중/);
   assert.ok(!calls.some((call) => call.name === 'upload'));
-  assert.equal(calls.at(-1).name, 'cleanup');
+  assert.deepEqual(calls.slice(-2).map((call) => call.name), ['cleanup', 'disconnect']);
+});
+
+test('all deployment phases use the runner from the single shared connection', async () => {
+  const { dependencies } = scenario();
+  const run = async () => {};
+  dependencies.connect = async () => ({ run, close: async () => {} });
+  dependencies.authenticate = async (_config, runner) => assert.equal(runner, run);
+  dependencies.ready = async (_config, options) => assert.equal(options.run, run);
+  dependencies.transfer = async (_config, _artifact, options) => { assert.equal(options.run, run); return uploaded; };
+  dependencies.stage = async (_config, _artifact, _uploaded, options) => { assert.equal(options.run, run); return staged; };
+  dependencies.activate = async (_config, _artifact, _uploaded, _staged, options) => { assert.equal(options.run, run); return activated; };
+  await runDeployment({}, dependencies);
 });
 
 test('command runner captures stdout while leaving native SSH input available', async () => {
   assert.equal(await runCommand(process.execPath, ['-e', 'console.log("ready")'], { capture: true }), 'ready\n');
+});
+
+test('command runner aborts a running child during session cancellation', async () => {
+  const controller = new AbortController();
+  const pending = runCommand(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], { signal: controller.signal });
+  controller.abort();
+  await assert.rejects(pending, (error) => error.cause?.name === 'AbortError');
 });

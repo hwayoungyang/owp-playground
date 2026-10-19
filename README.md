@@ -70,7 +70,9 @@ pnpm deploy:cleanup
 
 배포 대상은 `root@192.168.100.20:22`, 기준 경로는 `/home/owp-playground`, URL은 `http://192.168.100.20:30010`, 컨테이너는 `owp-playground-nginx`입니다. 서버에서 의존성 설치·빌드·Git pull을 실행하지 않으며, Docker·Nginx·SSH·SELinux 설정과 Verdaccio는 변경하지 않습니다.
 
-인증은 한금 소비앱 업로드와 같은 기본 OpenSSH 방식을 사용합니다. 비밀번호는 터미널의 SSH 프롬프트에만 입력하며 CLI가 저장하지 않습니다. 기존 키·SSH Agent도 사용할 수 있습니다. SSH 검사·서버 사전 검사·SCP·staging·전환은 별도 연결이므로 비밀번호를 여러 번 요청할 수 있습니다. `StrictHostKeyChecking=yes`를 유지하므로 처음 접속하는 Mac에서는 `ssh root@192.168.100.20`으로 서버 지문을 확인해야 합니다. 키 생성·공개키 등록이나 SSH 설정 변경은 수행하지 않습니다.
+인증은 한금 소비앱 업로드와 같은 기본 OpenSSH 방식을 사용합니다. **명령을 한 번 실행할 때 첫 SSH 인증에서만 비밀번호를 입력합니다.** 이후 SSH 검사·서버 사전 검사·SCP·staging·전환은 [OpenSSH 연결 공유](https://man.openbsd.org/ssh_config#ControlMaster)로 같은 연결을 재사용합니다. 비밀번호는 터미널의 SSH 프롬프트에만 입력하며 CLI가 저장하지 않습니다. 기존 키·SSH Agent도 사용할 수 있습니다. 연결이 끊기면 비밀번호를 다시 묻거나 자동으로 재접속하지 않고 중단합니다.
+
+각 명령은 접근 권한이 `700`인 별도 임시 디렉터리에 연결 공유 socket을 만들며, 정상 종료·실패·Ctrl+C 시 해당 연결과 임시 경로를 정리합니다. SIGKILL 등으로 정리를 실행하지 못하면 연결은 유휴 상태가 된 뒤 최대 10분 후 종료되며 임시 경로가 남을 수 있습니다. `deploy:preflight`·`deploy:status`·`deploy:rollback`·`deploy:cleanup`에도 같은 방식이 적용됩니다. 새 명령을 실행하면 첫 SSH 인증을 다시 진행합니다. `StrictHostKeyChecking=yes`를 유지하므로 처음 접속하는 Mac에서는 `ssh root@192.168.100.20`으로 서버 지문을 확인해야 합니다. 키 생성·공개키 등록이나 SSH 설정 변경은 수행하지 않습니다.
 
 사전 검사는 기존 Bash·tar·coreutils·curl·Docker CLI, 실행 중인 Nginx 컨테이너와 bind mount를 확인합니다. **컨테이너에 `/home/owp-playground` 전체가 bind mount되어 있고, Nginx가 그 안의 `current`를 통해 정적 파일을 제공해야 합니다.** `current` 또는 특정 릴리스만 직접 mount한 구성은 사전 검사에서 중단합니다. 실제 컨테이너 mount는 [Docker bind mount 문서](https://docs.docker.com/engine/storage/bind-mounts/)의 `docker inspect` 방법으로 확인할 수 있습니다. CLI는 mount 설정을 고치거나 컨테이너를 재시작하지 않습니다. 기존 SELinux 레이블과 Nginx 설정이 새 릴리스 접근을 허용하는지는 배포 후 실제 HTTP 파일 검증으로 확인합니다.
 

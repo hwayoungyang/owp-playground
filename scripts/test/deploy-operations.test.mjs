@@ -8,6 +8,8 @@ import { rollbackRelease } from '../deploy-rollback.mjs';
 import { parseOperationOptions, runOperation } from '../deploy-operations.mjs';
 import { deploymentFixture } from './helpers/deploy-fixture.mjs';
 
+const connect = async (_config, { run }) => ({ run, close: async () => {} });
+
 test('server preflight and initial status are read-only', async (t) => {
   const state = await deploymentFixture(t);
   const before = await readdir(state.base, { recursive: true });
@@ -84,8 +86,10 @@ test('status surfaces container failure and retains the recorded active release'
 
 test('rollback CLI asks approval for the concrete target and cancels without mutation', async () => {
   const calls = [];
+  let closed = 0;
   const dependencies = {
-    interactive: true, confirm: async () => {}, checkPort: async () => {}, authenticate: async () => {},
+    interactive: true, connect: async () => ({ run: async () => {}, close: async () => { closed++; } }),
+    confirm: async () => {}, checkPort: async () => {}, authenticate: async () => {},
     inspect: async () => ({ current: '20261020-030000-0123456789ab', previous: 'initial', locked: false }),
     ask: async () => { calls.push('ask'); return false; }, rollback: async () => { calls.push('mutate'); }, log() {},
   };
@@ -94,11 +98,41 @@ test('rollback CLI asks approval for the concrete target and cancels without mut
   dependencies.interactive = false;
   await assert.rejects(runOperation({ action: 'rollback' }, dependencies), /--yes/);
   assert.deepEqual(calls, ['ask']);
+  assert.equal(closed, 2);
 });
+
+for (const action of ['status', 'rollback', 'cleanup']) {
+  test(`${action} uses one shared runner and closes it on success or inspection failure`, async () => {
+    let opened = 0;
+    let closed = 0;
+    let fail = false;
+    const run = async () => {};
+    const dependencies = {
+      interactive: false, confirm: async () => {}, checkPort: async () => {},
+      connect: async () => { opened++; return { run, close: async () => { closed++; } }; },
+      authenticate: async (_config, runner) => assert.equal(runner, run),
+      inspect: async (_config, options) => {
+        assert.equal(options.run, run);
+        if (fail) throw new Error('inspection failed');
+        return { current: '20261020-030000-0123456789ab', previous: 'initial', running: true, locked: false };
+      },
+      rollback: async (_config, _status, options) => { assert.equal(options.run, run); return {}; },
+      cleanup: async (_config, options) => { assert.equal(options.run, run); return { candidates: ['old'], removed: ['old'] }; },
+      checkHealth: async () => {}, served: async () => {}, log() {},
+    };
+    await runOperation({ action, yes: true }, dependencies);
+    assert.equal(opened, 1);
+    assert.equal(closed, 1);
+    fail = true;
+    await assert.rejects(runOperation({ action, yes: true }, dependencies), /inspection failed/);
+    assert.equal(opened, 2);
+    assert.equal(closed, 2);
+  });
+}
 
 test('rollback CLI rejects an empty history before asking approval', async () => {
   await assert.rejects(runOperation({ action: 'rollback', yes: true }, {
-    interactive: false, confirm: async () => {}, checkPort: async () => {}, authenticate: async () => {},
+    interactive: false, connect, confirm: async () => {}, checkPort: async () => {}, authenticate: async () => {},
     inspect: async () => ({ current: 'initial', previous: null, locked: false }), log() {},
     rollback: async () => assert.fail('must not mutate'),
   }), /이전 정상 릴리스/);
@@ -107,7 +141,7 @@ test('rollback CLI rejects an empty history before asking approval', async () =>
 test('status reports failed health without triggering rollback or writes', async () => {
   const output = [];
   const result = await runOperation({ action: 'status' }, {
-    interactive: false, confirm: async () => {}, checkPort: async () => {}, authenticate: async () => {},
+    interactive: false, connect, confirm: async () => {}, checkPort: async () => {}, authenticate: async () => {},
     inspect: async () => ({ current: 'initial', previous: null, running: true, locked: false, metadata: null }),
     checkHealth: async () => { throw new Error('offline'); }, rollback: async () => assert.fail('must not mutate'), log: (value) => output.push(value),
   });

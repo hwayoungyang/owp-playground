@@ -8,6 +8,7 @@ import { checkHttpHealth, checkSshAuthentication, checkSshPort, confirmVpn } fro
 import { checkServedRelease, readReleaseStatus } from './deploy-status.mjs';
 import { rollbackRelease } from './deploy-rollback.mjs';
 import { cleanupReleases } from './deploy-cleanup.mjs';
+import { openSshSession } from './deploy-ssh.mjs';
 
 export async function confirmOperation(question) {
   const terminal = createInterface({ input: process.stdin, output: process.stdout });
@@ -32,38 +33,44 @@ export function parseOperationOptions(args) {
 }
 
 export async function runOperation(options, dependencies = {}) {
-  const { config = deploymentConfig, interactive = Boolean(process.stdin.isTTY && process.stdout.isTTY), run = runCommand,
+  const { config = deploymentConfig, interactive = Boolean(process.stdin.isTTY && process.stdout.isTTY), run: execute = runCommand, connect = openSshSession,
     confirm = confirmVpn, checkPort = checkSshPort, authenticate = checkSshAuthentication, checkHealth = checkHttpHealth,
     inspect = readReleaseStatus, served = checkServedRelease, rollback = rollbackRelease, cleanup = cleanupReleases, ask = confirmOperation, log = console.log } = dependencies;
   await confirm({ interactive, assumeVpn: options.assumeVpn });
   await checkPort(config);
-  await authenticate(config, run, { interactive });
-  const status = await inspect(config, { interactive, run, includeMetadata: options.action === 'status' });
-  if (options.action === 'cleanup') {
-    if (status.locked) throw new Error('배포 잠금이 있어 릴리스 정리를 중단합니다.');
-    const plan = await cleanup(config, { interactive, run, dryRun: true });
-    log(`정리 후보: ${plan.candidates.join(', ') || '(없음)'}`);
-    if (options.dryRun || plan.candidates.length === 0) return plan;
-    if (!options.yes && (!interactive || !await ask('보호 대상을 제외한 이전 릴리스를 정리할까요?'))) throw new Error('릴리스 정리를 취소했습니다. 비대화형 실행에는 --yes가 필요합니다.');
-    const result = await cleanup(config, { interactive, run, dryRun: false, approved: plan.candidates });
-    log(`릴리스 정리 완료: ${result.removed.length}개`);
+  const session = await connect(config, { interactive, run: execute, log });
+  const run = session.run;
+  try {
+    await authenticate(config, run, { interactive });
+    const status = await inspect(config, { interactive, run, includeMetadata: options.action === 'status' });
+    if (options.action === 'cleanup') {
+      if (status.locked) throw new Error('배포 잠금이 있어 릴리스 정리를 중단합니다.');
+      const plan = await cleanup(config, { interactive, run, dryRun: true });
+      log(`정리 후보: ${plan.candidates.join(', ') || '(없음)'}`);
+      if (options.dryRun || plan.candidates.length === 0) return plan;
+      if (!options.yes && (!interactive || !await ask('보호 대상을 제외한 이전 릴리스를 정리할까요?'))) throw new Error('릴리스 정리를 취소했습니다. 비대화형 실행에는 --yes가 필요합니다.');
+      const result = await cleanup(config, { interactive, run, dryRun: false, approved: plan.candidates });
+      log(`릴리스 정리 완료: ${result.removed.length}개`);
+      return result;
+    }
+    if (options.action === 'status') {
+      let healthy = true;
+      try { await checkHealth(config); await served(config, status); } catch { healthy = false; }
+      healthy = healthy && status.running;
+      log(`OWP Playground Deployment Status\nServer: ${config.host}\nURL: ${config.url}\nContainer: ${config.container}\nContainer Status: ${status.running ? 'Running' : 'Not running'}\nCurrent Release: ${status.current}\nPrevious Release: ${status.previous ?? '(없음)'}\nDeployment Lock: ${status.locked ? '있음' : '없음'}\nHealth: ${healthy ? 'OK (HTTP 200)' : 'FAIL'}`);
+      log('Installed Packages:');
+      for (const [name, version] of Object.entries(status.metadata?.packages ?? {})) log(`${name.padEnd(24)} ${version}`);
+      return { ...status, healthy: healthy && status.running };
+    }
+    if (!status.previous || status.locked) throw new Error('이전 정상 릴리스가 없거나 배포 잠금이 있어 rollback을 중단합니다.');
+    log(`Rollback: ${status.current} → ${status.previous}`);
+    if (!options.yes && (!interactive || !await ask('위 릴리스로 rollback할까요?'))) throw new Error('rollback을 취소했습니다. 비대화형 실행에는 --yes가 필요합니다.');
+    const result = await rollback(config, status, { interactive, run });
+    log(`OWP Playground Rollback Successful\nCurrent Release: ${result.current}\nPrevious Release: ${result.previous}\nHealth: OK\nURL: ${config.url}`);
     return result;
+  } finally {
+    await session.close();
   }
-  if (options.action === 'status') {
-    let healthy = true;
-    try { await checkHealth(config); await served(config, status); } catch { healthy = false; }
-    healthy = healthy && status.running;
-    log(`OWP Playground Deployment Status\nServer: ${config.host}\nURL: ${config.url}\nContainer: ${config.container}\nContainer Status: ${status.running ? 'Running' : 'Not running'}\nCurrent Release: ${status.current}\nPrevious Release: ${status.previous ?? '(없음)'}\nDeployment Lock: ${status.locked ? '있음' : '없음'}\nHealth: ${healthy ? 'OK (HTTP 200)' : 'FAIL'}`);
-    log('Installed Packages:');
-    for (const [name, version] of Object.entries(status.metadata?.packages ?? {})) log(`${name.padEnd(24)} ${version}`);
-    return { ...status, healthy: healthy && status.running };
-  }
-  if (!status.previous || status.locked) throw new Error('이전 정상 릴리스가 없거나 배포 잠금이 있어 rollback을 중단합니다.');
-  log(`Rollback: ${status.current} → ${status.previous}`);
-  if (!options.yes && (!interactive || !await ask('위 릴리스로 rollback할까요?'))) throw new Error('rollback을 취소했습니다. 비대화형 실행에는 --yes가 필요합니다.');
-  const result = await rollback(config, status, { interactive, run });
-  log(`OWP Playground Rollback Successful\nCurrent Release: ${result.current}\nPrevious Release: ${result.previous}\nHealth: OK\nURL: ${config.url}`);
-  return result;
 }
 
 export async function main(args = process.argv.slice(2)) {

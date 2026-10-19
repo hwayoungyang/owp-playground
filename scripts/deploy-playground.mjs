@@ -11,6 +11,7 @@ import { transferArtifact } from './deploy-transfer.mjs';
 import { stageRelease } from './deploy-staging.mjs';
 import { activateRelease } from './deploy-activation.mjs';
 import { checkServerReady } from './deploy-server.mjs';
+import { openSshSession } from './deploy-ssh.mjs';
 
 const repoRoot = fileURLToPath(new URL('../', import.meta.url));
 export const deploymentConfig = Object.freeze({
@@ -36,6 +37,7 @@ const help = `OWP Playground Deployment
   --preflight-only   VPN·접근·SSH·서버 도구·컨테이너·mount를 확인합니다. 빌드는 실행하지 않습니다.
 
 대화형 실행은 기존 SSH 비밀번호·키·Agent 인증을 사용합니다.
+비밀번호는 이 명령의 첫 SSH 인증에서만 입력하며 이후 단계는 연결을 재사용합니다.
 비대화형 실행은 --assume-vpn과 비대화형 SSH 인증이 필요합니다.
 사전 검사만 실행: pnpm deploy:preflight
 옵션 전달 예: pnpm deploy -- --assume-vpn
@@ -56,10 +58,10 @@ export function parseDeployOptions(args) {
   return { help: values.help ?? false, assumeVpn: values['assume-vpn'] ?? false, preflightOnly: values['preflight-only'] ?? false };
 }
 
-export function runCommand(command, args, { capture = false } = {}) {
+export function runCommand(command, args, { capture = false, quiet = false, signal } = {}) {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
-      cwd: repoRoot, stdio: capture ? ['inherit', 'pipe', 'inherit'] : 'inherit', shell: false,
+      cwd: repoRoot, stdio: ['inherit', capture ? 'pipe' : 'inherit', quiet ? 'ignore' : 'inherit'], shell: false, signal,
     });
     let stdout = '';
     child.stdout?.on('data', (chunk) => { stdout += chunk.toString(); });
@@ -79,7 +81,8 @@ export async function runDeployment(options, dependencies = {}) {
     checkPort = checkSshPort,
     checkHealth = checkHttpHealth,
     authenticate = checkSshAuthentication,
-    run = runCommand,
+    run: execute = runCommand,
+    connect = openSshSession,
     validate = validateBuild,
     context = readBuildContext,
     pack = createArtifact,
@@ -97,38 +100,44 @@ export async function runDeployment(options, dependencies = {}) {
   log(`SSH 포트 접근: OK (${config.host}:${config.sshPort})`);
   await checkHealth(config);
   log('HTTP /health 접근: OK');
-  await authenticate(config, run, { interactive });
-  log('SSH 인증: OK');
-  await ready(config, { interactive, run });
-  log('서버 도구·Nginx 컨테이너·bind mount 사전 검사: OK');
-
-  if (options.preflightOnly) {
-    log('배포 사전 검사 완료');
-    return { stage: 'preflight-checked' };
-  }
-
-  const before = await context(repoRoot);
-  log('pnpm build 실행 중...');
-  await run('pnpm', ['build']);
-  const build = await validate(path.join(repoRoot, 'dist'));
-  assertBuildContext(before, await context(repoRoot));
-  log(`빌드 검증: OK (${build.files}개 파일, assets ${build.assets}개, ${(build.bytes / 1_000_000).toFixed(2)}MB)`);
-  const artifact = await pack({ directory: path.join(repoRoot, 'dist'), context: before });
+  const session = await connect(config, { interactive, run: execute, log });
+  const run = session.run;
   try {
+    await authenticate(config, run, { interactive });
+    log('SSH 인증: OK');
+    await ready(config, { interactive, run });
+    log('서버 도구·Nginx 컨테이너·bind mount 사전 검사: OK');
+
+    if (options.preflightOnly) {
+      log('배포 사전 검사 완료');
+      return { stage: 'preflight-checked' };
+    }
+
+    const before = await context(repoRoot);
+    log('pnpm build 실행 중...');
+    await run('pnpm', ['build']);
+    const build = await validate(path.join(repoRoot, 'dist'));
     assertBuildContext(before, await context(repoRoot));
-    log(`Artifact: ${artifact.release} (${(artifact.bytes / 1_000_000).toFixed(2)}MB)`);
-    log(`SHA-256: ${artifact.sha256}`);
-    const uploaded = await transfer(config, artifact, { interactive, run, log });
-    log('Artifact 전송·서버 SHA-256 검증: OK');
-    log(`서버 임시 파일: ${uploaded.archive}`);
-    const staged = await stage(config, artifact, uploaded, { interactive, run });
-    log(`Release staging 검증: OK (${staged.files}개 파일)`);
-    log(`서버 staging 경로: ${staged.directory}`);
-    const activated = await activate(config, artifact, uploaded, staged, { interactive, run, verifyHealth: true });
-    log(`OWP Playground Deployment Successful\nRelease: ${artifact.release}\nBuild: OK\nUpload: OK\nHealth: OK\nURL: ${config.url}`);
-    return { stage: 'deployed', build, uploaded, staged, activated };
+    log(`빌드 검증: OK (${build.files}개 파일, assets ${build.assets}개, ${(build.bytes / 1_000_000).toFixed(2)}MB)`);
+    const artifact = await pack({ directory: path.join(repoRoot, 'dist'), context: before });
+    try {
+      assertBuildContext(before, await context(repoRoot));
+      log(`Artifact: ${artifact.release} (${(artifact.bytes / 1_000_000).toFixed(2)}MB)`);
+      log(`SHA-256: ${artifact.sha256}`);
+      const uploaded = await transfer(config, artifact, { interactive, run, log });
+      log('Artifact 전송·서버 SHA-256 검증: OK');
+      log(`서버 임시 파일: ${uploaded.archive}`);
+      const staged = await stage(config, artifact, uploaded, { interactive, run });
+      log(`Release staging 검증: OK (${staged.files}개 파일)`);
+      log(`서버 staging 경로: ${staged.directory}`);
+      const activated = await activate(config, artifact, uploaded, staged, { interactive, run, verifyHealth: true });
+      log(`OWP Playground Deployment Successful\nRelease: ${artifact.release}\nBuild: OK\nUpload: OK\nHealth: OK\nURL: ${config.url}`);
+      return { stage: 'deployed', build, uploaded, staged, activated };
+    } finally {
+      await artifact.cleanup();
+    }
   } finally {
-    await artifact.cleanup();
+    await session.close();
   }
 }
 

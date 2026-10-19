@@ -1,6 +1,9 @@
 import { get } from 'node:http';
 import { createConnection } from 'node:net';
 import { createInterface } from 'node:readline/promises';
+import { authenticationOptions } from './deploy-ssh-options.mjs';
+
+export { authenticationOptions } from './deploy-ssh-options.mjs';
 
 async function askVpn() {
   const terminal = createInterface({ input: process.stdin, output: process.stdout });
@@ -101,16 +104,6 @@ export function checkHttpHealth({ url, timeoutMs }) {
       });
     });
   });
-}
-
-export function authenticationOptions(config, { interactive }) {
-  return [
-    '-o', 'StrictHostKeyChecking=yes',
-    '-o', 'NumberOfPasswordPrompts=1',
-    '-o', `ConnectTimeout=${Math.ceil(config.timeoutMs / 1000)}`,
-    '-o', 'ConnectionAttempts=1',
-    '-o', `BatchMode=${interactive ? 'no' : 'yes'}`,
-  ];
 }
 
 export async function checkSshAuthentication(config, run, { interactive }) {
