@@ -6,6 +6,12 @@
   "scripts": {
     "dev": "vp dev --host 127.0.0.1 --open",
     "build": "tsc --noEmit && vp build",
+    "deploy": "node scripts/deploy-playground.mjs",
+    "deploy:preflight": "node scripts/deploy-playground.mjs --preflight-only",
+    "deploy:rollback": "node scripts/deploy-operations.mjs rollback",
+    "deploy:status": "node scripts/deploy-operations.mjs status",
+    "deploy:cleanup": "node scripts/deploy-operations.mjs cleanup",
+    "test:deploy": "node --test scripts/test/deploy-*.test.mjs",
     "preview": "vp preview --host 127.0.0.1 --open",
     "typecheck": "tsc --noEmit",
     "check": "vp check && pnpm check:assets",
@@ -33,7 +39,7 @@
     "@owp/charts": "4.0.4",
     "@owp/components": "2.0.0",
     "@owp/core": "6.1.0",
-    "@owp/datagrid": "3.1.2",
+    "@owp/datagrid": "3.1.3",
     "@owp/date-picker": "2.0.0",
     "@owp/excel": "2.0.0",
     "@owp/pdf": "2.0.0",
@@ -63,7 +69,7 @@
     "vite-plus": "1.3.0",
     "vitest": "5.0.5"
   },
-  "packageManager": "pnpm@10.20.0",
+  "packageManager": "pnpm@11.28.5",
   "engines": {
     "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
   }

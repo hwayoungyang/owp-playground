@@ -4,14 +4,14 @@ MUI 기반의 OWP 컴포넌트 실행·코드 Playground입니다. `@owp/datagri
 
 ## 실행
 
-Node.js 24 LTS(24.11 이상)와 pnpm 10을 권장하며, 지원하는 Node.js 범위는 `package.json`의 `engines.node`를 따릅니다. 기존 OWP 사내 레지스트리 접근이 필요합니다. `.npmrc`의 `@owp:registry`를 환경에 맞게 설정하세요. 인증 정보는 저장소에 넣지 않습니다.
+Node.js 24 LTS(24.11 이상)와 프로젝트에 고정된 pnpm 11.28.5를 사용하며, 지원하는 Node.js 범위는 `package.json`의 `engines.node`를 따릅니다. 기존 OWP 사내 레지스트리 접근이 필요합니다. `.npmrc`의 `@owp:registry`를 환경에 맞게 설정하세요. 인증 정보는 저장소에 넣지 않습니다.
 
 ```sh
 pnpm install
 pnpm dev
 ```
 
-`pnpm dev`는 개발 서버를 실행하고 브라우저를 자동으로 엽니다. TypeScript 7로 타입을 검사하고, Vite+로 개발·빌드·테스트를 실행합니다. 설치와 스크립트 실행에는 기존 pnpm CLI를 사용합니다. `.npmrc`가 `packageManager`에 고정된 pnpm 버전을 자동으로 선택합니다.
+`pnpm dev`는 개발 서버를 실행하고 브라우저를 자동으로 엽니다. TypeScript 7로 타입을 검사하고, Vite+로 개발·빌드·테스트를 실행합니다. 설치와 스크립트 실행에는 기존 pnpm CLI를 사용합니다. `packageManager`에 고정된 pnpm 11.28.5를 자동으로 선택하며 `pnpm-workspace.yaml`의 `pmOnFail: download`로 이를 유지합니다. `verifyDepsBeforeRun: false`로 명령 실행 전 자동 의존성 설치를 방지합니다. `.npmrc`는 사내 OWP 레지스트리 설정을 유지합니다.
 
 macOS에서는 기본 브라우저가 Chrome 계열 또는 Safari이면 같은 개발 서버 주소의 기존 탭을 찾아 활성화하고 새로고침합니다. 선택한 예제의 경로·query·hash는 유지하며, 같은 포트의 `localhost`·`127.0.0.1`·`[::1]`은 같은 서버로 취급합니다. 해당 탭이 없거나 탭을 확인할 수 없으면 기본 브라우저로 새로 엽니다. 다른 운영체제나 브라우저에서는 기존 자동 열기 동작을 사용합니다. `BROWSER` 또는 `BROWSER_ARGS`를 직접 지정하면 해당 설정이 우선합니다.
 
@@ -39,6 +39,93 @@ pnpm preview
 기존 `?sample=auto-span` 링크도 OwpDataGrid 예제로 열립니다. 패키지를 생략하거나 알 수 없는 값을 넣으면 OwpDataGrid로, 알 수 없는 샘플은 시작 안내로 열립니다. 메뉴와 샘플 링크는 URL에 선택을 반영하며 새로고침·브라우저 앞/뒤 이동도 지원합니다. 패키지를 바꾸면 이전 패키지의 샘플 값은 지우고, 다른 GET 파라미터와 URL 해시는 유지합니다. Cmd/Ctrl+K로 샘플을 검색할 수 있습니다.
 
 기본 언어는 한국어입니다. 상단 `EN` / `한` 버튼으로 영어와 한국어를 전환합니다. 메뉴·설명·컬럼·OWP 기본 컨트롤의 번역은 `shared/i18n`과 각 Playground의 `locales`에 정의하고 `app/i18n.ts`에서 등록하며 외부 번역 API를 사용하지 않습니다. 언어를 바꿔도 편집한 값과 행 선택을 유지합니다. 가상의 담당자 이름과 작업 데이터, 소스 코드는 원래 값으로 표시합니다. 새로고침하면 한국어로 시작합니다.
+
+## 배포 CLI
+
+Mac 터미널에서 회사 VPN에 연결한 뒤 **`pnpm deploy`**를 실행합니다. 프로젝트는 pnpm 11.28.5를 사용하며 모든 배포 명령을 `run` 없이 실행합니다. pnpm 11부터 같은 이름의 프로젝트 script가 내장 명령보다 우선합니다. 관련 변경은 [pnpm 공식 마이그레이션 문서](https://pnpm.io/migration)에 설명되어 있습니다.
+
+```sh
+# 실제 전환 없이 네트워크·인증·서버 구성을 먼저 검사합니다.
+pnpm deploy:preflight
+
+# 새 빌드부터 전송·current 전환·HTTP 검증까지 수행합니다.
+pnpm deploy
+
+# 현재 릴리스와 실제 서비스 상태를 조회합니다. 서버 파일은 변경하지 않습니다.
+pnpm deploy:status
+
+# 이전 정상 릴리스 정보를 표시하고 승인 후 전환합니다.
+pnpm deploy:rollback
+
+# 보호 대상을 제외한 오래된 정상 릴리스의 삭제 후보를 확인합니다.
+pnpm deploy:cleanup --dry-run
+pnpm deploy:cleanup
+```
+
+첫 배포 전에는 `pnpm deploy:preflight` 결과가 성공인지 확인합니다. 이 명령은 빌드·업로드·`current` 변경을 수행하지 않습니다. 실제 배포 후에는 `deploy:status`에서 릴리스와 health를 확인합니다. `deploy:rollback`은 현재 릴리스와 이전 정상 릴리스를 보여 주고 기본값이 취소인 승인 질문을 표시합니다. 이전 정상 기록이 없거나 배포 잠금이 있으면 중단합니다. rollback 대상의 검증 이후 파일 변경도 거부합니다.
+
+`deploy`에 옵션을 전달할 때는 pnpm의 내장 옵션 해석과 구분하도록 `--`를 넣습니다. 예를 들어 `pnpm deploy -- --help`, `pnpm deploy -- --assume-vpn`, `pnpm deploy -- --preflight-only`로 실행합니다. `deploy:preflight`·`deploy:status`·`deploy:rollback`·`deploy:cleanup`은 옵션을 바로 붙일 수 있습니다.
+
+### 서버와 인증
+
+배포 대상은 `root@192.168.100.20:22`, 기준 경로는 `/home/owp-playground`, URL은 `http://192.168.100.20:30010`, 컨테이너는 `owp-playground-nginx`입니다. 서버에서 의존성 설치·빌드·Git pull을 실행하지 않으며, Docker·Nginx·SSH·SELinux 설정과 Verdaccio는 변경하지 않습니다.
+
+인증은 한금 소비앱 업로드와 같은 기본 OpenSSH 방식을 사용합니다. 비밀번호는 터미널의 SSH 프롬프트에만 입력하며 CLI가 저장하지 않습니다. 기존 키·SSH Agent도 사용할 수 있습니다. SSH 검사·서버 사전 검사·SCP·staging·전환은 별도 연결이므로 비밀번호를 여러 번 요청할 수 있습니다. `StrictHostKeyChecking=yes`를 유지하므로 처음 접속하는 Mac에서는 `ssh root@192.168.100.20`으로 서버 지문을 확인해야 합니다. 키 생성·공개키 등록이나 SSH 설정 변경은 수행하지 않습니다.
+
+사전 검사는 기존 Bash·tar·coreutils·curl·Docker CLI, 실행 중인 Nginx 컨테이너와 bind mount를 확인합니다. **컨테이너에 `/home/owp-playground` 전체가 bind mount되어 있고, Nginx가 그 안의 `current`를 통해 정적 파일을 제공해야 합니다.** `current` 또는 특정 릴리스만 직접 mount한 구성은 사전 검사에서 중단합니다. 실제 컨테이너 mount는 [Docker bind mount 문서](https://docs.docker.com/engine/storage/bind-mounts/)의 `docker inspect` 방법으로 확인할 수 있습니다. CLI는 mount 설정을 고치거나 컨테이너를 재시작하지 않습니다. 기존 SELinux 레이블과 Nginx 설정이 새 릴리스 접근을 허용하는지는 배포 후 실제 HTTP 파일 검증으로 확인합니다.
+
+### 빌드·전송·전환
+
+매번 로컬에서 `pnpm build`를 새로 실행합니다. 커밋되지 않은 파일 변경도 포함하며, 빌드·artifact 생성 중 소스·설정·설치된 OWP 패키지가 변경되면 전송 전에 중단합니다. 기존 `dist`를 재사용하거나 의존성 버전·lockfile을 변경하지 않습니다.
+
+릴리스 ID는 한국 시간의 `YYYYMMDD-HHMMSS-<short-sha>`입니다. 같은 ID의 릴리스·업로드·배포 이력이 있으면 덮어쓰지 않고 중단하므로 잠시 후 다시 실행합니다. Git SHA만으로 빌드 내용이 같다고 판단하지 않습니다. artifact에는 다음 파일을 추가하며 원본 `dist`는 유지합니다.
+
+- `release.json`: 실제 설치된 `@owp/*` 버전, 빌드 완료 시각(UTC ISO 8601), Git SHA, 작업 트리 변경 여부와 원본 파일 목록의 SHA-256을 기록합니다. 인증 정보·서버 경로는 포함하지 않습니다.
+- `deploy-manifest.json`: 파일별 SHA-256과 크기를 기록합니다.
+- `deploy-files.sha256`: 정적 파일과 두 JSON 파일의 SHA-256 목록입니다.
+
+artifact 경로는 영문·숫자와 `_ . / @ + -`를 지원합니다. 공백·제어 문자·절대 경로·상위 경로·중복 항목·링크·특수 파일은 거부합니다. SCP 전송 위치는 `releases/.incoming-<release>/artifact.tar.gz`이며 서버에서 파일 크기와 SHA-256을 다시 확인합니다. staging은 소유 식별자와 검증 기록을 확인한 뒤 새로운 디렉터리에 압축을 풀고 전체 파일 수·타입·필수 파일·JavaScript/CSS assets·메타데이터와 파일별 해시를 검증합니다. [GNU tar 옵션](https://www.gnu.org/software/tar/manual/tar.html)으로 기존 파일 덮어쓰기와 소유권·권한 보존을 제한합니다. 디렉터리는 `755`, 정적 파일은 `644`로 설정합니다.
+
+전환 직전에 동일한 파일 검증을 반복합니다. 검증된 `content`를 `releases/<release>`로 옮기고 `current`와 같은 디렉터리에 임시 symlink를 만듭니다. 같은 파일시스템인지 확인한 뒤 [GNU mv](https://www.gnu.org/s/coreutils/manual/html_node/mv-invocation.html)의 `mv -fT`로 `current` symlink 자체를 원자적으로 교체합니다. 로컬 macOS 검증에서는 `mv -fh`를 사용합니다. 기존 `current`를 먼저 삭제하지 않습니다.
+
+### HTTP 검증과 실패 처리
+
+전환부터 HTTP 검증·복구·정리까지 `.deploy-lock`을 유지합니다. 다른 실행은 잠금을 빼앗거나 강제로 삭제하지 않습니다. HTTP 검증은 서버의 curl로 서비스 URL에 접근하며 각 요청에 시간 제한과 cache 방지 query/header를 적용하고 redirect를 따르지 않습니다.
+
+- Nginx 컨테이너 실행 여부와 `/health`의 HTTP 200·`ok` 응답을 확인합니다.
+- `/`, `/robots.txt`, SPA fallback의 HTTP 200과 실제 파일 SHA-256을 확인합니다.
+- 신규 릴리스의 `/release.json`, `/deploy-manifest.json`, JavaScript·CSS와 `index.html`이 참조하는 로컬 파일을 확인합니다. HTTP 200이어도 이전 HTML이나 잘못된 파일이 반환되면 실패합니다.
+
+전환 전에 기존 릴리스의 파일과 HTTP 응답을 확인해 복구 기준을 확보합니다. 새 릴리스 검증에 실패하면 같은 잠금 안에서 이전 `current`로 원자적으로 복구하고 이전 파일의 HTTP 검증을 반복합니다. 복구에 성공해도 배포 명령은 실패 코드로 종료합니다. 복구까지 실패하면 오류를 표시하고 추가 변경 없이 중단합니다. 수동 rollback의 대상 검증 실패에도 원래 `current`를 복원하고 다시 검증합니다.
+
+정상 릴리스의 파일 해시, 이전 정상 릴리스 포인터와 전환 이력은 `.deploy-state/healthy/`, `.deploy-state/previous`, `.deploy-state/history/`에 보관합니다. 이 상태 디렉터리는 `700`, 파일은 `600`이며 공개 정적 파일 경로에 포함하지 않습니다. 정상 배포 후에는 해당 실행의 서버 임시 업로드와 로컬 artifact를 정리합니다. 실패한 전환의 새 릴리스·artifact·복구 기록은 원인 확인을 위해 보존하며 활성 릴리스를 삭제하지 않습니다.
+
+SSH 중단·완료 응답 누락 시 성공이나 실패를 추측해 재시도하지 말고 `deploy:status`와 서버의 `current`, `.deploy-state/history/`, 남은 `.incoming-<release>/.activation.json`을 확인합니다. SIGKILL·전원 장애 등 trap이 실행되지 않는 종료에서는 잠금과 임시 파일이 남을 수 있습니다. 이 경우 다른 배포가 실행 중인지 확인하고 실제 경로를 점검한 뒤 수동으로 복구해야 합니다. CLI는 남은 잠금을 자동으로 제거하지 않습니다.
+
+`deploy:status`는 SSH로 현재/이전 릴리스·컨테이너·잠금·현재 메타데이터의 실제 패키지 버전을 읽습니다. Mac에서도 `/health`와 HTTP 릴리스 메타데이터를 확인하며 실패하면 종료 코드 1을 반환합니다. `initial`은 릴리스 메타데이터가 없으므로 패키지 목록을 표시하지 않습니다.
+
+### 릴리스 보존과 자동화 옵션
+
+정상 배포 후 릴리스 ID 순으로 최근 정상 릴리스 5개를 유지합니다. `current`, 이전 정상 릴리스, `initial`, 배포 중인 경로와 `.deploy-state/protected/<release>` 표시가 있는 릴리스는 별도로 보호하므로 실제 보존 수는 5개보다 많을 수 있습니다. 정리는 검증된 정상 기록이 있고 `releases` 바로 아래에 있는 실제 디렉터리만 대상으로 합니다. symlink·알 수 없는 디렉터리·실패한 릴리스·진행 중인 `.incoming-*`는 자동 삭제하지 않습니다. 필요하면 해당 서버의 `.deploy-state/protected/`에 릴리스 ID 이름의 파일을 만들어 보호할 수 있습니다. 정리 실패는 배포 성공을 취소하지 않고 별도 메시지로 안내합니다.
+
+```sh
+pnpm deploy -- --help
+pnpm deploy:preflight --help
+pnpm deploy:rollback --help
+pnpm deploy:status --help
+pnpm deploy:cleanup --help
+pnpm test:deploy
+
+# 비대화형 실행: 기존 키·Agent의 비대화형 인증이 필요합니다.
+pnpm deploy -- --assume-vpn
+pnpm deploy:status --assume-vpn
+pnpm deploy:rollback --assume-vpn --yes
+pnpm deploy:cleanup --assume-vpn --dry-run
+```
+
+`--assume-vpn`은 VPN 연결의 명시적 확인이며 실제 접근 검사를 생략하지 않습니다. 비대화형 실행에서 이 옵션이 없으면 네트워크 검사 전에 중단합니다. 변경 명령인 rollback과 cleanup에는 추가로 `--yes`가 필요하며, cleanup의 `--dry-run`은 삭제 후보만 표시합니다. 비대화형 SSH 인증이 없으면 비밀번호를 우회하거나 저장하지 않고 중단합니다.
+
+배포 테스트는 임시 파일시스템, 실제 macOS Bash·tar·SHA-256·symlink 교체, 시스템 curl과 localhost HTTP 서버에서 실행합니다. SSH와 Docker 컨테이너 조회는 모의 환경을 사용합니다. 실제 프로젝트의 새 빌드로 배포·status·rollback·재복구·정리 미리보기까지 로컬에서 검증했으며 운영 서버의 Rocky Linux·Docker·Nginx 전환은 실행하지 않았습니다. 첫 운영 실행은 위 사전 검사로 서버 구성부터 확인합니다.
 
 ## 소스 구조
 
