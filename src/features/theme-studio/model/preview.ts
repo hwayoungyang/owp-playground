@@ -66,7 +66,7 @@ export const previewPresetLabels: Readonly<Record<PreviewPreset, string>> = {
 };
 export const previewPresetDescriptions: Readonly<Record<PreviewPreset, string>> = {
   inherit: '화면의 밝기와 색상을 따릅니다.',
-  hankum: '한금 프로젝트의 헤더와 셀 편집 색상을 적용합니다.',
+  hankum: '한금 소비앱의 그리드와 컴포넌트 색상을 적용합니다.',
   carbon: '회색 계열의 헤더와 본문 색상을 적용합니다.',
   industrial: '차분한 청회색 계열의 헤더와 배경색을 적용합니다.',
   'owp-navy': '짙은 네이비 헤더와 차분한 배경색을 적용합니다.',
@@ -140,17 +140,6 @@ export function createPreviewGridTheme(
     settings.preset === 'hankum' && mode === 'light'
       ? {
           ...defaultGridTheme,
-          drag: theme.drag,
-          panel: {
-            ...defaultGridTheme.panel,
-            backgroundColor: defaultGridTheme.body.backgroundColor,
-            inactiveFilterColor: palette.secondary,
-          },
-          filter: {
-            ...defaultGridTheme.filter,
-            backgroundColor: defaultGridTheme.body.backgroundColor,
-            bottomBorderWidth: 2,
-          },
           header: {
             ...defaultGridTheme.header,
             ...(settings.headerColor === null

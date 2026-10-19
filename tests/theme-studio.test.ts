@@ -1,5 +1,5 @@
 import { getContrastRatio } from '@mui/material';
-import { resolveOwpGridTheme } from '@owp/theme';
+import { defaultGridTheme, resolveOwpGridTheme } from '@owp/theme';
 import { describe, expect, it } from 'vitest';
 import {
   createPreviewGridTheme,
@@ -11,11 +11,14 @@ import {
   previewPresetSchema,
 } from '../src/features/theme-studio/model/preview';
 import { dataGridThemeSchema } from '../src/features/theme-studio/model/schemas';
+import { hankumPalette } from '../src/features/theme-studio/model/hankum';
 import {
   createPreviewMuiTheme,
+  editableMuiTheme,
   exportTheme,
   importTheme,
   supportsThemeStudio,
+  updateMuiTheme,
 } from '../src/features/theme-studio/model/studio';
 import {
   muiColorLabels,
@@ -27,12 +30,79 @@ import { packageCatalog } from '../src/playgrounds/registry';
 import { appEnglish } from '../src/shared/i18n/app.en';
 
 describe('project theme files', () => {
+  const hankum = { preset: 'hankum', mode: 'light', headerColor: null } as const;
+
+  it('matches every native Hankum grid field, including edit, change, select, drag and filter states', () => {
+    expect(resolveOwpGridTheme(createPreviewGridTheme(hankum, 'light'))).toEqual(
+      resolveOwpGridTheme(defaultGridTheme),
+    );
+  });
+
+  it('matches the consumer app main palette and preserves every input and button color in files', () => {
+    const theme = createPreviewMuiTheme(hankum, 'light', '행 선택');
+    expect(theme.palette).toMatchObject(hankumPalette);
+    const restored = importTheme(exportTheme(hankum, 'light'));
+    const palette = restored.mui?.palette;
+    expect(palette?.primary).toMatchObject(hankumPalette.primary);
+    expect(palette?.secondary).toMatchObject(hankumPalette.secondary);
+    expect(palette?.inputFocus).toEqual(hankumPalette.inputFocus);
+    expect(palette?.button).toEqual(hankumPalette.button);
+    expect(palette?.common).toEqual(hankumPalette.common);
+    expect(palette?.text?.disabled).toBe(hankumPalette.text.disabled);
+    expect(editableMuiTheme(createPreviewMuiTheme(restored, 'light', '행 선택'))).toEqual(
+      editableMuiTheme(theme),
+    );
+  });
+
+  it('keeps explicit Hankum field edits over preset defaults across export and import', () => {
+    const settings = {
+      ...hankum,
+      grid: {
+        changed: { backgroundColor: '#123456' },
+        enumMenu: { selectedBackgroundColor: '#abcdef' },
+        state: { hoverRowBackgroundColor: '#fedcba' },
+        filter: { bottomBorderWidth: 3 },
+      },
+      mui: {
+        palette: { inputFocus: { main: '#654321' }, button: { secondary: { main: '#135790' } } },
+      },
+    };
+    const restored = importTheme(exportTheme(settings, 'light'));
+    const grid = resolveOwpGridTheme(createPreviewGridTheme(restored, 'light'));
+    expect(grid.changed.backgroundColor).toBe('#123456');
+    expect(grid.enumMenu.selectedBackgroundColor).toBe('#abcdef');
+    expect(grid.state.hoverRowBackgroundColor).toBe('#fedcba');
+    expect(grid.filter.bottomBorderWidth).toBe(3);
+    const { palette } = createPreviewMuiTheme(restored, 'light', '행 선택');
+    expect(palette.inputFocus.main).toBe('#654321');
+    expect(palette.button?.secondary?.main).toBe('#135790');
+    expect(palette.button?.primary).toEqual(hankumPalette.button.primary);
+  });
+
+  it('updates nested button colors without overwriting sibling roles and rejects invalid colors', () => {
+    const mui = editableMuiTheme(createPreviewMuiTheme(hankum, 'light', '행 선택'));
+    const updated = updateMuiTheme(mui, ['palette', 'button', 'secondary', 'main'], '#123456');
+    expect(updated.success).toBe(true);
+    if (!updated.success) return;
+    expect(updated.data.palette.button?.secondary?.main).toBe('#123456');
+    expect(updated.data.palette.button?.primary).toEqual(mui.palette.button?.primary);
+    expect(updated.data.palette.secondary).toEqual(mui.palette.secondary);
+    expect(updateMuiTheme(mui, ['palette', 'inputFocus', 'main'], 'not-a-color').success).toBe(
+      false,
+    );
+    expect(mui.palette.inputFocus?.main).toBe('#212121');
+  });
+
   it('keeps moved handles contrasting against panel, selection and hover in every preset', () => {
     for (const preset of previewPresetSchema.options) {
       for (const mode of ['light', 'dark'] as const) {
         const theme = resolveOwpGridTheme(
           createPreviewGridTheme({ preset, mode, headerColor: null }, mode),
         );
+        if (preset === 'hankum' && mode === 'light') {
+          expect(theme.drag).toEqual(defaultGridTheme.drag);
+          continue;
+        }
         const backgrounds = {
           panel: theme.panel.backgroundColor,
           selectedCell: theme.state.selectedCellBackgroundColor,
@@ -94,17 +164,22 @@ describe('project theme files', () => {
     },
   );
 
-  it('uses body backgrounds for panels and filters without changing the native delete color', () => {
+  it('preserves Hankum native surfaces and uses body surfaces and 2px filters for other presets', () => {
     const nativeDeleteColor = resolveOwpGridTheme().panel.deleteColor;
     for (const preset of previewPresetSchema.options) {
       for (const mode of ['light', 'dark'] as const) {
         const theme = resolveOwpGridTheme(
           createPreviewGridTheme({ preset, mode, headerColor: null }, mode),
         );
-        expect(theme.panel.backgroundColor, `${preset}/${mode}`).toBe(theme.body.backgroundColor);
+        const native = preset === 'hankum' && mode === 'light';
+        expect(theme.panel.backgroundColor, `${preset}/${mode}`).toBe(
+          native ? defaultGridTheme.panel.backgroundColor : theme.body.backgroundColor,
+        );
         expect(theme.filter.backgroundColor, `${preset}/${mode}`).toBe(theme.body.backgroundColor);
         expect(theme.panel.deleteColor, `${preset}/${mode}`).toBe(nativeDeleteColor);
-        expect(theme.filter.bottomBorderWidth, `${preset}/${mode}`).toBe(2);
+        expect(theme.filter.bottomBorderWidth, `${preset}/${mode}`).toBe(
+          native ? defaultGridTheme.filter.bottomBorderWidth : 2,
+        );
       }
     }
   });

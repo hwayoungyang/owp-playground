@@ -2,6 +2,7 @@ import type { Theme } from '@mui/material';
 import type { z } from 'zod';
 import { createMuiTheme } from '../../../shared/theme/themes';
 import type { ColorMode } from '../../../shared/theme/tokens';
+import { createHankumMuiOptions } from './hankum';
 import { createPreviewGridTheme, getPreviewPalette, type PreviewThemeSettings } from './preview';
 import { muiThemeSchema, themeFileSchema } from './schemas';
 
@@ -18,13 +19,28 @@ export function createPreviewMuiTheme(
     getPreviewPalette(settings.preset, mode),
     mode,
     selectionLabel,
-    settings.mui,
+    settings.preset === 'hankum' && mode === 'light'
+      ? createHankumMuiOptions(settings.mui)
+      : settings.mui,
   );
 }
 
 export function editableMuiTheme(theme: Theme): z.infer<typeof muiThemeSchema> {
-  const { primary, secondary, success, warning, error, info, background, text, divider, mode } =
-    theme.palette;
+  const {
+    primary,
+    secondary,
+    success,
+    warning,
+    error,
+    info,
+    inputFocus,
+    button,
+    common,
+    background,
+    text,
+    divider,
+    mode,
+  } = theme.palette;
   const palette = { primary, secondary, success, warning, error, info };
   return muiThemeSchema.parse({
     palette: {
@@ -32,11 +48,19 @@ export function editableMuiTheme(theme: Theme): z.infer<typeof muiThemeSchema> {
       ...Object.fromEntries(
         Object.entries(palette).map(([key, value]) => [
           key,
-          { main: value.main, contrastText: value.contrastText },
+          {
+            main: value.main,
+            light: value.light,
+            dark: value.dark,
+            contrastText: value.contrastText,
+          },
         ]),
       ),
       background,
-      text: { primary: text.primary, secondary: text.secondary },
+      text: { primary: text.primary, secondary: text.secondary, disabled: text.disabled },
+      common,
+      ...(inputFocus ? { inputFocus } : {}),
+      ...(button ? { button } : {}),
       divider,
     },
     typography: {
@@ -44,6 +68,21 @@ export function editableMuiTheme(theme: Theme): z.infer<typeof muiThemeSchema> {
     },
     shape: theme.shape,
   });
+}
+
+export function updateMuiTheme(
+  theme: z.infer<typeof muiThemeSchema>,
+  path: readonly string[],
+  next: unknown,
+) {
+  function replace(current: unknown, remaining: readonly string[]): unknown {
+    const [field, ...rest] = remaining;
+    if (field === undefined) return next;
+    if (typeof current !== 'object' || current === null) return current;
+    const previous = Object.entries(current).find(([key]) => key === field)?.[1];
+    return { ...current, [field]: replace(previous, rest) };
+  }
+  return muiThemeSchema.safeParse(replace(theme, path));
 }
 
 export function exportTheme(settings: PreviewThemeSettings, mode: ColorMode): string {

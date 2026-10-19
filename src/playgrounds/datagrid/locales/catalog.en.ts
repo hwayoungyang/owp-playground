@@ -19,7 +19,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
     'A minimal grid with three columns and row IDs.',
   '데이터 없음': 'No data',
   '로딩·빈 데이터·오류': 'Loading, empty and error',
-  '로딩·빈 데이터·오류 상태를 전환하고 조회를 다시 시도합니다.':
+  '로딩 중·데이터 없음·오류 화면을 확인하고, 오류 화면에서 다시 조회할 수 있습니다.':
     'Switch between loading, empty and error states, then retry loading data.',
   '조회 결과가 없을 때 안내를 표시합니다.': 'Show a message when no rows are returned.',
   로딩: 'Loading',
@@ -37,7 +37,8 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '모서리 크기를 선택합니다. 기본 크기는 4px입니다.':
     'Choose a corner size. The initial size is 4px.',
   '셀 타입': 'Cell types',
-  '셀 타입별로 값을 편집합니다.': 'Edit values with different cell types.',
+  '텍스트·숫자·셀렉트·날짜 등 셀 타입에 맞는 편집기를 사용할 수 있습니다.':
+    'Edit values with different cell types.',
   '숫자·날짜 서식': 'Number & date formats',
   '숫자와 날짜·시간 서식을 설정합니다.': 'Set number, date and time formats.',
   셀렉트: 'Select',
@@ -57,7 +58,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   자동완성: 'Autocomplete',
   '입력한 이름으로 담당자를 찾습니다.': 'Find an owner by typing their name.',
   '고정 컬럼': 'Pinned columns',
-  '프로젝트 컬럼을 고정한 상태로 가로 스크롤을 사용합니다.':
+  '가로로 스크롤해도 고정한 프로젝트 컬럼은 같은 위치에 표시됩니다.':
     'An example of pinning the project column while scrolling horizontally.',
   '다단 헤더': 'Grouped headers',
   '관련 컬럼을 여러 줄의 헤더로 묶고, 하위 컬럼의 정렬 버튼을 켜고 끕니다.':
@@ -82,7 +83,8 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '헤더와 셀 병합, 고정 합계 행을 그대로 내보냅니다.':
     'Export grouped headers, spans and pinned totals.',
   '행 선택': 'Row selection',
-  '단일·다중 선택을 전환합니다.': 'Switch between single and multiple row selection.',
+  '단일 선택과 다중 선택의 동작을 비교할 수 있습니다.':
+    'Switch between single and multiple row selection.',
   '다중 정렬': 'Multiple sorting',
   '헤더를 눌러 정렬 순서와 우선순위를 바꿉니다.': 'Change sorting and priority from the headers.',
   '컬럼 필터': 'Column filters',
@@ -95,7 +97,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '행 편집 툴바': 'Row editing toolbar',
   '툴바에서 행을 추가·삭제합니다.': 'Add and delete rows from the toolbar.',
   '행 이동 · 드래그': 'Move rows · drag',
-  '행을 개별로 이동하거나 선택한 행을 함께 이동합니다.':
+  '행을 하나씩 드래그하거나 선택한 여러 행을 함께 옮길 수 있습니다.':
     'Move rows individually or move selected rows together.',
   '컨텍스트 메뉴': 'Context menu',
   '셀을 우클릭하면 아이콘이 있는 상세 보기·수정·삭제 메뉴가 열립니다.':
@@ -128,7 +130,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '맨 위나 맨 아래, 또는 선택한 행 다음에 새 행을 추가합니다.':
     'Add a row at the top, after the selected row or at the bottom.',
   삭제·복구: 'Delete & restore',
-  '선택한 행을 삭제하거나 복구하고, 새로 추가한 행은 취소합니다.':
+  '기존 행의 삭제·복구와 새로 추가한 행의 취소 동작을 비교할 수 있습니다.':
     'Delete or restore selected rows; discard new rows.',
   '행 조회·일괄 처리': 'Read & process rows',
   '전체 행, 필터 결과, 선택 행을 조회하고 여러 셀을 한 번에 완료 처리합니다.':
@@ -140,10 +142,10 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '버튼으로 선택한 행을 맨 위나 맨 아래로 옮깁니다.':
     'Move selected rows to the top or bottom with buttons.',
   '변경 관리': 'Change management',
-  '변경된 값을 확인하고, 변경을 확정하거나 되돌립니다.':
+  '변경 내역을 확인한 뒤 확정하거나 원래 값으로 되돌릴 수 있습니다.':
     'Review changed values, then confirm or reset changes.',
   '검증 메시지': 'Validation messages',
-  '외부에서 받은 검증 메시지를 셀에 표시하고 지웁니다.':
+  '외부 검증 결과를 셀에 표시하며, 필요할 때 메시지를 지울 수 있습니다.':
     'Display and clear externally provided validation messages in cells.',
   '저장 응답 반영': 'Apply saved rows',
   '저장 중 편집한 값은 유지합니다.': 'Keep edits made while a save is in progress.',
@@ -153,7 +155,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   'children 배열에 하위 행을 담습니다. 이 예제는 4단계 구성을 보여줍니다.':
     'Store child rows in children arrays. This example demonstrates four levels.',
   '새 행 선택': 'New row selection',
-  '새 행을 맨 위에 추가하고 선택 허용 여부를 바꿉니다.':
+  '맨 위에 새 행을 추가한 뒤, 새 행의 선택 허용 여부를 바꿔 볼 수 있습니다.':
     'Add rows at the top and control whether new rows can be selected.',
   '긴 내용 보기': 'View full content',
   '내용이 잘린 셀에 마우스를 올리면 전체 내용을 볼 수 있습니다.':
@@ -186,17 +188,18 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '행 배경색': 'Row background',
   '상태에 따라 행 배경색을 바꿉니다.': 'Change row backgrounds by status.',
   '표시 행 수 고정': 'Fixed row count',
-  '화면에 표시할 행 수를 고정하고 행 선택과 합계를 확인합니다.':
+  '화면에 표시할 행 수를 고정한 상태에서 행 선택과 합계를 확인할 수 있습니다.':
     'Set a fixed row count and explore row selection and totals.',
   '외부 버튼으로 행을 선택·해제·삭제합니다.':
     'Select, clear and delete rows with external buttons.',
   '데이터가 없는 상태에서 로딩 표시를 켜고 끕니다.': 'Start and stop loading on an empty grid.',
   '조회 오류를 표시하고 다시 시도합니다.': 'Show a query error and retry.',
-  '셀렉트와 자동완성에서 단일·다중 선택을 사용합니다.':
+  '셀렉트와 자동완성의 단일 선택·다중 선택 동작을 비교할 수 있습니다.':
     'Choose single or multiple values with select or autocomplete.',
-  '셀과 행의 색상을 바꾸고 편집을 제한합니다.': 'Set cell and row colors and editing restrictions.',
-  '스타일과 글자 크기를 바꿉니다.': 'Change styles and font size.',
-  '컬럼을 여러 단계의 헤더로 묶고 하위 컬럼의 정렬 버튼을 켜고 끕니다.':
+  '조건에 따라 셀·행의 색상과 편집 가능 여부를 다르게 설정할 수 있습니다.':
+    'Set cell and row colors and editing restrictions.',
+  '헤더와 셀의 스타일, 글자 크기를 바꿔 볼 수 있습니다.': 'Change styles and font size.',
+  '여러 컬럼을 다단 헤더로 묶습니다. 하위 컬럼의 정렬 버튼은 표시하거나 숨길 수 있습니다.':
     'Group columns and configure child header sorting buttons.',
   '1만 행에서 병합과 가상 스크롤을 확인합니다.':
     'Explore spanning and virtual scrolling across 10,000 rows.',
@@ -208,10 +211,11 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '같은 프로젝트의 셀과 다른 프로젝트의 셀을 연동해 비용을 계산합니다.':
     'An example of cost calculations and linked cells within and across projects.',
   트리: 'Tree',
-  '하위 행의 완료율과 추세를 확인하고 조회 방식을 바꿉니다.':
+  '하위 행의 완료율과 추세를 트리로 확인하며, 조회 방식을 바꿔 볼 수 있습니다.':
     'View child-row completion and trends, and change the loading mode.',
   '다단계 트리': 'Nested tree',
-  '여러 단계의 하위 행을 펼치고 접습니다.': 'Expand and collapse multiple levels of child rows.',
+  '여러 단계로 구성된 하위 행을 펼치거나 접을 수 있습니다.':
+    'Expand and collapse multiple levels of child rows.',
   '정렬·필터 조건을 모의 서버에 전달하고 조회 결과를 표시합니다.':
     'Query a simulated server with sorting and filters.',
 };

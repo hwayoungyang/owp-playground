@@ -18,12 +18,22 @@ import {
 import type { ThemeFieldCommitResult } from './model/validation';
 import { ThemeField } from './ThemeField';
 
+function paletteFields(
+  value: unknown,
+  path: readonly string[] = [],
+): readonly { readonly path: readonly string[]; readonly value: string }[] {
+  if (path[0] === 'mode') return [];
+  if (typeof value === 'string') return [{ path, value }];
+  if (typeof value !== 'object' || value === null) return [];
+  return Object.entries(value).flatMap(([key, field]) => paletteFields(field, [...path, key]));
+}
+
 export function ComponentColors({
   palette,
   onCommit,
 }: {
   readonly palette: ReturnType<typeof editableMuiTheme>['palette'];
-  readonly onCommit: (field: string, value: unknown, group?: string) => ThemeFieldCommitResult;
+  readonly onCommit: (path: readonly string[], value: unknown) => ThemeFieldCommitResult;
 }) {
   const { t } = useOwpTranslation();
   return (
@@ -32,27 +42,25 @@ export function ComponentColors({
         <span>{t('컴포넌트 색상')}</span>
       </AccordionSummary>
       <AccordionDetails className="theme-field-grid">
-        {Object.entries(palette).flatMap(([key, fields]) =>
-          typeof fields === 'object'
-            ? Object.entries(fields).map(([field, color]) => (
-                <ThemeField
-                  key={`${key}.${field}`}
-                  label={`${t(muiPaletteLabels[key] ?? '색상')} · ${t(muiColorLabels[field] ?? '색상')}`}
-                  value={color}
-                  onCommit={(next) => onCommit(field, next, key)}
-                />
-              ))
-            : key === 'divider'
-              ? [
-                  <ThemeField
-                    key="divider"
-                    label={t('구분선 색상')}
-                    value={fields}
-                    onCommit={(next) => onCommit('divider', next)}
-                  />,
-                ]
-              : [],
-        )}
+        {paletteFields(palette).map(({ path, value }) => (
+          <ThemeField
+            key={path.join('.')}
+            label={
+              path[0] === 'divider'
+                ? t('구분선 색상')
+                : path
+                    .map((field, index) =>
+                      t(
+                        (index === path.length - 1 ? muiColorLabels : muiPaletteLabels)[field] ??
+                          '색상',
+                      ),
+                    )
+                    .join(' · ')
+            }
+            value={value}
+            onCommit={(next) => onCommit(path, next)}
+          />
+        ))}
       </AccordionDetails>
     </Accordion>
   );

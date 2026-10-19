@@ -15,8 +15,14 @@ import { CaretDownIcon, DownloadSimpleIcon, UploadSimpleIcon, XIcon } from '@pho
 import { useRef, useState } from 'react';
 import { ComponentsPreview } from './ComponentsPreview';
 import { createPreviewGridTheme, type PreviewThemeSettings } from './model/preview';
-import { dataGridThemeSchema, muiThemeSchema, themeFileSchema } from './model/schemas';
-import { createPreviewMuiTheme, editableMuiTheme, exportTheme, importTheme } from './model/studio';
+import { dataGridThemeSchema, themeFileSchema } from './model/schemas';
+import {
+  createPreviewMuiTheme,
+  editableMuiTheme,
+  exportTheme,
+  importTheme,
+  updateMuiTheme,
+} from './model/studio';
 import type { ThemeFieldCommitResult } from './model/validation';
 import { PreviewProvider } from './PreviewProvider';
 import { ProjectUsage } from './ProjectUsage';
@@ -88,21 +94,8 @@ export function ThemeStudio({
     onChange({ ...value, grid: parsed.data });
     return { success: true };
   };
-  const updateMui = (
-    group: string,
-    field: string,
-    next: unknown,
-    subgroup?: string,
-  ): ThemeFieldCommitResult => {
-    const current = Object.entries(mui).find(([key]) => key === group)?.[1];
-    const nested =
-      subgroup && current
-        ? Object.entries(current).find(([key]) => key === subgroup)?.[1]
-        : undefined;
-    const parsed = muiThemeSchema.safeParse({
-      ...mui,
-      [group]: { ...current, [subgroup ?? field]: subgroup ? { ...nested, [field]: next } : next },
-    });
+  const updateMui = (path: readonly string[], next: unknown): ThemeFieldCommitResult => {
+    const parsed = updateMuiTheme(mui, path, next);
     if (!parsed.success) return parsed;
     onChange({ ...value, mui: parsed.data });
     return { success: true };
@@ -147,7 +140,7 @@ export function ThemeStudio({
                 label={t('글자 크기')}
                 value={target === 'datagrid' ? grid.cell.fontSize : mui.typography.fontSize}
                 onCommit={(next) => {
-                  if (target !== 'datagrid') return updateMui('typography', 'fontSize', next);
+                  if (target !== 'datagrid') return updateMui(['typography', 'fontSize'], next);
                   const parsed = dataGridThemeSchema.safeParse({
                     ...rawGrid,
                     cell: { ...rawGrid.cell, fontSize: next },
@@ -163,7 +156,7 @@ export function ThemeStudio({
                 label={t(target === 'datagrid' ? 'radius (rem)' : 'borderRadius (px)')}
                 value={target === 'datagrid' ? (value.radius ?? 0) : mui.shape.borderRadius}
                 onCommit={(next) => {
-                  if (target !== 'datagrid') return updateMui('shape', 'borderRadius', next);
+                  if (target !== 'datagrid') return updateMui(['shape', 'borderRadius'], next);
                   const parsed = themeFileSchema.shape.dataGridProps.shape.radius.safeParse(next);
                   if (!parsed.success) return parsed;
                   onChange({ ...value, radius: parsed.data });
@@ -174,7 +167,7 @@ export function ThemeStudio({
           </Accordion>
           <ComponentColors
             palette={mui.palette}
-            onCommit={(field, next, group) => updateMui('palette', field, next, group)}
+            onCommit={(path, next) => updateMui(['palette', ...path], next)}
           />
           {target === 'datagrid' && <GridFields grid={grid} onCommit={updateGrid} />}
           <ProjectUsage target={target} />

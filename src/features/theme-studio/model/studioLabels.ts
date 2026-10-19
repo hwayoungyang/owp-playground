@@ -104,6 +104,9 @@ export const muiPaletteLabels: Readonly<Record<string, string>> = {
   info: '정보',
   background: '배경',
   text: '텍스트',
+  inputFocus: '입력 포커스',
+  button: '버튼',
+  common: '공통',
 };
 export const muiColorLabels: Readonly<Record<string, string>> = {
   main: '기본색',
@@ -112,4 +115,9 @@ export const muiColorLabels: Readonly<Record<string, string>> = {
   paper: '컴포넌트',
   primary: '기본색',
   secondary: '보조색',
+  light: '밝은 색',
+  dark: '어두운 색',
+  disabled: '비활성 글자색',
+  black: '검정',
+  white: '흰색',
 };

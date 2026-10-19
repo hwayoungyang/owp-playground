@@ -1,4 +1,11 @@
 export const appEnglish: Readonly<Record<string, string>> = {
+  버튼: 'Button',
+  '입력 포커스': 'Input focus',
+  공통: 'Common',
+  '밝은 색': 'Light color',
+  '어두운 색': 'Dark color',
+  '비활성 글자색': 'Disabled text',
+
   '데이터 있음': 'Data available',
   '로딩 중': 'Loading',
   '조회 실패': 'Load failed',
@@ -419,8 +426,8 @@ export const appEnglish: Readonly<Record<string, string>> = {
   기본색: 'Neutral',
   한금: 'Hankum',
   '화면의 밝기와 색상을 따릅니다.': 'Follow the screen appearance and colors.',
-  '한금 프로젝트의 헤더와 셀 편집 색상을 적용합니다.':
-    'Apply the header and cell editing colors from the Hankum project.',
+  '한금 소비앱의 그리드와 컴포넌트 색상을 적용합니다.':
+    'Apply the grid and component colors from the Hankum consumer app.',
   슬레이트: 'Slate',
   블루: 'Blue',
   민트: 'Mint',

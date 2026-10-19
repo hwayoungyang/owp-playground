@@ -194,7 +194,12 @@ export const dataGridThemeSchema = z.strictObject({
     .optional(),
 });
 
-const paletteColor = z.strictObject({ main: concreteColor, contrastText: color.optional() });
+const paletteColor = z.strictObject({
+  main: concreteColor,
+  light: concreteColor.optional(),
+  dark: concreteColor.optional(),
+  contrastText: color.optional(),
+});
 export const muiThemeSchema = z.strictObject({
   palette: z.strictObject({
     mode: z.enum(['light', 'dark']),
@@ -204,8 +209,20 @@ export const muiThemeSchema = z.strictObject({
     warning: paletteColor,
     error: paletteColor,
     info: paletteColor,
+    inputFocus: paletteColor.optional(),
+    button: z
+      .strictObject({
+        primary: paletteColor.optional(),
+        secondary: paletteColor.optional(),
+        success: paletteColor.optional(),
+        warning: paletteColor.optional(),
+        error: paletteColor.optional(),
+        info: paletteColor.optional(),
+      })
+      .optional(),
+    common: z.strictObject({ black: color, white: color }).optional(),
     background: z.strictObject({ default: color, paper: color }),
-    text: z.strictObject({ primary: color, secondary: color }),
+    text: z.strictObject({ primary: color, secondary: color, disabled: color.optional() }),
     divider: color,
   }),
   typography: z.strictObject({

@@ -44,11 +44,12 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   '양수와 음수를 원점 기준으로 비교합니다.':
     'Compare positive and negative values around the origin.',
   '격자 스타일': 'Grid styling',
-  '격자 표시와 색상을 조절합니다.': 'Toggle grid lines and change their colors.',
+  '격자의 표시 여부와 색상을 설정할 수 있습니다.': 'Toggle grid lines and change their colors.',
   '눈금 서식': 'Tick styling',
   '눈금의 표시 간격과 값 서식을 조절합니다.': 'Change tick filtering and value formatting.',
   '축 제목': 'Axis titles',
-  'X축과 Y축 제목을 표시하고 정렬합니다.': 'Display and align titles for the X and Y axes.',
+  'X축과 Y축의 제목을 표시하며, 제목 정렬을 바꿀 수 있습니다.':
+    'Display and align titles for the X and Y axes.',
   '범례 point style': 'Legend point style',
   '범례를 데이터 point 모양으로 표시합니다.': 'Use point shapes in the legend.',
   '범례 제목': 'Legend title',
@@ -66,14 +67,15 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   'Tooltip point style': 'Tooltip point style',
   'Tooltip의 색상 상자를 point 모양으로 바꿉니다.': 'Use point shapes as tooltip color indicators.',
   '차트 제목 정렬': 'Chart title alignment',
-  '제목 정렬과 여러 줄 표시를 조절합니다.': 'Align chart titles and display multiple title lines.',
+  '차트 제목의 정렬을 바꾸거나 여러 줄로 표시할 수 있습니다.':
+    'Align chart titles and display multiple title lines.',
   '조건별 Column 색상': 'Scriptable column colors',
   '데이터 값에 따라 색상과 point 표시를 계산합니다.':
     'Compute colors and point styling from each data value.',
   '조건별 Line point': 'Scriptable line points',
   '조건별 Pie 색상': 'Scriptable pie colors',
   '외부 버튼으로 Hover·Tooltip 제어': 'Button-controlled hover and tooltip',
-  '외부 버튼으로 특정 point를 강조하고 Tooltip을 표시합니다.':
+  '외부 버튼을 누르면 지정한 point가 강조되고 Tooltip이 표시됩니다.':
     'Control point highlights and tooltips using external buttons.',
   '차트 영역 테두리': 'Chart area border',
   'Plugin으로 plot 영역의 테두리를 그립니다.': 'Draw a border around the plot area using a plugin.',

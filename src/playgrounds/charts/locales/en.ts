@@ -34,9 +34,9 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '차트 범례': 'Chart legend',
   '범례 애니메이션': 'Legend animation',
   '범례 Point 표시': 'Legend points',
-  'Line의 Point 표시 여부를 OWP 범례에도 적용합니다.':
+  '차트에서 Point를 표시하거나 숨기면 범례에도 같은 설정이 적용됩니다.':
     'Reflect line point visibility in the OWP legend.',
-  'OWP 범례 위에 제목을 표시하거나 숨깁니다.': 'Show or hide a title above the OWP legend.',
+  '범례 위에 제목을 표시하거나 숨길 수 있습니다.': 'Show or hide a title above the OWP legend.',
   'Box plot': 'Box plot',
   Pareto: 'Pareto',
   'Scatter clusters': 'Scatter clusters',
@@ -44,9 +44,9 @@ export const chartEnglish: Readonly<Record<string, string>> = {
     'Compare measurement distributions using quartiles, medians, whiskers and outliers.',
   '발생 건수와 누적 비율로 우선 개선할 항목을 확인합니다.':
     'Prioritize improvements using counts and cumulative percentages.',
-  '네 군집의 데이터 분포를 비교하고 X·Y축 범위를 확대합니다.':
+  '네 군집의 데이터 분포를 비교하며, X·Y축 범위를 확대해 자세히 볼 수 있습니다.':
     'Compare four dense point clusters and zoom both axes.',
-  '게이지 값을 실시간으로 갱신하고 바늘의 움직임을 확인합니다.':
+  '게이지 값이 실시간으로 바뀌며 바늘이 현재 값을 가리킵니다.':
     'Update gauge values live and watch the needle transition.',
   '차트와 범례에 Point 표시': 'Show points in legend',
   '표면 흠집': 'Surface scratches',
@@ -76,7 +76,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
     'Boxes span Q1–Q3 with the median inside. Whiskers reach observations within 1.5 IQR; points outside are outliers.',
 
   'Live chart': 'Live chart',
-  '실시간으로 데이터를 추가하고 갱신을 일시정지합니다.':
+  '실시간으로 추가되는 데이터를 확인하고, 자동 갱신을 멈추거나 다시 시작할 수 있습니다.':
     'Append live data and pause or resume updates.',
   일시정지: 'Pause',
   '다시 시작': 'Resume',
@@ -136,7 +136,8 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '표시 확장': 'Display extensions',
   조합·상태·내보내기: 'Integration and export',
   '기본 막대': 'Bar chart',
-  '월별 생산량을 비교하고 데이터를 바꿉니다.': 'Compare monthly output and update the data.',
+  '월별 생산량을 비교하며 데이터를 바꿔 볼 수 있습니다.':
+    'Compare monthly output and update the data.',
   '그룹 막대': 'Grouped bars',
   '월별 계획과 실적을 나란히 비교합니다.': 'Compare monthly plans and actual results side by side.',
   '누적 막대': 'Stacked bars',
@@ -146,13 +147,13 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '가로 막대': 'Horizontal bars',
   '라인별 생산량을 가로 방향으로 비교합니다.': 'Compare production lines with horizontal bars.',
   '단일 꺾은선': 'Line chart',
-  '월별 생산 추이를 표시하고 선의 곡률을 조절합니다.':
+  '월별 생산 추이를 선으로 표시하며, 선의 곡률을 조절할 수 있습니다.':
     'Show monthly trends and adjust line tension.',
   '다중 꺾은선': 'Multiple lines',
   '여러 라인의 생산 추이를 같은 축에서 비교합니다.':
     'Compare production trends for several lines on one axis.',
   도넛: 'Doughnut chart',
-  '공정별 생산 비중을 비교하고 도넛 두께를 조절합니다. 합계가 0일 때의 표시도 확인할 수 있습니다.':
+  '공정별 생산 비중을 도넛으로 비교합니다. 도넛 두께를 바꾸거나 합계가 0인 상태를 확인할 수 있습니다.':
     'Compare production shares by process, adjust the cutout and inspect the zero-total state.',
   '합계 0으로 표시': 'Show a zero total',
   'Ranking bar': 'Ranking bar',
@@ -170,13 +171,13 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   'Multi-line · OEE': 'Multi-line · OEE',
   '가동률·성능·품질·OEE를 함께 표시합니다.': 'Compare availability, performance, quality and OEE.',
   'Top N column': 'Top N column',
-  '생산량 순으로 정렬하고 표시할 항목 수를 바꿉니다.':
+  '생산량 순으로 정렬한 목록에서 표시할 항목 수를 조절할 수 있습니다.':
     'Sort production rankings and change the number of visible items.',
   '작은 통계 차트 모음': 'Small multiples',
   '여러 설비의 통계를 같은 축 범위에서 비교합니다.':
     'Compare equipment statistics using small charts with a shared domain.',
   히스토그램: 'Histogram',
-  '측정값을 구간별로 집계하고 구간 수를 바꿉니다.':
+  '측정값의 분포를 구간별로 비교하며, 구간 수를 조절할 수 있습니다.':
     'Aggregate measurements into bins and change the bin count.',
   '백분율·100% 초과': 'Percentages above 100%',
   '100%를 초과하는 달성률을 잘리지 않게 표시합니다.':
@@ -191,18 +192,19 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '축 라벨과 tooltip의 날짜·시간 서식을 바꿉니다.':
     'Adjust date and time formatting for category labels and tooltips.',
   '범례로 표시·숨김': 'Interactive legend',
-  '범례로 series를 표시하거나 숨기고, 범례 위치를 바꿉니다.':
+  '범례에서 series를 선택해 표시하거나 숨길 수 있으며, 범례 위치도 바꿀 수 있습니다.':
     'Toggle series using the legend and change its position.',
   'HTML tooltip': 'HTML tooltip',
   '차트 가장자리에서도 읽을 수 있는 HTML tooltip을 표시합니다.':
     'Display an HTML tooltip that stays readable near chart edges.',
   'hover 영역·기준선': 'Hover area and crosshair',
-  '포인터 위치의 강조 영역과 기준선을 켜고 끕니다.':
+  '포인터를 따라 이동하는 강조 영역과 기준선의 표시 여부를 설정할 수 있습니다.':
     'Toggle the hover area and reference line at the pointer.',
   '드래그 zoom': 'Drag zoom',
-  '차트 영역을 드래그해 확대하고 초기화합니다.': 'Drag a region to zoom in, then reset the range.',
+  '차트 영역을 드래그해 확대하고, 초기화 버튼으로 원래 범위로 돌아갈 수 있습니다.':
+    'Drag a region to zoom in, then reset the range.',
   '휠·pinch zoom': 'Wheel and pinch zoom',
-  '마우스 휠과 두 손가락 제스처로 차트를 확대하고, 확대 기능을 켜고 끕니다.':
+  '마우스 휠이나 두 손가락 제스처로 차트를 확대할 수 있습니다.':
     'Zoom with the wheel or pinch and toggle the gesture controls.',
   'X축 slider': 'X-axis slider',
   '하단 slider로 표시할 월 범위를 조절합니다.':
@@ -214,21 +216,22 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '월이 다른 두 차트의 hover·zoom·초기화를 동기화합니다.':
     'Synchronize hover, zoom and reset between charts with different months.',
   '데이터 라벨': 'Data labels',
-  'Column·Bar의 데이터 라벨을 막대 안팎에 표시하고 방향을 바꿉니다.':
+  'Column·Bar의 데이터 라벨을 막대 안팎에 표시하며, 라벨 방향을 바꿀 수 있습니다.':
     'Place data labels inside or outside Columns and Bars and change their orientation.',
   추세선: 'Trendline',
-  '실적에 선형 추세선을 추가하고 표시 여부를 바꿉니다.':
+  '실적의 변화 방향을 선형 추세선으로 확인할 수 있습니다.':
     'Add a linear trendline to results and toggle its visibility.',
   목표선: 'Target line',
-  '목표값을 조절해 수평 기준선을 이동합니다.':
+  '목표값을 바꾸면 수평 기준선의 위치가 함께 바뀝니다.':
     'Move a horizontal reference line by adjusting the target value.',
   '기준 범위': 'Reference band',
-  '정상 범위를 표시하고 폭을 조절합니다.': 'Highlight a normal range and adjust its width.',
+  '정상 범위를 음영으로 표시하며 범위의 폭을 조절할 수 있습니다.':
+    'Highlight a normal range and adjust its width.',
   게이지: 'Gauge',
   '음수 범위와 구간별 색상을 가진 게이지 값을 바꿉니다.':
     'Change a gauge value across a domain with negative values and colored bands.',
   'DataGrid Sparkline': 'DataGrid Sparkline',
-  '그리드 셀 안에 추세를 표시하고 데이터를 갱신합니다.':
+  '그리드 셀에 추세를 표시하며, 데이터를 갱신하면 차트도 함께 바뀝니다.':
     'Display trends inside grid cells and update the data.',
   '그리드 상세 패널': 'Grid detail charts',
   '행을 펼쳐 요일별 생산량 차트를 확인합니다.':
@@ -237,7 +240,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   'min/max 다운샘플링으로 표시할 데이터 수를 줄이면서 추이를 확인합니다.':
     'Inspect trends after reducing raw measurements using min/max downsampling.',
   '로딩·빈 데이터·오류': 'Loading, empty and error',
-  '로딩·빈 데이터·오류 상태를 전환하고 조회를 다시 시도합니다.':
+  '로딩 중·데이터 없음·오류 화면을 확인하고, 오류 화면에서 다시 조회할 수 있습니다.':
     'Switch loading states and retry after an error.',
   'PNG 다운로드': 'PNG download',
   '차트 메뉴에서 범례를 포함한 PNG를 다운로드합니다.':

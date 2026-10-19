@@ -164,7 +164,7 @@ export const chartjsCatalog = [
   {
     id: 'grid-style',
     title: '격자 스타일',
-    description: '격자 표시와 색상을 조절합니다.',
+    description: '격자의 표시 여부와 색상을 설정할 수 있습니다.',
     category: 'axes',
     kind: 'chart',
     package: '@owp/charts',
@@ -184,7 +184,7 @@ export const chartjsCatalog = [
   {
     id: 'axis-titles',
     title: '축 제목',
-    description: 'X축과 Y축 제목을 표시하고 정렬합니다.',
+    description: 'X축과 Y축의 제목을 표시하며, 제목 정렬을 바꿀 수 있습니다.',
     category: 'axes',
     kind: 'chart',
     package: '@owp/charts',
@@ -194,7 +194,7 @@ export const chartjsCatalog = [
   {
     id: 'legend-point-style',
     title: '범례 Point 표시',
-    description: 'Line의 Point 표시 여부를 OWP 범례에도 적용합니다.',
+    description: '차트에서 Point를 표시하거나 숨기면 범례에도 같은 설정이 적용됩니다.',
     category: 'legend',
     kind: 'chart',
     package: '@owp/charts',
@@ -204,7 +204,7 @@ export const chartjsCatalog = [
   {
     id: 'legend-title',
     title: '범례 제목',
-    description: 'OWP 범례 위에 제목을 표시하거나 숨깁니다.',
+    description: '범례 위에 제목을 표시하거나 숨길 수 있습니다.',
     category: 'legend',
     kind: 'chart',
     package: '@owp/charts',
@@ -264,7 +264,7 @@ export const chartjsCatalog = [
   {
     id: 'chart-title',
     title: '차트 제목 정렬',
-    description: '제목 정렬과 여러 줄 표시를 조절합니다.',
+    description: '차트 제목의 정렬을 바꾸거나 여러 줄로 표시할 수 있습니다.',
     category: 'styling',
     kind: 'chart',
     package: '@owp/charts',
@@ -294,7 +294,7 @@ export const chartjsCatalog = [
   {
     id: 'programmatic-events',
     title: '외부 버튼으로 Hover·Tooltip 제어',
-    description: '외부 버튼으로 특정 point를 강조하고 Tooltip을 표시합니다.',
+    description: '외부 버튼을 누르면 지정한 point가 강조되고 Tooltip이 표시됩니다.',
     category: 'tooltip',
     kind: 'chart',
     package: '@owp/charts',

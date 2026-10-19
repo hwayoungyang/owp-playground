@@ -45,12 +45,12 @@ export const gridCatalog = [
   },
   entry('overview', '표시 행 수 고정', {
     category: 'start',
-    description: '화면에 표시할 행 수를 고정하고 행 선택과 합계를 확인합니다.',
+    description: '화면에 표시할 행 수를 고정한 상태에서 행 선택과 합계를 확인할 수 있습니다.',
     api: ['visibleRowCount', 'rowSelectionModel', 'summaryRows'],
   }),
   entry('cell-types', '셀 타입', {
     category: 'columns',
-    description: '셀 타입별로 값을 편집합니다.',
+    description: '텍스트·숫자·셀렉트·날짜 등 셀 타입에 맞는 편집기를 사용할 수 있습니다.',
     api: ['type', 'editable', 'autocompleteOptions'],
   }),
   entry('mixed-types', '행별 셀 타입', {
@@ -60,7 +60,7 @@ export const gridCatalog = [
   }),
   entry('select', '셀렉트', {
     category: 'columns',
-    description: '셀렉트와 자동완성에서 단일·다중 선택을 사용합니다.',
+    description: '셀렉트와 자동완성의 단일 선택·다중 선택 동작을 비교할 수 있습니다.',
     api: ['type', 'valueOptions', 'selectOptions.multiple', 'autocompleteOptions.multiple'],
   }),
   entry('formatting', '숫자·날짜 서식', {
@@ -80,22 +80,23 @@ export const gridCatalog = [
   }),
   entry('column-layout', '고정 컬럼', {
     category: 'columns',
-    description: '프로젝트 컬럼을 고정한 상태로 가로 스크롤을 사용합니다.',
+    description: '가로로 스크롤해도 고정한 프로젝트 컬럼은 같은 위치에 표시됩니다.',
     api: ['layout.columnRegions', 'resizable', 'relWidth'],
   }),
   entry('headers', '다단 헤더', {
     category: 'columns',
-    description: '컬럼을 여러 단계의 헤더로 묶고 하위 컬럼의 정렬 버튼을 켜고 끕니다.',
+    description:
+      '여러 컬럼을 다단 헤더로 묶습니다. 하위 컬럼의 정렬 버튼은 표시하거나 숨길 수 있습니다.',
     api: ['headerRows', 'hideChildHeaderSortButtons'],
   }),
   entry('conditional', '조건부 스타일', {
     category: 'styling',
-    description: '셀과 행의 색상을 바꾸고 편집을 제한합니다.',
+    description: '조건에 따라 셀·행의 색상과 편집 가능 여부를 다르게 설정할 수 있습니다.',
     api: ['cellStyle', 'editable'],
   }),
   entry('custom-style', '커스텀 스타일', {
     category: 'styling',
-    description: '스타일과 글자 크기를 바꿉니다.',
+    description: '헤더와 셀의 스타일, 글자 크기를 바꿔 볼 수 있습니다.',
     api: ['sx', 'headerRows', 'className', 'style', 'cellStyle', 'virtualization.rowHeight'],
   }),
   entry('row-span', '행 수에 따라 병합', {
@@ -125,7 +126,7 @@ export const gridCatalog = [
   }),
   entry('selection', '행 선택', {
     category: 'interaction',
-    description: '단일·다중 선택을 전환합니다.',
+    description: '단일 선택과 다중 선택의 동작을 비교할 수 있습니다.',
     api: ['rowSelectionMode', 'rowSelectionModel', 'onRowSelectionModelChange'],
   }),
   entry('design-system', '외부 버튼 제어', {
@@ -135,7 +136,7 @@ export const gridCatalog = [
   }),
   entry('selection-policy', '새 행 선택', {
     category: 'interaction',
-    description: '새 행을 맨 위에 추가하고 선택 허용 여부를 바꿉니다.',
+    description: '맨 위에 새 행을 추가한 뒤, 새 행의 선택 허용 여부를 바꿔 볼 수 있습니다.',
     api: ['allowSelectAll', 'defaultRowSelectionModel', 'layout.rowPanel'],
   }),
   entry('click-events', '클릭 이벤트', {
@@ -175,7 +176,7 @@ export const gridCatalog = [
   }),
   entry('external-validation', '검증 메시지', {
     category: 'editing',
-    description: '외부에서 받은 검증 메시지를 셀에 표시하고 지웁니다.',
+    description: '외부 검증 결과를 셀에 표시하며, 필요할 때 메시지를 지울 수 있습니다.',
     api: ['setCellError', 'setCellErrors', 'clearCellErrors'],
   }),
   entry('row-actions', '행 편집 툴바', {
@@ -190,12 +191,12 @@ export const gridCatalog = [
   }),
   entry('row-deletion', '삭제·복구', {
     category: 'rows',
-    description: '선택한 행을 삭제하거나 복구하고, 새로 추가한 행은 취소합니다.',
+    description: '기존 행의 삭제·복구와 새로 추가한 행의 취소 동작을 비교할 수 있습니다.',
     api: ['deleteRows', 'undeleteRows', 'discardAddedRows', 'confirmDeletedRowRemoval'],
   }),
   entry('reordering', '행 이동 · 드래그', {
     category: 'rows',
-    description: '행을 개별로 이동하거나 선택한 행을 함께 이동합니다.',
+    description: '행을 하나씩 드래그하거나 선택한 여러 행을 함께 옮길 수 있습니다.',
     api: ['rowReordering', 'onChangesChange'],
   }),
   entry('ref-move', '행 이동 · 버튼', {
@@ -210,7 +211,7 @@ export const gridCatalog = [
   }),
   entry('ref-changes', '변경 관리', {
     category: 'rows',
-    description: '변경된 값을 확인하고, 변경을 확정하거나 되돌립니다.',
+    description: '변경 내역을 확인한 뒤 확정하거나 원래 값으로 되돌릴 수 있습니다.',
     api: ['getChanges', 'hasUnsavedChanges', 'acceptChanges', 'resetChanges'],
   }),
   entry('summary-rows', '집계·고정 행', {
@@ -225,12 +226,12 @@ export const gridCatalog = [
   }),
   entry('tree', '트리', {
     category: 'hierarchy',
-    description: '하위 행의 완료율과 추세를 확인하고 조회 방식을 바꿉니다.',
+    description: '하위 행의 완료율과 추세를 트리로 확인하며, 조회 방식을 바꿔 볼 수 있습니다.',
     api: ['treeOptions', 'treeOptions.lazyChildren', 'expandAll', 'rowSelectionPropagation'],
   }),
   entry('nested-tree', '다단계 트리', {
     category: 'hierarchy',
-    description: '여러 단계의 하위 행을 펼치고 접습니다.',
+    description: '여러 단계로 구성된 하위 행을 펼치거나 접을 수 있습니다.',
     api: ['treeOptions.getChildren', 'treeOptions.expansionModel'],
   }),
   entry('tree-span', '트리·병합', {
@@ -250,7 +251,7 @@ export const gridCatalog = [
   }),
   entry('states', '로딩·빈 데이터·오류', {
     category: 'data',
-    description: '로딩·빈 데이터·오류 상태를 전환하고 조회를 다시 시도합니다.',
+    description: '로딩 중·데이터 없음·오류 화면을 확인하고, 오류 화면에서 다시 조회할 수 있습니다.',
     api: ['loading', 'noDataMessage', 'errorOverlay'],
   }),
   entry('server-mode', '서버 조회', {

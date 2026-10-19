@@ -50,6 +50,7 @@ export function createMuiTheme(
       MuiTooltip: { defaultProps: { arrow: true } },
       MuiSnackbar: { defaultProps: { anchorOrigin: { vertical: 'top', horizontal: 'center' } } },
       MuiDrawer: { defaultProps: { transitionDuration: 180 } },
+      ...overrides?.components,
     },
   });
 }
