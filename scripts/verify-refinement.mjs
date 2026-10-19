@@ -32,7 +32,7 @@ try{
  const target=page.locator('[data-owp-data-grid-row-key="string:task-6"]');
  await page.locator('[data-owp-data-grid-row-key="string:task-2"] .OwpDataGrid-dragHandle').dragTo(target,{targetPosition:{x:120,y:38}});
  rows=await data();assert.deepEqual(rows.slice(0,6).map(r=>r.id),['task-1','task-4','task-5','task-6','task-2','task-3']);pass('real native drag moves selected rows together',{order:rows.map(r=>r.id)});
- await preview();await page.getByRole('button',{name:'한 행',exact:true}).click();
+ await preview();await page.getByRole('button',{name:'단일 행',exact:true}).click();
  await page.locator('[data-owp-data-grid-row-key="string:task-2"] .OwpDataGrid-dragHandle').dragTo(page.locator('[data-owp-data-grid-row-key="string:task-1"]'),{targetPosition:{x:120,y:38}});
  rows=await data();assert.deepEqual(rows.slice(0,3).map(r=>r.id),['task-1','task-2','task-4']);pass('single mode moves only the dragged selected row',{order:rows.map(r=>r.id)});
  await preview();await page.getByRole('button',{name:'초기화',exact:true}).click();rows=await data();assert.deepEqual(rows.map(r=>r.id),Array.from({length:12},(_,i)=>'task-'+(i+1)));pass('reset restores native drag order',{rows:rows.length});

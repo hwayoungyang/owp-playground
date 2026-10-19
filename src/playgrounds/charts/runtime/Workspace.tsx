@@ -1,3 +1,4 @@
+import { PreviewActionsProvider } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import {
   type ComponentType,
@@ -100,23 +101,24 @@ export function ChartsWorkspace({ example }: { readonly example: ChartExample })
           id={`${prefix}-panel-preview`}
           aria-labelledby={`${prefix}-tab-preview`}
         >
-          <PreviewToolbar
-            divider
-            onReset={() => {
-              setVersion((value) => value + 1);
-              setEvents([]);
-            }}
-          />
-          <ChartPreview
-            key={`${example.id}-${version}`}
-            example={example}
-            onData={onData}
-            onRecord={onRecord}
-          />
+          <PreviewActionsProvider>
+            <PreviewToolbar
+              divider
+              onReset={() => {
+                setVersion((value) => value + 1);
+                setEvents([]);
+              }}
+            />
+            <ChartPreview
+              key={`${example.id}-${version}`}
+              example={example}
+              onData={onData}
+              onRecord={onRecord}
+            />
+          </PreviewActionsProvider>
           <div className="chart-status" role="status">
             <span>{t('데이터 {{count}}개', { count: snapshot.labels.length })}</span>
             <span>{t('series {{count}}개', { count: snapshot.series.length })}</span>
-            <span>{t('가상 데이터')}</span>
           </div>
         </div>
         {tab === 'code' && (
@@ -150,7 +152,7 @@ export function ChartsWorkspace({ example }: { readonly example: ChartExample })
         )}
       </div>
       <div className="workspace-api-reference">
-        <span>Props · API</span>
+        <span>{t('Props · API')}</span>
         <div>
           {example.api.map((api) => (
             <code key={api}>{api}</code>

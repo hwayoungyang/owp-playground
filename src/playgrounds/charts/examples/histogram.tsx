@@ -1,17 +1,36 @@
 import { ChartFrame } from '@owp/charts';
 import { createCategoryAxisScale, createIntegerAxisScale } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
-import { useMemo, useState } from 'react';
-import { createHistogram, createMeasurements } from '../model/data';
+import { useEffect, useMemo, useState } from 'react';
+import { createHistogram } from '../model/data';
+import {
+  createHistogramMeasurements,
+  type HistogramDistribution,
+  histogramDistributions,
+} from '../model/histogramData';
 import type { ChartExampleProps } from '../model/types';
 import { useCartesian, useChartPalette } from '../model/useCartesian';
-import { Controls, Range } from '../runtime/Controls';
+import { Choice, Controls, Range, Toggle, UpdateButton } from '../runtime/Controls';
+import { usePageVisible } from '../runtime/usePageVisible';
 
 export function ChartExample(props: ChartExampleProps) {
   const { t } = useOwpTranslation();
-  const [bins, setBins] = useState(8);
+  const [bins, setBins] = useState(18);
+  const [count, setCount] = useState(600);
+  const [distribution, setDistribution] = useState<HistogramDistribution>('정규 분포');
+  const [sequence, setSequence] = useState(0);
+  const [running, setRunning] = useState(true);
+  const visible = usePageVisible();
   const palette = useChartPalette();
-  const measurements = useMemo(() => createMeasurements(600).map((point) => point.value), []);
+  useEffect(() => {
+    if (!running || !visible) return;
+    const timer = window.setInterval(() => setSequence((value) => value + 1), 1800);
+    return () => window.clearInterval(timer);
+  }, [running, visible]);
+  const measurements = useMemo(
+    () => createHistogramMeasurements({ count, distribution, sequence }),
+    [count, distribution, sequence],
+  );
   const records = useMemo(() => createHistogram(measurements, bins), [measurements, bins]);
   const chart = useCartesian(
     {
@@ -50,16 +69,27 @@ export function ChartExample(props: ChartExampleProps) {
   return (
     <>
       <Controls>
-        <Range label="구간 수" value={bins} min={4} max={16} onChange={setBins} />
+        <Choice
+          label="분포"
+          value={distribution}
+          options={histogramDistributions}
+          onChange={setDistribution}
+        />
+        <Range label="구간 수" value={bins} min={6} max={30} onChange={setBins} />
+        <Range
+          label="측정값 수"
+          value={count}
+          min={200}
+          max={2000}
+          step={200}
+          onChange={setCount}
+        />
+        <Toggle label="자동 갱신" value={running} onChange={setRunning} />
+        <UpdateButton onClick={() => setSequence((value) => value + 1)} />
       </Controls>
       <div className="chart-canvas">
         <ChartFrame {...chart} type="bar" height="100%" legend={false} zoomSlider={{ x: true }} />
       </div>
-      <p className="chart-note">
-        {t('원본 측정값 {{count}}개의 구간별 분포입니다.', {
-          count: measurements.length,
-        })}
-      </p>
     </>
   );
 }

@@ -29,7 +29,7 @@ export function ChartExample(props: ChartExampleProps) {
   const plot = useAvailableChartHeight();
   const bands = [
     { from: -40, to: 0, label: t('주의'), color: palette.danger },
-    { from: 0, to: 40, label: t('기반'), color: palette.warning },
+    { from: 0, to: 40, label: t('보통'), color: palette.warning },
     { from: 40, to: 80, label: t('우수'), color: palette.colors[2] ?? palette.ink },
     { from: 80, to: 100, label: t('탁월'), color: palette.success },
   ];
@@ -76,7 +76,7 @@ export function ChartExample(props: ChartExampleProps) {
           {t(running ? '일시정지' : '다시 시작')}
         </Button>
         <span className="chart-note" role="status">
-          {t(running ? '실시간 갱신 중' : '일시정지됨')}
+          {t(running ? '자동 갱신 중' : '일시정지됨')}
         </span>
         <Range
           label="게이지 값"

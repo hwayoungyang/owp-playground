@@ -29,7 +29,7 @@ export function GridGettingStarted({
           <CodeSnippet label=".npmrc" code={registry} />
           <p className="guide-note">
             {t(
-              '<OWP_REGISTRY_URL>은 OWP 패키지 레지스트리 URL입니다. 주소 및 접근 권한은 Impix SmartBiz 팀에 문의 바랍니다.',
+              '<OWP_REGISTRY_URL>에 OWP 패키지 레지스트리 주소를 입력합니다. 주소와 접근 권한은 Impix SmartBiz 팀에 문의해 주세요.',
             )}
           </p>
         </section>
@@ -42,7 +42,7 @@ export function GridGettingStarted({
           <h2 id="usage-heading">Usage</h2>
           <p>
             {t(
-              'OWP API 필드명을 field와 getRowId에 연결합니다. 숫자·boolean 변환과 트리 연결 예제는 model/apiData.ts에서 확인할 수 있습니다.',
+              'OWP API 필드명을 field와 getRowId에 지정합니다. 문자열을 숫자·boolean으로 변환하거나 트리의 부모·자식 행을 연결하는 코드는 model/apiData.ts에서 확인할 수 있습니다.',
             )}
           </p>
           <CodeSnippet label="GettingStartedGrid.tsx" code={source} language="typescript" />

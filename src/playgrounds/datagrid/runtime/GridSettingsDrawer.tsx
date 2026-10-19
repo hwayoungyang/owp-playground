@@ -49,7 +49,6 @@ export function GridSettingsDrawer({
             <XIcon size={20} />
           </IconButton>
         </div>
-        <p>{t('선택·필터·화면 설정을 바꿀 수 있습니다.')}</p>
         <div className="grid-settings-field">
           <label htmlFor="selection-mode">{t('행 선택 방식')}</label>
           <Select
@@ -109,7 +108,7 @@ export function GridSettingsDrawer({
         <ThemeSettings value={theme} onChange={onThemeChange} />
         <Button onClick={onThemeOpen}>{t('상세 테마 편집')}</Button>
         <div className="grid-settings-note">
-          {t('초기화하면 데이터와 그리드 설정을 되돌립니다.')}
+          {t('초기화하면 데이터와 그리드 설정이 처음 상태로 돌아갑니다.')}
         </div>
         <Button variant="outlined" onClick={onClose}>
           {t('닫기')}

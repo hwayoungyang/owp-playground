@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { MenuItem, Select } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
@@ -84,26 +85,28 @@ export function ExplicitRowSpanGrid(props: GridViewProps = {}) {
   const [size, setSize] = useState(4);
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <span>{translate('병합할 행 수')}</span>
-        <Select
-          value={size}
-          inputProps={{ 'aria-label': translate('병합할 행 수') }}
-          onChange={(event) => {
-            const next = Number(event.target.value);
-            if ([2, 3, 4].includes(next)) {
-              setSize(next);
-              onRecord?.('rowSpan', next);
-            }
-          }}
-        >
-          {[2, 3, 4].map((count) => (
-            <MenuItem key={count} value={count}>
-              {translate('{{count}}행씩', { count })}
-            </MenuItem>
-          ))}
-        </Select>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <span>{translate('병합할 행 수')}</span>
+          <Select
+            value={size}
+            inputProps={{ 'aria-label': translate('병합할 행 수') }}
+            onChange={(event) => {
+              const next = Number(event.target.value);
+              if ([2, 3, 4].includes(next)) {
+                setSize(next);
+                onRecord?.('rowSpan', next);
+              }
+            }}
+          >
+            {[2, 3, 4].map((count) => (
+              <MenuItem key={count} value={count}>
+                {translate('{{count}}행씩', { count })}
+              </MenuItem>
+            ))}
+          </Select>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

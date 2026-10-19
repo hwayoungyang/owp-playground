@@ -25,7 +25,7 @@
 }
 .chart-controls .MuiButton-root {
   min-height: 30px;
-  font-size: 13px;
+  font-size: 11px;
 }
 .chart-controls .MuiFormControlLabel-label {
   font-size: 13px;
@@ -197,7 +197,7 @@
 
 .chart-controls .MuiInputBase-root,
 .chart-controls .MuiInputLabel-root {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .chart-heat-key {

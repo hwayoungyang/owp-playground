@@ -77,7 +77,7 @@ export function ChartExample(props: ChartExampleProps) {
   return (
     <>
       <Controls>
-        <Range label="표시 개수" value={limit} min={3} max={10} onChange={setLimit} />
+        <Range label="표시할 항목 수" value={limit} min={3} max={10} onChange={setLimit} />
       </Controls>
       <div className="chart-canvas">
         <ChartFrame

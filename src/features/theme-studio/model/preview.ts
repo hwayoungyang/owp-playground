@@ -4,21 +4,39 @@ import type { OwpGridThemeConfigType } from '@owp/theme/types';
 import { z } from 'zod';
 import { createGridTheme } from '../../../shared/theme/themes';
 import { type ColorMode, colors, type Palette } from '../../../shared/theme/tokens';
-import { presetAccents } from './presets';
+import { presetAccents, presetHeaderColors } from './presets';
 
-export const previewPresetSchema = z.enum([
-  'inherit',
-  'neutral',
-  'hankum',
-  'quartz',
-  'alpine',
-  'balham',
-  'material',
-  'slate',
-  'blue',
-  'mint',
-]);
+export const generalPreviewPresets = [
+  'carbon',
+  'industrial',
+  'owp-navy',
+  'owp-teal',
+  'owp-plum',
+  'olive',
+  'bronze',
+  'sand',
+  'solarized',
+  'contrast',
+] as const;
+export const previewPresetSchema = z.enum(['inherit', ...generalPreviewPresets, 'hankum']);
 export type PreviewPreset = z.infer<typeof previewPresetSchema>;
+export const previewPresetFileSchema = z.union([
+  previewPresetSchema,
+  z
+    .enum(['neutral', 'quartz', 'alpine', 'balham', 'material', 'slate', 'blue', 'mint', 'nord'])
+    .transform((preset): PreviewPreset => legacyPresets[preset]),
+]);
+const legacyPresets = {
+  neutral: 'carbon',
+  quartz: 'carbon',
+  alpine: 'carbon',
+  balham: 'sand',
+  material: 'industrial',
+  slate: 'industrial',
+  blue: 'industrial',
+  mint: 'carbon',
+  nord: 'industrial',
+} as const satisfies Readonly<Record<string, PreviewPreset>>;
 export type PreviewThemeSettings = {
   readonly preset: PreviewPreset;
   readonly mode: ColorMode;
@@ -34,27 +52,31 @@ export const defaultPreviewTheme: PreviewThemeSettings = {
 };
 export const previewPresetLabels: Readonly<Record<PreviewPreset, string>> = {
   inherit: '화면과 같게',
-  neutral: 'Neutral',
   hankum: '한금',
-  quartz: 'Quartz',
-  alpine: 'Alpine',
-  balham: 'Balham',
-  material: 'Material',
-  slate: 'Slate',
-  blue: 'Blue',
-  mint: 'Mint',
+  carbon: 'Carbon',
+  industrial: 'Industrial',
+  'owp-navy': 'Navy',
+  'owp-teal': 'Teal',
+  'owp-plum': 'Plum',
+  olive: 'Olive',
+  bronze: 'Bronze',
+  sand: 'Sand',
+  solarized: 'Solarized',
+  contrast: 'High Contrast',
 };
 export const previewPresetDescriptions: Readonly<Record<PreviewPreset, string>> = {
   inherit: '화면의 밝기와 색상을 따릅니다.',
-  neutral: '기본 회색과 흰색으로 구성합니다.',
-  hankum: '한금 소비앱의 블루 헤더와 편집 색상을 적용합니다.',
-  quartz: '보라색 헤더와 또렷한 글자로 구성합니다.',
-  alpine: '올리브색 헤더와 선명한 경계선으로 구성합니다.',
-  balham: '앰버색 헤더로 간결하게 구성합니다.',
-  material: '청록색 헤더와 넉넉한 간격으로 구성합니다.',
-  slate: '차분한 청회색을 적용합니다.',
-  blue: '밝은 블루를 적용합니다.',
-  mint: '부드러운 민트를 적용합니다.',
+  hankum: '한금 프로젝트의 헤더와 셀 편집 색상을 적용합니다.',
+  carbon: '회색 계열의 헤더와 본문 색상을 적용합니다.',
+  industrial: '차분한 청회색 계열의 헤더와 배경색을 적용합니다.',
+  'owp-navy': '짙은 네이비 헤더와 차분한 배경색을 적용합니다.',
+  'owp-teal': '짙은 청록색 헤더와 은은한 선택 색상을 적용합니다.',
+  'owp-plum': '짙은 자주색 헤더를 적용합니다.',
+  olive: '올리브색 헤더와 차분한 본문 색상을 적용합니다.',
+  bronze: '브론즈색 헤더와 따뜻한 배경색을 적용합니다.',
+  sand: '따뜻한 회색 계열의 헤더와 본문 색상을 적용합니다.',
+  solarized: '밝은 모드는 아이보리색, 어두운 모드는 청록색 배경을 적용합니다.',
+  contrast: '색상 대비와 테두리를 강조해 글자와 셀을 구분하기 쉽게 표시합니다.',
 };
 export const colorModeSchema = z.enum(['light', 'dark']);
 export const headerColorSchema = z.string().regex(/^#[0-9a-f]{6}$/i);
@@ -63,11 +85,26 @@ const headerStyles: Readonly<
   Partial<Record<PreviewPreset, NonNullable<OwpGridThemeConfigType['header']>>>
 > = {
   hankum: { height: 33, fontSize: 14, fontWeight: 400 },
-  quartz: { height: 40, fontSize: 13, fontWeight: 600 },
-  alpine: { height: 36, fontSize: 12, fontWeight: 600 },
-  balham: { height: 30, fontSize: 12, fontWeight: 500 },
-  material: { height: 44, fontSize: 13, fontWeight: 500 },
+  carbon: { height: 36, fontSize: 13, fontWeight: 600 },
+  industrial: { height: 36, fontSize: 13, fontWeight: 600 },
+  'owp-navy': { height: 36, fontSize: 13, fontWeight: 600 },
+  'owp-teal': { height: 36, fontSize: 13, fontWeight: 600 },
+  'owp-plum': { height: 36, fontSize: 13, fontWeight: 600 },
+  olive: { height: 36, fontSize: 13, fontWeight: 600 },
+  bronze: { height: 36, fontSize: 13, fontWeight: 600 },
+  sand: { height: 36, fontSize: 13, fontWeight: 600 },
+  solarized: { height: 36, fontSize: 13, fontWeight: 600 },
+  contrast: {
+    height: 40,
+    fontSize: 13,
+    fontWeight: 600,
+    sortIconInactiveOpacity: 1,
+    resizeHandleColor: 'currentColor',
+  },
 };
+
+const headerColors: Readonly<Partial<Record<PreviewPreset, Readonly<Record<ColorMode, string>>>>> =
+  presetHeaderColors;
 
 export function getPreviewPalette(preset: PreviewPreset, mode: ColorMode): Palette {
   const base = colors[mode];
@@ -77,7 +114,7 @@ export function getPreviewPalette(preset: PreviewPreset, mode: ColorMode): Palet
 
 export function getPreviewHeaderColor(preset: PreviewPreset, mode: ColorMode): string {
   if (preset === 'hankum' && mode === 'light') return defaultGridTheme.header.backgroundColor;
-  return getPreviewPalette(preset, mode).chrome;
+  return headerColors[preset]?.[mode] ?? getPreviewPalette(preset, mode).chrome;
 }
 
 export function createPreviewGridTheme(
@@ -85,12 +122,34 @@ export function createPreviewGridTheme(
   mode: ColorMode,
 ): OwpGridThemeConfigType {
   const palette = getPreviewPalette(settings.preset, mode);
-  const theme = createGridTheme(palette, settings.headerColor, mode);
+  const theme = createGridTheme(
+    palette,
+    settings.headerColor ?? headerColors[settings.preset]?.[mode] ?? null,
+    mode,
+  );
+  if (settings.preset !== 'inherit' && settings.preset !== 'hankum') {
+    theme.state = {
+      ...theme.state,
+      selectedRowBackgroundColor: palette.subtle,
+      focusedRowBackgroundColor: palette.subtle,
+      focusedCellBorderColor: palette.blue,
+      editingCellBorderColor: palette.blue,
+    };
+  }
   const base =
     settings.preset === 'hankum' && mode === 'light'
       ? {
           ...defaultGridTheme,
-          panel: { ...defaultGridTheme.panel, inactiveFilterColor: palette.secondary },
+          panel: {
+            ...defaultGridTheme.panel,
+            backgroundColor: defaultGridTheme.body.backgroundColor,
+            inactiveFilterColor: palette.secondary,
+          },
+          filter: {
+            ...defaultGridTheme.filter,
+            backgroundColor: defaultGridTheme.body.backgroundColor,
+            bottomBorderWidth: 2,
+          },
           header: {
             ...defaultGridTheme.header,
             ...(settings.headerColor === null

@@ -1,14 +1,14 @@
-import { Button } from '@mui/material';
 import { ChartFrame } from '@owp/charts';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useState } from 'react';
+import { type DataState, DataStateButtons } from '../../../shared/ui/DataStateButtons';
 import type { ChartExampleProps } from '../model/types';
 import { useCartesian, useMonthlyRecords } from '../model/useCartesian';
 import { Controls } from '../runtime/Controls';
 
 export function ChartExample(props: ChartExampleProps) {
   const { t } = useOwpTranslation();
-  const [state, setState] = useState<'ready' | 'loading' | 'empty' | 'error'>('ready');
+  const [state, setState] = useState<DataState>('ready');
   const records = useMonthlyRecords();
   const chart = useCartesian(
     { records: state === 'empty' || state === 'error' ? [] : records },
@@ -21,16 +21,7 @@ export function ChartExample(props: ChartExampleProps) {
   return (
     <>
       <Controls>
-        {(['ready', 'loading', 'empty', 'error'] as const).map((value) => (
-          <Button
-            key={value}
-            variant={state === value ? 'contained' : 'outlined'}
-            aria-pressed={state === value}
-            onClick={() => change(value)}
-          >
-            {t({ ready: '정상', loading: '로딩', empty: '데이터 없음', error: '오류' }[value])}
-          </Button>
-        ))}
+        <DataStateButtons state={state} onChange={change} />
       </Controls>
       <div className="chart-canvas">
         <ChartFrame

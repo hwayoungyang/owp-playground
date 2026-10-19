@@ -1,8 +1,12 @@
-import { MenuItem, Select } from '@mui/material';
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
+import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridColumn, OwpDataGridRowId } from '@owp/datagrid/types';
-import { useEffect, useState } from 'react';
-import { z } from 'zod';
+import type {
+  OwpDataGridColumn,
+  OwpDataGridRowId,
+  OwpDataGridRowSelectionMode,
+} from '@owp/datagrid/types';
+import { useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
 import { getRowId, initialTasks, statuses } from '../model/data';
@@ -72,43 +76,46 @@ export const gridConfiguration: GridConfiguration = {
   rows: initialTasks,
   columns: baseColumns,
   getRowId,
-  rowSelectionMode: 'multiple',
+  rowSelectionMode: 'single',
   height: 420,
 };
 
-const selectionModeSchema = z.enum(['none', 'single', 'multiple']);
+const selectionModes = [
+  { value: 'single', label: '단일 선택 (라디오)' },
+  { value: 'multiple', label: '다중 선택 (체크박스)' },
+  { value: 'none', label: '선택 없음' },
+] as const;
 
 export function SelectionGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, onSelectionModeChange, ...gridProps } =
     props;
   const [model, setModel] = useState<readonly OwpDataGridRowId[]>([]);
-  const [mode, setMode] = useState<'none' | 'single' | 'multiple'>('multiple');
-  useEffect(() => {
-    const result = selectionModeSchema.safeParse(gridProps.rowSelectionMode);
-    if (result.success) setMode(result.data);
-  }, [gridProps.rowSelectionMode]);
+  const [mode, setMode] = useState<OwpDataGridRowSelectionMode>('single');
+  const currentMode = gridProps.rowSelectionMode ?? mode;
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <span>{translate('행 선택 방식')}</span>
-        <Select
-          value={mode}
-          inputProps={{ 'aria-label': translate('행 선택 방식') }}
-          onChange={(event) => {
-            const result = selectionModeSchema.safeParse(event.target.value);
-            if (!result.success) return;
-            setMode(result.data);
-            onSelectionModeChange?.(result.data);
-            setModel([]);
-            gridProps.onRowSelectionModelChange?.([]);
-            onRecord?.('rowSelectionMode', result.data);
-          }}
-        >
-          <MenuItem value="none">{translate('선택 없음')}</MenuItem>
-          <MenuItem value="single">{translate('단일 선택')}</MenuItem>
-          <MenuItem value="multiple">{translate('다중 선택')}</MenuItem>
-        </Select>
-      </div>
+      <PreviewActions>
+        <fieldset className="example-controls" aria-label={translate('행 선택 방식')}>
+          <span>{translate('행 선택 방식')}</span>
+          {selectionModes.map(({ value, label }) => (
+            <Button
+              key={value}
+              variant={currentMode === value ? 'contained' : 'outlined'}
+              aria-pressed={currentMode === value}
+              onClick={() => {
+                if (value === currentMode) return;
+                setMode(value);
+                onSelectionModeChange?.(value);
+                setModel([]);
+                gridProps.onRowSelectionModelChange?.([]);
+                onRecord?.('rowSelectionMode', value);
+              }}
+            >
+              {translate(label)}
+            </Button>
+          ))}
+        </fieldset>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
@@ -117,7 +124,7 @@ export function SelectionGrid(props: GridViewProps = {}) {
           getRowId={getRowId}
           height="100%"
           {...gridProps}
-          rowSelectionMode={mode}
+          rowSelectionMode={currentMode}
           rowSelectionModel={gridProps.rowSelectionModel ?? model}
           onRowSelectionModelChange={(next) => {
             setModel(next);

@@ -46,8 +46,7 @@ import {
   NestedDetailsGrid,
 } from '../examples/detail-grid';
 import { EditableCellsGrid, gridConfiguration as editingConfiguration } from '../examples/editing';
-import { EmptyStateGrid, gridConfiguration as emptyConfiguration } from '../examples/empty';
-import { gridConfiguration as errorConfiguration, RetryStateGrid } from '../examples/error';
+import { GridStates, gridConfiguration as statesConfiguration } from '../examples/states';
 import { ExcelExportGrid, gridConfiguration as excelConfiguration } from '../examples/excel';
 import {
   ExcelSnapshotGrid,
@@ -112,6 +111,7 @@ import {
   gridConfiguration as rowSpanConfiguration,
 } from '../examples/row-span';
 import { SelectEditorsGrid, gridConfiguration as selectConfiguration } from '../examples/select';
+import { SelectionGrid, gridConfiguration as selectionConfiguration } from '../examples/selection';
 import {
   NewRowSelectionGrid,
   gridConfiguration as selectionPolicyConfiguration,
@@ -151,10 +151,10 @@ import type { GridConfiguration, GridViewProps } from './gridTypes';
 export const gridRegistry = {
   overview: { Component: FixedRowsGrid, configuration: overviewConfiguration },
   'design-system': { Component: ExternalControlsGrid, configuration: designSystemConfiguration },
-  empty: { Component: EmptyStateGrid, configuration: emptyConfiguration },
-  error: { Component: RetryStateGrid, configuration: errorConfiguration },
+  states: { Component: GridStates, configuration: statesConfiguration },
   'cell-types': { Component: CellTypesGrid, configuration: cellTypesConfiguration },
   select: { Component: SelectEditorsGrid, configuration: selectConfiguration },
+  selection: { Component: SelectionGrid, configuration: selectionConfiguration },
   'custom-style': { Component: StyledHeadersGrid, configuration: customStyleConfiguration },
   formatting: { Component: NumberDateFormatsGrid, configuration: formattingConfiguration },
   'mixed-types': { Component: RowCellTypesGrid, configuration: mixedTypesConfiguration },

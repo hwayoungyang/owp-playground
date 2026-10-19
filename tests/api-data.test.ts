@@ -1,6 +1,7 @@
 import '../src/app/i18n';
+import { parse } from 'jsonc-parser';
 import { describe, expect, it } from 'vitest';
-import { formatApiData } from '../src/features/code/api-data';
+import { type ApiField, formatApiData } from '../src/features/code/api-data';
 import { highlightSource } from '../src/features/code/highlight';
 import { chartApiDocument, chartFromApi } from '../src/playgrounds/charts/model/apiData';
 import { gridApiDocument, taskFromApi, taskToApi } from '../src/playgrounds/datagrid/model/apiData';
@@ -143,5 +144,38 @@ describe('OWP API data examples', () => {
     expect(formatApiData({ rows: rows.slice(1), fields }, true)).toContain(
       '"OWP_DATA.DATA1": "B", // 식별자',
     );
+  });
+
+  it('shows shared notes once while preserving distinct field descriptions on each page', () => {
+    const rows = [
+      { 'OWP_DATA.DATA1': 'A', 'OWP_DATA.DATA2': '10', 'OWP_DATA.DATA3': null },
+      { 'OWP_DATA.DATA1': 'B', 'OWP_DATA.DATA2': '20', 'OWP_DATA.DATA3': '30' },
+    ] as const;
+    const fields: readonly ApiField[] = [
+      { key: 'OWP_DATA.DATA1', description: 'category', notes: ['shared\nformat'] },
+      { key: 'OWP_DATA.DATA2', description: 'first series', notes: ['shared format', 'nullable'] },
+      { key: 'OWP_DATA.DATA3', description: 'second series', notes: ['nullable'] },
+    ];
+
+    const pages = [rows, rows.slice(1)].map((pageRows) => ({
+      rows: pageRows,
+      jsonc: formatApiData({ rows: pageRows, fields }, true),
+      json: formatApiData({ rows: pageRows, fields }, false),
+    }));
+
+    for (const page of pages) {
+      for (const text of [
+        'category',
+        'first series',
+        'second series',
+        'shared format',
+        'nullable',
+      ]) {
+        expect(page.jsonc.split(text)).toHaveLength(2);
+      }
+      expect(parse(page.jsonc)).toEqual(page.rows);
+      expect(JSON.parse(page.json)).toEqual(page.rows);
+      expect(page.json).not.toContain('//');
+    }
   });
 });

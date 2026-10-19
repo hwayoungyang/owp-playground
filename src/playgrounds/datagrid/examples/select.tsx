@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
@@ -162,35 +163,37 @@ export function SelectEditorsGrid(props: GridViewProps = {}) {
 
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-option-rows">
-        <fieldset className="example-controls example-option-row" aria-label={t('편집기')}>
-          <span>{t('편집기')}</span>
-          {([false, true] as const).map((value) => (
-            <Button
-              key={String(value)}
-              variant={autocomplete === value ? 'contained' : 'outlined'}
-              aria-pressed={autocomplete === value}
-              onClick={() => changeEditor(value)}
-            >
-              {t(value ? '자동완성' : '셀렉트')}
-            </Button>
-          ))}
-        </fieldset>
-        <fieldset className="example-controls example-option-row" aria-label={t('선택 방식')}>
-          <span>{t('선택 방식')}</span>
-          {([false, true] as const).map((value) => (
-            <Button
-              key={String(value)}
-              variant={multiple === value ? 'contained' : 'outlined'}
-              aria-pressed={multiple === value}
-              onClick={() => changeMode(value)}
-            >
-              {t(value ? '다중 선택' : '단일 선택')}
-            </Button>
-          ))}
-        </fieldset>
-      </div>
-      <p className="example-caption">{t('단일 선택으로 바꾸면 첫 값만 남습니다.')}</p>
+      <PreviewActions>
+        <div className="example-option-rows">
+          <fieldset className="example-controls example-option-row" aria-label={t('편집기')}>
+            <span>{t('편집기')}</span>
+            {([false, true] as const).map((value) => (
+              <Button
+                key={String(value)}
+                variant={autocomplete === value ? 'contained' : 'outlined'}
+                aria-pressed={autocomplete === value}
+                onClick={() => changeEditor(value)}
+              >
+                {t(value ? '자동완성' : '셀렉트')}
+              </Button>
+            ))}
+          </fieldset>
+          <fieldset className="example-controls example-option-row" aria-label={t('선택 방식')}>
+            <span>{t('선택 방식')}</span>
+            {([false, true] as const).map((value) => (
+              <Button
+                key={String(value)}
+                variant={multiple === value ? 'contained' : 'outlined'}
+                aria-pressed={multiple === value}
+                onClick={() => changeMode(value)}
+              >
+                {t(value ? '다중 선택' : '단일 선택')}
+              </Button>
+            ))}
+          </fieldset>
+        </div>
+      </PreviewActions>
+      <p className="example-caption">{t('단일 선택으로 바꾸면 첫 번째 값만 남습니다.')}</p>
       {error && (
         <output className="example-caption" role="alert">
           {t(error)}

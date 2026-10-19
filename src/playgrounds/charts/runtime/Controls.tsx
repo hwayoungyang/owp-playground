@@ -9,9 +9,14 @@ import {
 } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { type ReactNode, useId } from 'react';
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 
 export function Controls({ children }: { readonly children: ReactNode }) {
-  return <div className="chart-controls">{children}</div>;
+  return (
+    <PreviewActions>
+      <div className="chart-controls">{children}</div>
+    </PreviewActions>
+  );
 }
 export function Toggle({
   label,

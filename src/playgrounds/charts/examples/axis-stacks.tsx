@@ -40,7 +40,14 @@ export function ChartExample(props: ChartExampleProps) {
   return (
     <>
       <Controls>
-        <Range label="위쪽 영역 비중" value={value} min={1} max={4} step={1} onChange={setValue} />
+        <Range
+          label="위쪽 영역 높이 비율"
+          value={value}
+          min={1}
+          max={4}
+          step={1}
+          onChange={setValue}
+        />
       </Controls>
       <ChartCanvas type="line" data={chartData} options={options} {...props} />
     </>

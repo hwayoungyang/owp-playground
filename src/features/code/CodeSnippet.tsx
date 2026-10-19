@@ -24,8 +24,7 @@ export function CodeSnippet({
       setCopied(true);
       setNotice('복사했습니다.');
     } catch (error) {
-      if (error instanceof Error)
-        setNotice('자동으로 복사하지 못했습니다. 코드를 선택해 복사할 수 있습니다.');
+      if (error instanceof Error) setNotice('복사하지 못했습니다. 코드를 선택해 복사해 주세요.');
       else throw error;
     }
   };

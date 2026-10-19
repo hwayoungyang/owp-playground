@@ -158,14 +158,14 @@ try {
   await page.locator('.grid-preview input[type="checkbox"]').nth(2).check();
   await exportRows('선택 행', 2);
   await exportRows('전체 행', 12);
-  await exportRows('현재 표시 행', 12);
+  await exportRows('현재 표시된 행', 12);
   await page.getByRole('button', { name: '설정 열기', exact: true }).click();
   await page.getByLabel('컬럼 필터 표시').check();
   await page.getByRole('button', { name: '설정 닫기' }).click();
   await page.getByRole('textbox', { name: '프로젝트 필터', exact: true }).fill('웹 서비스');
   await page.keyboard.press('Tab');
   await page.waitForFunction(() => document.querySelectorAll('.grid-preview [data-owp-data-grid-row-key^="string:task-"]').length === 4);
-  await exportRows('현재 표시 행', 4);
+  await exportRows('현재 표시된 행', 4);
   await exportRows('전체 행', 12);
   await load('span-export');
   await exportRows('병합', 12, false);

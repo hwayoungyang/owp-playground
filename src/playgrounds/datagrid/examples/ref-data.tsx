@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
@@ -129,37 +130,39 @@ export function BatchRowsGrid(props: GridViewProps = {}) {
   };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button
-          onClick={() => {
-            const grid = gridRef.current;
-            if (!grid?.commitEditing()) return;
-            const rows = grid.getRows().filter((row) => row.status !== '완료');
-            select(rows.map(getRowId));
-            onRecord?.('getRows', { rowIds: rows.map(getRowId) });
-          }}
-        >
-          {translate('미완료 행 선택')}
-        </Button>
-        <Button onClick={() => complete('all')}>{translate('전체 행 완료 처리')}</Button>
-        <Button onClick={() => complete('visible')}>{translate('필터 결과 완료 처리')}</Button>
-        <Button disabled={selected.length === 0} onClick={() => complete('selected')}>
-          {translate('선택 행 완료 처리')}
-        </Button>
-        <Button
-          disabled={selected.length !== 1}
-          onClick={() => {
-            const id = selected[0];
-            const row = id === undefined ? undefined : gridRef.current?.getRow(id);
-            if (row) {
-              gridRef.current?.focusCell(row.id, 'task');
-              onRecord?.('getRow', row);
-            }
-          }}
-        >
-          {translate('선택 행 확인')}
-        </Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button
+            onClick={() => {
+              const grid = gridRef.current;
+              if (!grid?.commitEditing()) return;
+              const rows = grid.getRows().filter((row) => row.status !== '완료');
+              select(rows.map(getRowId));
+              onRecord?.('getRows', { rowIds: rows.map(getRowId) });
+            }}
+          >
+            {translate('미완료 행 선택')}
+          </Button>
+          <Button onClick={() => complete('all')}>{translate('전체 행 완료 처리')}</Button>
+          <Button onClick={() => complete('visible')}>{translate('필터 결과 완료 처리')}</Button>
+          <Button disabled={selected.length === 0} onClick={() => complete('selected')}>
+            {translate('선택 행 완료 처리')}
+          </Button>
+          <Button
+            disabled={selected.length !== 1}
+            onClick={() => {
+              const id = selected[0];
+              const row = id === undefined ? undefined : gridRef.current?.getRow(id);
+              if (row) {
+                gridRef.current?.focusCell(row.id, 'task');
+                onRecord?.('getRow', row);
+              }
+            }}
+          >
+            {translate('선택 행으로 이동')}
+          </Button>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

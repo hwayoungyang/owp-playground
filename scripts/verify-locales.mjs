@@ -46,10 +46,10 @@ try {
 
   const original = await surface();
   await page.getByRole('button', { name: 'Open settings' }).click();
-  await choose('Theme', 'Blue'); await page.getByRole('button', { name: 'Dark', exact: true }).click();
-  await shot('english-settings-blue-dark');
-  await page.getByRole('button', { name: 'Close settings' }).click(); await shot('blue-dark-scoped');
-  const dark = await surface(); assert.equal(dark.shell, original.shell); assert.equal(dark.rootCanvas, original.rootCanvas); assert.equal(dark.mode, 'dark'); assert.equal(dark.gridCanvas, '#142038');
+  await choose('Theme', 'Industrial'); await page.getByRole('button', { name: 'Dark', exact: true }).click();
+  await shot('english-settings-industrial-dark');
+  await page.getByRole('button', { name: 'Close settings' }).click(); await shot('industrial-dark-scoped');
+  const dark = await surface(); assert.equal(dark.shell, original.shell); assert.equal(dark.rootCanvas, original.rootCanvas); assert.equal(dark.mode, 'dark'); assert.equal(dark.gridCanvas, '#1d252c');
   pass('sample theme scope', { shellUnchanged: dark.shell === original.shell, rootUnchanged: dark.rootCanvas === original.rootCanvas, sampleMode: dark.mode, samplePreset: dark.preset });
   const afterTheme = await data(); assert.equal(afterTheme.rows[0].task, '언어 전환 확인');
   await page.getByRole('tab', { name: 'Preview', exact: true }).click();
@@ -91,7 +91,7 @@ try {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
   await page.getByRole('button', { name: 'Open example menu' }).click(); await shot('english-navigation-mobile');
   await page.keyboard.press('Escape'); await page.getByRole('button', { name: 'Open settings' }).click();
-  await choose('Theme', 'Mint'); await shot('english-settings-mobile');
+  await choose('Theme', 'Sand'); await shot('english-settings-mobile');
   pass('English mobile containment', { viewport: 375, pageOverflow: false });
   assert.deepEqual(errors, []);
 } catch (error) {

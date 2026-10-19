@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Box, Button, LinearProgress, MenuItem, Select, useTheme } from '@mui/material';
 import type { CoreChartProps } from '@owp/charts/types';
 import { OwpDataGrid } from '@owp/datagrid';
@@ -32,7 +33,7 @@ function CompletionTrendCell({ row }: { readonly row: Task }) {
   return (
     <Box
       role="img"
-      aria-label={translate('{{task}} 완료율 추세 {{direction}}, 현재 {{percent}}%', {
+      aria-label={translate('{{task}}의 완료율이 {{direction}} 추세이며 현재 {{percent}}%입니다.', {
         task: row.task,
         direction: translate(rising ? '상승' : '하락'),
         percent: Math.round(current * 10) / 10,
@@ -225,22 +226,24 @@ export function TaskTreeGrid(props: GridViewProps = {}) {
   );
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <span>{translate('하위 데이터')}</span>
-        <Select
-          value={lazy ? 'lazy' : 'all'}
-          inputProps={{ 'aria-label': translate('하위 데이터') }}
-          onChange={(event) => {
-            setLazy(event.target.value === 'lazy');
-            gridProps.onRowSelectionModelChange?.([]);
-          }}
-        >
-          <MenuItem value="all">{translate('미리 불러오기')}</MenuItem>
-          <MenuItem value="lazy">{translate('펼칠 때 불러오기')}</MenuItem>
-        </Select>
-        <Button onClick={() => gridRef.current?.expandAll()}>{translate('전체 펼치기')}</Button>
-        <Button onClick={() => gridRef.current?.collapseAll()}>{translate('전체 접기')}</Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <span>{translate('하위 데이터')}</span>
+          <Select
+            value={lazy ? 'lazy' : 'all'}
+            inputProps={{ 'aria-label': translate('하위 데이터') }}
+            onChange={(event) => {
+              setLazy(event.target.value === 'lazy');
+              gridProps.onRowSelectionModelChange?.([]);
+            }}
+          >
+            <MenuItem value="all">{translate('미리 불러오기')}</MenuItem>
+            <MenuItem value="lazy">{translate('펼칠 때 불러오기')}</MenuItem>
+          </Select>
+          <Button onClick={() => gridRef.current?.expandAll()}>{translate('전체 펼치기')}</Button>
+          <Button onClick={() => gridRef.current?.collapseAll()}>{translate('전체 접기')}</Button>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           key={String(lazy)}

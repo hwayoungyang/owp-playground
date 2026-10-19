@@ -30,27 +30,23 @@ export function ApiDataViewer({
           control={
             <Switch size="small" checked={comments} onChange={(_, next) => setComments(next)} />
           }
-          label={t('필드 설명 주석')}
+          label={t('필드 설명 표시')}
         />
-        <span>
-          {t(
-            'OWP_DATA.DATA* 형식의 가상 API 데이터입니다. 숫자와 boolean 값은 문자열로 전달합니다.',
-          )}
-        </span>
+        <span>{t('OWP_DATA.DATA* 형식 · 숫자와 boolean은 문자열')}</span>
       </div>
       <section className="api-data-pagination" aria-label={t('데이터 표시 범위')}>
         <span>
-          {t('전체 {{total}}개 중 {{start}}–{{end}}번째 데이터', {
+          {t('{{start}}–{{end}} / 전체 {{total}}건', {
             total: document.totalRows,
             start: document.totalRows ? start + 1 : 0,
             end,
           })}
         </span>
         <Button disabled={currentPage === 0} onClick={() => setPage(currentPage - 1)}>
-          {t('이전 100개')}
+          {t('이전 100건')}
         </Button>
         <Button disabled={currentPage === lastPage} onClick={() => setPage(currentPage + 1)}>
-          {t('다음 100개')}
+          {t('다음 100건')}
         </Button>
       </section>
       <CodeViewer
@@ -59,8 +55,8 @@ export function ApiDataViewer({
         dataFormat={comments ? 'jsonc' : 'json'}
         dataDescription={
           comments
-            ? '필드와 참조 관계를 설명한 JSONC입니다. 주석을 끄면 JSON으로 복사·다운로드할 수 있습니다.'
-            : '현재 화면에 적용된 가상 API 데이터입니다.'
+            ? '필드 설명을 끄면 JSON으로 복사하거나 다운로드할 수 있습니다.'
+            : '현재 예제에 사용된 API 데이터입니다.'
         }
       />
     </>

@@ -21,7 +21,7 @@ export function WorkspaceHeading({
       setNotice('링크를 복사했습니다.');
     } catch (error) {
       if (error instanceof Error)
-        setNotice('자동으로 복사하지 못했습니다. 주소창에서 링크를 복사할 수 있습니다.');
+        setNotice('복사하지 못했습니다. 주소창에서 링크를 복사해 주세요.');
       else throw error;
     }
   };

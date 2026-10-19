@@ -80,7 +80,7 @@ export function ChartExample(props: ChartExampleProps) {
   return (
     <>
       <Controls>
-        <Range label="표시 개수" value={count} min={3} max={12} onChange={setCount} />
+        <Range label="표시할 데이터 수" value={count} min={3} max={12} onChange={setCount} />
         <Toggle label="초 단위 표시" value={seconds} onChange={setSeconds} />
       </Controls>
       <div className="chart-canvas">

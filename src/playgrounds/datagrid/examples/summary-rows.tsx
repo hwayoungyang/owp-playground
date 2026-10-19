@@ -87,7 +87,7 @@ export const gridConfiguration: GridConfiguration = {
       id: 'filtered-total',
       scope: 'filtered',
       cells: [
-        { columnId: 'project', value: '표시 행 합계' },
+        { columnId: 'project', value: '표시된 행 합계' },
         { columnId: 'quantity', aggregate: 'sum' },
         { columnId: 'completed', aggregate: 'sum' },
       ],

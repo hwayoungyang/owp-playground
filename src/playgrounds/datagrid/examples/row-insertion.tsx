@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
@@ -112,24 +113,26 @@ export function RowInsertionGrid(props: GridViewProps = {}) {
   };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button onClick={() => add({ position: 'root-first' }, '상단에 추가')}>
-          {translate('상단에 추가')}
-        </Button>
-        <Button
-          disabled={selected.length !== 1}
-          onClick={() => {
-            const id = selected[0];
-            if (id !== undefined)
-              add({ position: 'after', targetRowId: id }, '선택 행 다음에 추가');
-          }}
-        >
-          {translate('선택 행 다음에 추가')}
-        </Button>
-        <Button onClick={() => add({ position: 'root-last' }, '하단에 추가')}>
-          {translate('하단에 추가')}
-        </Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button onClick={() => add({ position: 'root-first' }, '상단에 추가')}>
+            {translate('상단에 추가')}
+          </Button>
+          <Button
+            disabled={selected.length !== 1}
+            onClick={() => {
+              const id = selected[0];
+              if (id !== undefined)
+                add({ position: 'after', targetRowId: id }, '선택 행 다음에 추가');
+            }}
+          >
+            {translate('선택 행 다음에 추가')}
+          </Button>
+          <Button onClick={() => add({ position: 'root-last' }, '하단에 추가')}>
+            {translate('하단에 추가')}
+          </Button>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

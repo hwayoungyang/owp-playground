@@ -24,7 +24,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Range label="표시할 월 수" value={count} min={3} max={12} onChange={setCount} />
         <Range
-          label="곡선 정도"
+          label="선의 곡률"
           value={tension}
           min={0}
           max={0.5}

@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type {
@@ -113,21 +114,22 @@ export function InputValidationGrid(props: GridViewProps = {}) {
   };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button variant="outlined" onClick={validate}>
-          {translate('입력 검증')}
-        </Button>
-        {validation && (
-          <span role="status">
-            {validation.valid
-              ? translate('입력값에 문제가 없습니다.')
-              : translate('{{count}}개 입력값에 오류가 있습니다.', {
-                  count: validation.errors.length,
-                })}
-          </span>
-        )}
-      </div>
-
+      <PreviewActions>
+        <div className="example-controls">
+          <Button variant="outlined" onClick={validate}>
+            {translate('입력 검증')}
+          </Button>
+        </div>
+      </PreviewActions>
+      {validation && (
+        <output className="example-caption">
+          {validation.valid
+            ? translate('입력값에 문제가 없습니다.')
+            : translate('입력값 {{count}}개에 오류가 있습니다.', {
+                count: validation.errors.length,
+              })}
+        </output>
+      )}
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

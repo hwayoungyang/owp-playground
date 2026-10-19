@@ -2,8 +2,10 @@ import { OwpTreemapChart } from '@owp/charts';
 import type { OwpTreemapChartProps } from '@owp/charts/types';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
+import { getBarSegmentLabelColor } from '../model/barSegmentLabels';
 import { chartMotion } from '../model/chartMotion';
 import type { ChartExampleProps } from '../model/types';
+import { useChartPalette } from '../model/useChartPalette';
 import { Controls, Toggle } from '../runtime/Controls';
 import { useAvailableChartHeight } from '../runtime/useAvailableChartHeight';
 
@@ -16,6 +18,7 @@ const lines = ['A', 'B', 'C', 'D'] as const;
 export function ChartExample(props: ChartExampleProps) {
   const { onData } = props;
   const { t } = useOwpTranslation();
+  const palette = useChartPalette();
   const [labels, setLabels] = useState(true);
   const plot = useAvailableChartHeight();
   const data = useMemo(
@@ -25,8 +28,9 @@ export function ChartExample(props: ChartExampleProps) {
         label: `${lines[Math.floor(index / 5)]}-${String((index % 5) + 1).padStart(2, '0')}`,
         group: lines[Math.floor(index / 5)],
         value,
+        color: palette.colors[Math.floor(index / 5)] ?? palette.ink,
       })),
-    [],
+    [palette.colors, palette.ink],
   );
   useEffect(
     () =>
@@ -41,6 +45,7 @@ export function ChartExample(props: ChartExampleProps) {
   );
   const options: OwpTreemapChartProps['options'] = {
     ...chartMotion,
+    animation: { ...chartMotion.animation, duration: 160 },
     onClick: (_event, items) =>
       props.onRecord?.(
         'click',
@@ -72,11 +77,15 @@ export function ChartExample(props: ChartExampleProps) {
       <div ref={plot} className="chart-canvas chart-native">
         <OwpTreemapChart
           data={data}
+          style={({ raw }) => ({
+            backgroundColor: raw.color,
+            color: getBarSegmentLabelColor(raw.color, palette.surface),
+          })}
           formatter={(item) => (labels ? `${item.label}: ${item.value}` : (item.label ?? item.id))}
           options={options}
           height="100%"
           showExportButton={false}
-          aria-label={t('시각화 차트. 데이터 탭에서 각 값을 확인할 수 있습니다.')}
+          aria-label={t('차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.')}
         />
       </div>
     </>

@@ -24,6 +24,7 @@ export function ChartExample(props: ChartExampleProps) {
   const [values, setValues] = useState(false);
   const plot = useAvailableChartHeight();
   const color = palette.colors[0] ?? palette.ink;
+  const intensity = [0.12, 0.3, 0.5, 0.7, 0.9].map((opacity) => alpha(color, opacity));
   const maximum = Math.max(...production.flat());
   const snapshot = useMemo(
     () => ({
@@ -50,6 +51,7 @@ export function ChartExample(props: ChartExampleProps) {
   useEffect(() => onData?.(snapshot), [onData, snapshot]);
   const options: OwpHeatmapChartProps['options'] = {
     ...chartMotion,
+    animation: { ...chartMotion.animation, duration: 160 },
     onClick: (_event, items) =>
       props.onRecord?.(
         'click',
@@ -76,19 +78,20 @@ export function ChartExample(props: ChartExampleProps) {
           x={snapshot.labels}
           y={snapshot.series.map((series) => series.label)}
           domain={[0, maximum]}
+          colors={intensity}
           valueLabels={values}
           legend={false}
           options={options}
           height="100%"
           showExportButton={false}
-          aria-label={t('시각화 차트. 데이터 탭에서 각 값을 확인할 수 있습니다.')}
+          aria-label={t('차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.')}
         />
       </div>
       <div className="chart-heat-key">
         <span>{t('적음')}</span>
         <span className="chart-heat-ramp" aria-hidden="true">
-          {[0.12, 0.3, 0.5, 0.7, 0.9].map((opacity) => (
-            <span key={opacity} style={{ flex: 1, backgroundColor: alpha(color, opacity) }} />
+          {intensity.map((backgroundColor) => (
+            <span key={backgroundColor} style={{ flex: 1, backgroundColor }} />
           ))}
         </span>
         <span>{t('많음')}</span>

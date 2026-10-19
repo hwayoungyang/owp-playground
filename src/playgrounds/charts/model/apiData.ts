@@ -41,16 +41,14 @@ export function chartApiDocument(
         key: 'OWP_DATA.DATA1',
         description: localize(
           coordinate
-            ? 'X 좌표. 다른 series도 같은 X 값을 참조합니다.'
-            : '분류·시각 라벨. 같은 행의 DATA2 이후 값과 대응합니다.',
+            ? 'X 좌표 (모든 series 공통)'
+            : '분류·시각 라벨 (같은 행의 DATA2 이후 값과 대응)',
         ),
       },
       ...snapshot.series.map((series, index) => ({
         key: `OWP_DATA.DATA${index + 2}` as const,
-        description: localize(
-          '값: {{name}}. 숫자 문자열이며 null은 해당 위치의 데이터가 없음을 뜻합니다.',
-          { name: series.label },
-        ),
+        description: localize('값: {{name}}', { name: series.label }),
+        notes: [localize('숫자 문자열, null은 데이터 없음')],
       })),
     ],
     getRows: (start, end) =>

@@ -8,12 +8,12 @@ export function ProjectUsage({ target }: { readonly target: 'datagrid' | 'compon
     <section className="theme-project-usage" aria-label={t('프로젝트에 적용')}>
       <h3>{t('프로젝트에 적용')}</h3>
       <p className="theme-usage-note">
-        {t('한금 소비앱과 OWP Core 프로젝트의 configs/theme 설정에 저장값을 연결합니다.')}
+        {t('저장한 테마 설정을 한금·OWP Core 프로젝트의 configs/theme에 적용합니다.')}
       </p>
       <p className="theme-usage-note">
         {t(
           target === 'datagrid'
-            ? '기존 settingsConfig에 themeOverrides를 병합하고 OwpCoreProvider에 전달합니다. 모서리 값은 DataGrid의 radius 속성에 적용합니다.'
+            ? '기존 settingsConfig에 themeOverrides를 병합하고 OwpCoreProvider에 전달합니다. 모서리 둥글기는 DataGrid의 radius 속성에 적용합니다.'
             : '기존 OwpStyleProvider에 확장한 MUI 테마를 전달합니다.',
         )}
       </p>

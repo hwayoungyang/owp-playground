@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef } from '@owp/datagrid/types';
@@ -92,10 +93,12 @@ export function SpanningTreeGrid(props: GridViewProps = {}) {
 
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button onClick={() => gridRef.current?.expandAll()}>{translate('전체 펼치기')}</Button>
-        <Button onClick={() => gridRef.current?.collapseAll()}>{translate('전체 접기')}</Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button onClick={() => gridRef.current?.expandAll()}>{translate('전체 펼치기')}</Button>
+          <Button onClick={() => gridRef.current?.collapseAll()}>{translate('전체 접기')}</Button>
+        </div>
+      </PreviewActions>
 
       <div className="example-grid">
         <OwpDataGrid

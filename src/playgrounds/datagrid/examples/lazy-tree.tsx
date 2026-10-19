@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
@@ -120,23 +121,25 @@ export function LazyTreeGrid(props: GridViewProps = {}) {
   };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button onClick={() => void load()}>{translate('하위 행 불러오기')}</Button>
-        <Button onClick={() => void reload()}>{translate('하위 행 다시 불러오기')}</Button>
-        <Button
-          onClick={() =>
-            publish('getChildrenLoadState', gridRef.current?.getChildrenLoadState(target))
-          }
-        >
-          {translate('조회 상태')}
-        </Button>
-        <Button onClick={() => gridRef.current?.expandRow(target)}>
-          {translate('선택 행 펼치기')}
-        </Button>
-        <Button onClick={() => gridRef.current?.collapseRow(target)}>
-          {translate('선택 행 접기')}
-        </Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button onClick={() => void load()}>{translate('하위 행 불러오기')}</Button>
+          <Button onClick={() => void reload()}>{translate('하위 행 다시 불러오기')}</Button>
+          <Button
+            onClick={() =>
+              publish('getChildrenLoadState', gridRef.current?.getChildrenLoadState(target))
+            }
+          >
+            {translate('조회 상태')}
+          </Button>
+          <Button onClick={() => gridRef.current?.expandRow(target)}>
+            {translate('선택 행 펼치기')}
+          </Button>
+          <Button onClick={() => gridRef.current?.collapseRow(target)}>
+            {translate('선택 행 접기')}
+          </Button>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

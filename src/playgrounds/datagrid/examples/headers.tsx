@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { FormControlLabel, Switch } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
@@ -93,18 +94,20 @@ export function GroupedHeadersGrid(props: GridViewProps = {}) {
   const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <FormControlLabel
-          control={
-            <Switch
-              size="small"
-              checked={showChildSorting}
-              onChange={(_, checked) => setShowChildSorting(checked)}
-            />
-          }
-          label={t('하위 컬럼 정렬 버튼 표시')}
-        />
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <FormControlLabel
+            control={
+              <Switch
+                size="small"
+                checked={showChildSorting}
+                onChange={(_, checked) => setShowChildSorting(checked)}
+              />
+            }
+            label={t('하위 컬럼 정렬 버튼 표시')}
+          />
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

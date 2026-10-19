@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
@@ -130,43 +131,44 @@ export function ExcelSnapshotGrid(props: GridViewProps = {}) {
   };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button
-          onClick={() => {
-            const snapshot = gridRef.current?.getExcelSnapshot({ scope: 'visible' });
-            publish('getExcelSnapshot', {
-              scope: snapshot?.scope,
-              columns: snapshot?.columns,
-              count: snapshot?.rows.length,
-              firstRow: snapshot?.rows[0],
-            });
-          }}
-        >
-          {translate('데이터 미리보기')}
-        </Button>
-        <Button
-          onClick={() =>
-            publish('getExcelExportWarnings', gridRef.current?.getExcelExportWarnings?.())
-          }
-        >
-          {translate('제외 항목 확인')}
-        </Button>
-        <Button disabled={reading} onClick={() => void readBatches()}>
-          {translate('1만 행 읽기')}
-        </Button>
-        {reading && (
+      <PreviewActions>
+        <div className="example-controls">
           <Button
             onClick={() => {
-              request.current?.abort();
-              setReading(false);
-              publish('excel.cancel', { cancelled: true });
+              const snapshot = gridRef.current?.getExcelSnapshot({ scope: 'visible' });
+              publish('getExcelSnapshot', {
+                scope: snapshot?.scope,
+                columns: snapshot?.columns,
+                count: snapshot?.rows.length,
+                firstRow: snapshot?.rows[0],
+              });
             }}
           >
-            {translate('취소')}
+            {translate('데이터 미리보기')}
           </Button>
-        )}
-      </div>
-      <p className="example-caption">{translate('결과는 이벤트에서 확인합니다.')}</p>
+          <Button
+            onClick={() =>
+              publish('getExcelExportWarnings', gridRef.current?.getExcelExportWarnings?.())
+            }
+          >
+            {translate('제외 항목 확인')}
+          </Button>
+          <Button disabled={reading} onClick={() => void readBatches()}>
+            {translate('1만 행 읽기')}
+          </Button>
+          {reading && (
+            <Button
+              onClick={() => {
+                request.current?.abort();
+                setReading(false);
+                publish('excel.cancel', { cancelled: true });
+              }}
+            >
+              {translate('취소')}
+            </Button>
+          )}
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

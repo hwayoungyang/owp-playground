@@ -28,10 +28,10 @@ try {
   const exportGroup = sidebar.locator('.nav-category').filter({ has: page.getByRole('button', { name: '내보내기 (Export)', exact: true }) });
   const exampleIds = group => group.locator('.nav-item').evaluateAll(links => links.map(link => new URL(link.href).searchParams.get('sample')));
   assert.equal(await sidebar.locator('.nav-category').count(), 12);
-  assert.equal(await sidebar.locator('.nav-item').count(), 48);
+  assert.equal(await sidebar.locator('.nav-item').count(), 47);
   assert.deepEqual(await exampleIds(rowGroup), ['row-actions', 'row-insertion', 'row-deletion', 'reordering', 'ref-move', 'ref-data', 'ref-changes']);
   assert.deepEqual(await exampleIds(exportGroup), ['excel', 'excel-snapshot', 'span-export']);
-  pass('DataGrid groups related controls and Ref APIs without losing examples', { groups: 12, samples: 48 });
+  pass('DataGrid groups related controls and Ref APIs without losing examples', { groups: 12, samples: 47 });
 
   await rowGroup.getByRole('button').click();
   assert.equal(await rowGroup.locator('.nav-item').count(), 0);

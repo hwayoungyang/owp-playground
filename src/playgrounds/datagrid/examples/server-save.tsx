@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
@@ -136,45 +137,47 @@ export function ServerSaveGrid(props: GridViewProps = {}) {
   };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button disabled={saving} onClick={() => void save()}>
-          {translate('모의 저장')}
-        </Button>
-        <Button
-          onClick={() =>
-            publish(
-              'addRow',
-              gridRef.current?.addRow({
-                ...seedTask,
-                id: crypto.randomUUID(),
-                task: translate('새 작업'),
-              }),
-            )
-          }
-        >
-          {translate('새 행 추가')}
-        </Button>
-        <Button
-          disabled={selected.length === 0}
-          onClick={() => publish('deleteRows', gridRef.current?.deleteRows(selected))}
-        >
-          {translate('선택 행 삭제')}
-        </Button>
-        {saving && (
-          <>
-            <span>{translate('저장 중에도 셀을 편집할 수 있습니다.')}</span>
-            <Button
-              onClick={() => {
-                request.current?.abort();
-                setSaving(false);
-                publish('save.cancel', { cancelled: true });
-              }}
-            >
-              {translate('취소')}
-            </Button>
-          </>
-        )}
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button disabled={saving} onClick={() => void save()}>
+            {translate('모의 저장')}
+          </Button>
+          <Button
+            onClick={() =>
+              publish(
+                'addRow',
+                gridRef.current?.addRow({
+                  ...seedTask,
+                  id: crypto.randomUUID(),
+                  task: translate('새 작업'),
+                }),
+              )
+            }
+          >
+            {translate('새 행 추가')}
+          </Button>
+          <Button
+            disabled={selected.length === 0}
+            onClick={() => publish('deleteRows', gridRef.current?.deleteRows(selected))}
+          >
+            {translate('선택 행 삭제')}
+          </Button>
+          {saving && (
+            <>
+              <span>{translate('저장 중에도 셀을 편집할 수 있습니다.')}</span>
+              <Button
+                onClick={() => {
+                  request.current?.abort();
+                  setSaving(false);
+                  publish('save.cancel', { cancelled: true });
+                }}
+              >
+                {translate('취소')}
+              </Button>
+            </>
+          )}
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

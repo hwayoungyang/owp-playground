@@ -19,7 +19,7 @@ export function ChartExample(props: ChartExampleProps) {
   return (
     <>
       <Controls>
-        <Toggle label="Point 표시 범례" value={enabled} onChange={setEnabled} />
+        <Toggle label="차트와 범례에 Point 표시" value={enabled} onChange={setEnabled} />
       </Controls>
       <ChartCanvas type="line" data={chartData} {...props} />
     </>

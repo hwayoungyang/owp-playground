@@ -102,7 +102,7 @@ export const gridConfiguration: GridConfiguration = {
           <p>
             {loading
               ? translate('프로젝트를 불러오는 중…')
-              : translate('{{count}}개 작업 · 담당 {{owner}}', {
+              : translate('작업 {{count}}개 · 담당자 {{owner}}', {
                   count: rows.length,
                   owner: row.owner,
                 })}

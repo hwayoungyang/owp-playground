@@ -3,31 +3,28 @@ import { translate } from '../../../shared/i18n/translate';
 import type { Task } from './data';
 
 export const taskApiFields = [
-  ['id', '행 식별자 (id). 모든 행에서 고유해야 합니다.'],
+  ['id', '고유 행 ID (id)'],
   ['project', '프로젝트 (project)'],
   ['task', '작업명 (task)'],
   ['owner', '담당자 (owner)'],
   ['status', '상태 (status)'],
-  ['quantity', '계획 수량 (quantity). Number로 변환합니다.'],
-  ['completed', '완료 수량 (completed). Number로 변환합니다.'],
-  ['cost', '비용 (cost). Number로 변환합니다.'],
+  ['quantity', '계획 수량 (quantity)', '숫자 문자열은 Number로 변환'],
+  ['completed', '완료 수량 (completed)', '숫자 문자열은 Number로 변환'],
+  ['cost', '비용 (cost)', '숫자 문자열은 Number로 변환'],
   ['date', '날짜 (date): YYYY-MM-DD'],
   ['year', '연도 (year): YYYY'],
   ['month', '월 (month): YYYY-MM'],
   ['time', '시간 (time): HH:mm'],
   ['datetime', '일시 (datetime): YYYY-MM-DD HH:mm'],
-  ['active', '활성 여부 (active): "1"이면 true, "0"이면 false'],
-  ['tags', '태그 (tags). 여러 값은 쉼표로 구분합니다.'],
-  ['note', '비고 (note). 빈 문자열도 유효한 값입니다.'],
-  ['parentId', '부모 참조 (parentId). 부모 행의 DATA1을 참조하며 루트 행은 null입니다.'],
-  ['mixed', '숫자·문자 혼합 값 (mixed). 숫자 문자열만 Number로 변환합니다.'],
-  [
-    'children',
-    '자식 행 배열 (children). nested 모드의 getChildren에 연결하며 같은 DATA 필드 구조를 반복합니다.',
-  ],
-  ['worksheetKind', '워크시트 행 구분 (worksheetKind): item 또는 rate'],
-  ['reserved', '예약 수량 (reserved). Number로 변환합니다.'],
-  ['rate', '비율 (rate). Number로 변환합니다.'],
+  ['active', '활성 여부 (active): "1"=true, "0"=false'],
+  ['tags', '태그 (tags): 쉼표로 구분'],
+  ['note', '비고 (note): 빈 문자열 허용'],
+  ['parentId', '부모 참조 (parentId): 부모 행의 DATA1, 루트는 null'],
+  ['mixed', '숫자·문자 혼합 (mixed)', '숫자 문자열은 Number로 변환'],
+  ['children', '자식 행 (children): 같은 DATA 구조, nested 모드의 getChildren에 연결'],
+  ['worksheetKind', '워크시트 행 유형 (worksheetKind): item 또는 rate'],
+  ['reserved', '예약 수량 (reserved)', '숫자 문자열은 Number로 변환'],
+  ['rate', '비율 (rate)', '숫자 문자열은 Number로 변환'],
 ] as const;
 
 export function taskToApi(task: Task, currentRows?: ReadonlyMap<string, Task>): ApiRow {
@@ -123,9 +120,10 @@ export function gridApiDocument(
   return {
     totalRows: roots.length,
     getRows: (start, end) => roots.slice(start, end).map((row) => taskToApi(row, currentRows)),
-    fields: taskApiFields.map(([, description], index) => ({
+    fields: taskApiFields.map(([, description, note], index) => ({
       key: `OWP_DATA.DATA${index + 1}`,
       description: localize(description),
+      notes: note ? [localize(note)] : [],
     })),
   };
 }

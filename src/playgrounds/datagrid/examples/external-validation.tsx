@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
@@ -92,64 +93,75 @@ export function ValidationMessagesGrid(props: GridViewProps = {}) {
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
+  const [feedback, setFeedback] = useState<{ message: string; count?: number } | null>(null);
 
   const publish = (api: string, value: unknown) => {
     onRecord?.(api, value);
+    const count = gridRef.current?.getCellErrors().length ?? 0;
+    setFeedback({
+      message:
+        count === 0
+          ? '표시된 검증 메시지가 없습니다.'
+          : '검증 메시지 {{count}}건이 표시되어 있습니다.',
+      count,
+    });
   };
 
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button
-          onClick={() =>
-            publish(
-              'setCellError',
-              gridRef.current?.setCellError(
-                'task-1',
-                'task',
-                translate('서버에서 작업명을 확인하지 못했습니다.'),
-              ),
-            )
-          }
-        >
-          {translate('메시지 1건 표시')}
-        </Button>
-        <Button
-          onClick={() =>
-            publish(
-              'setCellErrors',
-              gridRef.current?.setCellErrors([
-                {
-                  rowId: 'task-1',
-                  columnId: 'task',
-                  message: translate('작업명이 올바르지 않습니다.'),
-                },
-                {
-                  rowId: 'task-2',
-                  columnId: 'completed',
-                  message: translate('완료 수량이 올바르지 않습니다.'),
-                },
-              ]),
-            )
-          }
-        >
-          {translate('메시지 2건 표시')}
-        </Button>
-        <Button onClick={() => publish('getCellErrors', gridRef.current?.getCellErrors())}>
-          {translate('검증 메시지 확인')}
-        </Button>
-        <Button onClick={() => publish('validate', gridRef.current?.validate())}>
-          {translate('전체 작업 검증')}
-        </Button>
-        <Button
-          onClick={() => {
-            gridRef.current?.clearCellErrors();
-            publish('clearCellErrors', { cleared: true });
-          }}
-        >
-          {translate('검증 메시지 전체 해제')}
-        </Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button
+            onClick={() =>
+              publish(
+                'setCellError',
+                gridRef.current?.setCellError(
+                  'task-1',
+                  'task',
+                  translate('서버에서 작업명을 확인하지 못했습니다.'),
+                ),
+              )
+            }
+          >
+            {translate('메시지 1건 표시')}
+          </Button>
+          <Button
+            onClick={() =>
+              publish(
+                'setCellErrors',
+                gridRef.current?.setCellErrors([
+                  {
+                    rowId: 'task-1',
+                    columnId: 'task',
+                    message: translate('작업명이 올바르지 않습니다.'),
+                  },
+                  {
+                    rowId: 'task-2',
+                    columnId: 'completed',
+                    message: translate('완료 수량이 올바르지 않습니다.'),
+                  },
+                ]),
+              )
+            }
+          >
+            {translate('메시지 2건 표시')}
+          </Button>
+          <Button
+            onClick={() => {
+              gridRef.current?.clearCellErrors();
+              onRecord?.('clearCellErrors', { cleared: true });
+              setFeedback({ message: '검증 메시지를 모두 지웠습니다.' });
+            }}
+          >
+            {translate('검증 메시지 모두 지우기')}
+          </Button>
+        </div>
+      </PreviewActions>
+      {feedback && (
+        <p className="example-caption" role="status">
+          {translate(feedback.message, { count: feedback.count })}
+        </p>
+      )}
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

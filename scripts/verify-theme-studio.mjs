@@ -26,7 +26,7 @@ async function choosePreset(value) { await editor().getByRole('combobox', { name
 async function change(label, value) { const field = editor().getByRole('textbox', { name: label, exact: true }); await field.fill(value); await field.press('Enter'); await settle(); }
 async function save() { const downloaded = page.waitForEvent('download'); await editor().getByRole('button', { name: '파일 저장', exact: true }).click(); const file = await downloaded; assert.equal(file.suggestedFilename(), 'owp-theme.json'); return JSON.parse(await readFile(await file.path(), 'utf8')); }
 async function upload(config) { await editor().locator('input[type=file]').setInputFiles({ name: 'owp-theme.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(config)) }); }
-async function colors() { return page.locator('.grid-preview .OwpDataGrid-root').first().evaluate(root => { const header = [...root.querySelectorAll('.OwpDataGrid-headerCell')].find(cell => cell.textContent.trim() === '프로젝트'); let surface = header; while (getComputedStyle(surface).backgroundColor === 'rgba(0, 0, 0, 0)' && surface.parentElement) surface = surface.parentElement; return { header: getComputedStyle(surface).backgroundColor, headerFont: getComputedStyle(header).fontSize, cellFont: getComputedStyle(root.querySelector('.OwpDataGrid-cell')).fontSize, radius: getComputedStyle(root).borderRadius }; }); }
+async function colors() { return page.locator('.grid-preview .OwpDataGrid-root').first().evaluate(root => { const header = [...root.querySelectorAll('.OwpDataGrid-headerCell')].find(cell => cell.textContent.trim() === '프로젝트'); let surface = header; while (getComputedStyle(surface).backgroundColor === 'rgba(0, 0, 0, 0)' && surface.parentElement) surface = surface.parentElement; return { header: getComputedStyle(surface).backgroundColor, headerPanelsMatch: [...root.querySelectorAll('.OwpDataGrid-headerRow [role=columnheader]:not(.OwpDataGrid-headerCell)')].every(panel => getComputedStyle(panel).backgroundColor === getComputedStyle(surface).backgroundColor), headerFont: getComputedStyle(header).fontSize, cellFont: getComputedStyle(root.querySelector('.OwpDataGrid-cell')).fontSize, radius: getComputedStyle(root).borderRadius }; }); }
 async function visibleSelection(scope) { return scope.locator('.nav-list').evaluate(list => { const viewport = list.getBoundingClientRect(); const active = list.querySelector('[aria-current=page]'); const item = active?.getBoundingClientRect(); return { scrollTop: list.scrollTop, visible: Boolean(item && item.top >= viewport.top && item.bottom <= viewport.bottom), active: active?.textContent.trim(), mainTop: document.querySelector('.main-content').scrollTop }; }); }
 async function topCenter(alert) { const box = await alert.locator('xpath=..').boundingBox(); assert.ok(box.y < 40, JSON.stringify(box)); assert.ok(Math.abs(box.x + box.width / 2 - page.viewportSize().width / 2) < 2, JSON.stringify(box)); return box; }
 async function axe() { await settle(); const report = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze(); assert.deepEqual(report.violations.map(item => ({ id: item.id, targets: item.nodes.map(node => node.target) })), []); }
@@ -78,11 +78,11 @@ try {
   await editor().getByRole('combobox', { name: '테마', exact: true }).click();
   const menu = page.getByRole('listbox');
   const names = await menu.locator('[role=option][data-value]').allTextContents();
-  assert.deepEqual(names.map(name => name.trim()), ['화면과 같게', 'Neutral', 'Quartz', 'Alpine', 'Balham', 'Material', 'Slate', 'Blue', 'Mint', '한금']);
+  assert.deepEqual(names.map(name => name.trim()), ['화면과 같게', 'Carbon', 'Industrial', 'Navy', 'Teal', 'Plum', 'Olive', 'Bronze', 'Sand', 'Solarized', 'High Contrast', '한금']);
   assert.equal(await menu.getByText('일반 테마', { exact: true }).count(), 1);
   assert.equal(await menu.getByText('프로젝트', { exact: true }).count(), 1);
   await shot('presets-grouped');
-  await page.locator('[role=option][data-value=quartz]').click();
+  await page.locator('[role=option][data-value=carbon]').click();
   await editor().getByRole('button', { name: '글자 크기·모서리', exact: true }).click();
   assert.equal(await editor().getByRole('textbox', { name: '글꼴', exact: true }).count(), 0);
   await change('글자 크기', '15');
@@ -114,6 +114,7 @@ try {
   await closeEditor();
   const applied = await colors();
   assert.equal(applied.header, 'rgb(25, 118, 210)');
+  assert.equal(applied.headerPanelsMatch, true);
   assert.equal(applied.headerFont, '15px');
   assert.equal(applied.cellFont, '15px');
   assert.equal(applied.radius, '9.6px');

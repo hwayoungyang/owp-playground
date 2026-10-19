@@ -140,7 +140,7 @@ export function ChartExample(props: ChartExampleProps) {
             props.onRecord?.('append', '1');
           }}
         >
-          {t('한 건 추가')}
+          {t('데이터 추가')}
         </Button>
         <Range
           label="표시할 데이터 수"
@@ -153,7 +153,7 @@ export function ChartExample(props: ChartExampleProps) {
           }}
         />
         <span className="chart-note" role="status">
-          {t(running ? '실시간 갱신 중' : '일시정지됨')}
+          {t(running ? '자동 갱신 중' : '일시정지됨')}
         </span>
       </Controls>
       <div ref={plot} className="chart-canvas chart-native">
@@ -177,7 +177,7 @@ export function ChartExample(props: ChartExampleProps) {
           options={options}
           height="100%"
           showExportButton={false}
-          aria-label={t('시각화 차트. 데이터 탭에서 각 값을 확인할 수 있습니다.')}
+          aria-label={t('차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.')}
         />
       </div>
     </>

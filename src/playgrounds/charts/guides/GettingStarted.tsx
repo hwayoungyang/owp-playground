@@ -25,7 +25,7 @@ export function ChartsGettingStarted({
           <CodeSnippet label=".npmrc" code="@owp:registry=<OWP_REGISTRY_URL>" />
           <p className="guide-note">
             {t(
-              '<OWP_REGISTRY_URL>은 OWP 패키지 레지스트리 URL입니다. 주소 및 접근 권한은 Impix SmartBiz 팀에 문의 바랍니다.',
+              '<OWP_REGISTRY_URL>에 OWP 패키지 레지스트리 주소를 입력합니다. 주소와 접근 권한은 Impix SmartBiz 팀에 문의해 주세요.',
             )}
           </p>
         </section>
@@ -44,7 +44,7 @@ export function ChartsGettingStarted({
           </p>
           <p className="guide-note">
             {t(
-              'Chart.js 등록은 패키지 내부에서 처리합니다. ChartFrame preset="owp"는 공통 스타일·HTML 툴팁·범례를 제공하고, 전용 차트는 데이터와 유형별 props로 구성합니다.',
+              'Chart.js 등록은 패키지 내부에서 처리합니다. ChartFrame의 preset="owp" 설정은 공통 스타일·HTML 툴팁·범례를 제공합니다. 전용 차트는 데이터와 차트 유형에 맞는 props로 구성합니다.',
             )}
           </p>
         </section>
@@ -64,7 +64,7 @@ export function ChartsGettingStarted({
           <CodeSnippet label="chart-layout.css" code={layoutSource} language="css" />
           <p className="guide-note">
             {t(
-              '기본 메뉴의 아이콘은 assets/icons의 SVG sprite를 사용합니다. OWP Core 프로젝트의 아이콘 리소스를 배포하거나, 외부 버튼에서 exportRef로 내보낼 수 있습니다.',
+              '기본 메뉴는 assets/icons의 SVG sprite 아이콘을 사용합니다. OWP Core의 아이콘 리소스를 배포하거나, 메뉴 대신 외부 버튼에서 exportRef로 차트를 내보낼 수 있습니다.',
             )}
           </p>
         </section>
@@ -77,7 +77,7 @@ export function ChartsGettingStarted({
           </p>
           <p className="guide-note">
             {t(
-              'Bar·Line·복합 차트는 ChartFrame을 사용합니다. Area·Box plot·Treemap·Radar·원형·Heatmap·Live chart는 전용 Owp component를 제공합니다. API 응답 변환·polling·샘플 조작은 앱에서 처리합니다.',
+              'Bar·Line·복합 차트는 ChartFrame으로 구성합니다. Area·Box plot·Treemap·Radar·원형·Heatmap·Live chart에는 전용 Owp 컴포넌트를 사용합니다. API 응답 변환, polling과 예제 조작은 앱에서 처리합니다.',
             )}
           </p>
         </section>

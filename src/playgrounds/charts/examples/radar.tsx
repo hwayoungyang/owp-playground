@@ -87,7 +87,9 @@ export function ChartExample(props: ChartExampleProps) {
           {...chart.frame}
         />
       </div>
-      <p className="chart-note">{t('0–100점의 가상 점수이며, 높을수록 우수합니다.')}</p>
+      <p className="chart-note">
+        {t('각 지표는 0–100점의 가상 점수입니다. 점수가 높을수록 우수합니다.')}
+      </p>
     </>
   );
 }

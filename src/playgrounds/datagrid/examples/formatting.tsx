@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { MenuItem, Select } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
@@ -124,24 +125,26 @@ export function NumberDateFormatsGrid(props: GridViewProps = {}) {
   );
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <label htmlFor="amount-precision">{t('금액 소수 자릿수')}</label>
-        <Select
-          id="amount-precision"
-          value={precision}
-          inputProps={{ 'aria-label': t('금액 소수 자릿수') }}
-          onChange={(event) => {
-            const result = fractionDigitsSchema.safeParse(event.target.value);
-            if (result.success) setPrecision(result.data);
-          }}
-        >
-          {fractionDigits.map((digits) => (
-            <MenuItem key={digits} value={digits}>
-              {digits}
-            </MenuItem>
-          ))}
-        </Select>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <label htmlFor="amount-precision">{t('금액 소수 자릿수')}</label>
+          <Select
+            id="amount-precision"
+            value={precision}
+            inputProps={{ 'aria-label': t('금액 소수 자릿수') }}
+            onChange={(event) => {
+              const result = fractionDigitsSchema.safeParse(event.target.value);
+              if (result.success) setPrecision(result.data);
+            }}
+          >
+            {fractionDigits.map((digits) => (
+              <MenuItem key={digits} value={digits}>
+                {digits}
+              </MenuItem>
+            ))}
+          </Select>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

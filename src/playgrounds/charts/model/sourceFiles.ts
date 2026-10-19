@@ -4,7 +4,11 @@ export const chartSourcePolicy = {
   core: [
     'runtime/ChartCanvas.tsx',
     'model/useCartesian.ts',
+    'model/useChartPalette.ts',
+    'model/chartColors.ts',
+    'model/histogramData.ts',
     'model/useNativeData.ts',
+    'model/barSegmentLabels.ts',
     'model/useAreaRadialExample.ts',
     'model/useRadialData.ts',
     'model/statistics.ts',

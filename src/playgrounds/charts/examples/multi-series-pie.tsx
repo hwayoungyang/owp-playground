@@ -73,7 +73,7 @@ export function ChartExample(props: ChartExampleProps) {
   return (
     <>
       <Controls>
-        <Range label="안쪽 비율" value={value} min={0} max={70} step={5} onChange={setValue} />
+        <Range label="도넛 내부 크기" value={value} min={0} max={70} step={5} onChange={setValue} />
         <Toggle label="항목별 범례" value={itemLegend} onChange={setItemLegend} />
       </Controls>
       <div ref={chart.plot} className={chart.className}>

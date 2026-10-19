@@ -77,7 +77,7 @@ export function ChartCanvas({
         showExportButton={false}
         interactionLayer={false}
         xAxisLabelMarker={false}
-        aria-label={t('시각화 차트. 데이터 탭에서 각 값을 확인할 수 있습니다.')}
+        aria-label={t('차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.')}
         legend={
           nativeLegend?.display === false
             ? false

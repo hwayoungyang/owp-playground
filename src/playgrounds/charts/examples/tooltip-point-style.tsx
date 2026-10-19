@@ -20,7 +20,7 @@ export function ChartExample(props: ChartExampleProps) {
   return (
     <>
       <Controls>
-        <Toggle label="Point 모양 Tooltip" value={enabled} onChange={setEnabled} />
+        <Toggle label="Tooltip에 Point 모양 사용" value={enabled} onChange={setEnabled} />
       </Controls>
       <ChartCanvas type="line" data={chartData} options={options} {...props} />
     </>

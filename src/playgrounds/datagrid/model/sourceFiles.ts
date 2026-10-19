@@ -5,6 +5,7 @@ export const gridSourcePolicy = {
   core: [
     'runtime/GridPreview.tsx',
     'runtime/useGridController.ts',
+    'model/gridStates.ts',
     'model/server.ts',
     'model/worksheet-data.ts',
   ],

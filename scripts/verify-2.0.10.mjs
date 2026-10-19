@@ -141,24 +141,26 @@ try {
   pass('removed samples resolve to current examples and catalog has 47 entries', { count: 47 });
 
   await load('loading');
-  assert.equal(await page.locator('.workspace-heading h1').textContent(), '데이터 없음');
-  assert.equal(await page.getByRole('button', { name: '로딩 시작', exact: true }).getAttribute('aria-pressed'), 'false');
-  assert.ok((await page.locator('.grid-preview').textContent()).includes('조회된 작업이 없습니다.'));
-  await page.getByRole('button', { name: '로딩 시작', exact: true }).click();
-  assert.equal(await page.getByRole('button', { name: '로딩 종료', exact: true }).getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('.workspace-heading h1').textContent(), '로딩·빈 데이터·오류');
+  assert.equal(await page.getByRole('button', { name: '데이터 있음', exact: true }).getAttribute('aria-pressed'), 'true');
+  await page.getByRole('button', { name: '데이터 없음', exact: true }).click();
+  assert.ok((await page.locator('.grid-preview').textContent()).includes('표시할 작업이 없습니다.'));
+  await page.getByRole('button', { name: '로딩 중', exact: true }).click();
+  assert.equal(await page.getByRole('button', { name: '로딩 중', exact: true }).getAttribute('aria-pressed'), 'true');
   assert.equal(await page.locator('.grid-preview .MuiCircularProgress-root').isVisible(), true);
-  await shot('empty-loading');
+  await shot('states-loading');
   await page.getByRole('button', { name: '영어로 전환', exact: true }).click();
-  assert.equal(await page.getByRole('button', { name: 'Stop loading', exact: true }).getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.getByRole('button', { name: 'Loading', exact: true }).getAttribute('aria-pressed'), 'true');
   await page.getByRole('button', { name: 'Switch to Korean', exact: true }).click();
-  await page.getByRole('button', { name: '로딩 종료', exact: true }).click();
-  assert.equal(await page.locator('.grid-preview .MuiCircularProgress-root').isVisible(), false);
-  assert.ok((await page.locator('.grid-preview').textContent()).includes('조회된 작업이 없습니다.'));
+  await page.getByRole('button', { name: '조회 실패', exact: true }).click();
+  await page.getByRole('button', { name: '다시 시도', exact: true }).click();
+  assert.equal((await data()).totalRows, 12);
+  await preview(); await page.getByRole('button', { name: '데이터 없음', exact: true }).click();
   assert.equal((await data()).totalRows, 0);
-  await preview(); await page.getByRole('button', { name: '로딩 시작', exact: true }).click();
+  await preview(); await page.getByRole('button', { name: '로딩 중', exact: true }).click();
   await page.getByRole('button', { name: '초기화', exact: true }).click();
-  assert.equal(await page.getByRole('button', { name: '로딩 시작', exact: true }).getAttribute('aria-pressed'), 'false');
-  pass('empty grid loading starts, stops and resets without adding data', { count: 0 });
+  assert.equal(await page.getByRole('button', { name: '데이터 있음', exact: true }).getAttribute('aria-pressed'), 'true');
+  pass('unified grid states support loading, empty, error, retry and reset', { restoredRows: 12 });
 
   await load('design-system');
   assert.equal(await button('행 삭제').isDisabled(), true);
@@ -278,7 +280,7 @@ try {
     assert.equal((await styles()).font, '14px');
     await button('강조').click();
     await shot(`custom-style-emphasis-${width}`);
-    await load('empty'); await page.getByRole('button', { name: '로딩 시작', exact: true }).click();
+    await load('states'); await page.getByRole('button', { name: '로딩 중', exact: true }).click();
     await shot(`loading-${width}`);
     pass(`changed samples and loading fit ${width}px`, { width });
   }

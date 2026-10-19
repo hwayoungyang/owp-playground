@@ -26,6 +26,14 @@ describe('sample resources', () => {
     expect(findGridEntry('unregistered-component').id).toBe('getting-started');
     expect(findGridEntry(null).id).toBe('getting-started');
   });
+  it('opens the row selection example with single selection by default', () => {
+    expect(findGridEntry('selection')).toMatchObject({
+      id: 'selection',
+      category: 'interaction',
+      source: 'examples/selection.tsx',
+    });
+    expect(getGridConfiguration('selection').rowSelectionMode).toBe('single');
+  });
   it('keeps selection and totals in the fixed row example and resolves merged links', () => {
     const overview = getGridConfiguration('overview');
     expect(overview.visibleRowCount).toBe(10);
@@ -34,9 +42,11 @@ describe('sample resources', () => {
     expect(overview.summaryRows?.length).toBeGreaterThan(0);
     expect(findGridEntry('visible-rows').id).toBe('overview');
     expect(findGridEntry('minimal').id).toBe('overview');
-    expect(findGridEntry('loading').id).toBe('empty');
-    expect(getGridConfiguration('empty').rows).toHaveLength(0);
-    expect(getGridConfiguration('empty').loading).toBeFalsy();
+    for (const legacy of ['loading', 'empty', 'error']) {
+      expect(findGridEntry(legacy).id).toBe('states');
+    }
+    expect(getGridConfiguration('states').rows).toHaveLength(12);
+    expect(getGridConfiguration('states').loading).toBeFalsy();
   });
   it('gives every sample and nested grid column a positive relative width', () => {
     for (const example of gridCatalog.filter((entry) => entry.kind === 'grid')) {

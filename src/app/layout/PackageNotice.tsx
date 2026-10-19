@@ -27,7 +27,7 @@ export function PackageNotice({ onDataGrid }: { readonly onDataGrid: () => void 
         <div className="workspace-heading">
           <div>
             <h2>{t('예제 준비 중')}</h2>
-            <p>{t('지금은 OwpDataGrid 예제를 볼 수 있어요.')}</p>
+            <p>{t('OwpDataGrid 예제를 확인할 수 있습니다.')}</p>
           </div>
         </div>
         <Button variant="outlined" onClick={onDataGrid}>

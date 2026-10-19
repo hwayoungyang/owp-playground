@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { MenuItem, Select } from '@mui/material';
 import { OwpDataGrid, OwpDataGridExportExcelButton } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridHeaderRow, OwpDataGridRef } from '@owp/datagrid/types';
@@ -119,30 +120,36 @@ export function ExcelExportGrid(props: GridViewProps = {}) {
   const [scope, setScope] = useState<z.infer<typeof scopeSchema>>('visible');
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Select
-          value={scope}
-          onChange={(event) => {
-            const parsed = scopeSchema.safeParse(event.target.value);
-            if (parsed.success) setScope(parsed.data);
-          }}
-          inputProps={{ 'aria-label': translate('Excel 내보내기 범위') }}
-        >
-          <MenuItem value="visible">{translate('현재 표시 행')}</MenuItem>
-          <MenuItem value="all">{translate('전체 행')}</MenuItem>
-          <MenuItem value="selected">{translate('선택 행')}</MenuItem>
-        </Select>
-        <OwpDataGridExportExcelButton
-          dataGridRef={gridRef}
-          scope={scope}
-          exportName="OWP_excel"
-          saveMode="download"
-          variant="outlined"
-          startIcon={<DownloadSimpleIcon size={15} />}
-        >
-          Excel
-        </OwpDataGridExportExcelButton>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Select
+            value={scope}
+            onChange={(event) => {
+              const parsed = scopeSchema.safeParse(event.target.value);
+              if (parsed.success) setScope(parsed.data);
+            }}
+            inputProps={{ 'aria-label': translate('Excel 내보내기 범위') }}
+          >
+            <MenuItem value="visible">{translate('현재 표시된 행')}</MenuItem>
+            <MenuItem value="all">{translate('전체 행')}</MenuItem>
+            <MenuItem value="selected">{translate('선택 행')}</MenuItem>
+          </Select>
+        </div>
+      </PreviewActions>
+      <PreviewActions position="end">
+        <div className="example-controls">
+          <OwpDataGridExportExcelButton
+            dataGridRef={gridRef}
+            scope={scope}
+            exportName="OWP_excel"
+            saveMode="download"
+            variant="outlined"
+            startIcon={<DownloadSimpleIcon size={15} />}
+          >
+            Excel
+          </OwpDataGridExportExcelButton>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

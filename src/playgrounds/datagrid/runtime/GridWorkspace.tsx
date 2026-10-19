@@ -1,3 +1,4 @@
+import { PreviewActionsProvider } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { lazy, Suspense, useMemo, useState } from 'react';
 import type { PreviewThemeSettings } from '../../../features/theme-studio/model/preview';
@@ -79,24 +80,29 @@ export function GridWorkspace({
           aria-labelledby={`${prefix}-tab-preview`}
           aria-label={t('실행 예제')}
         >
-          <GridToolbar
-            example={example}
-            controller={controller}
-            onSettings={() => setSettingsOpen(true)}
-            onReset={() => {
-              controller.reset();
-              setSettings(defaultSettings);
-            }}
-          />
-          <PreviewProvider value={theme}>
-            <GridPreview
-              key={controller.gridVersion}
+          <PreviewActionsProvider>
+            <GridToolbar
               example={example}
               controller={controller}
-              settings={settings}
-              themeRadius={theme.radius}
+              onSettings={() => setSettingsOpen(true)}
+              onReset={() => {
+                controller.reset();
+                setSettings(defaultSettings);
+              }}
             />
-          </PreviewProvider>
+            <PreviewProvider value={theme}>
+              <GridPreview
+                key={controller.gridVersion}
+                example={example}
+                controller={controller}
+                settings={settings}
+                themeRadius={theme.radius}
+                onSelectionModeChange={(selection) =>
+                  setSettings((previous) => ({ ...previous, selection }))
+                }
+              />
+            </PreviewProvider>
+          </PreviewActionsProvider>
           <GridStatusBar controller={controller} />
         </div>
         {tab === 'code' && (
@@ -154,7 +160,7 @@ export function GridWorkspace({
       {example.id === 'row-span' && (
         <p className="grid-behavior-note">
           {t(
-            '1~4번째, 5~8번째처럼 지정한 행 수만큼 병합합니다. 자동 행 병합은 같은 값이 연속된 셀만 묶습니다.',
+            '행 수를 4로 지정하면 1~4행, 5~8행처럼 묶어 병합합니다. 자동 행 병합은 같은 값이 연속된 셀을 묶습니다.',
           )}
         </p>
       )}

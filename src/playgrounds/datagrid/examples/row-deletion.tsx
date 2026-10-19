@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
@@ -86,7 +87,6 @@ export const gridConfiguration: GridConfiguration = {
   rowSelectionMode: 'multiple',
   height: 420,
   rowDeletion: { showDeletedRows: true },
-  confirmDeletedRowRemoval: false,
   rowAnimation: true,
   layout: { rowPanel: { allowAddedRowSelection: true } },
 };
@@ -119,32 +119,34 @@ export function DeleteRestoreRowsGrid(props: GridViewProps = {}) {
   };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button
-          onClick={() =>
-            publish(
-              'addRow',
-              gridRef.current?.addRow(
-                {
-                  ...seedTask,
-                  id: crypto.randomUUID(),
-                  task: translate('새 작업'),
-                },
-                { position: 'root-first' },
-              ),
-            )
-          }
-        >
-          {translate('새 행 추가')}
-        </Button>
-        <Button disabled={selected.length === 0} onClick={remove}>
-          {translate('선택 행 삭제')}
-        </Button>
-        <Button disabled={deleted.length === 0} onClick={restore}>
-          {translate('삭제 복구')}
-        </Button>
-        <Button onClick={discard}>{translate('새 행 취소')}</Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button
+            onClick={() =>
+              publish(
+                'addRow',
+                gridRef.current?.addRow(
+                  {
+                    ...seedTask,
+                    id: crypto.randomUUID(),
+                    task: translate('새 작업'),
+                  },
+                  { position: 'root-first' },
+                ),
+              )
+            }
+          >
+            {translate('새 행 추가')}
+          </Button>
+          <Button disabled={selected.length === 0} onClick={remove}>
+            {translate('선택 행 삭제')}
+          </Button>
+          <Button disabled={deleted.length === 0} onClick={restore}>
+            {translate('삭제 복구')}
+          </Button>
+          <Button onClick={discard}>{translate('새 행 추가 취소')}</Button>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
@@ -154,7 +156,6 @@ export function DeleteRestoreRowsGrid(props: GridViewProps = {}) {
           rowSelectionMode="multiple"
           height="100%"
           rowDeletion={gridConfiguration.rowDeletion}
-          confirmDeletedRowRemoval={gridConfiguration.confirmDeletedRowRemoval}
           rowAnimation={gridConfiguration.rowAnimation}
           layout={gridConfiguration.layout}
           {...gridProps}

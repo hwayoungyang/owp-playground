@@ -181,7 +181,7 @@ export function App() {
                     <span className="package-version">v{route.playground.version}</span>
                   )}
                 </h1>
-                {!route.example && <p>{t('예제를 차례로 추가하고 있어요.')}</p>}
+                {!route.example && <p>{t('예제를 추가하고 있습니다.')}</p>}
               </div>
               {!route.example && <div className="package-note">{route.playground.name}</div>}
             </div>

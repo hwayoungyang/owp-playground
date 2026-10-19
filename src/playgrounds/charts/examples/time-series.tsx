@@ -88,7 +88,7 @@ export function ChartExample(props: ChartExampleProps) {
     <>
       <Controls>
         <Range
-          label="원본 점 수"
+          label="원본 데이터 수"
           value={count}
           min={1000}
           max={50000}
@@ -96,7 +96,7 @@ export function ChartExample(props: ChartExampleProps) {
           onChange={setCount}
         />
         <Range
-          label="최대 표시 점 수"
+          label="최대 표시 데이터 수"
           value={limit}
           min={100}
           max={1200}
@@ -121,7 +121,6 @@ export function ChartExample(props: ChartExampleProps) {
           rendered: rendered.length,
         })}
       </p>
-      <p className="chart-note">{t('성능을 위해 애니메이션을 사용하지 않습니다.')}</p>
     </>
   );
 }

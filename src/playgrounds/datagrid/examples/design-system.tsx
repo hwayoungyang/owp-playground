@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
@@ -87,39 +88,41 @@ export function ExternalControlsGrid(props: GridViewProps = {}) {
   };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button
-          variant="outlined"
-          onClick={() => {
-            const row = gridRef.current?.getRows()[0];
-            if (row) select([row.id]);
-          }}
-        >
-          {translate('첫 행 선택')}
-        </Button>
-        <Button variant="outlined" onClick={() => select([])}>
-          {translate('선택 해제')}
-        </Button>
-        <Button
-          variant="outlined"
-          disabled={selected.length === 0}
-          onClick={() => {
-            const ids = gridRef.current?.deleteRows(selected);
-            onRecord?.('deleteRows', ids);
-            select([]);
-          }}
-        >
-          {translate('행 삭제')}
-        </Button>
-        <span className="status-badge status-1">
-          <span className="status-dot" />
-          {translate('완료')}
-        </span>
-        <span className="status-badge status-2">
-          <span className="status-dot" />
-          {translate('검토 중')}
-        </span>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button
+            variant="outlined"
+            onClick={() => {
+              const row = gridRef.current?.getRows()[0];
+              if (row) select([row.id]);
+            }}
+          >
+            {translate('첫 행 선택')}
+          </Button>
+          <Button variant="outlined" onClick={() => select([])}>
+            {translate('선택 해제')}
+          </Button>
+          <Button
+            variant="outlined"
+            disabled={selected.length === 0}
+            onClick={() => {
+              const ids = gridRef.current?.deleteRows(selected);
+              onRecord?.('deleteRows', ids);
+              select([]);
+            }}
+          >
+            {translate('행 삭제')}
+          </Button>
+          <span className="status-badge status-1">
+            <span className="status-dot" />
+            {translate('완료')}
+          </span>
+          <span className="status-badge status-2">
+            <span className="status-dot" />
+            {translate('검토 중')}
+          </span>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

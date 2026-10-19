@@ -29,6 +29,22 @@ async function edit(id, index, value) { const row = page.locator(`[data-owp-data
 async function settle() { await page.evaluate(async () => { await document.fonts.ready; await Promise.allSettled(document.getAnimations().filter(a => a.effect?.getTiming().iterations !== Infinity).map(a => a.finished)); }); }
 
 try {
+  await load('selection');
+  const rowRadios = page.locator('.grid-preview input[type=radio]');
+  assert.ok(await rowRadios.count());
+  await rowRadios.nth(0).check(); await rowRadios.nth(1).check();
+  assert.equal(await rowRadios.and(page.locator(':checked')).count(), 1);
+  assert.equal(await rowRadios.nth(0).isChecked(), false);
+  await action('다중 선택 (체크박스)');
+  const rowCheckboxes = page.locator('.grid-preview input[type=checkbox]');
+  await rowCheckboxes.nth(1).check(); await rowCheckboxes.nth(2).check();
+  assert.equal(await rowCheckboxes.and(page.locator(':checked')).count(), 2);
+  await action('선택 없음');
+  assert.equal(await page.locator('.grid-preview input[type=radio], .grid-preview input[type=checkbox]').count(), 0);
+  await page.getByRole('button', { name: /초기화/ }).click();
+  assert.equal(await page.getByRole('button', { name: '단일 선택 (라디오)', exact: true }).getAttribute('aria-pressed'), 'true');
+  pass('single radio selection, multiple checkboxes and no selection', { defaultMode: 'single', singleSelected: 1, multipleSelected: 2 });
+
   await load('row-insertion'); await settle();
   const alignment = await page.evaluate(() => ({ divider: document.querySelector('.brand-divider').getBoundingClientRect().right, navigation: document.querySelector('.desktop-sidebar').getBoundingClientRect().right }));
   assert.ok(Math.abs(alignment.divider - alignment.navigation) < 1, JSON.stringify(alignment));
@@ -52,7 +68,7 @@ try {
   assert.equal((await data()).totalRows, 11); await preview(); await action('삭제 복구');
   rows = (await data()).rows; assert.equal(rows.length, 12); assert.equal(rows[0].id, 'task-1');
   await preview(); await action('새 행 추가'); assert.equal((await data()).totalRows, 13);
-  await preview(); await action('새 행 취소'); assert.equal((await data()).totalRows, 12);
+  await preview(); await action('새 행 추가 취소'); assert.equal((await data()).totalRows, 12);
   pass('soft delete, restore and discard added rows', { restoredRows: 12 });
 
   await load('ref-data'); await select(0); await select(1); await action('선택 행 완료 처리');
@@ -66,25 +82,25 @@ try {
   assert.ok(rows.slice(0, 4).every(row => row.completed === row.quantity));
   assert.ok(rows.slice(4).some(row => row.completed < row.quantity));
   await preview(); await page.locator('.grid-preview input[type=checkbox]').nth(2).uncheck();
-  await action('선택 행 확인');
+  await action('선택 행으로 이동');
   assert.equal(await page.locator('[data-owp-data-grid-row-key="string:task-1"]').evaluate(row => row.contains(document.activeElement)), true);
   await action('전체 행 완료 처리'); rows = (await data()).rows;
   assert.equal(rows.length, 12); assert.ok(rows.every(row => row.completed === row.quantity));
   pass('batch updates honor selected, filtered and all row scopes', { all: 12, filtered: 4, selected: 2 });
 
-  await load('ref-focus'); const original = (await data()).rows[0].task; await preview(); await action('첫 작업명 변경');
+  await load('ref-focus'); const original = (await data()).rows[0].task; await preview(); await action('첫 행의 작업명 변경');
   assert.notEqual((await data()).rows[0].task, original); await preview(); await action('마지막 행 보기'); assert.equal(await result('scrollToRow'), true);
-  await action('첫 작업 셀 포커스');
+  await action('첫 작업 셀로 이동');
   await page.waitForFunction(() => document.querySelector('[data-owp-data-grid-row-key="string:task-1"] .OwpDataGrid-cell:nth-child(2)')?.contains(document.activeElement));
   const focused = await page.evaluate(() => document.querySelector('[data-owp-data-grid-row-key="string:task-1"] .OwpDataGrid-cell:nth-child(2)')?.contains(document.activeElement));
   assert.equal(focused, true); assert.equal(await result('focusCell'), true);
   await action('편집 확정'); assert.equal(await result('commitEditing'), true);
   pass('change values, scroll, focus and commit', { focused });
 
-  await load('ref-move'); await select(2); await select(3); await action('선택 행 상단 이동');
+  await load('ref-move'); await select(2); await select(3); await action('선택단일 행 맨 위로');
   rows = (await data()).rows; assert.deepEqual(rows.slice(0, 2).map(row => row.id), ['task-3', 'task-4']);
-  await preview(); await action('선택 행 하단 이동'); rows = (await data()).rows; assert.deepEqual(rows.slice(-2).map(row => row.id), ['task-3', 'task-4']);
-  await load('ref-move'); await select(5); await action('한 행 상단 이동'); assert.equal((await data()).rows[0].id, 'task-6');
+  await preview(); await action('선택 행 맨 아래로'); rows = (await data()).rows; assert.deepEqual(rows.slice(-2).map(row => row.id), ['task-3', 'task-4']);
+  await load('ref-move'); await select(5); await action('단일 행 맨 위로'); assert.equal((await data()).rows[0].id, 'task-6');
   pass('atomic multi-row movement and single-row movement', { singleTop: 'task-6' });
 
   await load('ref-changes'); await edit('task-1', 1, '검증용 변경');
@@ -94,11 +110,21 @@ try {
   await edit('task-2', 1, '되돌릴 변경'); await action('변경 되돌리기'); assert.equal((await data()).rows[1].task, '화면 설계');
   pass('accept and reset working changes', { unsavedAfterApproval: false });
 
-  await load('external-validation'); await action('메시지 1건 표시'); await action('검증 메시지 확인'); assert.equal((await result('getCellErrors')).length, 1);
-  await action('메시지 2건 표시'); await action('검증 메시지 확인'); assert.equal((await result('getCellErrors')).length, 2);
-  await action('전체 작업 검증'); const validation = await result('validate'); assert.equal(validation.valid, false); assert.equal(validation.errors.length, 2);
-  await action('검증 메시지 전체 해제'); await action('검증 메시지 확인'); assert.equal((await result('getCellErrors')).length, 0);
-  pass('external validation messages and clearing', { errors: validation.errors.length, afterClear: 0 });
+  await load('external-validation');
+  const validationStatus = page.locator('.example-caption[role="status"]');
+  assert.deepEqual(await page.locator('.example-controls button').allTextContents(), [
+    '메시지 1건 표시', '메시지 2건 표시', '검증 메시지 모두 지우기',
+  ]);
+  await action('메시지 1건 표시');
+  assert.equal(await validationStatus.textContent(), '검증 메시지 1건이 표시되어 있습니다.');
+  assert.equal(await result('setCellError'), true);
+  await action('메시지 2건 표시');
+  assert.equal(await validationStatus.textContent(), '검증 메시지 2건이 표시되어 있습니다.');
+  assert.equal(await result('setCellErrors'), true);
+  await action('검증 메시지 모두 지우기');
+  assert.equal(await validationStatus.textContent(), '검증 메시지를 모두 지웠습니다.');
+  assert.deepEqual(await result('clearCellErrors'), { cleared: true });
+  pass('external validation messages and clearing', { buttons: 3, errors: 2, afterClear: 0 });
 
   await load('server-save'); assert.equal(await page.locator('.workspace-heading h1').textContent(), '변경 관리');
   await edit('task-1', 1, '기존 링크에서 확정한 작업'); await action('변경 확정');

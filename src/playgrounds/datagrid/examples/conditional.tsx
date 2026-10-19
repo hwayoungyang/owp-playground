@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { FormControlLabel, MenuItem, Select, Switch } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
@@ -124,28 +125,32 @@ export function ConditionalStylesGrid(props: GridViewProps = {}) {
   );
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <span>{t('배경색 적용')}</span>
-        <Select
-          size="small"
-          value={backgroundScope}
-          inputProps={{ 'aria-label': t('배경색 적용') }}
-          onChange={(event) => setBackgroundScope(backgroundScopeSchema.parse(event.target.value))}
-        >
-          <MenuItem value="cell">{t('셀')}</MenuItem>
-          <MenuItem value="row">{t('행')}</MenuItem>
-        </Select>
-        <FormControlLabel
-          control={
-            <Switch
-              size="small"
-              checked={restrictCompleted}
-              onChange={(_, checked) => setRestrictCompleted(checked)}
-            />
-          }
-          label={t('완료 행 편집 제한')}
-        />
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <span>{t('배경색 적용')}</span>
+          <Select
+            size="small"
+            value={backgroundScope}
+            inputProps={{ 'aria-label': t('배경색 적용') }}
+            onChange={(event) =>
+              setBackgroundScope(backgroundScopeSchema.parse(event.target.value))
+            }
+          >
+            <MenuItem value="cell">{t('셀')}</MenuItem>
+            <MenuItem value="row">{t('행')}</MenuItem>
+          </Select>
+          <FormControlLabel
+            control={
+              <Switch
+                size="small"
+                checked={restrictCompleted}
+                onChange={(_, checked) => setRestrictCompleted(checked)}
+              />
+            }
+            label={t('완료 행 편집 제한')}
+          />
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

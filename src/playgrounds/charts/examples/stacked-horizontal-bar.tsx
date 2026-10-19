@@ -1,5 +1,6 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useState } from 'react';
+import { createBarSegmentLabels } from '../model/barSegmentLabels';
 import type { NativeData, NativeOptions } from '../model/chartTypes';
 import { processNames, processValues, years } from '../model/referenceData';
 import type { ChartExampleProps } from '../model/types';
@@ -29,27 +30,20 @@ export function ChartExample(props: ChartExampleProps) {
       y: { stacked: true, grid: { display: false } },
     },
     plugins: {
-      datalabels: {
-        display: (context) => {
-          const value = context.dataset.data[context.dataIndex];
-          return (
-            labels &&
-            typeof value === 'number' &&
-            (context.chart.chartArea.width * value) / 12 >= 28
-          );
-        },
-        color: (context) =>
-          palette.contrastText(palette.colors[context.datasetIndex] ?? palette.surface),
-        formatter: (value: number) => (value >= 0.4 ? value.toFixed(1) : ''),
-      },
+      datalabels: createBarSegmentLabels({
+        enabled: labels,
+        palette,
+        formatter: (value) => value.toFixed(1),
+      }),
       tooltip: { callbacks: { label: (item) => `${item.dataset.label}: ${item.parsed.x}` } },
     },
   };
   return (
     <>
       <Controls>
-        <Toggle label="값 표시" value={labels} onChange={setLabels} />
+        <Toggle label="구간 값 표시" value={labels} onChange={setLabels} />
       </Controls>
+      {labels && <p className="chart-note">{t('안쪽 라벨은 막대 안에 들어갈 때만 표시합니다.')}</p>}
       <ChartCanvas type="bar" data={data} options={options} {...props} />
     </>
   );

@@ -72,7 +72,7 @@ export const gridConfiguration: GridConfiguration = {
     {
       id: 'mixed',
       field: 'mixed',
-      header: '숫자 / 문자',
+      header: '숫자·텍스트',
       minWidth: 240,
       relWidth: 2,
       editable: true,

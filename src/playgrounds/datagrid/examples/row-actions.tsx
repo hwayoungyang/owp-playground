@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef } from '@owp/datagrid/types';
@@ -92,17 +93,19 @@ export function RowEditingGrid(props: GridViewProps = {}) {
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button
-          onClick={() => {
-            const row = { ...seedTask, id: crypto.randomUUID(), task: translate('새 작업') };
-            const success = gridRef.current?.addRow(row, { position: 'root-first' });
-            onRecord?.('addRow', { success, rowId: row.id });
-          }}
-        >
-          {translate('새 행 추가')}
-        </Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button
+            onClick={() => {
+              const row = { ...seedTask, id: crypto.randomUUID(), task: translate('새 작업') };
+              const success = gridRef.current?.addRow(row, { position: 'root-first' });
+              onRecord?.('addRow', { success, rowId: row.id });
+            }}
+          >
+            {translate('새 행 추가')}
+          </Button>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

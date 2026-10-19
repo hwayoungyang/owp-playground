@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
@@ -127,14 +128,16 @@ export function TransactionsGrid(props: GridViewProps = {}) {
   };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button variant="outlined" onClick={complete}>
-          {translate('일괄 완료')}
-        </Button>
-        <Button variant="outlined" onClick={approve}>
-          {translate('변경 확정')}
-        </Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button variant="outlined" onClick={complete}>
+            {translate('일괄 완료')}
+          </Button>
+          <Button variant="outlined" onClick={approve}>
+            {translate('변경 확정')}
+          </Button>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

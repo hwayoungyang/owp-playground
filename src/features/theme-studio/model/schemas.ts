@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { previewPresetSchema } from './preview';
+import { previewPresetFileSchema } from './preview';
 
 const concreteColor = z
   .string()
@@ -124,6 +124,7 @@ export const dataGridThemeSchema = z.strictObject({
       color: color.optional(),
       dateInputFontSize: size.optional(),
       bottomBorderColor: color.optional(),
+      bottomBorderWidth: z.number().min(0).optional(),
       operatorColor: color.optional(),
       disabledOpacity: opacity.optional(),
       menuHoverBackgroundColor: color.optional(),
@@ -216,7 +217,7 @@ export const muiThemeSchema = z.strictObject({
 export const themeFileSchema = z.strictObject({
   format: z.literal('owp-theme'),
   version: z.literal(1),
-  preset: previewPresetSchema,
+  preset: previewPresetFileSchema,
   mui: muiThemeSchema,
   dataGrid: dataGridThemeSchema,
   dataGridProps: z.strictObject({ radius: z.number().min(0).max(2) }),

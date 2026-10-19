@@ -45,7 +45,7 @@ export const gridCatalog = [
   },
   entry('overview', '표시 행 수 고정', {
     category: 'start',
-    description: '표시할 행 수를 고정하고, 행 선택과 합계를 확인합니다.',
+    description: '화면에 표시할 행 수를 고정하고 행 선택과 합계를 확인합니다.',
     api: ['visibleRowCount', 'rowSelectionModel', 'summaryRows'],
   }),
   entry('cell-types', '셀 타입', {
@@ -60,7 +60,7 @@ export const gridCatalog = [
   }),
   entry('select', '셀렉트', {
     category: 'columns',
-    description: '셀렉트·자동완성으로 단일·다중 값을 선택합니다.',
+    description: '셀렉트와 자동완성에서 단일·다중 선택을 사용합니다.',
     api: ['type', 'valueOptions', 'selectOptions.multiple', 'autocompleteOptions.multiple'],
   }),
   entry('formatting', '숫자·날짜 서식', {
@@ -75,55 +75,47 @@ export const gridCatalog = [
   }),
   entry('overflow-hint', '긴 내용 보기', {
     category: 'columns',
-    description: '잘린 셀에 마우스를 올리면 전체 내용을 보여줍니다.',
+    description: '내용이 잘린 셀에 마우스를 올리면 전체 내용을 볼 수 있습니다.',
     api: ['overflowHint'],
   }),
   entry('column-layout', '고정 컬럼', {
     category: 'columns',
-    description: '프로젝트 컬럼을 고정하고 가로로 스크롤하는 예시입니다.',
+    description: '프로젝트 컬럼을 고정한 상태로 가로 스크롤을 사용합니다.',
     api: ['layout.columnRegions', 'resizable', 'relWidth'],
   }),
   entry('headers', '다단 헤더', {
     category: 'columns',
-    description: '컬럼을 묶고 하위 헤더의 정렬 버튼을 설정합니다.',
+    description: '컬럼을 여러 단계의 헤더로 묶고 하위 컬럼의 정렬 버튼을 켜고 끕니다.',
     api: ['headerRows', 'hideChildHeaderSortButtons'],
   }),
   entry('conditional', '조건부 스타일', {
     category: 'styling',
-    description: '셀·행 색상과 편집 제한을 설정합니다.',
+    description: '셀과 행의 색상을 바꾸고 편집을 제한합니다.',
     api: ['cellStyle', 'editable'],
   }),
   entry('custom-style', '커스텀 스타일', {
     category: 'styling',
     description: '스타일과 글자 크기를 바꿉니다.',
-    api: [
-      'sx',
-      'headerRows',
-      'className',
-      'style',
-      'cellStyle',
-      'virtualization.rowHeight',
-      'OwpThemeProvider',
-    ],
+    api: ['sx', 'headerRows', 'className', 'style', 'cellStyle', 'virtualization.rowHeight'],
   }),
-  entry('row-span', '지정 행 병합', {
+  entry('row-span', '행 수에 따라 병합', {
     category: 'span',
-    description: '값과 관계없이 지정한 행 수만큼 셀을 병합하는 예시입니다.',
+    description: '셀 값과 관계없이 지정한 행 수만큼 세로로 병합합니다.',
     api: ['getCellSpan.rowSpan'],
   }),
   entry('auto-span', '자동 행 병합', {
     category: 'span',
-    description: '프로젝트 컬럼에서 같은 값이 연속된 셀을 자동 병합하는 예시입니다.',
+    description: '프로젝트 컬럼에서 같은 값이 연속된 셀을 세로로 병합합니다.',
     api: ['getCellRowSpanKey'],
   }),
   entry('column-span', '열 병합', {
     category: 'span',
-    description: '작업 요약 셀을 가로로 병합하는 예시입니다.',
+    description: '작업 요약 셀을 가로로 병합합니다.',
     api: ['getCellSpan.colSpan'],
   }),
   entry('combined-span', '행·열 병합', {
     category: 'span',
-    description: '프로젝트의 세로 병합과 작업 요약의 가로 병합을 함께 보여주는 예시입니다.',
+    description: '프로젝트 셀은 세로로, 작업 요약 셀은 가로로 병합합니다.',
     api: ['getCellSpan', 'getCellRowSpanKey'],
   }),
   entry('span-scroll', '병합·가상 스크롤', {
@@ -131,19 +123,24 @@ export const gridCatalog = [
     description: '1만 행에서 병합과 가상 스크롤을 확인합니다.',
     api: ['virtualization', 'getCellRowSpanKey'],
   }),
+  entry('selection', '행 선택', {
+    category: 'interaction',
+    description: '단일·다중 선택을 전환합니다.',
+    api: ['rowSelectionMode', 'rowSelectionModel', 'onRowSelectionModelChange'],
+  }),
   entry('design-system', '외부 버튼 제어', {
     category: 'interaction',
     description: '외부 버튼으로 행을 선택·해제·삭제합니다.',
-    api: ['rowSelectionModel', 'deleteRows', 'OwpThemeProvider'],
+    api: ['rowSelectionModel', 'onRowSelectionModelChange', 'deleteRows'],
   }),
   entry('selection-policy', '새 행 선택', {
     category: 'interaction',
-    description: '새 행을 상단에 추가하고 체크박스 표시를 바꿉니다.',
+    description: '새 행을 맨 위에 추가하고 선택 허용 여부를 바꿉니다.',
     api: ['allowSelectAll', 'defaultRowSelectionModel', 'layout.rowPanel'],
   }),
   entry('click-events', '클릭 이벤트', {
     category: 'interaction',
-    description: '셀과 행 클릭에서 받은 값을 확인합니다.',
+    description: '셀이나 행을 클릭했을 때 전달되는 값을 확인합니다.',
     api: ['onCellClick', 'onRowClick'],
   }),
   entry('context-menu', '컨텍스트 메뉴', {
@@ -163,12 +160,12 @@ export const gridCatalog = [
   }),
   entry('editing', '셀 편집', {
     category: 'editing',
-    description: 'Enter로 확정하고 Esc로 취소합니다.',
+    description: '셀을 편집한 뒤 Enter로 확정하거나 Esc로 취소합니다.',
     api: ['editable', 'enterKeyAction', 'onCellValueCommit'],
   }),
   entry('ref-focus', '셀 값·포커스', {
     category: 'editing',
-    description: '셀 값을 바꾸고, 원하는 행과 셀로 이동합니다.',
+    description: '셀 값을 바꾸고 원하는 행이나 셀로 이동합니다.',
     api: ['setCellValue', 'scrollToRow', 'focusCell', 'commitEditing'],
   }),
   entry('validation', '입력 검증', {
@@ -179,7 +176,7 @@ export const gridCatalog = [
   entry('external-validation', '검증 메시지', {
     category: 'editing',
     description: '외부에서 받은 검증 메시지를 셀에 표시하고 지웁니다.',
-    api: ['setCellError', 'setCellErrors', 'clearCellError', 'clearCellErrors', 'getCellErrors'],
+    api: ['setCellError', 'setCellErrors', 'clearCellErrors'],
   }),
   entry('row-actions', '행 편집 툴바', {
     category: 'rows',
@@ -188,17 +185,17 @@ export const gridCatalog = [
   }),
   entry('row-insertion', '행 추가 위치', {
     category: 'rows',
-    description: '상단, 선택한 행 다음, 하단에 새 행을 추가합니다.',
-    api: ['addRow', 'OwpDataGridRowPlacement'],
+    description: '맨 위나 맨 아래, 또는 선택한 행 다음에 새 행을 추가합니다.',
+    api: ['addRow', 'position', 'targetRowId'],
   }),
   entry('row-deletion', '삭제·복구', {
     category: 'rows',
-    description: '선택 행은 삭제·복구, 새 행은 취소합니다.',
+    description: '선택한 행을 삭제하거나 복구하고, 새로 추가한 행은 취소합니다.',
     api: ['deleteRows', 'undeleteRows', 'discardAddedRows', 'confirmDeletedRowRemoval'],
   }),
   entry('reordering', '행 이동 · 드래그', {
     category: 'rows',
-    description: '한 행이나 선택한 행을 드래그로 옮깁니다.',
+    description: '행을 개별로 이동하거나 선택한 행을 함께 이동합니다.',
     api: ['rowReordering', 'onChangesChange'],
   }),
   entry('ref-move', '행 이동 · 버튼', {
@@ -208,7 +205,7 @@ export const gridCatalog = [
   }),
   entry('ref-data', '행 조회·일괄 처리', {
     category: 'rows',
-    description: '전체·필터·선택 행을 조회하고 일괄 변경합니다.',
+    description: '전체 행, 필터링한 행, 선택한 행을 각각 조회하고 한 번에 변경합니다.',
     api: ['getRows', 'getVisibleRows', 'getSelectedRows', 'getRow', 'applyTransaction'],
   }),
   entry('ref-changes', '변경 관리', {
@@ -223,7 +220,7 @@ export const gridCatalog = [
   }),
   entry('worksheet', '계산·셀 연동', {
     category: 'aggregation',
-    description: '비용을 계산하고, 같은 프로젝트와 다른 프로젝트의 셀을 연동하는 예시입니다.',
+    description: '같은 프로젝트의 셀과 다른 프로젝트의 셀을 연동해 비용을 계산합니다.',
     api: ['valueSetter', 'onCellValueCommit', 'summaryRows'],
   }),
   entry('tree', '트리', {
@@ -238,32 +235,27 @@ export const gridCatalog = [
   }),
   entry('tree-span', '트리·병합', {
     category: 'hierarchy',
-    description: '트리 안에서 같은 프로젝트의 작업을 병합하는 예시입니다.',
+    description: '트리 안에서 같은 프로젝트의 작업을 병합합니다.',
     api: ['treeOptions', 'getCellRowSpanKey'],
   }),
   entry('detail-custom', '상세 패널', {
     category: 'hierarchy',
-    description: '프로젝트 요약과 주간 실적을 표시하는 예시입니다.',
+    description: '상세 패널에 프로젝트 요약과 주간 실적을 표시합니다.',
     api: ['detailPanel.renderDetail'],
   }),
   entry('detail-grid', '상세 그리드', {
     category: 'hierarchy',
     description: '행을 펼쳐 하위 작업과 합계를 표시합니다.',
-    api: ['detailPanel.loadRows', 'detailPanel.renderDetail', 'OwpDataGridExportExcelButton'],
+    api: ['detailPanel.loadRows', 'detailPanel.renderDetail', 'dataGridRef', 'scope'],
   }),
-  entry('empty', '데이터 없음', {
+  entry('states', '로딩·빈 데이터·오류', {
     category: 'data',
-    description: '빈 화면에서 로딩을 시작·종료합니다.',
-    api: ['noDataMessage', 'loading'],
-  }),
-  entry('error', '오류·재시도', {
-    category: 'data',
-    description: '조회 오류를 표시하고 다시 시도합니다.',
-    api: ['errorOverlay'],
+    description: '로딩·빈 데이터·오류 상태를 전환하고 조회를 다시 시도합니다.',
+    api: ['loading', 'noDataMessage', 'errorOverlay'],
   }),
   entry('server-mode', '서버 조회', {
     category: 'data',
-    description: '정렬·필터 조건으로 모의 서버를 조회합니다.',
+    description: '정렬·필터 조건을 모의 서버에 전달하고 조회 결과를 표시합니다.',
     api: ['sortingMode', 'filteringMode'],
   }),
   entry('large-data', '대용량 데이터', {
@@ -273,8 +265,8 @@ export const gridCatalog = [
   }),
   entry('excel', 'Excel 내보내기', {
     category: 'export',
-    description: '표시 행, 전체 행, 선택 행을 각각 내보냅니다.',
-    api: ['OwpDataGridExportExcelButton', 'excel.numFmt'],
+    description: '현재 표시된 행, 전체 행, 선택한 행을 각각 내보냅니다.',
+    api: ['dataGridRef', 'scope', 'exportName', 'excel.numFmt'],
   }),
   entry('excel-snapshot', 'Excel 내보내기 API', {
     category: 'export',
@@ -295,9 +287,10 @@ export type GridExampleId = GridExample['id'];
 export const gridAliases: Readonly<Record<string, string>> = {
   minimal: 'overview',
   'visible-rows': 'overview',
-  loading: 'empty',
+  loading: 'states',
+  empty: 'states',
+  error: 'states',
   autocomplete: 'select',
-  selection: 'overview',
   radius: 'overview',
   'span-selection': 'auto-span',
   'server-save': 'ref-changes',

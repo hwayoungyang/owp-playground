@@ -21,7 +21,7 @@ export function ChartExample(props: ChartExampleProps) {
       // X slider는 label index를 사용하므로 0–100 좌표의 domain을 제공합니다.
       labels: Array.from({ length: 101 }, (_, value) => value),
       datasets: clusters.map((points, index) => {
-        const color = palette.colors[[0, 3, 5, 1][index] ?? 0] ?? palette.ink;
+        const color = palette.colors[index] ?? palette.ink;
         return {
           label: t('군집 {{number}}', { number: index + 1 }),
           data: points,
@@ -79,7 +79,7 @@ export function ChartExample(props: ChartExampleProps) {
     <>
       <Controls>
         <Range
-          label="군집별 점 수"
+          label="군집별 데이터 수"
           value={count}
           min={500}
           max={5000}
@@ -102,7 +102,6 @@ export function ChartExample(props: ChartExampleProps) {
           }}
         />
       </div>
-      <p className="chart-note">{t('성능을 위해 애니메이션을 사용하지 않습니다.')}</p>
     </>
   );
 }

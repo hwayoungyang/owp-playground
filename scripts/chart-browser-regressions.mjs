@@ -100,7 +100,7 @@ export async function runChartBrowserRegressions(
     Number(await count.getAttribute("value", {})) > before,
     "Live window count must remain interactive",
   );
-  await page.getByRole("button", { name: "한 건 추가", exact: true }).click();
+  await page.getByRole("button", { name: "데이터 추가", exact: true }).click();
   expect((await pressed(reading)) === "false", "Live 데이터를 추가해도 수동 숨김을 유지해야 합니다");
   await reading.click();
   expect((await pressed(reading)) === "true", "일시정지 중에도 마지막 Live series를 복원할 수 있어야 합니다");

@@ -11,6 +11,7 @@ import type { EventLogEntry } from '../../../shared/types/events';
 import type { GridExample } from '../catalog';
 import { generateTasks, initialTasks, type Task } from '../model/data';
 import { getGridConfiguration } from '../model/gridConfiguration';
+import { type GridState, gridStates } from '../model/gridStates';
 
 type PendingBinding = {
   readonly controller: AbortController;
@@ -40,7 +41,7 @@ export function useGridController(example: GridExample) {
   const [rows, setRows] = useState(configuration.rows);
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(Boolean(configuration.loading));
-  const [error, setError] = useState(example.id === 'error');
+  const [error, setError] = useState(false);
   const [events, setEvents] = useState<readonly EventLogEntry[]>([]);
   const [selected, setSelected] = useState<readonly OwpDataGridRowId[]>(
     configuration.defaultRowSelectionModel ?? [],
@@ -113,7 +114,7 @@ export function useGridController(example: GridExample) {
     setSort(configuration.defaultSortModel ?? []);
     setFilters(configuration.defaultFilterModel ?? []);
     setLoading(Boolean(configuration.loading));
-    setError(example.id === 'error');
+    setError(false);
     setChangeCount(0);
     setEvents([]);
   };
@@ -182,9 +183,22 @@ export function useGridController(example: GridExample) {
     setRows(initialTasks);
     setRowCount(initialTasks.length);
     setError(false);
+    setLoading(false);
     record('retry', { count: initialTasks.length });
   };
 
+  const changeState = (state: GridState) => {
+    const next = gridStates[state];
+    setRows(next.rows);
+    setRowCount(next.rows.length);
+    setLoading(next.loading);
+    setError(next.error);
+    setSelected([]);
+    setChangeCount(0);
+    record('state', state);
+  };
+
+  const state: GridState = loading ? 'loading' : error ? 'error' : rows.length ? 'ready' : 'empty';
   return {
     configuration,
     gridRef,
@@ -217,6 +231,8 @@ export function useGridController(example: GridExample) {
     onSelection,
     onRowsUpdate,
     retry,
+    changeState,
+    state,
   };
 }
 

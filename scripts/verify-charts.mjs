@@ -100,7 +100,7 @@ try {
   assert.equal(await liveData(), pausedLive);
   await page.getByRole('tab', { name: '예제', exact: true }).click();
   await page.getByRole('slider', { name: '표시할 데이터 수', exact: true }).press('End');
-  for (let index = 0; index < 65; index += 1) await page.getByRole('button', { name: '한 건 추가', exact: true }).click();
+  for (let index = 0; index < 65; index += 1) await page.getByRole('button', { name: '데이터 추가', exact: true }).click();
   await page.getByRole('tab', { name: '데이터', exact: true }).click();
   assert.equal((await readChartData(page)).labels.length, 60);
   const appendedLive = await liveData();
@@ -187,11 +187,11 @@ try {
   pass('normalized stacks total 100 percent', { rows: 12 });
 
   await open('states');
-  await page.getByRole('button', { name: '로딩', exact: true }).click();
+  await page.getByRole('button', { name: '로딩 중', exact: true }).click();
   assert.equal(await page.locator('.chart-canvas [aria-busy]').getAttribute('aria-busy'), 'true');
   await page.getByRole('button', { name: '데이터 없음', exact: true }).click();
   assert.match(await page.locator('.chart-canvas').getByRole('status').filter({ hasText: '표시할 차트 데이터' }).textContent(), /표시할 차트 데이터/);
-  await page.getByRole('button', { name: '오류', exact: true }).click();
+  await page.getByRole('button', { name: '조회 실패', exact: true }).click();
   await page.getByRole('alert').waitFor();
   await page.getByRole('button', { name: '다시 시도', exact: true }).click();
   await page.locator('canvas').waitFor();

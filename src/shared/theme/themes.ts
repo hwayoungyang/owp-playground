@@ -83,7 +83,7 @@ export function createGridTheme(
     row: { backgroundColor: palette.canvas, solidBackgroundColor: palette.chrome },
     cell: { borderColor, fontSize: 13 },
     panel: {
-      backgroundColor: palette.chrome,
+      backgroundColor: palette.canvas,
       color: palette.secondary,
       inactiveFilterColor: palette.secondary,
       activeColor: palette.ink,
@@ -93,9 +93,10 @@ export function createGridTheme(
       selectedBackgroundColor: palette.subtle,
     },
     filter: {
-      backgroundColor: palette.chrome,
+      backgroundColor: palette.canvas,
       color: palette.ink,
       bottomBorderColor: borderColor,
+      bottomBorderWidth: 2,
       operatorColor: palette.secondary,
     },
     state: {
@@ -112,8 +113,12 @@ export function createGridTheme(
     },
     editable: { backgroundColor: palette['warning-wash'] },
     changed: {
-      backgroundColor: palette['success-wash'],
-      color: palette.success,
+      backgroundColor: palette.success,
+      color:
+        getContrastRatio(palette.success, palette.ink) >=
+        getContrastRatio(palette.success, palette.canvas)
+          ? palette.ink
+          : palette.canvas,
       rowBackgroundColor: palette.canvas,
     },
     scrollbar: {

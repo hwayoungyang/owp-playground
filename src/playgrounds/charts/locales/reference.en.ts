@@ -1,9 +1,9 @@
 export const referenceEnglish = {
-  'Grouped stacks by line': 'Grouped stacks by line',
+  'Stacked column · Grouped axis': 'Stacked column · Grouped axis',
   'Divergent forecast': 'Divergent forecast',
-  '라인별로 연도 구역을 나누고 주간조·야간조의 생산량을 누적합니다.':
+  '각 라인의 연도별 생산량을 묶고, 주간조와 야간조의 생산량을 누적해 표시합니다.':
     'Group yearly columns by line and stack output for day and night shifts.',
-  '관측된 누적 생산량에서 갈라지는 세 가지 운영 시나리오의 예측을 비교합니다.':
+  '관측된 누적 생산량을 기준으로 세 가지 운영 시나리오의 예측을 비교합니다.':
     'Compare three operating scenarios branching from observed cumulative production.',
   '관측 생산량': 'Observed output',
   '기본 예측': 'Baseline forecast',
@@ -29,17 +29,17 @@ export const referenceEnglish = {
     'Overlay columns of different widths to compare line output across two periods.',
   '공정별 생산량을 가로로 누적하고 연도별 합계를 비교합니다.':
     'Stack process output horizontally to compare yearly totals.',
-  '연도별 계획과 실적을 나란한 가로 Bar로 비교합니다.':
+  '연도별 계획과 실적을 가로 Bar로 나란히 비교합니다.':
     'Compare yearly production plans and actual output with grouped horizontal bars.',
-  'Column과 두 Line을 조합하고 생산량·설비 온도·가동시간을 각각의 축에 연결합니다.':
+  'Column과 Line 2개를 조합해 생산량·설비 온도·가동시간을 각 축에 표시합니다.':
     'Combine columns and two lines with separate axes for output, equipment temperature and operating time.',
-  '일별 평균 Column 위에 촘촘한 시간별 진동 Line을 표시합니다.':
+  '일별 평균을 Column으로 표시하고 시간별 진동 값을 Line으로 겹쳐 표시합니다.':
     'Overlay hourly vibration readings on columns of daily averages.',
   '목표 대비 생산량 차이를 기준선 위와 아래의 색상으로 구분합니다.':
     'Distinguish production variance above and below target with separate fill colors.',
-  '세 생산 라인의 생산량을 누적 영역과 주요 시점의 기준선으로 표시합니다.':
+  '세 생산 라인의 생산량을 누적 영역으로 표시하고 주요 시점에 기준선을 추가합니다.':
     'Show output across three production lines as stacked areas with reference lines for key events.',
-  '요일·시간대별 생산량을 색상의 진하기로 비교합니다.':
+  '요일과 시간대별 생산량을 색상으로 구분합니다.':
     'Compare output by weekday and hour using color intensity.',
   '라인·설비별 생산량을 사각형의 넓이와 색상으로 비교합니다.':
     'Compare output by line and equipment using rectangle area and color.',

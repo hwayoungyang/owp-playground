@@ -1,7 +1,9 @@
 import { useOwpTranslation, useResponsiveDevice } from '@owp/components/hooks';
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useGridTheme } from '@owp/theme';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { GridExample } from '../catalog';
 import { gridRegistry } from '../model/gridRegistry';
+import type { GridViewProps } from '../model/gridTypes';
 import type { GridViewSettings } from './GridSettingsDrawer';
 import type { GridController } from './useGridController';
 
@@ -10,15 +12,19 @@ export function GridPreview({
   controller,
   settings,
   themeRadius,
+  onSelectionModeChange,
 }: {
   readonly example: GridExample;
   readonly controller: GridController;
   readonly settings: GridViewSettings;
   readonly themeRadius?: number;
+  readonly onSelectionModeChange: GridViewProps['onSelectionModeChange'];
 }) {
   const { finishBinding, onRowsUpdate } = controller;
   const { t } = useOwpTranslation();
   const { isTabletOrDown } = useResponsiveDevice();
+  const gridTheme = useGridTheme('dataGrid');
+  const [movedRowKeys, setMovedRowKeys] = useState<readonly string[]>([]);
   const gridHost = useRef<HTMLElement>(null);
   const GridView = gridRegistry[example.id].Component;
   useLayoutEffect(() => {
@@ -80,18 +86,28 @@ export function GridPreview({
       after: params.value,
     });
   };
+  const movedHandleStyles = Object.fromEntries(
+    movedRowKeys.map((key) => [
+      `& [data-owp-data-grid-row-key="${CSS.escape(key)}"] .OwpDataGrid-dragHandle`,
+      {
+        color: gridTheme.changed.backgroundColor,
+        '&:hover, &:active': { color: gridTheme.changed.backgroundColor },
+      },
+    ]),
+  );
   return (
     <section
       ref={gridHost}
       className={`grid-preview${(themeRadius ?? settings.radius) ? ' rounded' : ''}`}
       data-sample={example.id}
-      aria-label={`${t(example.title)} ${t('그리드와 탐색 컨트롤')}`}
+      aria-label={`${t(example.title)} ${t('그리드와 조작 영역')}`}
     >
       <div className="grid-preview-content">
         <GridView
           key={controller.gridVersion}
           {...controller.configuration}
           gridRef={controller.gridRef}
+          {...(example.id === 'selection' ? { onSelectionModeChange } : {})}
           onRecord={controller.record}
           onRowsChange={onRowsUpdate}
           onBusyChange={controller.setBusy}
@@ -125,7 +141,23 @@ export function GridPreview({
                   rowHeight: settings.compact ? 32 : 40,
                 }
           }
-          onChangesChange={controller.onChanges}
+          onChangesChange={(changes) => {
+            controller.onChanges(changes);
+            if (controller.configuration.rowReordering) {
+              setMovedRowKeys(
+                changes.flatMap(({ type, rowId, location, originalLocation }) =>
+                  type === 'updated' &&
+                  location &&
+                  originalLocation &&
+                  (location.index !== originalLocation.index ||
+                    location.parentRowId !== originalLocation.parentRowId)
+                    ? [`${typeof rowId}:${rowId}`]
+                    : [],
+                ),
+              );
+            }
+          }}
+          sx={movedHandleStyles}
           onCellValueCommit={handleCommit}
           onCellClick={({ rowId, column }) =>
             controller.record('cell.click', { rowId, columnId: column.id })

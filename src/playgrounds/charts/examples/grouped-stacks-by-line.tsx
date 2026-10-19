@@ -2,6 +2,7 @@ import { alpha } from '@mui/material/styles';
 import { createGroupedAxisLabelsPlugin } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
+import { createBarSegmentLabels } from '../model/barSegmentLabels';
 import type { NativeChartType, NativeData, NativeOptions } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useChartPalette } from '../model/useCartesian';
@@ -81,16 +82,7 @@ export function ChartExample(props: ChartExampleProps) {
       },
     },
     plugins: {
-      datalabels: {
-        display: values,
-        color: (context) =>
-          context.datasetIndex % 2 === 0
-            ? palette.contrastText(
-                palette.colors[Math.floor(context.datasetIndex / 2)] ?? palette.surface,
-              )
-            : palette.ink,
-        formatter: (value: number | null) => value ?? '',
-      },
+      datalabels: createBarSegmentLabels({ enabled: values, palette }),
       tooltip: {
         filter: (item) => item.raw !== null,
         callbacks: {
@@ -120,8 +112,9 @@ export function ChartExample(props: ChartExampleProps) {
   return (
     <>
       <Controls>
-        <Toggle label="값 표시" value={values} onChange={setValues} />
+        <Toggle label="구간 값 표시" value={values} onChange={setValues} />
       </Controls>
+      {values && <p className="chart-note">{t('안쪽 라벨은 막대 안에 들어갈 때만 표시합니다.')}</p>}
       <ChartCanvas
         type="bar"
         data={data}

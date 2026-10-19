@@ -4,6 +4,7 @@ import { OwpDataGridExportExcelButton } from '@owp/datagrid';
 import { DownloadSimpleIcon, SlidersHorizontalIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { z } from 'zod';
+import { DataStateButtons } from '../../../shared/ui/DataStateButtons';
 import { PreviewToolbar } from '../../../shared/ui/PreviewToolbar';
 import type { GridExample } from '../catalog';
 import type { GridController } from './useGridController';
@@ -44,7 +45,9 @@ export function GridToolbar({
             {example.id === 'large-data' && controller.bindingTime && (
               <output className="grid-binding-time" aria-live="polite">
                 <span>
-                  {t('그리드 반영 시간 {{ms}} ms', { ms: controller.bindingTime.milliseconds })}
+                  {t('데이터 반영 시간: {{ms}} ms', {
+                    ms: controller.bindingTime.milliseconds,
+                  })}
                 </span>
                 <span>{t('측정 시간은 테스트 환경에 따라 달라질 수 있습니다.')}</span>
               </output>
@@ -52,8 +55,11 @@ export function GridToolbar({
           </>
         )
       }
-      leadingActions={
+      startActions={
         <>
+          {example.id === 'states' && (
+            <DataStateButtons state={controller.state} onChange={controller.changeState} />
+          )}
           {example.id === 'large-data' && (
             <>
               <Select
@@ -85,18 +91,6 @@ export function GridToolbar({
                 </Button>
               )}
             </>
-          )}
-          {example.id === 'empty' && (
-            <Button
-              variant="outlined"
-              aria-pressed={controller.loading}
-              onClick={() => {
-                controller.setLoading(!controller.loading);
-                controller.record('loading', !controller.loading);
-              }}
-            >
-              {t(controller.loading ? '로딩 종료' : '로딩 시작')}
-            </Button>
           )}
         </>
       }

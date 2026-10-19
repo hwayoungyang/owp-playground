@@ -52,7 +52,7 @@ try{
   await page.getByRole('button',{name:'일시정지',exact:true}).click();
   assert.equal(await page.evaluate(()=>window.activeIntervals.size),0);
   await page.evaluate(()=>{window.motionFrames=[];});
-  await page.getByRole('button',{name:'한 건 추가',exact:true}).click();
+  await page.getByRole('button',{name:'데이터 추가',exact:true}).click();
   await page.waitForTimeout(80);
   const pausedAppendFrames=await page.evaluate(()=>window.motionFrames.length);
   await page.waitForTimeout(220);
@@ -103,7 +103,7 @@ try{
   pass('automatic samples preserve continuous axis position across four updates',{frames:continuous.length});
   const automaticCount=continuous.length;
   await page.getByRole('button',{name:'다시 시작',exact:true}).click();
-  await page.getByRole('button',{name:'한 건 추가',exact:true}).click();
+  await page.getByRole('button',{name:'데이터 추가',exact:true}).click();
   await page.waitForTimeout(150);
   assert.ok(await page.evaluate(before=>window.motionFrames.length>before,automaticCount),'A new window transition must be running');
   await page.getByRole('button',{name:'일시정지',exact:true}).click();
@@ -136,7 +136,7 @@ try{
   await page.emulateMedia({reducedMotion:'reduce'});
   await open('live');await page.getByRole('button',{name:'일시정지',exact:true}).click();
   await page.evaluate(()=>{window.motionFrames=[];});
-  await page.getByRole('button',{name:'한 건 추가',exact:true}).click();await page.waitForTimeout(250);
+  await page.getByRole('button',{name:'데이터 추가',exact:true}).click();await page.waitForTimeout(250);
   const reduced=await page.evaluate(()=>window.motionFrames.length);
   assert.ok(reduced>=1&&reduced<=3,`Reduced motion still animates: ${reduced}`);
   pass('reduced motion updates immediately',{draws:reduced});
@@ -160,7 +160,7 @@ try{
     await open(id);await page.getByRole('tab',{name:'데이터',exact:true}).click();
     const labels=(await readChartData(page)).series.map(series => series.label);assert.equal(new Set(labels).size,labels.length,id);
     await page.getByRole('tab',{name:'예제',exact:true}).click();
-    const control=page.getByRole(id==='stacked-groups'?'switch':'slider');
+    const control=id==='stacked-groups'?page.getByRole('switch',{name:'그룹별 누적',exact:true}):page.getByRole('slider');
     if(id==='stacked-groups')await control.uncheck();else await control.press('End');
     await page.getByRole('tab',{name:'데이터',exact:true}).click();assert.deepEqual((await readChartData(page)).series.map(series => series.label),labels);
   }

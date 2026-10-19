@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type {
@@ -86,19 +87,20 @@ export function DraggableRowsGrid(props: GridViewProps = {}) {
   const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <fieldset className="example-controls" aria-label={translate('드래그 대상')}>
-        {(['single', 'selected'] as const).map((value) => (
-          <Button
-            key={value}
-            variant={mode === value ? 'contained' : 'outlined'}
-            aria-pressed={mode === value}
-            onClick={() => setMode(value)}
-          >
-            {translate(value === 'single' ? '한 행' : '선택한 행')}
-          </Button>
-        ))}
-      </fieldset>
-      <p className="example-caption">{translate('선택한 행은 함께 이동합니다.')}</p>
+      <PreviewActions>
+        <fieldset className="example-controls" aria-label={translate('드래그 대상')}>
+          {(['single', 'selected'] as const).map((value) => (
+            <Button
+              key={value}
+              variant={mode === value ? 'contained' : 'outlined'}
+              aria-pressed={mode === value}
+              onClick={() => setMode(value)}
+            >
+              {translate(value === 'single' ? '단일 행' : '선택 행')}
+            </Button>
+          ))}
+        </fieldset>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

@@ -100,9 +100,6 @@ export function ClickEventsGrid(props: GridViewProps = {}) {
 
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <span>{translate('셀을 누르면 클릭한 행과 컬럼을 확인할 수 있습니다.')}</span>
-      </div>
       {result !== null && (
         <output className="example-result" aria-label={translate('실행 결과')}>
           {JSON.stringify(result, null, 2)}

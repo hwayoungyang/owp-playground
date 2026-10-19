@@ -118,18 +118,77 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   max-width: 100%;
+  margin-inline-start: auto;
 }
-.preview-actions .MuiButton-root {
+.preview-start-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  min-width: 0;
+  max-width: 100%;
+  margin-inline-end: auto;
+  justify-content: flex-start;
+  font-size: 12px;
+  color: var(--pg-secondary);
+}
+.preview-start-actions:empty {
+  display: none;
+}
+.preview-extra-actions,
+.preview-extra-actions > .example-controls {
+  display: contents;
+}
+.preview-start-actions .example-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  max-width: 100%;
+}
+.preview-start-actions fieldset {
+  border: 0;
+  margin: 0;
+  min-width: 0;
+}
+.preview-start-actions .example-option-rows {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.preview-start-actions .example-option-row {
+  display: grid;
+  grid-template-columns: 5.5em repeat(2, minmax(0, 1fr));
+  width: 240px;
+}
+.preview-start-actions .custom-style-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 240px;
+  max-width: 100%;
+}
+.preview-start-actions :where(.custom-style-size) > span {
+  flex-shrink: 0;
+}
+.preview-start-actions .custom-style-size .MuiSlider-root {
+  width: auto;
+  flex: 1;
+  min-width: 60px;
+}
+.preview-toolbar .MuiButton-root {
   font-size: 11px;
   min-height: 30px;
   height: 30px;
   padding-inline: 9px;
+  white-space: nowrap;
 }
-.preview-actions .MuiButton-startIcon {
+.preview-toolbar .MuiButton-startIcon {
   margin-right: 5px;
   margin-left: 0;
 }
-.preview-actions .MuiInputBase-root .MuiSelect-select {
+.preview-toolbar .MuiInputBase-root .MuiSelect-select {
   font-size: 11px;
   padding-block: 0;
   height: 100%;
@@ -138,7 +197,7 @@
   align-items: center;
   box-sizing: border-box;
 }
-.preview-actions .MuiInputBase-root {
+.preview-toolbar .MuiInputBase-root {
   height: 30px;
 }
 .events-panel {

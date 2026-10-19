@@ -1,8 +1,9 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
 import type { Task } from '../model/data';
-import { getRowId, initialTasks, owners, statuses } from '../model/data';
+import { createTasks, getRowId, owners, statuses } from '../model/data';
 import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
 const statusClasses: Readonly<Record<string, string>> = {
@@ -79,8 +80,10 @@ import { Button } from '@mui/material';
 import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
 import { useRef, useState } from 'react';
 
+const focusRows = createTasks(100);
+
 export const gridConfiguration: GridConfiguration = {
-  rows: initialTasks,
+  rows: focusRows,
   columns: editableColumns,
   getRowId,
   rowSelectionMode: 'multiple',
@@ -99,33 +102,41 @@ export function CellFocusGrid(props: GridViewProps = {}) {
 
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button onClick={() => publish('commitEditing', gridRef.current?.commitEditing())}>
-          {translate('편집 확정')}
-        </Button>
-        <Button
-          onClick={() =>
-            publish(
-              'setCellValue',
-              gridRef.current?.setCellValue('task-1', 'task', translate('API로 바꾼 작업')),
-            )
-          }
-        >
-          {translate('첫 작업명 변경')}
-        </Button>
-        <Button
-          onClick={() => publish('scrollToRow', gridRef.current?.scrollToRow('task-12', 'end'))}
-        >
-          {translate('마지막 행 보기')}
-        </Button>
-        <Button onClick={() => publish('focusCell', gridRef.current?.focusCell('task-1', 'task'))}>
-          {translate('첫 작업 셀 포커스')}
-        </Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button onClick={() => publish('commitEditing', gridRef.current?.commitEditing())}>
+            {translate('편집 확정')}
+          </Button>
+          <Button
+            onClick={() =>
+              publish(
+                'setCellValue',
+                gridRef.current?.setCellValue('task-1', 'task', translate('API로 바꾼 작업')),
+              )
+            }
+          >
+            {translate('첫 행의 작업명 변경')}
+          </Button>
+          <Button
+            onClick={() => {
+              const grid = gridRef.current;
+              const lastRow = grid?.getRows().at(-1);
+              if (lastRow) publish('scrollToRow', grid?.scrollToRow(lastRow.id, 'end'));
+            }}
+          >
+            {translate('마지막 행 보기')}
+          </Button>
+          <Button
+            onClick={() => publish('focusCell', gridRef.current?.focusCell('task-1', 'task'))}
+          >
+            {translate('첫 작업 셀로 이동')}
+          </Button>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={initialTasks}
+          rows={focusRows}
           columns={editableColumns}
           getRowId={getRowId}
           rowSelectionMode="multiple"

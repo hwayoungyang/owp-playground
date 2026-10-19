@@ -1,6 +1,6 @@
-import { useChartPalette } from '@owp/charts';
+import { useChartPalette } from './useChartPalette';
 
-export { useChartPalette } from '@owp/charts';
+export { useChartPalette } from './useChartPalette';
 
 import type { ChartSeriesConfig, CoreChartProps } from '@owp/charts/types';
 import { createChartColorMap, createChartData } from '@owp/charts/utils';
@@ -102,6 +102,6 @@ export function useCartesian(
     options,
     externalTooltip: true,
     legend: { position: 'bottom', align: 'center' } as const,
-    'aria-label': t('시각화 차트. 데이터 탭에서 각 값을 확인할 수 있습니다.'),
+    'aria-label': t('차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.'),
   };
 }

@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
@@ -107,20 +108,22 @@ export function ChangeTrackingGrid(props: GridViewProps = {}) {
   };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button disabled={changes.length === 0} onClick={approve}>
-          {translate('변경 확정')}
-        </Button>
-        <Button
-          disabled={changes.length === 0}
-          onClick={() => {
-            gridRef.current?.resetChanges();
-            publish('resetChanges', { restored: true });
-          }}
-        >
-          {translate('변경 되돌리기')}
-        </Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button disabled={changes.length === 0} onClick={approve}>
+            {translate('변경 확정')}
+          </Button>
+          <Button
+            disabled={changes.length === 0}
+            onClick={() => {
+              gridRef.current?.resetChanges();
+              publish('resetChanges', { restored: true });
+            }}
+          >
+            {translate('변경 되돌리기')}
+          </Button>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

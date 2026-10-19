@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { translate } from '../../../shared/i18n/translate';
@@ -100,34 +101,36 @@ export function MoveRowsGrid(props: GridViewProps = {}) {
 
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button
-          disabled={selected.length !== 1}
-          onClick={() => {
-            const id = selected[0];
-            if (id !== undefined)
-              publish('moveRow', gridRef.current?.moveRow(id, { position: 'root-first' }));
-          }}
-        >
-          {translate('한 행 상단 이동')}
-        </Button>
-        <Button
-          disabled={selected.length === 0}
-          onClick={() =>
-            publish('moveRows', gridRef.current?.moveRows(selected, { position: 'root-first' }))
-          }
-        >
-          {translate('선택 행 상단 이동')}
-        </Button>
-        <Button
-          disabled={selected.length === 0}
-          onClick={() =>
-            publish('moveRows', gridRef.current?.moveRows(selected, { position: 'root-last' }))
-          }
-        >
-          {translate('선택 행 하단 이동')}
-        </Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button
+            disabled={selected.length !== 1}
+            onClick={() => {
+              const id = selected[0];
+              if (id !== undefined)
+                publish('moveRow', gridRef.current?.moveRow(id, { position: 'root-first' }));
+            }}
+          >
+            {translate('단일 행 맨 위로')}
+          </Button>
+          <Button
+            disabled={selected.length === 0}
+            onClick={() =>
+              publish('moveRows', gridRef.current?.moveRows(selected, { position: 'root-first' }))
+            }
+          >
+            {translate('선택 행 맨 위로')}
+          </Button>
+          <Button
+            disabled={selected.length === 0}
+            onClick={() =>
+              publish('moveRows', gridRef.current?.moveRows(selected, { position: 'root-last' }))
+            }
+          >
+            {translate('선택 행 맨 아래로')}
+          </Button>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

@@ -1,5 +1,5 @@
 import { alpha } from '@mui/material/styles';
-import { OwpBoxPlotChart, useChartPalette } from '@owp/charts';
+import { OwpBoxPlotChart } from '@owp/charts';
 import type { BoxPlotData, OwpBoxPlotChartProps } from '@owp/charts/types';
 import { createBoxPlotTooltipCallbacks, summarizeBox } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { chartMotion } from '../model/chartMotion';
 import { factoryNoise } from '../model/factoryData';
 import type { ChartExampleProps } from '../model/types';
+import { useChartPalette } from '../model/useChartPalette';
 import { Controls, Toggle } from '../runtime/Controls';
 import { useAvailableChartHeight } from '../runtime/useAvailableChartHeight';
 
@@ -116,7 +117,7 @@ export function ChartExample(props: ChartExampleProps) {
           options={options}
           height="100%"
           showExportButton={false}
-          aria-label={t('시각화 차트. 데이터 탭에서 각 값을 확인할 수 있습니다.')}
+          aria-label={t('차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.')}
         />
       </div>
       <p className="chart-note">

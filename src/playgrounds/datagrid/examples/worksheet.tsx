@@ -330,13 +330,13 @@ export function CalculatedCellsGrid(props: GridViewProps = {}) {
               task: params.row.task,
               message:
                 params.row.worksheetKind === 'rate'
-                  ? '{{project}} 기본 적용률 변경 → 프로젝트 전체의 적용 금액을 반영했습니다.'
+                  ? '{{project}}의 기본 적용률을 변경해 프로젝트 전체의 적용 금액을 다시 계산했습니다.'
                   : ['task-3', 'task-7'].includes(String(params.rowId)) &&
                       params.column.id === 'completed'
-                    ? '{{project}} 작업 3 완료 수량 변경 → 작업 4 적용률과 적용 금액을 반영했습니다.'
+                    ? '{{project}} 작업 3의 완료 수량을 변경해 작업 4의 적용률과 적용 금액을 갱신했습니다.'
                     : upperChanged
-                      ? '웹 서비스 작업 4 완료 수량 변경 → 모바일 앱 작업 4 적용률과 적용 금액을 반영했습니다.'
-                      : '{{project}} {{task}} 변경 → 계산 결과와 프로젝트 합계를 반영했습니다.',
+                      ? '웹 서비스 작업 4의 완료 수량을 변경해 모바일 앱 작업 4의 적용률과 적용 금액을 갱신했습니다.'
+                      : '{{project}}의 {{task}} 값을 변경해 계산 결과와 프로젝트 합계를 갱신했습니다.',
             });
             onRecord?.('worksheet.link', { rowId: params.rowId, columnId: params.column.id });
             gridProps.onCellValueCommit?.(params);

@@ -143,11 +143,11 @@ try {
   await page.getByRole('button', { name: '라이트 모드로 전환' }).click();
   await settings();
   await page.getByRole('combobox', { name: '테마', exact: true }).click();
-  await page.getByRole('option', { name: 'Quartz', exact: true }).click();
+  await page.getByRole('option', { name: 'Industrial', exact: true }).click();
   await closeSettings();
-  const quartz = await panels();
-  assert.equal(quartz.drag, quartz.panel);
-  await shot('panel-quartz');
+  const industrial = await panels();
+  assert.equal(industrial.drag, industrial.panel);
+  await shot('panel-industrial');
   await settings();
   await page.getByRole('combobox', { name: '테마', exact: true }).click();
   await page.getByRole('option', { name: '한금', exact: true }).click();
@@ -156,7 +156,7 @@ try {
   assert.equal(hankum.drag, hankum.panel);
   assert.notEqual(hankum.icon, hankum.panel);
   await shot('panel-hankum');
-  pass('colored preset and consumer-native preset keep the filter panel visible', { quartz, hankum });
+  pass('colored preset and consumer-native preset keep the filter panel visible', { industrial, hankum });
 
   await page.goto(`${origin}/diagnostics/scripts/fixtures/panel-theme.html`);
   await page.locator('[data-case=separate] .OwpDataGrid-root').waitFor();

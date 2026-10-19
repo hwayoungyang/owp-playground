@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button, FormControlLabel, Switch } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef } from '@owp/datagrid/types';
@@ -101,41 +102,43 @@ export function NewRowSelectionGrid(props: GridViewProps = {}) {
   const [allowAddedSelection, setAllowAddedSelection] = useState(true);
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button
-          onClick={() => {
-            const row = { ...seedTask, id: crypto.randomUUID(), task: translate('새 작업') };
-            const success = gridRef.current?.addRow(row, { position: 'root-first' });
-            onRecord?.('addRow', { success, rowId: row.id });
-          }}
-        >
-          {translate('새 행 추가')}
-        </Button>
-        <FormControlLabel
-          label={translate('새 행 체크박스 표시')}
-          control={
-            <Switch
-              size="small"
-              checked={allowAddedSelection}
-              onChange={(_, checked) => {
-                setAllowAddedSelection(checked);
-                if (!checked) {
-                  const added = new Set(
-                    gridRef.current
-                      ?.getChanges()
-                      .filter((change) => change.type === 'added')
-                      .map((change) => change.rowId),
-                  );
-                  gridProps.onRowSelectionModelChange?.(
-                    (gridProps.rowSelectionModel ?? []).filter((id) => !added.has(id)),
-                  );
-                }
-                onRecord?.('allowAddedRowSelection', checked);
-              }}
-            />
-          }
-        />
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button
+            onClick={() => {
+              const row = { ...seedTask, id: crypto.randomUUID(), task: translate('새 작업') };
+              const success = gridRef.current?.addRow(row, { position: 'root-first' });
+              onRecord?.('addRow', { success, rowId: row.id });
+            }}
+          >
+            {translate('새 행 추가')}
+          </Button>
+          <FormControlLabel
+            label={translate('새 행 선택 허용')}
+            control={
+              <Switch
+                size="small"
+                checked={allowAddedSelection}
+                onChange={(_, checked) => {
+                  setAllowAddedSelection(checked);
+                  if (!checked) {
+                    const added = new Set(
+                      gridRef.current
+                        ?.getChanges()
+                        .filter((change) => change.type === 'added')
+                        .map((change) => change.rowId),
+                    );
+                    gridProps.onRowSelectionModelChange?.(
+                      (gridProps.rowSelectionModel ?? []).filter((id) => !added.has(id)),
+                    );
+                  }
+                  onRecord?.('allowAddedRowSelection', checked);
+                }}
+              />
+            }
+          />
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

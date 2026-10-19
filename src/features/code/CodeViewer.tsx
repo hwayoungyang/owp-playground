@@ -106,8 +106,7 @@ export function CodeViewer({
       setCopied(true);
       setNotice('복사했습니다.');
     } catch (error) {
-      if (error instanceof Error)
-        setNotice('자동으로 복사하지 못했습니다. 코드를 선택해 복사할 수 있습니다.');
+      if (error instanceof Error) setNotice('복사하지 못했습니다. 코드를 선택해 복사해 주세요.');
       else throw error;
     }
   };
@@ -238,7 +237,7 @@ export function CodeViewer({
             (!ready
               ? '소스를 불러오는 중…'
               : data !== undefined
-                ? (dataDescription ?? '현재 화면에 적용된 가상 API 데이터입니다.')
+                ? (dataDescription ?? '현재 예제에 사용된 API 데이터입니다.')
                 : '실행에 사용한 원본 코드입니다.'),
         )}
       </div>

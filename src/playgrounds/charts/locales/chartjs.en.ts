@@ -1,6 +1,6 @@
 export const chartjsEnglish: Readonly<Record<string, string>> = {
   'Column radius': 'Column radius',
-  'Column 끝의 radius를 조절합니다.': 'Adjust the corner radius of each column.',
+  'Column 모서리의 radius를 조절합니다.': 'Adjust the corner radius of each column.',
   'Floating bars': 'Floating bars',
   '시작값과 종료값 사이의 구간을 Column으로 표시합니다.':
     'Show intervals between start and end values as floating columns.',
@@ -25,7 +25,7 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
     'Adjust pie rotation and optionally color slices by an output threshold.',
   '기준값으로 색상 구분': 'Color by threshold',
   'Multi-series pie': 'Multi-series pie',
-  '바깥쪽과 안쪽의 생산 비중을 고리 간격과 명도로 구분합니다.':
+  '두 고리에 생산 비중을 표시하고, 간격과 색상 밝기로 고리를 구분합니다.':
     'Compare production shares with separated rings and distinct color intensity.',
   '바깥쪽 · {{outer}} / 안쪽 · {{inner}}': 'Outer · {{outer}} / Inner · {{inner}}',
   '{{series}}: {{value}}': '{{series}}: {{value}}',
@@ -33,12 +33,12 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   '누적 Column과 Line series를 같은 차트에 표시합니다.':
     'Show stacked columns and a line in one chart.',
   '축 범위': 'Axis range',
-  '고정 범위와 suggested 범위의 차이를 비교합니다.':
+  '축 범위를 고정하는 방식과 권장 범위를 지정하는 방식을 비교합니다.':
     'Compare fixed scale bounds with suggested bounds.',
   '눈금 간격': 'Tick step size',
   'Y축의 눈금 간격을 바꿉니다.': 'Change the distance between Y axis ticks.',
   '축 영역 분할': 'Stacked axes',
-  '같은 쪽의 Y축 영역을 위아래로 나눕니다.':
+  '한쪽에 배치한 Y축 영역을 위아래로 나눕니다.':
     'Split axes on the same side into vertically stacked regions.',
   '축 중앙 배치': 'Centered axes',
   '양수와 음수를 원점 기준으로 비교합니다.':
@@ -54,7 +54,8 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   '범례 제목': 'Legend title',
   '범례의 제목과 위치를 조절합니다.': 'Toggle a legend title and change its position.',
   '범례 이벤트': 'Legend events',
-  '범례 hover와 클릭 이벤트를 기록합니다.': 'Record legend hover and click events.',
+  '범례에 마우스를 올리거나 클릭할 때 발생하는 이벤트를 기록합니다.':
+    'Record legend hover and click events.',
   'Tooltip 내용': 'Tooltip content',
   'Tooltip의 제목·본문·footer를 구성합니다.': 'Customize the tooltip title, body and footer.',
   'Tooltip 탐색 방식': 'Tooltip interaction modes',
@@ -63,7 +64,7 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   'Tooltip 위치': 'Tooltip position',
   'Tooltip 위치 계산 방식을 비교합니다.': 'Compare average and nearest tooltip positioning.',
   'Tooltip point style': 'Tooltip point style',
-  'Tooltip 색상 표시를 point 모양으로 바꿉니다.': 'Use point shapes as tooltip color indicators.',
+  'Tooltip의 색상 상자를 point 모양으로 바꿉니다.': 'Use point shapes as tooltip color indicators.',
   '차트 제목 정렬': 'Chart title alignment',
   '제목 정렬과 여러 줄 표시를 조절합니다.': 'Align chart titles and display multiple title lines.',
   '조건별 Column 색상': 'Scriptable column colors',
@@ -72,7 +73,7 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   '조건별 Line point': 'Scriptable line points',
   '조건별 Pie 색상': 'Scriptable pie colors',
   '외부 버튼으로 Hover·Tooltip 제어': 'Button-controlled hover and tooltip',
-  '외부 버튼에서 특정 point의 강조와 Tooltip을 제어합니다.':
+  '외부 버튼으로 특정 point를 강조하고 Tooltip을 표시합니다.':
     'Control point highlights and tooltips using external buttons.',
   '차트 영역 테두리': 'Chart area border',
   'Plugin으로 plot 영역의 테두리를 그립니다.': 'Draw a border around the plot area using a plugin.',
@@ -83,7 +84,7 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   Scatter: 'Scatter',
   'X·Y 좌표의 분포를 point로 표시합니다.': 'Plot the distribution of X and Y coordinates.',
   'Multi-axis scatter': 'Multi-axis scatter',
-  '서로 다른 Y축 범위의 point 분포를 비교합니다.':
+  '두 Y축에 서로 다른 범위를 적용해 point 분포를 비교합니다.':
     'Compare point distributions on separate Y axes.',
   Bubble: 'Bubble',
   'X·Y 좌표와 크기로 세 가지 값을 비교합니다.': 'Compare three values using X, Y and point radius.',
@@ -99,10 +100,10 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   '누락 구간 연결': 'Connect gaps',
   '오른쪽 축 표시': 'Show right axis',
   '회전 각도': 'Rotation',
-  '안쪽 비율': 'Inner cutout',
+  '도넛 내부 크기': 'Inner cutout',
   'Column 누적': 'Stack columns',
   '고정 범위': 'Fixed bounds',
-  '위쪽 영역 비중': 'Upper axis weight',
+  '위쪽 영역 높이 비율': 'Upper axis weight',
   '원점에 축 배치': 'Center axes at zero',
   '격자 표시': 'Show grid',
   '일부 눈금 숨김': 'Hide alternate ticks',
@@ -117,7 +118,7 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   '합계 표시': 'Show total',
   '탐색 방식': 'Interaction mode',
   '위치 계산': 'Position calculation',
-  'Point 모양 Tooltip': 'Point-style tooltip',
+  'Tooltip에 Point 모양 사용': 'Point-style tooltip',
   '월별 생산량': 'Monthly output',
   '라인별 비교': 'Compare lines',
   '색상 기준값': 'Color threshold',
@@ -131,20 +132,20 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   'Point 크기': 'Point size',
   '크기 배율': 'Radius multiplier',
   '생산량 기준값 (개)': 'Output threshold (units)',
-  '각 항목의 생산량을 기준값 {{value}}개와 비교합니다. 기준값은 생산량을 분류하기 위한 예제 설정입니다.':
+  '각 항목의 생산량이 {{value}}개 이상인지에 따라 색상을 구분합니다.':
     'Compare each output value with {{value}} units. The threshold is an example setting used to classify output.',
   '기준값 이상 (≥ {{value}}개)': 'At or above threshold (≥ {{value}} units)',
   '기준값 미만 (< {{value}}개)': 'Below threshold (< {{value}} units)',
-  'Line의 색상은 라인을 구분합니다. Point는 기준값 이상이면 반지름 7px, 미만이면 3px로 표시합니다.':
+  'Line 색상으로 생산 라인을 구분합니다. Point 반지름은 기준값 이상이면 7px, 미만이면 3px입니다.':
     'Line colors identify production lines. Points have a 7px radius at or above the threshold and 3px below it.',
-  '월별 생산량이 기준값 이상인지 비교해 색상을 구분합니다.':
+  '생산량이 기준값 이상인 월과 미만인 월을 Column 색상으로 구분합니다.':
     'Color monthly output by whether it reaches the threshold.',
-  '월별 생산량이 기준값 이상인지 비교해 Point의 색상과 크기를 구분합니다.':
+  '월별 생산량이 기준값 이상인지에 따라 Point의 색상과 크기를 바꿉니다.':
     'Color and size monthly output points by whether they reach the threshold.',
   '각 조각의 생산량이 기준값 이상인지 비교해 색상을 구분합니다.':
     'Color each slice by whether its output reaches the threshold.',
-  '같은 색상이어도 왼쪽 Column은 라인 A, 오른쪽은 라인 B입니다. 툴팁에는 같은 월의 두 라인 값이 표시됩니다.':
+  '왼쪽 Column은 라인 A, 오른쪽은 라인 B를 나타냅니다. 같은 색이어도 툴팁에서 같은 월의 두 값을 구분할 수 있습니다.':
     'Even with the same color, the left column is Line A and the right is Line B. The tooltip shows both values for that month.',
-  '조각의 크기는 생산 비중, 색상은 기준값 충족 여부를 나타냅니다. 같은 색상이어도 공정별 조각과 툴팁은 유지됩니다.':
+  '조각의 크기는 생산 비중을, 색상은 기준값 이상인지 여부를 나타냅니다. 같은 색의 조각도 툴팁에서 공정을 구분할 수 있습니다.':
     'Slice size shows production share, while color indicates whether the threshold is met. Each process retains its slice and tooltip even when colors match.',
 };

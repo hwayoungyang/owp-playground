@@ -52,7 +52,7 @@ export async function verifyOwpLegendStates(page, open, record) {
   await legend(outer).click();
   await state(outer, true, 'rings: outer restored');
   await state(inner, false, 'rings: inner remains hidden');
-  await page.getByRole('slider', { name: '안쪽 비율', exact: true }).press('End');
+  await page.getByRole('slider', { name: '도넛 내부 크기', exact: true }).press('End');
   await state(outer, true, 'rings: outer after immutable data replacement');
   await state(inner, false, 'rings: inner after immutable data replacement');
   await record('independent-ring-items', { outerVisible: true, innerVisible: false, survivesControlChange: true });

@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn, OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
@@ -103,16 +104,18 @@ export function NestedTaskTreeGrid(props: GridViewProps = {}) {
   ]);
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls">
-        <Button onClick={() => gridRef.current?.expandAll()}>{translate('전체 펼치기')}</Button>
-        <Button onClick={() => gridRef.current?.collapseAll()}>{translate('전체 접기')}</Button>
-        <Button onClick={() => gridRef.current?.expandRow('project-0')}>
-          {translate('첫 프로젝트 펼치기')}
-        </Button>
-        <Button onClick={() => gridRef.current?.collapseRow('project-0')}>
-          {translate('첫 프로젝트 접기')}
-        </Button>
-      </div>
+      <PreviewActions>
+        <div className="example-controls">
+          <Button onClick={() => gridRef.current?.expandAll()}>{translate('전체 펼치기')}</Button>
+          <Button onClick={() => gridRef.current?.collapseAll()}>{translate('전체 접기')}</Button>
+          <Button onClick={() => gridRef.current?.expandRow('project-0')}>
+            {translate('첫 프로젝트 펼치기')}
+          </Button>
+          <Button onClick={() => gridRef.current?.collapseRow('project-0')}>
+            {translate('첫 프로젝트 접기')}
+          </Button>
+        </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}

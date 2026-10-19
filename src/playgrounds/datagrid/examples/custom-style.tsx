@@ -1,3 +1,4 @@
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, MenuItem, Select, Slider } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material/styles';
@@ -185,50 +186,54 @@ export function StyledHeadersGrid(props: GridViewProps = {}) {
 
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <fieldset className="example-controls" aria-label={t('스타일')}>
-        {(['default', 'striped', 'emphasis'] as const).map((value) => (
-          <Button
-            key={value}
-            variant={preset === value ? 'contained' : 'outlined'}
-            aria-pressed={preset === value}
-            onClick={() => setPreset(value)}
-          >
-            {t(value === 'default' ? '기본' : value === 'striped' ? '줄무늬' : '강조')}
-          </Button>
-        ))}
-      </fieldset>
-      <div className="example-controls">
-        <label htmlFor="custom-header-depth">{t('헤더 단계')}</label>
-        <Select
-          id="custom-header-depth"
-          value={headerDepth}
-          inputProps={{ 'aria-label': t('헤더 단계') }}
-          onChange={(event) => {
-            const result = headerDepthSchema.safeParse(event.target.value);
-            if (result.success) setHeaderDepth(result.data);
-          }}
-        >
-          <MenuItem value={2}>{t('2단')}</MenuItem>
-          <MenuItem value={3}>{t('3단')}</MenuItem>
-        </Select>
-        <div className="custom-style-size">
-          <span>{t('글자 크기')}</span>
-          <Slider
-            size="small"
-            min={12}
-            max={18}
-            step={1}
-            value={fontSize}
-            disabled={!styled}
-            aria-label={t('글자 크기')}
-            valueLabelDisplay="auto"
-            onChange={(_, value) => {
-              if (typeof value === 'number') setFontSize(value);
+      <PreviewActions>
+        <fieldset className="example-controls" aria-label={t('스타일')}>
+          {(['default', 'striped', 'emphasis'] as const).map((value) => (
+            <Button
+              key={value}
+              variant={preset === value ? 'contained' : 'outlined'}
+              aria-pressed={preset === value}
+              onClick={() => setPreset(value)}
+            >
+              {t(value === 'default' ? '기본' : value === 'striped' ? '줄무늬' : '강조')}
+            </Button>
+          ))}
+        </fieldset>
+      </PreviewActions>
+      <PreviewActions>
+        <div className="example-controls">
+          <label htmlFor="custom-header-depth">{t('헤더 단계')}</label>
+          <Select
+            id="custom-header-depth"
+            value={headerDepth}
+            inputProps={{ 'aria-label': t('헤더 단계') }}
+            onChange={(event) => {
+              const result = headerDepthSchema.safeParse(event.target.value);
+              if (result.success) setHeaderDepth(result.data);
             }}
-          />
-          <span>{fontSize}px</span>
+          >
+            <MenuItem value={2}>{t('2단')}</MenuItem>
+            <MenuItem value={3}>{t('3단')}</MenuItem>
+          </Select>
+          <div className="custom-style-size">
+            <span>{t('글자 크기')}</span>
+            <Slider
+              size="small"
+              min={12}
+              max={18}
+              step={1}
+              value={fontSize}
+              disabled={!styled}
+              aria-label={t('글자 크기')}
+              valueLabelDisplay="auto"
+              onChange={(_, value) => {
+                if (typeof value === 'number') setFontSize(value);
+              }}
+            />
+            <span>{fontSize}px</span>
+          </div>
         </div>
-      </div>
+      </PreviewActions>
       <div className="example-grid">
         <OwpThemeProvider dataGrid={dataGrid}>
           <OwpDataGrid

@@ -95,7 +95,7 @@ export function ThemeSettings({
           const result = colorModeSchema.safeParse(next);
           if (result.success)
             onChange({
-              preset: value.preset === 'inherit' ? 'neutral' : value.preset,
+              preset: value.preset === 'inherit' ? 'carbon' : value.preset,
               mode: result.data,
               headerColor: null,
             });

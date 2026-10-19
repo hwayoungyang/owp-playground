@@ -8,7 +8,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   Radar: 'Radar',
   '공정별 처리 수량의 비중을 반원으로 비교합니다.':
     'Compare each process’s share of completed operations in a semicircle.',
-  '생산 라인 두 곳의 핵심 역량 6가지를 같은 척도로 비교합니다.':
+  '두 생산 라인의 6개 지표를 같은 척도로 비교합니다.':
     'Compare six core capabilities of two production lines on the same scale.',
   '처리 수량': 'Completed operations',
   생산성: 'Productivity',
@@ -17,7 +17,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '에너지 효율': 'Energy efficiency',
   '예방 정비': 'Preventive maintenance',
   '{{value}}점': '{{value}} pts',
-  '0–100점의 가상 점수이며, 높을수록 우수합니다.':
+  '각 지표는 0–100점의 가상 점수입니다. 점수가 높을수록 우수합니다.':
     'Simulated scores from 0 to 100. Higher is better.',
   '기본 차트 (Basic charts)': 'Basic charts',
   '확장 차트 (Extended charts)': 'Extended charts',
@@ -44,11 +44,11 @@ export const chartEnglish: Readonly<Record<string, string>> = {
     'Compare measurement distributions using quartiles, medians, whiskers and outliers.',
   '발생 건수와 누적 비율로 우선 개선할 항목을 확인합니다.':
     'Prioritize improvements using counts and cumulative percentages.',
-  '네 군집의 밀집된 점을 비교하고 X/Y 범위를 확대합니다.':
+  '네 군집의 데이터 분포를 비교하고 X·Y축 범위를 확대합니다.':
     'Compare four dense point clusters and zoom both axes.',
   '게이지 값을 실시간으로 갱신하고 바늘의 움직임을 확인합니다.':
     'Update gauge values live and watch the needle transition.',
-  'Point 표시 범례': 'Show points in legend',
+  '차트와 범례에 Point 표시': 'Show points in legend',
   '표면 흠집': 'Surface scratches',
   '치수 편차': 'Dimensional variation',
   '조립 불량': 'Assembly defects',
@@ -59,7 +59,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '누적 비율': 'Cumulative percentage',
   '80% 기준선': '80% reference line',
   '군집 {{number}}': 'Cluster {{number}}',
-  '군집별 점 수': 'Points per cluster',
+  '군집별 데이터 수': 'Points per cluster',
   '측정 분포': 'Measurement distribution',
   '최솟값: {{value}}': 'Minimum: {{value}}',
   '중앙값: {{value}}': 'Median: {{value}}',
@@ -80,14 +80,15 @@ export const chartEnglish: Readonly<Record<string, string>> = {
     'Append live data and pause or resume updates.',
   일시정지: 'Pause',
   '다시 시작': 'Resume',
-  '한 건 추가': 'Add one point',
+  '데이터 추가': 'Add data point',
   '표시할 데이터 수': 'Visible points',
-  '실시간 갱신 중': 'Live updates running',
+  '표시할 항목 수': 'Visible items',
+  '자동 갱신 중': 'Auto-updating',
   일시정지됨: 'Paused',
   실적: 'Actual',
   토: 'Sat',
   '다시 시도': 'Retry',
-  '시각화 차트. 데이터 탭에서 각 값을 확인할 수 있습니다.':
+  '차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.':
     'Data visualization. Open the Data tab to inspect individual values.',
   '라인별 생산 비중': 'Production share by line',
   '운영지수 게이지': 'Operating index gauge',
@@ -99,7 +100,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
 
   'ChartFrame은 레이아웃 utility class를 사용합니다. Tailwind가 없는 프로젝트에서는 다음 CSS를 함께 적용합니다.':
     'ChartFrame uses layout utility classes. Projects without Tailwind can apply the following CSS.',
-  '기본 메뉴의 아이콘은 assets/icons의 SVG sprite를 사용합니다. OWP Core 프로젝트의 아이콘 리소스를 배포하거나, 외부 버튼에서 exportRef로 내보낼 수 있습니다.':
+  '기본 메뉴는 assets/icons의 SVG sprite 아이콘을 사용합니다. OWP Core의 아이콘 리소스를 배포하거나, 메뉴 대신 외부 버튼에서 exportRef로 차트를 내보낼 수 있습니다.':
     'The built-in menu loads SVG sprites from assets/icons. Deploy the icon assets from your OWP Core project, or use exportRef with an external button.',
 
   Column: 'Column',
@@ -112,9 +113,15 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   Doughnut: 'Doughnut',
   Gauge: 'Gauge',
   Histogram: 'Histogram',
+  분포: 'Distribution',
+  '정규 분포': 'Normal',
+  '이중 봉우리': 'Bimodal',
+  '오른쪽 치우침': 'Right-skewed',
+  '측정값 수': 'Measurements',
+  '자동 갱신': 'Auto-update',
   'Small multiples': 'Small multiples',
   'Crosshair·tooltip 동기화': 'Crosshair and tooltip sync',
-  '월이 다른 두 차트의 crosshair·tooltip·zoom을 각각 동기화합니다.':
+  '표시 기간이 다른 두 차트의 crosshair·tooltip·zoom을 각각 동기화합니다.':
     'Synchronize crosshair, tooltip and zoom independently between charts with different months.',
   'Crosshair 동기화': 'Sync crosshair',
   'Tooltip 동기화': 'Sync tooltip',
@@ -135,26 +142,27 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '누적 막대': 'Stacked bars',
   '라인별 생산량을 누적하고 합계를 비교합니다.': 'Stack production by line and compare totals.',
   '100% 누적 막대': '100% stacked bars',
-  '월별 생산 비중을 백분율로 환산합니다.': 'Normalize monthly output to compare percentage shares.',
+  '월별 생산 비중을 백분율로 표시합니다.': 'Normalize monthly output to compare percentage shares.',
   '가로 막대': 'Horizontal bars',
   '라인별 생산량을 가로 방향으로 비교합니다.': 'Compare production lines with horizontal bars.',
   '단일 꺾은선': 'Line chart',
-  '월별 생산 추이를 표시하고 곡선을 조절합니다.': 'Show monthly trends and adjust line tension.',
+  '월별 생산 추이를 표시하고 선의 곡률을 조절합니다.':
+    'Show monthly trends and adjust line tension.',
   '다중 꺾은선': 'Multiple lines',
   '여러 라인의 생산 추이를 같은 축에서 비교합니다.':
     'Compare production trends for several lines on one axis.',
   도넛: 'Doughnut chart',
-  '공정별 생산 비중과 도넛의 두께를 바꾸고 합계가 0인 상태를 확인합니다.':
+  '공정별 생산 비중을 비교하고 도넛 두께를 조절합니다. 합계가 0일 때의 표시도 확인할 수 있습니다.':
     'Compare production shares by process, adjust the cutout and inspect the zero-total state.',
   '합계 0으로 표시': 'Show a zero total',
   'Ranking bar': 'Ranking bar',
-  '생산량을 정렬하고 최대값까지 남은 영역을 표시합니다.':
+  '생산량 순으로 정렬하고 최댓값까지 남은 구간을 표시합니다.':
     'Sort output and display the remaining track to the maximum.',
   'Dual-axis Column·Line': 'Dual-axis Column·Line',
   'Column과 Line을 조합해 계획·실적·달성률을 비교합니다.':
     'Combine bars and a line to compare plans, results and achievement.',
   'Grouped column · Zoom': 'Grouped column · Zoom',
-  '자재별 월별 입고량을 Grouped column으로 비교합니다.':
+  '자재별 월간 입고량을 Grouped column으로 비교합니다.':
     'Compare monthly receipts for multiple materials using grouped bars.',
   'Multi-line · Percent axis': 'Multi-line · Percent axis',
   '생산 라인별 이행률을 오른쪽 백분율 축으로 비교합니다.':
@@ -162,10 +170,10 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   'Multi-line · OEE': 'Multi-line · OEE',
   '가동률·성능·품질·OEE를 함께 표시합니다.': 'Compare availability, performance, quality and OEE.',
   'Top N column': 'Top N column',
-  '생산량 순위를 정렬하고 표시 개수를 바꿉니다.':
+  '생산량 순으로 정렬하고 표시할 항목 수를 바꿉니다.':
     'Sort production rankings and change the number of visible items.',
   '작은 통계 차트 모음': 'Small multiples',
-  '동일한 축 범위로 여러 설비의 통계를 비교합니다.':
+  '여러 설비의 통계를 같은 축 범위에서 비교합니다.':
     'Compare equipment statistics using small charts with a shared domain.',
   히스토그램: 'Histogram',
   '측정값을 구간별로 집계하고 구간 수를 바꿉니다.':
@@ -177,13 +185,13 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '수량과 비율을 서로 다른 Y축으로 비교합니다.':
     'Compare quantities and percentages on separate Y axes.',
   '3개 Y축·축 숨김': 'Three Y axes',
-  '서로 다른 범위의 MTTF·MTBF·달성률을 표시합니다.':
+  '단위와 범위가 다른 MTTF·MTBF·달성률을 각 Y축에 표시합니다.':
     'Show MTTF, MTBF and achievement on three distinct domains.',
   '날짜·시간 표시': 'Date and time labels',
-  '시각 label과 tooltip의 날짜·시간 서식을 바꿉니다.':
+  '축 라벨과 tooltip의 날짜·시간 서식을 바꿉니다.':
     'Adjust date and time formatting for category labels and tooltips.',
   '범례로 표시·숨김': 'Interactive legend',
-  '범례를 눌러 series를 숨기고 위치를 바꿉니다.':
+  '범례로 series를 표시하거나 숨기고, 범례 위치를 바꿉니다.':
     'Toggle series using the legend and change its position.',
   'HTML tooltip': 'HTML tooltip',
   '차트 가장자리에서도 읽을 수 있는 HTML tooltip을 표시합니다.':
@@ -194,7 +202,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '드래그 zoom': 'Drag zoom',
   '차트 영역을 드래그해 확대하고 초기화합니다.': 'Drag a region to zoom in, then reset the range.',
   '휠·pinch zoom': 'Wheel and pinch zoom',
-  '휠 또는 두 손가락으로 확대하고 동작을 켜고 끕니다.':
+  '마우스 휠과 두 손가락 제스처로 차트를 확대하고, 확대 기능을 켜고 끕니다.':
     'Zoom with the wheel or pinch and toggle the gesture controls.',
   'X축 slider': 'X-axis slider',
   '하단 slider로 표시할 월 범위를 조절합니다.':
@@ -206,16 +214,16 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '월이 다른 두 차트의 hover·zoom·초기화를 동기화합니다.':
     'Synchronize hover, zoom and reset between charts with different months.',
   '데이터 라벨': 'Data labels',
-  'Column에 값을 표시하고 라벨 방향을 바꿉니다.':
-    'Show values on bars and change the label orientation.',
+  'Column·Bar의 데이터 라벨을 막대 안팎에 표시하고 방향을 바꿉니다.':
+    'Place data labels inside or outside Columns and Bars and change their orientation.',
   추세선: 'Trendline',
-  '실적에 선형 추세선을 추가하고 표시를 바꿉니다.':
+  '실적에 선형 추세선을 추가하고 표시 여부를 바꿉니다.':
     'Add a linear trendline to results and toggle its visibility.',
   목표선: 'Target line',
   '목표값을 조절해 수평 기준선을 이동합니다.':
     'Move a horizontal reference line by adjusting the target value.',
   '기준 범위': 'Reference band',
-  '정상 범위를 표시하고 범위의 폭을 바꿉니다.': 'Highlight a normal range and adjust its width.',
+  '정상 범위를 표시하고 폭을 조절합니다.': 'Highlight a normal range and adjust its width.',
   게이지: 'Gauge',
   '음수 범위와 구간별 색상을 가진 게이지 값을 바꿉니다.':
     'Change a gauge value across a domain with negative values and colored bands.',
@@ -226,19 +234,20 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '행을 펼쳐 요일별 생산량 차트를 확인합니다.':
     'Expand a row to inspect its daily production chart.',
   '대량 시계열·다운샘플링': 'Large time series',
-  '원본 측정값을 min/max 방식으로 줄여 추이를 확인합니다.':
+  'min/max 다운샘플링으로 표시할 데이터 수를 줄이면서 추이를 확인합니다.':
     'Inspect trends after reducing raw measurements using min/max downsampling.',
   '로딩·빈 데이터·오류': 'Loading, empty and error',
-  '조회 상태를 바꾸고 오류 후 다시 시도합니다.': 'Switch loading states and retry after an error.',
+  '로딩·빈 데이터·오류 상태를 전환하고 조회를 다시 시도합니다.':
+    'Switch loading states and retry after an error.',
   'PNG 다운로드': 'PNG download',
   '차트 메뉴에서 범례를 포함한 PNG를 다운로드합니다.':
     'Download the chart and its legend as a PNG from the chart menu.',
-  '외부 버튼에서 내보내기': 'Export from an external button',
+  '외부 버튼으로 내보내기': 'Export from an external button',
   '외부 버튼으로 PNG를 저장하거나 미리보기를 엽니다.':
     'Save a PNG or open a preview using external controls.',
   '{{month}}월': 'Month {{month}}',
   '표시할 월 수': 'Visible months',
-  '곡선 정도': 'Line tension',
+  '선의 곡률': 'Line tension',
   '도넛 내부 크기': 'Doughnut cutout',
   달성률: 'Achievement',
   '자재 A': 'Material A',
@@ -267,23 +276,29 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   'Ctrl 키를 누른 채 휠을 움직이거나 터치 화면에서 두 손가락으로 확대합니다.':
     'Hold Ctrl and use the wheel, or pinch with two fingers on a touch screen.',
   '라벨 세로 표시': 'Vertical labels',
+  '라벨 위치': 'Label position',
+  바깥쪽: 'Outside',
+  '안쪽 끝': 'Inside end',
+  '안쪽 중앙': 'Inside center',
+  '안쪽 라벨은 막대 안에 들어갈 때만 표시합니다.':
+    'Inside labels are shown only when they fit within the bar.',
   '추세선 표시': 'Show trendline',
   '실적 추세': 'Actual trend',
   목표값: 'Target value',
   '정상 범위 폭': 'Normal range width',
   '값 표시': 'Show values',
+  '구간 값 표시': 'Show segment values',
   '그룹 {{number}} · {{series}}': 'Group {{number}} · {{series}}',
-  '표시 개수': 'Visible items',
   '라인 {{number}}': 'Line {{number}}',
   '남은 영역': 'Remaining track',
   생산량: 'Output',
   '설비 {{number}}': 'Equipment {{number}}',
   '구간 수': 'Bin count',
   빈도: 'Frequency',
-  '원본 측정값 {{count}}개의 구간별 분포입니다.':
-    'Distribution of {{count}} original measurements by bin.',
+  '측정값 {{count}}개를 구간별로 집계한 결과입니다.':
+    'Distribution of {{count}} measurements grouped into bins.',
   '게이지 값': 'Gauge value',
-  기반: 'Developing',
+  보통: 'Fair',
   우수: 'Excellent',
   탁월: 'Outstanding',
   '현재 값': 'Current value',
@@ -294,11 +309,10 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '같은 월 label을 기준으로 연결합니다. 서로 겹치는 월에서 포인터와 확대 범위를 확인합니다.':
     'Charts are linked by month label. Inspect the pointer and zoom range on overlapping months.',
   '설비 수': 'Equipment count',
-  '원본 점 수': 'Original points',
-  '최대 표시 점 수': 'Maximum displayed points',
+  '원본 데이터 수': 'Original points',
+  '최대 표시 데이터 수': 'Maximum displayed points',
   '원본 {{original}}개 → 표시 {{rendered}}개 · min/max 다운샘플링':
     '{{original}} original → {{rendered}} displayed · min/max downsampling',
-  '성능을 위해 애니메이션을 사용하지 않습니다.': 'Animations are disabled for performance.',
   '차트 데이터를 불러오지 못했습니다.': 'Could not load chart data.',
   '표시할 차트 데이터가 없습니다.': 'No chart data to display.',
   '이미지를 저장하지 못했습니다. 다시 시도해 주세요.':
@@ -316,24 +330,22 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '차트 실행 영역': 'Chart workspace',
   '데이터 {{count}}개': '{{count}} data points',
   'series {{count}}개': '{{count}} series',
-  '가상 데이터': 'Sample data',
   '차트 데이터 표': 'Chart data table',
   'JSON 보기': 'View JSON',
-  정상: 'Ready',
   로딩: 'Loading',
   오류: 'Error',
   'Dependencies: React 19 · Material UI 9 · Emotion 11 · @owp/core 5 또는 6':
     'Dependencies: React 19 · Material UI 9 · Emotion 11 · @owp/core 5 or 6',
   '이 예제는 @owp/charts {{version}}의 공개 API를 사용합니다. 별도 Chart.js 설치나 등록 없이 시작할 수 있습니다.':
     'These examples use the public APIs in @owp/charts {{version}}. No separate Chart.js installation or registration is required.',
-  'Chart.js 등록은 패키지 내부에서 처리합니다. ChartFrame preset="owp"는 공통 스타일·HTML 툴팁·범례를 제공하고, 전용 차트는 데이터와 유형별 props로 구성합니다.':
+  'Chart.js 등록은 패키지 내부에서 처리합니다. ChartFrame의 preset="owp" 설정은 공통 스타일·HTML 툴팁·범례를 제공합니다. 전용 차트는 데이터와 차트 유형에 맞는 props로 구성합니다.':
     'The package registers Chart.js internally. ChartFrame preset="owp" provides shared styling, HTML tooltips and legends; dedicated charts accept data and chart-specific props.',
   '데이터와 series를 정의하고 ChartFrame에 전달합니다. height로 표시 높이를 지정합니다.':
     'Define data and series, pass them to ChartFrame, and set the display height with height.',
   '예제 구성': 'Example catalog',
   '실행 예제 {{count}}개와 시작 가이드를 제공합니다.':
     'Explore {{count}} executable examples and a getting-started guide.',
-  'Bar·Line·복합 차트는 ChartFrame을 사용합니다. Area·Box plot·Treemap·Radar·원형·Heatmap·Live chart는 전용 Owp component를 제공합니다. API 응답 변환·polling·샘플 조작은 앱에서 처리합니다.':
+  'Bar·Line·복합 차트는 ChartFrame으로 구성합니다. Area·Box plot·Treemap·Radar·원형·Heatmap·Live chart에는 전용 Owp 컴포넌트를 사용합니다. API 응답 변환, polling과 예제 조작은 앱에서 처리합니다.':
     'Use ChartFrame for Bar, Line and mixed charts. Dedicated Owp components cover Area, Box plot, Treemap, Radar, radial, Heatmap and Live charts. API response mapping, polling and sample controls stay in the app.',
   측정값: 'Measurement',
   목표: 'Target',

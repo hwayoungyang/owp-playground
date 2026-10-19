@@ -8,7 +8,7 @@ const cellTypeColumns: readonly OwpDataGridColumn<Task>[] = [
   {
     id: 'task',
     field: 'task',
-    header: '문자',
+    header: '텍스트',
     minWidth: 180,
     relWidth: 1.5,
     editable: true,
@@ -26,7 +26,7 @@ const cellTypeColumns: readonly OwpDataGridColumn<Task>[] = [
   {
     id: 'owner',
     field: 'owner',
-    header: '선택 값',
+    header: '셀렉트',
     type: 'select',
     minWidth: 110,
     relWidth: 0.9,
@@ -81,7 +81,7 @@ const cellTypeColumns: readonly OwpDataGridColumn<Task>[] = [
   {
     id: 'active',
     field: 'active',
-    header: '체크',
+    header: '체크박스',
     type: 'boolean',
     minWidth: 90,
     relWidth: 0.7,
