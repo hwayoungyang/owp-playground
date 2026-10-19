@@ -27,6 +27,30 @@ import { packageCatalog } from '../src/playgrounds/registry';
 import { appEnglish } from '../src/shared/i18n/app.en';
 
 describe('project theme files', () => {
+  it('keeps moved handles contrasting against panel, selection and hover in every preset', () => {
+    for (const preset of previewPresetSchema.options) {
+      for (const mode of ['light', 'dark'] as const) {
+        const theme = resolveOwpGridTheme(
+          createPreviewGridTheme({ preset, mode, headerColor: null }, mode),
+        );
+        const backgrounds = {
+          panel: theme.panel.backgroundColor,
+          selectedCell: theme.state.selectedCellBackgroundColor,
+          selectedRow: theme.state.selectedRowBackgroundColor,
+          hoveredRow: theme.state.hoverRowBackgroundColor,
+          hoveredCell: theme.state.hoverCellBackgroundColor,
+          focusedRow: theme.state.focusedRowBackgroundColor,
+        };
+        for (const [surface, background] of Object.entries(backgrounds)) {
+          expect(
+            getContrastRatio(theme.drag.handleActiveColor, background),
+            `${preset}/${mode}/${surface}/movedHandle`,
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+    }
+  });
+
   it.each(generalPreviewPresets)(
     'keeps %s text readable across interactive and semantic surfaces in both modes',
     (preset) => {

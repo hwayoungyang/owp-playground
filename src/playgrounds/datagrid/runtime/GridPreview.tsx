@@ -1,6 +1,5 @@
 import { useOwpTranslation, useResponsiveDevice } from '@owp/components/hooks';
-import { useGridTheme } from '@owp/theme';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import type { GridExample } from '../catalog';
 import { gridRegistry } from '../model/gridRegistry';
 import type { GridViewProps } from '../model/gridTypes';
@@ -23,8 +22,6 @@ export function GridPreview({
   const { finishBinding, onRowsUpdate } = controller;
   const { t } = useOwpTranslation();
   const { isTabletOrDown } = useResponsiveDevice();
-  const gridTheme = useGridTheme('dataGrid');
-  const [movedRowKeys, setMovedRowKeys] = useState<readonly string[]>([]);
   const gridHost = useRef<HTMLElement>(null);
   const GridView = gridRegistry[example.id].Component;
   useLayoutEffect(() => {
@@ -86,15 +83,6 @@ export function GridPreview({
       after: params.value,
     });
   };
-  const movedHandleStyles = Object.fromEntries(
-    movedRowKeys.map((key) => [
-      `& [data-owp-data-grid-row-key="${CSS.escape(key)}"] .OwpDataGrid-dragHandle`,
-      {
-        color: gridTheme.changed.backgroundColor,
-        '&:hover, &:active': { color: gridTheme.changed.backgroundColor },
-      },
-    ]),
-  );
   return (
     <section
       ref={gridHost}
@@ -141,23 +129,7 @@ export function GridPreview({
                   rowHeight: settings.compact ? 32 : 40,
                 }
           }
-          onChangesChange={(changes) => {
-            controller.onChanges(changes);
-            if (controller.configuration.rowReordering) {
-              setMovedRowKeys(
-                changes.flatMap(({ type, rowId, location, originalLocation }) =>
-                  type === 'updated' &&
-                  location &&
-                  originalLocation &&
-                  (location.index !== originalLocation.index ||
-                    location.parentRowId !== originalLocation.parentRowId)
-                    ? [`${typeof rowId}:${rowId}`]
-                    : [],
-                ),
-              );
-            }
-          }}
-          sx={movedHandleStyles}
+          onChangesChange={controller.onChanges}
           onCellValueCommit={handleCommit}
           onCellClick={({ rowId, column }) =>
             controller.record('cell.click', { rowId, columnId: column.id })

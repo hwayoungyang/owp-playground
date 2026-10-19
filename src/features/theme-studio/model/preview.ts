@@ -140,6 +140,7 @@ export function createPreviewGridTheme(
     settings.preset === 'hankum' && mode === 'light'
       ? {
           ...defaultGridTheme,
+          drag: theme.drag,
           panel: {
             ...defaultGridTheme.panel,
             backgroundColor: defaultGridTheme.body.backgroundColor,

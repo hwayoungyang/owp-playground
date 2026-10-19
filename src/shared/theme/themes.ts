@@ -1,4 +1,5 @@
-import { createTheme, getContrastRatio, lighten, type ThemeOptions } from '@mui/material';
+import { createTheme, darken, getContrastRatio, lighten, type ThemeOptions } from '@mui/material';
+import { amber, deepOrange } from '@mui/material/colors';
 import type { OwpGridThemeConfigType } from '@owp/theme/types';
 import { type ColorMode, fonts, type Palette } from './tokens';
 
@@ -113,13 +114,13 @@ export function createGridTheme(
     },
     editable: { backgroundColor: palette['warning-wash'] },
     changed: {
-      backgroundColor: palette.success,
-      color:
-        getContrastRatio(palette.success, palette.ink) >=
-        getContrastRatio(palette.success, palette.canvas)
-          ? palette.ink
-          : palette.canvas,
+      backgroundColor: palette['success-wash'],
+      color: palette.success,
       rowBackgroundColor: palette.canvas,
+    },
+    drag: {
+      handleColor: palette.secondary,
+      handleActiveColor: mode === 'dark' ? amber.A200 : darken(deepOrange[900], 0.12),
     },
     scrollbar: {
       backgroundColor: palette.chrome,

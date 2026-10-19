@@ -8,9 +8,3 @@
   font-weight: 400;
   color: var(--pg-secondary);
 }
-.grid-preview .OwpDataGrid-dragHandle:not([aria-disabled="true"]) {
-  color: var(--pg-secondary);
-}
-.grid-preview .OwpDataGrid-dragHandle:not([aria-disabled="true"]):hover {
-  color: var(--pg-ink);
-}
