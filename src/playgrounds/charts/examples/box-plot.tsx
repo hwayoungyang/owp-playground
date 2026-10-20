@@ -1,5 +1,5 @@
 import { alpha } from '@mui/material/styles';
-import { OwpBoxPlotChart } from '@owp/charts';
+import { OwpBoxPlotChart, useChartPalette } from '@owp/charts';
 import type { BoxPlotData, OwpBoxPlotChartProps } from '@owp/charts/types';
 import { createBoxPlotTooltipCallbacks, summarizeBox } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
@@ -7,7 +7,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { chartMotion } from '../model/chartMotion';
 import { factoryNoise } from '../model/factoryData';
 import type { ChartExampleProps } from '../model/types';
-import { useChartPalette } from '../model/useChartPalette';
 import { Controls, Toggle } from '../runtime/Controls';
 import { useAvailableChartHeight } from '../runtime/useAvailableChartHeight';
 

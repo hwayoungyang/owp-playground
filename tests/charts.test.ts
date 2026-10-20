@@ -1,15 +1,12 @@
 import '../src/app/i18n';
 import { access } from 'node:fs/promises';
 import i18next from 'i18next';
+import { createHistogram, downsampleMinMax } from '@owp/charts/utils';
 import { describe, expect, it } from 'vitest';
 import { chartCatalog, chartCategories, findChartEntry } from '../src/playgrounds/charts/catalog';
 import { chartEnglish } from '../src/playgrounds/charts/locales/en';
 import { hankumChartCoverage } from '../src/playgrounds/charts/model/coverage';
-import {
-  createHistogram,
-  createMeasurements,
-  downsampleMinMax,
-} from '../src/playgrounds/charts/model/data';
+import { createMeasurements } from '../src/playgrounds/charts/model/data';
 import { readPlaygroundRoute } from '../src/playgrounds/registry';
 
 describe('charts catalog and shared routes', () => {
@@ -101,7 +98,7 @@ describe('charts catalog and shared routes', () => {
 describe('example data processing', () => {
   it('retains endpoints, spikes, time order and the display bound when downsampling', () => {
     const points = createMeasurements(10_000);
-    const reduced = downsampleMinMax(points, 600);
+    const reduced = downsampleMinMax(points, 600, (point) => point.value);
     expect(reduced.length).toBeLessThanOrEqual(600);
     expect(reduced[0]).toBe(points[0]);
     expect(reduced.at(-1)).toBe(points.at(-1));
@@ -114,10 +111,12 @@ describe('example data processing', () => {
         (point, index) => index === 0 || point.timestamp > (reduced[index - 1]?.timestamp ?? 0),
       ),
     ).toBe(true);
-    expect(downsampleMinMax(points, 5).length).toBeLessThanOrEqual(5);
-    expect(downsampleMinMax([], 4)).toEqual([]);
-    expect(downsampleMinMax(points.slice(0, 3), 4)).toEqual(points.slice(0, 3));
-    expect(() => downsampleMinMax(points, 3)).toThrow(RangeError);
+    expect(downsampleMinMax(points, 5, (point) => point.value).length).toBeLessThanOrEqual(5);
+    expect(downsampleMinMax([], 4, () => 0)).toEqual([]);
+    expect(downsampleMinMax(points.slice(0, 3), 4, (point) => point.value)).toEqual(
+      points.slice(0, 3),
+    );
+    expect(() => downsampleMinMax(points, 3, (point) => point.value)).toThrow(RangeError);
   });
   it('counts every finite measurement once, including the last boundary and constant input', () => {
     const bins = createHistogram(
@@ -125,7 +124,7 @@ describe('example data processing', () => {
       5,
     );
     expect(bins.map((bin) => bin.frequency)).toEqual([2, 2, 2, 2, 3]);
-    expect(createHistogram([5, 5, 5], 4).map((bin) => bin.frequency)).toEqual([3, 0, 0, 0]);
+    expect(createHistogram([5, 5, 5], 4)).toEqual([{ lowerBound: 5, upperBound: 5, frequency: 3 }]);
     expect(createHistogram([], 5)).toEqual([]);
     expect(() => createHistogram([1], 0)).toThrow(RangeError);
     expect(() => createHistogram([1], 2.5)).toThrow(RangeError);

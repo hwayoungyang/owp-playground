@@ -1,11 +1,10 @@
-import { OwpTreemapChart } from '@owp/charts';
+import { getContrastRatio } from '@mui/material/styles';
+import { OwpTreemapChart, useChartPalette } from '@owp/charts';
 import type { OwpTreemapChartProps } from '@owp/charts/types';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
-import { getBarSegmentLabelColor } from '../model/barSegmentLabels';
 import { chartMotion } from '../model/chartMotion';
 import type { ChartExampleProps } from '../model/types';
-import { useChartPalette } from '../model/useChartPalette';
 import { Controls, Toggle } from '../runtime/Controls';
 import { useAvailableChartHeight } from '../runtime/useAvailableChartHeight';
 
@@ -79,7 +78,7 @@ export function ChartExample(props: ChartExampleProps) {
           data={data}
           style={({ raw }) => ({
             backgroundColor: raw.color,
-            color: getBarSegmentLabelColor(raw.color, palette.surface),
+            color: getContrastRatio(raw.color, '#ffffff') >= 4.5 ? '#ffffff' : '#000000',
           })}
           formatter={(item) => (labels ? `${item.label}: ${item.value}` : (item.label ?? item.id))}
           options={options}

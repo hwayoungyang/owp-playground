@@ -1,7 +1,7 @@
 import * as materialColors from '@mui/material/colors';
 import { getContrastRatio } from '@mui/material/styles';
+import { createChartColors } from '@owp/charts/utils';
 import { describe, expect, it } from 'vitest';
-import { createChartColors } from '../src/playgrounds/charts/model/chartColors';
 import { colors } from '../src/shared/theme/tokens';
 
 describe('chart sample colors', () => {
@@ -9,7 +9,7 @@ describe('chart sample colors', () => {
     // Given
     const surface = colors[mode].canvas;
     // When
-    const series = createChartColors(mode, surface);
+    const series = createChartColors({ mode, surface });
     // Then
     expect(series.length).toBeGreaterThanOrEqual(10);
     expect(new Set(series).size).toBe(series.length);
@@ -30,8 +30,8 @@ describe('chart sample colors', () => {
         Object.values(family).some((value) => value === color),
       )?.[0];
     // When
-    const light = createChartColors('light', colors.light.canvas).map(familyOf);
-    const dark = createChartColors('dark', colors.dark.canvas).map(familyOf);
+    const light = createChartColors({ mode: 'light', surface: colors.light.canvas }).map(familyOf);
+    const dark = createChartColors({ mode: 'dark', surface: colors.dark.canvas }).map(familyOf);
     // Then
     expect(light.every(Boolean)).toBe(true);
     expect(dark).toEqual(light);
@@ -40,9 +40,9 @@ describe('chart sample colors', () => {
   it('selects darker MUI shades when the light surface needs more contrast', () => {
     // Given
     const surface = materialColors.grey[200];
-    const original = createChartColors('light', colors.light.canvas);
+    const original = createChartColors({ mode: 'light', surface: colors.light.canvas });
     // When
-    const adjusted = createChartColors('light', surface);
+    const adjusted = createChartColors({ mode: 'light', surface });
     // Then
     expect(adjusted).not.toEqual(original);
     for (const color of adjusted)

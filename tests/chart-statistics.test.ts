@@ -1,6 +1,6 @@
-import { summarizeBox } from '@owp/charts/utils';
+import { createPareto, summarizeBox } from '@owp/charts/utils';
 import { describe, expect, it } from 'vitest';
-import { createPareto, createScatterClusters } from '../src/playgrounds/charts/model/statistics';
+import { createScatterClusters } from '../src/playgrounds/charts/model/statistics';
 
 describe('statistical chart data', () => {
   it('uses interpolated quartiles and observed whiskers while retaining outliers', () => {
@@ -26,14 +26,21 @@ describe('statistical chart data', () => {
       { label: 'A', count: 6 },
       { label: 'C', count: 2 },
     ];
-    expect(createPareto(rows)).toEqual([
+    expect(
+      createPareto(rows, (row) => row.count).map((row) => ({
+        ...row.item,
+        cumulative: row.cumulativeRatio * 100,
+      })),
+    ).toEqual([
       { label: 'A', count: 6, cumulative: 60 },
       { label: 'B', count: 2, cumulative: 80 },
       { label: 'C', count: 2, cumulative: 100 },
     ]);
     expect(rows[0]?.label).toBe('B');
-    expect(createPareto([{ label: 'A', count: 0 }])[0]?.cumulative).toBe(0);
-    expect(createPareto([])).toEqual([]);
+    expect(createPareto([{ label: 'A', count: 0 }], (row) => row.count)[0]?.cumulativeRatio).toBe(
+      0,
+    );
+    expect(createPareto([], () => 0)).toEqual([]);
   });
   it('creates four deterministic dense clusters around distinct centers', () => {
     const clusters = createScatterClusters(2000);

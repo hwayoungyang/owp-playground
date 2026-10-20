@@ -1,5 +1,5 @@
+import { createHistogram } from '@owp/charts/utils';
 import { describe, expect, it } from 'vitest';
-import { createHistogram } from '../src/playgrounds/charts/model/data';
 import { createHistogramMeasurements } from '../src/playgrounds/charts/model/histogramData';
 
 describe('histogram sample distributions', () => {

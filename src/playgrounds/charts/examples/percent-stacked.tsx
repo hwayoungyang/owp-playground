@@ -1,13 +1,13 @@
 import { ChartFrame } from '@owp/charts';
 import {
   createAxisDomain,
+  createBarSegmentLabels,
   createCategoryAxisScale,
   createPercentAxisScale,
   formatTooltipLabel,
 } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useState } from 'react';
-import { createBarSegmentLabels } from '../model/barSegmentLabels';
 import type { ChartExampleProps } from '../model/types';
 import { useCartesian, useChartPalette, useMonthlyRecords } from '../model/useCartesian';
 import { Controls, Range, Toggle } from '../runtime/Controls';
@@ -43,6 +43,7 @@ export function ChartExample(props: ChartExampleProps) {
         },
         plugins: {
           datalabels: createBarSegmentLabels({
+            font: { size: 12, weight: 600 },
             enabled: labels,
             palette,
             formatter: (value) => `${value.toFixed(1)}%`,

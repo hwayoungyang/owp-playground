@@ -1,13 +1,3 @@
-export function createPareto(rows: readonly { readonly label: string; readonly count: number }[]) {
-  const sorted = [...rows].sort((a, b) => b.count - a.count);
-  const total = sorted.reduce((sum, row) => sum + row.count, 0);
-  let cumulative = 0;
-  return sorted.map((row) => {
-    cumulative += row.count;
-    return { ...row, cumulative: total ? (cumulative / total) * 100 : 0 };
-  });
-}
-
 /** 같은 seed로 재현 가능한 정규분포 군집을 만듭니다. */
 export function createScatterClusters(count: number) {
   let seed = 731;

@@ -1,8 +1,11 @@
 import { ChartFrame } from '@owp/charts';
-import { createCategoryAxisScale, createNumberAxisScale } from '@owp/charts/utils';
+import {
+  createBarSegmentLabels,
+  createCategoryAxisScale,
+  createNumberAxisScale,
+} from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useState } from 'react';
-import { createBarSegmentLabels } from '../model/barSegmentLabels';
 import type { ChartExampleProps } from '../model/types';
 import { useCartesian, useChartPalette, useMonthlyRecords } from '../model/useCartesian';
 import { Controls, Range, Toggle } from '../runtime/Controls';
@@ -24,7 +27,13 @@ export function ChartExample(props: ChartExampleProps) {
         { dataKey: 'lineC', label: t('라인 C'), type: 'bar', stack: 'output' },
       ],
       options: {
-        plugins: { datalabels: createBarSegmentLabels({ enabled: labels, palette }) },
+        plugins: {
+          datalabels: createBarSegmentLabels({
+            font: { size: 12, weight: 600 },
+            enabled: labels,
+            palette,
+          }),
+        },
         scales: {
           x: createCategoryAxisScale({ stacked: true }),
           y: createNumberAxisScale({ stacked: true, beginAtZero: true }),

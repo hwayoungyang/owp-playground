@@ -1,7 +1,6 @@
 import type { ApiRow } from '../../../features/code/api-data';
 import { chartFromApi } from './apiData';
 import { factoryNoise } from './factoryData';
-import type { ChartRecord } from './types';
 
 export const monthlyApiRows: readonly ApiRow[] = Array.from({ length: 12 }, (_, index) => {
   const plan = [86, 92, 104, 108, 96, 110, 120, 115, 124, 126, 132, 128][index] ?? 0;
@@ -81,60 +80,4 @@ export function createMeasurements(count: number): readonly Measurement[] {
       factoryNoise(index, 31) * 1.8 +
       (index % 997 === 0 ? 16 : 0),
   }));
-}
-
-/** 원본 순서와 각 bucket의 극값을 보존하며 렌더링할 점 수를 제한합니다. */
-export function downsampleMinMax(
-  points: readonly Measurement[],
-  maxPoints: number,
-): readonly Measurement[] {
-  if (!Number.isInteger(maxPoints) || maxPoints < 4)
-    throw new RangeError('maxPoints must be at least 4');
-  if (points.length <= maxPoints) return points;
-  const first = points[0];
-  const last = points.at(-1);
-  if (!first || !last) return [];
-  const buckets = Math.floor((maxPoints - 2) / 2);
-  const width = Math.ceil((points.length - 2) / buckets);
-  const result: Measurement[] = [first];
-  for (let start = 1; start < points.length - 1; start += width) {
-    const initial = points[start];
-    if (!initial) continue;
-    let min = initial;
-    let max = initial;
-    for (let index = start + 1; index < Math.min(start + width, points.length - 1); index++) {
-      const point = points[index];
-      if (!point) continue;
-      if (point.value < min.value) min = point;
-      if (point.value > max.value) max = point;
-    }
-    if (min === max) result.push(min);
-    else if (min.timestamp < max.timestamp) result.push(min, max);
-    else result.push(max, min);
-  }
-  result.push(last);
-  return result;
-}
-
-/** 최댓값을 마지막 구간에 포함해 각 관측값을 한 번씩 집계합니다. */
-export function createHistogram(
-  values: readonly number[],
-  binCount: number,
-): readonly ChartRecord[] {
-  if (!Number.isInteger(binCount) || binCount < 1)
-    throw new RangeError('binCount must be positive');
-  const finite = values.filter(Number.isFinite);
-  if (finite.length === 0) return [];
-  const min = Math.min(...finite);
-  const max = Math.max(...finite);
-  const width = (max - min || 1) / binCount;
-  const bins = Array.from({ length: binCount }, (_, index) => ({
-    category: `${(min + index * width).toFixed(1)}–${(min + (index + 1) * width).toFixed(1)}`,
-    frequency: 0,
-  }));
-  for (const value of finite) {
-    const bin = bins[Math.min(binCount - 1, Math.floor((value - min) / width))];
-    if (bin) bin.frequency++;
-  }
-  return bins;
 }

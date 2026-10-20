@@ -1,6 +1,6 @@
-import { useChartPalette } from './useChartPalette';
+import { useChartPalette } from '@owp/charts';
 
-export { useChartPalette } from './useChartPalette';
+export { useChartPalette } from '@owp/charts';
 
 import type { ChartSeriesConfig, CoreChartProps } from '@owp/charts/types';
 import { createChartColorMap, createChartData } from '@owp/charts/utils';
@@ -49,13 +49,16 @@ export function useCartesian(
         ]),
       ),
     );
-    const chartData = createChartData({
+    return createChartData({
       categoryKey: 'category',
       data: source,
       series: seriesList.map((series) => ({
         backgroundColor: colors[series.dataKey],
         borderColor: colors[series.dataKey],
         ...series,
+        ...(series.id === undefined && series.datasetOptions?.id === undefined
+          ? { id: series.dataKey }
+          : {}),
         datasetOptions: {
           borderWidth: series.type === 'line' ? 2 : 0,
           pointRadius: 3,
@@ -66,13 +69,6 @@ export function useCartesian(
         },
       })),
     });
-    return {
-      ...chartData,
-      datasets: chartData.datasets.map((dataset, index) => ({
-        ...dataset,
-        id: String(seriesList[index]?.dataKey ?? index),
-      })),
-    };
   }, [source, config.series, palette.colors, t]);
   const input = config.options;
   // 데이터만 바뀔 때 축 옵션을 다시 적용하지 않아 사용자가 지정한 줌 범위를 유지합니다.

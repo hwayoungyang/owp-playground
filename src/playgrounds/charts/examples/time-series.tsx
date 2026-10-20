@@ -1,9 +1,13 @@
 import { useMediaQuery } from '@mui/material';
 import { ChartFrame } from '@owp/charts';
-import { createCategoryAxisScale, createLinearAxisScale } from '@owp/charts/utils';
+import {
+  createCategoryAxisScale,
+  createLinearAxisScale,
+  downsampleMinMax,
+} from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useMemo, useState } from 'react';
-import { createMeasurements, downsampleMinMax } from '../model/data';
+import { createMeasurements } from '../model/data';
 import type { ChartExampleProps } from '../model/types';
 import { useCartesian } from '../model/useCartesian';
 import { Controls, Range } from '../runtime/Controls';
@@ -14,7 +18,10 @@ export function ChartExample(props: ChartExampleProps) {
   const [count, setCount] = useState(10000);
   const [limit, setLimit] = useState(600);
   const points = useMemo(() => createMeasurements(count), [count]);
-  const rendered = useMemo(() => downsampleMinMax(points, limit), [points, limit]);
+  const rendered = useMemo(
+    () => downsampleMinMax(points, limit, (point) => point.value),
+    [points, limit],
+  );
   const records = useMemo(
     () =>
       rendered.map((point) => ({

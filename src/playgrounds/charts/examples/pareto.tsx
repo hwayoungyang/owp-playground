@@ -1,8 +1,7 @@
 import { ChartFrame } from '@owp/charts';
-import { createPercentAxisScale } from '@owp/charts/utils';
+import { createPareto, createPercentAxisScale } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useState } from 'react';
-import { createPareto } from '../model/statistics';
 import type { ChartExampleProps } from '../model/types';
 import { useCartesian, useChartPalette } from '../model/useCartesian';
 import { Controls, Toggle } from '../runtime/Controls';
@@ -11,20 +10,23 @@ export function ChartExample(props: ChartExampleProps) {
   const { t } = useOwpTranslation();
   const [target, setTarget] = useState(true);
   const palette = useChartPalette();
-  const rows = createPareto([
-    { label: t('표면 흠집'), count: 38 },
-    { label: t('치수 편차'), count: 26 },
-    { label: t('조립 불량'), count: 17 },
-    { label: t('색상 편차'), count: 10 },
-    { label: t('포장 손상'), count: 6 },
-    { label: t('기타'), count: 3 },
-  ]);
+  const rows = createPareto(
+    [
+      { label: t('표면 흠집'), count: 38 },
+      { label: t('치수 편차'), count: 26 },
+      { label: t('조립 불량'), count: 17 },
+      { label: t('색상 편차'), count: 10 },
+      { label: t('포장 손상'), count: 6 },
+      { label: t('기타'), count: 3 },
+    ],
+    (row) => row.count,
+  );
   const chart = useCartesian(
     {
       records: rows.map((row) => ({
-        category: row.label,
-        count: row.count,
-        cumulative: row.cumulative,
+        category: row.item.label,
+        count: row.value,
+        cumulative: row.cumulativeRatio * 100,
       })),
       series: [
         {

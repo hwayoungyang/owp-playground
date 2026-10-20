@@ -1,8 +1,7 @@
 import { alpha } from '@mui/material/styles';
-import { createGroupedAxisLabelsPlugin } from '@owp/charts/utils';
+import { createBarSegmentLabels, createGroupedAxisLabelsPlugin } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
-import { createBarSegmentLabels } from '../model/barSegmentLabels';
 import type { NativeChartType, NativeData, NativeOptions } from '../model/chartTypes';
 import type { ChartExampleProps } from '../model/types';
 import { useChartPalette } from '../model/useCartesian';
@@ -82,7 +81,11 @@ export function ChartExample(props: ChartExampleProps) {
       },
     },
     plugins: {
-      datalabels: createBarSegmentLabels({ enabled: values, palette }),
+      datalabels: createBarSegmentLabels({
+        font: { size: 12, weight: 600 },
+        enabled: values,
+        palette,
+      }),
       tooltip: {
         filter: (item) => item.raw !== null,
         callbacks: {

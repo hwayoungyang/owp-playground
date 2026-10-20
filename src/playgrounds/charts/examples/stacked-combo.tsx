@@ -1,6 +1,6 @@
+import { createBarSegmentLabels } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useState } from 'react';
-import { createBarSegmentLabels } from '../model/barSegmentLabels';
 import type { NativeData, NativeOptions } from '../model/chartTypes';
 import { monthlyRecords } from '../model/data';
 import type { ChartExampleProps } from '../model/types';
@@ -20,6 +20,7 @@ export function ChartExample(props: ChartExampleProps) {
       ...data.datasets
         .concat([{ label: t('라인 C'), data: monthlyRecords.slice(0, 6).map((row) => row.lineC) }])
         .map((dataset, index) => ({
+          id: `line-${index}`,
           label: dataset.label,
           data: dataset.data,
           backgroundColor: palette.colors[index],
@@ -28,6 +29,7 @@ export function ChartExample(props: ChartExampleProps) {
           order: 1,
         })),
       {
+        id: 'target',
         type: 'line' as const,
         order: 0,
         label: t('목표'),
@@ -39,7 +41,13 @@ export function ChartExample(props: ChartExampleProps) {
     ],
   };
   const options: NativeOptions = {
-    plugins: { datalabels: createBarSegmentLabels({ enabled: labels, palette }) },
+    plugins: {
+      datalabels: createBarSegmentLabels({
+        font: { size: 12, weight: 600 },
+        enabled: labels,
+        palette,
+      }),
+    },
     scales: { x: { stacked: enabled }, y: { stacked: enabled, beginAtZero: true } },
   };
   return (

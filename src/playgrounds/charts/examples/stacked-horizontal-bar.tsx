@@ -1,6 +1,6 @@
+import { createBarSegmentLabels } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useState } from 'react';
-import { createBarSegmentLabels } from '../model/barSegmentLabels';
 import type { NativeData, NativeOptions } from '../model/chartTypes';
 import { processNames, processValues, years } from '../model/referenceData';
 import type { ChartExampleProps } from '../model/types';
@@ -31,6 +31,7 @@ export function ChartExample(props: ChartExampleProps) {
     },
     plugins: {
       datalabels: createBarSegmentLabels({
+        font: { size: 12, weight: 600 },
         enabled: labels,
         palette,
         formatter: (value) => value.toFixed(1),

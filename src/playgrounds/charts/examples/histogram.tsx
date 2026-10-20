@@ -1,8 +1,11 @@
 import { ChartFrame } from '@owp/charts';
-import { createCategoryAxisScale, createIntegerAxisScale } from '@owp/charts/utils';
+import {
+  createCategoryAxisScale,
+  createHistogram,
+  createIntegerAxisScale,
+} from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
-import { createHistogram } from '../model/data';
 import {
   createHistogramMeasurements,
   type HistogramDistribution,
@@ -31,7 +34,14 @@ export function ChartExample(props: ChartExampleProps) {
     () => createHistogramMeasurements({ count, distribution, sequence }),
     [count, distribution, sequence],
   );
-  const records = useMemo(() => createHistogram(measurements, bins), [measurements, bins]);
+  const records = useMemo(
+    () =>
+      createHistogram(measurements, bins).map((bin) => ({
+        category: `${bin.lowerBound.toFixed(1)}–${bin.upperBound.toFixed(1)}`,
+        frequency: bin.frequency,
+      })),
+    [measurements, bins],
+  );
   const measurementLabel = t('측정값');
   const frequencyLabel = t('빈도');
   const options = useMemo<ChartOptions>(
