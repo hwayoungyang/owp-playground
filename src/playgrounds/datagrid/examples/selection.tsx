@@ -1,3 +1,4 @@
+import './styles.css';
 import { Button } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { OwpDataGrid } from '@owp/datagrid';
@@ -21,6 +22,7 @@ export type SelectionGridProps = TaskGridProps & {
 
 export function SelectionGrid({
   gridRef,
+  callbacks,
   onSelectionModeChange,
   ...gridProps
 }: SelectionGridProps = {}) {
@@ -40,7 +42,7 @@ export function SelectionGrid({
   const handleSelectionModeChange = (nextMode: OwpDataGridRowSelectionMode) => {
     if (nextMode === selectionMode) return;
     setMode(nextMode);
-    onSelectionModeChange?.(nextMode);
+    (onSelectionModeChange ?? callbacks?.onSelectionModeChange)?.(nextMode);
     handleSelectionChange([]);
   };
 

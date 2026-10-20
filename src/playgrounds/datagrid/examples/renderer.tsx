@@ -1,150 +1,22 @@
+import './styles.css';
 import { useOwpTranslation } from '@owp/components/hooks';
-import { Button, Chip, LinearProgress, Switch } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridColumn, OwpDataGridRef } from '@owp/datagrid/types';
-import { CheckIcon } from '@phosphor-icons/react';
+import type { OwpDataGridRef } from '@owp/datagrid/types';
 import { useMemo, useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
-import { getRowId, initialTasks, type Task } from '../model/data';
-import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
+import type { Task, TaskGridProps } from '../types';
+import { taskRendererConfiguration, createTaskRendererColumns } from './configs/taskRenderer';
 
-function createColumns(actions?: {
-  readonly complete: (row: Task) => void;
-  readonly toggle: (row: Task, checked: boolean) => void;
-}): OwpDataGridColumn<Task>[] {
-  return [
-    { id: 'project', field: 'project', header: translate('프로젝트'), minWidth: 150, relWidth: 1 },
-    { id: 'task', field: 'task', header: translate('작업'), minWidth: 180, relWidth: 1.3 },
-    {
-      id: 'status',
-      field: 'status',
-      header: translate('상태'),
-      minWidth: 140,
-      relWidth: 0.8,
-      align: 'center',
-      headerAlign: 'center',
-      renderCell: ({ row }) => (
-        <Chip
-          label={translate(row.status)}
-          sx={{
-            color: row.status === '검토 중' ? 'var(--pg-warning)' : 'var(--pg-success)',
-            bgcolor: row.status === '검토 중' ? 'var(--pg-warning-wash)' : 'var(--pg-success-wash)',
-            ...(row.status === '대기'
-              ? { color: 'var(--pg-secondary)', bgcolor: 'var(--pg-subtle)' }
-              : {}),
-          }}
-        />
-      ),
-      excel: { valueGetter: ({ row }) => translate(row.status) },
-    },
-    {
-      id: 'progress',
-      field: 'completed',
-      header: translate('진행률'),
-      minWidth: 160,
-      relWidth: 1,
-      type: 'number',
-      valueGetter: (row) =>
-        row.quantity > 0 ? Math.round((row.completed / row.quantity) * 100) : 0,
-      valueSetter: ({ row, nextValue }) =>
-        typeof nextValue === 'number'
-          ? {
-              ...row,
-              completed: Math.round((row.quantity * Math.max(0, Math.min(100, nextValue))) / 100),
-            }
-          : row,
-      renderCell: ({ row, value }) => {
-        const percent = typeof value === 'number' ? Math.max(0, Math.min(100, value)) : 0;
-        return (
-          <div className="progress-cell">
-            <LinearProgress
-              variant="determinate"
-              value={percent}
-              aria-label={`${row.task} ${translate('진행률')}`}
-              sx={{
-                flex: 1,
-                height: 4,
-                borderRadius: 2,
-                bgcolor: 'var(--pg-subtle)',
-                '& .MuiLinearProgress-bar': {
-                  bgcolor: 'var(--pg-success)',
-                  transition: 'none',
-                },
-              }}
-            />
-            <span>{percent}%</span>
-          </div>
-        );
-      },
-      excel: { numFmt: '0"%"' },
-    },
-    {
-      id: 'active',
-      field: 'active',
-      header: translate('알림'),
-      minWidth: 100,
-      relWidth: 0.6,
-      align: 'center',
-      headerAlign: 'center',
-      type: 'boolean',
-      renderCell: ({ row }) => (
-        <Switch
-          size="small"
-          checked={row.active}
-          slotProps={{ input: { 'aria-label': translate('{{task}} 알림', { task: row.task }) } }}
-          onClick={(event) => event.stopPropagation()}
-          onKeyDown={(event) => event.stopPropagation()}
-          onChange={(_, checked) => actions?.toggle(row, checked)}
-          disabled={!actions}
-        />
-      ),
-      excel: { valueGetter: ({ row }) => translate(row.active ? '켜짐' : '꺼짐') },
-    },
-    {
-      id: 'action',
-      header: translate('완료 처리'),
-      minWidth: 140,
-      relWidth: 0.9,
-      align: 'center',
-      headerAlign: 'center',
-      sortable: false,
-      filterable: false,
-      renderCell: ({ row }) => (
-        <Button
-          variant="outlined"
-          startIcon={<CheckIcon size={16} />}
-          disabled={!actions || row.status === '완료'}
-          aria-label={translate('{{task}} 완료 처리', { task: row.task })}
-          onKeyDown={(event) => event.stopPropagation()}
-          onClick={(event) => {
-            event.stopPropagation();
-            actions?.complete(row);
-          }}
-        >
-          {translate(row.status === '완료' ? '완료됨' : '완료 처리')}
-        </Button>
-      ),
-      excel: false,
-    },
-  ];
-}
+export { taskRendererConfiguration as gridConfiguration } from './configs/taskRenderer';
 
-export const gridConfiguration: GridConfiguration = {
-  rows: initialTasks,
-  columns: createColumns(),
-  getRowId,
-  rowSelectionMode: 'none',
-  height: 420,
-};
-
-export function CellRendererGrid(props: GridViewProps = {}) {
+export function CellRendererGrid(props: TaskGridProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
+  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { onAction } = callbacks ?? {};
   const { t } = useOwpTranslation();
   const [error, setError] = useState('');
   const columns = useMemo(
     () =>
-      createColumns({
+      createTaskRendererColumns({
         complete: (row) => {
           const grid = gridRef.current;
           if (!grid?.commitEditing()) {
@@ -156,7 +28,7 @@ export function CellRendererGrid(props: GridViewProps = {}) {
             { type: 'setCellValue', rowId: row.id, columnId: 'progress', value: 100 },
           ]);
           setError(result.success ? '' : '변경을 적용하지 못했습니다.');
-          onRecord?.('cell.complete', { rowId: row.id, result });
+          onAction?.('cell.complete', { rowId: row.id, result });
         },
         toggle: (row, checked) => {
           const grid = gridRef.current;
@@ -164,14 +36,17 @@ export function CellRendererGrid(props: GridViewProps = {}) {
             grid?.commitEditing() && grid.setCellValue(row.id, 'active', checked),
           );
           setError(success ? '' : '변경을 적용하지 못했습니다.');
-          onRecord?.('cell.notifications', { rowId: row.id, checked, success });
+          onAction?.('cell.notifications', { rowId: row.id, checked, success });
         },
       }).map((column) => ({ ...column, header: t(String(column.header)) })),
-    [gridRef, onRecord, t],
+    [gridRef, onAction, t],
   );
 
   return (
-    <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
+    <div
+      className="example-with-controls"
+      style={{ height: props.height ?? taskRendererConfiguration.height }}
+    >
       {error && (
         <output className="example-caption" role="alert">
           {t(error)}
@@ -180,9 +55,9 @@ export function CellRendererGrid(props: GridViewProps = {}) {
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={gridConfiguration.rows}
-          getRowId={getRowId}
-          rowSelectionMode="none"
+          rows={taskRendererConfiguration.rows}
+          getRowId={taskRendererConfiguration.getRowId}
+          rowSelectionMode={taskRendererConfiguration.rowSelectionMode}
           height="100%"
           {...gridProps}
           columns={columns}

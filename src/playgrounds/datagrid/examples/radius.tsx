@@ -1,88 +1,33 @@
+import './styles.css';
+import type { SelectChangeEvent } from '@mui/material';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { MenuItem, Select } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { useEffect, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
-import type { Task } from '../model/data';
-import { getRowId, initialTasks, statuses } from '../model/data';
-import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
+import { getRowId } from '../model/data';
+import type { TaskGridProps } from '../types';
+import { taskColumns } from './configs/taskList';
+import { gridRadiusConfiguration } from './configs/gridRadius';
 
-const statusClasses: Readonly<Record<string, string>> = {
-  '진행 중': 'status-0',
-  완료: 'status-1',
-  '검토 중': 'status-2',
-  대기: 'status-3',
-};
+export { gridRadiusConfiguration as gridConfiguration } from './configs/gridRadius';
 
-const baseColumns = [
-  { id: 'project', field: 'project', header: '프로젝트', minWidth: 175, relWidth: 1.4 },
-  { id: 'task', field: 'task', header: '작업', minWidth: 175, relWidth: 1.5 },
-  { id: 'owner', field: 'owner', header: '담당자', minWidth: 100, relWidth: 0.8, align: 'center' },
-  {
-    id: 'status',
-    field: 'status',
-    header: '상태',
-    minWidth: 110,
-    relWidth: 0.9,
-    align: 'center',
-    headerAlign: 'center',
-    type: 'select',
-    valueOptions: statuses.map((value) => ({ value, label: value })),
-    renderCell: ({ row }) =>
-      row.status ? (
-        <span className={`status-badge ${statusClasses[row.status] ?? ''}`}>
-          <span className="status-dot" />
-          {translate(row.status)}
-        </span>
-      ) : null,
-  },
-  {
-    id: 'quantity',
-    field: 'quantity',
-    header: '계획',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'completed',
-    field: 'completed',
-    header: '완료',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'date',
-    field: 'date',
-    header: '마감일',
-    type: 'date',
-    minWidth: 150,
-    relWidth: 1.1,
-    align: 'center',
-    headerAlign: 'center',
-    dateOptions: { format: 'YYYY-MM-DD' },
-  },
-] satisfies OwpDataGridColumn<Task>[];
-
-export const gridConfiguration: GridConfiguration = {
-  rows: initialTasks,
-  columns: baseColumns,
-  getRowId,
-  rowSelectionMode: 'multiple',
-  height: 420,
-  radius: 0.25,
-};
-
-export function RadiusGrid(props: GridViewProps = {}) {
-  const { gridRef, onRecord, onRowsChange, onBusyChange, onRadiusChange, ...gridProps } = props;
+export function RadiusGrid(props: TaskGridProps = {}) {
+  const { gridRef, callbacks, ...gridProps } = props;
+  const { onAction, onRadiusChange } = callbacks ?? {};
   const [radius, setRadius] = useState(0.25);
   useEffect(() => {
     if (typeof gridProps.radius === 'number') setRadius(gridProps.radius);
   }, [gridProps.radius]);
+  function handleRadiusChange(event: SelectChangeEvent<number>) {
+    const next = Number(event.target.value);
+    if ([0, 0.25, 0.5, 0.75].includes(next)) {
+      setRadius(next);
+      onRadiusChange?.(next);
+      onAction?.('radius', next);
+    }
+  }
+
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
       <PreviewActions>
@@ -91,14 +36,7 @@ export function RadiusGrid(props: GridViewProps = {}) {
           <Select
             value={radius}
             inputProps={{ 'aria-label': translate('모서리 둥글기') }}
-            onChange={(event) => {
-              const next = Number(event.target.value);
-              if ([0, 0.25, 0.5, 0.75].includes(next)) {
-                setRadius(next);
-                onRadiusChange?.(next);
-                onRecord?.('radius', next);
-              }
-            }}
+            onChange={handleRadiusChange}
           >
             <MenuItem value={0}>{translate('기본 (각진)')}</MenuItem>
             <MenuItem value={0.25}>{translate('작게')}</MenuItem>
@@ -110,8 +48,8 @@ export function RadiusGrid(props: GridViewProps = {}) {
       <div className="example-grid" style={{ padding: 12 }}>
         <OwpDataGrid
           ref={gridRef}
-          rows={gridConfiguration.rows}
-          columns={baseColumns}
+          rows={gridRadiusConfiguration.rows}
+          columns={taskColumns}
           getRowId={getRowId}
           rowSelectionMode="multiple"
           height="100%"

@@ -1,10 +1,11 @@
+import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { TaskGridProps } from '../types';
 import { taskOverviewConfiguration } from './configs/taskOverview';
 
 export { taskOverviewConfiguration as gridConfiguration } from './configs/taskOverview';
 
-export function FixedRowsGrid({ gridRef, ...gridProps }: TaskGridProps = {}) {
+export function FixedRowsGrid({ gridRef, callbacks, ...gridProps }: TaskGridProps = {}) {
   return (
     <OwpDataGrid
       ref={gridRef}

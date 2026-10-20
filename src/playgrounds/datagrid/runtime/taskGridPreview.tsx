@@ -1,9 +1,9 @@
-import type { ComponentType } from 'react';
+import { type ComponentType, useMemo } from 'react';
 import { SelectionGrid } from '../examples/selection';
 import type { GridViewProps } from '../model/gridTypes';
-import type { TaskGridProps } from '../types';
+import type { TaskGridCallbacks, TaskGridProps } from '../types';
 
-/** 소비앱 예제에는 native props와 Ref만 전달하고 관찰용 콜백은 runtime에서 처리합니다. */
+/** 미리보기 관찰용 콜백을 소비앱에서도 사용할 수 있는 예제 콜백으로 연결합니다. */
 export function withTaskGridPreview(Component: ComponentType<TaskGridProps>) {
   return function TaskGridPreview({
     onRecord,
@@ -13,25 +13,21 @@ export function withTaskGridPreview(Component: ComponentType<TaskGridProps>) {
     onSelectionModeChange,
     ...gridProps
   }: GridViewProps) {
-    return <Component {...gridProps} />;
+    const callbacks = useMemo<TaskGridCallbacks>(
+      () => ({
+        onAction: onRecord,
+        onDataChange: onRowsChange,
+        onLoadingChange: onBusyChange,
+        onRadiusChange,
+        onSelectionModeChange: (mode) => {
+          onSelectionModeChange?.(mode);
+          onRecord?.('rowSelectionMode', mode);
+        },
+      }),
+      [onRecord, onRowsChange, onBusyChange, onRadiusChange, onSelectionModeChange],
+    );
+    return <Component {...gridProps} callbacks={callbacks} />;
   };
 }
 
-export function TaskSelectionPreview({
-  onRecord,
-  onRowsChange,
-  onBusyChange,
-  onRadiusChange,
-  onSelectionModeChange,
-  ...gridProps
-}: GridViewProps) {
-  return (
-    <SelectionGrid
-      {...gridProps}
-      onSelectionModeChange={(mode) => {
-        onSelectionModeChange?.(mode);
-        onRecord?.('rowSelectionMode', mode);
-      }}
-    />
-  );
-}
+export const TaskSelectionPreview = withTaskGridPreview(SelectionGrid);

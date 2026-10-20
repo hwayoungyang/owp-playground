@@ -1,107 +1,27 @@
+import './styles.css';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridColumn, OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
+import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
 import { useRef, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
-import type { Task } from '../model/data';
-import { createNestedTree, getRowId, owners, statuses } from '../model/data';
-import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
+import type { Task } from '../types';
+import type { TaskGridProps } from '../types';
+import { nestedTaskTreeConfiguration } from './configs/nestedTaskTree';
 
-const statusClasses: Readonly<Record<string, string>> = {
-  '진행 중': 'status-0',
-  완료: 'status-1',
-  '검토 중': 'status-2',
-  대기: 'status-3',
-};
+export { nestedTaskTreeConfiguration as gridConfiguration } from './configs/nestedTaskTree';
 
-const baseColumns = [
-  { id: 'project', field: 'project', header: '프로젝트', minWidth: 175, relWidth: 1.4 },
-  { id: 'task', field: 'task', header: '작업', minWidth: 175, relWidth: 1.5 },
-  { id: 'owner', field: 'owner', header: '담당자', minWidth: 100, relWidth: 0.8, align: 'center' },
-  {
-    id: 'status',
-    field: 'status',
-    header: '상태',
-    minWidth: 110,
-    relWidth: 0.9,
-    align: 'center',
-    headerAlign: 'center',
-    type: 'select',
-    valueOptions: statuses.map((value) => ({ value, label: value })),
-    renderCell: ({ row }) =>
-      row.status ? (
-        <span className={`status-badge ${statusClasses[row.status] ?? ''}`}>
-          <span className="status-dot" />
-          {translate(row.status)}
-        </span>
-      ) : null,
-  },
-  {
-    id: 'quantity',
-    field: 'quantity',
-    header: '계획',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'completed',
-    field: 'completed',
-    header: '완료',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'date',
-    field: 'date',
-    header: '마감일',
-    type: 'date',
-    minWidth: 150,
-    relWidth: 1.1,
-    align: 'center',
-    headerAlign: 'center',
-    dateOptions: { format: 'YYYY-MM-DD' },
-  },
-] satisfies OwpDataGridColumn<Task>[];
-
-const editableColumns = baseColumns.map((column) => ({
-  ...column,
-  resizable: true,
-  headerAlign: 'center' as const,
-  editable: column.id !== 'project',
-  ...(column.id === 'owner'
-    ? { type: 'select' as const, valueOptions: owners.map((value) => ({ value, label: value })) }
-    : {}),
-}));
-
-export const gridConfiguration: GridConfiguration = {
-  rows: createNestedTree(),
-  columns: editableColumns,
-  getRowId,
-  height: 420,
-  rowSelectionMode: 'multiple',
-  treeOptions: {
-    mode: 'nested',
-    getChildren: (row) => row.children,
-    defaultExpansionModel: ['project-0', 'phase-0-0', 'work-0-0-0'],
-    filterFromLeafRows: true,
-    indentation: 20,
-  },
-  rowSelectionPropagation: { descendants: true, parents: true },
-  layout: { filterRow: true },
-};
-export function NestedTaskTreeGrid(props: GridViewProps = {}) {
+export function NestedTaskTreeGrid(props: TaskGridProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
-  const [expanded, setExpanded] = useState<readonly OwpDataGridRowId[]>([
-    'project-0',
-    'phase-0-0',
-    'work-0-0-0',
-  ]);
+  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { onAction } = callbacks ?? {};
+  const [expanded, setExpanded] = useState<readonly OwpDataGridRowId[]>(
+    nestedTaskTreeConfiguration.treeOptions?.defaultExpansionModel ?? [],
+  );
+  const handleExpansionChange = (next: readonly OwpDataGridRowId[]) => {
+    setExpanded(next);
+    onAction?.('expansion', next);
+  };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
       <PreviewActions>
@@ -119,13 +39,13 @@ export function NestedTaskTreeGrid(props: GridViewProps = {}) {
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={gridConfiguration.rows}
-          columns={editableColumns}
-          getRowId={getRowId}
+          rows={nestedTaskTreeConfiguration.rows}
+          columns={nestedTaskTreeConfiguration.columns}
+          getRowId={nestedTaskTreeConfiguration.getRowId}
           height="100%"
           rowSelectionMode="multiple"
-          rowSelectionPropagation={{ descendants: true, parents: true }}
-          layout={{ filterRow: true }}
+          rowSelectionPropagation={nestedTaskTreeConfiguration.rowSelectionPropagation}
+          layout={nestedTaskTreeConfiguration.layout}
           {...gridProps}
           treeOptions={{
             mode: 'nested',
@@ -133,10 +53,7 @@ export function NestedTaskTreeGrid(props: GridViewProps = {}) {
             filterFromLeafRows: true,
             indentation: 20,
             expansionModel: expanded,
-            onExpansionModelChange: (next) => {
-              setExpanded(next);
-              onRecord?.('expansion', next);
-            },
+            onExpansionModelChange: handleExpansionChange,
           }}
         />
       </div>

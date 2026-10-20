@@ -1,3 +1,5 @@
+import './styles.css';
+import { conditionalStylesConfiguration } from './configs/conditionalStyles';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { FormControlLabel, MenuItem, Select, Switch } from '@mui/material';
@@ -5,101 +7,23 @@ import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { useMemo, useState } from 'react';
 import { z } from 'zod';
-import { translate } from '../../../shared/i18n/translate';
-import type { Task } from '../model/data';
-import { getRowId, initialTasks, owners, statuses } from '../model/data';
-import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
+import type { Task } from '../types';
+import type { TaskGridProps } from '../types';
+import { editableTaskColumns } from './configs/taskList';
 
-const statusClasses: Readonly<Record<string, string>> = {
-  '진행 중': 'status-0',
-  완료: 'status-1',
-  '검토 중': 'status-2',
-  대기: 'status-3',
-};
-
-const baseColumns = [
-  { id: 'project', field: 'project', header: '프로젝트', minWidth: 175, relWidth: 1.4 },
-  { id: 'task', field: 'task', header: '작업', minWidth: 175, relWidth: 1.5 },
-  { id: 'owner', field: 'owner', header: '담당자', minWidth: 100, relWidth: 0.8, align: 'center' },
-  {
-    id: 'status',
-    field: 'status',
-    header: '상태',
-    minWidth: 110,
-    relWidth: 0.9,
-    align: 'center',
-    headerAlign: 'center',
-    type: 'select',
-    valueOptions: statuses.map((value) => ({ value, label: value })),
-    renderCell: ({ row }) =>
-      row.status ? (
-        <span className={`status-badge ${statusClasses[row.status] ?? ''}`}>
-          <span className="status-dot" />
-          {translate(row.status)}
-        </span>
-      ) : null,
-  },
-  {
-    id: 'quantity',
-    field: 'quantity',
-    header: '계획',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'completed',
-    field: 'completed',
-    header: '완료',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'date',
-    field: 'date',
-    header: '마감일',
-    type: 'date',
-    minWidth: 150,
-    relWidth: 1.1,
-    align: 'center',
-    headerAlign: 'center',
-    dateOptions: { format: 'YYYY-MM-DD' },
-  },
-] satisfies OwpDataGridColumn<Task>[];
-
-const editableColumns = baseColumns.map((column) => ({
-  ...column,
-  resizable: true,
-  headerAlign: 'center' as const,
-  editable: column.id !== 'project',
-  ...(column.id === 'owner'
-    ? { type: 'select' as const, valueOptions: owners.map((value) => ({ value, label: value })) }
-    : {}),
-}));
-
-export const gridConfiguration: GridConfiguration = {
-  rows: initialTasks,
-  columns: editableColumns,
-  getRowId,
-  rowSelectionMode: 'multiple',
-  height: 420,
-};
-
+export { conditionalStylesConfiguration as gridConfiguration } from './configs/conditionalStyles';
 const backgroundScopeSchema = z.enum(['cell', 'row']);
 
-export function ConditionalStylesGrid(props: GridViewProps = {}) {
+export function ConditionalStylesGrid(props: TaskGridProps = {}) {
   const { t } = useOwpTranslation();
-  const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
+  const { gridRef, callbacks, ...gridProps } = props;
   const [backgroundScope, setBackgroundScope] = useState<'cell' | 'row'>(() =>
     new URLSearchParams(window.location.search).get('sample') === 'row-background' ? 'row' : 'cell',
   );
   const [restrictCompleted, setRestrictCompleted] = useState(true);
   const columns = useMemo(
     () =>
-      (gridProps.columns ?? editableColumns).map<OwpDataGridColumn<Task>>((column) => ({
+      (gridProps.columns ?? editableTaskColumns).map<OwpDataGridColumn<Task>>((column) => ({
         ...column,
         cellStyle: ({ row }) => {
           if (backgroundScope === 'cell') {
@@ -154,8 +78,8 @@ export function ConditionalStylesGrid(props: GridViewProps = {}) {
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={initialTasks}
-          getRowId={getRowId}
+          rows={conditionalStylesConfiguration.rows}
+          getRowId={conditionalStylesConfiguration.getRowId}
           rowSelectionMode="multiple"
           height="100%"
           {...gridProps}

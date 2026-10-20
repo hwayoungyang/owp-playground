@@ -1,103 +1,28 @@
-import { PreviewActions } from '../../../shared/ui/PreviewActions';
+import './styles.css';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridColumn, OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
+import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
 import { useEffect, useRef, useState } from 'react';
 import { translate } from '../../../shared/i18n/translate';
-import type { Task } from '../model/data';
-import { createTasks, getRowId, owners, statuses } from '../model/data';
-import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
+import type { Task, TaskGridProps } from '../types';
+import { taskExcelSnapshotConfiguration } from './configs/taskExcelSnapshot';
 
-const statusClasses: Readonly<Record<string, string>> = {
-  '진행 중': 'status-0',
-  완료: 'status-1',
-  '검토 중': 'status-2',
-  대기: 'status-3',
-};
+export { taskExcelSnapshotConfiguration as gridConfiguration } from './configs/taskExcelSnapshot';
 
-const baseColumns = [
-  { id: 'project', field: 'project', header: '프로젝트', minWidth: 175, relWidth: 1.4 },
-  { id: 'task', field: 'task', header: '작업', minWidth: 175, relWidth: 1.5 },
-  { id: 'owner', field: 'owner', header: '담당자', minWidth: 100, relWidth: 0.8, align: 'center' },
-  {
-    id: 'status',
-    field: 'status',
-    header: '상태',
-    minWidth: 110,
-    relWidth: 0.9,
-    align: 'center',
-    headerAlign: 'center',
-    type: 'select',
-    valueOptions: statuses.map((value) => ({ value, label: value })),
-    renderCell: ({ row }) =>
-      row.status ? (
-        <span className={`status-badge ${statusClasses[row.status] ?? ''}`}>
-          <span className="status-dot" />
-          {translate(row.status)}
-        </span>
-      ) : null,
-  },
-  {
-    id: 'quantity',
-    field: 'quantity',
-    header: '계획',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'completed',
-    field: 'completed',
-    header: '완료',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'date',
-    field: 'date',
-    header: '마감일',
-    type: 'date',
-    minWidth: 150,
-    relWidth: 1.1,
-    align: 'center',
-    headerAlign: 'center',
-    dateOptions: { format: 'YYYY-MM-DD' },
-  },
-] satisfies OwpDataGridColumn<Task>[];
-
-const editableColumns = baseColumns.map((column) => ({
-  ...column,
-  resizable: true,
-  headerAlign: 'center' as const,
-  editable: column.id !== 'project',
-  ...(column.id === 'owner'
-    ? { type: 'select' as const, valueOptions: owners.map((value) => ({ value, label: value })) }
-    : {}),
-}));
-
-export const gridConfiguration: GridConfiguration = {
-  rows: createTasks(10000),
-  columns: editableColumns,
-  getRowId,
-  rowSelectionMode: 'multiple',
-  height: 420,
-  virtualization: { rowHeight: 36 },
-};
-export function ExcelSnapshotGrid(props: GridViewProps = {}) {
+export function ExcelSnapshotGrid(props: TaskGridProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
+  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { onAction } = callbacks ?? {};
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
   const publish = (api: string, value: unknown) => {
-    onRecord?.(api, value);
+    onAction?.(api, value);
   };
   const request = useRef<AbortController | null>(null);
   const [reading, setReading] = useState(false);
   useEffect(() => () => request.current?.abort(), []);
-  const readBatches = async () => {
+  const handleReadBatches = async () => {
     const controller = new AbortController();
     request.current = controller;
     setReading(true);
@@ -129,23 +54,29 @@ export function ExcelSnapshotGrid(props: GridViewProps = {}) {
       if (!controller.signal.aborted) setReading(false);
     }
   };
+  const handlePreviewSnapshot = () => {
+    const snapshot = gridRef.current?.getExcelSnapshot({ scope: 'visible' });
+    publish('getExcelSnapshot', {
+      scope: snapshot?.scope,
+      columns: snapshot?.columns,
+      count: snapshot?.rows.length,
+      firstRow: snapshot?.rows[0],
+    });
+  };
+  const handleCancelExport = () => {
+    request.current?.abort();
+    setReading(false);
+    publish('excel.cancel', { cancelled: true });
+  };
+
   return (
-    <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
+    <div
+      className="example-with-controls"
+      style={{ height: props.height ?? taskExcelSnapshotConfiguration.height }}
+    >
       <PreviewActions>
         <div className="example-controls">
-          <Button
-            onClick={() => {
-              const snapshot = gridRef.current?.getExcelSnapshot({ scope: 'visible' });
-              publish('getExcelSnapshot', {
-                scope: snapshot?.scope,
-                columns: snapshot?.columns,
-                count: snapshot?.rows.length,
-                firstRow: snapshot?.rows[0],
-              });
-            }}
-          >
-            {translate('데이터 미리보기')}
-          </Button>
+          <Button onClick={handlePreviewSnapshot}>{translate('데이터 미리보기')}</Button>
           <Button
             onClick={() =>
               publish('getExcelExportWarnings', gridRef.current?.getExcelExportWarnings?.())
@@ -153,31 +84,21 @@ export function ExcelSnapshotGrid(props: GridViewProps = {}) {
           >
             {translate('제외 항목 확인')}
           </Button>
-          <Button disabled={reading} onClick={() => void readBatches()}>
+          <Button disabled={reading} onClick={() => void handleReadBatches()}>
             {translate('1만 행 읽기')}
           </Button>
-          {reading && (
-            <Button
-              onClick={() => {
-                request.current?.abort();
-                setReading(false);
-                publish('excel.cancel', { cancelled: true });
-              }}
-            >
-              {translate('취소')}
-            </Button>
-          )}
+          {reading && <Button onClick={handleCancelExport}>{translate('취소')}</Button>}
         </div>
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={gridConfiguration.rows}
-          columns={editableColumns}
-          getRowId={getRowId}
+          rows={taskExcelSnapshotConfiguration.rows}
+          columns={taskExcelSnapshotConfiguration.columns}
+          getRowId={taskExcelSnapshotConfiguration.getRowId}
           height="100%"
-          rowSelectionMode="multiple"
-          virtualization={{ rowHeight: 36 }}
+          rowSelectionMode={taskExcelSnapshotConfiguration.rowSelectionMode}
+          virtualization={taskExcelSnapshotConfiguration.virtualization}
           {...gridProps}
           rowSelectionModel={selected}
           onRowSelectionModelChange={(next) => {

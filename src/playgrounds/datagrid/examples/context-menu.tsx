@@ -1,3 +1,13 @@
+import './styles.css';
+import { OwpDataGrid } from '@owp/datagrid';
+import type { OwpDataGridCellParams, OwpDataGridRef } from '@owp/datagrid/types';
+import { FileTextIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react';
+import { type RefObject, useRef, useState } from 'react';
+import { z } from 'zod';
+import { translate } from '../../../shared/i18n/translate';
+import type { Task, TaskGridProps } from '../types';
+import { taskContextMenuConfiguration } from './configs/taskContextMenu';
+
 import {
   Button,
   Dialog,
@@ -8,95 +18,8 @@ import {
   getContrastRatio,
   TextField,
 } from '@mui/material';
-import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridCellParams, OwpDataGridColumn, OwpDataGridRef } from '@owp/datagrid/types';
-import { FileTextIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react';
-import { type RefObject, useRef, useState } from 'react';
-import { z } from 'zod';
-import { translate } from '../../../shared/i18n/translate';
-import type { Task } from '../model/data';
-import { getRowId, initialTasks, owners, statuses } from '../model/data';
-import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
 
-const statusClasses: Readonly<Record<string, string>> = {
-  '진행 중': 'status-0',
-  완료: 'status-1',
-  '검토 중': 'status-2',
-  대기: 'status-3',
-};
-
-const baseColumns = [
-  { id: 'project', field: 'project', header: '프로젝트', minWidth: 175, relWidth: 1.4 },
-  { id: 'task', field: 'task', header: '작업', minWidth: 175, relWidth: 1.5 },
-  { id: 'owner', field: 'owner', header: '담당자', minWidth: 100, relWidth: 0.8, align: 'center' },
-  {
-    id: 'status',
-    field: 'status',
-    header: '상태',
-    minWidth: 110,
-    relWidth: 0.9,
-    align: 'center',
-    headerAlign: 'center',
-    type: 'select',
-    valueOptions: statuses.map((value) => ({ value, label: value })),
-    renderCell: ({ row }) =>
-      row.status ? (
-        <span className={`status-badge ${statusClasses[row.status] ?? ''}`}>
-          <span className="status-dot" />
-          {translate(row.status)}
-        </span>
-      ) : null,
-  },
-  {
-    id: 'quantity',
-    field: 'quantity',
-    header: '계획',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'completed',
-    field: 'completed',
-    header: '완료',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'date',
-    field: 'date',
-    header: '마감일',
-    type: 'date',
-    minWidth: 150,
-    relWidth: 1.1,
-    align: 'center',
-    headerAlign: 'center',
-    dateOptions: { format: 'YYYY-MM-DD' },
-  },
-] satisfies OwpDataGridColumn<Task>[];
-
-const editableColumns = baseColumns.map((column) => ({
-  ...column,
-  resizable: true,
-  headerAlign: 'center' as const,
-  editable: column.id !== 'project',
-  ...(column.id === 'owner'
-    ? { type: 'select' as const, valueOptions: owners.map((value) => ({ value, label: value })) }
-    : {}),
-}));
-
-export const gridConfiguration: GridConfiguration = {
-  rows: initialTasks,
-  columns: editableColumns,
-  getRowId,
-  rowSelectionMode: 'multiple',
-  height: 420,
-  rowReordering: { dragMode: 'selected' },
-  rowDeletion: true,
-};
+export { taskContextMenuConfiguration as gridConfiguration } from './configs/taskContextMenu';
 
 const rowEditSchema = z.object({ task: z.string().trim().min(1), owner: z.string().trim().min(1) });
 function RowEditor({
@@ -170,13 +93,14 @@ function RowEditor({
     </Dialog>
   );
 }
-export function ContextMenuGrid(props: GridViewProps = {}) {
+export function ContextMenuGrid(props: TaskGridProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
+  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { onAction } = callbacks ?? {};
   const [editor, setEditor] = useState<{ readonly row: Task; readonly editable: boolean } | null>(
     null,
   );
-  const columns = (gridProps.columns ?? editableColumns).map((column) => ({
+  const columns = (gridProps.columns ?? taskContextMenuConfiguration.columns).map((column) => ({
     ...column,
     getContextMenuItems: ({ row, rowId }: OwpDataGridCellParams<Task>) => [
       {
@@ -216,7 +140,7 @@ export function ContextMenuGrid(props: GridViewProps = {}) {
         ),
         onClick: () => {
           const ids = gridRef.current?.deleteRows([rowId]);
-          onRecord?.('deleteRows', ids);
+          onAction?.('deleteRows', ids);
         },
       },
     ],
@@ -243,12 +167,12 @@ export function ContextMenuGrid(props: GridViewProps = {}) {
       />
       <OwpDataGrid
         ref={gridRef}
-        rows={initialTasks}
-        getRowId={getRowId}
-        rowSelectionMode="multiple"
-        rowReordering={{ dragMode: 'selected' }}
-        rowDeletion={true}
-        height={420}
+        rows={taskContextMenuConfiguration.rows}
+        getRowId={taskContextMenuConfiguration.getRowId}
+        rowSelectionMode={taskContextMenuConfiguration.rowSelectionMode}
+        rowReordering={taskContextMenuConfiguration.rowReordering}
+        rowDeletion={taskContextMenuConfiguration.rowDeletion}
+        height={taskContextMenuConfiguration.height}
         {...gridProps}
         columns={columns}
       />

@@ -1,104 +1,27 @@
-import { PreviewActions } from '../../../shared/ui/PreviewActions';
-import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridColumn } from '@owp/datagrid/types';
-import { translate } from '../../../shared/i18n/translate';
-import type { Task } from '../model/data';
-import { getRowId, initialTasks, owners, statuses } from '../model/data';
-import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
-
-const statusClasses: Readonly<Record<string, string>> = {
-  '진행 중': 'status-0',
-  완료: 'status-1',
-  '검토 중': 'status-2',
-  대기: 'status-3',
-};
-
-const baseColumns = [
-  { id: 'project', field: 'project', header: '프로젝트', minWidth: 175, relWidth: 1.4 },
-  { id: 'task', field: 'task', header: '작업', minWidth: 175, relWidth: 1.5 },
-  { id: 'owner', field: 'owner', header: '담당자', minWidth: 100, relWidth: 0.8, align: 'center' },
-  {
-    id: 'status',
-    field: 'status',
-    header: '상태',
-    minWidth: 110,
-    relWidth: 0.9,
-    align: 'center',
-    headerAlign: 'center',
-    type: 'select',
-    valueOptions: statuses.map((value) => ({ value, label: value })),
-    renderCell: ({ row }) =>
-      row.status ? (
-        <span className={`status-badge ${statusClasses[row.status] ?? ''}`}>
-          <span className="status-dot" />
-          {translate(row.status)}
-        </span>
-      ) : null,
-  },
-  {
-    id: 'quantity',
-    field: 'quantity',
-    header: '계획',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'completed',
-    field: 'completed',
-    header: '완료',
-    type: 'number',
-    minWidth: 80,
-    relWidth: 0.6,
-    numberOptions: { maximumFractionDigits: 0 },
-  },
-  {
-    id: 'date',
-    field: 'date',
-    header: '마감일',
-    type: 'date',
-    minWidth: 150,
-    relWidth: 1.1,
-    align: 'center',
-    headerAlign: 'center',
-    dateOptions: { format: 'YYYY-MM-DD' },
-  },
-] satisfies OwpDataGridColumn<Task>[];
-
-const editableColumns = baseColumns.map((column) => ({
-  ...column,
-  resizable: true,
-  headerAlign: 'center' as const,
-  editable: column.id !== 'project',
-  ...(column.id === 'owner'
-    ? { type: 'select' as const, valueOptions: owners.map((value) => ({ value, label: value })) }
-    : {}),
-}));
-
+import './styles.css';
 import { Button } from '@mui/material';
+import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
 import { useRef, useState } from 'react';
+import { translate } from '../../../shared/i18n/translate';
+import { PreviewActions } from '../../../shared/ui/PreviewActions';
+import { getRowId } from '../model/data';
+import type { Task, TaskGridProps } from '../types';
+import { taskDataAccessConfiguration } from './configs/taskDataAccess';
 
-export const gridConfiguration: GridConfiguration = {
-  rows: initialTasks,
-  columns: editableColumns,
-  getRowId,
-  rowSelectionMode: 'multiple',
-  height: 420,
-  layout: { filterRow: true },
-};
+export { taskDataAccessConfiguration as gridConfiguration } from './configs/taskDataAccess';
 
-export function BatchRowsGrid(props: GridViewProps = {}) {
+export function BatchRowsGrid(props: TaskGridProps = {}) {
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
+  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { onAction } = callbacks ?? {};
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
-  const select = (ids: readonly OwpDataGridRowId[]) => {
+  const handleSelectionChange = (ids: readonly OwpDataGridRowId[]) => {
     setSelection(ids);
     gridProps.onRowSelectionModelChange?.([...ids]);
   };
-  const complete = (scope: 'all' | 'visible' | 'selected') => {
+  const handleCompleteRows = (scope: 'all' | 'visible' | 'selected') => {
     const grid = gridRef.current;
     if (!grid?.commitEditing()) return;
     const readRows = {
@@ -112,7 +35,7 @@ export function BatchRowsGrid(props: GridViewProps = {}) {
       selected: 'getSelectedRows',
     } as const;
     const rows = readRows[scope]();
-    onRecord?.(api[scope], {
+    onAction?.(api[scope], {
       rowIds: rows.map(getRowId),
     });
     const result = grid.applyTransaction(
@@ -126,39 +49,42 @@ export function BatchRowsGrid(props: GridViewProps = {}) {
         },
       ]),
     );
-    onRecord?.('applyTransaction', result);
+    onAction?.('applyTransaction', result);
   };
+  const handleSelectIncompleteRows = () => {
+    const grid = gridRef.current;
+    if (!grid?.commitEditing()) return;
+    const rows = grid.getRows().filter((row) => row.status !== '완료');
+    handleSelectionChange(rows.map(getRowId));
+    onAction?.('getRows', { rowIds: rows.map(getRowId) });
+  };
+  const handleFocusSelectedRow = () => {
+    const id = selected[0];
+    const row = id === undefined ? undefined : gridRef.current?.getRow(id);
+    if (row) {
+      gridRef.current?.focusCell(row.id, 'task');
+      onAction?.('getRow', row);
+    }
+  };
+
   return (
-    <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
+    <div
+      className="example-with-controls"
+      style={{ height: props.height ?? taskDataAccessConfiguration.height }}
+    >
       <PreviewActions>
         <div className="example-controls">
-          <Button
-            onClick={() => {
-              const grid = gridRef.current;
-              if (!grid?.commitEditing()) return;
-              const rows = grid.getRows().filter((row) => row.status !== '완료');
-              select(rows.map(getRowId));
-              onRecord?.('getRows', { rowIds: rows.map(getRowId) });
-            }}
-          >
-            {translate('미완료 행 선택')}
+          <Button onClick={handleSelectIncompleteRows}>{translate('미완료 행 선택')}</Button>
+          <Button onClick={() => handleCompleteRows('all')}>
+            {translate('전체 행 완료 처리')}
           </Button>
-          <Button onClick={() => complete('all')}>{translate('전체 행 완료 처리')}</Button>
-          <Button onClick={() => complete('visible')}>{translate('필터 결과 완료 처리')}</Button>
-          <Button disabled={selected.length === 0} onClick={() => complete('selected')}>
+          <Button onClick={() => handleCompleteRows('visible')}>
+            {translate('필터 결과 완료 처리')}
+          </Button>
+          <Button disabled={selected.length === 0} onClick={() => handleCompleteRows('selected')}>
             {translate('선택 행 완료 처리')}
           </Button>
-          <Button
-            disabled={selected.length !== 1}
-            onClick={() => {
-              const id = selected[0];
-              const row = id === undefined ? undefined : gridRef.current?.getRow(id);
-              if (row) {
-                gridRef.current?.focusCell(row.id, 'task');
-                onRecord?.('getRow', row);
-              }
-            }}
-          >
+          <Button disabled={selected.length !== 1} onClick={handleFocusSelectedRow}>
             {translate('선택 행으로 이동')}
           </Button>
         </div>
@@ -166,15 +92,15 @@ export function BatchRowsGrid(props: GridViewProps = {}) {
       <div className="example-grid">
         <OwpDataGrid
           ref={gridRef}
-          rows={initialTasks}
-          columns={editableColumns}
-          getRowId={getRowId}
-          rowSelectionMode="multiple"
+          rows={taskDataAccessConfiguration.rows}
+          columns={taskDataAccessConfiguration.columns}
+          getRowId={taskDataAccessConfiguration.getRowId}
+          rowSelectionMode={taskDataAccessConfiguration.rowSelectionMode}
           height="100%"
-          layout={{ filterRow: true }}
+          layout={taskDataAccessConfiguration.layout}
           {...gridProps}
           rowSelectionModel={selected}
-          onRowSelectionModelChange={select}
+          onRowSelectionModelChange={handleSelectionChange}
         />
       </div>
     </div>

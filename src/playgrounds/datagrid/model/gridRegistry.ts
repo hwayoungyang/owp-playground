@@ -155,31 +155,82 @@ import type { GridConfiguration, GridViewProps } from './gridTypes';
 
 export const gridRegistry = {
   overview: { Component: withTaskGridPreview(FixedRowsGrid), configuration: overviewConfiguration },
-  'design-system': { Component: ExternalControlsGrid, configuration: designSystemConfiguration },
-  states: { Component: GridStates, configuration: statesConfiguration },
-  'cell-types': { Component: CellTypesGrid, configuration: cellTypesConfiguration },
-  select: { Component: SelectEditorsGrid, configuration: selectConfiguration },
+  'design-system': {
+    Component: withTaskGridPreview(ExternalControlsGrid),
+    configuration: designSystemConfiguration,
+  },
+  states: { Component: withTaskGridPreview(GridStates), configuration: statesConfiguration },
+  'cell-types': {
+    Component: withTaskGridPreview(CellTypesGrid),
+    configuration: cellTypesConfiguration,
+  },
+  select: { Component: withTaskGridPreview(SelectEditorsGrid), configuration: selectConfiguration },
   selection: { Component: TaskSelectionPreview, configuration: selectionConfiguration },
-  'custom-style': { Component: StyledHeadersGrid, configuration: customStyleConfiguration },
-  formatting: { Component: NumberDateFormatsGrid, configuration: formattingConfiguration },
-  'mixed-types': { Component: RowCellTypesGrid, configuration: mixedTypesConfiguration },
-  renderer: { Component: CellRendererGrid, configuration: rendererConfiguration },
-  conditional: { Component: ConditionalStylesGrid, configuration: conditionalConfiguration },
-  'overflow-hint': { Component: OverflowHintsGrid, configuration: overflowHintConfiguration },
-  'column-layout': { Component: PinnedColumnsGrid, configuration: columnLayoutConfiguration },
-  headers: { Component: GroupedHeadersGrid, configuration: headersConfiguration },
-  'row-span': { Component: ExplicitRowSpanGrid, configuration: rowSpanConfiguration },
-  'auto-span': { Component: AutomaticRowSpanGrid, configuration: autoSpanConfiguration },
-  'column-span': { Component: ColumnSpanGrid, configuration: columnSpanConfiguration },
-  'combined-span': { Component: CombinedSpanGrid, configuration: combinedSpanConfiguration },
-  'span-scroll': { Component: VirtualizedSpansGrid, configuration: spanScrollConfiguration },
-  'span-export': { Component: MergedCellsExportGrid, configuration: spanExportConfiguration },
+  'custom-style': {
+    Component: withTaskGridPreview(StyledHeadersGrid),
+    configuration: customStyleConfiguration,
+  },
+  formatting: {
+    Component: withTaskGridPreview(NumberDateFormatsGrid),
+    configuration: formattingConfiguration,
+  },
+  'mixed-types': {
+    Component: withTaskGridPreview(RowCellTypesGrid),
+    configuration: mixedTypesConfiguration,
+  },
+  renderer: {
+    Component: withTaskGridPreview(CellRendererGrid),
+    configuration: rendererConfiguration,
+  },
+  conditional: {
+    Component: withTaskGridPreview(ConditionalStylesGrid),
+    configuration: conditionalConfiguration,
+  },
+  'overflow-hint': {
+    Component: withTaskGridPreview(OverflowHintsGrid),
+    configuration: overflowHintConfiguration,
+  },
+  'column-layout': {
+    Component: withTaskGridPreview(PinnedColumnsGrid),
+    configuration: columnLayoutConfiguration,
+  },
+  headers: {
+    Component: withTaskGridPreview(GroupedHeadersGrid),
+    configuration: headersConfiguration,
+  },
+  'row-span': {
+    Component: withTaskGridPreview(ExplicitRowSpanGrid),
+    configuration: rowSpanConfiguration,
+  },
+  'auto-span': {
+    Component: withTaskGridPreview(AutomaticRowSpanGrid),
+    configuration: autoSpanConfiguration,
+  },
+  'column-span': {
+    Component: withTaskGridPreview(ColumnSpanGrid),
+    configuration: columnSpanConfiguration,
+  },
+  'combined-span': {
+    Component: withTaskGridPreview(CombinedSpanGrid),
+    configuration: combinedSpanConfiguration,
+  },
+  'span-scroll': {
+    Component: withTaskGridPreview(VirtualizedSpansGrid),
+    configuration: spanScrollConfiguration,
+  },
+  'span-export': {
+    Component: withTaskGridPreview(MergedCellsExportGrid),
+    configuration: spanExportConfiguration,
+  },
   'selection-policy': {
-    Component: NewRowSelectionGrid,
+    Component: withTaskGridPreview(NewRowSelectionGrid),
     configuration: selectionPolicyConfiguration,
   },
-  sorting: { Component: MultiSortGrid, configuration: sortingConfiguration },
-  filtering: { Component: ColumnFiltersGrid, configuration: filteringConfiguration },
+  sorting: { Component: withTaskGridPreview(MultiSortGrid), configuration: sortingConfiguration },
+  filtering: {
+    Component: withTaskGridPreview(ColumnFiltersGrid),
+    configuration: filteringConfiguration,
+  },
   editing: {
     Component: withTaskGridPreview(EditableCellsGrid),
     configuration: editingConfiguration,
@@ -188,35 +239,89 @@ export const gridRegistry = {
     Component: withTaskGridPreview(ServerSaveGrid),
     configuration: serverSaveConfiguration,
   },
-  validation: { Component: InputValidationGrid, configuration: validationConfiguration },
-  'row-actions': { Component: RowEditingGrid, configuration: rowActionsConfiguration },
-  reordering: { Component: DraggableRowsGrid, configuration: reorderingConfiguration },
-  'context-menu': { Component: ContextMenuGrid, configuration: contextMenuConfiguration },
-  'ref-data': { Component: BatchRowsGrid, configuration: refDataConfiguration },
-  'ref-focus': { Component: CellFocusGrid, configuration: refFocusConfiguration },
-  'click-events': { Component: ClickEventsGrid, configuration: clickEventsConfiguration },
-  'row-insertion': { Component: RowInsertionGrid, configuration: rowInsertionConfiguration },
-  'row-deletion': { Component: DeleteRestoreRowsGrid, configuration: rowDeletionConfiguration },
-  'ref-move': { Component: MoveRowsGrid, configuration: refMoveConfiguration },
+  validation: {
+    Component: withTaskGridPreview(InputValidationGrid),
+    configuration: validationConfiguration,
+  },
+  'row-actions': {
+    Component: withTaskGridPreview(RowEditingGrid),
+    configuration: rowActionsConfiguration,
+  },
+  reordering: {
+    Component: withTaskGridPreview(DraggableRowsGrid),
+    configuration: reorderingConfiguration,
+  },
+  'context-menu': {
+    Component: withTaskGridPreview(ContextMenuGrid),
+    configuration: contextMenuConfiguration,
+  },
+  'ref-data': {
+    Component: withTaskGridPreview(BatchRowsGrid),
+    configuration: refDataConfiguration,
+  },
+  'ref-focus': {
+    Component: withTaskGridPreview(CellFocusGrid),
+    configuration: refFocusConfiguration,
+  },
+  'click-events': {
+    Component: withTaskGridPreview(ClickEventsGrid),
+    configuration: clickEventsConfiguration,
+  },
+  'row-insertion': {
+    Component: withTaskGridPreview(RowInsertionGrid),
+    configuration: rowInsertionConfiguration,
+  },
+  'row-deletion': {
+    Component: withTaskGridPreview(DeleteRestoreRowsGrid),
+    configuration: rowDeletionConfiguration,
+  },
+  'ref-move': { Component: withTaskGridPreview(MoveRowsGrid), configuration: refMoveConfiguration },
   'ref-changes': {
     Component: withTaskGridPreview(ChangeTrackingGrid),
     configuration: refChangesConfiguration,
   },
   'external-validation': {
-    Component: ValidationMessagesGrid,
+    Component: withTaskGridPreview(ValidationMessagesGrid),
     configuration: externalValidationConfiguration,
   },
-  'excel-snapshot': { Component: ExcelSnapshotGrid, configuration: excelSnapshotConfiguration },
-  'summary-rows': { Component: SummaryRowsGrid, configuration: summaryRowsConfiguration },
-  worksheet: { Component: CalculatedCellsGrid, configuration: worksheetConfiguration },
-  tree: { Component: TaskTreeGrid, configuration: treeConfiguration },
-  'nested-tree': { Component: NestedTaskTreeGrid, configuration: nestedTreeConfiguration },
-  'tree-span': { Component: SpanningTreeGrid, configuration: treeSpanConfiguration },
-  'detail-custom': { Component: ProjectDetailsGrid, configuration: detailCustomConfiguration },
-  'detail-grid': { Component: NestedDetailsGrid, configuration: detailGridConfiguration },
-  excel: { Component: ExcelExportGrid, configuration: excelConfiguration },
-  'server-mode': { Component: ServerQueryGrid, configuration: serverModeConfiguration },
-  'large-data': { Component: LargeDatasetGrid, configuration: largeDataConfiguration },
+  'excel-snapshot': {
+    Component: withTaskGridPreview(ExcelSnapshotGrid),
+    configuration: excelSnapshotConfiguration,
+  },
+  'summary-rows': {
+    Component: withTaskGridPreview(SummaryRowsGrid),
+    configuration: summaryRowsConfiguration,
+  },
+  worksheet: {
+    Component: withTaskGridPreview(CalculatedCellsGrid),
+    configuration: worksheetConfiguration,
+  },
+  tree: { Component: withTaskGridPreview(TaskTreeGrid), configuration: treeConfiguration },
+  'nested-tree': {
+    Component: withTaskGridPreview(NestedTaskTreeGrid),
+    configuration: nestedTreeConfiguration,
+  },
+  'tree-span': {
+    Component: withTaskGridPreview(SpanningTreeGrid),
+    configuration: treeSpanConfiguration,
+  },
+  'detail-custom': {
+    Component: withTaskGridPreview(ProjectDetailsGrid),
+    configuration: detailCustomConfiguration,
+  },
+  'detail-grid': {
+    Component: withTaskGridPreview(NestedDetailsGrid),
+    configuration: detailGridConfiguration,
+  },
+  excel: { Component: withTaskGridPreview(ExcelExportGrid), configuration: excelConfiguration },
+  'server-mode': {
+    Component: withTaskGridPreview(ServerQueryGrid),
+    configuration: serverModeConfiguration,
+  },
+  'large-data': {
+    Component: withTaskGridPreview(LargeDatasetGrid),
+    configuration: largeDataConfiguration,
+  },
 } satisfies Readonly<
   Record<
     GridExampleId,

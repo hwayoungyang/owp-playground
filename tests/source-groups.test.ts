@@ -48,6 +48,31 @@ describe('example source menu groups', () => {
     expect(groups.support).toEqual([shell, unrelated]);
   });
 
+  it('follows only reachable feature directories without admitting sibling prefixes or preview code', () => {
+    const directory = '/src/playgrounds/datagrid/';
+    const entry = `${directory}examples/detail-grid.tsx`;
+    const config = `${directory}examples/configs/nestedDetails.tsx`;
+    const component = `${directory}examples/components/DetailGrid.tsx`;
+    const types = `${directory}types/index.ts`;
+    const unrelated = `${directory}examples/configs/taskSave.ts`;
+    const sibling = `${directory}examples/configs-backup/old.ts`;
+    const preview = `${directory}runtime/GridPreview.tsx`;
+
+    const groups = groupExampleSources({
+      example: { package: '@owp/datagrid', source: 'examples/detail-grid.tsx' },
+      sources: [entry, config, component, types, unrelated, sibling, preview],
+      dependencies: {
+        [entry]: [config, types, sibling],
+        [config]: [component],
+        [component]: [types, preview],
+      },
+      policy: getGridSourcePolicy('detail-grid'),
+    });
+
+    expect(groups.core).toEqual([entry, config, component, types]);
+    expect(groups.support).toEqual([unrelated, sibling, preview].sort());
+  });
+
   it('includes grid runtime roots without following the registry into other examples', () => {
     const directory = '/src/playgrounds/datagrid/';
     const entry = `${directory}examples/editing.tsx`;

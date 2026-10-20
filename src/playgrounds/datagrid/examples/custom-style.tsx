@@ -1,90 +1,28 @@
+import './styles.css';
+import type { SelectChangeEvent } from '@mui/material';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, MenuItem, Select, Slider } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material/styles';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridColumn, OwpDataGridHeaderRow } from '@owp/datagrid/types';
+import type { OwpDataGridHeaderRow } from '@owp/datagrid/types';
 import { OwpThemeProvider, useGridTheme } from '@owp/theme';
 import { useMemo, useState } from 'react';
 import { z } from 'zod';
-import { getRowId, initialTasks, owners, type Task } from '../model/data';
-import type { GridConfiguration, GridViewProps } from '../model/gridTypes';
+import { getRowId } from '../model/data';
+import type { TaskGridProps } from '../types';
+import {
+  styledHeadersColumns,
+  styledHeadersBaseSx,
+  styledHeadersStateSx,
+  styledHeadersConfiguration,
+} from './configs/styledHeaders';
 
+export { styledHeadersConfiguration as gridConfiguration } from './configs/styledHeaders';
 const headerDepthSchema = z.coerce.number().pipe(z.union([z.literal(2), z.literal(3)]));
 
-const columns = [
-  { id: 'project', field: 'project', header: '프로젝트', minWidth: 150, relWidth: 1 },
-  {
-    id: 'task',
-    field: 'task',
-    header: '작업',
-    minWidth: 220,
-    relWidth: 1.8,
-    editable: true,
-    cellStyle: { fontStyle: 'italic' },
-  },
-  {
-    id: 'owner',
-    field: 'owner',
-    header: '담당자',
-    minWidth: 150,
-    relWidth: 1,
-    type: 'select',
-    editable: true,
-    autocompleteOptions: {},
-    valueOptions: owners.map((value) => ({ value, label: value })),
-  },
-  { id: 'note', field: 'note', header: '메모', minWidth: 220, relWidth: 1.8, editable: true },
-] satisfies OwpDataGridColumn<Task>[];
-
-const groupedHeaders: readonly OwpDataGridHeaderRow[] = [
-  [
-    { columnId: 'project', rowSpan: 2 },
-    { id: 'work', header: '작업 정보', columnIds: ['task', 'owner'], align: 'center' },
-    { columnId: 'note', rowSpan: 2 },
-  ],
-  [{ columnId: 'task' }, { columnId: 'owner' }],
-];
-
-const baseSx = {
-  '& .OwpDataGrid-root': { boxShadow: { xs: 1, md: 2 } },
-  '& .OwpDataGrid-headerCell': { fontWeight: 700 },
-  '& .OwpDataGrid-cell:not([data-owp-data-grid-editing="true"])': {
-    px: { xs: 0.5, md: 1.5 },
-    '& .OwpDataGrid-cellContent': {
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      letterSpacing: '0.02em',
-    },
-  },
-} satisfies SxProps<Theme>;
-
-const stateSx = (theme: Theme) => ({
-  '& .OwpDataGrid-cell': { fontFamily: theme.typography.fontFamily },
-  '& .OwpDataGrid-cell:not([data-owp-data-grid-editing="true"]):hover .OwpDataGrid-cellContent': {
-    color: 'var(--pg-blue)',
-  },
-  '& .OwpDataGrid-cell:focus-within .OwpDataGrid-cellContent': { fontWeight: 600 },
-});
-
-export const gridConfiguration: GridConfiguration = {
-  rows: initialTasks.map((row, index) => ({
-    ...row,
-    note:
-      index === 0
-        ? '프로젝트 검토에서 정리한 요구사항과 후속 작업을 확인하고 다음 단계의 일정에 함께 반영합니다.'
-        : row.note,
-  })),
-  columns,
-  headerRows: groupedHeaders,
-  getRowId,
-  rowSelectionMode: 'none',
-  height: 420,
-};
-
-export function StyledHeadersGrid(props: GridViewProps = {}) {
-  const { gridRef, onRecord, onRowsChange, onBusyChange, ...gridProps } = props;
+export function StyledHeadersGrid(props: TaskGridProps = {}) {
+  const { gridRef, callbacks, ...gridProps } = props;
   const { t } = useOwpTranslation();
   const [preset, setPreset] = useState<'default' | 'striped' | 'emphasis'>('striped');
   const [fontSize, setFontSize] = useState(14);
@@ -139,7 +77,7 @@ export function StyledHeadersGrid(props: GridViewProps = {}) {
   );
   const completedRowsSx: Record<string, { bgcolor: string; fontWeight: number }> =
     Object.fromEntries(
-      (gridProps.rows ?? gridConfiguration.rows)
+      (gridProps.rows ?? styledHeadersConfiguration.rows)
         .filter((row) => row.status === '완료')
         .map((row) => [
           `& .OwpDataGrid-row[data-owp-data-grid-row-key="string:${row.id}"] .OwpDataGrid-cell`,
@@ -147,8 +85,8 @@ export function StyledHeadersGrid(props: GridViewProps = {}) {
         ]),
     );
   const sx: SxProps<Theme> = [
-    styled && baseSx,
-    styled && stateSx,
+    styled && styledHeadersBaseSx,
+    styled && styledHeadersStateSx,
     styled && {
       '& .OwpDataGrid-cell, & .OwpDataGrid-headerCell': { fontSize },
     },
@@ -178,11 +116,16 @@ export function StyledHeadersGrid(props: GridViewProps = {}) {
       },
     },
   ];
-  const currentColumns = (gridProps.columns ?? columns).map((column) => ({
+  const currentColumns = (gridProps.columns ?? styledHeadersColumns).map((column) => ({
     ...column,
     header: typeof column.header === 'string' ? t(column.header) : column.header,
     cellStyle: styled ? column.cellStyle : undefined,
   }));
+
+  function handleHeaderDepthChange(event: SelectChangeEvent<2 | 3>) {
+    const result = headerDepthSchema.safeParse(event.target.value);
+    if (result.success) setHeaderDepth(result.data);
+  }
 
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
@@ -207,10 +150,7 @@ export function StyledHeadersGrid(props: GridViewProps = {}) {
             id="custom-header-depth"
             value={headerDepth}
             inputProps={{ 'aria-label': t('헤더 단계') }}
-            onChange={(event) => {
-              const result = headerDepthSchema.safeParse(event.target.value);
-              if (result.success) setHeaderDepth(result.data);
-            }}
+            onChange={handleHeaderDepthChange}
           >
             <MenuItem value={2}>{t('2단')}</MenuItem>
             <MenuItem value={3}>{t('3단')}</MenuItem>
@@ -238,7 +178,7 @@ export function StyledHeadersGrid(props: GridViewProps = {}) {
         <OwpThemeProvider dataGrid={dataGrid}>
           <OwpDataGrid
             ref={gridRef}
-            rows={gridConfiguration.rows}
+            rows={styledHeadersConfiguration.rows}
             getRowId={getRowId}
             rowSelectionMode="none"
             {...gridProps}

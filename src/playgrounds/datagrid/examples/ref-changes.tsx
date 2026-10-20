@@ -1,3 +1,4 @@
+import './styles.css';
 import { Button } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { OwpDataGrid } from '@owp/datagrid';
@@ -9,7 +10,11 @@ import { taskChangesConfiguration } from './configs/taskChanges';
 
 export { taskChangesConfiguration as gridConfiguration } from './configs/taskChanges';
 
-export function ChangeTrackingGrid({ gridRef: externalRef, ...gridProps }: TaskGridProps = {}) {
+export function ChangeTrackingGrid({
+  gridRef: externalRef,
+  callbacks,
+  ...gridProps
+}: TaskGridProps = {}) {
   const { t } = useOwpTranslation();
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const gridRef = externalRef ?? ownRef;

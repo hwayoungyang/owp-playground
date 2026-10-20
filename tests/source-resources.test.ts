@@ -140,6 +140,12 @@ export const value = useState;`,
     );
     for (const sample of manifest.samples) {
       expect(sample.files.some((file) => file.path === sample.entrypoint)).toBe(true);
+      if (sample.kind === 'grid') {
+        expect(sample.files.some((file) => file.path.includes('/examples/configs/'))).toBe(true);
+        expect(sample.files.some((file) => file.path.endsWith('/types/index.ts'))).toBe(true);
+        expect(sample.files.some((file) => file.path.endsWith('/examples/styles.css'))).toBe(true);
+        expect(sample.files.some((file) => file.path.includes('/datagrid/runtime/'))).toBe(false);
+      }
       const otherEntrypoints = manifest.samples
         .filter((entry) => entry.id !== sample.id)
         .map((entry) => entry.entrypoint);

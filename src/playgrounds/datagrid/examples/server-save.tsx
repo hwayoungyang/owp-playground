@@ -1,3 +1,4 @@
+import './styles.css';
 import { Button } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { OwpDataGrid } from '@owp/datagrid';
@@ -11,7 +12,11 @@ import { taskSaveConfiguration } from './configs/taskSave';
 
 export { taskSaveConfiguration as gridConfiguration } from './configs/taskSave';
 
-export function ServerSaveGrid({ gridRef: externalRef, ...gridProps }: TaskGridProps = {}) {
+export function ServerSaveGrid({
+  gridRef: externalRef,
+  callbacks,
+  ...gridProps
+}: TaskGridProps = {}) {
   const { t } = useOwpTranslation();
   const ownRef = useRef<OwpDataGridRef<Task>>(null);
   const gridRef = externalRef ?? ownRef;
