@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { chromium } from 'playwright';
+import { connectBrowserForVerification } from './browser-session.mjs';
 import { chartDataText, readChartData } from './chart-data.mjs';
 import { verifyChartInteractions } from './chart-interactions.mjs';
 import { verifyHistogramZoom } from './histogram-zoom-regression.mjs';
@@ -8,7 +8,7 @@ import { verifyHistogramZoom } from './histogram-zoom-regression.mjs';
 const origin = process.env.PLAYGROUND_URL ?? 'http://127.0.0.1:4173';
 const output = new URL('../.omo/evidence/charts/browser/', import.meta.url);
 await mkdir(output, { recursive: true });
-const browser = await chromium.launch({ channel: 'chrome', headless: true });
+const browser = await connectBrowserForVerification();
 const context = await browser.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce' });
 await context.addInitScript(() => {
   window.chartProbe = null;

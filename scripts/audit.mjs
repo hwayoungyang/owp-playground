@@ -1,18 +1,13 @@
-import { chromium } from 'playwright';
+import { connectBrowserForVerification, readLighthouseConnection } from './browser-session.mjs';
 import { playAudit } from 'playwright-lighthouse';
 import desktopConfig from 'lighthouse/core/config/lr-desktop-config.js';
-import { createServer } from 'node:net';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 
 const origin = process.env.PLAYGROUND_URL ?? 'http://127.0.0.1:4173';
+const { hostname, port } = readLighthouseConnection();
 const output = new URL('../.omo/evidence/', import.meta.url);
 await mkdir(output, { recursive: true });
-const server = createServer();
-await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
-const address = server.address();
-const port = typeof address === 'object' && address ? address.port : 9222;
-await new Promise((resolve) => server.close(resolve));
-const browser = await chromium.launch({ channel: 'chrome', headless: true, args: [`--remote-debugging-port=${port}`] });
+const browser = await connectBrowserForVerification();
 const context = await browser.newContext();
 const page = await context.newPage();
 const results = [];
@@ -24,6 +19,7 @@ try {
       const name = `lighthouse-${profile}-${run}`;
       await playAudit({
         page, port, ignoreError: true, disableLogs: true,
+        opts: { hostname, disableStorageReset: true },
         thresholds: { performance: 100, accessibility: 100, 'best-practices': 100, seo: 100 },
         config: profile === 'desktop' ? desktopConfig : { extends: 'lighthouse:default' },
         reports: { formats: { json: true, html: true }, name, directory: output.pathname },

@@ -372,9 +372,12 @@ Oxlint의 Hook 호출·의존성 검사는 유지합니다. 기존의 사용하�
 
 `pnpm test:sources`는 빌드된 snippet과 원본의 일치, 기존 URL alias, Oxc를 이용한 TypeScript 구문과 상대 import 경계를 브라우저 없이 검사합니다. API 데이터 검증 스크립트의 JSONC 파싱 회귀 검사는 `pnpm test`에 포함됩니다.
 
-프로덕션 미리보기를 실행한 상태에서 Chrome을 사용하는 실제 브라우저 검증:
+브라우저 검증은 [공통 브라우저 실행과 검증](/Users/hwayoungyang/Documents/codes/github/agents/common/browser-validation.md)에 따라 이미 연결된 브라우저나 앱이 관리하는 브라우저 제어 도구를 우선 사용합니다. 검증 스크립트는 Chrome·Chromium을 직접 실행하지 않습니다.
+
+CLI 검증을 실행하려면 프로덕션 미리보기와 기존 브라우저 연결이 준비되어 있어야 합니다. `PLAYGROUND_BROWSER_CDP_URL`에는 그 브라우저가 이미 제공하는 HTTP 또는 WebSocket CDP endpoint를 지정합니다. 스크립트 실행을 위해 새 브라우저·프로필·디버깅 포트를 만들지 않습니다.
 
 ```sh
+export PLAYGROUND_BROWSER_CDP_URL='<기존 브라우저가 제공한 CDP endpoint>'
 pnpm test:browser
 pnpm test:locales
 pnpm test:navigation
@@ -385,7 +388,9 @@ node scripts/verify-2.0.10.mjs
 pnpm audit:browser
 ```
 
-다른 주소는 `PLAYGROUND_URL`로 지정합니다. 브라우저 검증은 편집·검증·행 관리·병합 선택·상세 로딩·실제 XLSX 파일·100만 행 데이터와 취소를 검사합니다. 성능 감사는 공식 Lighthouse 모바일·데스크톱 프로필로 각각 3회 측정하고 중앙값을 기록합니다. 증거는 Git에서 제외한 `.omo/evidence`에 보관합니다.
+다른 Playground 주소는 `PLAYGROUND_URL`로 지정합니다. 연결 정보가 없거나 연결에 실패하면 검증은 실패로 종료하며, 브라우저 자동 실행이나 다른 프로필로 재시도하지 않습니다. 검증에서는 별도 context를 만들고 종료 시 해당 context와 CDP 연결만 정리합니다. 기존 브라우저와 사용자 탭은 종료하지 않습니다. 연결을 사용할 수 없으면 `pnpm typecheck`, `pnpm check`, `pnpm test`, `pnpm build`, `pnpm test:sources`로 가능한 범위를 확인하고 실제 화면에서 확인하지 못한 항목을 따로 보고합니다.
+
+브라우저 검증 시나리오는 편집·검증·행 관리·병합 선택·상세 로딩·실제 XLSX 파일·100만 행 데이터와 취소를 검사합니다. 성능 감사는 기존 브라우저의 포트가 명시된 HTTP CDP endpoint를 사용해 공식 Lighthouse 모바일·데스크톱 프로필로 각각 3회 측정하고 중앙값을 기록합니다. 사용자 설정이나 실행 옵션을 바꾸지 않으며 storage reset을 비활성화합니다. 증거는 Git에서 제외한 `.omo/evidence`에 보관합니다. 브라우저 직접 실행 방지와 검증용 context 정리의 회귀 검사는 `pnpm test`에 포함됩니다.
 
 개발 환경의 react-grab 요소 선택 도구는 `import.meta.env.DEV`에서만 로드합니다. `VITE_DISABLE_REACT_DEVTOOLS=1`로 개발 중에도 끌 수 있으며 프로덕션 빌드에는 포함하지 않습니다. 이벤트 탭의 샘플 로그는 제품 기능이므로 빌드 후에도 표시합니다.
 

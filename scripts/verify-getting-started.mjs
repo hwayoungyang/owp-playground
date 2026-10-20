@@ -3,7 +3,7 @@ import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import AxeBuilder from '@axe-core/playwright';
 import react from '@vitejs/plugin-react';
-import { chromium } from 'playwright';
+import { connectBrowserForVerification } from './browser-session.mjs';
 import { build } from 'vite';
 import dataGridManifest from '@owp/datagrid/package.json' with { type: 'json' };
 import excelManifest from '@owp/excel/package.json' with { type: 'json' };
@@ -14,7 +14,7 @@ await mkdir(output, { recursive: true });
 await build({ configFile: false, base: '/diagnostics/', plugins: [react()], logLevel: 'error',
   build: { outDir: 'dist/diagnostics', emptyOutDir: true,
     rolldownOptions: { input: fileURLToPath(new URL('./fixtures/panel-theme.html', import.meta.url)) } } });
-const browser = await chromium.launch({ channel: 'chrome', headless: true });
+const browser = await connectBrowserForVerification();
 const context = await browser.newContext({ viewport: { width: 1440, height: 1100 }, reducedMotion: 'reduce', permissions: ['clipboard-read', 'clipboard-write'] });
 const page = await context.newPage();
 page.setDefaultTimeout(12000);

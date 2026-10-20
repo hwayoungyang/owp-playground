@@ -2,13 +2,13 @@ import { readGridData } from './read-api-data.mjs';
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import AxeBuilder from '@axe-core/playwright';
-import { chromium } from 'playwright';
+import { connectBrowserForVerification } from './browser-session.mjs';
 import dataGridManifest from '@owp/datagrid/package.json' with { type: 'json' };
 
 const origin = process.env.PLAYGROUND_URL ?? 'http://127.0.0.1:4173';
 const output = '.omo/evidence/sample-consolidation';
 await mkdir(output, { recursive: true });
-const browser = await chromium.launch({ channel: 'chrome', headless: true });
+const browser = await connectBrowserForVerification();
 const context = await browser.newContext({ viewport: { width: 1440, height: 1100 } });
 const page = await context.newPage();
 page.setDefaultTimeout(15000);

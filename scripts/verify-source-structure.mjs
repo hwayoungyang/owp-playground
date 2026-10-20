@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { chromium } from 'playwright';
+import { connectBrowserForVerification } from './browser-session.mjs';
 import { parseSync, Visitor } from 'vite';
 import { legacySourcePaths } from '../src/features/code/source-paths.ts';
 
@@ -33,7 +33,7 @@ if (process.argv.includes('--static')) {
   console.log(`PASS source syntax, imports and snippets: ${files.length} sources, ${Object.keys(legacySourcePaths).length} aliases`);
   process.exit(0);
 }
-const browser = await chromium.launch({ channel: 'chrome', headless: true });
+const browser = await connectBrowserForVerification();
 const results = [];
 const errors = [];
 try {

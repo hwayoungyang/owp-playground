@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { chromium } from 'playwright';
+import { connectBrowserForVerification } from './browser-session.mjs';
 import { chartDataText, readChartData } from './chart-data.mjs';
 
 const origin = process.env.PLAYGROUND_URL ?? 'http://127.0.0.1:4173';
 const output = new URL('../.omo/evidence/charts-chartjs-expansion/', import.meta.url);
 await mkdir(output, { recursive: true });
-const browser = await chromium.launch({channel:'chrome',headless:true});
+const browser = await connectBrowserForVerification();
 const context = await browser.newContext({viewport:{width:1280,height:900}});
 await context.addInitScript(()=>{
   window.motionFrames=[];

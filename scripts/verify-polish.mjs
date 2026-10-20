@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { chromium } from 'playwright';
+import { connectBrowserForVerification } from './browser-session.mjs';
 const output = '.omo/evidence/api-expansion';
 await mkdir(output, { recursive: true });
-const browser = await chromium.launch({ channel: 'chrome', headless: true });
+const browser = await connectBrowserForVerification();
 const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
 page.setDefaultTimeout(10000);
 const results = [];
