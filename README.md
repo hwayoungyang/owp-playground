@@ -1,6 +1,19 @@
 # OWP Playground
 
-MUI 기반의 OWP 컴포넌트 실행·코드 Playground입니다. `@owp/datagrid`와 `@owp/charts`의 실행 예제와 시작 가이드를 제공합니다. 현재 OWP 의존성은 DataGrid 3.0.1, Charts 4.0.3, Core 6.0.1과 Components·DatePicker·Excel·PDF·Theme 2.0.0입니다.
+MUI 기반의 OWP 컴포넌트 실행·코드 Playground입니다. `@owp/datagrid`와 `@owp/charts`의 실행 예제와 시작 가이드를 제공합니다. 현재 [package.json](./package.json)에 고정된 OWP 의존성은 다음과 같습니다.
+
+| 패키지 | 버전 |
+| --- | --- |
+| `@owp/datagrid` | `3.1.4-rc.0` |
+| `@owp/charts` | `4.0.6-rc.0` |
+| `@owp/core` | `7.0.0-rc.0` |
+| `@owp/components` | `3.0.0-rc.0` |
+| `@owp/date-picker` | `2.0.1-rc.0` |
+| `@owp/utils` | `1.0.0-rc.0` |
+| `@owp/theme` | `2.1.0` |
+| `@owp/excel` · `@owp/pdf` | `2.0.0` |
+
+`@owp/utils`는 Core·Components에서 분리된 공통 값·browser·barcode·QR·ZIP 유틸리티 패키지입니다. 직접 사용하는 함수는 `@owp/utils` 또는 `@owp/utils/browser` 등 기능별 public entry에서 import합니다. 현재 Core·Components RC는 이관된 함수의 호환 export를 제공하지 않습니다. DataGrid의 숫자 변환·focus 처리는 패키지 내부에서 Utils를 사용하므로 기존 DataGrid public API와 샘플의 `numberOptions` 설정은 유지합니다.
 
 ## 실행
 
@@ -269,7 +282,7 @@ Chart.js 공식 실행 샘플 75개 중 신규 37개, 기존 9개, 대체·연�
 
 본문 액션 버튼은 아웃라인을 기본으로 사용합니다. 단일·다중 선택이나 드래그 대상처럼 선택 상태를 유지하는 버튼은 선택된 값만 채움으로 표시합니다.
 
-부모 높이가 정해진 예제와 중첩 그리드는 공개 `height="100%"` 속성을 사용합니다. 설치된 `@owp/datagrid` 3.0.1의 기본 동작에 따라 데스크톱에서는 부모 높이를 채우고, 태블릿에서는 500px, 모바일에서는 420px로 표시합니다. 공통 미리보기도 같은 속성을 전달합니다. 태블릿·모바일에서는 미리보기 영역이 컨트롤과 그리드 높이에 맞춰 늘어나며, 상세 그리드는 상세 패널 안에서 스크롤할 수 있습니다. ‘표시 행 수 고정’ 예제는 지정한 행 수에 따른 자동 높이를 유지합니다. 독립된 그리드에 고정 높이가 필요하면 `height={420}`처럼 숫자를 지정할 수 있습니다.
+부모 높이가 정해진 예제와 중첩 그리드는 공개 `height="100%"` 속성을 사용합니다. 설치된 `@owp/datagrid` 3.1.4-rc.0의 기본 동작에 따라 데스크톱에서는 부모 높이를 채우고, 태블릿에서는 500px, 모바일에서는 420px로 표시합니다. 공통 미리보기도 같은 속성을 전달합니다. 태블릿·모바일에서는 미리보기 영역이 컨트롤과 그리드 높이에 맞춰 늘어나며, 상세 그리드는 상세 패널 안에서 스크롤할 수 있습니다. ‘표시 행 수 고정’ 예제는 지정한 행 수에 따른 자동 높이를 유지합니다. 독립된 그리드에 고정 높이가 필요하면 `height={420}`처럼 숫자를 지정할 수 있습니다.
 
 코드 탭은 각 샘플의 실제 TSX 컴포넌트를 기본으로 보여줍니다. 이 파일은 `<OwpDataGrid ... />`를 반환하며 미리보기에서도 같은 컴포넌트를 사용합니다. 기본 표시·행 선택·셀 편집·변경 관리·서버 저장 예제는 한금 소비앱처럼 정적 컬럼·레이아웃·서식을 `examples/configs`에, 공용 row 타입을 `types/index.ts`에 둡니다. 실행 파일은 native props 연결과 이름 있는 이벤트 핸들러를 보여줍니다. `runtime/taskGridPreview.tsx`는 미리보기 관찰용 props를 분리해 예제에 native props와 Ref를 전달합니다. 나머지 예제의 기존 구조는 유지합니다. 데이터·타입·번역·테마는 공유하며 파일 선택에서 원본을 확인할 수 있습니다. 코드 표시·복사·다운로드와 `/snippets` 리소스는 같은 포맷된 원본을 사용합니다. 공통 실행부는 선택·편집·이벤트 기록용 props를 전달합니다. 데이터 탭은 현재 작업 데이터를 OWP API response 형식으로 표시하며, 100개씩 범위를 이동할 수 있습니다. 이벤트는 최근 40개로 제한합니다.
 
