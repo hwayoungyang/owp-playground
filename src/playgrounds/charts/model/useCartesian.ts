@@ -31,7 +31,7 @@ export function useCartesian(
   },
   props: ChartExampleProps = {},
 ) {
-  const { onData } = props;
+  const { onData, onRecord } = props;
   const palette = useChartPalette();
   const records = useMonthlyRecords();
   const { t } = useOwpTranslation();
@@ -74,18 +74,22 @@ export function useCartesian(
       })),
     };
   }, [source, config.series, palette.colors, t]);
-  const input = config.options ?? {};
-  const options: ChartOptions = {
-    ...chartMotion,
-    ...input,
-    onClick(event, elements, chart) {
-      props.onRecord?.(
-        'click',
-        elements.map((item) => `${item.datasetIndex}:${item.index}`).join(', '),
-      );
-      input.onClick?.call(this, event, elements, chart);
-    },
-  };
+  const input = config.options;
+  // 데이터만 바뀔 때 축 옵션을 다시 적용하지 않아 사용자가 지정한 줌 범위를 유지합니다.
+  const options = useMemo<ChartOptions>(
+    () => ({
+      ...chartMotion,
+      ...input,
+      onClick(event, elements, chart) {
+        onRecord?.(
+          'click',
+          elements.map((item) => `${item.datasetIndex}:${item.index}`).join(', '),
+        );
+        input?.onClick?.call(this, event, elements, chart);
+      },
+    }),
+    [input, onRecord],
+  );
   useEffect(() => {
     onData?.({
       labels: (data.labels ?? []).map(String),

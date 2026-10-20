@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 import type { GridExampleId } from '../catalog';
+import { TaskSelectionPreview, withTaskGridPreview } from '../runtime/taskGridPreview';
 import {
   AutomaticRowSpanGrid,
   gridConfiguration as autoSpanConfiguration,
@@ -111,7 +112,11 @@ import {
   gridConfiguration as rowSpanConfiguration,
 } from '../examples/row-span';
 import { SelectEditorsGrid, gridConfiguration as selectConfiguration } from '../examples/select';
-import { SelectionGrid, gridConfiguration as selectionConfiguration } from '../examples/selection';
+import { gridConfiguration as selectionConfiguration } from '../examples/selection';
+import {
+  ServerSaveGrid,
+  gridConfiguration as serverSaveConfiguration,
+} from '../examples/server-save';
 import {
   NewRowSelectionGrid,
   gridConfiguration as selectionPolicyConfiguration,
@@ -149,12 +154,12 @@ import {
 import type { GridConfiguration, GridViewProps } from './gridTypes';
 
 export const gridRegistry = {
-  overview: { Component: FixedRowsGrid, configuration: overviewConfiguration },
+  overview: { Component: withTaskGridPreview(FixedRowsGrid), configuration: overviewConfiguration },
   'design-system': { Component: ExternalControlsGrid, configuration: designSystemConfiguration },
   states: { Component: GridStates, configuration: statesConfiguration },
   'cell-types': { Component: CellTypesGrid, configuration: cellTypesConfiguration },
   select: { Component: SelectEditorsGrid, configuration: selectConfiguration },
-  selection: { Component: SelectionGrid, configuration: selectionConfiguration },
+  selection: { Component: TaskSelectionPreview, configuration: selectionConfiguration },
   'custom-style': { Component: StyledHeadersGrid, configuration: customStyleConfiguration },
   formatting: { Component: NumberDateFormatsGrid, configuration: formattingConfiguration },
   'mixed-types': { Component: RowCellTypesGrid, configuration: mixedTypesConfiguration },
@@ -175,7 +180,14 @@ export const gridRegistry = {
   },
   sorting: { Component: MultiSortGrid, configuration: sortingConfiguration },
   filtering: { Component: ColumnFiltersGrid, configuration: filteringConfiguration },
-  editing: { Component: EditableCellsGrid, configuration: editingConfiguration },
+  editing: {
+    Component: withTaskGridPreview(EditableCellsGrid),
+    configuration: editingConfiguration,
+  },
+  'save-changes': {
+    Component: withTaskGridPreview(ServerSaveGrid),
+    configuration: serverSaveConfiguration,
+  },
   validation: { Component: InputValidationGrid, configuration: validationConfiguration },
   'row-actions': { Component: RowEditingGrid, configuration: rowActionsConfiguration },
   reordering: { Component: DraggableRowsGrid, configuration: reorderingConfiguration },
@@ -186,7 +198,10 @@ export const gridRegistry = {
   'row-insertion': { Component: RowInsertionGrid, configuration: rowInsertionConfiguration },
   'row-deletion': { Component: DeleteRestoreRowsGrid, configuration: rowDeletionConfiguration },
   'ref-move': { Component: MoveRowsGrid, configuration: refMoveConfiguration },
-  'ref-changes': { Component: ChangeTrackingGrid, configuration: refChangesConfiguration },
+  'ref-changes': {
+    Component: withTaskGridPreview(ChangeTrackingGrid),
+    configuration: refChangesConfiguration,
+  },
   'external-validation': {
     Component: ValidationMessagesGrid,
     configuration: externalValidationConfiguration,

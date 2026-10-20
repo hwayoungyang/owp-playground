@@ -11,7 +11,7 @@ describe('sample resources', () => {
     expect(guide.kind).toBe('guide');
     expect(guide.category).toBe('start');
     await access(new URL(`../src/playgrounds/datagrid/${guide.source}`, import.meta.url));
-    expect(gridCatalog.filter((example) => example.kind === 'grid')).toHaveLength(47);
+    expect(gridCatalog.filter((example) => example.kind === 'grid')).toHaveLength(48);
   });
   it('resolves every grid entry to its executable source and stable row IDs', async () => {
     for (const example of gridCatalog.filter((entry) => entry.kind === 'grid')) {
@@ -33,6 +33,20 @@ describe('sample resources', () => {
       source: 'examples/selection.tsx',
     });
     expect(getGridConfiguration('selection').rowSelectionMode).toBe('single');
+  });
+  it('exposes server saving separately while preserving the legacy change-management link', () => {
+    const example = findGridEntry('save-changes');
+
+    const configuration = getGridConfiguration('save-changes');
+
+    expect(example).toMatchObject({
+      id: 'save-changes',
+      source: 'examples/server-save.tsx',
+      api: expect.arrayContaining(['applyServerRows', 'submittedRow']),
+    });
+    expect(configuration.rowDeletion).toBe(true);
+    expect(configuration.layout?.rowPanel?.allowAddedRowSelection).toBe(true);
+    expect(findGridEntry('server-save').id).toBe('ref-changes');
   });
   it('keeps selection and totals in the fixed row example and resolves merged links', () => {
     const overview = getGridConfiguration('overview');

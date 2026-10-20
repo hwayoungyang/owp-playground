@@ -1,8 +1,12 @@
-import { readdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
 import { sourceGraphPlugin } from './scripts/source-graph.ts';
+import {
+  createDataGridSourceManifest,
+  readSourceResources,
+  SourceDependencyError,
+} from './scripts/source-resources.ts';
 import { legacySourcePaths } from './src/features/code/source-paths.ts';
 import { chartCatalog } from './src/playgrounds/charts/catalog.ts';
 import { chartEnglish } from './src/playgrounds/charts/locales/en.ts';
@@ -73,6 +77,17 @@ export default defineConfig({
     {
       name: 'playground-resources',
       async generateBundle() {
+        const root = fileURLToPath(new URL('.', import.meta.url));
+        const sources = await readSourceResources(root);
+        this.emitFile({
+          type: 'asset',
+          fileName: 'catalogs/datagrid.sources.json',
+          source: JSON.stringify(
+            await createDataGridSourceManifest({ root, catalog: gridCatalog, resources: sources }),
+            null,
+            2,
+          ),
+        });
         this.emitFile({
           type: 'asset',
           fileName: 'packages.json',
@@ -133,19 +148,20 @@ export default defineConfig({
             ),
           });
         }
-        const sources = await readdir(new URL('./src/', import.meta.url), { recursive: true });
-        for (const file of sources.filter((file) => /\.(?:ts|tsx|css)$/.test(file)).sort()) {
+        for (const [file, resource] of sources) {
           this.emitFile({
             type: 'asset',
-            fileName: `snippets/${file}`,
-            source: await readFile(new URL(`./src/${file}`, import.meta.url), 'utf8'),
+            fileName: file.replace(/^\/src\//, 'snippets/'),
+            source: resource.content,
           });
         }
         for (const [legacy, file] of Object.entries(legacySourcePaths)) {
+          const resource = sources.get(`/src/${file}`);
+          if (!resource) throw new SourceDependencyError(legacy, file);
           this.emitFile({
             type: 'asset',
             fileName: `snippets/${legacy}`,
-            source: await readFile(new URL(`./src/${file}`, import.meta.url), 'utf8'),
+            source: resource.content,
           });
         }
       },

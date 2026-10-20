@@ -9,7 +9,7 @@ import {
   histogramDistributions,
 } from '../model/histogramData';
 import type { ChartExampleProps } from '../model/types';
-import { useCartesian, useChartPalette } from '../model/useCartesian';
+import { type ChartOptions, useCartesian, useChartPalette } from '../model/useCartesian';
 import { Choice, Controls, Range, Toggle, UpdateButton } from '../runtime/Controls';
 import { usePageVisible } from '../runtime/usePageVisible';
 
@@ -32,13 +32,30 @@ export function ChartExample(props: ChartExampleProps) {
     [count, distribution, sequence],
   );
   const records = useMemo(() => createHistogram(measurements, bins), [measurements, bins]);
+  const measurementLabel = t('측정값');
+  const frequencyLabel = t('빈도');
+  const options = useMemo<ChartOptions>(
+    () => ({
+      scales: {
+        x: createCategoryAxisScale({
+          title: { display: true, text: measurementLabel, color: palette.muted },
+          grid: { display: false },
+        }),
+        y: createIntegerAxisScale({
+          beginAtZero: true,
+          title: { display: true, text: frequencyLabel, color: palette.muted },
+        }),
+      },
+    }),
+    [frequencyLabel, measurementLabel, palette.muted],
+  );
   const chart = useCartesian(
     {
       records,
       series: [
         {
           dataKey: 'frequency',
-          label: t('빈도'),
+          label: frequencyLabel,
           type: 'bar',
           datasetOptions: {
             barPercentage: 1,
@@ -51,18 +68,7 @@ export function ChartExample(props: ChartExampleProps) {
           },
         },
       ],
-      options: {
-        scales: {
-          x: createCategoryAxisScale({
-            title: { display: true, text: t('측정값'), color: palette.muted },
-            grid: { display: false },
-          }),
-          y: createIntegerAxisScale({
-            beginAtZero: true,
-            title: { display: true, text: t('빈도'), color: palette.muted },
-          }),
-        },
-      },
+      options,
     },
     props,
   );

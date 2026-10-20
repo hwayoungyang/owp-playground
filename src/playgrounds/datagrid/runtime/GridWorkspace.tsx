@@ -9,7 +9,7 @@ import { type WorkspaceTab, WorkspaceTabs } from '../../../shared/ui/WorkspaceTa
 import { categories, type GridExample } from '../catalog';
 import { gridApiDocument } from '../model/apiData';
 import type { Task } from '../model/data';
-import { gridSourcePolicy } from '../model/sourceFiles';
+import { getGridSourcePolicy } from '../model/sourceFiles';
 import { GridPreview } from './GridPreview';
 import { GridSettingsDrawer, type GridViewSettings } from './GridSettingsDrawer';
 import { GridStatusBar } from './GridStatusBar';
@@ -115,7 +115,7 @@ export function GridWorkspace({
             <Suspense
               fallback={<div className="workspace-loading">{t('소스를 불러오는 중…')}</div>}
             >
-              <CodeViewer example={example} sourcePolicy={gridSourcePolicy} />
+              <CodeViewer example={example} sourcePolicy={getGridSourcePolicy(example.id)} />
             </Suspense>
           </div>
         )}

@@ -1,30 +1,8 @@
 import type { ApiRow } from '../../../features/code/api-data';
 import { taskFromApi } from './apiData';
+import type { Task } from '../types';
 
-export type Task = {
-  readonly id: string;
-  readonly project: string;
-  readonly task: string;
-  readonly owner: string;
-  readonly status: string;
-  readonly quantity: number;
-  readonly completed: number;
-  readonly cost: number;
-  readonly date: string;
-  readonly year: string;
-  readonly month: string;
-  readonly time: string;
-  readonly datetime: string;
-  readonly active: boolean;
-  readonly tags: string;
-  readonly note: string;
-  readonly parentId: string | null;
-  readonly mixed: string | number;
-  readonly children?: readonly Task[];
-  readonly worksheetKind?: 'item' | 'rate';
-  readonly reserved?: number;
-  readonly rate?: number;
-};
+export type { Task } from '../types';
 
 const projects = ['웹 서비스', '모바일 앱', '업무 시스템'] as const;
 const tasks = ['요구사항 분석', '화면 설계', '컴포넌트 개발', '검증 및 배포'] as const;

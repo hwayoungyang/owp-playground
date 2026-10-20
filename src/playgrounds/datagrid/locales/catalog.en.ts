@@ -90,6 +90,9 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '컬럼 필터': 'Column filters',
   '컬럼별 조건으로 목록을 좁힙니다.': 'Filter the list by column.',
   '셀 편집': 'Cell editing',
+  '서버 저장': 'Server save',
+  '모의 서버 응답을 반영하고, 저장 대기 중에 다시 편집한 값을 보존합니다.':
+    'Apply a simulated server response while preserving edits made during the save request.',
   '셀을 편집한 뒤 Enter로 확정하거나 Esc로 취소합니다.': 'Enter commits; Esc cancels.',
   '입력 검증': 'Validation',
   '필수값, 숫자 범위와 완료 수량을 검사합니다.':

@@ -22,6 +22,7 @@ const entry = <T extends string>(
     readonly category: CategoryId;
     readonly description: string;
     readonly api: readonly string[];
+    readonly source?: string;
   },
 ) => ({
   id,
@@ -29,7 +30,7 @@ const entry = <T extends string>(
   title,
   package: '@owp/datagrid',
   ...options,
-  source: `examples/${id}.tsx`,
+  source: options.source ?? `examples/${id}.tsx`,
 });
 
 export const gridCatalog = [
@@ -163,6 +164,12 @@ export const gridCatalog = [
     category: 'editing',
     description: '셀을 편집한 뒤 Enter로 확정하거나 Esc로 취소합니다.',
     api: ['editable', 'enterKeyAction', 'onCellValueCommit'],
+  }),
+  entry('save-changes', '서버 저장', {
+    category: 'editing',
+    description: '모의 서버 응답을 반영하고, 저장 대기 중에 다시 편집한 값을 보존합니다.',
+    api: ['commitEditing', 'validate', 'getChanges', 'applyServerRows', 'submittedRow'],
+    source: 'examples/server-save.tsx',
   }),
   entry('ref-focus', '셀 값·포커스', {
     category: 'editing',

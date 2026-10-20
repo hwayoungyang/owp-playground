@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { chartDataText, readChartData } from './chart-data.mjs';
 import { verifyChartInteractions } from './chart-interactions.mjs';
+import { verifyHistogramZoom } from './histogram-zoom-regression.mjs';
 
 const origin = process.env.PLAYGROUND_URL ?? 'http://127.0.0.1:4173';
 const output = new URL('../.omo/evidence/charts/browser/', import.meta.url);
@@ -16,6 +17,14 @@ await context.addInitScript(() => {
   for (const name of ['clearRect', 'beginPath', 'moveTo', 'lineTo', 'stroke', 'fillText']) {
     const original = prototype[name];
     prototype[name] = function (...args) {
+      if (this.canvas.closest('.chart-preview')) {
+        if (name === 'clearRect') this.canvas.dataset.histogramLabels = '[]';
+        if (name === 'fillText' && /^-?\d+\.\d–-?\d+\.\d$/.test(String(args[0]))) {
+          const labels = JSON.parse(this.canvas.dataset.histogramLabels ?? '[]');
+          labels.push(String(args[0]));
+          this.canvas.dataset.histogramLabels = JSON.stringify(labels);
+        }
+      }
       if (window.chartProbe) {
         const index = [...document.querySelectorAll('.chart-preview canvas')].indexOf(this.canvas);
         if (index >= 0) {
@@ -76,6 +85,7 @@ try {
   pass('93 routes, data, source tabs and published snippets', { examples: 92, guides: 1 });
 
   await verifyChartInteractions(page, origin, pass);
+  await verifyHistogramZoom(page, open, pass);
 
   await open('bar');
   await page.getByRole('slider', { name: '표시할 월 수', exact: true }).press('Home');

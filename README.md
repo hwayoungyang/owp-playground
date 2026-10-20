@@ -168,7 +168,7 @@ src/
 
 공통 컴포넌트와 상태 관리 코드는 역할에 따라 이름을 짓습니다. `WorkspaceHeading`은 제목과 경로, `ChartCanvas`는 차트 렌더링과 높이·이벤트 연결, `useGridController`는 그리드 상태와 동작을 담당합니다. 카탈로그 항목은 `ExampleMetadata`, `GridCatalogEntry`, `ChartCatalogEntry`로 구분하며 내부 탐색에서는 `example`을 사용합니다. 기존 URL의 `sample`, 공개 카탈로그의 `samples` 필드와 소스 주소는 유지합니다.
 
-DataGrid 실행부는 `GridWorkspace`, `GridToolbar`, `GridSettingsDrawer`, `GridStatusBar`로 역할을 구분합니다. 각 실행 파일은 `FixedRowsGrid`, `EditableCellsGrid`, `SelectEditorsGrid`처럼 기능을 나타내는 컴포넌트와 초기 `gridConfiguration`을 내보냅니다. `model/gridTypes.ts`는 `GridConfiguration`·`GridViewProps` 계약을, `model/gridRegistry.ts`는 47개 컴포넌트와 설정의 연결을 관리합니다. `getGridConfiguration`은 등록된 설정에 현재 언어를 적용합니다.
+DataGrid 실행부는 `GridWorkspace`, `GridToolbar`, `GridSettingsDrawer`, `GridStatusBar`로 역할을 구분합니다. 각 실행 파일은 `FixedRowsGrid`, `EditableCellsGrid`, `SelectEditorsGrid`처럼 기능을 나타내는 컴포넌트와 초기 `gridConfiguration`을 내보냅니다. `model/gridTypes.ts`는 `GridConfiguration`·`GridViewProps` 계약을, `model/gridRegistry.ts`는 48개 컴포넌트와 설정의 연결을 관리합니다. `getGridConfiguration`은 등록된 설정에 현재 언어를 적용합니다.
 
 CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styles/shell.css`, 공통 제목·탭·툴바·이벤트·프레임은 `shared/ui/workspace.css`, 공통 가이드는 `shared/ui/guide.css`에 둡니다. DataGrid의 `styles.css`는 import 진입점이며, 실행 화면은 `runtime/workspace.css`, 패키지 스타일 보정은 `runtime/grid-overrides.css`, 예제별 표현은 `examples/styles.css`로 나눕니다. 예제 CSS 진입점은 `controls.css`, `cell-renderers.css`, `detail-panel.css`를 불러오며 선택자는 `.grid-preview` 안에 적용합니다. Drawer와 Dialog는 Portal에 표시되므로 각각 `grid-settings-*`, `grid-row-dialog` 클래스로 범위를 지정합니다. Charts·코드 보기·테마 편집은 각 기능의 CSS를 사용하고, 실행 중 바뀌는 테마 값은 CSS 변수로 전달합니다.
 
@@ -178,7 +178,7 @@ CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styl
 
 첫 메뉴 ‘시작’은 프로젝트 `.npmrc`의 OWP 레지스트리 설정, 패키지 설치, 타입이 포함된 첫 그리드 예제를 안내합니다. `/?sample=getting-started`로 바로 열 수 있습니다. 레지스트리 URL과 접근 권한은 Impix SmartBiz 팀에 문의합니다.
 
-설치·사용 안내와 47개 실행 샘플을 연관된 기능에 따라 12개 그룹으로 분류합니다. Charts와 같은 탐색 메뉴를 사용하며 한국어 화면에서는 그룹명 아래에 영어 이름을 작은 부제로 표시하고, 영어 화면에는 영어 그룹명만 표시합니다. ‘표시 행 수 고정’은 10행 표시 영역에 선택·합계를 함께 보여줍니다. ‘외부 버튼 제어’는 행 선택·선택 해제·삭제를 실행합니다. 행 선택 방식·모서리 둥글기·필터 표시는 ‘설정’에서 조정합니다. 기존 `minimal`, `visible-rows`, `selection`, `radius` 링크는 ‘표시 행 수 고정’으로 연결합니다.
+설치·사용 안내와 48개 실행 샘플을 연관된 기능에 따라 12개 그룹으로 분류합니다. Charts와 같은 탐색 메뉴를 사용하며 한국어 화면에서는 그룹명 아래에 영어 이름을 작은 부제로 표시하고, 영어 화면에는 영어 그룹명만 표시합니다. ‘표시 행 수 고정’은 10행 표시 영역에 선택·합계를 함께 보여줍니다. ‘외부 버튼 제어’는 행 선택·선택 해제·삭제를 실행합니다. 행 선택 방식·모서리 둥글기·필터 표시는 ‘설정’에서 조정합니다. 기존 `minimal`, `visible-rows`, `radius` 링크는 ‘표시 행 수 고정’으로 연결합니다.
 
 - 기본: 시작, 표시 행 수 고정.
 - 셀·컬럼: 셀 타입, 행별 셀 타입, 셀렉트, 숫자·날짜 서식, 셀 컴포넌트, 긴 내용 보기, 고정 컬럼, 다단 헤더.
@@ -271,7 +271,7 @@ Chart.js 공식 실행 샘플 75개 중 신규 37개, 기존 9개, 대체·연�
 
 부모 높이가 정해진 예제와 중첩 그리드는 공개 `height="100%"` 속성을 사용합니다. 설치된 `@owp/datagrid` 3.0.1의 기본 동작에 따라 데스크톱에서는 부모 높이를 채우고, 태블릿에서는 500px, 모바일에서는 420px로 표시합니다. 공통 미리보기도 같은 속성을 전달합니다. 태블릿·모바일에서는 미리보기 영역이 컨트롤과 그리드 높이에 맞춰 늘어나며, 상세 그리드는 상세 패널 안에서 스크롤할 수 있습니다. ‘표시 행 수 고정’ 예제는 지정한 행 수에 따른 자동 높이를 유지합니다. 독립된 그리드에 고정 높이가 필요하면 `height={420}`처럼 숫자를 지정할 수 있습니다.
 
-코드 탭은 각 샘플의 실제 TSX 컴포넌트를 기본으로 보여줍니다. 이 파일은 `<OwpDataGrid ... />`를 반환하며 미리보기에서도 같은 컴포넌트를 사용합니다. 컬럼 정의, 필요한 native props와 Ref 핸들러는 각 실행 파일에 직접 선언합니다. 데이터·타입·번역·테마는 공유하며 파일 선택에서 원본을 확인할 수 있습니다. 코드 표시·복사·다운로드와 `/snippets` 리소스는 같은 포맷된 원본을 사용합니다. 공통 실행부는 선택·편집·이벤트 기록용 props를 전달합니다. 데이터 탭은 현재 작업 데이터를 OWP API response 형식으로 표시하며, 100개씩 범위를 이동할 수 있습니다. 이벤트는 최근 40개로 제한합니다.
+코드 탭은 각 샘플의 실제 TSX 컴포넌트를 기본으로 보여줍니다. 이 파일은 `<OwpDataGrid ... />`를 반환하며 미리보기에서도 같은 컴포넌트를 사용합니다. 기본 표시·행 선택·셀 편집·변경 관리·서버 저장 예제는 한금 소비앱처럼 정적 컬럼·레이아웃·서식을 `examples/configs`에, 공용 row 타입을 `types/index.ts`에 둡니다. 실행 파일은 native props 연결과 이름 있는 이벤트 핸들러를 보여줍니다. `runtime/taskGridPreview.tsx`는 미리보기 관찰용 props를 분리해 예제에 native props와 Ref를 전달합니다. 나머지 예제의 기존 구조는 유지합니다. 데이터·타입·번역·테마는 공유하며 파일 선택에서 원본을 확인할 수 있습니다. 코드 표시·복사·다운로드와 `/snippets` 리소스는 같은 포맷된 원본을 사용합니다. 공통 실행부는 선택·편집·이벤트 기록용 props를 전달합니다. 데이터 탭은 현재 작업 데이터를 OWP API response 형식으로 표시하며, 100개씩 범위를 이동할 수 있습니다. 이벤트는 최근 40개로 제한합니다.
 
 ### API response 데이터와 transform
 
@@ -301,6 +301,7 @@ Charts와 DataGrid의 데이터 탭은 테이블 대신 API response의 행 배�
 빌드 시 다음 정적 리소스도 생성합니다.
 
 - `/catalog.json`: 패키지, 샘플 ID, 분류, 설명, 사용 API와 소스 이름.
+- `/catalogs/datagrid.sources.json`: 같은 카탈로그의 설명·API와 실제 설치된 패키지 버전, 예제별 진입 소스·타입·스타일 의존 파일, 각 파일의 SHA-256 및 직접 import 관계. 파일 경로는 `/snippets/` 원본을 가리킵니다.
 - `/packages.json`: 패키지 선택 값, 이름과 샘플 준비 상태.
 - `/catalog.en.json`: 같은 DataGrid 샘플의 영어 설명.
 - `/catalogs/charts.json`, `/catalogs/charts.en.json`: Charts 가이드와 92개 예제의 한국어·영어 카탈로그.
@@ -309,7 +310,9 @@ Charts와 DataGrid의 데이터 탭은 테이블 대신 API response의 행 배�
 - `/snippets/shared/{area}/{file}`: 공통 UI·테마·번역 함수.
 - 기존 `/snippets/samples/{source}`, `/snippets/app/{file}`, `/snippets/theme/{file}` 등은 현재 원본을 제공하는 호환 주소로 유지합니다.
 
-이 메타데이터와 소스는 이후 MCP의 검색·예제 조회 리소스로 공유할 수 있습니다. MCP 서버와 다른 패키지의 독립 샘플은 후속 범위입니다.
+기본 표시(`overview`), 행 선택(`selection`), 셀 편집(`editing`), 변경 관리(`ref-changes`), 서버 저장(`save-changes`)은 같은 작업 데이터와 작성 기준을 사용합니다. 서버 저장은 모의 응답을 사용하며, 편집 확정·검증 후 요청 당시 행을 `submittedRow`로 전달해 저장 대기 중 추가 편집을 보존합니다. 취소·초기화·예제 이동 시 대기 요청을 중단합니다. 기존 `server-save` URL은 변경 관리로 연결되는 호환 동작을 유지합니다.
+
+MCP는 카탈로그에서 예제를 찾고 소스 매니페스트의 진입 파일과 의존 파일을 `/snippets/`에서 읽을 수 있습니다. RAG도 같은 매니페스트를 기준으로 예제 ID·API·패키지 버전·파일 관계를 연결하고, SHA-256으로 원본 변경 여부를 판별할 수 있습니다. 코드 표시를 위한 `?raw` 문자열 import는 실행 의존성에서 제외합니다. 별도의 설명용 샘플 사본은 만들지 않습니다. MCP 서버와 다른 패키지의 독립 샘플은 후속 범위입니다.
 
 ## 디자인과 접근성
 

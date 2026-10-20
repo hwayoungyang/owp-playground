@@ -537,6 +537,7 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '첫 오류 해제': 'Clear first error',
   '전체 오류 해제': 'Clear all errors',
   '모의 저장': 'Simulate save',
+  '저장하지 못했습니다. 다시 시도해 주세요.': 'Could not save. Please try again.',
   '저장 중에도 셀을 편집할 수 있습니다.': 'You can edit cells while saving.',
   '하위 행 불러오기': 'Load children',
   '하위 행 다시 불러오기': 'Reload children',

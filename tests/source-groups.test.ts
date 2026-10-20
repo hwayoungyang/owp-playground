@@ -1,7 +1,31 @@
 import { describe, expect, it } from 'vitest';
 import { groupExampleSources } from '../src/features/code/source-groups';
+import { getGridSourcePolicy } from '../src/playgrounds/datagrid/model/sourceFiles';
+import { readSourceResources, sourceDependencyGraph } from '../scripts/source-resources';
 
 describe('example source menu groups', () => {
+  it('shows the selected task configuration, row types and styles without unrelated configurations', async () => {
+    // Given
+    const resources = await readSourceResources(new URL('..', import.meta.url).pathname);
+    const directory = '/src/playgrounds/datagrid/';
+
+    // When
+    const groups = groupExampleSources({
+      example: { package: '@owp/datagrid', source: 'examples/selection.tsx' },
+      sources: [...resources.keys()],
+      dependencies: sourceDependencyGraph(resources),
+      policy: getGridSourcePolicy('selection'),
+    });
+
+    // Then
+    expect(groups.core).toContain(`${directory}examples/configs/taskSelection.ts`);
+    expect(groups.core).toContain(`${directory}examples/configs/taskList.tsx`);
+    expect(groups.core).toContain(`${directory}types/index.ts`);
+    expect(groups.core).not.toContain(`${directory}examples/configs/taskSave.ts`);
+    expect(groups.core).not.toContain(`${directory}runtime/GridPreview.tsx`);
+    expect(groups.support).toContain(`${directory}examples/styles.css`);
+  });
+
   it('prioritizes only reachable core files and leaves supporting code selectable', () => {
     const directory = '/src/playgrounds/charts/';
     const entry = `${directory}examples/mixed.tsx`;
