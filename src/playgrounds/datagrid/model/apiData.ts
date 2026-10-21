@@ -1,5 +1,5 @@
 import type { ApiDataSource, ApiRow, ApiValue } from '../../../features/code/api-data';
-import { translate } from '../../../shared/i18n/translate';
+import type { useOwpTranslation } from '@owp/components/hooks';
 import type { Task } from './data';
 
 export const taskApiFields = [
@@ -102,7 +102,7 @@ export function taskFromApi(row: ApiRow): Task {
 
 export function gridApiDocument(
   rows: readonly Task[],
-  localize: typeof translate = translate,
+  t: ReturnType<typeof useOwpTranslation>['t'],
 ): ApiDataSource {
   // getRows()가 nested 행을 펼친 배열로 반환해도 API에는 각 자식을 한 번만 포함합니다.
   const nested = rows.some((row) => row.children !== undefined);
@@ -122,8 +122,8 @@ export function gridApiDocument(
     getRows: (start, end) => roots.slice(start, end).map((row) => taskToApi(row, currentRows)),
     fields: taskApiFields.map(([, description, note], index) => ({
       key: `OWP_DATA.DATA${index + 1}`,
-      description: localize(description),
-      notes: note ? [localize(note)] : [],
+      description: t(description),
+      notes: note ? [t(note)] : [],
     })),
   };
 }

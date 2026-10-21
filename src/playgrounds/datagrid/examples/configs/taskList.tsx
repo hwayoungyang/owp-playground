@@ -1,5 +1,5 @@
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
-import { translate } from '../../../../shared/i18n/translate';
+import { TaskStatusCell } from '../components/TaskStatusCell';
 import { owners, statuses } from '../../model/data';
 import type { Task } from '../../types';
 import '../styles.css';
@@ -25,13 +25,9 @@ export const taskColumns = [
     headerAlign: 'center',
     type: 'select',
     valueOptions: statuses.map((value) => ({ value, label: value })),
-    renderCell: ({ row }) =>
-      row.status ? (
-        <span className={`status-badge ${statusClasses[row.status] ?? ''}`}>
-          <span className="status-dot" />
-          {translate(row.status)}
-        </span>
-      ) : null,
+    renderCell: ({ row }) => (
+      <TaskStatusCell status={row.status} className={statusClasses[row.status] ?? ''} />
+    ),
   },
   {
     id: 'quantity',

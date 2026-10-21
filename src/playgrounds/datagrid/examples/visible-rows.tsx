@@ -1,15 +1,18 @@
 import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { TaskGridProps } from '../types';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { Task, TaskGridProps } from '../types';
 import { taskVisibleRowsConfiguration } from './configs/taskVisibleRows';
 
 export { taskVisibleRowsConfiguration as gridConfiguration } from './configs/taskVisibleRows';
 
 export function VisibleRowsGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   return (
     <OwpDataGrid
-      ref={gridRef}
+      api={gridApi}
       rows={taskVisibleRowsConfiguration.rows}
       columns={taskVisibleRowsConfiguration.columns}
       getRowId={taskVisibleRowsConfiguration.getRowId}

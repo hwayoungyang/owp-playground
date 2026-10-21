@@ -1,8 +1,8 @@
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { OwpDataGrid, OwpDataGridExportExcelButton } from '@owp/datagrid';
-import type { OwpDataGridDetailRenderParams, OwpDataGridRef } from '@owp/datagrid/types';
+import type { OwpDataGridDetailRenderParams } from '@owp/datagrid/types';
 import { DownloadSimpleIcon } from '@phosphor-icons/react';
-import { useRef } from 'react';
 import type { Task } from '../../types';
 import { getRowId } from '../../model/data';
 import { taskColumns } from '../configs/taskList';
@@ -14,7 +14,7 @@ export function DetailGrid({
   error,
   retry,
 }: OwpDataGridDetailRenderParams<Task, Task>) {
-  const gridRef = useRef<OwpDataGridRef<Task>>(null);
+  const gridApi = useDataGridApi<Task>();
   const { t } = useOwpTranslation();
   const columns = taskColumns.slice(1).map((column) => ({
     ...column,
@@ -28,7 +28,7 @@ export function DetailGrid({
           {row.project} · {t('작업')}
         </span>
         <OwpDataGridExportExcelButton
-          dataGridRef={gridRef}
+          api={gridApi}
           exportName={`OWP_detail_${row.id}`}
           scope="all"
           saveMode="download"
@@ -42,7 +42,7 @@ export function DetailGrid({
       </div>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={rows}
           columns={columns}
           getRowId={getRowId}

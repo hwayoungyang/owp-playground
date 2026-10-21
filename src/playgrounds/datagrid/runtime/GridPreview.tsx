@@ -60,7 +60,7 @@ export function GridPreview({
       const rendered = gridHost.current?.querySelector(
         '.OwpDataGrid-row[data-owp-data-grid-row-key]',
       );
-      if (!controller.gridRef.current?.getRow(`task-${pending.count}`) || !rendered) {
+      if (!controller.gridApi.getRow(`task-${pending.count}`) || !rendered) {
         frame = requestAnimationFrame(waitForRows);
         return;
       }
@@ -69,12 +69,12 @@ export function GridPreview({
     };
     frame = requestAnimationFrame(waitForRows);
     return () => cancelAnimationFrame(frame);
-  }, [controller.pendingBinding, controller.busy, controller.gridRef, finishBinding, gridHost]);
+  }, [controller.pendingBinding, controller.busy, controller.gridApi, finishBinding, gridHost]);
   useEffect(() => {
     if (controller.configuration.treeOptions?.getChildren) {
-      onRowsUpdate(controller.gridRef.current?.getRows() ?? controller.rows);
+      onRowsUpdate(controller.gridApi.getRows());
     }
-  }, [controller.configuration.treeOptions, controller.gridRef, controller.rows, onRowsUpdate]);
+  }, [controller.configuration.treeOptions, controller.gridApi, controller.rows, onRowsUpdate]);
   const handleCommit: NonNullable<typeof controller.configuration.onCellValueCommit> = (params) => {
     controller.record('cell.commit', {
       rowId: params.rowId,
@@ -94,7 +94,7 @@ export function GridPreview({
         <GridView
           key={controller.gridVersion}
           {...controller.configuration}
-          gridRef={controller.gridRef}
+          api={controller.gridApi}
           {...(example.id === 'selection' ? { onSelectionModeChange } : {})}
           onRecord={controller.record}
           onRowsChange={onRowsUpdate}

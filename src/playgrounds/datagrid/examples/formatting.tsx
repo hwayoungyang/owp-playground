@@ -4,10 +4,11 @@ import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { MenuItem, Select } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import { useMemo, useState } from 'react';
 import { z } from 'zod';
 import { getRowId } from '../model/data';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import {
   numberDateFormatsFractionDigits,
   numberDateFormatsColumns,
@@ -18,7 +19,9 @@ export { numberDateFormatsConfiguration as gridConfiguration } from './configs/n
 const fractionDigitsSchema = z.coerce.number().int().min(1).max(6);
 
 export function NumberDateFormatsGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { t } = useOwpTranslation();
   const [precision, setPrecision] = useState(2);
   const currentColumns = useMemo(
@@ -64,7 +67,7 @@ export function NumberDateFormatsGrid(props: TaskGridProps = {}) {
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={numberDateFormatsConfiguration.rows}
           getRowId={getRowId}
           rowSelectionMode="multiple"

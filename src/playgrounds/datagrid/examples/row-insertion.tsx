@@ -1,24 +1,23 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import { useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import { useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { seedTask } from '../model/data';
 import type { Task, TaskGridProps } from '../types';
 import { taskRowInsertionConfiguration } from './configs/taskRowInsertion';
 
-import type {
-  OwpDataGridRef,
-  OwpDataGridRowId,
-  OwpDataGridRowPlacement,
-} from '@owp/datagrid/types';
+import type { OwpDataGridRowId, OwpDataGridRowPlacement } from '@owp/datagrid/types';
 
 export { taskRowInsertionConfiguration as gridConfiguration } from './configs/taskRowInsertion';
 
 export function RowInsertionGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
@@ -27,9 +26,9 @@ export function RowInsertionGrid(props: TaskGridProps = {}) {
     onAction?.(api, value);
   };
   const handleAddRow = (placement: OwpDataGridRowPlacement, label: string) => {
-    const row = { ...seedTask, id: crypto.randomUUID(), task: translate(label) };
+    const row = { ...seedTask, id: crypto.randomUUID(), task: t(label) };
     publish('addRow', {
-      success: gridRef.current?.addRow(row, placement),
+      success: gridApi.addRow(row, placement),
       rowId: row.id,
       placement,
     });
@@ -48,19 +47,19 @@ export function RowInsertionGrid(props: TaskGridProps = {}) {
       <PreviewActions>
         <div className="example-controls">
           <Button onClick={() => handleAddRow({ position: 'root-first' }, '상단에 추가')}>
-            {translate('상단에 추가')}
+            {t('상단에 추가')}
           </Button>
           <Button disabled={selected.length !== 1} onClick={handleInsertAfterSelection}>
-            {translate('선택 행 다음에 추가')}
+            {t('선택 행 다음에 추가')}
           </Button>
           <Button onClick={() => handleAddRow({ position: 'root-last' }, '하단에 추가')}>
-            {translate('하단에 추가')}
+            {t('하단에 추가')}
           </Button>
         </div>
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskRowInsertionConfiguration.rows}
           columns={taskRowInsertionConfiguration.columns}
           getRowId={taskRowInsertionConfiguration.getRowId}

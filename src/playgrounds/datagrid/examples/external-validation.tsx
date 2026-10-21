@@ -1,9 +1,10 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
-import { useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { OwpDataGridRowId } from '@owp/datagrid/types';
+import { useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import type { Task, TaskGridProps } from '../types';
 import { taskExternalValidationConfiguration } from './configs/taskExternalValidation';
@@ -11,8 +12,10 @@ import { taskExternalValidationConfiguration } from './configs/taskExternalValid
 export { taskExternalValidationConfiguration as gridConfiguration } from './configs/taskExternalValidation';
 
 export function ValidationMessagesGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
@@ -20,7 +23,7 @@ export function ValidationMessagesGrid(props: TaskGridProps = {}) {
 
   const publish = (api: string, value: unknown) => {
     onAction?.(api, value);
-    const count = gridRef.current?.getCellErrors().length ?? 0;
+    const count = gridApi.getCellErrors().length;
     setFeedback({
       message:
         count === 0
@@ -31,7 +34,7 @@ export function ValidationMessagesGrid(props: TaskGridProps = {}) {
   };
 
   const handleClearValidationMessages = () => {
-    gridRef.current?.clearCellErrors();
+    gridApi.clearCellErrors();
     onAction?.('clearCellErrors', { cleared: true });
     setFeedback({ message: '검증 메시지를 모두 지웠습니다.' });
   };
@@ -47,50 +50,44 @@ export function ValidationMessagesGrid(props: TaskGridProps = {}) {
             onClick={() =>
               publish(
                 'setCellError',
-                gridRef.current?.setCellError(
-                  'task-1',
-                  'task',
-                  translate('서버에서 작업명을 확인하지 못했습니다.'),
-                ),
+                gridApi.setCellError('task-1', 'task', t('서버에서 작업명을 확인하지 못했습니다.')),
               )
             }
           >
-            {translate('메시지 1건 표시')}
+            {t('메시지 1건 표시')}
           </Button>
           <Button
             onClick={() =>
               publish(
                 'setCellErrors',
-                gridRef.current?.setCellErrors([
+                gridApi.setCellErrors([
                   {
                     rowId: 'task-1',
                     columnId: 'task',
-                    message: translate('작업명이 올바르지 않습니다.'),
+                    message: t('작업명이 올바르지 않습니다.'),
                   },
                   {
                     rowId: 'task-2',
                     columnId: 'completed',
-                    message: translate('완료 수량이 올바르지 않습니다.'),
+                    message: t('완료 수량이 올바르지 않습니다.'),
                   },
                 ]),
               )
             }
           >
-            {translate('메시지 2건 표시')}
+            {t('메시지 2건 표시')}
           </Button>
-          <Button onClick={handleClearValidationMessages}>
-            {translate('검증 메시지 모두 지우기')}
-          </Button>
+          <Button onClick={handleClearValidationMessages}>{t('검증 메시지 모두 지우기')}</Button>
         </div>
       </PreviewActions>
       {feedback && (
         <p className="example-caption" role="status">
-          {translate(feedback.message, { count: feedback.count })}
+          {t(feedback.message, { count: feedback.count })}
         </p>
       )}
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskExternalValidationConfiguration.rows}
           columns={taskExternalValidationConfiguration.columns}
           getRowId={taskExternalValidationConfiguration.getRowId}

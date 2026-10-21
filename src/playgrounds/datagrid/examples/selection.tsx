@@ -2,10 +2,11 @@ import './styles.css';
 import { Button } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import type { OwpDataGridRowId, OwpDataGridRowSelectionMode } from '@owp/datagrid/types';
 import { useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import { taskSelectionConfiguration } from './configs/taskSelection';
 
 export { taskSelectionConfiguration as gridConfiguration } from './configs/taskSelection';
@@ -21,11 +22,13 @@ export type SelectionGridProps = TaskGridProps & {
 };
 
 export function SelectionGrid({
-  gridRef,
+  api: suppliedApi,
   callbacks,
   onSelectionModeChange,
   ...gridProps
 }: SelectionGridProps = {}) {
+  const ownApi = useDataGridApi<Task>();
+  const gridApi = suppliedApi ?? ownApi;
   const { t } = useOwpTranslation();
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const [mode, setMode] = useState<OwpDataGridRowSelectionMode>('single');
@@ -65,7 +68,7 @@ export function SelectionGrid({
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskSelectionConfiguration.rows}
           columns={taskSelectionConfiguration.columns}
           getRowId={taskSelectionConfiguration.getRowId}

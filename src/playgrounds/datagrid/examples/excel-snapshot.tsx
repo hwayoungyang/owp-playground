@@ -1,9 +1,10 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
-import { useEffect, useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { OwpDataGridRowId } from '@owp/datagrid/types';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import type { Task, TaskGridProps } from '../types';
 import { taskExcelSnapshotConfiguration } from './configs/taskExcelSnapshot';
@@ -11,8 +12,10 @@ import { taskExcelSnapshotConfiguration } from './configs/taskExcelSnapshot';
 export { taskExcelSnapshotConfiguration as gridConfiguration } from './configs/taskExcelSnapshot';
 
 export function ExcelSnapshotGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
@@ -21,13 +24,13 @@ export function ExcelSnapshotGrid(props: TaskGridProps = {}) {
   };
   const request = useRef<AbortController | null>(null);
   const [reading, setReading] = useState(false);
-  useEffect(() => () => request.current?.abort(), []);
+  useLayoutEffect(() => () => request.current?.abort(), []);
   const handleReadBatches = async () => {
     const controller = new AbortController();
     request.current = controller;
     setReading(true);
     try {
-      const session = await gridRef.current?.createExcelExportSession?.({
+      const session = await gridApi.createExcelExportSession?.({
         scope: 'all',
         signal: controller.signal,
       });
@@ -55,7 +58,7 @@ export function ExcelSnapshotGrid(props: TaskGridProps = {}) {
     }
   };
   const handlePreviewSnapshot = () => {
-    const snapshot = gridRef.current?.getExcelSnapshot({ scope: 'visible' });
+    const snapshot = gridApi.getExcelSnapshot({ scope: 'visible' });
     publish('getExcelSnapshot', {
       scope: snapshot?.scope,
       columns: snapshot?.columns,
@@ -76,23 +79,21 @@ export function ExcelSnapshotGrid(props: TaskGridProps = {}) {
     >
       <PreviewActions>
         <div className="example-controls">
-          <Button onClick={handlePreviewSnapshot}>{translate('데이터 미리보기')}</Button>
+          <Button onClick={handlePreviewSnapshot}>{t('데이터 미리보기')}</Button>
           <Button
-            onClick={() =>
-              publish('getExcelExportWarnings', gridRef.current?.getExcelExportWarnings?.())
-            }
+            onClick={() => publish('getExcelExportWarnings', gridApi.getExcelExportWarnings?.())}
           >
-            {translate('제외 항목 확인')}
+            {t('제외 항목 확인')}
           </Button>
           <Button disabled={reading} onClick={() => void handleReadBatches()}>
-            {translate('1만 행 읽기')}
+            {t('1만 행 읽기')}
           </Button>
-          {reading && <Button onClick={handleCancelExport}>{translate('취소')}</Button>}
+          {reading && <Button onClick={handleCancelExport}>{t('취소')}</Button>}
         </div>
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskExcelSnapshotConfiguration.rows}
           columns={taskExcelSnapshotConfiguration.columns}
           getRowId={taskExcelSnapshotConfiguration.getRowId}

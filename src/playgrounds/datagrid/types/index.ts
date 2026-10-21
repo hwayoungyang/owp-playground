@@ -1,9 +1,4 @@
-import type {
-  OwpDataGridProps,
-  OwpDataGridRef,
-  OwpDataGridRowSelectionMode,
-} from '@owp/datagrid/types';
-import type { RefObject } from 'react';
+import type { OwpDataGridProps, OwpDataGridRowSelectionMode } from '@owp/datagrid/types';
 
 export type Task = {
   readonly id: string;
@@ -31,7 +26,6 @@ export type Task = {
 };
 
 export type TaskGridProps = Partial<OwpDataGridProps<Task, Task>> & {
-  readonly gridRef?: RefObject<OwpDataGridRef<Task> | null>;
   readonly callbacks?: TaskGridCallbacks;
 };
 

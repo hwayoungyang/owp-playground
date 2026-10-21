@@ -1,15 +1,18 @@
 import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { TaskGridProps } from '../types';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { Task, TaskGridProps } from '../types';
 import { mergedCellsExportConfiguration } from './configs/mergedCellsExport';
 
 export { mergedCellsExportConfiguration as gridConfiguration } from './configs/mergedCellsExport';
 
 export function MergedCellsExportGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   return (
     <OwpDataGrid
-      ref={gridRef}
+      api={gridApi}
       rows={mergedCellsExportConfiguration.rows}
       columns={mergedCellsExportConfiguration.columns}
       getRowId={mergedCellsExportConfiguration.getRowId}

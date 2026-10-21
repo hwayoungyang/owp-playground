@@ -1,6 +1,6 @@
-import { LinearProgress } from '@mui/material';
+import { CompletionRateCell } from '../components/CompletionRateCell';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
-import { translate } from '../../../../shared/i18n/translate';
+import { TaskStatusCell } from '../components/TaskStatusCell';
 import type { Task } from '../../types';
 import { createTree, getRowId, statuses } from '../../model/data';
 import { CompletionTrendCell } from '../components/CompletionTrendCell';
@@ -28,13 +28,9 @@ export const baseColumns = [
     headerAlign: 'center',
     type: 'select',
     valueOptions: statuses.map((value) => ({ value, label: value })),
-    renderCell: ({ row }) =>
-      row.status ? (
-        <span className={`status-badge ${statusClasses[row.status] ?? ''}`}>
-          <span className="status-dot" />
-          {translate(row.status)}
-        </span>
-      ) : null,
+    renderCell: ({ row }) => (
+      <TaskStatusCell status={row.status} className={statusClasses[row.status] ?? ''} />
+    ),
   },
   {
     id: 'quantity',
@@ -64,24 +60,7 @@ export const baseColumns = [
     valueGetter: (row) =>
       row.parentId !== null && row.quantity > 0 ? (row.completed / row.quantity) * 100 : undefined,
     numberOptions: { maximumFractionDigits: 1 },
-    renderCell: ({ row, value }) =>
-      typeof value === 'number' ? (
-        <div className="progress-cell">
-          <LinearProgress
-            variant="determinate"
-            value={Math.max(0, Math.min(100, value))}
-            aria-label={translate('{{task}} 완료율', { task: row.task })}
-            sx={{
-              flex: 1,
-              height: 8,
-              borderRadius: 1,
-              bgcolor: 'action.hover',
-              '& .MuiLinearProgress-bar': { transition: 'none' },
-            }}
-          />
-          <span>{Math.round(value * 10) / 10}%</span>
-        </div>
-      ) : null,
+    renderCell: ({ row, value }) => <CompletionRateCell row={row} value={value} />,
     excel: { numFmt: '0.0"%"' },
   },
   {

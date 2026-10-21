@@ -1,15 +1,18 @@
 import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { TaskGridProps } from '../types';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { Task, TaskGridProps } from '../types';
 import { combinedSpanConfiguration } from './configs/combinedSpan';
 
 export { combinedSpanConfiguration as gridConfiguration } from './configs/combinedSpan';
 
 export function CombinedSpanGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   return (
     <OwpDataGrid
-      ref={gridRef}
+      api={gridApi}
       rows={combinedSpanConfiguration.rows}
       columns={combinedSpanConfiguration.columns}
       getRowId={combinedSpanConfiguration.getRowId}

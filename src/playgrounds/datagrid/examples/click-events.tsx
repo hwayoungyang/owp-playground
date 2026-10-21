@@ -1,16 +1,19 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
-import { useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { OwpDataGridRowId } from '@owp/datagrid/types';
+import { useState } from 'react';
 import type { Task, TaskGridProps } from '../types';
 import { taskClickEventsConfiguration } from './configs/taskClickEvents';
 
 export { taskClickEventsConfiguration as gridConfiguration } from './configs/taskClickEvents';
 
 export function ClickEventsGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
@@ -27,13 +30,13 @@ export function ClickEventsGrid(props: TaskGridProps = {}) {
       style={{ height: props.height ?? taskClickEventsConfiguration.height }}
     >
       {result !== null && (
-        <output className="example-result" aria-label={translate('실행 결과')}>
+        <output className="example-result" aria-label={t('실행 결과')}>
           {JSON.stringify(result, null, 2)}
         </output>
       )}
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskClickEventsConfiguration.rows}
           columns={taskClickEventsConfiguration.columns}
           getRowId={taskClickEventsConfiguration.getRowId}

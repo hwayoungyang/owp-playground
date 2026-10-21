@@ -1,9 +1,10 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
-import { useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { OwpDataGridRowId } from '@owp/datagrid/types';
+import { useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { getRowId } from '../model/data';
 import type { Task, TaskGridProps } from '../types';
@@ -12,8 +13,10 @@ import { taskDataAccessConfiguration } from './configs/taskDataAccess';
 export { taskDataAccessConfiguration as gridConfiguration } from './configs/taskDataAccess';
 
 export function BatchRowsGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
@@ -22,8 +25,8 @@ export function BatchRowsGrid(props: TaskGridProps = {}) {
     gridProps.onRowSelectionModelChange?.([...ids]);
   };
   const handleCompleteRows = (scope: 'all' | 'visible' | 'selected') => {
-    const grid = gridRef.current;
-    if (!grid?.commitEditing()) return;
+    const grid = gridApi;
+    if (!grid.commitEditing()) return;
     const readRows = {
       all: () => grid.getRows(),
       visible: () => grid.getVisibleRows(),
@@ -52,17 +55,17 @@ export function BatchRowsGrid(props: TaskGridProps = {}) {
     onAction?.('applyTransaction', result);
   };
   const handleSelectIncompleteRows = () => {
-    const grid = gridRef.current;
-    if (!grid?.commitEditing()) return;
+    const grid = gridApi;
+    if (!grid.commitEditing()) return;
     const rows = grid.getRows().filter((row) => row.status !== '완료');
     handleSelectionChange(rows.map(getRowId));
     onAction?.('getRows', { rowIds: rows.map(getRowId) });
   };
   const handleFocusSelectedRow = () => {
     const id = selected[0];
-    const row = id === undefined ? undefined : gridRef.current?.getRow(id);
+    const row = id === undefined ? undefined : gridApi.getRow(id);
     if (row) {
-      gridRef.current?.focusCell(row.id, 'task');
+      gridApi.focusCell(row.id, 'task');
       onAction?.('getRow', row);
     }
   };
@@ -74,24 +77,20 @@ export function BatchRowsGrid(props: TaskGridProps = {}) {
     >
       <PreviewActions>
         <div className="example-controls">
-          <Button onClick={handleSelectIncompleteRows}>{translate('미완료 행 선택')}</Button>
-          <Button onClick={() => handleCompleteRows('all')}>
-            {translate('전체 행 완료 처리')}
-          </Button>
-          <Button onClick={() => handleCompleteRows('visible')}>
-            {translate('필터 결과 완료 처리')}
-          </Button>
+          <Button onClick={handleSelectIncompleteRows}>{t('미완료 행 선택')}</Button>
+          <Button onClick={() => handleCompleteRows('all')}>{t('전체 행 완료 처리')}</Button>
+          <Button onClick={() => handleCompleteRows('visible')}>{t('필터 결과 완료 처리')}</Button>
           <Button disabled={selected.length === 0} onClick={() => handleCompleteRows('selected')}>
-            {translate('선택 행 완료 처리')}
+            {t('선택 행 완료 처리')}
           </Button>
           <Button disabled={selected.length !== 1} onClick={handleFocusSelectedRow}>
-            {translate('선택 행으로 이동')}
+            {t('선택 행으로 이동')}
           </Button>
         </div>
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskDataAccessConfiguration.rows}
           columns={taskDataAccessConfiguration.columns}
           getRowId={taskDataAccessConfiguration.getRowId}

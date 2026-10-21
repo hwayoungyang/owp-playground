@@ -3,18 +3,21 @@ import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { FormControlLabel, Switch } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import { useState } from 'react';
 import { getRowId, initialTasks } from '../model/data';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import { taskColumns } from './configs/taskList';
 import { groupedHeadersGroupedHeaders } from './configs/groupedHeaders';
 
 export { groupedHeadersConfiguration as gridConfiguration } from './configs/groupedHeaders';
 
 export function GroupedHeadersGrid(props: TaskGridProps = {}) {
+  const ownApi = useDataGridApi<Task>();
   const { t } = useOwpTranslation();
   const [showChildSorting, setShowChildSorting] = useState(true);
-  const { gridRef, callbacks, ...gridProps } = props;
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
       <PreviewActions>
@@ -33,7 +36,7 @@ export function GroupedHeadersGrid(props: TaskGridProps = {}) {
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={initialTasks}
           columns={taskColumns}
           getRowId={getRowId}

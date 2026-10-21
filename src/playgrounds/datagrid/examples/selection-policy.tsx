@@ -1,9 +1,9 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { Button, FormControlLabel, Switch } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef } from '@owp/datagrid/types';
-import { useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import { useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { seedTask } from '../model/data';
 import type { Task, TaskGridProps } from '../types';
@@ -12,13 +12,15 @@ import { taskSelectionPolicyConfiguration } from './configs/taskSelectionPolicy'
 export { taskSelectionPolicyConfiguration as gridConfiguration } from './configs/taskSelectionPolicy';
 
 export function NewRowSelectionGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const [allowAddedSelection, setAllowAddedSelection] = useState(true);
   const handleAddRow = () => {
-    const row = { ...seedTask, id: crypto.randomUUID(), task: translate('새 작업') };
-    const success = gridRef.current?.addRow(row, { position: 'root-first' });
+    const row = { ...seedTask, id: crypto.randomUUID(), task: t('새 작업') };
+    const success = gridApi.addRow(row, { position: 'root-first' });
     onAction?.('addRow', { success, rowId: row.id });
   };
 
@@ -26,8 +28,8 @@ export function NewRowSelectionGrid(props: TaskGridProps = {}) {
     setAllowAddedSelection(checked);
     if (!checked) {
       const added = new Set(
-        gridRef.current
-          ?.getChanges()
+        gridApi
+          .getChanges()
           .filter((change) => change.type === 'added')
           .map((change) => change.rowId),
       );
@@ -45,9 +47,9 @@ export function NewRowSelectionGrid(props: TaskGridProps = {}) {
     >
       <PreviewActions>
         <div className="example-controls">
-          <Button onClick={handleAddRow}>{translate('새 행 추가')}</Button>
+          <Button onClick={handleAddRow}>{t('새 행 추가')}</Button>
           <FormControlLabel
-            label={translate('새 행 선택 허용')}
+            label={t('새 행 선택 허용')}
             control={
               <Switch
                 size="small"
@@ -60,7 +62,7 @@ export function NewRowSelectionGrid(props: TaskGridProps = {}) {
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskSelectionPolicyConfiguration.rows}
           columns={taskSelectionPolicyConfiguration.columns}
           getRowId={taskSelectionPolicyConfiguration.getRowId}

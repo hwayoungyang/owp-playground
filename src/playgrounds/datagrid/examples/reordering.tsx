@@ -1,9 +1,10 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef, OwpDataGridRowDragMode } from '@owp/datagrid/types';
-import { useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { OwpDataGridRowDragMode } from '@owp/datagrid/types';
+import { useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import type { Task, TaskGridProps } from '../types';
 import { taskReorderingConfiguration } from './configs/taskReordering';
@@ -11,9 +12,11 @@ import { taskReorderingConfiguration } from './configs/taskReordering';
 export { taskReorderingConfiguration as gridConfiguration } from './configs/taskReordering';
 
 export function DraggableRowsGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
   const [mode, setMode] = useState<OwpDataGridRowDragMode>('selected');
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction, onDataChange } = callbacks ?? {};
   return (
     <div
@@ -21,7 +24,7 @@ export function DraggableRowsGrid(props: TaskGridProps = {}) {
       style={{ height: props.height ?? taskReorderingConfiguration.height }}
     >
       <PreviewActions>
-        <fieldset className="example-controls" aria-label={translate('드래그 대상')}>
+        <fieldset className="example-controls" aria-label={t('드래그 대상')}>
           {(['single', 'selected'] as const).map((value) => (
             <Button
               key={value}
@@ -29,14 +32,14 @@ export function DraggableRowsGrid(props: TaskGridProps = {}) {
               aria-pressed={mode === value}
               onClick={() => setMode(value)}
             >
-              {translate(value === 'single' ? '단일 행' : '선택 행')}
+              {t(value === 'single' ? '단일 행' : '선택 행')}
             </Button>
           ))}
         </fieldset>
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskReorderingConfiguration.rows}
           columns={taskReorderingConfiguration.columns}
           getRowId={taskReorderingConfiguration.getRowId}
@@ -47,7 +50,7 @@ export function DraggableRowsGrid(props: TaskGridProps = {}) {
             dragMode: mode,
             onRowsMove: ({ rowIds, targetRowId, placement }) => {
               onAction?.('rows.drag', { rowIds, targetRowId, placement });
-              onDataChange?.(gridRef.current?.getRows() ?? []);
+              onDataChange?.(gridApi.getRows());
             },
           }}
         />

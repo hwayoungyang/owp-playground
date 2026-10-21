@@ -1,8 +1,8 @@
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type {
   OwpDataGridChange,
   OwpDataGridFilterItem,
-  OwpDataGridRef,
   OwpDataGridRowId,
   OwpDataGridSortItem,
 } from '@owp/datagrid/types';
@@ -26,7 +26,7 @@ export function useGridController(example: GridExample) {
     () => getGridConfiguration(example.id, language),
     [example.id, language],
   );
-  const gridRef = useRef<OwpDataGridRef<Task>>(null);
+  const gridApi = useDataGridApi<Task>();
   const [pendingBinding, setPendingBinding] = useState<PendingBinding | null>(() =>
     example.id === 'large-data'
       ? {
@@ -87,13 +87,13 @@ export function useGridController(example: GridExample) {
   const onChanges = useCallback(
     (next: readonly OwpDataGridChange<Task>[]) => {
       setChangeCount(next.length);
-      setRowCount(gridRef.current?.getRows().length ?? 0);
+      setRowCount(gridApi.getRows().length);
       record('changes', {
         count: next.length,
         rows: next.slice(0, 10).map((change) => ({ rowId: change.rowId, type: change.type })),
       });
     },
-    [record],
+    [gridApi, record],
   );
 
   const reset = () => {
@@ -201,7 +201,7 @@ export function useGridController(example: GridExample) {
   const state: GridState = loading ? 'loading' : error ? 'error' : rows.length ? 'ready' : 'empty';
   return {
     configuration,
-    gridRef,
+    gridApi,
     rows,
     busy,
     setBusy,

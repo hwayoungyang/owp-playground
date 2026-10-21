@@ -1,3 +1,4 @@
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 
@@ -14,8 +15,10 @@ const columns: OwpDataGridColumn<ApiRow>[] = [
 ];
 
 export function GettingStartedGrid() {
+  const gridApi = useDataGridApi<ApiRow>();
   return (
     <OwpDataGrid
+      api={gridApi}
       columns={columns}
       rows={apiRows}
       getRowId={(row) => row['OWP_DATA.DATA1']}

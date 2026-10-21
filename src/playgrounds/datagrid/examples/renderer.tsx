@@ -1,25 +1,26 @@
 import './styles.css';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef } from '@owp/datagrid/types';
-import { useMemo, useRef, useState } from 'react';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import { useMemo, useState } from 'react';
 import type { Task, TaskGridProps } from '../types';
 import { taskRendererConfiguration, createTaskRendererColumns } from './configs/taskRenderer';
 
 export { taskRendererConfiguration as gridConfiguration } from './configs/taskRenderer';
 
 export function CellRendererGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const { t } = useOwpTranslation();
   const [error, setError] = useState('');
   const columns = useMemo(
     () =>
-      createTaskRendererColumns({
+      createTaskRendererColumns(t, {
         complete: (row) => {
-          const grid = gridRef.current;
-          if (!grid?.commitEditing()) {
+          const grid = gridApi;
+          if (!grid.commitEditing()) {
             setError('편집 중인 셀에 오류가 있습니다.');
             return;
           }
@@ -31,15 +32,15 @@ export function CellRendererGrid(props: TaskGridProps = {}) {
           onAction?.('cell.complete', { rowId: row.id, result });
         },
         toggle: (row, checked) => {
-          const grid = gridRef.current;
+          const grid = gridApi;
           const success = Boolean(
-            grid?.commitEditing() && grid.setCellValue(row.id, 'active', checked),
+            grid.commitEditing() && grid.setCellValue(row.id, 'active', checked),
           );
           setError(success ? '' : '변경을 적용하지 못했습니다.');
           onAction?.('cell.notifications', { rowId: row.id, checked, success });
         },
       }).map((column) => ({ ...column, header: t(String(column.header)) })),
-    [gridRef, onAction, t],
+    [gridApi, onAction, t],
   );
 
   return (
@@ -54,7 +55,7 @@ export function CellRendererGrid(props: TaskGridProps = {}) {
       )}
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskRendererConfiguration.rows}
           getRowId={taskRendererConfiguration.getRowId}
           rowSelectionMode={taskRendererConfiguration.rowSelectionMode}

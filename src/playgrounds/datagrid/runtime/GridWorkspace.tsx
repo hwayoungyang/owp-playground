@@ -1,6 +1,8 @@
+import { ApiLinks } from '../../../features/api/ApiLinks';
 import { PreviewActionsProvider } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
-import { lazy, Suspense, useMemo, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import type { CodeLocation } from '../../../features/code/code-location';
 import type { PreviewThemeSettings } from '../../../features/theme-studio/model/preview';
 import { PreviewProvider } from '../../../features/theme-studio/PreviewProvider';
 import { EventsPanel } from '../../../shared/ui/EventsPanel';
@@ -30,11 +32,15 @@ export function GridWorkspace({
   theme,
   onThemeChange,
   onThemeOpen,
+  initialTab = 'preview',
+  codeTarget,
 }: {
   readonly example: GridExample;
   readonly theme: PreviewThemeSettings;
   readonly onThemeChange: (next: PreviewThemeSettings) => void;
   readonly onThemeOpen: () => void;
+  readonly initialTab?: 'preview' | 'code';
+  readonly codeTarget?: CodeLocation;
 }) {
   const { t } = useOwpTranslation();
   const prefix = `example-${example.id}`;
@@ -48,7 +54,8 @@ export function GridWorkspace({
   };
   const [settings, setSettings] = useState(defaultSettings);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [tab, setTab] = useState<WorkspaceTab>('preview');
+  const [tab, setTab] = useState<WorkspaceTab>(initialTab);
+  useEffect(() => setTab(initialTab), [initialTab, codeTarget]);
   const [data, setData] = useState<readonly Task[]>([]);
   const apiDocument = useMemo(() => gridApiDocument(data, t), [data, t]);
   return (
@@ -65,7 +72,7 @@ export function GridWorkspace({
         onChange={(next) => {
           setTab(next);
           if (next === 'data') {
-            const rows = controller.gridRef.current?.getRows() ?? controller.rows;
+            const rows = controller.gridApi.getRows();
             setData(rows);
           } else {
             setData([]);
@@ -115,7 +122,12 @@ export function GridWorkspace({
             <Suspense
               fallback={<div className="workspace-loading">{t('소스를 불러오는 중…')}</div>}
             >
-              <CodeViewer example={example} sourcePolicy={getGridSourcePolicy(example.id)} />
+              <CodeViewer
+                example={example}
+                sourcePolicy={getGridSourcePolicy(example.id)}
+                codeTarget={codeTarget}
+                requestedCode={initialTab === 'code'}
+              />
             </Suspense>
           </div>
         )}
@@ -149,14 +161,7 @@ export function GridWorkspace({
           </div>
         )}
       </div>
-      <div className="workspace-api-reference">
-        <span>{t('Props · API')}</span>
-        <div>
-          {example.api.map((api) => (
-            <code key={api}>{api}</code>
-          ))}
-        </div>
-      </div>
+      <ApiLinks example={example} />
       {example.id === 'row-span' && (
         <p className="grid-behavior-note">
           {t(

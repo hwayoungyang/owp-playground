@@ -1,16 +1,19 @@
 import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import { getRowId } from '../model/data';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import { rowBackgroundColumns, rowBackgroundConfiguration } from './configs/rowBackground';
 
 export { rowBackgroundConfiguration as gridConfiguration } from './configs/rowBackground';
 
 export function RowBackgroundGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   return (
     <OwpDataGrid
-      ref={gridRef}
+      api={gridApi}
       rows={rowBackgroundConfiguration.rows}
       columns={rowBackgroundColumns}
       getRowId={getRowId}

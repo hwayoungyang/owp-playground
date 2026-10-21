@@ -97,7 +97,7 @@ export function GridToolbar({
     >
       {example.id !== 'excel' && (
         <OwpDataGridExportExcelButton
-          dataGridRef={controller.gridRef}
+          api={controller.gridApi}
           scope="visible"
           exportName={`OWP_${example.id}`}
           saveMode="download"

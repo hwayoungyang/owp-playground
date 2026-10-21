@@ -1,14 +1,17 @@
 import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import type { OwpDataGridSortItem } from '@owp/datagrid/types';
 import { useState } from 'react';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import { taskSortingConfiguration } from './configs/taskSorting';
 
 export { taskSortingConfiguration as gridConfiguration } from './configs/taskSorting';
 
 export function MultiSortGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const [model, setModel] = useState<readonly OwpDataGridSortItem[]>(
     taskSortingConfiguration.defaultSortModel ?? [],
   );
@@ -18,7 +21,7 @@ export function MultiSortGrid(props: TaskGridProps = {}) {
   };
   return (
     <OwpDataGrid
-      ref={gridRef}
+      api={gridApi}
       rows={taskSortingConfiguration.rows}
       columns={taskSortingConfiguration.columns}
       getRowId={taskSortingConfiguration.getRowId}

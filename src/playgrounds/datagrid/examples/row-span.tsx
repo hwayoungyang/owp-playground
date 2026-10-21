@@ -1,18 +1,22 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import type { SelectChangeEvent } from '@mui/material';
 import { explicitRowSpanConfiguration } from './configs/explicitRowSpan';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { MenuItem, Select } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import { useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import { taskColumns } from './configs/taskList';
 
 export { explicitRowSpanConfiguration as gridConfiguration } from './configs/explicitRowSpan';
 
 export function ExplicitRowSpanGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const [size, setSize] = useState(4);
   function handleSpanSizeChange(event: SelectChangeEvent<number>) {
@@ -27,15 +31,15 @@ export function ExplicitRowSpanGrid(props: TaskGridProps = {}) {
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
       <PreviewActions>
         <div className="example-controls">
-          <span>{translate('병합할 행 수')}</span>
+          <span>{t('병합할 행 수')}</span>
           <Select
             value={size}
-            inputProps={{ 'aria-label': translate('병합할 행 수') }}
+            inputProps={{ 'aria-label': t('병합할 행 수') }}
             onChange={handleSpanSizeChange}
           >
             {[2, 3, 4].map((count) => (
               <MenuItem key={count} value={count}>
-                {translate('{{count}}행씩', { count })}
+                {t('{{count}}행씩', { count })}
               </MenuItem>
             ))}
           </Select>
@@ -43,7 +47,7 @@ export function ExplicitRowSpanGrid(props: TaskGridProps = {}) {
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={explicitRowSpanConfiguration.rows}
           columns={taskColumns}
           getRowId={explicitRowSpanConfiguration.getRowId}

@@ -1,19 +1,21 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
-import { useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
-import type { Task } from '../types';
-import type { TaskGridProps } from '../types';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { OwpDataGridRowId } from '@owp/datagrid/types';
+import { useState } from 'react';
+import type { Task, TaskGridProps } from '../types';
 import { nestedTaskTreeConfiguration } from './configs/nestedTaskTree';
 
 export { nestedTaskTreeConfiguration as gridConfiguration } from './configs/nestedTaskTree';
 
 export function NestedTaskTreeGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const [expanded, setExpanded] = useState<readonly OwpDataGridRowId[]>(
     nestedTaskTreeConfiguration.treeOptions?.defaultExpansionModel ?? [],
@@ -26,19 +28,15 @@ export function NestedTaskTreeGrid(props: TaskGridProps = {}) {
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
       <PreviewActions>
         <div className="example-controls">
-          <Button onClick={() => gridRef.current?.expandAll()}>{translate('전체 펼치기')}</Button>
-          <Button onClick={() => gridRef.current?.collapseAll()}>{translate('전체 접기')}</Button>
-          <Button onClick={() => gridRef.current?.expandRow('project-0')}>
-            {translate('첫 프로젝트 펼치기')}
-          </Button>
-          <Button onClick={() => gridRef.current?.collapseRow('project-0')}>
-            {translate('첫 프로젝트 접기')}
-          </Button>
+          <Button onClick={() => gridApi.expandAll()}>{t('전체 펼치기')}</Button>
+          <Button onClick={() => gridApi.collapseAll()}>{t('전체 접기')}</Button>
+          <Button onClick={() => gridApi.expandRow('project-0')}>{t('첫 프로젝트 펼치기')}</Button>
+          <Button onClick={() => gridApi.collapseRow('project-0')}>{t('첫 프로젝트 접기')}</Button>
         </div>
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={nestedTaskTreeConfiguration.rows}
           columns={nestedTaskTreeConfiguration.columns}
           getRowId={nestedTaskTreeConfiguration.getRowId}

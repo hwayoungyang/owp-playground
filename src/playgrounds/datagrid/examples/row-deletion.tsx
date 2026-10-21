@@ -1,9 +1,10 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
-import { useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { OwpDataGridRowId } from '@owp/datagrid/types';
+import { useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { seedTask } from '../model/data';
 import type { Task, TaskGridProps } from '../types';
@@ -12,8 +13,10 @@ import { taskRowDeletionConfiguration } from './configs/taskRowDeletion';
 export { taskRowDeletionConfiguration as gridConfiguration } from './configs/taskRowDeletion';
 
 export function DeleteRestoreRowsGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
@@ -22,21 +25,20 @@ export function DeleteRestoreRowsGrid(props: TaskGridProps = {}) {
     onAction?.(api, value);
   };
   const handleDeleteSelectedRows = () => {
-    const ids = gridRef.current?.deleteRows(selected) ?? [];
+    const ids = gridApi.deleteRows(selected);
     setDeleted(ids);
     publish('deleteRows', ids);
   };
   const handleRestoreDeletedRows = () => {
-    publish('undeleteRows', gridRef.current?.undeleteRows(deleted));
+    publish('undeleteRows', gridApi.undeleteRows(deleted));
     setDeleted([]);
   };
   const handleDiscardAddedRows = () => {
-    const added =
-      gridRef.current
-        ?.getChanges()
-        .filter((change) => change.type === 'added')
-        .map((change) => change.rowId) ?? [];
-    publish('discardAddedRows', gridRef.current?.discardAddedRows(added));
+    const added = gridApi
+      .getChanges()
+      .filter((change) => change.type === 'added')
+      .map((change) => change.rowId);
+    publish('discardAddedRows', gridApi.discardAddedRows(added));
   };
   return (
     <div
@@ -49,31 +51,31 @@ export function DeleteRestoreRowsGrid(props: TaskGridProps = {}) {
             onClick={() =>
               publish(
                 'addRow',
-                gridRef.current?.addRow(
+                gridApi.addRow(
                   {
                     ...seedTask,
                     id: crypto.randomUUID(),
-                    task: translate('새 작업'),
+                    task: t('새 작업'),
                   },
                   { position: 'root-first' },
                 ),
               )
             }
           >
-            {translate('새 행 추가')}
+            {t('새 행 추가')}
           </Button>
           <Button disabled={selected.length === 0} onClick={handleDeleteSelectedRows}>
-            {translate('선택 행 삭제')}
+            {t('선택 행 삭제')}
           </Button>
           <Button disabled={deleted.length === 0} onClick={handleRestoreDeletedRows}>
-            {translate('삭제 복구')}
+            {t('삭제 복구')}
           </Button>
-          <Button onClick={handleDiscardAddedRows}>{translate('새 행 추가 취소')}</Button>
+          <Button onClick={handleDiscardAddedRows}>{t('새 행 추가 취소')}</Button>
         </div>
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskRowDeletionConfiguration.rows}
           columns={taskRowDeletionConfiguration.columns}
           getRowId={taskRowDeletionConfiguration.getRowId}

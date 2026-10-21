@@ -67,6 +67,10 @@ import {
 } from '../examples/formatting';
 import { GroupedHeadersGrid, gridConfiguration as headersConfiguration } from '../examples/headers';
 import {
+  HookConnectionGrid,
+  gridConfiguration as hookConnectionConfiguration,
+} from '../examples/hook-connection';
+import {
   LargeDatasetGrid,
   gridConfiguration as largeDataConfiguration,
 } from '../examples/large-data';
@@ -90,6 +94,10 @@ import {
 import { BatchRowsGrid, gridConfiguration as refDataConfiguration } from '../examples/ref-data';
 import { CellFocusGrid, gridConfiguration as refFocusConfiguration } from '../examples/ref-focus';
 import { MoveRowsGrid, gridConfiguration as refMoveConfiguration } from '../examples/ref-move';
+import {
+  RefConnectionGrid,
+  gridConfiguration as refConnectionConfiguration,
+} from '../examples/ref-connection';
 import { CellRendererGrid, gridConfiguration as rendererConfiguration } from '../examples/renderer';
 import {
   DraggableRowsGrid,
@@ -254,6 +262,14 @@ export const gridRegistry = {
   'context-menu': {
     Component: withTaskGridPreview(ContextMenuGrid),
     configuration: contextMenuConfiguration,
+  },
+  'hook-connection': {
+    Component: withTaskGridPreview(HookConnectionGrid),
+    configuration: hookConnectionConfiguration,
+  },
+  'ref-connection': {
+    Component: withTaskGridPreview(RefConnectionGrid),
+    configuration: refConnectionConfiguration,
   },
   'ref-data': {
     Component: withTaskGridPreview(BatchRowsGrid),

@@ -1,5 +1,6 @@
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
-import { translate } from '../../../../shared/i18n/translate';
+import { createElement } from 'react';
+import { WorksheetTaskCell } from '../components/WorksheetTaskCell';
 import { getRowId } from '../../model/data';
 import type { Task } from '../../types';
 import { worksheetRows } from '../../model/worksheet-data';
@@ -32,7 +33,7 @@ const columns: readonly OwpDataGridColumn<Task>[] = [
     header: '작업',
     minWidth: 150,
     relWidth: 1.5,
-    renderCell: ({ row }) => translate(row.worksheetKind === 'rate' ? '기본 적용률' : row.task),
+    renderCell: ({ row }) => createElement(WorksheetTaskCell, { row }),
   },
   {
     id: 'quantity',

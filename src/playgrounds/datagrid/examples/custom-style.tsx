@@ -5,12 +5,13 @@ import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, MenuItem, Select, Slider } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material/styles';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import type { OwpDataGridHeaderRow } from '@owp/datagrid/types';
 import { OwpThemeProvider, useGridTheme } from '@owp/theme';
 import { useMemo, useState } from 'react';
 import { z } from 'zod';
 import { getRowId } from '../model/data';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import {
   styledHeadersColumns,
   styledHeadersBaseSx,
@@ -22,7 +23,9 @@ export { styledHeadersConfiguration as gridConfiguration } from './configs/style
 const headerDepthSchema = z.coerce.number().pipe(z.union([z.literal(2), z.literal(3)]));
 
 export function StyledHeadersGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { t } = useOwpTranslation();
   const [preset, setPreset] = useState<'default' | 'striped' | 'emphasis'>('striped');
   const [fontSize, setFontSize] = useState(14);
@@ -177,7 +180,7 @@ export function StyledHeadersGrid(props: TaskGridProps = {}) {
       <div className="example-grid">
         <OwpThemeProvider dataGrid={dataGrid}>
           <OwpDataGrid
-            ref={gridRef}
+            api={gridApi}
             rows={styledHeadersConfiguration.rows}
             getRowId={getRowId}
             rowSelectionMode="none"

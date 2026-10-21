@@ -1,16 +1,19 @@
 import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import { getRowId } from '../model/data';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import { overflowHintsColumns, overflowHintsConfiguration } from './configs/overflowHints';
 
 export { overflowHintsConfiguration as gridConfiguration } from './configs/overflowHints';
 
 export function OverflowHintsGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   return (
     <OwpDataGrid
-      ref={gridRef}
+      api={gridApi}
       rows={overflowHintsConfiguration.rows}
       columns={overflowHintsColumns}
       getRowId={getRowId}

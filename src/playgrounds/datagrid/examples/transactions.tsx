@@ -1,9 +1,10 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
-import { useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { OwpDataGridRowId } from '@owp/datagrid/types';
+import { useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import type { Task, TaskGridProps } from '../types';
 import { taskTransactionsConfiguration } from './configs/taskTransactions';
@@ -11,8 +12,10 @@ import { taskTransactionsConfiguration } from './configs/taskTransactions';
 export { taskTransactionsConfiguration as gridConfiguration } from './configs/taskTransactions';
 
 export function TransactionsGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
@@ -22,13 +25,13 @@ export function TransactionsGrid(props: TaskGridProps = {}) {
   const handleCompleteRows = () => {
     const targets = selected.length
       ? selected
-      : (gridRef.current
-          ?.getRows()
+      : gridApi
+          .getRows()
           .slice(0, 3)
-          .map((row) => row.id) ?? []);
+          .map((row) => row.id);
     publish(
       'applyTransaction',
-      gridRef.current?.applyTransaction(
+      gridApi.applyTransaction(
         targets.map((rowId) => ({
           type: 'setCellValue',
           rowId,
@@ -39,8 +42,8 @@ export function TransactionsGrid(props: TaskGridProps = {}) {
     );
   };
   const handleAcceptChanges = () => {
-    const api = gridRef.current;
-    if (!api?.commitEditing()) {
+    const api = gridApi;
+    if (!api.commitEditing()) {
       publish('commitEditing', false);
       return;
     }
@@ -59,16 +62,16 @@ export function TransactionsGrid(props: TaskGridProps = {}) {
       <PreviewActions>
         <div className="example-controls">
           <Button variant="outlined" onClick={handleCompleteRows}>
-            {translate('일괄 완료')}
+            {t('일괄 완료')}
           </Button>
           <Button variant="outlined" onClick={handleAcceptChanges}>
-            {translate('변경 확정')}
+            {t('변경 확정')}
           </Button>
         </div>
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskTransactionsConfiguration.rows}
           columns={taskTransactionsConfiguration.columns}
           getRowId={taskTransactionsConfiguration.getRowId}

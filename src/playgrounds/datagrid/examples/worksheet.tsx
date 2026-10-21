@@ -1,11 +1,10 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { useMediaQuery } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef } from '@owp/datagrid/types';
-import { useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
-import type { Task } from '../types';
-import type { TaskGridProps } from '../types';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import { useState } from 'react';
+import type { Task, TaskGridProps } from '../types';
 import {
   taskWorksheetConfiguration,
   isItem,
@@ -16,9 +15,11 @@ import {
 export { taskWorksheetConfiguration as gridConfiguration } from './configs/taskWorksheet';
 
 export function CalculatedCellsGrid(props: TaskGridProps = {}) {
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
   const compact = useMediaQuery('(max-width:599px)');
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const [update, setUpdate] = useState({
     message: '',
@@ -27,8 +28,7 @@ export function CalculatedCellsGrid(props: TaskGridProps = {}) {
   });
   const [error, setError] = useState(false);
   const handleCellValueCommit: NonNullable<TaskGridProps['onCellValueCommit']> = (params) => {
-    const grid = gridRef.current;
-    if (!grid) return;
+    const grid = gridApi;
     if (!['completed', 'cost', 'rate'].includes(params.column.id)) {
       gridProps.onCellValueCommit?.(params);
       return;
@@ -95,28 +95,28 @@ export function CalculatedCellsGrid(props: TaskGridProps = {}) {
               }}
               aria-hidden="true"
             />
-            {translate(label)}
+            {t(label)}
           </span>
         ))}
       </div>
       <p className="example-caption">
-        <span>{translate('기본 적용률 → 프로젝트 전체')}</span>
+        <span>{t('기본 적용률 → 프로젝트 전체')}</span>
         {' · '}
-        <span>{translate('작업 3 → 작업 4 → 다음 프로젝트')}</span>
+        <span>{t('작업 3 → 작업 4 → 다음 프로젝트')}</span>
       </p>
       {(error || update.message) && (
         <output className="example-caption" role={error ? 'alert' : 'status'}>
           {error
-            ? translate('연동 값을 반영하지 못했습니다. 예제를 초기화한 뒤 다시 입력해 주세요.')
-            : translate(update.message, {
-                project: translate(update.project),
-                task: translate(update.task),
+            ? t('연동 값을 반영하지 못했습니다. 예제를 초기화한 뒤 다시 입력해 주세요.')
+            : t(update.message, {
+                project: t(update.project),
+                task: t(update.task),
               })}
         </output>
       )}
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskWorksheetConfiguration.rows}
           columns={taskWorksheetConfiguration.columns}
           getRowId={taskWorksheetConfiguration.getRowId}

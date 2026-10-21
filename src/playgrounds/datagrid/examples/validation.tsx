@@ -1,23 +1,30 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef, OwpDataGridValidationResult } from '@owp/datagrid/types';
-import { useRef, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { OwpDataGridValidationResult } from '@owp/datagrid/types';
+import { useMemo, useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import type { Task, TaskGridProps } from '../types';
-import { taskValidationConfiguration } from './configs/taskValidation';
+import { createTaskValidationColumns, taskValidationConfiguration } from './configs/taskValidation';
 
 export { taskValidationConfiguration as gridConfiguration } from './configs/taskValidation';
 
 export function InputValidationGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
+  const columns = useMemo(
+    () => createTaskValidationColumns(t, gridProps.columns),
+    [gridProps.columns, t],
+  );
   const { onAction } = callbacks ?? {};
   const [validation, setValidation] = useState<OwpDataGridValidationResult<Task> | null>(null);
   const handleValidate = () => {
-    gridRef.current?.commitEditing();
-    const value = gridRef.current?.validate();
+    gridApi.commitEditing();
+    const value = gridApi.validate();
     setValidation(value ?? null);
     onAction?.('validate', value);
   };
@@ -29,27 +36,27 @@ export function InputValidationGrid(props: TaskGridProps = {}) {
       <PreviewActions>
         <div className="example-controls">
           <Button variant="outlined" onClick={handleValidate}>
-            {translate('입력 검증')}
+            {t('입력 검증')}
           </Button>
         </div>
       </PreviewActions>
       {validation && (
         <output className="example-caption">
           {validation.valid
-            ? translate('입력값에 문제가 없습니다.')
-            : translate('입력값 {{count}}개에 오류가 있습니다.', {
+            ? t('입력값에 문제가 없습니다.')
+            : t('입력값 {{count}}개에 오류가 있습니다.', {
                 count: validation.errors.length,
               })}
         </output>
       )}
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskValidationConfiguration.rows}
-          columns={taskValidationConfiguration.columns}
           getRowId={taskValidationConfiguration.getRowId}
           rowSelectionMode={taskValidationConfiguration.rowSelectionMode}
           {...gridProps}
+          columns={columns}
           height="100%"
         />
       </div>

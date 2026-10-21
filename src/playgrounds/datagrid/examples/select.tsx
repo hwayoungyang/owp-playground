@@ -1,13 +1,12 @@
 import './styles.css';
-import type { Task } from '../types';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Button } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef } from '@owp/datagrid/types';
-import { useMemo, useRef, useState } from 'react';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import { useMemo, useState } from 'react';
 import { getRowId } from '../model/data';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import {
   selectEditorsTagOptions,
   selectEditorsColumns,
@@ -17,8 +16,9 @@ import {
 export { selectEditorsConfiguration as gridConfiguration } from './configs/selectEditors';
 
 export function SelectEditorsGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction } = callbacks ?? {};
   const { t } = useOwpTranslation();
   const [multiple, setMultiple] = useState(false);
@@ -55,7 +55,7 @@ export function SelectEditorsGrid(props: TaskGridProps = {}) {
 
   function handleEditorChange(next: boolean) {
     if (next === autocomplete) return;
-    if (!gridRef.current?.commitEditing()) {
+    if (!gridApi.commitEditing()) {
       setError('편집 중인 셀에 오류가 있습니다.');
       return;
     }
@@ -66,8 +66,8 @@ export function SelectEditorsGrid(props: TaskGridProps = {}) {
 
   function handleModeChange(next: boolean) {
     if (next === multiple) return;
-    const grid = gridRef.current;
-    if (!grid?.commitEditing()) {
+    const grid = gridApi;
+    if (!grid.commitEditing()) {
       setError('편집 중인 셀에 오류가 있습니다.');
       return;
     }
@@ -134,7 +134,7 @@ export function SelectEditorsGrid(props: TaskGridProps = {}) {
       )}
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={selectEditorsConfiguration.rows}
           getRowId={getRowId}
           rowSelectionMode="none"

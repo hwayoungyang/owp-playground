@@ -1,15 +1,18 @@
 import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { TaskGridProps } from '../types';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { Task, TaskGridProps } from '../types';
 import { taskLargeDataConfiguration } from './configs/taskLargeData';
 
 export { taskLargeDataConfiguration as gridConfiguration } from './configs/taskLargeData';
 
 export function LargeDatasetGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   return (
     <OwpDataGrid
-      ref={gridRef}
+      api={gridApi}
       rows={taskLargeDataConfiguration.rows}
       columns={taskLargeDataConfiguration.columns}
       getRowId={taskLargeDataConfiguration.getRowId}

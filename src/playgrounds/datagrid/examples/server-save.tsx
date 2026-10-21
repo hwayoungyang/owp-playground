@@ -2,8 +2,9 @@ import './styles.css';
 import { Button } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { OwpDataGrid } from '@owp/datagrid';
-import type { OwpDataGridRef, OwpDataGridRowId } from '@owp/datagrid/types';
-import { useEffect, useRef, useState } from 'react';
+import { useDataGridApi } from '@owp/datagrid/hooks';
+import type { OwpDataGridRowId } from '@owp/datagrid/types';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { seedTask } from '../model/data';
 import { saveTasks } from '../model/server';
@@ -12,21 +13,17 @@ import { taskSaveConfiguration } from './configs/taskSave';
 
 export { taskSaveConfiguration as gridConfiguration } from './configs/taskSave';
 
-export function ServerSaveGrid({
-  gridRef: externalRef,
-  callbacks,
-  ...gridProps
-}: TaskGridProps = {}) {
+export function ServerSaveGrid({ api: suppliedApi, callbacks, ...gridProps }: TaskGridProps = {}) {
+  const ownApi = useDataGridApi<Task>();
+  const gridApi = suppliedApi ?? ownApi;
   const { t } = useOwpTranslation();
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const gridRef = externalRef ?? ownRef;
   const request = useRef<AbortController | null>(null);
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
   const selectedRowIds = gridProps.rowSelectionModel ?? selection;
 
-  useEffect(() => () => request.current?.abort(), []);
+  useLayoutEffect(() => () => request.current?.abort(), []);
 
   const handleSelectionChange: NonNullable<TaskGridProps['onRowSelectionModelChange']> = (
     rowIds,
@@ -36,20 +33,20 @@ export function ServerSaveGrid({
   };
 
   const handleAdd = () => {
-    const grid = gridRef.current;
-    if (!grid || !grid.commitEditing()) return;
+    const grid = gridApi;
+    if (!grid.commitEditing()) return;
     grid.addRow({ ...seedTask, id: crypto.randomUUID(), task: t('새 작업') });
   };
 
   const handleDelete = () => {
-    const grid = gridRef.current;
-    if (!grid || !grid.commitEditing()) return;
+    const grid = gridApi;
+    if (!grid.commitEditing()) return;
     grid.deleteRows(selectedRowIds);
   };
 
   const handleSave = async () => {
-    const grid = gridRef.current;
-    if (request.current || !grid || !grid.commitEditing()) return;
+    const grid = gridApi;
+    if (request.current || !grid.commitEditing()) return;
     const validation = grid.validate();
     if (!validation.valid) {
       const firstError = validation.errors[0];
@@ -118,7 +115,7 @@ export function ServerSaveGrid({
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskSaveConfiguration.rows}
           columns={taskSaveConfiguration.columns}
           getRowId={taskSaveConfiguration.getRowId}

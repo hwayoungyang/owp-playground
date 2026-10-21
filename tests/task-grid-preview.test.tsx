@@ -1,9 +1,21 @@
-import { createRef } from 'react';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { initialTasks } from '../src/playgrounds/datagrid/model/data';
 import { withTaskGridPreview } from '../src/playgrounds/datagrid/runtime/taskGridPreview';
-import type { TaskGridProps } from '../src/playgrounds/datagrid/types';
+import type { Task, TaskGridProps } from '../src/playgrounds/datagrid/types';
+
+function createGridApi() {
+  const captureApi = vi.fn<(api: NonNullable<TaskGridProps['api']>) => void>();
+  function ApiOwner() {
+    captureApi(useDataGridApi<Task>());
+    return null;
+  }
+  renderToStaticMarkup(<ApiOwner />);
+  const api = captureApi.mock.calls[0]?.[0];
+  if (!api) throw new Error('API owner did not render');
+  return api;
+}
 
 function renderPreview(props: Parameters<ReturnType<typeof withTaskGridPreview>>[0]) {
   let received: TaskGridProps | undefined;
@@ -17,13 +29,13 @@ function renderPreview(props: Parameters<ReturnType<typeof withTaskGridPreview>>
 }
 
 describe('task grid preview callback boundary', () => {
-  it('forwards native props and ref while isolating preview observers', () => {
-    const gridRef = createRef<null>();
+  it('forwards the same native API while isolating preview observers', () => {
+    const api = createGridApi();
     const onRowSelectionModelChange = vi.fn();
     const received = renderPreview({
       height: 320,
       rows: initialTasks,
-      gridRef,
+      api,
       onRowSelectionModelChange,
       onRecord: vi.fn(),
       onRowsChange: vi.fn(),
@@ -35,9 +47,10 @@ describe('task grid preview callback boundary', () => {
     expect(received).toMatchObject({
       height: 320,
       rows: initialTasks,
-      gridRef,
+      api,
       onRowSelectionModelChange,
     });
+    expect(received.api).toBe(api);
     for (const key of [
       'onRecord',
       'onRowsChange',

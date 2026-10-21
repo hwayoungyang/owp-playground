@@ -4,19 +4,21 @@ import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { FormControlLabel, MenuItem, Select, Switch } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
 import { useMemo, useState } from 'react';
 import { z } from 'zod';
-import type { Task } from '../types';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import { editableTaskColumns } from './configs/taskList';
 
 export { conditionalStylesConfiguration as gridConfiguration } from './configs/conditionalStyles';
 const backgroundScopeSchema = z.enum(['cell', 'row']);
 
 export function ConditionalStylesGrid(props: TaskGridProps = {}) {
+  const ownApi = useDataGridApi<Task>();
   const { t } = useOwpTranslation();
-  const { gridRef, callbacks, ...gridProps } = props;
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const [backgroundScope, setBackgroundScope] = useState<'cell' | 'row'>(() =>
     new URLSearchParams(window.location.search).get('sample') === 'row-background' ? 'row' : 'cell',
   );
@@ -77,7 +79,7 @@ export function ConditionalStylesGrid(props: TaskGridProps = {}) {
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={conditionalStylesConfiguration.rows}
           getRowId={conditionalStylesConfiguration.getRowId}
           rowSelectionMode="multiple"

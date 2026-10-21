@@ -1,14 +1,17 @@
 import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import type { OwpDataGridFilterItem } from '@owp/datagrid/types';
 import { useState } from 'react';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import { taskFilteringConfiguration } from './configs/taskFiltering';
 
 export { taskFilteringConfiguration as gridConfiguration } from './configs/taskFiltering';
 
 export function ColumnFiltersGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const [model, setModel] = useState<readonly OwpDataGridFilterItem[]>(
     taskFilteringConfiguration.defaultFilterModel ?? [],
   );
@@ -18,7 +21,7 @@ export function ColumnFiltersGrid(props: TaskGridProps = {}) {
   };
   return (
     <OwpDataGrid
-      ref={gridRef}
+      api={gridApi}
       rows={taskFilteringConfiguration.rows}
       columns={taskFilteringConfiguration.columns}
       getRowId={taskFilteringConfiguration.getRowId}

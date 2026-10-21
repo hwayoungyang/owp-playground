@@ -1,17 +1,20 @@
 import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import { getRowId, initialTasks } from '../model/data';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import { editableTaskColumns } from './configs/taskList';
 import { summaryRowsConfiguration } from './configs/summaryRows';
 
 export { summaryRowsConfiguration as gridConfiguration } from './configs/summaryRows';
 
 export function SummaryRowsGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   return (
     <OwpDataGrid
-      ref={gridRef}
+      api={gridApi}
       rows={initialTasks}
       columns={editableTaskColumns}
       getRowId={getRowId}

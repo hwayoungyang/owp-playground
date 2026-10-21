@@ -1,18 +1,21 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { OwpDataGrid } from '@owp/datagrid';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import type { OwpDataGridFilterItem, OwpDataGridSortItem } from '@owp/datagrid/types';
 import { useEffect, useState } from 'react';
-import { translate } from '../../../shared/i18n/translate';
-import type { Task } from '../types';
 import { initialTasks } from '../model/data';
 import { queryTasks } from '../model/server';
-import type { TaskGridProps } from '../types';
+import type { Task, TaskGridProps } from '../types';
 import { serverTaskQueryConfiguration } from './configs/serverTaskQuery';
 
 export { serverTaskQueryConfiguration as gridConfiguration } from './configs/serverTaskQuery';
 
 export function ServerQueryGrid(props: TaskGridProps = {}) {
-  const { gridRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const { onAction, onDataChange, onLoadingChange } = callbacks ?? {};
   const [rows, setRows] = useState<readonly Task[]>(initialTasks);
   const [sort, setSort] = useState<readonly OwpDataGridSortItem[]>([]);
@@ -58,7 +61,7 @@ export function ServerQueryGrid(props: TaskGridProps = {}) {
   };
   return (
     <OwpDataGrid
-      ref={gridRef}
+      api={gridApi}
       getRowId={serverTaskQueryConfiguration.getRowId}
       height={420}
       rowSelectionMode="multiple"
@@ -74,7 +77,7 @@ export function ServerQueryGrid(props: TaskGridProps = {}) {
           ? {
               message: error,
               onRetry: () => setRevision((value) => value + 1),
-              retryLabel: translate('다시 시도'),
+              retryLabel: t('다시 시도'),
             }
           : undefined
       }

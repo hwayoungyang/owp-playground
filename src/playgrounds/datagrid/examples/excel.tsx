@@ -1,11 +1,11 @@
+import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
 import { MenuItem, Select } from '@mui/material';
 import { OwpDataGrid, OwpDataGridExportExcelButton } from '@owp/datagrid';
-import type { OwpDataGridRef } from '@owp/datagrid/types';
+import { useDataGridApi } from '@owp/datagrid/hooks';
 import { DownloadSimpleIcon } from '@phosphor-icons/react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { z } from 'zod';
-import { translate } from '../../../shared/i18n/translate';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
 import type { Task, TaskGridProps } from '../types';
 import { taskExcelConfiguration } from './configs/taskExcel';
@@ -14,8 +14,10 @@ export { taskExcelConfiguration as gridConfiguration } from './configs/taskExcel
 
 const scopeSchema = z.enum(['visible', 'all', 'selected']);
 export function ExcelExportGrid(props: TaskGridProps = {}) {
-  const ownRef = useRef<OwpDataGridRef<Task>>(null);
-  const { gridRef = ownRef, callbacks, ...gridProps } = props;
+  const { t } = useOwpTranslation();
+  const ownApi = useDataGridApi<Task>();
+  const { api: suppliedApi, callbacks, ...gridProps } = props;
+  const gridApi = suppliedApi ?? ownApi;
   const [scope, setScope] = useState<z.infer<typeof scopeSchema>>('visible');
   return (
     <div
@@ -30,18 +32,18 @@ export function ExcelExportGrid(props: TaskGridProps = {}) {
               const parsed = scopeSchema.safeParse(event.target.value);
               if (parsed.success) setScope(parsed.data);
             }}
-            inputProps={{ 'aria-label': translate('Excel 내보내기 범위') }}
+            inputProps={{ 'aria-label': t('Excel 내보내기 범위') }}
           >
-            <MenuItem value="visible">{translate('현재 표시된 행')}</MenuItem>
-            <MenuItem value="all">{translate('전체 행')}</MenuItem>
-            <MenuItem value="selected">{translate('선택 행')}</MenuItem>
+            <MenuItem value="visible">{t('현재 표시된 행')}</MenuItem>
+            <MenuItem value="all">{t('전체 행')}</MenuItem>
+            <MenuItem value="selected">{t('선택 행')}</MenuItem>
           </Select>
         </div>
       </PreviewActions>
       <PreviewActions position="end">
         <div className="example-controls">
           <OwpDataGridExportExcelButton
-            dataGridRef={gridRef}
+            api={gridApi}
             scope={scope}
             exportName="OWP_excel"
             saveMode="download"
@@ -54,7 +56,7 @@ export function ExcelExportGrid(props: TaskGridProps = {}) {
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid
-          ref={gridRef}
+          api={gridApi}
           rows={taskExcelConfiguration.rows}
           columns={taskExcelConfiguration.columns}
           getRowId={taskExcelConfiguration.getRowId}

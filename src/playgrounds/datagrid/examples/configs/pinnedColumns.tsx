@@ -1,6 +1,6 @@
 import type { OwpDataGridProps } from '@owp/datagrid/types';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
-import { translate } from '../../../../shared/i18n/translate';
+import { TaskStatusCell } from '../components/TaskStatusCell';
 import type { Task } from '../../types';
 import { getRowId, initialTasks, owners, statuses } from '../../model/data';
 
@@ -25,13 +25,12 @@ export const pinnedColumnsBaseColumns = [
     headerAlign: 'center',
     type: 'select',
     valueOptions: statuses.map((value) => ({ value, label: value })),
-    renderCell: ({ row }) =>
-      row.status ? (
-        <span className={`status-badge ${pinnedColumnsStatusClasses[row.status] ?? ''}`}>
-          <span className="status-dot" />
-          {translate(row.status)}
-        </span>
-      ) : null,
+    renderCell: ({ row }) => (
+      <TaskStatusCell
+        status={row.status}
+        className={pinnedColumnsStatusClasses[row.status] ?? ''}
+      />
+    ),
   },
   {
     id: 'quantity',
