@@ -3,6 +3,7 @@
   "files": {
     "includes": [
       "src/**/*.{css,json,jsonc,html}",
+      "!src/features/api/data/*.generated.json",
       "tests/**/*.{css,json,jsonc,html}",
       "*.json",
       "index.html"

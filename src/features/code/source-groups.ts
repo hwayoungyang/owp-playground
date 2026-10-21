@@ -1,5 +1,5 @@
 import type { ExampleMetadata } from '../../shared/types/playground';
-import { exampleSourcePath } from './source-paths';
+import { exampleSourcePath } from './source-paths.ts';
 
 export type SourcePolicy = {
   readonly core: readonly string[];

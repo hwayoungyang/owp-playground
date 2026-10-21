@@ -1,4 +1,5 @@
 import '../src/app/i18n';
+import i18next from 'i18next';
 import { parse } from 'jsonc-parser';
 import { describe, expect, it } from 'vitest';
 import { type ApiField, formatApiData } from '../src/features/code/api-data';
@@ -7,6 +8,8 @@ import { chartApiDocument, chartFromApi } from '../src/playgrounds/charts/model/
 import { gridApiDocument, taskFromApi, taskToApi } from '../src/playgrounds/datagrid/model/apiData';
 import { createNestedTree, createTree, initialTasks } from '../src/playgrounds/datagrid/model/data';
 import { worksheetRows } from '../src/playgrounds/datagrid/model/worksheet-data';
+
+const localize = i18next.getFixedT('ko', 'owp');
 
 describe('OWP API data examples', () => {
   it('preserves chart labels, null gaps, negative values and series order across API mapping', () => {
@@ -17,7 +20,7 @@ describe('OWP API data examples', () => {
         { label: '압력', values: [32, 45.2, 39.7] },
       ],
     };
-    const source = chartApiDocument(snapshot, 'time-series');
+    const source = chartApiDocument(snapshot, 'time-series', localize);
     const rows = source.getRows(0, source.totalRows);
     expect(rows[0]).toEqual({
       'OWP_DATA.DATA1': '2026-01-01T01:00:00Z',
@@ -39,6 +42,7 @@ describe('OWP API data examples', () => {
         ],
       },
       'line',
+      localize,
     );
     expect(source.totalRows).toBe(205);
     expect(source.getRows(100, 200)).toHaveLength(100);
@@ -53,7 +57,7 @@ describe('OWP API data examples', () => {
     for (const row of [...createTree(), ...createNestedTree(), ...worksheetRows]) {
       expect(taskFromApi(taskToApi(row))).toEqual(row);
     }
-    const source = gridApiDocument(createNestedTree());
+    const source = gridApiDocument(createNestedTree(), localize);
     expect(source.fields.find((field) => field.key === 'OWP_DATA.DATA17')?.description).toContain(
       'DATA1',
     );
@@ -71,6 +75,7 @@ describe('OWP API data examples', () => {
     if (!leaf) throw new TypeError('Missing nested fixture');
     const source = gridApiDocument(
       all.map((row) => (row.id === leaf.id ? { ...row, task: '수정한 하위 작업' } : row)),
+      localize,
     );
     expect(source.totalRows).toBe(3);
     const restored = source.getRows(0, 3).map(taskFromApi);
@@ -95,7 +100,7 @@ describe('OWP API data examples', () => {
   });
 
   it('adds safe JSONC comments without changing valid JSON values or nested arrays', () => {
-    const source = gridApiDocument(createNestedTree());
+    const source = gridApiDocument(createNestedTree(), localize);
     const document = { fields: source.fields, rows: source.getRows(0, 1) };
     const json = formatApiData(document, false);
     const jsonc = formatApiData(document, true);

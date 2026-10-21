@@ -1,0 +1,830 @@
+[
+  {
+    "exampleId": "overview",
+    "apiId": "@owp/datagrid:OwpDataGridProps.rowSelectionModel",
+    "label": "rowSelectionModel",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+    "snippet": "          rowSelectionModel={controller.selected}\n          onRowSelectionModelChange={controller.onSelection}",
+    "reason": "공통 GridPreview가 controller.selected를 rowSelectionModel로 전달하고 overview 등록 컴포넌트와 adapter를 거쳐 OwpDataGrid의 gridProps에 적용한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "          rowSelectionModel={controller.selected}\n          onRowSelectionModelChange={controller.onSelection}"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/useGridController.ts",
+        "snippet": "  const [selected, setSelected] = useState<readonly OwpDataGridRowId[]>(\n    configuration.defaultRowSelectionModel ?? [],\n  );"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "  const GridView = gridRegistry[example.id].Component;"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "        <GridView\n          key={controller.gridVersion}\n          {...controller.configuration}\n          api={controller.gridApi}"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  overview: { Component: withTaskGridPreview(FixedRowsGrid), configuration: overviewConfiguration },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/overview.tsx",
+        "snippet": "      height={420}\n      visibleRowCount={10}\n      summaryRows={taskOverviewConfiguration.summaryRows}\n      {...gridProps}\n    />"
+      }
+    ]
+  },
+  {
+    "exampleId": "cell-types",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.type",
+    "label": "type",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+    "snippet": "    type: 'number',",
+    "reason": "OwpDataGridColumn 배열의 quantity column에 type: number가 명시되어 있고 configuration.columns를 통해 그리드에 전달한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "    type: 'number',"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "export const cellTypesCellTypeColumns: readonly OwpDataGridColumn<Task>[] = [\n  {\n    id: 'task',\n    field: 'task',"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "export const cellTypesTypeColumns = cellTypesCellTypeColumns;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "export const cellTypesConfiguration: OwpDataGridProps<Task, Task> = {\n  rows: initialTasks,\n  columns: cellTypesTypeColumns,\n  getRowId,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/cell-types.tsx",
+        "snippet": "      api={gridApi}\n      rows={cellTypesConfiguration.rows}\n      columns={cellTypesConfiguration.columns}\n      getRowId={cellTypesConfiguration.getRowId}"
+      }
+    ]
+  },
+  {
+    "exampleId": "cell-types",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.editable",
+    "label": "editable",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+    "snippet": "    editable: true,\n    required: true,",
+    "reason": "OwpDataGridColumn 배열의 task column에 editable: true를 지정하고 그 배열을 그리드 columns에 전달한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "    editable: true,\n    required: true,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "export const cellTypesCellTypeColumns: readonly OwpDataGridColumn<Task>[] = [\n  {\n    id: 'task',\n    field: 'task',"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "export const cellTypesTypeColumns = cellTypesCellTypeColumns;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "export const cellTypesConfiguration: OwpDataGridProps<Task, Task> = {\n  rows: initialTasks,\n  columns: cellTypesTypeColumns,\n  getRowId,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/cell-types.tsx",
+        "snippet": "      api={gridApi}\n      rows={cellTypesConfiguration.rows}\n      columns={cellTypesConfiguration.columns}\n      getRowId={cellTypesConfiguration.getRowId}"
+      }
+    ]
+  },
+  {
+    "exampleId": "cell-types",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.autocompleteOptions",
+    "label": "autocompleteOptions",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+    "snippet": "    autocompleteOptions: {},",
+    "reason": "search-owner column의 autocompleteOptions 객체를 실제 columns로 전달해 select editor를 autocomplete로 전환한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "    autocompleteOptions: {},"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "export const cellTypesCellTypeColumns: readonly OwpDataGridColumn<Task>[] = [\n  {\n    id: 'task',\n    field: 'task',"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "export const cellTypesTypeColumns = cellTypesCellTypeColumns;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/cellTypes.tsx",
+        "snippet": "export const cellTypesConfiguration: OwpDataGridProps<Task, Task> = {\n  rows: initialTasks,\n  columns: cellTypesTypeColumns,\n  getRowId,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/cell-types.tsx",
+        "snippet": "      api={gridApi}\n      rows={cellTypesConfiguration.rows}\n      columns={cellTypesConfiguration.columns}\n      getRowId={cellTypesConfiguration.getRowId}"
+      }
+    ]
+  },
+  {
+    "exampleId": "mixed-types",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.getCellType",
+    "label": "getCellType",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/configs/rowCellTypes.tsx",
+    "snippet": "      getCellType: ({ row }) => (typeof row.mixed === 'number' ? 'number' : 'text'),",
+    "reason": "rowCellTypesConfiguration.columns의 mixed column이 row.mixed 값에 따라 number 또는 text를 반환하는 getCellType callback을 지정한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/rowCellTypes.tsx",
+        "snippet": "      getCellType: ({ row }) => (typeof row.mixed === 'number' ? 'number' : 'text'),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/rowCellTypes.tsx",
+        "snippet": "export const rowCellTypesConfiguration: OwpDataGridProps<Task, Task> = {\n  rows: initialTasks,\n  columns: [\n    ...taskColumns.slice(0, 2),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/mixed-types.tsx",
+        "snippet": "      api={gridApi}\n      rows={rowCellTypesConfiguration.rows}\n      columns={rowCellTypesConfiguration.columns}\n      getRowId={rowCellTypesConfiguration.getRowId}"
+      }
+    ]
+  },
+  {
+    "exampleId": "column-layout",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.resizable",
+    "label": "resizable",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/pinnedColumns.tsx",
+    "snippet": "  resizable: true,\n  headerAlign: 'center' as const,\n  editable: column.id !== 'project',",
+    "reason": "base column을 map한 pinnedColumnsEditableColumns에 resizable: true를 추가하며 해당 배열이 configuration.columns와 그리드 columns로 이어진다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/pinnedColumns.tsx",
+        "snippet": "  resizable: true,\n  headerAlign: 'center' as const,\n  editable: column.id !== 'project',"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/pinnedColumns.tsx",
+        "snippet": "export const pinnedColumnsEditableColumns = pinnedColumnsBaseColumns.map((column) => ({\n  ...column,\n  resizable: true,\n  headerAlign: 'center' as const,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/pinnedColumns.tsx",
+        "snippet": "export const pinnedColumnsConfiguration: OwpDataGridProps<Task, Task> = {\n  rows: initialTasks,\n  columns: pinnedColumnsEditableColumns,\n  getRowId,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/column-layout.tsx",
+        "snippet": "      api={gridApi}\n      rows={pinnedColumnsConfiguration.rows}\n      columns={pinnedColumnsConfiguration.columns}\n      getRowId={pinnedColumnsConfiguration.getRowId}"
+      }
+    ]
+  },
+  {
+    "exampleId": "conditional",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.cellStyle",
+    "label": "cellStyle",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/conditional.tsx",
+    "snippet": "        cellStyle: ({ row }) => {\n          if (backgroundScope === 'cell') {\n            if (column.id !== 'completed') return {};\n            return row.completed === row.quantity\n              ? { backgroundColor: 'var(--pg-blue-wash)', color: 'var(--pg-blue)' }\n              : { backgroundColor: 'var(--pg-purple-wash)', color: 'var(--pg-purple)' };\n          }",
+    "reason": "OwpDataGridColumn로 map한 column에 row와 backgroundScope별 cellStyle callback을 지정하고 최종 columns prop으로 전달한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/conditional.tsx",
+        "snippet": "        cellStyle: ({ row }) => {\n          if (backgroundScope === 'cell') {\n            if (column.id !== 'completed') return {};\n            return row.completed === row.quantity\n              ? { backgroundColor: 'var(--pg-blue-wash)', color: 'var(--pg-blue)' }\n              : { backgroundColor: 'var(--pg-purple-wash)', color: 'var(--pg-purple)' };\n          }"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/conditional.tsx",
+        "snippet": "  const columns = useMemo(\n    () =>\n      (gridProps.columns ?? editableTaskColumns).map<OwpDataGridColumn<Task>>((column) => ({\n        ...column,\n        cellStyle: ({ row }) => {"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/conditional.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n        />"
+      }
+    ]
+  },
+  {
+    "exampleId": "conditional",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.editable",
+    "label": "editable",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/conditional.tsx",
+    "snippet": "        editable: (params) =>\n          (!restrictCompleted || params.row.status !== '완료') &&\n          (typeof column.editable === 'function'\n            ? column.editable(params)\n            : Boolean(column.editable)),",
+    "reason": "map 결과의 editable callback이 완료 상태와 원래 column.editable을 함께 검사하며 최종 columns prop에 전달된다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/conditional.tsx",
+        "snippet": "        editable: (params) =>\n          (!restrictCompleted || params.row.status !== '완료') &&\n          (typeof column.editable === 'function'\n            ? column.editable(params)\n            : Boolean(column.editable)),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/conditional.tsx",
+        "snippet": "  const columns = useMemo(\n    () =>\n      (gridProps.columns ?? editableTaskColumns).map<OwpDataGridColumn<Task>>((column) => ({\n        ...column,\n        cellStyle: ({ row }) => {"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/conditional.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n        />"
+      }
+    ]
+  },
+  {
+    "exampleId": "custom-style",
+    "apiId": "@owp/datagrid:OwpDataGridProps.style",
+    "label": "style",
+    "action": "remove",
+    "reason": "이 예제의 inline style은 바깥 div의 높이에만 적용된다. OwpDataGrid에는 sx와 className을 전달하므로 DOM wrapper style을 OwpDataGridProps.style의 사용 위치로 연결할 수 없다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/custom-style.tsx",
+        "snippet": "    <div className=\"example-with-controls\" style={{ height: props.height ?? 420 }}>"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/custom-style.tsx",
+        "snippet": "            columns={currentColumns}\n            headerRows={headerRows}\n            className=\"custom-style-grid\"\n            height=\"100%\"\n            virtualization={"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/custom-style.tsx",
+        "snippet": "            sx={sx}"
+      }
+    ]
+  },
+  {
+    "exampleId": "context-menu",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.getContextMenuItems",
+    "label": "getContextMenuItems",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/context-menu.tsx",
+    "snippet": "    getContextMenuItems: ({ row, rowId }: OwpDataGridCellParams<Task>) => [\n      {\n        id: 'view',\n        label: (",
+    "reason": "실제 column 배열을 map하며 getContextMenuItems callback을 추가하고 이 배열을 OwpDataGrid columns에 전달한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/context-menu.tsx",
+        "snippet": "    getContextMenuItems: ({ row, rowId }: OwpDataGridCellParams<Task>) => [\n      {\n        id: 'view',\n        label: ("
+      },
+      {
+        "file": "playgrounds/datagrid/examples/context-menu.tsx",
+        "snippet": "  const columns = (gridProps.columns ?? taskContextMenuConfiguration.columns).map((column) => ({\n    ...column,\n    getContextMenuItems: ({ row, rowId }: OwpDataGridCellParams<Task>) => ["
+      },
+      {
+        "file": "playgrounds/datagrid/examples/context-menu.tsx",
+        "snippet": "        {...gridProps}\n        columns={columns}\n      />"
+      }
+    ]
+  },
+  {
+    "exampleId": "editing",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.editable",
+    "label": "editable",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskList.tsx",
+    "snippet": "  editable: column.id !== 'project',\n  ...(column.id === 'owner'\n    ? { type: 'select' as const, valueOptions: owners.map((value) => ({ value, label: value })) }\n    : {}),",
+    "reason": "taskList의 editableTaskColumns가 각 column의 편집 가능 여부를 지정하고 taskEditingConfiguration.columns를 거쳐 편집 예제에 전달된다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskList.tsx",
+        "snippet": "  editable: column.id !== 'project',\n  ...(column.id === 'owner'\n    ? { type: 'select' as const, valueOptions: owners.map((value) => ({ value, label: value })) }\n    : {}),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskList.tsx",
+        "snippet": "export const editableTaskColumns = taskColumns.map((column) => ({\n  ...column,\n  resizable: true,\n  headerAlign: 'center' as const,\n  editable: column.id !== 'project',"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskEditing.ts",
+        "snippet": "export const taskEditingConfiguration = {\n  rows: initialTasks,\n  columns: editableTaskColumns,\n  getRowId,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/editing.tsx",
+        "snippet": "      api={gridApi}\n      rows={taskEditingConfiguration.rows}\n      columns={taskEditingConfiguration.columns}\n      getRowId={taskEditingConfiguration.getRowId}"
+      }
+    ]
+  },
+  {
+    "exampleId": "editing",
+    "apiId": "@owp/datagrid:OwpDataGridProps.onCellValueCommit",
+    "label": "onCellValueCommit",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+    "snippet": "          onCellValueCommit={handleCommit}",
+    "reason": "GridPreview가 commit 기록 callback을 onCellValueCommit으로 전달하며 editing 컴포넌트는 gridProps spread로 이를 OwpDataGrid에 적용한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "          onCellValueCommit={handleCommit}"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "  const handleCommit: NonNullable<typeof controller.configuration.onCellValueCommit> = (params) => {\n    controller.record('cell.commit', {\n      rowId: params.rowId,\n      columnId: params.column.id,\n      before: params.previousValue,\n      after: params.value,\n    });\n  };"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "  const GridView = gridRegistry[example.id].Component;"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "        <GridView\n          key={controller.gridVersion}\n          {...controller.configuration}\n          api={controller.gridApi}"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  editing: {\n    Component: withTaskGridPreview(EditableCellsGrid),\n    configuration: editingConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/editing.tsx",
+        "snippet": "      rowSelectionMode=\"multiple\"\n      height={420}\n      enterKeyAction=\"nextEditableCell\"\n      {...gridProps}\n    />"
+      }
+    ]
+  },
+  {
+    "exampleId": "save-changes",
+    "apiId": "@owp/datagrid:OwpDataGridServerRow.submittedRow",
+    "label": "submittedRow",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/server-save.tsx",
+    "snippet": "          submittedRow: submittedById.get(row.id),",
+    "reason": "applyServerRows의 rows 항목마다 요청 당시 submittedById의 row를 submittedRow로 전달한다. 서버 응답 row와 저장 중 후속 편집을 비교하는 실제 인자다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/server-save.tsx",
+        "snippet": "          submittedRow: submittedById.get(row.id),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/server-save.tsx",
+        "snippet": "    const submittedRows = grid.getRows();\n    const submittedById = new Map(submittedRows.map((row) => [row.id, row]));"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/server-save.tsx",
+        "snippet": "      grid.applyServerRows({\n        rows: savedRows.map((row) => ({\n          rowId: row.id,\n          row,\n          submittedRow: submittedById.get(row.id),\n        })),\n        deletedRowIds,\n      });"
+      }
+    ]
+  },
+  {
+    "exampleId": "validation",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.required",
+    "label": "required",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskValidation.ts",
+    "snippet": "    required: column.id === 'task',\n    ...(column.id === 'completed'",
+    "reason": "taskValidationConfiguration.columns의 map 결과에 task column만 required로 지정하며 검증 예제가 이 columns 배열을 전달한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskValidation.ts",
+        "snippet": "    required: column.id === 'task',\n    ...(column.id === 'completed'"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/validation.tsx",
+        "snippet": "  const columns = useMemo(\n    () => createTaskValidationColumns(t, gridProps.columns),\n    [gridProps.columns, t],\n  );"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/validation.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height=\"100%\""
+      }
+    ]
+  },
+  {
+    "exampleId": "row-actions",
+    "apiId": "@owp/datagrid:OwpDataGridApi.resetChanges",
+    "label": "resetChanges",
+    "action": "unlocated",
+    "reason": "내장 rowEditToolbar의 showResetChanges: true로 초기화 기능을 켜지만 이 예제와 공통 runtime에서 resetChanges를 직접 호출하지 않는다. 관련 기능이므로 유지하되 메서드 호출 위치를 만들지 않는다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskRowActions.ts",
+        "snippet": "  rowEditToolbar: { showDeleteSelectedRows: true, showUndoDelete: true, showResetChanges: true },"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/row-actions.tsx",
+        "snippet": "          rowEditToolbar={taskRowActionsConfiguration.rowEditToolbar}"
+      }
+    ]
+  },
+  {
+    "exampleId": "row-insertion",
+    "apiId": "@owp/datagrid:OwpDataGridRowPlacement.position",
+    "label": "position",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/row-insertion.tsx",
+    "snippet": "      handleAddRow({ position: 'after', targetRowId: id }, '선택 행 다음에 추가');",
+    "reason": "after placement 객체가 OwpDataGridRowPlacement 인자에 들어가고 addRow의 두 번째 인자로 전달된다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/row-insertion.tsx",
+        "snippet": "      handleAddRow({ position: 'after', targetRowId: id }, '선택 행 다음에 추가');"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/row-insertion.tsx",
+        "snippet": "  const handleAddRow = (placement: OwpDataGridRowPlacement, label: string) => {\n    const row = { ...seedTask, id: crypto.randomUUID(), task: t(label) };\n    publish('addRow', {\n      success: gridApi.addRow(row, placement),\n      rowId: row.id,\n      placement,\n    });"
+      }
+    ]
+  },
+  {
+    "exampleId": "row-insertion",
+    "apiId": "@owp/datagrid:OwpDataGridRowPlacement.targetRowId",
+    "label": "targetRowId",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/row-insertion.tsx",
+    "snippet": "      handleAddRow({ position: 'after', targetRowId: id }, '선택 행 다음에 추가');",
+    "reason": "선택된 row ID를 placement.targetRowId로 지정하며 같은 객체가 helper를 거쳐 addRow의 두 번째 인자로 전달된다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/row-insertion.tsx",
+        "snippet": "      handleAddRow({ position: 'after', targetRowId: id }, '선택 행 다음에 추가');"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/row-insertion.tsx",
+        "snippet": "  const handleInsertAfterSelection = () => {\n    const id = selected[0];\n    if (id !== undefined)\n      handleAddRow({ position: 'after', targetRowId: id }, '선택 행 다음에 추가');\n  };"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/row-insertion.tsx",
+        "snippet": "  const handleAddRow = (placement: OwpDataGridRowPlacement, label: string) => {\n    const row = { ...seedTask, id: crypto.randomUUID(), task: t(label) };\n    publish('addRow', {\n      success: gridApi.addRow(row, placement),\n      rowId: row.id,\n      placement,\n    });"
+      }
+    ]
+  },
+  {
+    "exampleId": "row-deletion",
+    "apiId": "@owp/datagrid:OwpDataGridProps.confirmDeletedRowRemoval",
+    "label": "confirmDeletedRowRemoval",
+    "action": "unlocated",
+    "reason": "rowDeletion과 showDeletedRows를 사용하므로 삭제된 row의 내장 확인 동작과 관련되지만 confirmDeletedRowRemoval prop을 명시하지 않아 설치본 기본값 true에 의존한다. 다른 예제나 wrapper의 코드를 위치로 쓰지 않는다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskRowDeletion.ts",
+        "snippet": "  rowDeletion: { showDeletedRows: true },\n  rowAnimation: true,\n  layout: { rowPanel: { allowAddedRowSelection: true } },"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/row-deletion.tsx",
+        "snippet": "          rowDeletion={taskRowDeletionConfiguration.rowDeletion}\n          rowAnimation={taskRowDeletionConfiguration.rowAnimation}\n          layout={taskRowDeletionConfiguration.layout}\n          {...gridProps}"
+      }
+    ]
+  },
+  {
+    "exampleId": "reordering",
+    "apiId": "@owp/datagrid:OwpDataGridProps.onChangesChange",
+    "label": "onChangesChange",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+    "snippet": "          onChangesChange={controller.onChanges}",
+    "reason": "GridPreview의 onChangesChange가 controller.onChanges로 연결되고 reordering 컴포넌트의 gridProps spread를 거쳐 변경 내역을 기록한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "          onChangesChange={controller.onChanges}"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/useGridController.ts",
+        "snippet": "  const onChanges = useCallback(\n    (next: readonly OwpDataGridChange<Task>[]) => {\n      setChangeCount(next.length);\n      setRowCount(gridApi.getRows().length);\n      record('changes', {\n        count: next.length,\n        rows: next.slice(0, 10).map((change) => ({ rowId: change.rowId, type: change.type })),\n      });"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "  const GridView = gridRegistry[example.id].Component;"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "        <GridView\n          key={controller.gridVersion}\n          {...controller.configuration}\n          api={controller.gridApi}"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  reordering: {\n    Component: withTaskGridPreview(DraggableRowsGrid),\n    configuration: reorderingConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/reordering.tsx",
+        "snippet": "          getRowId={taskReorderingConfiguration.getRowId}\n          rowSelectionMode={taskReorderingConfiguration.rowSelectionMode}\n          height={taskReorderingConfiguration.height}\n          {...gridProps}\n          rowReordering={{"
+      }
+    ]
+  },
+  {
+    "exampleId": "ref-changes",
+    "apiId": "@owp/datagrid:OwpDataGridApi.hasUnsavedChanges",
+    "label": "hasUnsavedChanges",
+    "action": "locate",
+    "reason": "편집 중 draft를 확정하지 않고 hook API로 미저장 상태를 조회하고 working-copy 변경 수와 비교합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/ref-changes.tsx",
+        "snippet": "    const unsaved = gridApi.hasUnsavedChanges();\n    const currentChanges = gridApi.getChanges();\n    setInspection({ unsaved, count: currentChanges.length });"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/ref-changes.tsx",
+    "snippet": "const unsaved = gridApi.hasUnsavedChanges();"
+  },
+  {
+    "exampleId": "worksheet",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.valueSetter",
+    "label": "valueSetter",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/configs/taskWorksheet.ts",
+    "snippet": "    valueSetter: ({ row, nextValue }) => ({ ...row, completed: Number(nextValue) }),",
+    "reason": "worksheet의 completed column은 nextValue를 Number로 변환하는 실제 valueSetter를 지정한다. columns map의 spread로 보존되어 worksheetColumns와 configuration.columns를 통해 그리드에 전달된다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskWorksheet.ts",
+        "snippet": "    valueSetter: ({ row, nextValue }) => ({ ...row, completed: Number(nextValue) }),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskWorksheet.ts",
+        "snippet": "const columns: readonly OwpDataGridColumn<Task>[] = [\n  {\n    id: 'project',"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskWorksheet.ts",
+        "snippet": "export const worksheetColumns = columns.map((column): OwpDataGridColumn<Task> => ({\n  ...column,\n  sortable: false,\n  filterable: false,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskWorksheet.ts",
+        "snippet": "export const taskWorksheetConfiguration: OwpDataGridProps<Task, Task> = {\n  rows: worksheetRows,\n  columns: worksheetColumns,\n  getRowId,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/worksheet.tsx",
+        "snippet": "          api={gridApi}\n          rows={taskWorksheetConfiguration.rows}\n          columns={taskWorksheetConfiguration.columns}\n          getRowId={taskWorksheetConfiguration.getRowId}"
+      }
+    ]
+  },
+  {
+    "exampleId": "detail-grid",
+    "apiId": "@owp/datagrid:OwpDataGridExcelSnapshotOptions.scope",
+    "label": "scope",
+    "action": "replace",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/components/DetailGrid.tsx",
+    "snippet": "          scope=\"all\"",
+    "reason": "실제 버튼은 api source로 연결되므로 ExcelSnapshotOptions 대신 다운로드 버튼의 API Props가 상속한 scope 계약으로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/components/DetailGrid.tsx",
+        "snippet": "          scope=\"all\""
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/nestedDetails.tsx",
+        "snippet": "    renderDetail: (params) => <DetailGrid {...params} />,"
+      }
+    ],
+    "replacement": {
+      "id": "@owp/datagrid:OwpDataGridExportExcelButtonApiProps.scope",
+      "label": "scope"
+    }
+  },
+  {
+    "exampleId": "states",
+    "apiId": "@owp/datagrid:OwpDataGridProps.errorOverlay",
+    "label": "errorOverlay",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+    "snippet": "          errorOverlay={\n            controller.error\n              ? {\n                  message: t('작업을 불러오지 못했습니다.'),\n                  onRetry: controller.retry,\n                  retryLabel: t('다시 시도'),\n                }\n              : undefined\n          }\n          virtualization={",
+    "reason": "states toolbar의 상태 변경이 controller.error를 갱신하고 GridPreview가 errorOverlay 객체를 만든다. states 컴포넌트가 gridProps spread로 실제 그리드에 전달한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "          errorOverlay={\n            controller.error\n              ? {\n                  message: t('작업을 불러오지 못했습니다.'),\n                  onRetry: controller.retry,\n                  retryLabel: t('다시 시도'),\n                }\n              : undefined\n          }\n          virtualization={"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridToolbar.tsx",
+        "snippet": "          {example.id === 'states' && (\n            <DataStateButtons state={controller.state} onChange={controller.changeState} />\n          )}"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/useGridController.ts",
+        "snippet": "  const changeState = (state: GridState) => {\n    const next = gridStates[state];\n    setRows(next.rows);\n    setRowCount(next.rows.length);\n    setLoading(next.loading);\n    setError(next.error);\n    setSelected([]);\n    setChangeCount(0);"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "  const GridView = gridRegistry[example.id].Component;"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "        <GridView\n          key={controller.gridVersion}\n          {...controller.configuration}\n          api={controller.gridApi}"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  states: { Component: withTaskGridPreview(GridStates), configuration: statesConfiguration },\n  'cell-types': {\n    Component: withTaskGridPreview(CellTypesGrid),\n    configuration: cellTypesConfiguration,"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/states.tsx",
+        "snippet": "      height={taskStatesConfiguration.height}\n      noDataMessage={taskStatesConfiguration.noDataMessage}\n      loading={false}\n      {...gridProps}\n    />"
+      }
+    ]
+  },
+  {
+    "exampleId": "large-data",
+    "apiId": "@owp/datagrid:OwpDataGridProps.loading",
+    "label": "loading",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+    "snippet": "          loading={controller.loading || controller.busy}",
+    "reason": "대량 데이터 생성 중 controller.busy가 true가 되고 GridPreview는 loading 또는 busy를 loading prop으로 전달한다. large-data 컴포넌트가 gridProps spread로 적용한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "          loading={controller.loading || controller.busy}"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/useGridController.ts",
+        "snippet": "  const generate = async (count: number) => {\n    request.current?.abort();\n    const controller = new AbortController();\n    request.current = controller;\n    setPendingBinding(null);\n    setBindingTime(null);\n    setBusy(true);\n    setRows([]);"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridToolbar.tsx",
+        "snippet": "                variant={countChanged ? 'contained' : 'outlined'}\n                disabled={generating}\n                onClick={() => void controller.generate(count)}\n              >\n                {t('데이터 생성')}"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "  const GridView = gridRegistry[example.id].Component;"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
+        "snippet": "        <GridView\n          key={controller.gridVersion}\n          {...controller.configuration}\n          api={controller.gridApi}"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'large-data': {\n    Component: withTaskGridPreview(LargeDatasetGrid),\n    configuration: largeDataConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/large-data.tsx",
+        "snippet": "      rowSelectionMode={taskLargeDataConfiguration.rowSelectionMode}\n      height={taskLargeDataConfiguration.height}\n      virtualization={taskLargeDataConfiguration.virtualization}\n      {...gridProps}\n    />"
+      }
+    ]
+  },
+  {
+    "exampleId": "excel",
+    "apiId": "@owp/datagrid:OwpDataGridExcelSnapshotOptions.scope",
+    "label": "scope",
+    "action": "replace",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/excel.tsx",
+    "snippet": "            scope={scope}",
+    "reason": "실제 버튼은 api source로 연결되므로 ExcelSnapshotOptions 대신 다운로드 버튼의 API Props가 상속한 scope 계약으로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/excel.tsx",
+        "snippet": "            scope={scope}"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/excel.tsx",
+        "snippet": "  const [scope, setScope] = useState<z.infer<typeof scopeSchema>>('visible');"
+      }
+    ],
+    "replacement": {
+      "id": "@owp/datagrid:OwpDataGridExportExcelButtonApiProps.scope",
+      "label": "scope"
+    }
+  },
+  {
+    "exampleId": "excel",
+    "apiId": "@owp/datagrid:OwpDataGridExcelDownloadOptions.exportName",
+    "label": "exportName",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/excel.tsx",
+    "snippet": "            exportName=\"OWP_excel\"",
+    "reason": "exportName은 버튼에 지정되며 설치된 OwpDataGridExportExcelButtonProps가 이 속성의 선언 소유자인 OwpDataGridExcelDownloadOptions를 상속한다. 상속 경로가 있으므로 현재 API ID를 유지한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/excel.tsx",
+        "snippet": "            exportName=\"OWP_excel\""
+      }
+    ]
+  },
+  {
+    "exampleId": "span-export",
+    "apiId": "@owp/datagrid:OwpDataGridApi.getExcelSnapshot",
+    "label": "getExcelSnapshot",
+    "action": "unlocated",
+    "reason": "이 예제는 병합 설정과 pinnedBottomRows를 그리드에 전달하고 공통 toolbar의 Excel 버튼으로 내보낸다. 예제·공통 runtime에는 getExcelSnapshot 명시 호출이 없으므로 내보내기 관련 API 연결은 유지하되 호출 위치를 만들지 않는다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/span-export.tsx",
+        "snippet": "      headerRows={mergedCellsExportConfiguration.headerRows}\n      getCellRowSpanKey={mergedCellsExportConfiguration.getCellRowSpanKey}\n      pinnedBottomRows={mergedCellsExportConfiguration.pinnedBottomRows}\n      {...gridProps}"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/GridToolbar.tsx",
+        "snippet": "      {example.id !== 'excel' && (\n        <OwpDataGridExportExcelButton\n          api={controller.gridApi}\n          scope=\"visible\"\n          exportName={`OWP_${example.id}`}\n          saveMode=\"download\"\n          disabled={controller.busy || controller.loading || controller.error}\n          startIcon={<DownloadSimpleIcon size={15} />}\n          variant=\"outlined\""
+      }
+    ]
+  },
+  {
+    "exampleId": "ref-focus",
+    "apiId": "@owp/datagrid:OwpDataGridProps.api",
+    "label": "OwpDataGridProps.api",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/ref-focus.tsx",
+    "snippet": "          api={gridApi}",
+    "reason": "공통 포커스 예제는 hook API를 Grid에 직접 전달하며 ref 연결 방식은 별도 연결 예제에서 설명합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/ref-focus.tsx",
+        "snippet": "          api={gridApi}"
+      }
+    ]
+  },
+  {
+    "exampleId": "ref-changes",
+    "apiId": "@owp/datagrid:OwpDataGridResetChangesButtonApiProps.api",
+    "label": "OwpDataGridResetChangesButtonApiProps.api",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/ref-changes.tsx",
+    "snippet": "          <OwpDataGridResetChangesButton\n            api={gridApi}",
+    "reason": "실제 Grid 또는 버튼에 전달한 hook API source와 callback을 공개 API Props에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/ref-changes.tsx",
+        "snippet": "          <OwpDataGridResetChangesButton\n            api={gridApi}"
+      }
+    ]
+  },
+  {
+    "exampleId": "ref-changes",
+    "apiId": "@owp/datagrid:OwpDataGridResetChangesButtonApiProps.onAfterReset",
+    "label": "onAfterReset",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/ref-changes.tsx",
+    "snippet": "            onAfterReset={({ api }) => {",
+    "reason": "실제 Grid 또는 버튼에 전달한 hook API source와 callback을 공개 API Props에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/ref-changes.tsx",
+        "snippet": "            onAfterReset={({ api }) => {"
+      }
+    ]
+  },
+  {
+    "exampleId": "detail-grid",
+    "apiId": "@owp/datagrid:OwpDataGridExportExcelButtonApiProps.api",
+    "label": "OwpDataGridExportExcelButtonApiProps.api",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/components/DetailGrid.tsx",
+    "snippet": "        <OwpDataGridExportExcelButton\n          api={gridApi}",
+    "reason": "실제 Grid 또는 버튼에 전달한 hook API source와 callback을 공개 API Props에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/components/DetailGrid.tsx",
+        "snippet": "        <OwpDataGridExportExcelButton\n          api={gridApi}"
+      }
+    ]
+  },
+  {
+    "exampleId": "excel",
+    "apiId": "@owp/datagrid:OwpDataGridExportExcelButtonApiProps.api",
+    "label": "OwpDataGridExportExcelButtonApiProps.api",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/excel.tsx",
+    "snippet": "          <OwpDataGridExportExcelButton\n            api={gridApi}",
+    "reason": "실제 Grid 또는 버튼에 전달한 hook API source와 callback을 공개 API Props에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/excel.tsx",
+        "snippet": "          <OwpDataGridExportExcelButton\n            api={gridApi}"
+      }
+    ]
+  },
+  {
+    "exampleId": "hook-connection",
+    "apiId": "@owp/datagrid:OwpDataGridProps.api",
+    "label": "OwpDataGridProps.api",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/hook-connection.tsx",
+    "snippet": "api={gridApi}",
+    "reason": "useDataGridApi 또는 외부에서 받은 Grid API 객체를 OwpDataGrid의 api 속성에 직접 전달한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/hook-connection.tsx",
+        "snippet": "api={gridApi}"
+      }
+    ]
+  }
+]

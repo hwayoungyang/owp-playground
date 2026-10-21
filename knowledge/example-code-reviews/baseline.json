@@ -1,0 +1,2431 @@
+[
+  {
+    "packageId": "datagrid",
+    "exampleId": "overview",
+    "label": "visibleRowCount",
+    "id": "@owp/datagrid:OwpDataGridProps.visibleRowCount",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "overview",
+    "label": "rowSelectionModel",
+    "id": "@owp/datagrid:OwpDataGridProps.rowSelectionModel",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "overview",
+    "label": "summaryRows",
+    "id": "@owp/datagrid:OwpDataGridProps.summaryRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "cell-types",
+    "label": "type",
+    "id": "@owp/datagrid:OwpDataGridColumn.type",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "cell-types",
+    "label": "editable",
+    "id": "@owp/datagrid:OwpDataGridColumn.editable",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "cell-types",
+    "label": "autocompleteOptions",
+    "id": "@owp/datagrid:OwpDataGridColumn.autocompleteOptions",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "mixed-types",
+    "label": "getCellType",
+    "id": "@owp/datagrid:OwpDataGridColumn.getCellType",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "select",
+    "label": "type",
+    "id": "@owp/datagrid:OwpDataGridColumn.type",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "select",
+    "label": "valueOptions",
+    "id": "@owp/datagrid:OwpDataGridColumn.valueOptions",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "select",
+    "label": "selectOptions.multiple",
+    "id": "@owp/datagrid:OwpDataGridSelectOptions.multiple",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "select",
+    "label": "autocompleteOptions.multiple",
+    "id": "@owp/datagrid:OwpDataGridAutocompleteOptions.multiple",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "formatting",
+    "label": "numberOptions",
+    "id": "@owp/datagrid:OwpDataGridColumn.numberOptions",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "formatting",
+    "label": "dateOptions",
+    "id": "@owp/datagrid:OwpDataGridColumn.dateOptions",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "formatting",
+    "label": "timeOptions",
+    "id": "@owp/datagrid:OwpDataGridColumn.timeOptions",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "formatting",
+    "label": "datetimeOptions",
+    "id": "@owp/datagrid:OwpDataGridColumn.datetimeOptions",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "renderer",
+    "label": "renderCell",
+    "id": "@owp/datagrid:OwpDataGridColumn.renderCell",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "renderer",
+    "label": "applyTransaction",
+    "id": "@owp/datagrid:OwpDataGridApi.applyTransaction",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "renderer",
+    "label": "setCellValue",
+    "id": "@owp/datagrid:OwpDataGridApi.setCellValue",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "renderer",
+    "label": "excel",
+    "id": "@owp/datagrid:OwpDataGridColumn.excel",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "overflow-hint",
+    "label": "overflowHint",
+    "id": "@owp/datagrid:OwpDataGridProps.overflowHint",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "column-layout",
+    "label": "layout.columnRegions",
+    "id": "@owp/datagrid:OwpDataGridLayout.columnRegions",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "column-layout",
+    "label": "resizable",
+    "id": "@owp/datagrid:OwpDataGridColumn.resizable",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "column-layout",
+    "label": "relWidth",
+    "id": "@owp/datagrid:OwpDataGridColumn.relWidth",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "headers",
+    "label": "headerRows",
+    "id": "@owp/datagrid:OwpDataGridProps.headerRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "headers",
+    "label": "hideChildHeaderSortButtons",
+    "id": "@owp/datagrid:OwpDataGridProps.hideChildHeaderSortButtons",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "conditional",
+    "label": "cellStyle",
+    "id": "@owp/datagrid:OwpDataGridColumn.cellStyle",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "conditional",
+    "label": "editable",
+    "id": "@owp/datagrid:OwpDataGridColumn.editable",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "custom-style",
+    "label": "sx",
+    "id": "@owp/datagrid:OwpDataGridProps.sx",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "custom-style",
+    "label": "headerRows",
+    "id": "@owp/datagrid:OwpDataGridProps.headerRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "custom-style",
+    "label": "className",
+    "id": "@owp/datagrid:OwpDataGridProps.className",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "custom-style",
+    "label": "style",
+    "id": "@owp/datagrid:OwpDataGridProps.style",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "custom-style",
+    "label": "cellStyle",
+    "id": "@owp/datagrid:OwpDataGridColumn.cellStyle",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "custom-style",
+    "label": "virtualization.rowHeight",
+    "id": "@owp/datagrid:OwpDataGridVirtualizationOptions.rowHeight",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "row-span",
+    "label": "getCellSpan.rowSpan",
+    "id": "@owp/datagrid:OwpDataGridCellSpan.rowSpan",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "auto-span",
+    "label": "getCellRowSpanKey",
+    "id": "@owp/datagrid:OwpDataGridProps.getCellRowSpanKey",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "column-span",
+    "label": "getCellSpan.colSpan",
+    "id": "@owp/datagrid:OwpDataGridCellSpan.colSpan",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "combined-span",
+    "label": "getCellSpan",
+    "id": "@owp/datagrid:OwpDataGridProps.getCellSpan",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "combined-span",
+    "label": "getCellRowSpanKey",
+    "id": "@owp/datagrid:OwpDataGridProps.getCellRowSpanKey",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "span-scroll",
+    "label": "virtualization",
+    "id": "@owp/datagrid:OwpDataGridProps.virtualization",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "span-scroll",
+    "label": "getCellRowSpanKey",
+    "id": "@owp/datagrid:OwpDataGridProps.getCellRowSpanKey",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "selection",
+    "label": "rowSelectionMode",
+    "id": "@owp/datagrid:OwpDataGridProps.rowSelectionMode",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "selection",
+    "label": "rowSelectionModel",
+    "id": "@owp/datagrid:OwpDataGridProps.rowSelectionModel",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "selection",
+    "label": "onRowSelectionModelChange",
+    "id": "@owp/datagrid:OwpDataGridProps.onRowSelectionModelChange",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "design-system",
+    "label": "rowSelectionModel",
+    "id": "@owp/datagrid:OwpDataGridProps.rowSelectionModel",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "design-system",
+    "label": "onRowSelectionModelChange",
+    "id": "@owp/datagrid:OwpDataGridProps.onRowSelectionModelChange",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "design-system",
+    "label": "deleteRows",
+    "id": "@owp/datagrid:OwpDataGridApi.deleteRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "selection-policy",
+    "label": "allowSelectAll",
+    "id": "@owp/datagrid:OwpDataGridProps.allowSelectAll",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "selection-policy",
+    "label": "defaultRowSelectionModel",
+    "id": "@owp/datagrid:OwpDataGridProps.defaultRowSelectionModel",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "selection-policy",
+    "label": "layout.rowPanel",
+    "id": "@owp/datagrid:OwpDataGridLayout.rowPanel",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "click-events",
+    "label": "onCellClick",
+    "id": "@owp/datagrid:OwpDataGridProps.onCellClick",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "click-events",
+    "label": "onRowClick",
+    "id": "@owp/datagrid:OwpDataGridProps.onRowClick",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "context-menu",
+    "label": "getContextMenuItems",
+    "id": "@owp/datagrid:OwpDataGridColumn.getContextMenuItems",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "context-menu",
+    "label": "applyTransaction",
+    "id": "@owp/datagrid:OwpDataGridApi.applyTransaction",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "sorting",
+    "label": "sortModel",
+    "id": "@owp/datagrid:OwpDataGridProps.sortModel",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "sorting",
+    "label": "sortInteraction",
+    "id": "@owp/datagrid:OwpDataGridProps.sortInteraction",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "sorting",
+    "label": "maxSortColumns",
+    "id": "@owp/datagrid:OwpDataGridProps.maxSortColumns",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "filtering",
+    "label": "filterModel",
+    "id": "@owp/datagrid:OwpDataGridProps.filterModel",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "filtering",
+    "label": "layout.filterRow",
+    "id": "@owp/datagrid:OwpDataGridLayout.filterRow",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "editing",
+    "label": "editable",
+    "id": "@owp/datagrid:OwpDataGridColumn.editable",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "editing",
+    "label": "enterKeyAction",
+    "id": "@owp/datagrid:OwpDataGridProps.enterKeyAction",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "editing",
+    "label": "onCellValueCommit",
+    "id": "@owp/datagrid:OwpDataGridProps.onCellValueCommit",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "save-changes",
+    "label": "commitEditing",
+    "id": "@owp/datagrid:OwpDataGridApi.commitEditing",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "save-changes",
+    "label": "validate",
+    "id": "@owp/datagrid:OwpDataGridApi.validate",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "save-changes",
+    "label": "getChanges",
+    "id": "@owp/datagrid:OwpDataGridApi.getChanges",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "save-changes",
+    "label": "applyServerRows",
+    "id": "@owp/datagrid:OwpDataGridApi.applyServerRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "save-changes",
+    "label": "submittedRow",
+    "id": "@owp/datagrid:OwpDataGridServerRow.submittedRow",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-focus",
+    "label": "setCellValue",
+    "id": "@owp/datagrid:OwpDataGridApi.setCellValue",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-focus",
+    "label": "scrollToRow",
+    "id": "@owp/datagrid:OwpDataGridApi.scrollToRow",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-focus",
+    "label": "focusCell",
+    "id": "@owp/datagrid:OwpDataGridApi.focusCell",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-focus",
+    "label": "commitEditing",
+    "id": "@owp/datagrid:OwpDataGridApi.commitEditing",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "validation",
+    "label": "required",
+    "id": "@owp/datagrid:OwpDataGridColumn.required",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "validation",
+    "label": "validate",
+    "id": "@owp/datagrid:OwpDataGridApi.validate",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "validation",
+    "label": "numberOptions",
+    "id": "@owp/datagrid:OwpDataGridColumn.numberOptions",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "external-validation",
+    "label": "setCellError",
+    "id": "@owp/datagrid:OwpDataGridApi.setCellError",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "external-validation",
+    "label": "setCellErrors",
+    "id": "@owp/datagrid:OwpDataGridApi.setCellErrors",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "external-validation",
+    "label": "clearCellErrors",
+    "id": "@owp/datagrid:OwpDataGridApi.clearCellErrors",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "row-actions",
+    "label": "rowEditToolbar",
+    "id": "@owp/datagrid:OwpDataGridProps.rowEditToolbar",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "row-actions",
+    "label": "rowDeletion",
+    "id": "@owp/datagrid:OwpDataGridProps.rowDeletion",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "row-actions",
+    "label": "resetChanges",
+    "id": "@owp/datagrid:OwpDataGridApi.resetChanges",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "row-insertion",
+    "label": "addRow",
+    "id": "@owp/datagrid:OwpDataGridApi.addRow",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "row-insertion",
+    "label": "position",
+    "id": "@owp/datagrid:OwpDataGridRowPlacement.position",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "row-insertion",
+    "label": "targetRowId",
+    "id": "@owp/datagrid:OwpDataGridRowPlacement.targetRowId",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "row-deletion",
+    "label": "deleteRows",
+    "id": "@owp/datagrid:OwpDataGridApi.deleteRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "row-deletion",
+    "label": "undeleteRows",
+    "id": "@owp/datagrid:OwpDataGridApi.undeleteRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "row-deletion",
+    "label": "discardAddedRows",
+    "id": "@owp/datagrid:OwpDataGridApi.discardAddedRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "row-deletion",
+    "label": "confirmDeletedRowRemoval",
+    "id": "@owp/datagrid:OwpDataGridProps.confirmDeletedRowRemoval",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "reordering",
+    "label": "rowReordering",
+    "id": "@owp/datagrid:OwpDataGridProps.rowReordering",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "reordering",
+    "label": "onChangesChange",
+    "id": "@owp/datagrid:OwpDataGridProps.onChangesChange",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-move",
+    "label": "moveRow",
+    "id": "@owp/datagrid:OwpDataGridApi.moveRow",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-move",
+    "label": "moveRows",
+    "id": "@owp/datagrid:OwpDataGridApi.moveRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-data",
+    "label": "getRows",
+    "id": "@owp/datagrid:OwpDataGridApi.getRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-data",
+    "label": "getVisibleRows",
+    "id": "@owp/datagrid:OwpDataGridApi.getVisibleRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-data",
+    "label": "getSelectedRows",
+    "id": "@owp/datagrid:OwpDataGridApi.getSelectedRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-data",
+    "label": "getRow",
+    "id": "@owp/datagrid:OwpDataGridApi.getRow",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-data",
+    "label": "applyTransaction",
+    "id": "@owp/datagrid:OwpDataGridApi.applyTransaction",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-changes",
+    "label": "getChanges",
+    "id": "@owp/datagrid:OwpDataGridApi.getChanges",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-changes",
+    "label": "hasUnsavedChanges",
+    "id": "@owp/datagrid:OwpDataGridApi.hasUnsavedChanges",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-changes",
+    "label": "acceptChanges",
+    "id": "@owp/datagrid:OwpDataGridApi.acceptChanges",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "ref-changes",
+    "label": "resetChanges",
+    "id": "@owp/datagrid:OwpDataGridApi.resetChanges",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "summary-rows",
+    "label": "summaryRows.scope",
+    "id": "@owp/datagrid:OwpDataGridSummaryRow.scope",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "summary-rows",
+    "label": "summaryRows.valueGetter",
+    "id": "@owp/datagrid:OwpDataGridSummaryCell.valueGetter",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "summary-rows",
+    "label": "pinnedBottomRowStyle",
+    "id": "@owp/datagrid:OwpDataGridProps.pinnedBottomRowStyle",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "worksheet",
+    "label": "valueSetter",
+    "id": "@owp/datagrid:OwpDataGridColumn.valueSetter",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "worksheet",
+    "label": "onCellValueCommit",
+    "id": "@owp/datagrid:OwpDataGridProps.onCellValueCommit",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "worksheet",
+    "label": "summaryRows",
+    "id": "@owp/datagrid:OwpDataGridProps.summaryRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "tree",
+    "label": "treeOptions",
+    "id": "@owp/datagrid:OwpDataGridProps.treeOptions",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "tree",
+    "label": "treeOptions.lazyChildren",
+    "id": "@owp/datagrid:OwpDataGridTreeOptions.lazyChildren",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "tree",
+    "label": "expandAll",
+    "id": "@owp/datagrid:OwpDataGridApi.expandAll",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "tree",
+    "label": "rowSelectionPropagation",
+    "id": "@owp/datagrid:OwpDataGridProps.rowSelectionPropagation",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "nested-tree",
+    "label": "treeOptions.getChildren",
+    "id": "@owp/datagrid:OwpDataGridTreeOptions.getChildren",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "nested-tree",
+    "label": "treeOptions.expansionModel",
+    "id": "@owp/datagrid:OwpDataGridTreeOptions.expansionModel",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "tree-span",
+    "label": "treeOptions",
+    "id": "@owp/datagrid:OwpDataGridProps.treeOptions",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "tree-span",
+    "label": "getCellRowSpanKey",
+    "id": "@owp/datagrid:OwpDataGridProps.getCellRowSpanKey",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "detail-custom",
+    "label": "detailPanel.renderDetail",
+    "id": "@owp/datagrid:OwpDataGridDetailPanelOptions.renderDetail",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "detail-grid",
+    "label": "detailPanel.loadRows",
+    "id": "@owp/datagrid:OwpDataGridDetailPanelOptions.loadRows",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "detail-grid",
+    "label": "detailPanel.renderDetail",
+    "id": "@owp/datagrid:OwpDataGridDetailPanelOptions.renderDetail",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "detail-grid",
+    "label": "dataGridRef",
+    "id": "@owp/datagrid:OwpDataGridExportExcelButtonProps.dataGridRef",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "detail-grid",
+    "label": "scope",
+    "id": "@owp/datagrid:OwpDataGridExcelSnapshotOptions.scope",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "states",
+    "label": "loading",
+    "id": "@owp/datagrid:OwpDataGridProps.loading",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "states",
+    "label": "noDataMessage",
+    "id": "@owp/datagrid:OwpDataGridProps.noDataMessage",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "states",
+    "label": "errorOverlay",
+    "id": "@owp/datagrid:OwpDataGridProps.errorOverlay",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "server-mode",
+    "label": "sortingMode",
+    "id": "@owp/datagrid:OwpDataGridProps.sortingMode",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "server-mode",
+    "label": "filteringMode",
+    "id": "@owp/datagrid:OwpDataGridProps.filteringMode",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "large-data",
+    "label": "virtualization",
+    "id": "@owp/datagrid:OwpDataGridProps.virtualization",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "large-data",
+    "label": "loading",
+    "id": "@owp/datagrid:OwpDataGridProps.loading",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "excel",
+    "label": "dataGridRef",
+    "id": "@owp/datagrid:OwpDataGridExportExcelButtonProps.dataGridRef",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "excel",
+    "label": "scope",
+    "id": "@owp/datagrid:OwpDataGridExcelSnapshotOptions.scope",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "excel",
+    "label": "exportName",
+    "id": "@owp/datagrid:OwpDataGridExcelDownloadOptions.exportName",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "excel",
+    "label": "excel.numFmt",
+    "id": "@owp/datagrid:OwpDataGridExcelColumnOptions.numFmt",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "excel-snapshot",
+    "label": "getExcelSnapshot",
+    "id": "@owp/datagrid:OwpDataGridApi.getExcelSnapshot",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "excel-snapshot",
+    "label": "getExcelExportWarnings",
+    "id": "@owp/datagrid:OwpDataGridApi.getExcelExportWarnings",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "excel-snapshot",
+    "label": "createExcelExportSession",
+    "id": "@owp/datagrid:OwpDataGridApi.createExcelExportSession",
+    "located": true
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "span-export",
+    "label": "getExcelSnapshot",
+    "id": "@owp/datagrid:OwpDataGridApi.getExcelSnapshot",
+    "located": false
+  },
+  {
+    "packageId": "datagrid",
+    "exampleId": "span-export",
+    "label": "pinnedBottomRows",
+    "id": "@owp/datagrid:OwpDataGridProps.pinnedBottomRows",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "layered-column",
+    "label": "grouped",
+    "id": "chart.js:BarControllerDatasetOptions.grouped",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "layered-column",
+    "label": "barPercentage",
+    "id": "chart.js:BarControllerDatasetOptions.barPercentage",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "layered-column",
+    "label": "order",
+    "id": "@owp/charts:ChartSeriesConfig.order",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-groups",
+    "label": "stack",
+    "id": "@owp/charts:ChartSeriesConfig.stack",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-groups",
+    "label": "scales.stacked",
+    "id": "chart.js:CartesianScaleOptions.stacked",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-groups",
+    "label": "plugins.datalabels",
+    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-groups",
+    "label": "legend.formatter",
+    "id": "@owp/charts:ChartLegendOptions.formatter",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "grouped-stacks-by-line",
+    "label": "createGroupedAxisLabelsPlugin",
+    "id": "@owp/charts:createGroupedAxisLabelsPlugin",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "grouped-stacks-by-line",
+    "label": "plugins.datalabels",
+    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "diverging-bar",
+    "label": "indexAxis",
+    "id": "chart.js:CoreChartOptions.indexAxis",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "diverging-bar",
+    "label": "stack",
+    "id": "@owp/charts:ChartSeriesConfig.stack",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "diverging-bar",
+    "label": "datalabels",
+    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "floating-bar",
+    "label": "data.datasets.data",
+    "id": "chart.js:ChartDatasetProperties.data",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "divergent-forecast",
+    "label": "borderDash",
+    "id": "chart.js:LineOptions.borderDash",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "divergent-forecast",
+    "label": "data",
+    "id": "chart.js:ChartConfiguration.data",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "divergent-forecast",
+    "label": "tooltip",
+    "id": "chart.js:TooltipOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-combo",
+    "label": "type",
+    "id": "@owp/charts:ChartSeriesConfig.type",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-combo",
+    "label": "stack",
+    "id": "@owp/charts:ChartSeriesConfig.stack",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-combo",
+    "label": "scales.stacked",
+    "id": "chart.js:CartesianScaleOptions.stacked",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-combo",
+    "label": "plugins.datalabels",
+    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "mixed-time-series",
+    "label": "type",
+    "id": "@owp/charts:ChartFrameProps.type",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "mixed-time-series",
+    "label": "yAxisID",
+    "id": "chart.js:LineControllerDatasetOptions.yAxisID",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "mixed-time-series",
+    "label": "zoomSlider",
+    "id": "@owp/charts:ChartFrameProps.zoomSlider",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "daily-combo",
+    "label": "barThickness",
+    "id": "chart.js:BarControllerDatasetOptions.barThickness",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "daily-combo",
+    "label": "barPercentage",
+    "id": "chart.js:BarControllerDatasetOptions.barPercentage",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "gauge",
+    "label": "createGaugeChartData",
+    "id": "@owp/charts:createGaugeChartData",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "gauge",
+    "label": "createGaugeChartOptions",
+    "id": "@owp/charts:createGaugeChartOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "scatter",
+    "label": "showLine",
+    "id": "chart.js:LineControllerDatasetOptions.showLine",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "scatter",
+    "label": "pointRadius",
+    "id": "chart.js:PointPrefixedOptions.pointRadius",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "scatter",
+    "label": "scales.type",
+    "id": "chart.js:ScaleTypeRegistry",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "scatter-clusters",
+    "label": "zoomSlider",
+    "id": "@owp/charts:ChartFrameProps.zoomSlider",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "bubble",
+    "label": "data.datasets.data",
+    "id": "chart.js:ChartDatasetProperties.data",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "bubble",
+    "label": "pointRadius",
+    "id": "chart.js:PointPrefixedOptions.pointRadius",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "bubble",
+    "label": "showLine",
+    "id": "chart.js:LineControllerDatasetOptions.showLine",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "box-plot",
+    "label": "summarizeBox",
+    "id": "@owp/charts:summarizeBox",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "box-plot",
+    "label": "BoxPlotDatasetOptions",
+    "id": "@owp/charts:BoxPlotDatasetOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "radar",
+    "label": "series",
+    "id": "@owp/charts:OwpRadarChartProps.series",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "radar",
+    "label": "labelOptions",
+    "id": "@owp/charts:OwpRadarChartProps.labelOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "heatmap",
+    "label": "domain",
+    "id": "@owp/charts:OwpHeatmapChartProps.domain",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "heatmap",
+    "label": "valueLabels",
+    "id": "@owp/charts:OwpHeatmapChartProps.valueLabels",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "treemap",
+    "label": "data",
+    "id": "@owp/charts:OwpTreemapChartProps.data",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "treemap",
+    "label": "style",
+    "id": "@owp/charts:OwpTreemapChartProps.style",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "treemap",
+    "label": "formatter",
+    "id": "@owp/charts:OwpTreemapChartProps.formatter",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-center",
+    "label": "scales.position",
+    "id": "chart.js:CartesianScaleOptions.position",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-center",
+    "label": "scales.type",
+    "id": "chart.js:ScaleTypeRegistry",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-stacks",
+    "label": "yAxisID",
+    "id": "chart.js:LineControllerDatasetOptions.yAxisID",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-stacks",
+    "label": "scales.stack",
+    "id": "chart.js:CartesianScaleOptions.stack",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-stacks",
+    "label": "scales.stackWeight",
+    "id": "chart.js:CartesianScaleOptions.stackWeight",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "dual-axis",
+    "label": "yAxisId",
+    "id": "@owp/charts:ChartSeriesConfig.yAxisId",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "dual-axis",
+    "label": "createNumberAxisScale",
+    "id": "@owp/charts:createNumberAxisScale",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "dual-axis",
+    "label": "createPercentAxisScale",
+    "id": "@owp/charts:createPercentAxisScale",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line-multi-axis",
+    "label": "yAxisID",
+    "id": "chart.js:LineControllerDatasetOptions.yAxisID",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line-multi-axis",
+    "label": "scales.position",
+    "id": "chart.js:CartesianScaleOptions.position",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line-multi-axis",
+    "label": "scales.display",
+    "id": "chart.js:CoreScaleOptions.display",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "scatter-multi-axis",
+    "label": "showLine",
+    "id": "chart.js:LineControllerDatasetOptions.showLine",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "scatter-multi-axis",
+    "label": "yAxisID",
+    "id": "chart.js:LineControllerDatasetOptions.yAxisID",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "scatter-multi-axis",
+    "label": "scales.position",
+    "id": "chart.js:CartesianScaleOptions.position",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "triple-axis",
+    "label": "yAxisId",
+    "id": "@owp/charts:ChartSeriesConfig.yAxisId",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "triple-axis",
+    "label": "scales.display",
+    "id": "chart.js:CoreScaleOptions.display",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "percent-axis",
+    "label": "createPercentAxisScale",
+    "id": "@owp/charts:createPercentAxisScale",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "percent-axis",
+    "label": "createAxisDomain",
+    "id": "@owp/charts:createAxisDomain",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "date-time",
+    "label": "createCategoryAxisScale",
+    "id": "@owp/charts:createCategoryAxisScale",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "date-time",
+    "label": "ticks.callback",
+    "id": "chart.js:TickOptions.callback",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "external-tooltip",
+    "label": "externalTooltip",
+    "id": "@owp/charts:ChartFrameProps.externalTooltip",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "external-tooltip",
+    "label": "viewportPadding",
+    "id": "@owp/charts:ChartFrameExternalTooltipOptions.viewportPadding",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "hover-layer",
+    "label": "interactionLayer",
+    "id": "@owp/charts:ChartFrameProps.interactionLayer",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "hover-layer",
+    "label": "showHoverArea",
+    "id": "@owp/charts:ChartInteractionLayerOptions.showHoverArea",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "hover-layer",
+    "label": "showReferenceLine",
+    "id": "@owp/charts:ChartInteractionLayerOptions.showReferenceLine",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "programmatic-events",
+    "label": "chartRef",
+    "id": "@owp/charts:ChartFrameProps.chartRef",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "programmatic-events",
+    "label": "setActiveElements",
+    "id": "chart.js:Chart.setActiveElements",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "programmatic-events",
+    "label": "tooltip.setActiveElements",
+    "id": "chart.js:TooltipModel.setActiveElements",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "x-slider",
+    "label": "zoomSlider.x",
+    "id": "@owp/charts:ChartZoomSliderOptions.x",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "x-slider",
+    "label": "start",
+    "id": "@owp/charts:ChartZoomSliderAxisOptions.start",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "x-slider",
+    "label": "end",
+    "id": "@owp/charts:ChartZoomSliderAxisOptions.end",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "y-sliders",
+    "label": "zoomSlider.y1",
+    "id": "@owp/charts:ChartZoomSliderOptions.y1",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "y-sliders",
+    "label": "zoomSlider.y2",
+    "id": "@owp/charts:ChartZoomSliderOptions.y2",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "y-sliders",
+    "label": "createZoomSliderAxis",
+    "id": "@owp/charts:createZoomSliderAxis",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "drag-zoom",
+    "label": "interactionLayer.dragZoom",
+    "id": "@owp/charts:ChartInteractionLayerOptions.dragZoom",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "drag-zoom",
+    "label": "mode",
+    "id": "@owp/charts:ChartDragZoomOptions.mode",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "wheel-pinch",
+    "label": "wheel",
+    "id": "@owp/charts:ChartDragZoomOptions.wheel",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "wheel-pinch",
+    "label": "pinch",
+    "id": "@owp/charts:ChartDragZoomOptions.pinch",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "wheel-pinch",
+    "label": "modifierKey",
+    "id": "@owp/charts:ChartDragZoomOptions.modifierKey",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "linked",
+    "label": "linkedInteraction",
+    "id": "@owp/charts:ChartFrameProps.linkedInteraction",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "linked",
+    "label": "syncBy",
+    "id": "@owp/charts:ChartLinkedInteractionOptions.syncBy",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "linked",
+    "label": "syncCrosshair",
+    "id": "@owp/charts:ChartLinkedInteractionOptions.syncCrosshair",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "linked",
+    "label": "syncTooltip",
+    "id": "@owp/charts:ChartLinkedInteractionOptions.syncTooltip",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "linked",
+    "label": "syncZoom",
+    "id": "@owp/charts:ChartLinkedInteractionOptions.syncZoom",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "data-labels",
+    "label": "plugins.datalabels",
+    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "data-labels",
+    "label": "ChartDataLabelsContext",
+    "id": "@owp/charts:ChartDataLabelsContext",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "target-line",
+    "label": "plugins.annotation",
+    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "target-line",
+    "label": "line",
+    "id": "chartjs-plugin-annotation:LineAnnotationOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "range-band",
+    "label": "plugins.annotation",
+    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "range-band",
+    "label": "box",
+    "id": "@owp/charts:ChartAnnotationOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "trendline",
+    "label": "trendlineLinear",
+    "id": "@owp/charts:ChartTrendlineLinearOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "trendline",
+    "label": "ChartTrendlineLinearOptions",
+    "id": "@owp/charts:ChartTrendlineLinearOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "chart-area-border",
+    "label": "plugins.annotation",
+    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "chart-area-border",
+    "label": "box",
+    "id": "@owp/charts:ChartAnnotationOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "quadrants",
+    "label": "plugins.annotation",
+    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "quadrants",
+    "label": "box",
+    "id": "@owp/charts:ChartAnnotationOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stepped-line",
+    "label": "stepped",
+    "id": "chart.js:LineOptions.stepped",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stepped-line",
+    "label": "tension",
+    "id": "chart.js:LineOptions.tension",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line-segments",
+    "label": "spanGaps",
+    "id": "chart.js:LineOptions.spanGaps",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line-segments",
+    "label": "segment.borderColor",
+    "id": "chart.js:LineOptions.segment.borderColor",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line-segments",
+    "label": "segment.borderDash",
+    "id": "chart.js:LineOptions.segment.borderDash",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "live",
+    "label": "window",
+    "id": "@owp/charts:OwpLiveChartProps.window",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "live",
+    "label": "paused",
+    "id": "@owp/charts:OwpLiveChartProps.paused",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "time-series",
+    "label": "externalTooltip",
+    "id": "@owp/charts:ChartFrameProps.externalTooltip",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "time-series",
+    "label": "zoomSlider.x",
+    "id": "@owp/charts:ChartZoomSliderOptions.x",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "sparkline",
+    "label": "renderCell",
+    "id": "@owp/datagrid:OwpDataGridColumn.renderCell",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "sparkline",
+    "label": "animation",
+    "id": "chart.js:CoreChartOptions.animation",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "detail-chart",
+    "label": "detailPanel.renderDetail",
+    "id": "@owp/datagrid:OwpDataGridDetailPanelOptions.renderDetail",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "states",
+    "label": "loading",
+    "id": "@owp/charts:ChartFrameProps.loading",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "states",
+    "label": "noData",
+    "id": "@owp/charts:ChartFrameProps.noData",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "states",
+    "label": "noDataMessage",
+    "id": "@owp/charts:ChartFrameProps.noDataMessage",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "states",
+    "label": "errorOverlay",
+    "id": "@owp/charts:ChartFrameProps.errorOverlay",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "plan-actual",
+    "label": "yAxisId",
+    "id": "@owp/charts:ChartSeriesConfig.yAxisId",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "plan-actual",
+    "label": "order",
+    "id": "@owp/charts:ChartSeriesConfig.order",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "plan-actual",
+    "label": "trendlineLinear",
+    "id": "@owp/charts:ChartTrendlineLinearOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "monthly-receipt",
+    "label": "createChartColorMap",
+    "id": "@owp/charts:createChartColorMap",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "monthly-receipt",
+    "label": "zoomSlider",
+    "id": "@owp/charts:ChartFrameProps.zoomSlider",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "fulfillment",
+    "label": "createPercentAxisScale",
+    "id": "@owp/charts:createPercentAxisScale",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "fulfillment",
+    "label": "yAxisId",
+    "id": "@owp/charts:ChartSeriesConfig.yAxisId",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "oee",
+    "label": "series",
+    "id": "@owp/charts:CreateChartDataParams.series",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "oee",
+    "label": "createPercentAxisScale",
+    "id": "@owp/charts:createPercentAxisScale",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "pareto",
+    "label": "createPercentAxisScale",
+    "id": "@owp/charts:createPercentAxisScale",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "pareto",
+    "label": "annotation",
+    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "histogram",
+    "label": "createChartData",
+    "id": "@owp/charts:createChartData",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "histogram",
+    "label": "createIntegerAxisScale",
+    "id": "@owp/charts:createIntegerAxisScale",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "small-multiples",
+    "label": "height",
+    "id": "@owp/charts:ChartFrameProps.height",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "small-multiples",
+    "label": "legend",
+    "id": "@owp/charts:ChartFrameProps.legend",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "bar",
+    "label": "createChartData",
+    "id": "@owp/charts:createChartData",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "bar",
+    "label": "createChartOptions",
+    "id": "@owp/charts:createChartOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "grouped-bar",
+    "label": "series",
+    "id": "@owp/charts:CreateChartDataParams.series",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "grouped-bar",
+    "label": "type",
+    "id": "@owp/charts:ChartFrameProps.type",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-bar",
+    "label": "stack",
+    "id": "@owp/charts:ChartSeriesConfig.stack",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-bar",
+    "label": "scales.stacked",
+    "id": "chart.js:CartesianScaleOptions.stacked",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-bar",
+    "label": "plugins.datalabels",
+    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "percent-stacked",
+    "label": "stack",
+    "id": "@owp/charts:ChartSeriesConfig.stack",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "percent-stacked",
+    "label": "createPercentAxisScale",
+    "id": "@owp/charts:createPercentAxisScale",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "percent-stacked",
+    "label": "plugins.datalabels",
+    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "horizontal-bar",
+    "label": "indexAxis",
+    "id": "chart.js:CoreChartOptions.indexAxis",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "horizontal-bar",
+    "label": "createCategoryAxisScale",
+    "id": "@owp/charts:createCategoryAxisScale",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "grouped-horizontal-bar",
+    "label": "indexAxis",
+    "id": "chart.js:CoreChartOptions.indexAxis",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "grouped-horizontal-bar",
+    "label": "datalabels",
+    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-horizontal-bar",
+    "label": "indexAxis",
+    "id": "chart.js:CoreChartOptions.indexAxis",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-horizontal-bar",
+    "label": "stack",
+    "id": "@owp/charts:ChartSeriesConfig.stack",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-horizontal-bar",
+    "label": "datalabels",
+    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line",
+    "label": "type",
+    "id": "@owp/charts:ChartFrameProps.type",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line",
+    "label": "tension",
+    "id": "chart.js:LineOptions.tension",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line",
+    "label": "pointRadius",
+    "id": "chart.js:PointPrefixedOptions.pointRadius",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "multi-line",
+    "label": "series",
+    "id": "@owp/charts:CreateChartDataParams.series",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "multi-line",
+    "label": "createChartColorMap",
+    "id": "@owp/charts:createChartColorMap",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "area",
+    "label": "above",
+    "id": "@owp/charts:AreaSeries.above",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "area",
+    "label": "below",
+    "id": "@owp/charts:AreaSeries.below",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-area",
+    "label": "stacked",
+    "id": "@owp/charts:OwpAreaChartProps.stacked",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "stacked-area",
+    "label": "annotation",
+    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "pie",
+    "label": "variant",
+    "id": "@owp/charts:OwpRadialChartProps.variant",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "pie",
+    "label": "rotation",
+    "id": "@owp/charts:OwpRadialChartProps.rotation",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "pie",
+    "label": "RadialItem.color",
+    "id": "@owp/charts:RadialItem.color",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "multi-series-pie",
+    "label": "rings",
+    "id": "@owp/charts:OwpRadialChartProps.rings",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "multi-series-pie",
+    "label": "legend.mode",
+    "id": "@owp/charts:ChartLegendOptions.mode",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "doughnut",
+    "label": "cutout",
+    "id": "@owp/charts:OwpRadialChartProps.cutout",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "doughnut",
+    "label": "outsideLabels",
+    "id": "@owp/charts:OwpRadialChartProps.outsideLabels",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "doughnut",
+    "label": "emptyState",
+    "id": "@owp/charts:OwpRadialChartProps.emptyState",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "semi-circle",
+    "label": "semiCircle",
+    "id": "@owp/charts:OwpRadialChartProps.semiCircle",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "semi-circle",
+    "label": "cutout",
+    "id": "@owp/charts:OwpRadialChartProps.cutout",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-range",
+    "label": "scales.min",
+    "id": "chart.js:CoreScaleOptions.min",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-range",
+    "label": "scales.max",
+    "id": "chart.js:CoreScaleOptions.max",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-range",
+    "label": "scales.suggestedMin",
+    "id": "chart.js:CoreScaleOptions.suggestedMin",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-range",
+    "label": "scales.suggestedMax",
+    "id": "chart.js:CoreScaleOptions.suggestedMax",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-titles",
+    "label": "scales.title.display",
+    "id": "chart.js:CartesianScaleOptions.title.display",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-titles",
+    "label": "scales.title.text",
+    "id": "chart.js:CartesianScaleOptions.title.text",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-titles",
+    "label": "scales.title.align",
+    "id": "chart.js:CartesianScaleOptions.title.align",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "axis-step",
+    "label": "scales.ticks.stepSize",
+    "id": "chart.js:LinearScaleOptions.ticks.stepSize",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "tick-style",
+    "label": "scales.ticks.callback",
+    "id": "chart.js:TickOptions.callback",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "grid-style",
+    "label": "scales.grid.display",
+    "id": "chart.js:GridLineOptions.display",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "grid-style",
+    "label": "scales.grid.color",
+    "id": "chart.js:GridLineOptions.color",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "legend",
+    "label": "legend",
+    "id": "@owp/charts:ChartFrameProps.legend",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "legend-title",
+    "label": "plugins.legend.title.display",
+    "id": "chart.js:LegendOptions.title.display",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "legend-title",
+    "label": "plugins.legend.title.text",
+    "id": "chart.js:LegendOptions.title.text",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "legend-point-style",
+    "label": "pointRadius",
+    "id": "chart.js:PointPrefixedOptions.pointRadius",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "legend-point-style",
+    "label": "legend",
+    "id": "@owp/charts:ChartFrameProps.legend",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "legend-events",
+    "label": "legend.onClick",
+    "id": "@owp/charts:ChartLegendOptions.onClick",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "legend-events",
+    "label": "legend.onHover",
+    "id": "@owp/charts:ChartLegendOptions.onHover",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "tooltip-content",
+    "label": "plugins.tooltip.callbacks.label",
+    "id": "chart.js:TooltipCallbacks.label",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "tooltip-content",
+    "label": "plugins.tooltip.callbacks.footer",
+    "id": "chart.js:TooltipCallbacks.footer",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "tooltip-mode",
+    "label": "interaction.mode",
+    "id": "chart.js:CoreInteractionOptions.mode",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "tooltip-mode",
+    "label": "interaction.intersect",
+    "id": "chart.js:CoreInteractionOptions.intersect",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "tooltip-position",
+    "label": "plugins.tooltip.position",
+    "id": "chart.js:TooltipOptions.position",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "tooltip-point-style",
+    "label": "pointStyle",
+    "id": "chart.js:PointOptions.pointStyle",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "tooltip-point-style",
+    "label": "plugins.tooltip.usePointStyle",
+    "id": "chart.js:TooltipOptions.usePointStyle",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "chart-title",
+    "label": "plugins.title.align",
+    "id": "chart.js:TitleOptions.align",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "chart-title",
+    "label": "plugins.title.text",
+    "id": "chart.js:TitleOptions.text",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "bar-radius",
+    "label": "borderRadius",
+    "id": "chart.js:BarOptions.borderRadius",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "bar-radius",
+    "label": "borderSkipped",
+    "id": "chart.js:BarOptions.borderSkipped",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "scriptable-bar",
+    "label": "backgroundColor",
+    "id": "chart.js:CommonElementOptions.backgroundColor",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line-style",
+    "label": "borderDash",
+    "id": "chart.js:LineOptions.borderDash",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line-style",
+    "label": "pointRadius",
+    "id": "chart.js:PointPrefixedOptions.pointRadius",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line-interpolation",
+    "label": "tension",
+    "id": "chart.js:LineOptions.tension",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "line-interpolation",
+    "label": "cubicInterpolationMode",
+    "id": "chart.js:LineOptions.cubicInterpolationMode",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "point-style",
+    "label": "pointStyle",
+    "id": "chart.js:PointOptions.pointStyle",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "point-style",
+    "label": "pointRadius",
+    "id": "chart.js:PointPrefixedOptions.pointRadius",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "scriptable-line",
+    "label": "pointBackgroundColor",
+    "id": "chart.js:PointPrefixedOptions.pointBackgroundColor",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "scriptable-line",
+    "label": "pointRadius",
+    "id": "chart.js:PointPrefixedOptions.pointRadius",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "png-export",
+    "label": "showExportButton",
+    "id": "@owp/charts:ChartFrameProps.showExportButton",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "export-ref",
+    "label": "exportRef",
+    "id": "@owp/charts:ChartFrameProps.exportRef",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "export-ref",
+    "label": "toPngBlob",
+    "id": "@owp/charts:ChartFrameExportHandle.toPngBlob",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "export-ref",
+    "label": "downloadPng",
+    "id": "@owp/charts:ChartFrameExportHandle.downloadPng",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "ranking",
+    "label": "indexAxis",
+    "id": "chart.js:CoreChartOptions.indexAxis",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "ranking",
+    "label": "stack",
+    "id": "@owp/charts:ChartSeriesConfig.stack",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "ranking",
+    "label": "datalabels",
+    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "located": false
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "top-n",
+    "label": "createIntegerAxisScale",
+    "id": "@owp/charts:createIntegerAxisScale",
+    "located": true
+  },
+  {
+    "packageId": "charts",
+    "exampleId": "top-n",
+    "label": "data",
+    "id": "@owp/charts:ChartFrameProps.data",
+    "located": false
+  }
+]

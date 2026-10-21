@@ -43,7 +43,7 @@ export function Header({
   return (
     <header className="app-header">
       <div className="brand">
-        <IconButton className="mobile-menu" aria-label={t('예제 메뉴 열기')} onClick={onMenuOpen}>
+        <IconButton className="mobile-menu" aria-label={t('탐색 메뉴 열기')} onClick={onMenuOpen}>
           <ListIcon size={20} />
         </IconButton>
         <a

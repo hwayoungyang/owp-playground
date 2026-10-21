@@ -2,7 +2,12 @@ import chartsManifest from '@owp/charts/package.json' with { type: 'json' };
 import dataGridManifest from '@owp/datagrid/package.json' with { type: 'json' };
 import { z } from 'zod';
 import { type ChartCatalogEntry, findChartEntry } from './charts/catalog.ts';
+import { chartConsolidations } from './charts/model/consolidations.ts';
 import { findGridEntry, type GridCatalogEntry } from './datagrid/catalog.ts';
+import { type CodeLocation, readCodeLocation } from '../features/code/code-location';
+import { inferChartVariantFromCode } from './charts/model/variants';
+
+type CodeRouteState = { readonly tab?: 'code'; readonly codeTarget?: CodeLocation };
 
 export const dataGridPackage = {
   id: 'datagrid',
@@ -37,17 +42,36 @@ export const packageCatalog = [
 
 export type PlaygroundPackage = (typeof packageCatalog)[number];
 type PlannedPackage = Exclude<PlaygroundPackage, typeof dataGridPackage | typeof chartsPackage>;
+export function apiEntry(playground: typeof dataGridPackage | typeof chartsPackage) {
+  return {
+    id: 'api',
+    kind: 'reference',
+    title: 'API',
+    package: playground.name,
+    category: 'docs',
+    description: '공개 API의 타입·동작·사용법과 관련 예제 코드',
+    api: [],
+    source: '',
+  } as const;
+}
 export type PlaygroundRoute =
   | {
+      readonly status: 'api';
+      readonly playground: typeof dataGridPackage | typeof chartsPackage;
+      readonly example: ReturnType<typeof apiEntry>;
+      readonly symbol: string | null;
+    }
+  | ({
       readonly status: 'charts';
       readonly playground: typeof chartsPackage;
       readonly example: ChartCatalogEntry;
-    }
-  | {
+      readonly initialPreset?: string;
+    } & CodeRouteState)
+  | ({
       readonly status: 'ready';
       readonly playground: typeof dataGridPackage;
       readonly example: GridCatalogEntry;
-    }
+    } & CodeRouteState)
   | {
       readonly status: 'planned';
       readonly playground: PlannedPackage;
@@ -60,8 +84,17 @@ export function getPlaygroundRoute(
   playground: PlaygroundPackage,
   exampleId: string | null = null,
 ): PlaygroundRoute {
+  if (exampleId === 'api' && playground.status === 'ready')
+    return { status: 'api', playground, example: apiEntry(playground), symbol: null };
   if (playground.id === 'charts') {
-    return { status: 'charts', playground, example: findChartEntry(exampleId) };
+    return {
+      status: 'charts',
+      playground,
+      example: findChartEntry(exampleId),
+      ...(exampleId && Object.hasOwn(chartConsolidations, exampleId)
+        ? { initialPreset: exampleId }
+        : {}),
+    };
   }
   switch (playground.status) {
     case 'ready':
@@ -79,13 +112,64 @@ export function readPlaygroundRoute(search: string): PlaygroundRoute {
   const playground = packageId.success
     ? (packageCatalog.find((entry) => entry.id === packageId.data) ?? dataGridPackage)
     : dataGridPackage;
-  return getPlaygroundRoute(playground, parameters.get('sample'));
+  if (parameters.get('view') === 'api' && playground.status === 'ready')
+    return {
+      status: 'api',
+      playground,
+      example: apiEntry(playground),
+      symbol: parameters.get('symbol'),
+    };
+  const route = getPlaygroundRoute(playground, parameters.get('sample'));
+  if ((route.status === 'ready' || route.status === 'charts') && parameters.get('tab') === 'code') {
+    const codeTarget = readCodeLocation(parameters, playground.id);
+    if (route.status === 'charts' && codeTarget) {
+      const selectedId = inferChartVariantFromCode(route.example, codeTarget.file);
+      if (selectedId) {
+        const { initialPreset: _initialPreset, ...canonical } = route;
+        return {
+          ...canonical,
+          ...(selectedId !== route.example.id ? { initialPreset: selectedId } : {}),
+          tab: 'code',
+          codeTarget,
+        };
+      }
+    }
+    return { ...route, tab: 'code', codeTarget };
+  }
+  return route;
 }
 
 export function createPlaygroundUrl(currentUrl: string, route: PlaygroundRoute): URL {
   const url = new URL(currentUrl);
   url.searchParams.set('package', route.playground.id);
-  if (route.example) url.searchParams.set('sample', route.example.id);
+  for (const key of ['tab', 'file', 'line', 'endLine']) url.searchParams.delete(key);
+  if (route.status === 'api') {
+    url.searchParams.set('view', 'api');
+    url.searchParams.delete('sample');
+    if (route.symbol) url.searchParams.set('symbol', route.symbol);
+    else url.searchParams.delete('symbol');
+    return url;
+  }
+  url.searchParams.delete('view');
+  url.searchParams.delete('symbol');
+  if (route.example)
+    url.searchParams.set(
+      'sample',
+      route.status === 'charts' &&
+        route.initialPreset &&
+        Object.hasOwn(chartConsolidations, route.initialPreset) &&
+        chartConsolidations[route.initialPreset] === route.example.id
+        ? route.initialPreset
+        : route.example.id,
+    );
   else url.searchParams.delete('sample');
+  if ((route.status === 'ready' || route.status === 'charts') && route.tab === 'code') {
+    url.searchParams.set('tab', 'code');
+    if (route.codeTarget) {
+      url.searchParams.set('file', route.codeTarget.file);
+      url.searchParams.set('line', String(route.codeTarget.line));
+      url.searchParams.set('endLine', String(route.codeTarget.endLine));
+    }
+  }
   return url;
 }

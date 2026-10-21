@@ -147,7 +147,7 @@
   padding: 0;
   max-width: 100%;
 }
-.preview-start-actions fieldset {
+.preview-start-actions fieldset:not(.MuiOutlinedInput-notchedOutline) {
   border: 0;
   margin: 0;
   min-width: 0;
@@ -293,15 +293,26 @@
 }
 .workspace-api-reference > span {
   white-space: nowrap;
-  padding-top: 4px;
+  display: flex;
+  align-items: center;
+  min-height: 24px;
+  line-height: 1.4;
 }
 .workspace-api-reference > div {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+  align-items: center;
+}
+.workspace-api-reference a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
 }
 .workspace-api-reference code {
+  display: block;
   font: 10px var(--font-mono);
+  line-height: 16px;
   color: var(--pg-secondary);
   background: var(--pg-chrome);
   border: 1px solid var(--pg-line);

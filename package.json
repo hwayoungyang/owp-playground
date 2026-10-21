@@ -4,8 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vp dev --host 127.0.0.1 --open",
-    "build": "tsc --noEmit && vp build",
+    "dev": "pnpm knowledge:generate && vp dev --host 127.0.0.1 --open",
+    "build": "pnpm knowledge:generate && tsc --noEmit && vp build",
+    "knowledge:generate": "node --experimental-strip-types scripts/generate-knowledge.mjs",
+    "knowledge:check": "node --experimental-strip-types scripts/generate-knowledge.mjs --check",
+    "knowledge:audit": "node scripts/audit-knowledge-sources.mjs",
     "deploy": "node scripts/deploy-playground.mjs",
     "deploy:preflight": "node scripts/deploy-playground.mjs --preflight-only",
     "deploy:rollback": "node scripts/deploy-operations.mjs rollback",

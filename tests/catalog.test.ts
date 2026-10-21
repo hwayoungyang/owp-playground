@@ -11,7 +11,7 @@ describe('sample resources', () => {
     expect(guide.kind).toBe('guide');
     expect(guide.category).toBe('start');
     await access(new URL(`../src/playgrounds/datagrid/${guide.source}`, import.meta.url));
-    expect(gridCatalog.filter((example) => example.kind === 'grid')).toHaveLength(48);
+    expect(gridCatalog.filter((example) => example.kind === 'grid')).toHaveLength(50);
   });
   it('resolves every grid entry to its executable source and stable row IDs', async () => {
     for (const example of gridCatalog.filter((entry) => entry.kind === 'grid')) {

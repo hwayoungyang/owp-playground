@@ -59,7 +59,7 @@ try {
   const response = await context.request.get(`${origin}/catalogs/charts.json`);
   assert.equal(response.status(), 200);
   const { samples } = await response.json();
-  assert.equal(samples.filter((sample) => sample.kind === 'chart').length, 92);
+  assert.equal(samples.filter((sample) => sample.kind === 'chart').length, 97);
   assert.equal(samples.filter((sample) => sample.kind === 'guide').length, 1);
   for (const sample of samples) {
     await page.goto(`${origin}/?package=charts&sample=${sample.id}`);
@@ -82,7 +82,7 @@ try {
     assert.doesNotMatch(publishedSource, /NativeCanvas|NativeLegend/, sample.id);
     console.log('verified source', sample.id);
   }
-  pass('93 routes, data, source tabs and published snippets', { examples: 92, guides: 1 });
+  pass('98 routes, data, source tabs and published snippets', { examples: 97, guides: 1 });
 
   await verifyChartInteractions(page, origin, pass);
   await verifyHistogramZoom(page, open, pass);

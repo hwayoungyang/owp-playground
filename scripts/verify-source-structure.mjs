@@ -7,7 +7,7 @@ import { legacySourcePaths } from '../src/features/code/source-paths.ts';
 
 const origin = process.env.PLAYGROUND_URL ?? 'http://127.0.0.1:4173';
 const output = '.omo/evidence/structure';
-const files = (await readdir('src', { recursive: true })).filter(file => /\.(?:ts|tsx|css)$/.test(file));
+const files = (await readdir('src', { recursive: true })).filter(file => /\.(?:ts|tsx|css|json)$/.test(file));
 for (const file of files.filter(file => /\.(?:ts|tsx)$/.test(file))) {
   const source = await readFile(`src/${file}`, 'utf8');
   const parsed = parseSync(file, source);

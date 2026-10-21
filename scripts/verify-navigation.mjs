@@ -20,29 +20,33 @@ try {
   await page.locator('.getting-started').waitFor();
   assert.equal(query().get('package'), 'datagrid');
   assert.equal(query().get('sample'), 'getting-started');
-  assert.equal(await page.locator('.workspace-heading h1').textContent(), '시작');
+  assert.equal(await page.locator('.workspace-heading h1').textContent(), '시작하기');
   pass('package-only entry opens the default sample', { package: query().get('package'), sample: query().get('sample') });
 
   const sidebar = page.locator('.desktop-sidebar');
   const rowGroup = sidebar.locator('.nav-category').filter({ has: page.getByRole('button', { name: '행 관리 (Row management)', exact: true }) });
+  const apiGroup = sidebar.locator('.nav-category').filter({ has: page.getByRole('button', { name: 'Grid API', exact: true }) });
   const exportGroup = sidebar.locator('.nav-category').filter({ has: page.getByRole('button', { name: '내보내기 (Export)', exact: true }) });
   const exampleIds = group => group.locator('.nav-item').evaluateAll(links => links.map(link => new URL(link.href).searchParams.get('sample')));
-  assert.equal(await sidebar.locator('.nav-category').count(), 12);
-  assert.equal(await sidebar.locator('.nav-item').count(), 47);
-  assert.deepEqual(await exampleIds(rowGroup), ['row-actions', 'row-insertion', 'row-deletion', 'reordering', 'ref-move', 'ref-data', 'ref-changes']);
+  assert.equal(await sidebar.locator('.nav-section-group .nav-category').count(), 12);
+  assert.equal(await sidebar.locator('.nav-section-group .nav-item').count(), 50);
+  assert.deepEqual(await exampleIds(rowGroup), ['row-actions', 'row-insertion', 'row-deletion', 'reordering']);
+  assert.deepEqual(await exampleIds(apiGroup), ['hook-connection', 'ref-connection', 'ref-data', 'ref-focus', 'ref-move', 'ref-changes']);
   assert.deepEqual(await exampleIds(exportGroup), ['excel', 'excel-snapshot', 'span-export']);
-  pass('DataGrid groups related controls and Ref APIs without losing examples', { groups: 12, samples: 47 });
+  pass('DataGrid groups connection methods and shared controls under Grid API', { groups: 12, samples: 50, documents: 2 });
 
   await rowGroup.getByRole('button').click();
   assert.equal(await rowGroup.locator('.nav-item').count(), 0);
-  await sidebar.getByRole('textbox', { name: '예제 검색', exact: true }).fill('행 이동');
-  assert.deepEqual(await exampleIds(rowGroup), ['reordering', 'ref-move']);
-  await sidebar.getByRole('textbox', { name: '예제 검색', exact: true }).fill('');
+  await sidebar.getByRole('textbox', { name: '문서·예제 검색', exact: true }).fill('행 이동');
+  assert.deepEqual(await exampleIds(rowGroup), ['reordering']);
+  assert.deepEqual(await exampleIds(apiGroup), ['ref-move']);
+  await sidebar.getByRole('textbox', { name: '문서·예제 검색', exact: true }).fill('');
   assert.equal(await rowGroup.locator('.nav-item').count(), 0);
   await rowGroup.getByRole('button').click();
   await page.getByRole('button', { name: '영어로 전환', exact: true }).click();
   assert.equal(await sidebar.getByRole('button', { name: 'Row management', exact: true }).count(), 1);
   assert.equal(await sidebar.getByRole('button', { name: 'Export', exact: true }).count(), 1);
+  assert.equal(await sidebar.getByRole('button', { name: 'Grid API', exact: true }).count(), 1);
   await page.getByRole('button', { name: 'Switch to Korean', exact: true }).click();
   pass('feature groups retain collapse, search and language switching', { search: ['reordering', 'ref-move'], translatedGroups: true });
 
@@ -90,6 +94,21 @@ try {
   await page.reload();
   await page.locator('.getting-started').waitFor();
   pass('history and reload restore the selected playground', { backExample: 'editing', forwardPackage: query().get('package'), reloadedHeading: await page.locator('.workspace-heading h1').textContent() });
+
+  const chartGroup = name => sidebar.locator('.nav-category').filter({ has: page.getByRole('button', { name, exact: true }) });
+  const timeGroup = chartGroup('시간축·시계열 (Time series)');
+  assert.equal(await sidebar.locator('.nav-section-group .nav-category').count(), 15);
+  assert.equal(await sidebar.locator('.nav-section-group .nav-item').count(), 97);
+  assert.deepEqual(await exampleIds(timeGroup), ['date-time', 'time-line', 'time-combo', 'time-max-span', 'time-series']);
+  assert.ok((await exampleIds(chartGroup('분포·구성 (Distribution·Composition)'))).includes('histogram'));
+  assert.ok((await exampleIds(chartGroup('활용 (Use cases)'))).includes('divergent-forecast'));
+  await sidebar.getByRole('textbox', { name: '문서·예제 검색', exact: true }).fill('좌우 축');
+  assert.deepEqual(await exampleIds(chartGroup('축 (Axes)')), ['dual-axis', 'line-multi-axis', 'scatter-multi-axis']);
+  await sidebar.getByRole('textbox', { name: '문서·예제 검색', exact: true }).fill('');
+  await page.getByRole('button', { name: '영어로 전환', exact: true }).click();
+  assert.equal(await sidebar.getByRole('button', { name: 'Time series', exact: true }).count(), 1);
+  await page.getByRole('button', { name: 'Switch to Korean', exact: true }).click();
+  pass('Charts groups types and time-series settings while preserving every sample', { groups: 15, samples: 97, separateTimeSeries: true });
 
   await page.goto(origin + '/?package=pdf&ref=docs#main-content');
   await page.getByRole('heading', { name: 'OwpPdf', exact: true }).waitFor();

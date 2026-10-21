@@ -24,7 +24,7 @@ export function sourceGraphPlugin(): Plugin {
     },
     handleHotUpdate(context) {
       const graph = context.server.moduleGraph.getModuleById(resolvedId);
-      if (graph && /\.(?:ts|tsx|css)$/.test(context.file)) {
+      if (graph && /\.(?:ts|tsx|css|json)$/.test(context.file)) {
         context.server.moduleGraph.invalidateModule(graph);
         return [...context.modules, graph];
       }

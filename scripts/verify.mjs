@@ -73,7 +73,7 @@ try {
   pass('accessible overview', { violations: axe.violations.length });
 
   await page.keyboard.press('Meta+k');
-  await page.getByRole('textbox', { name: '예제 검색' }).fill('getCellRowSpanKey');
+  await page.getByRole('textbox', { name: '문서·예제 검색' }).fill('getCellRowSpanKey');
   assert.ok(await page.locator('.nav-item').count() > 0);
   await page.locator('.nav-item').first().click();
   assert.ok(page.url().includes('sample='));

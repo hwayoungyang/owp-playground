@@ -1,0 +1,2491 @@
+[
+  {
+    "exampleId": "layered-column",
+    "apiId": "chart.js:BarControllerDatasetOptions.grouped",
+    "label": "grouped",
+    "action": "locate",
+    "reason": "bar dataset의 grouped를 ChartCanvas.data로 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/layered-column.tsx",
+        "snippet": "barPercentage: 0.8,\n        categoryPercentage: 0.8,\n        grouped: !layered,"
+      },
+      {
+        "file": "playgrounds/charts/examples/layered-column.tsx",
+        "snippet": "<ChartCanvas"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/layered-column.tsx",
+    "snippet": "barPercentage: 0.8,\n        categoryPercentage: 0.8,\n        grouped: !layered,"
+  },
+  {
+    "exampleId": "layered-column",
+    "apiId": "chart.js:BarControllerDatasetOptions.barPercentage",
+    "label": "barPercentage",
+    "action": "locate",
+    "reason": "bar dataset의 barPercentage를 ChartCanvas.data로 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/layered-column.tsx",
+        "snippet": "barPercentage: 0.8,"
+      },
+      {
+        "file": "playgrounds/charts/examples/layered-column.tsx",
+        "snippet": "<ChartCanvas"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/layered-column.tsx",
+    "snippet": "barPercentage: 0.8,"
+  },
+  {
+    "exampleId": "layered-column",
+    "apiId": "@owp/charts:ChartSeriesConfig.order",
+    "label": "order",
+    "action": "replace",
+    "reason": "ChartSeriesConfig를 거치지 않는 native dataset.order이므로 Chart.js ControllerDatasetOptions.order로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/layered-column.tsx",
+        "snippet": "order: 1,"
+      },
+      {
+        "file": "playgrounds/charts/examples/layered-column.tsx",
+        "snippet": "<ChartCanvas"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/layered-column.tsx",
+    "snippet": "order: 1,",
+    "replacement": {
+      "id": "chart.js:ControllerDatasetOptions.order",
+      "label": "order"
+    }
+  },
+  {
+    "exampleId": "stacked-groups",
+    "apiId": "@owp/charts:ChartSeriesConfig.stack",
+    "label": "stack",
+    "action": "replace",
+    "reason": "ChartSeriesConfig를 거치지 않는 native dataset.stack이므로 Chart.js ControllerDatasetOptions.stack으로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/stacked-groups.tsx",
+        "snippet": "stack: enabled ? (index < 2 ? 'machining' : 'other') : name,"
+      },
+      {
+        "file": "playgrounds/charts/examples/stacked-groups.tsx",
+        "snippet": "<ChartCanvas"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/stacked-groups.tsx",
+    "snippet": "stack: enabled ? (index < 2 ? 'machining' : 'other') : name,",
+    "replacement": {
+      "id": "chart.js:ControllerDatasetOptions.stack",
+      "label": "stack"
+    }
+  },
+  {
+    "exampleId": "diverging-bar",
+    "apiId": "@owp/charts:ChartSeriesConfig.stack",
+    "label": "stack",
+    "action": "replace",
+    "reason": "ChartSeriesConfig를 거치지 않는 native dataset.stack이므로 Chart.js ControllerDatasetOptions.stack으로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/diverging-bar.tsx",
+        "snippet": "backgroundColor: palette.colors[0],\n        stack: 'shifts',"
+      },
+      {
+        "file": "playgrounds/charts/examples/diverging-bar.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/diverging-bar.tsx",
+    "snippet": "backgroundColor: palette.colors[0],\n        stack: 'shifts',",
+    "replacement": {
+      "id": "chart.js:ControllerDatasetOptions.stack",
+      "label": "stack"
+    }
+  },
+  {
+    "exampleId": "diverging-bar",
+    "apiId": "chart.js:CoreChartOptions.indexAxis",
+    "label": "indexAxis",
+    "action": "locate",
+    "reason": "ChartCanvas가 options를 ChartFrame에 전달하며 indexAxis로 가로 막대를 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/diverging-bar.tsx",
+        "snippet": "indexAxis: 'y',"
+      },
+      {
+        "file": "playgrounds/charts/examples/diverging-bar.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "...options,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "options={config}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/diverging-bar.tsx",
+    "snippet": "indexAxis: 'y',"
+  },
+  {
+    "exampleId": "diverging-bar",
+    "apiId": "@owp/charts:ChartDataLabelsPluginOptions",
+    "label": "datalabels",
+    "action": "locate",
+    "reason": "plugins.datalabels 옵션을 ChartCanvas가 ChartFrame에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/diverging-bar.tsx",
+        "snippet": "datalabels: {"
+      },
+      {
+        "file": "playgrounds/charts/examples/diverging-bar.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "...options,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "options={config}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/diverging-bar.tsx",
+    "snippet": "datalabels: {"
+  },
+  {
+    "exampleId": "divergent-forecast",
+    "apiId": "chart.js:LineOptions.borderDash",
+    "label": "borderDash",
+    "action": "locate",
+    "reason": "예측 native line dataset의 borderDash를 ChartCanvas.data로 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/divergent-forecast.tsx",
+        "snippet": "borderDash: [5, 4],"
+      },
+      {
+        "file": "playgrounds/charts/examples/divergent-forecast.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/divergent-forecast.tsx",
+    "snippet": "borderDash: [5, 4],"
+  },
+  {
+    "exampleId": "divergent-forecast",
+    "apiId": "chart.js:ChartConfiguration.data",
+    "label": "data",
+    "action": "replace",
+    "reason": "예제는 ChartConfiguration 객체를 만들지 않으며 ChartCanvas.data가 ChartFrameProps.data로 전달됩니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/divergent-forecast.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/divergent-forecast.tsx",
+    "snippet": "<ChartCanvas type=\"line\" data={data} options={options} {...props} />",
+    "replacement": {
+      "id": "@owp/charts:ChartFrameProps.data",
+      "label": "data"
+    }
+  },
+  {
+    "exampleId": "divergent-forecast",
+    "apiId": "chart.js:TooltipOptions",
+    "label": "tooltip",
+    "action": "locate",
+    "reason": "null 예측 지점을 거르는 plugins.tooltip 옵션을 ChartFrame에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/divergent-forecast.tsx",
+        "snippet": "plugins: { tooltip: { filter: (item) => item.raw !== null } },"
+      },
+      {
+        "file": "playgrounds/charts/examples/divergent-forecast.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "...options,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "options={config}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/divergent-forecast.tsx",
+    "snippet": "plugins: { tooltip: { filter: (item) => item.raw !== null } },"
+  },
+  {
+    "exampleId": "stacked-combo",
+    "apiId": "@owp/charts:ChartSeriesConfig.type",
+    "label": "type",
+    "action": "replace",
+    "reason": "ChartSeriesConfig가 아닌 native mixed dataset의 type을 지정하므로 ChartDatasetProperties.type으로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/stacked-combo.tsx",
+        "snippet": "type: 'bar' as const,"
+      },
+      {
+        "file": "playgrounds/charts/examples/stacked-combo.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/stacked-combo.tsx",
+    "snippet": "type: 'bar' as const,",
+    "replacement": {
+      "id": "chart.js:ChartDatasetProperties.type",
+      "label": "type"
+    }
+  },
+  {
+    "exampleId": "stacked-combo",
+    "apiId": "@owp/charts:ChartSeriesConfig.stack",
+    "label": "stack",
+    "action": "replace",
+    "reason": "ChartSeriesConfig를 거치지 않는 native dataset.stack이므로 ControllerDatasetOptions.stack으로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/stacked-combo.tsx",
+        "snippet": "stack: enabled ? 'output' : undefined,"
+      },
+      {
+        "file": "playgrounds/charts/examples/stacked-combo.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/stacked-combo.tsx",
+    "snippet": "stack: enabled ? 'output' : undefined,",
+    "replacement": {
+      "id": "chart.js:ControllerDatasetOptions.stack",
+      "label": "stack"
+    }
+  },
+  {
+    "exampleId": "mixed-time-series",
+    "apiId": "chart.js:LineControllerDatasetOptions.yAxisID",
+    "label": "yAxisID",
+    "action": "replace",
+    "reason": "예제는 ChartSeriesConfig.yAxisId를 지정합니다. tooltip에서 읽는 dataset.yAxisID 대신 실제 입력 속성으로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/mixed-time-series.tsx",
+        "snippet": "yAxisId: 'output',"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/mixed-time-series.tsx",
+        "snippet": "<ChartFrame"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/mixed-time-series.tsx",
+    "snippet": "yAxisId: 'output',",
+    "replacement": {
+      "id": "@owp/charts:ChartSeriesConfig.yAxisId",
+      "label": "yAxisId"
+    }
+  },
+  {
+    "exampleId": "daily-combo",
+    "apiId": "chart.js:BarControllerDatasetOptions.barThickness",
+    "label": "barThickness",
+    "action": "locate",
+    "reason": "일별 평균 native bar dataset의 barThickness를 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/daily-combo.tsx",
+        "snippet": "barThickness: 'flex',"
+      },
+      {
+        "file": "playgrounds/charts/examples/daily-combo.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={data} options={options} onRecord={props.onRecord} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/daily-combo.tsx",
+    "snippet": "barThickness: 'flex',"
+  },
+  {
+    "exampleId": "daily-combo",
+    "apiId": "chart.js:BarControllerDatasetOptions.barPercentage",
+    "label": "barPercentage",
+    "action": "locate",
+    "reason": "일별 평균 native bar dataset의 barPercentage를 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/daily-combo.tsx",
+        "snippet": "barPercentage: 0.86,"
+      },
+      {
+        "file": "playgrounds/charts/examples/daily-combo.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={data} options={options} onRecord={props.onRecord} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/daily-combo.tsx",
+    "snippet": "barPercentage: 0.86,"
+  },
+  {
+    "exampleId": "scatter",
+    "apiId": "chart.js:PointPrefixedOptions.pointRadius",
+    "label": "pointRadius",
+    "action": "locate",
+    "reason": "native line dataset의 pointRadius를 ChartCanvas.data로 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/scatter.tsx",
+        "snippet": "pointRadius: radius,"
+      },
+      {
+        "file": "playgrounds/charts/examples/scatter.tsx",
+        "snippet": "<ChartCanvas type=\"scatter\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/scatter.tsx",
+    "snippet": "pointRadius: radius,"
+  },
+  {
+    "exampleId": "radar",
+    "apiId": "@owp/charts:OwpRadarChartProps.labelOptions",
+    "label": "labelOptions",
+    "action": "remove",
+    "reason": "OwpRadarChart에 min·max·stepSize와 valueFormatter를 지정하지만 labelOptions는 지정하지 않습니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/radar.tsx",
+        "snippet": "valueFormatter={(value) => t('{{value}}점', { value })}"
+      },
+      {
+        "file": "playgrounds/charts/examples/radar.tsx",
+        "snippet": "labels={labels}"
+      }
+    ]
+  },
+  {
+    "exampleId": "axis-stacks",
+    "apiId": "chart.js:LineControllerDatasetOptions.yAxisID",
+    "label": "yAxisID",
+    "action": "locate",
+    "reason": "native line dataset의 yAxisID로 각 series의 축을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/axis-stacks.tsx",
+        "snippet": "yAxisID: index ? 'lower' : 'upper',"
+      },
+      {
+        "file": "playgrounds/charts/examples/axis-stacks.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/axis-stacks.tsx",
+    "snippet": "yAxisID: index ? 'lower' : 'upper',"
+  },
+  {
+    "exampleId": "line-multi-axis",
+    "apiId": "chart.js:LineControllerDatasetOptions.yAxisID",
+    "label": "yAxisID",
+    "action": "locate",
+    "reason": "native line dataset의 yAxisID로 각 series의 축을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/line-multi-axis.tsx",
+        "snippet": "yAxisID: index ? 'right' : 'left',"
+      },
+      {
+        "file": "playgrounds/charts/examples/line-multi-axis.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/line-multi-axis.tsx",
+    "snippet": "yAxisID: index ? 'right' : 'left',"
+  },
+  {
+    "exampleId": "scatter-multi-axis",
+    "apiId": "chart.js:LineControllerDatasetOptions.yAxisID",
+    "label": "yAxisID",
+    "action": "locate",
+    "reason": "native line dataset의 yAxisID로 각 series의 축을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/scatter-multi-axis.tsx",
+        "snippet": "yAxisID: i === 1 ? 'y1' : 'y',"
+      },
+      {
+        "file": "playgrounds/charts/examples/scatter-multi-axis.tsx",
+        "snippet": "<ChartCanvas type=\"scatter\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/scatter-multi-axis.tsx",
+    "snippet": "yAxisID: i === 1 ? 'y1' : 'y',"
+  },
+  {
+    "exampleId": "dual-axis",
+    "apiId": "@owp/charts:ChartSeriesConfig.yAxisId",
+    "label": "yAxisId",
+    "action": "locate",
+    "reason": "ChartSeriesConfig.yAxisId를 useCartesian이 createChartData에 전달해 dataset의 축에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/dual-axis.tsx",
+        "snippet": "{ dataKey: 'actual', label: t('실적'), type: 'bar', yAxisId: 'amount', order: 1 },"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/dual-axis.tsx",
+        "snippet": "<ChartFrame type=\"bar\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/dual-axis.tsx",
+    "snippet": "{ dataKey: 'actual', label: t('실적'), type: 'bar', yAxisId: 'amount', order: 1 },"
+  },
+  {
+    "exampleId": "triple-axis",
+    "apiId": "@owp/charts:ChartSeriesConfig.yAxisId",
+    "label": "yAxisId",
+    "action": "locate",
+    "reason": "ChartSeriesConfig.yAxisId를 useCartesian이 createChartData에 전달해 dataset의 축에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/triple-axis.tsx",
+        "snippet": "{ dataKey: 'mttf', label: 'MTTF', type: 'line', yAxisId: 'mttf' },"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/triple-axis.tsx",
+        "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/triple-axis.tsx",
+    "snippet": "{ dataKey: 'mttf', label: 'MTTF', type: 'line', yAxisId: 'mttf' },"
+  },
+  {
+    "exampleId": "external-tooltip",
+    "apiId": "@owp/charts:ChartFrameExternalTooltipOptions.viewportPadding",
+    "label": "viewportPadding",
+    "action": "locate",
+    "reason": "ChartFrame.externalTooltip 객체에서 viewportPadding을 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/external-tooltip.tsx",
+        "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" externalTooltip={{ viewportPadding }} />"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/external-tooltip.tsx",
+    "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" externalTooltip={{ viewportPadding }} />"
+  },
+  {
+    "exampleId": "hover-layer",
+    "apiId": "@owp/charts:ChartInteractionLayerOptions.showHoverArea",
+    "label": "showHoverArea",
+    "action": "locate",
+    "reason": "ChartFrame.interactionLayer 객체에서 해당 표시 옵션을 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/hover-layer.tsx",
+        "snippet": "interactionLayer={{ showHoverArea: area, showReferenceLine: line }}"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/hover-layer.tsx",
+    "snippet": "interactionLayer={{ showHoverArea: area, showReferenceLine: line }}"
+  },
+  {
+    "exampleId": "hover-layer",
+    "apiId": "@owp/charts:ChartInteractionLayerOptions.showReferenceLine",
+    "label": "showReferenceLine",
+    "action": "locate",
+    "reason": "ChartFrame.interactionLayer 객체에서 해당 표시 옵션을 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/hover-layer.tsx",
+        "snippet": "interactionLayer={{ showHoverArea: area, showReferenceLine: line }}"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/hover-layer.tsx",
+    "snippet": "interactionLayer={{ showHoverArea: area, showReferenceLine: line }}"
+  },
+  {
+    "exampleId": "x-slider",
+    "apiId": "@owp/charts:ChartZoomSliderAxisOptions.start",
+    "label": "start",
+    "action": "locate",
+    "reason": "ChartFrame.zoomSlider.x의 초기 범위 start와 end를 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/x-slider.tsx",
+        "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" zoomSlider={{ x: { start: 2, end: 8 } }} />"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/x-slider.tsx",
+    "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" zoomSlider={{ x: { start: 2, end: 8 } }} />"
+  },
+  {
+    "exampleId": "x-slider",
+    "apiId": "@owp/charts:ChartZoomSliderAxisOptions.end",
+    "label": "end",
+    "action": "locate",
+    "reason": "ChartFrame.zoomSlider.x의 초기 범위 start와 end를 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/x-slider.tsx",
+        "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" zoomSlider={{ x: { start: 2, end: 8 } }} />"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/x-slider.tsx",
+    "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" zoomSlider={{ x: { start: 2, end: 8 } }} />"
+  },
+  {
+    "exampleId": "drag-zoom",
+    "apiId": "@owp/charts:ChartDragZoomOptions.mode",
+    "label": "mode",
+    "action": "locate",
+    "reason": "ChartFrame.interactionLayer.dragZoom.mode를 x로 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/drag-zoom.tsx",
+        "snippet": "interactionLayer={{ dragZoom: { enabled, mode: 'x', wheel: false, pinch: false } }}"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/drag-zoom.tsx",
+    "snippet": "interactionLayer={{ dragZoom: { enabled, mode: 'x', wheel: false, pinch: false } }}"
+  },
+  {
+    "exampleId": "wheel-pinch",
+    "apiId": "@owp/charts:ChartDragZoomOptions.wheel",
+    "label": "wheel",
+    "action": "locate",
+    "reason": "ChartFrame.interactionLayer.dragZoom에서 wheel·pinch trigger를 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/wheel-pinch.tsx",
+        "snippet": "wheel: { enabled, modifierKey: 'ctrl' },"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/wheel-pinch.tsx",
+    "snippet": "wheel: { enabled, modifierKey: 'ctrl' },"
+  },
+  {
+    "exampleId": "wheel-pinch",
+    "apiId": "@owp/charts:ChartDragZoomOptions.pinch",
+    "label": "pinch",
+    "action": "locate",
+    "reason": "ChartFrame.interactionLayer.dragZoom에서 wheel·pinch trigger를 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/wheel-pinch.tsx",
+        "snippet": "pinch: { enabled },"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/wheel-pinch.tsx",
+    "snippet": "pinch: { enabled },"
+  },
+  {
+    "exampleId": "wheel-pinch",
+    "apiId": "@owp/charts:ChartDragZoomOptions.modifierKey",
+    "label": "modifierKey",
+    "action": "replace",
+    "reason": "modifierKey는 dragZoom의 최상위가 아니라 wheel trigger 옵션에 있으므로 ChartZoomWheelOptions.modifierKey로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/wheel-pinch.tsx",
+        "snippet": "wheel: { enabled, modifierKey: 'ctrl' },"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/wheel-pinch.tsx",
+    "snippet": "wheel: { enabled, modifierKey: 'ctrl' },",
+    "replacement": {
+      "id": "@owp/charts:ChartZoomWheelOptions.modifierKey",
+      "label": "modifierKey"
+    }
+  },
+  {
+    "exampleId": "linked",
+    "apiId": "@owp/charts:ChartLinkedInteractionOptions.syncBy",
+    "label": "syncBy",
+    "action": "locate",
+    "reason": "두 ChartFrame에 전달하는 linkedInteraction 객체에서 동기화 옵션을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "syncBy: 'label',"
+      },
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "const linkedInteraction = {"
+      },
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "type=\"bar\"\n              height=\"100%\"\n              linkedInteraction={linkedInteraction}"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/linked.tsx",
+    "snippet": "syncBy: 'label',"
+  },
+  {
+    "exampleId": "linked",
+    "apiId": "@owp/charts:ChartLinkedInteractionOptions.syncCrosshair",
+    "label": "syncCrosshair",
+    "action": "locate",
+    "reason": "두 ChartFrame에 전달하는 linkedInteraction 객체에서 동기화 옵션을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "syncCrosshair: crosshair,"
+      },
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "const linkedInteraction = {"
+      },
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "type=\"bar\"\n              height=\"100%\"\n              linkedInteraction={linkedInteraction}"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/linked.tsx",
+    "snippet": "syncCrosshair: crosshair,"
+  },
+  {
+    "exampleId": "linked",
+    "apiId": "@owp/charts:ChartLinkedInteractionOptions.syncTooltip",
+    "label": "syncTooltip",
+    "action": "locate",
+    "reason": "두 ChartFrame에 전달하는 linkedInteraction 객체에서 동기화 옵션을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "syncTooltip: tooltip,"
+      },
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "const linkedInteraction = {"
+      },
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "type=\"bar\"\n              height=\"100%\"\n              linkedInteraction={linkedInteraction}"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/linked.tsx",
+    "snippet": "syncTooltip: tooltip,"
+  },
+  {
+    "exampleId": "linked",
+    "apiId": "@owp/charts:ChartLinkedInteractionOptions.syncZoom",
+    "label": "syncZoom",
+    "action": "locate",
+    "reason": "두 ChartFrame에 전달하는 linkedInteraction 객체에서 동기화 옵션을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "syncZoom: zoom,"
+      },
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "const linkedInteraction = {"
+      },
+      {
+        "file": "playgrounds/charts/examples/linked.tsx",
+        "snippet": "type=\"bar\"\n              height=\"100%\"\n              linkedInteraction={linkedInteraction}"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/linked.tsx",
+    "snippet": "syncZoom: zoom,"
+  },
+  {
+    "exampleId": "data-labels",
+    "apiId": "@owp/charts:ChartDataLabelsContext",
+    "label": "ChartDataLabelsContext",
+    "action": "locate",
+    "reason": "plugins.datalabels.display callback에서 문맥상 추론된 ChartDataLabelsContext의 chart·datasetIndex·dataIndex·dataset을 사용합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/data-labels.tsx",
+        "snippet": "display: (context) => {"
+      },
+      {
+        "file": "playgrounds/charts/examples/data-labels.tsx",
+        "snippet": "const bar = context.chart.getDatasetMeta(context.datasetIndex).data["
+      },
+      {
+        "file": "playgrounds/charts/examples/data-labels.tsx",
+        "snippet": "String(context.dataset.data[context.dataIndex]),"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const input = config.options;"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...input,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "options,"
+      },
+      {
+        "file": "playgrounds/charts/examples/data-labels.tsx",
+        "snippet": "<ChartFrame type=\"bar\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/data-labels.tsx",
+    "snippet": "display: (context) => {"
+  },
+  {
+    "exampleId": "target-line",
+    "apiId": "chartjs-plugin-annotation:LineAnnotationOptions",
+    "label": "line",
+    "action": "locate",
+    "reason": "plugins.annotation.annotations.target에 line annotation 옵션을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/target-line.tsx",
+        "snippet": "type: 'line',"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const input = config.options;"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...input,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "options,"
+      },
+      {
+        "file": "playgrounds/charts/examples/target-line.tsx",
+        "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/target-line.tsx",
+    "snippet": "type: 'line',"
+  },
+  {
+    "exampleId": "range-band",
+    "apiId": "@owp/charts:ChartAnnotationOptions",
+    "label": "box",
+    "action": "locate",
+    "reason": "plugins.annotation.annotations.range에 개별 box annotation 옵션을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/range-band.tsx",
+        "snippet": "type: 'box',"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const input = config.options;"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...input,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "options,"
+      },
+      {
+        "file": "playgrounds/charts/examples/range-band.tsx",
+        "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/range-band.tsx",
+    "snippet": "type: 'box',"
+  },
+  {
+    "exampleId": "trendline",
+    "apiId": "@owp/charts:ChartTrendlineLinearOptions",
+    "label": "trendlineLinear",
+    "action": "locate",
+    "reason": "series.datasetOptions.trendlineLinear의 실제 옵션 객체를 createChartData가 dataset으로 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/trendline.tsx",
+        "snippet": "trendlineLinear: show"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/trendline.tsx",
+        "snippet": "<ChartFrame type=\"bar\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/trendline.tsx",
+    "snippet": "trendlineLinear: show"
+  },
+  {
+    "exampleId": "trendline",
+    "apiId": "@owp/charts:ChartTrendlineLinearOptions",
+    "label": "ChartTrendlineLinearOptions",
+    "action": "locate",
+    "reason": "series.datasetOptions.trendlineLinear의 실제 옵션 객체를 createChartData가 dataset으로 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/trendline.tsx",
+        "snippet": "trendlineLinear: show"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/trendline.tsx",
+        "snippet": "<ChartFrame type=\"bar\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/trendline.tsx",
+    "snippet": "trendlineLinear: show"
+  },
+  {
+    "exampleId": "chart-area-border",
+    "apiId": "@owp/charts:ChartAnnotationOptions",
+    "label": "box",
+    "action": "locate",
+    "reason": "plugins.annotation.annotations의 개별 box annotation 옵션을 ChartFrame에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/chart-area-border.tsx",
+        "snippet": "type: 'box',"
+      },
+      {
+        "file": "playgrounds/charts/examples/chart-area-border.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "...options,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "options={config}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/chart-area-border.tsx",
+    "snippet": "type: 'box',"
+  },
+  {
+    "exampleId": "quadrants",
+    "apiId": "@owp/charts:ChartAnnotationOptions",
+    "label": "box",
+    "action": "locate",
+    "reason": "plugins.annotation.annotations의 개별 box annotation 옵션을 ChartFrame에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/quadrants.tsx",
+        "snippet": "upperLeft: {\n            type: 'box',"
+      },
+      {
+        "file": "playgrounds/charts/examples/quadrants.tsx",
+        "snippet": "<ChartCanvas type=\"scatter\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "...options,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "options={config}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/quadrants.tsx",
+    "snippet": "upperLeft: {\n            type: 'box',"
+  },
+  {
+    "exampleId": "stepped-line",
+    "apiId": "chart.js:LineOptions.stepped",
+    "label": "stepped",
+    "action": "locate",
+    "reason": "series.datasetOptions에서 계단형 선과 tension을 지정하고 createChartData에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/stepped-line.tsx",
+        "snippet": "datasetOptions: { stepped: mode, tension: 0, pointRadius: 0, borderWidth: 2 },"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/stepped-line.tsx",
+        "snippet": "<ChartFrame"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/stepped-line.tsx",
+    "snippet": "datasetOptions: { stepped: mode, tension: 0, pointRadius: 0, borderWidth: 2 },"
+  },
+  {
+    "exampleId": "stepped-line",
+    "apiId": "chart.js:LineOptions.tension",
+    "label": "tension",
+    "action": "locate",
+    "reason": "series.datasetOptions에서 계단형 선과 tension을 지정하고 createChartData에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/stepped-line.tsx",
+        "snippet": "datasetOptions: { stepped: mode, tension: 0, pointRadius: 0, borderWidth: 2 },"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/stepped-line.tsx",
+        "snippet": "<ChartFrame"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/stepped-line.tsx",
+    "snippet": "datasetOptions: { stepped: mode, tension: 0, pointRadius: 0, borderWidth: 2 },"
+  },
+  {
+    "exampleId": "line-segments",
+    "apiId": "chart.js:LineOptions.spanGaps",
+    "label": "spanGaps",
+    "action": "replace",
+    "reason": "dataset에 지정한 누락 구간 연결 옵션이므로 LineControllerDatasetOptions.spanGaps로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/line-segments.tsx",
+        "snippet": "spanGaps: enabled,"
+      },
+      {
+        "file": "playgrounds/charts/examples/line-segments.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/line-segments.tsx",
+    "snippet": "spanGaps: enabled,",
+    "replacement": {
+      "id": "chart.js:LineControllerDatasetOptions.spanGaps",
+      "label": "spanGaps"
+    }
+  },
+  {
+    "exampleId": "sparkline",
+    "apiId": "chart.js:CoreChartOptions.animation",
+    "label": "animation",
+    "action": "locate",
+    "reason": "Sparkline의 CoreChart.options에서 animation을 직접 비활성화합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/sparkline.tsx",
+        "snippet": "animation: false,"
+      },
+      {
+        "file": "playgrounds/charts/examples/sparkline.tsx",
+        "snippet": "<CoreChart"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/sparkline.tsx",
+    "snippet": "animation: false,"
+  },
+  {
+    "exampleId": "plan-actual",
+    "apiId": "@owp/charts:ChartSeriesConfig.yAxisId",
+    "label": "yAxisId",
+    "action": "locate",
+    "reason": "계획·실적·달성률 series의 ChartSeriesConfig.yAxisId를 createChartData에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/plan-actual.tsx",
+        "snippet": "label: t('계획'),\n          type: 'bar',\n          yAxisId: 'amount',"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/plan-actual.tsx",
+        "snippet": "<ChartFrame"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/plan-actual.tsx",
+    "snippet": "label: t('계획'),\n          type: 'bar',\n          yAxisId: 'amount',"
+  },
+  {
+    "exampleId": "plan-actual",
+    "apiId": "@owp/charts:ChartSeriesConfig.order",
+    "label": "order",
+    "action": "locate",
+    "reason": "계획·실적·달성률 series의 ChartSeriesConfig.order를 createChartData에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/plan-actual.tsx",
+        "snippet": "label: t('계획'),\n          type: 'bar',\n          yAxisId: 'amount',\n          order: 1,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/plan-actual.tsx",
+        "snippet": "<ChartFrame"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/plan-actual.tsx",
+    "snippet": "label: t('계획'),\n          type: 'bar',\n          yAxisId: 'amount',\n          order: 1,"
+  },
+  {
+    "exampleId": "plan-actual",
+    "apiId": "@owp/charts:ChartTrendlineLinearOptions",
+    "label": "trendlineLinear",
+    "action": "locate",
+    "reason": "실적 series의 datasetOptions.trendlineLinear를 createChartData에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/plan-actual.tsx",
+        "snippet": "trendlineLinear: { colorMin: palette.danger, lineStyle: 'dashed', width: 2 },"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/plan-actual.tsx",
+        "snippet": "<ChartFrame"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/plan-actual.tsx",
+    "snippet": "trendlineLinear: { colorMin: palette.danger, lineStyle: 'dashed', width: 2 },"
+  },
+  {
+    "exampleId": "fulfillment",
+    "apiId": "@owp/charts:ChartSeriesConfig.yAxisId",
+    "label": "yAxisId",
+    "action": "locate",
+    "reason": "각 달성률 series의 ChartSeriesConfig.yAxisId를 rate 축에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/fulfillment.tsx",
+        "snippet": "{ dataKey: 'rate', label: t('라인 A'), type: 'line', yAxisId: 'rate' },"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/fulfillment.tsx",
+        "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/fulfillment.tsx",
+    "snippet": "{ dataKey: 'rate', label: t('라인 A'), type: 'line', yAxisId: 'rate' },"
+  },
+  {
+    "exampleId": "oee",
+    "apiId": "@owp/charts:CreateChartDataParams.series",
+    "label": "series",
+    "action": "locate",
+    "reason": "OEE·가동률·성능·품질 series 배열을 createChartData의 series에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/oee.tsx",
+        "snippet": "series: ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/oee.tsx",
+        "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/oee.tsx",
+    "snippet": "series: ["
+  },
+  {
+    "exampleId": "pareto",
+    "apiId": "@owp/charts:ChartAnnotationPluginOptions",
+    "label": "annotation",
+    "action": "locate",
+    "reason": "plugins.annotation에 누적 비율 80% 기준선 옵션을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/pareto.tsx",
+        "snippet": "annotation: {"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const input = config.options;"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...input,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "options,"
+      },
+      {
+        "file": "playgrounds/charts/examples/pareto.tsx",
+        "snippet": "<ChartFrame"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/pareto.tsx",
+    "snippet": "annotation: {"
+  },
+  {
+    "exampleId": "scatter",
+    "apiId": "chart.js:ScaleTypeRegistry",
+    "label": "scales.type",
+    "action": "replace",
+    "reason": "실제 설정은 등록형 목록 자체가 아니라 ScaleOptionsByType이 선언하는 type discriminator이므로 해당 옵션 계약으로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/scatter.tsx",
+        "snippet": "x: { type: 'linear', min: 0, max: 100 },"
+      },
+      {
+        "file": "playgrounds/charts/examples/scatter.tsx",
+        "snippet": "<ChartCanvas type=\"scatter\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "...options,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "options={config}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/scatter.tsx",
+    "snippet": "x: { type: 'linear', min: 0, max: 100 },",
+    "replacement": {
+      "id": "chart.js:ScaleOptionsByType",
+      "label": "scales.type"
+    }
+  },
+  {
+    "exampleId": "axis-center",
+    "apiId": "chart.js:ScaleTypeRegistry",
+    "label": "scales.type",
+    "action": "replace",
+    "reason": "실제 설정은 등록형 목록 자체가 아니라 ScaleOptionsByType이 선언하는 type discriminator이므로 해당 옵션 계약으로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/axis-center.tsx",
+        "snippet": "x: { type: 'linear', min: -50, max: 50, position: enabled ? 'center' : 'bottom' },"
+      },
+      {
+        "file": "playgrounds/charts/examples/axis-center.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "...options,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "options={config}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/axis-center.tsx",
+    "snippet": "x: { type: 'linear', min: -50, max: 50, position: enabled ? 'center' : 'bottom' },",
+    "replacement": {
+      "id": "chart.js:ScaleOptionsByType",
+      "label": "scales.type"
+    }
+  },
+  {
+    "exampleId": "scatter",
+    "apiId": "chart.js:LineControllerDatasetOptions.showLine",
+    "label": "showLine",
+    "action": "remove",
+    "reason": "Native Scatter를 사용하므로 Line의 showLine 우회 설정을 공개 링크에서 제외합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/scatter.tsx",
+        "snippet": "<ChartCanvas type=\"scatter\" data={chartData} options={options} {...props} />"
+      }
+    ]
+  },
+  {
+    "exampleId": "scatter-multi-axis",
+    "apiId": "chart.js:LineControllerDatasetOptions.showLine",
+    "label": "showLine",
+    "action": "remove",
+    "reason": "Native Scatter를 사용하므로 Line의 showLine 우회 설정을 공개 링크에서 제외합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/scatter-multi-axis.tsx",
+        "snippet": "<ChartCanvas type=\"scatter\" data={chartData} options={options} {...props} />"
+      }
+    ]
+  },
+  {
+    "exampleId": "bubble",
+    "apiId": "chart.js:LineControllerDatasetOptions.showLine",
+    "label": "showLine",
+    "action": "remove",
+    "reason": "Native Bubble의 데이터 r을 사용하므로 Line의 showLine과 pointRadius 우회 설정을 공개 링크에서 제외합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/bubble.tsx",
+        "snippet": "<ChartCanvas type=\"bubble\" data={chartData} options={options} {...props} />"
+      }
+    ]
+  },
+  {
+    "exampleId": "bubble",
+    "apiId": "chart.js:PointPrefixedOptions.pointRadius",
+    "label": "pointRadius",
+    "action": "remove",
+    "reason": "Native Bubble의 데이터 r을 사용하므로 Line의 showLine과 pointRadius 우회 설정을 공개 링크에서 제외합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/bubble.tsx",
+        "snippet": "<ChartCanvas type=\"bubble\" data={chartData} options={options} {...props} />"
+      }
+    ]
+  },
+  {
+    "exampleId": "time-max-span",
+    "apiId": "chart.js:LineOptions.spanGaps",
+    "label": "spanGaps",
+    "action": "replace",
+    "reason": "dataset의 숫자형 연결 간격을 LineControllerDatasetOptions.spanGaps에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/time-max-span.tsx",
+        "snippet": "spanGaps: (gapHours[threshold] ?? 4) * hourInMilliseconds,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/time-max-span.tsx",
+    "snippet": "spanGaps: (gapHours[threshold] ?? 4) * hourInMilliseconds,",
+    "replacement": {
+      "id": "chart.js:LineControllerDatasetOptions.spanGaps",
+      "label": "spanGaps"
+    }
+  },
+  {
+    "exampleId": "box-plot",
+    "apiId": "@owp/charts:BoxPlotDatasetOptions",
+    "label": "BoxPlotDatasetOptions",
+    "action": "locate",
+    "reason": "Box plot 데이터셋의 스타일 옵션을 전용 컴포넌트 data로 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/box-plot.tsx",
+        "snippet": "whiskerColor: palette.colors,"
+      },
+      {
+        "file": "playgrounds/charts/examples/box-plot.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/box-plot.tsx",
+    "snippet": "whiskerColor: palette.colors,"
+  },
+  {
+    "exampleId": "grouped-bar",
+    "apiId": "@owp/charts:CreateChartDataParams.series",
+    "label": "series",
+    "action": "locate",
+    "reason": "예제의 series 배열을 useCartesian이 createChartData의 series 인자로 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/grouped-bar.tsx",
+        "snippet": "series: ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/grouped-bar.tsx",
+        "snippet": "<ChartFrame type=\"bar\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/grouped-bar.tsx",
+    "snippet": "series: ["
+  },
+  {
+    "exampleId": "stacked-bar",
+    "apiId": "@owp/charts:ChartSeriesConfig.stack",
+    "label": "stack",
+    "action": "locate",
+    "reason": "ChartSeriesConfig.stack을 useCartesian이 createChartData에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/stacked-bar.tsx",
+        "snippet": "{ dataKey: 'lineA', label: t('라인 A'), type: 'bar', stack: 'output' },"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/stacked-bar.tsx",
+        "snippet": "<ChartFrame type=\"bar\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/stacked-bar.tsx",
+    "snippet": "{ dataKey: 'lineA', label: t('라인 A'), type: 'bar', stack: 'output' },"
+  },
+  {
+    "exampleId": "percent-stacked",
+    "apiId": "@owp/charts:ChartSeriesConfig.stack",
+    "label": "stack",
+    "action": "locate",
+    "reason": "ChartSeriesConfig.stack을 useCartesian이 createChartData에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/percent-stacked.tsx",
+        "snippet": "{ dataKey: 'lineA', label: t('라인 A'), type: 'bar', stack: 'output' },"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/percent-stacked.tsx",
+        "snippet": "<ChartFrame type=\"bar\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/percent-stacked.tsx",
+    "snippet": "{ dataKey: 'lineA', label: t('라인 A'), type: 'bar', stack: 'output' },"
+  },
+  {
+    "exampleId": "stacked-horizontal-bar",
+    "apiId": "@owp/charts:ChartSeriesConfig.stack",
+    "label": "stack",
+    "action": "replace",
+    "reason": "ChartSeriesConfig를 거치지 않는 native dataset.stack이므로 Chart.js ControllerDatasetOptions.stack으로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/stacked-horizontal-bar.tsx",
+        "snippet": "stack: 'processes',"
+      },
+      {
+        "file": "playgrounds/charts/examples/stacked-horizontal-bar.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/stacked-horizontal-bar.tsx",
+    "snippet": "stack: 'processes',",
+    "replacement": {
+      "id": "chart.js:ControllerDatasetOptions.stack",
+      "label": "stack"
+    }
+  },
+  {
+    "exampleId": "horizontal-bar",
+    "apiId": "chart.js:CoreChartOptions.indexAxis",
+    "label": "indexAxis",
+    "action": "locate",
+    "reason": "useCartesian.options가 ChartFrame에 전달되며 indexAxis로 가로 막대를 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/horizontal-bar.tsx",
+        "snippet": "indexAxis: 'y',"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const input = config.options;"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...input,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "options,"
+      },
+      {
+        "file": "playgrounds/charts/examples/horizontal-bar.tsx",
+        "snippet": "<ChartFrame type=\"bar\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/horizontal-bar.tsx",
+    "snippet": "indexAxis: 'y',"
+  },
+  {
+    "exampleId": "grouped-horizontal-bar",
+    "apiId": "chart.js:CoreChartOptions.indexAxis",
+    "label": "indexAxis",
+    "action": "locate",
+    "reason": "ChartCanvas가 options를 ChartFrame에 전달하며 indexAxis로 가로 막대를 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/grouped-horizontal-bar.tsx",
+        "snippet": "indexAxis: 'y',"
+      },
+      {
+        "file": "playgrounds/charts/examples/grouped-horizontal-bar.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "...options,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "options={config}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/grouped-horizontal-bar.tsx",
+    "snippet": "indexAxis: 'y',"
+  },
+  {
+    "exampleId": "grouped-horizontal-bar",
+    "apiId": "@owp/charts:ChartDataLabelsPluginOptions",
+    "label": "datalabels",
+    "action": "locate",
+    "reason": "plugins.datalabels 옵션을 ChartCanvas가 ChartFrame에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/grouped-horizontal-bar.tsx",
+        "snippet": "datalabels: {"
+      },
+      {
+        "file": "playgrounds/charts/examples/grouped-horizontal-bar.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "...options,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "options={config}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/grouped-horizontal-bar.tsx",
+    "snippet": "datalabels: {"
+  },
+  {
+    "exampleId": "stacked-horizontal-bar",
+    "apiId": "chart.js:CoreChartOptions.indexAxis",
+    "label": "indexAxis",
+    "action": "locate",
+    "reason": "ChartCanvas가 options를 ChartFrame에 전달하며 indexAxis로 가로 막대를 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/stacked-horizontal-bar.tsx",
+        "snippet": "indexAxis: 'y',"
+      },
+      {
+        "file": "playgrounds/charts/examples/stacked-horizontal-bar.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "...options,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "options={config}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/stacked-horizontal-bar.tsx",
+    "snippet": "indexAxis: 'y',"
+  },
+  {
+    "exampleId": "stacked-horizontal-bar",
+    "apiId": "@owp/charts:ChartDataLabelsPluginOptions",
+    "label": "datalabels",
+    "action": "locate",
+    "reason": "plugins.datalabels 옵션을 ChartCanvas가 ChartFrame에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/stacked-horizontal-bar.tsx",
+        "snippet": "datalabels: createBarSegmentLabels({"
+      },
+      {
+        "file": "playgrounds/charts/examples/stacked-horizontal-bar.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={data} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "...options,"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "options={config}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/stacked-horizontal-bar.tsx",
+    "snippet": "datalabels: createBarSegmentLabels({"
+  },
+  {
+    "exampleId": "line",
+    "apiId": "chart.js:LineOptions.tension",
+    "label": "tension",
+    "action": "locate",
+    "reason": "선 series의 datasetOptions.tension을 useCartesian이 dataset에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/line.tsx",
+        "snippet": "series: [{ dataKey: 'actual', label: t('실적'), type: 'line', datasetOptions: { tension } }],"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/line.tsx",
+        "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/line.tsx",
+    "snippet": "series: [{ dataKey: 'actual', label: t('실적'), type: 'line', datasetOptions: { tension } }],"
+  },
+  {
+    "exampleId": "line",
+    "apiId": "chart.js:PointPrefixedOptions.pointRadius",
+    "label": "pointRadius",
+    "action": "locate",
+    "reason": "line 예제는 pointRadius를 덮어쓰지 않아 useCartesian이 실제 datasetOptions에 넣는 3을 사용합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "pointRadius: 3,"
+      },
+      {
+        "file": "playgrounds/charts/examples/line.tsx",
+        "snippet": "series: [{ dataKey: 'actual', label: t('실적'), type: 'line', datasetOptions: { tension } }],"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series.datasetOptions,"
+      },
+      {
+        "file": "playgrounds/charts/examples/line.tsx",
+        "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/model/useCartesian.ts",
+    "snippet": "pointRadius: 3,"
+  },
+  {
+    "exampleId": "multi-line",
+    "apiId": "@owp/charts:CreateChartDataParams.series",
+    "label": "series",
+    "action": "locate",
+    "reason": "세 line series를 useCartesian이 createChartData의 series로 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/multi-line.tsx",
+        "snippet": "series: ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/multi-line.tsx",
+        "snippet": "<ChartFrame type=\"line\" {...chart} height=\"100%\" />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/multi-line.tsx",
+    "snippet": "series: ["
+  },
+  {
+    "exampleId": "area",
+    "apiId": "@owp/charts:AreaSeries.above",
+    "label": "above",
+    "action": "locate",
+    "reason": "OwpAreaChart에 전달하는 AreaSeries에서 채움 색상을 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/area.tsx",
+        "snippet": "above: alpha(positive, 0.42),"
+      },
+      {
+        "file": "playgrounds/charts/examples/area.tsx",
+        "snippet": "const series: OwpAreaChartProps['series'] = ["
+      },
+      {
+        "file": "playgrounds/charts/examples/area.tsx",
+        "snippet": "<OwpAreaChart labels={labels} series={series} options={options} {...chart.frame} />"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/area.tsx",
+    "snippet": "above: alpha(positive, 0.42),"
+  },
+  {
+    "exampleId": "area",
+    "apiId": "@owp/charts:AreaSeries.below",
+    "label": "below",
+    "action": "locate",
+    "reason": "OwpAreaChart에 전달하는 AreaSeries에서 채움 색상을 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/area.tsx",
+        "snippet": "below: signed ? alpha(palette.danger, 0.48) : alpha(positive, 0.42),"
+      },
+      {
+        "file": "playgrounds/charts/examples/area.tsx",
+        "snippet": "const series: OwpAreaChartProps['series'] = ["
+      },
+      {
+        "file": "playgrounds/charts/examples/area.tsx",
+        "snippet": "<OwpAreaChart labels={labels} series={series} options={options} {...chart.frame} />"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/area.tsx",
+    "snippet": "below: signed ? alpha(palette.danger, 0.48) : alpha(positive, 0.42),"
+  },
+  {
+    "exampleId": "stacked-area",
+    "apiId": "@owp/charts:ChartAnnotationPluginOptions",
+    "label": "annotation",
+    "action": "locate",
+    "reason": "OwpAreaChart.options의 plugins.annotation에 주요 시점 annotation을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/stacked-area.tsx",
+        "snippet": "annotation: {"
+      },
+      {
+        "file": "playgrounds/charts/examples/stacked-area.tsx",
+        "snippet": "const options: OwpAreaChartProps['options'] = {"
+      },
+      {
+        "file": "playgrounds/charts/examples/stacked-area.tsx",
+        "snippet": "<OwpAreaChart labels={labels} series={series} stacked options={options} {...chart.frame} />"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/charts/examples/stacked-area.tsx",
+    "snippet": "annotation: {"
+  },
+  {
+    "exampleId": "pie",
+    "apiId": "@owp/charts:RadialItem.color",
+    "label": "RadialItem.color",
+    "action": "locate",
+    "reason": "createItems가 RadialItem.color를 생성하고 pie 예제의 rings.items로 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/model/useRadialData.ts",
+        "snippet": "color: colors[index % colors.length],"
+      },
+      {
+        "file": "playgrounds/charts/model/useRadialData.ts",
+        "snippet": "): RadialItem[] =>"
+      },
+      {
+        "file": "playgrounds/charts/examples/pie.tsx",
+        "snippet": "items: createItems("
+      },
+      {
+        "file": "playgrounds/charts/examples/pie.tsx",
+        "snippet": "rings={rings}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/model/useRadialData.ts",
+    "snippet": "color: colors[index % colors.length],"
+  },
+  {
+    "exampleId": "legend-point-style",
+    "apiId": "chart.js:PointPrefixedOptions.pointRadius",
+    "label": "pointRadius",
+    "action": "locate",
+    "reason": "native line dataset의 pointRadius를 변경하며 ChartFrame의 HTML 범례도 같은 dataset을 읽습니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/legend-point-style.tsx",
+        "snippet": "pointRadius: enabled ? 3 + index : 0,"
+      },
+      {
+        "file": "playgrounds/charts/examples/legend-point-style.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/legend-point-style.tsx",
+    "snippet": "pointRadius: enabled ? 3 + index : 0,"
+  },
+  {
+    "exampleId": "tooltip-point-style",
+    "apiId": "chart.js:PointOptions.pointStyle",
+    "label": "pointStyle",
+    "action": "replace",
+    "reason": "line dataset은 PointPrefixedOptions의 pointStyle 계약을 사용하므로 raw point element 옵션 대신 해당 owner로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/tooltip-point-style.tsx",
+        "snippet": "pointStyle: index ? 'triangle' : 'rectRot',"
+      },
+      {
+        "file": "playgrounds/charts/examples/tooltip-point-style.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/tooltip-point-style.tsx",
+    "snippet": "pointStyle: index ? 'triangle' : 'rectRot',",
+    "replacement": {
+      "id": "chart.js:PointPrefixedOptions.pointStyle",
+      "label": "pointStyle"
+    }
+  },
+  {
+    "exampleId": "point-style",
+    "apiId": "chart.js:PointOptions.pointStyle",
+    "label": "pointStyle",
+    "action": "replace",
+    "reason": "line dataset은 PointPrefixedOptions의 pointStyle 계약을 사용하므로 raw point element 옵션 대신 해당 owner로 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/point-style.tsx",
+        "snippet": "datasets: data.datasets.map((dataset) => ({ ...dataset, pointStyle: mode, pointRadius: 6 })),"
+      },
+      {
+        "file": "playgrounds/charts/examples/point-style.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/point-style.tsx",
+    "snippet": "datasets: data.datasets.map((dataset) => ({ ...dataset, pointStyle: mode, pointRadius: 6 })),",
+    "replacement": {
+      "id": "chart.js:PointPrefixedOptions.pointStyle",
+      "label": "pointStyle"
+    }
+  },
+  {
+    "exampleId": "bar-radius",
+    "apiId": "chart.js:BarOptions.borderRadius",
+    "label": "borderRadius",
+    "action": "locate",
+    "reason": "native bar dataset에서 BarOptions의 모서리·테두리 옵션을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/bar-radius.tsx",
+        "snippet": "borderRadius: value,"
+      },
+      {
+        "file": "playgrounds/charts/examples/bar-radius.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/bar-radius.tsx",
+    "snippet": "borderRadius: value,"
+  },
+  {
+    "exampleId": "bar-radius",
+    "apiId": "chart.js:BarOptions.borderSkipped",
+    "label": "borderSkipped",
+    "action": "locate",
+    "reason": "native bar dataset에서 BarOptions의 모서리·테두리 옵션을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/bar-radius.tsx",
+        "snippet": "borderSkipped: false,"
+      },
+      {
+        "file": "playgrounds/charts/examples/bar-radius.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/bar-radius.tsx",
+    "snippet": "borderSkipped: false,"
+  },
+  {
+    "exampleId": "scriptable-bar",
+    "apiId": "chart.js:CommonElementOptions.backgroundColor",
+    "label": "backgroundColor",
+    "action": "locate",
+    "reason": "native bar dataset에서 값별 backgroundColor 배열을 지정합니다. BarControllerDatasetOptions의 ScriptableAndArrayOptions<BarOptions>가 CommonElementOptions.backgroundColor를 확장합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/scriptable-bar.tsx",
+        "snippet": "backgroundColor: dataset.data.map((raw) =>"
+      },
+      {
+        "file": "playgrounds/charts/examples/scriptable-bar.tsx",
+        "snippet": "<ChartCanvas type=\"bar\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/scriptable-bar.tsx",
+    "snippet": "backgroundColor: dataset.data.map((raw) =>"
+  },
+  {
+    "exampleId": "line-style",
+    "apiId": "chart.js:LineOptions.borderDash",
+    "label": "borderDash",
+    "action": "locate",
+    "reason": "native line dataset의 borderDash로 선의 점선 모양을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/line-style.tsx",
+        "snippet": "borderDash: mode === 'solid' ? [] : mode === 'dashed' ? [8, 5] : [2, 4],"
+      },
+      {
+        "file": "playgrounds/charts/examples/line-style.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/line-style.tsx",
+    "snippet": "borderDash: mode === 'solid' ? [] : mode === 'dashed' ? [8, 5] : [2, 4],"
+  },
+  {
+    "exampleId": "line-style",
+    "apiId": "chart.js:PointPrefixedOptions.pointRadius",
+    "label": "pointRadius",
+    "action": "locate",
+    "reason": "native line dataset의 pointRadius를 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/line-style.tsx",
+        "snippet": "pointRadius: 4,"
+      },
+      {
+        "file": "playgrounds/charts/examples/line-style.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/line-style.tsx",
+    "snippet": "pointRadius: 4,"
+  },
+  {
+    "exampleId": "line-interpolation",
+    "apiId": "chart.js:LineOptions.tension",
+    "label": "tension",
+    "action": "locate",
+    "reason": "native line dataset에서 LineOptions의 보간 옵션을 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/line-interpolation.tsx",
+        "snippet": "tension: mode === 'linear' ? 0 : 0.4,"
+      },
+      {
+        "file": "playgrounds/charts/examples/line-interpolation.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/line-interpolation.tsx",
+    "snippet": "tension: mode === 'linear' ? 0 : 0.4,"
+  },
+  {
+    "exampleId": "line-interpolation",
+    "apiId": "chart.js:LineOptions.cubicInterpolationMode",
+    "label": "cubicInterpolationMode",
+    "action": "locate",
+    "reason": "native line dataset에서 LineOptions의 보간 옵션을 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/line-interpolation.tsx",
+        "snippet": "cubicInterpolationMode: mode === 'monotone' ? 'monotone' : 'default',"
+      },
+      {
+        "file": "playgrounds/charts/examples/line-interpolation.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/line-interpolation.tsx",
+    "snippet": "cubicInterpolationMode: mode === 'monotone' ? 'monotone' : 'default',"
+  },
+  {
+    "exampleId": "point-style",
+    "apiId": "chart.js:PointPrefixedOptions.pointRadius",
+    "label": "pointRadius",
+    "action": "locate",
+    "reason": "native line dataset의 pointRadius를 직접 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/point-style.tsx",
+        "snippet": "datasets: data.datasets.map((dataset) => ({ ...dataset, pointStyle: mode, pointRadius: 6 })),"
+      },
+      {
+        "file": "playgrounds/charts/examples/point-style.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/point-style.tsx",
+    "snippet": "datasets: data.datasets.map((dataset) => ({ ...dataset, pointStyle: mode, pointRadius: 6 })),"
+  },
+  {
+    "exampleId": "scriptable-line",
+    "apiId": "chart.js:PointPrefixedOptions.pointBackgroundColor",
+    "label": "pointBackgroundColor",
+    "action": "locate",
+    "reason": "native line dataset에서 scriptable point 옵션을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/scriptable-line.tsx",
+        "snippet": "pointBackgroundColor: (context: { readonly raw: unknown }) =>"
+      },
+      {
+        "file": "playgrounds/charts/examples/scriptable-line.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/scriptable-line.tsx",
+    "snippet": "pointBackgroundColor: (context: { readonly raw: unknown }) =>"
+  },
+  {
+    "exampleId": "scriptable-line",
+    "apiId": "chart.js:PointPrefixedOptions.pointRadius",
+    "label": "pointRadius",
+    "action": "locate",
+    "reason": "native line dataset에서 scriptable point 옵션을 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/scriptable-line.tsx",
+        "snippet": "pointRadius: (context: { readonly raw: unknown }) => (Number(context.raw) >= value ? 7 : 3),"
+      },
+      {
+        "file": "playgrounds/charts/examples/scriptable-line.tsx",
+        "snippet": "<ChartCanvas type=\"line\" data={chartData} options={options} {...props} />"
+      },
+      {
+        "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
+        "snippet": "data={data}"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/scriptable-line.tsx",
+    "snippet": "pointRadius: (context: { readonly raw: unknown }) => (Number(context.raw) >= value ? 7 : 3),"
+  },
+  {
+    "exampleId": "ranking",
+    "apiId": "chart.js:CoreChartOptions.indexAxis",
+    "label": "indexAxis",
+    "action": "locate",
+    "reason": "useCartesian.options의 indexAxis를 y로 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/ranking.tsx",
+        "snippet": "indexAxis: 'y',"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const input = config.options;"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...input,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "options,"
+      },
+      {
+        "file": "playgrounds/charts/examples/ranking.tsx",
+        "snippet": "<ChartFrame"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/ranking.tsx",
+    "snippet": "indexAxis: 'y',"
+  },
+  {
+    "exampleId": "ranking",
+    "apiId": "@owp/charts:ChartSeriesConfig.stack",
+    "label": "stack",
+    "action": "locate",
+    "reason": "생산량과 남은 영역의 ChartSeriesConfig.stack을 rank로 지정하고 createChartData에 전달합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/ranking.tsx",
+        "snippet": "label: t('생산량'),\n          type: 'bar',\n          stack: 'rank',"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const seriesList = config.series ?? ["
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "series: seriesList.map((series) => ({"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...series,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/examples/ranking.tsx",
+        "snippet": "<ChartFrame"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/ranking.tsx",
+    "snippet": "label: t('생산량'),\n          type: 'bar',\n          stack: 'rank',"
+  },
+  {
+    "exampleId": "ranking",
+    "apiId": "@owp/charts:ChartDataLabelsPluginOptions",
+    "label": "datalabels",
+    "action": "locate",
+    "reason": "plugins.datalabels의 공통 색상을 지정하고 series별 datasetOptions.datalabels에서 표시 여부와 formatter를 지정합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/ranking.tsx",
+        "snippet": "plugins: { datalabels: { color: palette.ink } },"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "const input = config.options;"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "...input,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "options,"
+      },
+      {
+        "file": "playgrounds/charts/examples/ranking.tsx",
+        "snippet": "<ChartFrame"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/examples/ranking.tsx",
+    "snippet": "plugins: { datalabels: { color: palette.ink } },"
+  },
+  {
+    "exampleId": "top-n",
+    "apiId": "@owp/charts:ChartFrameProps.data",
+    "label": "data",
+    "action": "locate",
+    "reason": "useCartesian은 createChartData 결과를 반환 객체의 data에 넣고 top-n이 그 객체를 ChartFrame에 spread하므로 ChartFrameProps.data로 전달됩니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "datasetIdKey: 'id',\n    data,"
+      },
+      {
+        "file": "playgrounds/charts/model/useCartesian.ts",
+        "snippet": "return createChartData({"
+      },
+      {
+        "file": "playgrounds/charts/examples/top-n.tsx",
+        "snippet": "const chart = useCartesian("
+      },
+      {
+        "file": "playgrounds/charts/examples/top-n.tsx",
+        "snippet": "<ChartFrame {...chart} type=\"bar\" height=\"100%\" legend={false} />"
+      }
+    ],
+    "mode": "forwarded",
+    "file": "playgrounds/charts/model/useCartesian.ts",
+    "snippet": "datasetIdKey: 'id',\n    data,"
+  }
+]

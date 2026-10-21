@@ -491,3 +491,15 @@ kbd {
     padding-block: 16px;
   }
 }
+
+.nav-group-heading {
+  padding: 14px 10px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--pg-ink);
+}
+.nav-section-group {
+  margin-top: 16px;
+  padding-top: 8px;
+  border-top: 1px solid var(--pg-line);
+}

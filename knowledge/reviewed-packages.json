@@ -1,0 +1,32 @@
+{
+  "@owp/datagrid": {
+    "version": "3.2.1",
+    "declarationHash": "0ab867c9917cbdd7f6a7e61e5e764bedc54532ace2c7f4cf5178dad6ebe79a65",
+    "runtimeHash": "ace758b14eb37d9eae86395865ca319da6d05ffd1242b4eb29868c7dd6a2c4ca"
+  },
+  "@owp/charts": {
+    "version": "5.0.1",
+    "declarationHash": "9c45472e2ceef5250f0960c60743fe86be3454a14845195e2cb20c83a003c60f",
+    "runtimeHash": "91ae6c74c563c99dab1a9e98bc115a3cbf682e87a12b6df60b80149aaacd0fad"
+  },
+  "chart.js": {
+    "version": "4.5.1",
+    "declarationHash": "3333793a8b55bd4324f3389f1b2482023c66e48d7b01cf863bc18c31440580d8",
+    "runtimeHash": "e564b903e286e3590f14f89e5d9ed38c0c9afc670f22b22ec6e68eb6630348c4"
+  },
+  "react-chartjs-2": {
+    "version": "5.3.1",
+    "declarationHash": "5fb0266ed6d85336e47d32a63f2fbe5b82c16eeccb7e61effbb79a50b3af1101",
+    "runtimeHash": "6b543d825508ffd4c33d0018a2e10b35f7fbed09946488e1b0f929443b53ffd3"
+  },
+  "chartjs-plugin-annotation": {
+    "version": "3.1.0",
+    "declarationHash": "cf4d06a0f9eef982c5875febef9f9b2a088c975ff768b1051a08869b7d99beed",
+    "runtimeHash": "81e980e871ab5bf1070a86f6371d504666e43568f2de4a61a11b82e9c091f5a9"
+  },
+  "chartjs-plugin-datalabels": {
+    "version": "2.2.0",
+    "declarationHash": "f7fafd5021d76f67c90c58dad846f34a57ca840e0eaf4f4811bf102179067f9d",
+    "runtimeHash": "f966db5709e2e6281931b8119f15ebbe942e2cc2a4f2bc49d15bfe5739f2437d"
+  }
+}

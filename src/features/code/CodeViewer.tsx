@@ -2,13 +2,14 @@ import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, ListSubheader, MenuItem, Select } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { CheckIcon, CopyIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import dependencies from 'virtual:playground-source-graph';
 import type { ExampleMetadata } from '../../shared/types/playground';
 import { HighlightedCode } from './HighlightedCode';
 import { highlightSource } from './highlight';
 import { exampleSourcePath } from './source-paths';
 import { groupExampleSources, type SourcePolicy } from './source-groups';
+import type { CodeLocation } from './code-location';
 
 const allSources = import.meta.glob<string>('/src/**/*.{ts,tsx,css}', {
   query: '?raw',
@@ -57,16 +58,41 @@ export function CodeViewer({
   dataFormat = 'json',
   dataDescription,
   sourcePolicy,
+  codeTarget,
+  requestedCode = false,
 }: {
   readonly example: ExampleMetadata;
   readonly data?: string;
   readonly dataFormat?: 'json' | 'jsonc';
   readonly dataDescription?: string;
   readonly sourcePolicy?: SourcePolicy;
+  readonly codeTarget?: CodeLocation;
+  readonly requestedCode?: boolean;
 }) {
   const { t } = useOwpTranslation();
   const initialFile = `/src/${exampleSourcePath(example)}`;
-  const [file, setFile] = useState(initialFile);
+  const groups = useMemo(
+    () =>
+      groupExampleSources({
+        example,
+        sources: Object.keys(allSources),
+        dependencies,
+        policy: sourcePolicy,
+      }),
+    [example, sourcePolicy],
+  );
+  const files = [...groups.core, ...groups.support];
+  const targetFile =
+    codeTarget &&
+    codeTarget.file.startsWith(`playgrounds/${example.package.replace('@owp/', '')}/`) &&
+    files.includes(`/src/${codeTarget.file}`)
+      ? `/src/${codeTarget.file}`
+      : undefined;
+  const [file, setFile] = useState(targetFile ?? initialFile);
+  const scroll = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (targetFile) setFile(targetFile);
+  }, [targetFile, codeTarget?.line, codeTarget?.endLine]);
   const [source, setSource] = useState<{ readonly file: string; readonly content: string } | null>(
     null,
   );
@@ -92,6 +118,23 @@ export function CodeViewer({
   }, [file, data]);
   const ready = data !== undefined || source?.file === file;
   const content = data ?? (source?.file === file ? source.content : '');
+  const highlight = useMemo(
+    () =>
+      codeTarget &&
+      file === targetFile &&
+      codeTarget.line <= content.split('\n').length &&
+      codeTarget.endLine <= content.split('\n').length
+        ? { line: codeTarget.line, endLine: codeTarget.endLine }
+        : undefined,
+    [codeTarget, file, targetFile, content],
+  );
+  useEffect(() => {
+    if (!ready || !highlight) return;
+    scroll.current
+      ?.querySelector('[data-highlighted="true"]')
+      ?.scrollIntoView({ block: 'center', inline: 'nearest' });
+    scroll.current?.focus({ preventScroll: true });
+  }, [ready, file, highlight]);
   const highlighted = useMemo(
     () =>
       highlightSource(
@@ -121,17 +164,6 @@ export function CodeViewer({
     anchor.click();
     URL.revokeObjectURL(url);
   };
-  const groups = useMemo(
-    () =>
-      groupExampleSources({
-        example,
-        sources: Object.keys(allSources),
-        dependencies,
-        policy: sourcePolicy,
-      }),
-    [example, sourcePolicy],
-  );
-  const files = [...groups.core, ...groups.support];
   const fileItems = (paths: readonly string[], pinned = false) =>
     paths.map((path, index) => (
       <MenuItem
@@ -182,6 +214,7 @@ export function CodeViewer({
           ) : (
             <Select
               value={file}
+              renderValue={(selected) => selected.split('/').at(-1)}
               onChange={(event) => {
                 setFile(event.target.value);
                 setCopied(false);
@@ -221,14 +254,16 @@ export function CodeViewer({
           </Button>
         </div>
       </div>
+      {data === undefined && <div className="code-file-path">{file.replace('/src/', '')}</div>}
       <section
+        ref={scroll}
         className="code-scroll"
         // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Keyboard users must be able to scroll the source region.
         tabIndex={0}
         aria-label={t(data !== undefined ? '데이터' : '실행 원본 코드')}
       >
         <pre>
-          <HighlightedCode html={highlighted} />
+          <HighlightedCode html={highlighted} highlight={highlight} />
         </pre>
       </section>
       <div className="code-status" role="status">
@@ -238,7 +273,13 @@ export function CodeViewer({
               ? '소스를 불러오는 중…'
               : data !== undefined
                 ? (dataDescription ?? '현재 예제에 사용된 API 데이터입니다.')
-                : '실행에 사용한 원본 코드입니다.'),
+                : highlight
+                  ? '연결된 API 사용 위치 강조'
+                  : requestedCode && !codeTarget
+                    ? '연결된 위치 정보가 없어 예제 진입 파일 표시'
+                    : codeTarget && !highlight
+                      ? '현재 파일에서 연결된 코드 위치를 찾지 못함'
+                      : '실행에 사용한 원본 코드입니다.'),
         )}
       </div>
     </div>

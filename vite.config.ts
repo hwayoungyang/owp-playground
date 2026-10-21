@@ -2,8 +2,10 @@ import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
 import { sourceGraphPlugin } from './scripts/source-graph.ts';
+import { knowledgeResourcesPlugin, reviewedApiCatalog } from './scripts/knowledge-resources.ts';
 import {
   createDataGridSourceManifest,
+  createPackageSourceManifest,
   readSourceResources,
   SourceDependencyError,
 } from './scripts/source-resources.ts';
@@ -13,6 +15,9 @@ import { chartEnglish } from './src/playgrounds/charts/locales/en.ts';
 import { gridCatalog } from './src/playgrounds/datagrid/catalog.ts';
 import { catalogEnglish } from './src/playgrounds/datagrid/locales/catalog.en.ts';
 import { packageCatalog } from './src/playgrounds/registry.ts';
+
+const gridDocumentationCatalog = reviewedApiCatalog(gridCatalog, 'datagrid');
+const chartDocumentationCatalog = reviewedApiCatalog(chartCatalog, 'charts');
 
 export default defineConfig({
   lint: {
@@ -44,6 +49,7 @@ export default defineConfig({
       'scripts/**',
       'public/**',
       '**/*.md',
+      'src/features/api/data/*.generated.json',
       'pnpm-lock.yaml',
       'pnpm-workspace.yaml',
     ],
@@ -60,6 +66,7 @@ export default defineConfig({
   plugins: [
     react(),
     sourceGraphPlugin(),
+    knowledgeResourcesPlugin(),
     {
       name: 'reuse-dev-browser-tab',
       configureServer() {
@@ -83,7 +90,11 @@ export default defineConfig({
           type: 'asset',
           fileName: 'catalogs/datagrid.sources.json',
           source: JSON.stringify(
-            await createDataGridSourceManifest({ root, catalog: gridCatalog, resources: sources }),
+            await createDataGridSourceManifest({
+              root,
+              catalog: gridDocumentationCatalog,
+              resources: sources,
+            }),
             null,
             2,
           ),
@@ -95,9 +106,23 @@ export default defineConfig({
         });
         this.emitFile({
           type: 'asset',
+          fileName: 'catalogs/charts.sources.json',
+          source: JSON.stringify(
+            await createPackageSourceManifest({
+              root,
+              catalog: chartDocumentationCatalog,
+              resources: sources,
+              packageName: '@owp/charts',
+            }),
+            null,
+            2,
+          ),
+        });
+        this.emitFile({
+          type: 'asset',
           fileName: 'catalog.json',
           source: JSON.stringify(
-            { version: 1, package: '@owp/datagrid', samples: gridCatalog },
+            { version: 1, package: '@owp/datagrid', samples: gridDocumentationCatalog },
             null,
             2,
           ),
@@ -110,7 +135,7 @@ export default defineConfig({
               version: 1,
               language: 'en',
               package: '@owp/datagrid',
-              samples: gridCatalog.map((example) => ({
+              samples: gridDocumentationCatalog.map((example) => ({
                 ...example,
                 title: catalogEnglish[example.title] ?? example.title,
                 description: catalogEnglish[example.description] ?? example.description,
@@ -129,7 +154,7 @@ export default defineConfig({
                 version: 1,
                 package: '@owp/charts',
                 language,
-                samples: chartCatalog.map((example) => ({
+                samples: chartDocumentationCatalog.map((example) => ({
                   ...example,
                   title:
                     language === 'en'

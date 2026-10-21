@@ -206,7 +206,7 @@ try {
   pass('calculated-cell example fits the page without body scrolling across desktop, tablet and mobile', worksheet);
 
   await load('large-data');
-  await page.getByRole('button', { name: '예제 메뉴 열기', exact: true }).click();
+  await page.getByRole('button', { name: '탐색 메뉴 열기', exact: true }).click();
   const mobileNav = page.locator('.MuiDrawer-paper .sidebar');
   await mobileNav.waitFor();
   await settle();

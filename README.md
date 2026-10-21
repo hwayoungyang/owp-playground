@@ -4,16 +4,16 @@ MUI 기반의 OWP 컴포넌트 실행·코드 Playground입니다. `@owp/datagri
 
 | 패키지 | 버전 |
 | --- | --- |
-| `@owp/datagrid` | `3.1.4-rc.0` |
-| `@owp/charts` | `4.0.6-rc.0` |
-| `@owp/core` | `7.0.0-rc.0` |
-| `@owp/components` | `3.0.0-rc.0` |
-| `@owp/date-picker` | `2.0.1-rc.0` |
-| `@owp/utils` | `1.0.0-rc.0` |
+| `@owp/datagrid` | `3.2.1` |
+| `@owp/charts` | `5.0.1` |
+| `@owp/core` | `7.0.1` |
+| `@owp/components` | `3.0.1` |
+| `@owp/date-picker` | `2.0.2` |
+| `@owp/utils` | `1.0.1` |
 | `@owp/theme` | `2.1.0` |
 | `@owp/excel` · `@owp/pdf` | `2.0.0` |
 
-`@owp/utils`는 Core·Components에서 분리된 공통 값·browser·barcode·QR·ZIP 유틸리티 패키지입니다. 직접 사용하는 함수는 `@owp/utils` 또는 `@owp/utils/browser` 등 기능별 public entry에서 import합니다. 현재 Core·Components RC는 이관된 함수의 호환 export를 제공하지 않습니다. DataGrid의 숫자 변환·focus 처리는 패키지 내부에서 Utils를 사용하므로 기존 DataGrid public API와 샘플의 `numberOptions` 설정은 유지합니다.
+`@owp/utils`는 Core·Components에서 분리된 공통 값·browser·barcode·QR·ZIP 유틸리티 패키지입니다. 직접 사용하는 함수는 `@owp/utils` 또는 `@owp/utils/browser` 등 기능별 public entry에서 import합니다. Core·Components는 이관된 함수의 호환 export를 제공하지 않습니다. DataGrid의 숫자 변환·focus 처리는 패키지 내부에서 Utils를 사용하므로 기존 DataGrid public API와 샘플의 `numberOptions` 설정은 유지합니다.
 
 ## 실행
 
@@ -42,7 +42,7 @@ pnpm preview
 | `/?package=datagrid` | OwpDataGrid 시작 안내 |
 | `/?package=datagrid&sample=auto-span` | OwpDataGrid 자동 행 병합 |
 | `/?package=charts` | OwpCharts 시작 안내 |
-| `/?package=charts&sample=plan-actual` | OwpCharts 계획·실적·달성률 |
+| `/?package=charts&sample=plan-actual` | OwpCharts Column & Line |
 | `/?package=components` | OwpComponents 준비 상태 |
 | `/?package=date-picker` | OwpDatePicker 준비 상태 |
 | `/?package=pdf` | OwpPdf 준비 상태 |
@@ -153,6 +153,7 @@ src/
 │   ├── providers/
 │   └── styles/
 ├── features/                 # 여러 Playground에서 사용하는 기능
+│   ├── api/                  # API·가이드·문서 데이터
 │   ├── code/                 # 원본 보기·강조·복사·다운로드
 │   └── theme-studio/         # 테마 편집 UI와 설정 모델
 │       └── model/            # 프리셋·스키마·입출력·프로젝트 적용 코드
@@ -181,7 +182,7 @@ src/
 
 공통 컴포넌트와 상태 관리 코드는 역할에 따라 이름을 짓습니다. `WorkspaceHeading`은 제목과 경로, `ChartCanvas`는 차트 렌더링과 높이·이벤트 연결, `useGridController`는 그리드 상태와 동작을 담당합니다. 카탈로그 항목은 `ExampleMetadata`, `GridCatalogEntry`, `ChartCatalogEntry`로 구분하며 내부 탐색에서는 `example`을 사용합니다. 기존 URL의 `sample`, 공개 카탈로그의 `samples` 필드와 소스 주소는 유지합니다.
 
-DataGrid 실행부는 `GridWorkspace`, `GridToolbar`, `GridSettingsDrawer`, `GridStatusBar`로 역할을 구분합니다. 각 실행 파일은 `FixedRowsGrid`, `EditableCellsGrid`, `SelectEditorsGrid`처럼 기능을 나타내는 컴포넌트와 초기 `gridConfiguration`을 내보냅니다. `model/gridTypes.ts`는 `GridConfiguration`·`GridViewProps` 계약을, `model/gridRegistry.ts`는 48개 컴포넌트와 설정의 연결을 관리합니다. `getGridConfiguration`은 등록된 설정에 현재 언어를 적용합니다.
+DataGrid 실행부는 `GridWorkspace`, `GridToolbar`, `GridSettingsDrawer`, `GridStatusBar`로 역할을 구분합니다. 각 실행 파일은 `FixedRowsGrid`, `EditableCellsGrid`, `SelectEditorsGrid`처럼 기능을 나타내는 컴포넌트와 초기 `gridConfiguration`을 내보냅니다. `model/gridTypes.ts`는 `GridConfiguration`·`GridViewProps` 계약을, `model/gridRegistry.ts`는 50개 컴포넌트와 설정의 연결을 관리합니다. `getGridConfiguration`은 등록된 설정에 현재 언어를 적용합니다.
 
 CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styles/shell.css`, 공통 제목·탭·툴바·이벤트·프레임은 `shared/ui/workspace.css`, 공통 가이드는 `shared/ui/guide.css`에 둡니다. DataGrid의 `styles.css`는 import 진입점이며, 실행 화면은 `runtime/workspace.css`, 패키지 스타일 보정은 `runtime/grid-overrides.css`, 예제별 표현은 `examples/styles.css`로 나눕니다. 예제 CSS 진입점은 `controls.css`, `cell-renderers.css`, `detail-panel.css`를 불러오며 선택자는 `.grid-preview` 안에 적용합니다. Drawer와 Dialog는 Portal에 표시되므로 각각 `grid-settings-*`, `grid-row-dialog` 클래스로 범위를 지정합니다. Charts·코드 보기·테마 편집은 각 기능의 CSS를 사용하고, 실행 중 바뀌는 테마 값은 CSS 변수로 전달합니다.
 
@@ -191,7 +192,7 @@ CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styl
 
 첫 메뉴 ‘시작’은 프로젝트 `.npmrc`의 OWP 레지스트리 설정, 패키지 설치, 타입이 포함된 첫 그리드 예제를 안내합니다. `/?sample=getting-started`로 바로 열 수 있습니다. 레지스트리 URL과 접근 권한은 Impix SmartBiz 팀에 문의합니다.
 
-설치·사용 안내와 48개 실행 샘플을 연관된 기능에 따라 12개 그룹으로 분류합니다. Charts와 같은 탐색 메뉴를 사용하며 한국어 화면에서는 그룹명 아래에 영어 이름을 작은 부제로 표시하고, 영어 화면에는 영어 그룹명만 표시합니다. ‘표시 행 수 고정’은 10행 표시 영역에 선택·합계를 함께 보여줍니다. ‘외부 버튼 제어’는 행 선택·선택 해제·삭제를 실행합니다. 행 선택 방식·모서리 둥글기·필터 표시는 ‘설정’에서 조정합니다. 기존 `minimal`, `visible-rows`, `radius` 링크는 ‘표시 행 수 고정’으로 연결합니다.
+설치·사용 안내와 50개 실행 샘플을 연관된 기능에 따라 12개 예제 그룹으로 분류합니다. Grid API 메뉴에서 Hook 연결·Ref 연결을 같은 데이터와 동작으로 비교하고, 기능별 예제는 Hook을 기본으로 사용합니다. Charts와 같은 탐색 메뉴를 사용하며 한국어 화면에서는 그룹명 아래에 영어 이름을 작은 부제로 표시하고, 영어 화면에는 영어 그룹명만 표시합니다. ‘표시 행 수 고정’은 10행 표시 영역에 선택·합계를 함께 보여줍니다. ‘외부 버튼 제어’는 행 선택·선택 해제·삭제를 실행합니다. 행 선택 방식·모서리 둥글기·필터 표시는 ‘설정’에서 조정합니다. 기존 `minimal`, `visible-rows`, `radius` 링크는 ‘표시 행 수 고정’으로 연결합니다.
 
 - 기본: 시작, 표시 행 수 고정.
 - 셀·컬럼: 셀 타입, 행별 셀 타입, 셀렉트, 숫자·날짜 서식, 셀 컴포넌트, 긴 내용 보기, 고정 컬럼, 다단 헤더.
@@ -199,8 +200,9 @@ CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styl
 - 셀 병합: 지정·자동 행 병합, 열 병합, 행·열 병합, 병합·가상 스크롤.
 - 선택·이벤트: 외부 버튼 제어, 새 행 선택, 클릭 이벤트, 컨텍스트 메뉴.
 - 정렬·필터: 다중 정렬, 컬럼 필터.
-- 편집·검증: 셀 편집, 셀 값·포커스, 입력 검증, 검증 메시지.
-- 행 관리: 행 편집 툴바, 행 추가 위치, 삭제·복구, 드래그 이동, 버튼 이동, 행 조회·일괄 처리, 변경 관리.
+- 편집·검증: 셀 편집, 서버 저장, 입력 검증, 검증 메시지.
+- 행 관리: 행 편집 툴바, 행 추가 위치, 삭제·복구, 드래그 이동.
+- Grid API: Hook 연결, Ref 연결, 행 조회·일괄 처리, 셀 값·포커스, 행 이동, 변경 관리. Hook과 Ref는 같은 API를 제공하며 연결 방식이 다릅니다. 두 연결 예제에서 행 조회·포커스를 비교하고 공통 기능 예제는 Hook으로 제어합니다. 기존 ref-* URL과 catalog ID는 유지합니다.
 - 집계·계산: 집계·고정 행, 계산·셀 연동.
 - 트리·상세: 트리, 다단계 트리, 트리·병합, 상세 패널, 상세 그리드.
 - 데이터·로딩: 데이터 없음, 오류·재시도, 서버 조회, 대용량 데이터.
@@ -222,23 +224,24 @@ CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styl
 
 ## Charts
 
-`@owp/charts` 4.0.3의 시작 가이드와 실행 예제 92개를 제공합니다. 패키지 메뉴에서 OwpCharts를 선택하거나 `/?package=charts`로 엽니다. 탐색 메뉴의 DataGrid·Charts 버전과 두 시작 가이드의 설치 명령은 설치된 패키지의 버전을 사용합니다. Excel은 2.x, Core는 6.x 기준으로 안내합니다.
+`@owp/charts` 5.0.1의 시작 가이드와 70개 예제 메뉴에서 97개 구성을 제공합니다. 패키지 메뉴에서 OwpCharts를 선택하거나 `/?package=charts`로 엽니다. 탐색 메뉴의 DataGrid·Charts 버전과 두 시작 가이드의 설치 명령은 설치된 패키지의 버전을 사용합니다. Excel은 2.x, Core는 7.x 기준으로 안내합니다.
 
 Semi circle은 공정별 처리 수량의 비중을 반원으로 보여줍니다. Radar는 생산 라인 A·B의 생산성, 품질, 가동 안정성, 납기 준수, 에너지 효율, 예방 정비를 같은 0–100점 척도로 비교합니다. Semi circle은 `OwpRadialChart`, Radar는 `OwpRadarChart`를 사용하며 패키지가 native geometry·hit test·OWP HTML 툴팁·범례를 처리합니다. 두 예제 모두 OWP API 문자열 데이터를 `chartFromApi`로 변환합니다.
 
 | 분류 | 예제 수 | 포함 내용 |
 | --- | ---: | --- |
-| 기본 차트 (Basic charts) | 20 | Column·Bar·Line과 그룹·누적·겹치기·예측 변형, Floating bars, Area·Stacked area, Mixed·Daily Column/Line |
-| 확장 차트 (Extended charts) | 12 | Pie·Multi-series pie·Doughnut·Semi circle·Gauge, Scatter·군집 Scatter·Bubble·Box plot, Radar·Heatmap·Treemap |
-| 축 (Axis) | 13 | 백분율, 다중 축, 범위·간격·중앙 배치, 격자·눈금·제목 |
-| 범례 (Legend) | 4 | 범례 위치·point·제목·이벤트 |
-| 툴팁 (Tooltip) | 7 | HTML·내용·탐색·위치·point 표시, hover 영역, 외부 버튼 제어 |
+| 차트 유형 (Chart types) | 22 | 막대·선·영역·복합·원형·분포·구성 차트 |
+| 축·시간 (Axes·Time) | 14 | 다중 축, 범위·간격·눈금·제목, 시간 간격·누락 구간·다운샘플링 |
+| 범례·Tooltip (Legend·Tooltip) | 5 | 범례 설정, Tooltip 설정, HTML tooltip, hover 영역, 외부 버튼 제어 |
 | 확대·동기화 (Zoom·Sync) | 5 | 드래그·휠·pinch zoom, X·Y slider, Crosshair·tooltip 동기화 |
-| 라벨·기준선 (Annotations) | 6 | 데이터 라벨·추세선·목표선·기준 범위, 영역 테두리·사분면 |
-| 스타일 (Style) | 9 | Radius, 보간·Stepped·point·dash·segments, 제목, 조건별 색상 |
-| 데이터·연동 (Data) | 5 | Live chart, 셀 sparkline, 상세 패널, 대량 시계열, 로딩·빈 데이터·오류 |
-| 내보내기 (Export) | 2 | PNG 메뉴, exportRef |
-| 활용 (Use cases) | 9 | 순위, 계획·실적, 입고, 이행률, OEE, TOP N, Small multiples, Histogram, Pareto |
+| 라벨·주석 (Labels·Annotations) | 6 | 데이터 라벨·추세선·목표선·기준 범위, 영역 테두리·사분면 |
+| 스타일 (Style) | 5 | 제목·부제목, 막대 radius·조건색, 선 패턴·보간·Point, Stepped·segments |
+| 데이터·연동·내보내기 (Data·Export) | 5 | Live chart, 셀 sparkline, 상세 패널, 상태, PNG 내보내기 |
+| 활용 (Use cases) | 8 | 순위·Top N, 계획·실적, 입고, 이행률, OEE, Pareto, 예측, Small multiples |
+
+차트 종류와 기능 설정을 8개 메뉴로 나눕니다. 비슷한 예제 27개는 공통 예제의 옵션으로 통합했습니다. Column·Bar의 그룹·방향, 누적·100% 누적, 단일·다중 Line, Area·누적 영역, Pie·Doughnut·반원·다중 고리를 각각 한 화면에서 비교합니다. 범례·Tooltip·축·제목·막대·선 설정, PNG 내보내기와 순위 표시도 관련 옵션을 함께 제공합니다. 좌우 축의 데이터 연결 방식, Grouped stacks와 다단 축처럼 목적이 다른 예제는 유지합니다.
+
+기존 97개 URL은 해당 구성을 선택한 상태로 열립니다. 구성을 바꾸면 제목·코드·데이터·이벤트·관련 API가 함께 바뀌고 URL에도 반영됩니다. 구성별 실행 소스는 별도 파일로 유지하며, 코드 탭에는 선택한 구성의 완전한 소스를 표시합니다. 탭 이동 중에는 설정과 이벤트를 유지하고, 초기화하면 현재 구성의 기본 설정으로 돌아갑니다. Box plot·Treemap·Heatmap의 예제 탭은 전용 컴포넌트를 실행합니다. 코드 탭의 **구성 방식**에서 **전용 컴포넌트 / 직접 구성**을 선택하면 각 방식의 완전한 실행 소스를 확인할 수 있습니다.
 
 한금 소비앱에서 검토한 15개 차트 렌더링 구현을 모두 대응 예제에 포함했습니다. `src/playgrounds/charts/model/coverage.ts`에서 대응 관계를 확인할 수 있습니다. 데이터는 가상 생산량·설비 측정값이며 소비앱의 고객 데이터나 API 응답을 포함하지 않습니다.
 
@@ -266,7 +269,7 @@ Box plot은 실제 관측값에서 Q1·중앙값·Q3와 1.5 IQR 수염·이상�
 
 모든 차트는 `ChartFrame`의 OWP 범례를 사용합니다. 일반 차트의 범례는 패키지의 160ms show/hide 전환을 사용합니다. `범례로 표시·숨김` 예제에서 `범례 애니메이션`을 끄면 즉시 전환하며, 데이터 갱신 애니메이션은 유지합니다. 단일 Pie·Doughnut은 항목별 geometry를 전환합니다. Multi-series pie는 기본적으로 두 ring의 범례를 표시하며, `항목별 범례`를 켜면 각 ring과 그 안의 항목을 독립적으로 전환합니다. Live chart는 이동과 범례 opacity 전환을 패키지의 공용 frame driver에서 처리하며, 일시정지 중에도 범례를 조작할 수 있습니다. `window.axisLayout`으로 시간 라벨 폭과 축 높이를 예약해 이동 중 plot 영역을 고정합니다. 움직임 줄이기·숨겨진 탭에서는 범례 효과를 생략합니다. 시계열 Tooltip은 원본 ISO 데이터를 유지하면서 축과 같은 UTC 기준의 날짜·시간으로 표시합니다.
 
-차트 예제의 번역 hook은 현재 공개 경로인 `@owp/components/hooks`의 `useOwpTranslation`을 사용합니다. `owp` namespace에 차트 번역을 등록합니다. 설치된 `@owp/core` 6.0.0은 이 hook을 export하지 않습니다.
+차트 예제의 번역 hook은 현재 공개 경로인 `@owp/components/hooks`의 `useOwpTranslation`을 사용합니다. `owp` namespace에 차트 번역을 등록합니다. 설치된 `@owp/core` 7.0.0은 이 hook을 export하지 않습니다.
 
 정수 축·소수 축·긴 label 처리는 별도 예제에서 제외했습니다. 기존 URL은 각각 눈금 간격·눈금 서식·Bar 예제로 연결합니다. Pie는 9개 공정의 생산 비중을 촘촘한 조각과 항목·비율 라벨로 표시합니다. Multi-series pie는 중앙이 빈 두 고리로 2026·2025년을 비교하며 얇은 경계와 명도로 구분합니다. Doughnut은 같은 단색 팔레트와 둥근 조각을 사용합니다. 넓은 화면에서는 바깥 라벨과 연결선을 표시하고 작은 화면에서는 범례·툴팁에서 항목과 비율을 확인합니다. 그라데이션 로직과 전용 메뉴는 제거했습니다.
 
@@ -274,7 +277,9 @@ Box plot은 실제 관측값에서 Q1·중앙값·Q3와 1.5 IQR 수염·이상�
 
 `@owp/charts` 4.0.1이 slider의 접근성 속성과 키보드 조작, 범례의 키보드 포커스, zoom 초기화 버튼의 Tab 순서와 포커스 복귀를 처리합니다. 샘플에서 내부 DOM을 수정하지 않으며, 여러 Y축 예제는 `ariaLabel`과 `valueTextFormatter`로 축의 의미와 백분율 서식을 전달합니다. 로딩·빈 데이터·오류 예제는 `ChartFrame`의 `loading`·`noData`·`noDataMessage`·`errorOverlay`를 사용합니다. 패키지가 상태 안내와 오류 Alert·재시도 버튼을 표시하고, 샘플은 상태 선택과 재시도 callback을 담당합니다. 상태 표시 우선순위는 로딩 → 오류 → 빈 데이터이며, `noData`는 호출자가 명시적으로 지정합니다.
 
-Chart.js 공식 실행 샘플 75개 중 신규 37개, 기존 9개, 대체·연관 예제 11개를 제공합니다. 애니메이션 전용 6개와 그라데이션 2개는 제외했고, 나머지 10개는 Polar·Log·Time·Subtitle 또는 custom scale/controller 기반 클래스의 공개 지원이 필요합니다. Area·Radar는 패키지가 등록한 native Filler·Radar·RadialLinearScale을 사용합니다. 예제는 설치된 `@owp/charts` 4.0.3의 공개 API를 사용합니다. 정확한 대응 범위는 [Chart.js 샘플 대응표](src/playgrounds/charts/CHARTJS-SAMPLES.md)를 확인합니다.
+Chart.js 공식 실행 샘플 75개 중 신규 40개, 기존 9개, 대체·연관 예제 13개를 제공합니다. 애니메이션 전용 6개와 그라데이션 2개는 제외했습니다. 시간축 3개·로그축·Subtitle은 전용 실행 예제로 제공하며, PolarArea 3개와 custom scale·controller 2개는 패키지 지원이 필요한 `unavailable` 5개입니다. Area·Radar는 패키지가 등록한 native Filler·Radar·RadialLinearScale을 사용합니다. 예제는 설치된 정식 `@owp/charts` 5.0.1의 공개 API를 사용합니다. 정확한 대응 범위와 제약은 [Chart.js 샘플 대응표](src/playgrounds/charts/CHARTJS-SAMPLES.md)를 확인합니다.
+
+Native 시간축의 Luxon 경로는 optional peer인 `luxon` 3.x·`chartjs-adapter-luxon` 1.3.1 이상을 준비한 뒤 첫 chart mount 전에 `@owp/charts/chartjs/time`의 `registerChartTime()`을 await합니다. 현재 Playground에는 두 peer를 설치했으며 `time-line`·`time-combo`·`time-max-span`은 초기화가 끝난 뒤 표시합니다. 기존 `date-time`·`time-series` 예제는 category 축을 유지합니다. 다른 날짜 adapter를 이미 사용하는 앱은 기존 초기화를 유지하고 이 helper를 호출하지 않습니다. 로그축은 native wheel·pan·drag zoom·reset을 지원하지만 로그축의 OWP `zoomSlider`를 활성화하면 `RangeError`가 발생합니다. Subtitle은 `options.plugins.subtitle`로 설정하며 canvas·PNG export에 반영됩니다. `log-scale`은 선형·로그 Y축 비교, `subtitle`은 부제목 표시·여러 줄·정렬과 PNG 저장을 제공합니다. Scatter·Multi-axis scatter·Quadrants는 native `scatter`, Bubble은 native `bubble`과 point의 `r`을 사용합니다.
 
 패키지 메뉴는 구현된 DataGrid·Charts를 위에 표시하고 나머지는 `준비 중`으로 비활성화합니다. 기존 준비 화면의 직접 URL은 유지합니다.
 
@@ -282,7 +287,7 @@ Chart.js 공식 실행 샘플 75개 중 신규 37개, 기존 9개, 대체·연�
 
 본문 액션 버튼은 아웃라인을 기본으로 사용합니다. 단일·다중 선택이나 드래그 대상처럼 선택 상태를 유지하는 버튼은 선택된 값만 채움으로 표시합니다.
 
-부모 높이가 정해진 예제와 중첩 그리드는 공개 `height="100%"` 속성을 사용합니다. 설치된 `@owp/datagrid` 3.1.4-rc.0의 기본 동작에 따라 데스크톱에서는 부모 높이를 채우고, 태블릿에서는 500px, 모바일에서는 420px로 표시합니다. 공통 미리보기도 같은 속성을 전달합니다. 태블릿·모바일에서는 미리보기 영역이 컨트롤과 그리드 높이에 맞춰 늘어나며, 상세 그리드는 상세 패널 안에서 스크롤할 수 있습니다. ‘표시 행 수 고정’ 예제는 지정한 행 수에 따른 자동 높이를 유지합니다. 독립된 그리드에 고정 높이가 필요하면 `height={420}`처럼 숫자를 지정할 수 있습니다.
+부모 높이가 정해진 예제와 중첩 그리드는 공개 `height="100%"` 속성을 사용합니다. 설치된 `@owp/datagrid` 3.2.1의 기본 동작에 따라 데스크톱에서는 부모 높이를 채우고, 태블릿에서는 500px, 모바일에서는 420px로 표시합니다. 공통 미리보기도 같은 속성을 전달합니다. 태블릿·모바일에서는 미리보기 영역이 컨트롤과 그리드 높이에 맞춰 늘어나며, 상세 그리드는 상세 패널 안에서 스크롤할 수 있습니다. ‘표시 행 수 고정’ 예제는 지정한 행 수에 따른 자동 높이를 유지합니다. 독립된 그리드에 고정 높이가 필요하면 `height={420}`처럼 숫자를 지정할 수 있습니다.
 
 코드 탭은 각 샘플의 실제 TSX 컴포넌트를 기본으로 보여줍니다. 이 파일은 `<OwpDataGrid ... />`를 반환하며 미리보기에서도 같은 컴포넌트를 사용합니다. 모든 DataGrid 예제는 한금 소비앱처럼 정적 컬럼·레이아웃·서식을 `examples/configs`에, 공용 row 타입과 예제 콜백 계약을 `types/index.ts`에 둡니다. 상세 패널·차트처럼 별도 렌더링이 필요한 구현은 `examples/components`에서 관리합니다. 실행 파일은 native props·Ref 연결, 상태와 이름 있는 이벤트 핸들러를 보여줍니다. 부모와 연결할 때는 선택적인 `callbacks`를 전달하며, `runtime/taskGridPreview.tsx`가 미리보기의 이벤트·데이터·로딩 관찰용 props를 이 계약에 연결합니다. 기존 예제 URL과 source export, props 우선순위와 동작을 유지합니다. 데이터·타입·번역·테마는 공유하며 파일 선택에서 원본을 확인할 수 있습니다. 코드 표시·복사·다운로드와 `/snippets` 리소스는 같은 포맷된 원본을 사용합니다. 공통 실행부는 선택·편집·이벤트 기록용 props를 전달합니다. 데이터 탭은 현재 작업 데이터를 OWP API response 형식으로 표시하며, 100개씩 범위를 이동할 수 있습니다. 이벤트는 최근 40개로 제한합니다.
 
@@ -317,7 +322,7 @@ Charts와 DataGrid의 데이터 탭은 테이블 대신 API response의 행 배�
 - `/catalogs/datagrid.sources.json`: 같은 카탈로그의 설명·API와 실제 설치된 패키지 버전, 예제별 진입 소스·타입·스타일 의존 파일, 각 파일의 SHA-256 및 직접 import 관계. 파일 경로는 `/snippets/` 원본을 가리킵니다.
 - `/packages.json`: 패키지 선택 값, 이름과 샘플 준비 상태.
 - `/catalog.en.json`: 같은 DataGrid 샘플의 영어 설명.
-- `/catalogs/charts.json`, `/catalogs/charts.en.json`: Charts 가이드와 92개 예제의 한국어·영어 카탈로그.
+- `/catalogs/charts.json`, `/catalogs/charts.en.json`: Charts 가이드와 70개 예제의 한국어·영어 카탈로그.
 - `/snippets/playgrounds/{package}/{source}`: 패키지별 실행 예제와 모델·데이터·타입.
 - `/snippets/features/{feature}/{file}`: 코드 보기·테마 편집 기능의 원본.
 - `/snippets/shared/{area}/{file}`: 공통 UI·테마·번역 함수.
@@ -325,7 +330,52 @@ Charts와 DataGrid의 데이터 탭은 테이블 대신 API response의 행 배�
 
 기본 표시(`overview`), 행 선택(`selection`), 셀 편집(`editing`), 변경 관리(`ref-changes`), 서버 저장(`save-changes`)은 같은 작업 데이터와 작성 기준을 사용합니다. 서버 저장은 모의 응답을 사용하며, 편집 확정·검증 후 요청 당시 행을 `submittedRow`로 전달해 저장 대기 중 추가 편집을 보존합니다. 취소·초기화·예제 이동 시 대기 요청을 중단합니다. 기존 `server-save` URL은 변경 관리로 연결되는 호환 동작을 유지합니다.
 
+DataGrid의 기본 연결은 `@owp/datagrid/hooks`의 `useDataGridApi<Task>()`입니다. 같은 Grid의 실행 예제·toolbar·Excel 버튼에 API 객체를 전달하고 상세 Grid에는 별도 객체를 사용합니다. 기존 `ref-*` URL과 대표 ref 호환 예제를 유지합니다. API 메서드는 호출 시 연결된 Grid의 최신 값을 읽으며 자동 상태 구독을 제공하지 않습니다. `hasUnsavedChanges()`는 미확정 draft까지 감지하고 `getChanges()`는 working-copy에 반영된 변경만 반환합니다. 저장은 `commitEditing()` 성공 후 `validate()`와 변경 조회를 차례로 실행합니다. 연결 전·해제 후 필수 메서드는 호출할 수 없습니다.
+
+Box plot·Treemap·Heatmap 예제는 기존 전용 컴포넌트와 `ChartFrame` 직접 사용을 전환할 수 있습니다. 설치된 `@owp/charts 5.0.1`에서는 `boxPlot`·`treemap`·`heatmap`이 native 타입명이며 전용 컴포넌트도 같은 타입을 사용합니다. 이전 `owpBoxPlot`·`owpTreemap`·`owpHeatmap` 타입명은 지원하지 않습니다. `CoreChart`·`ChartFrame`은 controller를 자동 등록하며, Chart.js instance를 직접 생성할 때는 공개 `@owp/charts/chartjs/register`의 `registerChartCore()`를 사용합니다.
+
 MCP는 카탈로그에서 예제를 찾고 소스 매니페스트의 진입 파일과 의존 파일을 `/snippets/`에서 읽을 수 있습니다. RAG도 같은 매니페스트를 기준으로 예제 ID·API·패키지 버전·파일 관계를 연결하고, SHA-256으로 원본 변경 여부를 판별할 수 있습니다. 코드 메뉴의 주요 구현에는 현재 예제에서 실제로 사용하는 설정·컴포넌트·타입·데이터만 표시합니다. 소스 매니페스트는 스타일과 번역 등 직접·간접 의존 파일도 함께 제공합니다. 코드 표시를 위한 `?raw` 문자열 import는 실행 의존성에서 제외합니다. 별도의 설명용 샘플 사본은 만들지 않습니다. MCP 서버와 다른 패키지의 독립 샘플은 후속 범위입니다.
+
+## API 문서와 지식 데이터
+
+DataGrid와 Charts는 사이드바의 `문서`에서 `시작하기`와 `API`를 제공하고, 실행 샘플은 별도 `예제` 그룹에서 탐색합니다. API는 기본 필터로 Props를 선택하며 공개 컴포넌트·props·이벤트·Ref 메서드·타입·유틸리티와 사용 가이드를 제공합니다. 예제 하단의 `관련 API`는 소속 타입과 경로를 포함한 ID로 정확한 설명에 연결됩니다. API의 `실행 예제`는 코드 탭을 열고 관련 파일의 사용 위치를 강조합니다. 직접 호출·설정 위치를 확인하지 못한 항목은 예제 진입 파일과 안내를 표시합니다. 선택한 API ID와 코드 위치를 주소에 포함하므로 직접 열기·새로고침·브라우저 뒤로 가기를 지원합니다.
+
+이 구분은 [TanStack의 Get Started·API·Examples 탐색 구조](https://tanstack.com/table/latest/docs/framework/react), [MUI의 API reference](https://mui.com/x/api/data-grid/data-grid), [AG Grid의 Reference](https://www.ag-grid.com/javascript-data-grid/reference/)를 참고했습니다. 항목 필터는 `항목 유형`으로 표시합니다. 출처·버전·해시·원본 선언은 JSON·JSONL과 원본 대응표에 보존하며 API 본문에는 별도 출처 영역을 표시하지 않습니다. API 문서 JSON은 아래 정적 리소스 경로에서 받을 수 있으며, Playground의 지식 데이터 형식으로 OpenAPI 명세와는 구분됩니다.
+
+prop 이름·Type token·Required/Optional은 한 행에서 구분하며 긴 타입은 줄을 바꿉니다. 한글 모드에서 외부 라이브러리의 영문 설명은 실제 상속 출처를 확인해 원문 배지를 표시합니다. OWP가 설명을 다시 작성한 경우 외부 원문으로 표시하지 않습니다. 관련 가이드·타입은 검색과 접기 기능으로 탐색하며, 주요 가이드의 긴 본문은 제목이 있는 항목으로 나눕니다. prop의 Type은 원본 타입 이름과 관련 정의 링크를 보존합니다. 닫힌 literal union과 별칭, generic의 `extends` 제약, 설치된 registry의 module augmentation에서 확인한 값은 상세 화면과 속성 목록에 함께 표시합니다. 상세 화면의 값 목록은 `|`로 구분한 TypeScript 스니펫으로 표시하며 복사를 지원합니다. `Type constraint values`는 generic의 상위 범위이며 구체적인 타입 인자에 따라 좁아질 수 있습니다. registry의 선언이 존재해도 실행에 필요한 controller·plugin 등록까지 보장하지는 않습니다. 열린 `string`·callback을 포함한 union이나 평가하지 못한 타입은 유한한 허용 값으로 단정하지 않습니다.
+
+generic의 Constraint·Type parameter default와 prop의 Default를 구분합니다. JSDoc의 `@default`는 `Default` 값으로, `@see`·`@param`·`@returns` 등은 별도 설명으로 표시합니다. 원문은 `documentation`, 태그는 `docTags`, 기본값의 부연 설명은 `defaultNote`, 허용 값과 근거는 `typeDetails`에 유지하여 JSON·JSONL에서도 같은 정보를 사용할 수 있습니다.
+
+한국어 API·사용 가이드·예제 소개는 짧은 참조 문체를 사용하고, 두 시작하기 문서는 니다·요로 끝나는 완전한 문장을 사용합니다. 시작하기 소개는 각 패키지의 역할을 설명합니다. 가능·필수·부정 조건과 코드·직접 인용·기본 메시지는 보존합니다. 실행 예제의 `codeUrl`·`location`은 AST 또는 소스 대조로 확인한 사용 위치와 파일 SHA-256을 제공합니다. 공용 함수·JSX spread를 통한 전달은 실제 설정 위치에 연결하고 `codeReview`에 전달 근거를 남깁니다. 명시 호출 없이 기본 동작이나 패키지 내부 구현에 의존하는 항목은 `location: null`과 그 이유를 기록합니다. 예제에서 사용하지 않는 API 연결은 제외하며, 제외 이유도 검토 자료에 보존합니다.
+
+`knowledge/example-code-reviews/`는 자동 탐색으로 확정하지 못했거나 API 소속을 바로잡은 연결의 검토본입니다. 파일명·고유 코드 구간·전달 경로·소스 지문을 함께 관리하며, 소스 변경·코드 중복·의존 범위 이탈·API 삭제 시 문서 생성이 실패합니다. `baseline.json`은 이번 전체 검수의 시작 목록이며 미확정 항목에 대한 검토 누락도 검사합니다. 배포 카탈로그와 화면의 관련 API는 같은 검토 결과를 사용합니다. 화면 하단에서는 aria-* 공통 속성을 생략하고 boolean·값 설정·이벤트 및 메서드 순으로 표시합니다. 전체 API 선언과 원본 코드 연결은 유지합니다.
+
+`knowledge/source-map.mjs`는 Framework와 소비 앱의 관련 스킬·패키지 문서 원본 목록입니다. `knowledge/source-audit.json`은 원본 파일·섹션의 해시와 가이드 대응, 개발 절차·업무 전용 정책·과거 검증 기록의 구분, 확인한 불일치를 기록합니다. 스킬 원문을 제품 지침으로 그대로 복제하지 않습니다. 현재 공개 타입·실행 예제와 맞지 않는 설명은 수정한 사용 계약으로 제공하며 원본과 차이를 기록합니다.
+
+`pnpm knowledge:generate`는 설치된 패키지의 공개 export와 declaration을 따라 타입·JSDoc·상속 관계를 읽습니다. `Omit`·`Pick`·`Partial`·`Required`의 속성 범위와 조건부 필수 여부를 보존하고 generic 인자를 상속 속성에 적용합니다. 치환 전 타입은 JSON·JSONL의 `declarationSignature`에서 확인할 수 있습니다. Chart.js·react-chartjs-2·annotation·datalabels의 관련 타입도 설치된 버전에서 읽습니다. 기본값은 선언에 기록된 설명만 표시합니다. Chart.js의 원본 타입과 OWP의 실제 옵션 전달 경로·scriptable/array 확장은 구분해 읽어야 합니다. 실행 예제는 별도 설명용 사본 없이 기존 소스에 연결합니다.
+
+예제별 명시 대상과 컴포넌트의 직접 props를 우선하고, 중첩 경로는 해당 속성의 타입을 따라갑니다. 일반 라벨은 해당 OWP 패키지를 기본 범위로 사용하고 native·plugin 설정은 명시한 대상으로 연결합니다. 같은 범위에서 동명 후보가 여럿이면 생성이 실패합니다. 원본 문서가 설치본보다 앞선 기능을 설명하면 해당 섹션의 버전 차이를 대응표와 가이드에 기록합니다.
+
+검토한 패키지 버전·declaration·실행 코드 해시는 `knowledge/reviewed-packages.json`에 고정합니다. 패키지가 바뀌거나 검토한 API·예제·가이드 연결이 사라지면 문서 생성이 실패합니다. 관련 원본 저장소가 함께 있는 로컬 환경에서는 스킬·문서의 변경·삭제도 검사합니다. 다른 배치는 `OWP_KNOWLEDGE_AGENTS_ROOT`와 `OWP_KNOWLEDGE_FRAMEWORK_ROOT`로 지정합니다. 원본이 없는 CI에서는 기록된 검토본과 설치 패키지를 대조하며 원본의 최신 상태를 확인했다고 간주하지 않습니다.
+
+원본 검사는 다음 명령으로 별도 실행할 수 있습니다. 경로는 현재 작업 환경에 맞게 지정합니다.
+
+```bash
+pnpm knowledge:audit --agents=/path/to/agents --framework=/path/to/owp-framework
+pnpm knowledge:check
+```
+
+검사가 실패하면 삭제·개명·공개 타입·실제 동작을 먼저 대조하고 관련 가이드·예제·대응표를 수정합니다. 검토 후에만 `knowledge:audit`에 `--write`를 추가해 원본 지문을 갱신하고, 패키지 계약 검토 결과에 맞춰 `reviewed-packages.json`을 갱신합니다. 생성한 `src/features/api/data/*.generated.json`은 직접 수정하지 않습니다.
+
+빌드는 같은 문서 데이터에서 다음 정적 리소스를 생성합니다. MCP 서버·벡터 DB는 별도 후속 범위이며, 로컬 스킬 경로 없이 이 배포 자료로 API 설명과 실행 소스를 조회할 수 있습니다.
+
+- `/api/datagrid.json`, `/api/charts.json`: 타입 원문·기본 동작·관련 설명·실행 예제·출처·버전·내용 해시.
+- `/knowledge/index.json`: 전체 ID·버전·언어·문서 URL·내용 해시와 원본 대응표. RAG 동기화 시 현재 ID 집합을 기준으로 삭제된 항목도 제거합니다.
+- `/knowledge/records.jsonl`: API 항목 또는 가이드 하나를 한 줄로 내보낸 검색 입력 자료. 검색 단위가 길면 소속 타입·버전·제약·문서 URL을 유지하며 추가 분할합니다.
+- `/knowledge/example-links.json`: 예제별 API ID·코드 URL·파일·줄·SHA-256, 전달 근거, API 소속 수정·연결 제외 이유와 검수 집계. MCP·RAG에서 코드 위치를 확인할 때 함께 사용합니다.
+- `/knowledge/guides/{package}/{topic}.md`: 사용 가이드와 관련 API·실행 소스 링크, record ID·내용 해시·원본 경로·섹션·SHA-256.
+- `/catalogs/charts.sources.json`: DataGrid와 같은 형식의 Charts 실행 파일·의존 파일·실제 설치 버전·해시.
+- `/llms.txt`: 위 리소스의 진입 색인.
 
 ## 디자인과 접근성
 

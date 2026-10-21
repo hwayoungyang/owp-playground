@@ -59,7 +59,7 @@ try {
   await page.goto(`${origin}/?package=datagrid`);
   await page.locator('.getting-started').waitFor();
   assert.equal(new URL(page.url()).searchParams.get('sample'), 'getting-started');
-  assert.equal(await page.locator('.desktop-sidebar .nav-item').first().textContent(), '시작');
+  assert.equal(await page.locator('.desktop-sidebar .nav-item').first().textContent(), '시작하기');
   assert.equal(await page.locator('.desktop-sidebar .category-label').first().getAttribute('aria-label'), '기본 (Basics)');
   assert.equal(await page.locator('[role=tab]').count(), 0);
   assert.equal(await page.locator('.guide-code').count(), 3);
@@ -111,8 +111,8 @@ try {
     await page.locator('.guide-sections > section').last().scrollIntoViewIfNeeded();
     await shot(`guide-usage-${width}`);
   }
-  await page.getByRole('button', { name: '예제 메뉴 열기' }).click();
-  assert.equal(await page.locator('.MuiDrawer-root .nav-item').first().textContent(), '시작');
+  await page.getByRole('button', { name: '탐색 메뉴 열기' }).click();
+  assert.equal(await page.locator('.MuiDrawer-root .nav-item').first().textContent(), '시작하기');
   await page.locator('.MuiDrawer-root').getByRole('link', { name: '표시 행 수 고정', exact: true }).click();
   await page.locator('.OwpDataGrid-root').waitFor();
   assert.equal(await page.locator('.language-label').count(), 0);

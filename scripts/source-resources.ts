@@ -14,8 +14,12 @@ export type SourceResource = {
 };
 
 export class SourceDependencyError extends Error {
-  constructor(readonly importer: string, readonly specifier: string) {
+  readonly importer: string;
+  readonly specifier: string;
+  constructor(importer: string, specifier: string) {
     super(`소스 의존성을 찾을 수 없습니다: ${importer} → ${specifier}`);
+    this.importer = importer;
+    this.specifier = specifier;
     this.name = 'SourceDependencyError';
   }
 }
@@ -23,6 +27,10 @@ export class SourceDependencyError extends Error {
 type ImportReference = { readonly specifier: string; readonly runtime: boolean };
 
 function sourceImports(file: string, content: string): readonly ImportReference[] {
+  if (file.endsWith('.json')) {
+    JSON.parse(content);
+    return [];
+  }
   if (file.endsWith('.css')) {
     return [...content.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(
       /@import\s+(?:url\(\s*)?["']([^"']+)["']/g,
@@ -59,7 +67,7 @@ export async function readSourceResources(root: string): Promise<ReadonlyMap<str
   const directory = path.join(root, 'src');
   const files = (await readdir(directory, { recursive: true }))
     .map((file) => file.split(path.sep).join('/'))
-    .filter((file) => /\.(?:ts|tsx|css)$/.test(file)).sort();
+    .filter((file) => /\.(?:ts|tsx|css|json)$/.test(file)).sort();
   const known = new Set(files);
   const resources = await Promise.all(files.map(async (file) => {
     const bytes = await readFile(path.join(directory, file));
@@ -136,10 +144,11 @@ type SourceCatalogEntry = {
 
 const snippetPath = (file: string) => file.replace(/^\/src\//, '/snippets/');
 
-export async function createDataGridSourceManifest(options: {
+export async function createPackageSourceManifest(options: {
   readonly root: string;
   readonly catalog: readonly SourceCatalogEntry[];
   readonly resources: ReadonlyMap<string, SourceResource>;
+  readonly packageName: string;
 }) {
   const samples = options.catalog.map((entry) => {
     const entrypoint = `/src/${exampleSourcePath(entry)}`;
@@ -157,13 +166,17 @@ export async function createDataGridSourceManifest(options: {
     };
   });
   const dependencyVersions = await installedDependencyVersions(options.root, [
-    '@owp/datagrid', ...samples.flatMap((sample) => sample.externalImports),
+    options.packageName, ...samples.flatMap((sample) => sample.externalImports),
   ]);
   return {
     version: 1,
-    package: '@owp/datagrid',
-    packageVersion: dependencyVersions['@owp/datagrid'],
+    package: options.packageName,
+    packageVersion: dependencyVersions[options.packageName],
     dependencyVersions,
     samples,
   };
+}
+
+export function createDataGridSourceManifest(options: Omit<Parameters<typeof createPackageSourceManifest>[0], 'packageName'>) {
+  return createPackageSourceManifest({ ...options, packageName: '@owp/datagrid' });
 }
