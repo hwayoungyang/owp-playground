@@ -41,7 +41,7 @@ export const chartjsCatalog = [
   },
   {
     id: 'bar-radius',
-    title: 'Bar 스타일',
+    title: 'Column 스타일',
     description: '막대의 radius와 기준값별 색상 설정 비교 가능.',
     category: 'styling',
     kind: 'chart',
@@ -51,7 +51,7 @@ export const chartjsCatalog = [
   },
   {
     id: 'floating-bar',
-    title: '구간 Column',
+    title: 'Floating bars',
     description: '시작값과 종료값 사이의 구간을 Column으로 표시 가능.',
     category: 'types',
     kind: 'chart',

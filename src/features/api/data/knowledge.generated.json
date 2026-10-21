@@ -244147,7 +244147,7 @@
     {
       "id": "floating-bar",
       "packageId": "charts",
-      "title": "구간 Column",
+      "title": "Floating bars",
       "description": "시작값과 종료값 사이의 구간을 Column으로 표시 가능.",
       "source": "examples/floating-bar.tsx",
       "references": [
@@ -245995,7 +245995,7 @@
       "id": "doughnut",
       "packageId": "charts",
       "title": "Doughnut",
-      "description": "공정별 생산 비중 비교와 도넛 두께 조절·합계 0 상태 확인 가능.",
+      "description": "공정별 생산 비중 비교와 Doughnut 두께 조절·합계 0 상태 확인 가능.",
       "source": "examples/doughnut.tsx",
       "references": [
         {
@@ -246136,7 +246136,7 @@
       "id": "gauge",
       "packageId": "charts",
       "title": "Gauge",
-      "description": "실시간 게이지 값과 바늘 움직임 확인 가능.",
+      "description": "실시간 Gauge 값과 바늘 움직임 확인 가능.",
       "source": "examples/gauge.tsx",
       "references": [
         {
@@ -253749,7 +253749,7 @@
       "id": "drag-zoom",
       "packageId": "charts",
       "title": "Drag 확대",
-      "description": "차트 영역을 드래그해 확대하고, 초기화 버튼으로 원래 범위 복귀 가능.",
+      "description": "Drag 동작으로 차트 영역을 확대하고 초기화 버튼으로 원래 범위 복귀 가능.",
       "source": "examples/drag-zoom.tsx",
       "references": [
         {
@@ -253970,7 +253970,7 @@
       "id": "wheel-pinch",
       "packageId": "charts",
       "title": "Wheel·Pinch 확대",
-      "description": "마우스 휠이나 터치 제스처로 차트 확대·축소 가능.",
+      "description": "마우스 Wheel이나 터치 Pinch로 차트 확대·축소 가능.",
       "source": "examples/wheel-pinch.tsx",
       "references": [
         {
@@ -254274,7 +254274,7 @@
       "id": "linked",
       "packageId": "charts",
       "title": "Crosshair·Tooltip 동기화",
-      "description": "표시 기간이 다른 두 차트의 crosshair·tooltip·zoom 동기화 가능.",
+      "description": "표시 기간이 다른 두 차트의 Crosshair·Tooltip·확대 범위 동기화 가능.",
       "source": "examples/linked.tsx",
       "references": [
         {
@@ -256714,7 +256714,7 @@
     {
       "id": "bar-radius",
       "packageId": "charts",
-      "title": "Bar 모서리 radius",
+      "title": "Column 모서리 radius",
       "description": "Column 모서리의 radius 크기 조절 가능.",
       "source": "examples/bar-radius.tsx",
       "references": [
@@ -259581,8 +259581,8 @@
     {
       "id": "monthly-receipt",
       "packageId": "charts",
-      "title": "그룹 Column · 확대",
-      "description": "자재별 월간 입고량을 Grouped column으로 비교 가능.",
+      "title": "그룹 Column",
+      "description": "자재별 월간 입고량을 그룹 Column으로 비교 가능.",
       "source": "examples/monthly-receipt.tsx",
       "references": [
         {
@@ -261464,7 +261464,7 @@
     {
       "id": "small-multiples",
       "packageId": "charts",
-      "title": "작은 차트 모음",
+      "title": "Small multiples",
       "description": "여러 설비의 통계를 같은 축 범위에서 나란히 비교 가능.",
       "source": "examples/small-multiples.tsx",
       "references": [
@@ -263946,8 +263946,8 @@
     {
       "id": "semi-circle",
       "packageId": "charts",
-      "title": "반원",
-      "description": "공정별 처리 수량의 비중을 반원으로 비교 가능.",
+      "title": "Semi-circle",
+      "description": "공정별 처리 수량의 비중을 Semi-circle로 비교 가능.",
       "source": "examples/semi-circle.tsx",
       "references": [
         {
@@ -268111,7 +268111,7 @@
     {
       "id": "scriptable-bar",
       "packageId": "charts",
-      "title": "Bar 조건부 색상",
+      "title": "Column 조건부 색상",
       "description": "생산량 기준값 충족 여부에 따른 Column 색상 구분 가능.",
       "source": "examples/scriptable-bar.tsx",
       "references": [

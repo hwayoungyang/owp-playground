@@ -45,7 +45,7 @@ export const chartDefaultCatalog = [
     id: 'doughnut',
     title: 'Doughnut',
     category: 'types',
-    description: '공정별 생산 비중 비교와 도넛 두께 조절·합계 0 상태 확인 가능.',
+    description: '공정별 생산 비중 비교와 Doughnut 두께 조절·합계 0 상태 확인 가능.',
     api: ['cutout', 'outsideLabels', 'emptyState'],
     kind: 'chart',
     package: '@owp/charts',
@@ -104,7 +104,7 @@ export const chartDefaultCatalog = [
   },
   {
     id: 'bar-radius',
-    title: 'Bar 모서리 radius',
+    title: 'Column 모서리 radius',
     category: 'styling',
     description: 'Column 모서리의 radius 크기 조절 가능.',
     api: ['borderRadius', 'borderSkipped'],
@@ -221,9 +221,9 @@ export const chartVariantCatalog = [
   },
   {
     id: 'semi-circle',
-    title: '반원',
+    title: 'Semi-circle',
     category: 'types',
-    description: '공정별 처리 수량의 비중을 반원으로 비교 가능.',
+    description: '공정별 처리 수량의 비중을 Semi-circle로 비교 가능.',
     api: ['semiCircle', 'cutout'],
     kind: 'chart',
     package: '@owp/charts',
@@ -383,7 +383,7 @@ export const chartVariantCatalog = [
   },
   {
     id: 'scriptable-bar',
-    title: 'Bar 조건부 색상',
+    title: 'Column 조건부 색상',
     category: 'styling',
     description: '생산량 기준값 충족 여부에 따른 Column 색상 구분 가능.',
     api: ['backgroundColor'],

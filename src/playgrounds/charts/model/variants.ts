@@ -6,18 +6,18 @@ export const chartVariantGroups = [
     label: '구성 방식',
     choices: [
       { id: 'bar', label: 'Column' },
-      { id: 'grouped-bar', label: 'Grouped column' },
+      { id: 'grouped-bar', label: '그룹 Column' },
       { id: 'horizontal-bar', label: 'Bar' },
-      { id: 'grouped-horizontal-bar', label: 'Grouped bar' },
+      { id: 'grouped-horizontal-bar', label: '그룹 Bar' },
     ],
   },
   {
     id: 'stacked-bar',
     label: '구성 방식',
     choices: [
-      { id: 'stacked-bar', label: 'Stacked column' },
-      { id: 'percent-stacked', label: '100% stacked column' },
-      { id: 'stacked-horizontal-bar', label: 'Stacked bar' },
+      { id: 'stacked-bar', label: '누적 Column' },
+      { id: 'percent-stacked', label: '100% 누적 Column' },
+      { id: 'stacked-horizontal-bar', label: '누적 Bar' },
     ],
   },
   {
@@ -25,7 +25,7 @@ export const chartVariantGroups = [
     label: '구성 방식',
     choices: [
       { id: 'line', label: 'Line' },
-      { id: 'multi-line', label: 'Multi-line' },
+      { id: 'multi-line', label: '다중 Line' },
     ],
   },
   {
@@ -33,7 +33,7 @@ export const chartVariantGroups = [
     label: '구성 방식',
     choices: [
       { id: 'area', label: 'Area' },
-      { id: 'stacked-area', label: 'Stacked area' },
+      { id: 'stacked-area', label: '누적 Area' },
     ],
   },
   {
@@ -43,48 +43,48 @@ export const chartVariantGroups = [
       { id: 'doughnut', label: 'Doughnut' },
       { id: 'pie', label: 'Pie' },
       { id: 'semi-circle', label: 'Semi-circle' },
-      { id: 'multi-series-pie', label: 'Multi-ring doughnut' },
+      { id: 'multi-series-pie', label: '다중 고리 Doughnut' },
     ],
   },
   {
     id: 'legend',
     label: '구성 방식',
     choices: [
-      { id: 'legend', label: 'Legend' },
-      { id: 'legend-title', label: 'Legend title' },
-      { id: 'legend-point-style', label: 'Legend point style' },
-      { id: 'legend-events', label: 'Legend events' },
+      { id: 'legend', label: '범례' },
+      { id: 'legend-title', label: '범례 제목' },
+      { id: 'legend-point-style', label: '범례 Point 스타일' },
+      { id: 'legend-events', label: '범례 이벤트' },
     ],
   },
   {
     id: 'tooltip-content',
     label: '구성 방식',
     choices: [
-      { id: 'tooltip-content', label: 'Tooltip content' },
-      { id: 'tooltip-mode', label: 'Tooltip interaction' },
-      { id: 'tooltip-position', label: 'Tooltip position' },
-      { id: 'tooltip-point-style', label: 'Tooltip point style' },
+      { id: 'tooltip-content', label: 'Tooltip 내용' },
+      { id: 'tooltip-mode', label: 'Tooltip 탐색 방식' },
+      { id: 'tooltip-position', label: 'Tooltip 위치' },
+      { id: 'tooltip-point-style', label: 'Tooltip Point 스타일' },
     ],
   },
   {
     id: 'axis-range',
     label: '구성 방식',
     choices: [
-      { id: 'axis-range', label: 'Axis range' },
-      { id: 'axis-step', label: 'Axis step size' },
-      { id: 'tick-style', label: 'Ticks' },
-      { id: 'grid-style', label: 'Grid' },
-      { id: 'axis-titles', label: 'Axis titles' },
+      { id: 'axis-range', label: 'Axis 범위' },
+      { id: 'axis-step', label: 'Axis 눈금 간격' },
+      { id: 'tick-style', label: '눈금' },
+      { id: 'grid-style', label: '격자' },
+      { id: 'axis-titles', label: 'Axis 제목' },
     ],
   },
   {
     id: 'line-style',
     label: '구성 방식',
     choices: [
-      { id: 'line-style', label: 'Line dash' },
-      { id: 'line-interpolation', label: 'Line interpolation' },
-      { id: 'point-style', label: 'Point style' },
-      { id: 'scriptable-line', label: 'Conditional line colors' },
+      { id: 'line-style', label: 'Line 선 패턴' },
+      { id: 'line-interpolation', label: 'Line 보간' },
+      { id: 'point-style', label: 'Point 스타일' },
+      { id: 'scriptable-line', label: 'Line 조건부 색상' },
     ],
   },
   {
@@ -99,24 +99,24 @@ export const chartVariantGroups = [
     id: 'bar-radius',
     label: '구성 방식',
     choices: [
-      { id: 'bar-radius', label: 'Bar border radius' },
-      { id: 'scriptable-bar', label: 'Conditional bar colors' },
+      { id: 'bar-radius', label: 'Column 모서리 radius' },
+      { id: 'scriptable-bar', label: 'Column 조건부 색상' },
     ],
   },
   {
     id: 'png-export',
     label: '구성 방식',
     choices: [
-      { id: 'png-export', label: 'PNG export' },
-      { id: 'export-ref', label: 'External PNG export' },
+      { id: 'png-export', label: 'PNG 내보내기' },
+      { id: 'export-ref', label: '외부 버튼 PNG 내보내기' },
     ],
   },
   {
     id: 'ranking',
     label: '구성 방식',
     choices: [
-      { id: 'ranking', label: 'Ranking bar' },
-      { id: 'top-n', label: 'Top N column' },
+      { id: 'ranking', label: '순위 Bar' },
+      { id: 'top-n', label: '상위 N Column' },
     ],
   },
 ] as const;

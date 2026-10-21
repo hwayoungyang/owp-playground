@@ -202,7 +202,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '포인터를 따라 이동하는 강조 영역과 기준선의 표시 여부를 설정 가능.':
     'Toggle the hover area and reference line at the pointer.',
   '드래그 zoom': 'Drag zoom',
-  '차트 영역을 드래그해 확대하고, 초기화 버튼으로 원래 범위 복귀 가능.':
+  'Drag 동작으로 차트 영역을 확대하고 초기화 버튼으로 원래 범위 복귀 가능.':
     'Drag a chart area to zoom in and use the reset button to return to the original range.',
   '휠·pinch zoom': 'Wheel and pinch zoom',
   '마우스 휠이나 두 손가락 제스처로 차트를 확대 가능.':
@@ -362,11 +362,11 @@ export const chartEnglish: Readonly<Record<string, string>> = {
     'Show monthly trends and adjust line tension.',
   '여러 라인의 생산 추이를 같은 축에서 비교 가능.':
     'Compare production trends for several lines on one axis.',
-  '공정별 생산 비중 비교와 도넛 두께 조절·합계 0 상태 확인 가능.':
+  '공정별 생산 비중 비교와 Doughnut 두께 조절·합계 0 상태 확인 가능.':
     'Compare production shares by process, adjust cutout thickness, and verify zero-total states.',
-  '공정별 처리 수량의 비중을 반원으로 비교 가능.':
+  '공정별 처리 수량의 비중을 Semi-circle로 비교 가능.':
     'Compare each process share of completed operations in a semicircle.',
-  '실시간 게이지 값과 바늘 움직임 확인 가능.':
+  '실시간 Gauge 값과 바늘 움직임 확인 가능.':
     'Update gauge values live and verify needle movement.',
   '두 생산 라인의 6개 지표를 같은 척도로 비교 가능.':
     'Compare six core capabilities of two production lines on the same scale.',
@@ -388,9 +388,9 @@ export const chartEnglish: Readonly<Record<string, string>> = {
     'Adjust the visible month range using the bottom slider.',
   '좌우 slider로 수량과 달성률 범위 독립 조절 가능.':
     'Adjust quantity and achievement domains independently using side sliders.',
-  '마우스 휠이나 터치 제스처로 차트 확대·축소 가능.':
+  '마우스 Wheel이나 터치 Pinch로 차트 확대·축소 가능.':
     'Zoom in and out using mouse wheel or touch pinch gestures.',
-  '표시 기간이 다른 두 차트의 crosshair·tooltip·zoom 동기화 가능.':
+  '표시 기간이 다른 두 차트의 Crosshair·Tooltip·확대 범위 동기화 가능.':
     'Synchronize crosshair, tooltip and zoom independently between charts with different periods.',
   'Column·Bar의 데이터 라벨 표시 위치와 방향 변경 가능.':
     'Configure data label placement and orientation for columns and bars.',
@@ -412,7 +412,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
     'Verify loading, empty, and error states, and retry queries on error.',
   'Column과 Line 조합으로 계획·실적·달성률 비교 가능.':
     'Combine columns and lines to compare plans, actual output, and achievement rates.',
-  '자재별 월간 입고량을 Grouped column으로 비교 가능.':
+  '자재별 월간 입고량을 그룹 Column으로 비교 가능.':
     'Compare monthly material receipts using grouped columns.',
   '생산 라인별 이행률을 오른쪽 백분율 축으로 비교 가능.':
     'Compare fulfillment by line on a right-side percentage axis.',
@@ -633,16 +633,13 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   'DataGrid 상세 패널': 'DataGrid detail panel',
   '대용량 시계열': 'Large time series',
   '순위 Bar·상위 N Column': 'Ranking bar & Top N column',
-  '그룹 Column · 확대': 'Grouped column · Zoom',
   '다중 Line · 백분율 axis': 'Multi-line · Percent axis',
   '다중 Line · OEE': 'Multi-line · OEE',
-  '작은 차트 모음': 'Small multiples',
   '시간 axis 간격': 'Time scale spacing',
   '시간 axis · Column & Line': 'Time scale · Column & Line',
   '시간 axis 누락 구간': 'Time scale gaps',
   '로그 scale': 'Logarithmic scale',
-  'Bar 스타일': 'Bar styles',
-  '구간 Column': 'Floating bars',
+  'Column 스타일': 'Column styles',
   '계단형 Line': 'Stepped line',
   'Line·Point 스타일': 'Line & Point styles',
   'Line 구간 스타일': 'Line segments',
@@ -664,7 +661,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '누적 Column': 'Stacked column',
   'Axis 범위': 'Axis range',
   'Line 선 패턴': 'Line dash',
-  'Bar 모서리 radius': 'Bar border radius',
+  'Column 모서리 radius': 'Column border radius',
   '순위 Bar': 'Ranking bar',
   '그룹 Column': 'Grouped column',
   '그룹 Bar': 'Grouped bar',
@@ -682,7 +679,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   'Line 보간': 'Line interpolation',
   'Point 스타일': 'Point style',
   'Line 조건부 색상': 'Conditional line colors',
-  'Bar 조건부 색상': 'Conditional bar colors',
+  'Column 조건부 색상': 'Conditional column colors',
   '외부 버튼 PNG 내보내기': 'External PNG export',
   '@owp/charts {{version}}의 공개 API를 사용합니다. 별도 Chart.js 설치·등록 없이 실행할 수 있습니다.':
     'Uses the public API of @owp/charts {{version}}. No separate Chart.js installation or registration is needed.',
