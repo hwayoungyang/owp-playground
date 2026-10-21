@@ -1,7 +1,7 @@
 import type { NativeData, NativeValue } from './chartTypes';
 import type { ChartSnapshot } from './types';
 
-function isPoint(value: NativeValue): value is { x: number; y: number; r?: number } {
+function isPoint(value: NativeValue): value is { x: number; y: number | null; r?: number } {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 

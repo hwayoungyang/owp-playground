@@ -11,7 +11,6 @@ export function ChartExample(props: ChartExampleProps) {
   const chartData: NativeData = {
     datasets: data.datasets.map((dataset, i) => ({
       ...dataset,
-      showLine: false,
       pointRadius: radius,
       yAxisID: i === 1 ? 'y1' : 'y',
       data: Array.from({ length: 20 }, (_, index) => ({
@@ -39,7 +38,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Range label="Point 크기" value={radius} min={2} max={10} onChange={setRadius} />
       </Controls>
-      <ChartCanvas type="line" data={chartData} options={options} {...props} />
+      <ChartCanvas type="scatter" data={chartData} options={options} {...props} />
     </>
   );
 }

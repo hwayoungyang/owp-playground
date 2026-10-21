@@ -7,9 +7,21 @@ describe('Chart.js sample coverage', () => {
   it('accounts for every official executable sample without broken or silent fallback routes', () => {
     expect(chartjsCoverage).toHaveLength(75);
     expect(new Set(chartjsCoverage.map((example) => example.path)).size).toBe(75);
-    expect(chartjsCoverage.filter((example) => example.status === 'unavailable')).toHaveLength(10);
+    expect(chartjsCoverage.filter((example) => example.status === 'unavailable')).toHaveLength(5);
+    for (const [path, id] of [
+      ['scales/log', 'log-scale'],
+      ['scales/time-combo', 'time-combo'],
+      ['scales/time-line', 'time-line'],
+      ['scales/time-max-span', 'time-max-span'],
+      ['subtitle/basic', 'chart-title'],
+    ])
+      expect(chartjsCoverage.find((example) => example.path === path)).toMatchObject({
+        status: 'added',
+        exampleId: id,
+      });
+    expect(chartCatalog.filter((entry) => entry.kind === 'chart')).toHaveLength(70);
     const added = chartjsCoverage.filter((example) => example.status === 'added');
-    expect(added).toHaveLength(35);
+    expect(added).toHaveLength(40);
     expect(chartjsCoverage.filter((example) => example.status === 'excluded')).toHaveLength(8);
     for (const example of chartjsCoverage) {
       if ('exampleId' in example) {

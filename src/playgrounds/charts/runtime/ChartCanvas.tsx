@@ -1,5 +1,5 @@
 import { ChartFrame } from '@owp/charts';
-import type { ChartLegendOptions } from '@owp/charts/types';
+import type { ChartFrameProps, ChartLegendOptions } from '@owp/charts/types';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo } from 'react';
 import { chartMotion } from '../model/chartMotion';
@@ -26,6 +26,8 @@ type ChartCanvasProps = ChartExampleProps & {
   readonly categoryLabel?: (label: string, index: number) => string;
   readonly legendFormatter?: ChartLegendOptions['formatter'];
   readonly recordLegendHover?: boolean;
+  readonly ariaLabel?: string;
+  readonly exportRef?: ChartFrameProps['exportRef'];
 };
 
 /** 차트 높이·데이터·이벤트 기록을 연결하고 패키지의 애니메이션 기본값을 적용합니다. */
@@ -39,6 +41,8 @@ export function ChartCanvas({
   categoryLabel,
   legendFormatter,
   recordLegendHover,
+  ariaLabel,
+  exportRef,
   onData,
   onRecord,
 }: ChartCanvasProps) {
@@ -73,11 +77,12 @@ export function ChartCanvas({
         options={config}
         plugins={plugins}
         chartRef={chartRef}
+        exportRef={exportRef}
         height="100%"
         showExportButton={false}
         interactionLayer={false}
         xAxisLabelMarker={false}
-        aria-label={t('차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.')}
+        aria-label={ariaLabel ?? t('차트 데이터는 데이터 탭에서 확인할 수 있습니다.')}
         legend={
           nativeLegend?.display === false
             ? false

@@ -73,7 +73,7 @@ export const chartjsCoverage = [
   {
     path: 'area/line-datasets',
     status: 'adapted',
-    exampleId: 'stacked-area',
+    exampleId: 'area',
     note: 'Native Filler의 dataset target을 options·datasetOptions로 확장할 수 있습니다. 예제는 누적 채우기를 보여 줍니다.',
   },
   {
@@ -85,7 +85,7 @@ export const chartjsCoverage = [
   {
     path: 'area/line-stacked',
     status: 'adapted',
-    exampleId: 'stacked-area',
+    exampleId: 'area',
     note: 'OwpAreaChart stacked와 native Filler로 누적 영역을 표시합니다.',
   },
   {
@@ -107,7 +107,7 @@ export const chartjsCoverage = [
   {
     path: 'bar/horizontal',
     status: 'existing',
-    exampleId: 'horizontal-bar',
+    exampleId: 'bar',
   },
   {
     path: 'bar/stacked-groups',
@@ -127,7 +127,7 @@ export const chartjsCoverage = [
   {
     path: 'legend/events',
     status: 'added',
-    exampleId: 'legend-events',
+    exampleId: 'legend',
   },
   {
     path: 'legend/html',
@@ -137,7 +137,7 @@ export const chartjsCoverage = [
   {
     path: 'legend/point-style',
     status: 'added',
-    exampleId: 'legend-point-style',
+    exampleId: 'legend',
     note: 'Canvas 범례의 pointStyle 대신 OWP 범례에 Line의 Point 표시 여부를 반영합니다.',
   },
   {
@@ -148,12 +148,12 @@ export const chartjsCoverage = [
   {
     path: 'legend/title',
     status: 'added',
-    exampleId: 'legend-title',
+    exampleId: 'legend',
   },
   {
     path: 'line/interpolation',
     status: 'added',
-    exampleId: 'line-interpolation',
+    exampleId: 'line-style',
   },
   {
     path: 'line/line',
@@ -168,7 +168,7 @@ export const chartjsCoverage = [
   {
     path: 'line/point-styling',
     status: 'added',
-    exampleId: 'point-style',
+    exampleId: 'line-style',
   },
   {
     path: 'line/segments',
@@ -189,7 +189,7 @@ export const chartjsCoverage = [
     path: 'other-charts/bubble',
     status: 'added',
     exampleId: 'bubble',
-    note: 'Line의 showLine: false와 linear 축을 사용합니다. Bubble은 pointRadius로 r을 표시합니다.',
+    note: 'Native Scatter·Bubble controller와 linear 축을 사용하며 Bubble의 r을 데이터로 전달합니다.',
   },
   {
     path: 'other-charts/combo-bar-line',
@@ -204,13 +204,13 @@ export const chartjsCoverage = [
   {
     path: 'other-charts/multi-series-pie',
     status: 'added',
-    exampleId: 'multi-series-pie',
+    exampleId: 'doughnut',
     note: 'OwpRadialChart의 native Pie·Doughnut과 cutout 설정을 사용합니다.',
   },
   {
     path: 'other-charts/pie',
     status: 'added',
-    exampleId: 'pie',
+    exampleId: 'doughnut',
     note: 'OwpRadialChart의 native Pie·Doughnut과 cutout 설정을 사용합니다.',
   },
   {
@@ -239,13 +239,13 @@ export const chartjsCoverage = [
     path: 'other-charts/scatter-multi-axis',
     status: 'added',
     exampleId: 'scatter-multi-axis',
-    note: 'Line의 showLine: false와 linear 축을 사용합니다. Bubble은 pointRadius로 r을 표시합니다.',
+    note: 'Native Scatter·Bubble controller와 linear 축을 사용하며 Bubble의 r을 데이터로 전달합니다.',
   },
   {
     path: 'other-charts/scatter',
     status: 'added',
     exampleId: 'scatter',
-    note: 'Line의 showLine: false와 linear 축을 사용합니다. Bubble은 pointRadius로 r을 표시합니다.',
+    note: 'Native Scatter·Bubble controller와 linear 축을 사용하며 Bubble의 r을 데이터로 전달합니다.',
   },
   {
     path: 'other-charts/stacked-bar-line',
@@ -266,7 +266,7 @@ export const chartjsCoverage = [
     path: 'plugins/quadrants',
     status: 'added',
     exampleId: 'quadrants',
-    note: 'Line의 showLine: false와 linear 축으로 point를 표시합니다.',
+    note: 'Native Scatter controller와 linear 축으로 point를 표시합니다.',
   },
   {
     path: 'scale-options/center',
@@ -276,17 +276,17 @@ export const chartjsCoverage = [
   {
     path: 'scale-options/grid',
     status: 'added',
-    exampleId: 'grid-style',
+    exampleId: 'axis-range',
   },
   {
     path: 'scale-options/ticks',
     status: 'added',
-    exampleId: 'tick-style',
+    exampleId: 'axis-range',
   },
   {
     path: 'scale-options/titles',
     status: 'added',
-    exampleId: 'axis-titles',
+    exampleId: 'axis-range',
   },
   {
     path: 'scales/linear-min-max-suggested',
@@ -302,12 +302,12 @@ export const chartjsCoverage = [
   {
     path: 'scales/linear-step-size',
     status: 'added',
-    exampleId: 'axis-step',
+    exampleId: 'axis-range',
   },
   {
     path: 'scales/log',
-    status: 'unavailable',
-    note: 'LogarithmicScale이 등록되지 않았습니다.',
+    status: 'added',
+    exampleId: 'log-scale',
   },
   {
     path: 'scales/stacked',
@@ -316,40 +316,40 @@ export const chartjsCoverage = [
   },
   {
     path: 'scales/time-combo',
-    status: 'unavailable',
-    note: 'TimeScale과 날짜 adapter가 등록되지 않았습니다. 기존 날짜 예제는 category 축입니다.',
+    status: 'added',
+    exampleId: 'time-combo',
   },
   {
     path: 'scales/time-line',
-    status: 'unavailable',
-    note: 'TimeScale과 날짜 adapter가 등록되지 않았습니다. 기존 날짜 예제는 category 축입니다.',
+    status: 'added',
+    exampleId: 'time-line',
   },
   {
     path: 'scales/time-max-span',
-    status: 'unavailable',
-    note: 'TimeScale과 날짜 adapter가 등록되지 않았습니다. 기존 날짜 예제는 category 축입니다.',
+    status: 'added',
+    exampleId: 'time-max-span',
   },
   {
     path: 'scriptable/bar',
     status: 'adapted',
-    exampleId: 'scriptable-bar',
+    exampleId: 'bar-radius',
     note: '조건별 색상을 배열로 전달해 Column과 툴팁의 색상을 일치시킵니다.',
   },
   {
     path: 'scriptable/bubble',
     status: 'adapted',
     exampleId: 'bubble',
-    note: 'Line pointRadius callback으로 세 번째 값 r을 표시합니다.',
+    note: 'Native Bubble point의 r로 세 번째 값을 표시하고 크기 배율을 데이터에 반영합니다.',
   },
   {
     path: 'scriptable/line',
     status: 'added',
-    exampleId: 'scriptable-line',
+    exampleId: 'line-style',
   },
   {
     path: 'scriptable/pie',
     status: 'adapted',
-    exampleId: 'pie',
+    exampleId: 'doughnut',
     note: '기본 Pie의 기준값 옵션으로 통합하고 RadialItem.color로 조각·범례·툴팁 색상을 일치시킵니다.',
   },
   {
@@ -365,8 +365,8 @@ export const chartjsCoverage = [
   },
   {
     path: 'subtitle/basic',
-    status: 'unavailable',
-    note: 'Subtitle plugin이 등록되지 않았습니다.',
+    status: 'added',
+    exampleId: 'chart-title',
   },
   {
     path: 'title/alignment',
@@ -386,16 +386,16 @@ export const chartjsCoverage = [
   {
     path: 'tooltip/interactions',
     status: 'added',
-    exampleId: 'tooltip-mode',
+    exampleId: 'tooltip-content',
   },
   {
     path: 'tooltip/point-style',
     status: 'added',
-    exampleId: 'tooltip-point-style',
+    exampleId: 'tooltip-content',
   },
   {
     path: 'tooltip/position',
     status: 'added',
-    exampleId: 'tooltip-position',
+    exampleId: 'tooltip-content',
   },
 ] as const;

@@ -1,8 +1,11 @@
 import type { SourcePolicy } from '../../../features/code/source-groups';
 
 export const chartSourcePolicy = {
+  coreDirectories: ['examples/native/'],
   core: [
     'runtime/ChartCanvas.tsx',
+    'runtime/TimeChart.tsx',
+    'model/timeScaleData.ts',
     'model/useCartesian.ts',
     'model/histogramData.ts',
     'model/useNativeData.ts',

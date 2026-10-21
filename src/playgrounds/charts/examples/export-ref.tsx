@@ -13,30 +13,47 @@ export function ChartExample(props: ChartExampleProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const previewUrl = useRef<string | null>(null);
+  const mounted = useRef(false);
+  const pending = useRef(false);
   const chart = useCartesian({}, props);
-  useEffect(
-    () => () => {
-      if (preview) URL.revokeObjectURL(preview);
-    },
-    [preview],
-  );
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      if (previewUrl.current) URL.revokeObjectURL(previewUrl.current);
+    };
+  }, []);
+  const closePreview = () => {
+    if (previewUrl.current) URL.revokeObjectURL(previewUrl.current);
+    previewUrl.current = null;
+    setPreview(null);
+  };
   const run = async (action: 'download' | 'preview') => {
     const handle = exportRef.current;
-    if (!handle) return;
+    if (!handle || pending.current) return;
+    pending.current = true;
     setBusy(true);
     setError('');
     try {
       if (action === 'download') await handle.downloadPng('production-chart');
       else {
         const blob = await handle.toPngBlob({ pixelRatio: 2 });
-        setPreview(URL.createObjectURL(blob));
+        if (mounted.current) {
+          if (previewUrl.current) URL.revokeObjectURL(previewUrl.current);
+          const url = URL.createObjectURL(blob);
+          previewUrl.current = url;
+          setPreview(url);
+        }
       }
-      props.onRecord?.('export', action);
+      if (mounted.current) props.onRecord?.('export', action);
     } catch (cause) {
-      if (cause instanceof Error) setError('이미지를 저장하지 못했습니다. 다시 시도해 주세요.');
-      else throw cause;
+      if (cause instanceof Error) {
+        if (mounted.current) setError('이미지를 저장하지 못했습니다. 다시 시도해 주세요.');
+      } else throw cause;
     } finally {
-      setBusy(false);
+      pending.current = false;
+      if (mounted.current) setBusy(false);
     }
   };
   return (
@@ -59,7 +76,7 @@ export function ChartExample(props: ChartExampleProps) {
           showExportButton={false}
         />
       </div>
-      <Dialog open={preview !== null} onClose={() => setPreview(null)} maxWidth="md" fullWidth>
+      <Dialog open={preview !== null} onClose={closePreview} maxWidth="md" fullWidth>
         <DialogTitle>{t('PNG 미리보기')}</DialogTitle>
         <DialogContent>
           {preview && (
@@ -73,7 +90,7 @@ export function ChartExample(props: ChartExampleProps) {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setPreview(null)}>{t('닫기')}</Button>
+          <Button onClick={closePreview}>{t('닫기')}</Button>
         </DialogActions>
       </Dialog>
     </>

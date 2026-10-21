@@ -12,7 +12,6 @@ export function ChartExample(props: ChartExampleProps) {
   const chartData: NativeData = {
     datasets: data.datasets.map((dataset, i) => ({
       ...dataset,
-      showLine: false,
       pointRadius: 5,
       data: [
         { x: -60 + i * 10, y: 55 },
@@ -75,7 +74,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Toggle label="사분면 배경 표시" value={enabled} onChange={setEnabled} />
       </Controls>
-      <ChartCanvas type="line" data={chartData} options={options} {...props} />
+      <ChartCanvas type="scatter" data={chartData} options={options} {...props} />
     </>
   );
 }

@@ -6,7 +6,7 @@ export const hankumChartCoverage = {
   MonthlyReceiptChart: ['monthly-receipt', 'linked'],
   FulfillChart: ['fulfillment'],
   OperChart: ['oee', 'target-line', 'range-band', 'linked'],
-  TopChart: ['top-n'],
+  TopChart: ['ranking'],
   StatsChart: ['small-multiples'],
   GaugeChart: ['gauge'],
   HistChart: ['histogram'],

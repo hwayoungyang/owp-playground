@@ -57,6 +57,7 @@ export function ChartExample(props: ChartExampleProps) {
       <OwpRadialChart
         rings={rings}
         semiCircle
+        rotation={-90}
         cutout="65%"
         outsideLabels
         options={chart.options}

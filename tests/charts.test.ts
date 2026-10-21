@@ -32,19 +32,19 @@ describe('charts catalog and shared routes', () => {
       'Outliers',
     ]);
   });
-  it('provides 92 executable examples and one guide, with usable sources and English labels', async () => {
-    expect(chartCatalog.filter((example) => example.kind === 'chart')).toHaveLength(92);
+  it('provides 70 executable examples and one guide, with usable sources and English labels', async () => {
+    expect(chartCatalog.filter((example) => example.kind === 'chart')).toHaveLength(70);
     expect(chartCatalog.filter((example) => example.kind === 'guide')).toHaveLength(1);
-    expect(new Set(chartCatalog.map((example) => example.id)).size).toBe(93);
+    expect(new Set(chartCatalog.map((example) => example.id)).size).toBe(71);
     expect(
       chartCategories.map(
         ({ id }) =>
           chartCatalog.filter((example) => example.kind === 'chart' && example.category === id)
             .length,
       ),
-    ).toEqual([20, 12, 13, 4, 7, 5, 6, 9, 5, 2, 9]);
+    ).toEqual([22, 14, 5, 5, 6, 5, 5, 8]);
     expect(chartCategories.at(-1)?.id).toBe('business');
-    expect(findChartEntry('gauge').category).toBe('other');
+    expect(findChartEntry('gauge').category).toBe('types');
     expect(findChartEntry('live').kind).toBe('chart');
     expect(chartCatalog.at(-1)?.category).toBe('business');
     for (const example of chartCatalog) {
@@ -78,10 +78,10 @@ describe('charts catalog and shared routes', () => {
       ['linear-gradient', 'line'],
       ['radial-gradient', 'doughnut'],
       ['doughnut-empty', 'doughnut'],
-      ['scriptable-pie', 'pie'],
-      ['integer-axis', 'axis-step'],
-      ['decimal-axis', 'tick-style'],
-      ['long-labels', 'horizontal-bar'],
+      ['scriptable-pie', 'doughnut'],
+      ['integer-axis', 'axis-range'],
+      ['decimal-axis', 'axis-range'],
+      ['long-labels', 'bar'],
       ['animation-progress', 'line'],
       ['animation-delay', 'bar'],
       ['animation-drop', 'bar'],

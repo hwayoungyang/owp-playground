@@ -39,7 +39,7 @@ export function ChartExample(props: ChartExampleProps) {
     <>
       <Controls>
         <Range
-          label="도넛 내부 크기"
+          label="Doughnut cutout"
           value={cutout}
           min={20}
           max={85}

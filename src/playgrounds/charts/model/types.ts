@@ -6,6 +6,7 @@ export type ChartSnapshot = {
   }[];
 };
 export type ChartExampleProps = {
+  readonly initialPreset?: string;
   readonly onData?: (data: ChartSnapshot) => void;
   readonly onRecord?: (name: string, detail: string) => void;
 };

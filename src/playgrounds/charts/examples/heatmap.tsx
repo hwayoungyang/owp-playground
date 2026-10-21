@@ -1,6 +1,7 @@
 import { alpha } from '@mui/material/styles';
 import { OwpHeatmapChart } from '@owp/charts';
-import type { HeatmapPoint, OwpHeatmapChartProps } from '@owp/charts/types';
+import type { ChartOptions, HeatmapPoint } from '@owp/charts/types';
+import { createHeatmapData } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { chartMotion } from '../model/chartMotion';
@@ -49,15 +50,36 @@ export function ChartExample(props: ChartExampleProps) {
     return points;
   }, [snapshot]);
   useEffect(() => onData?.(snapshot), [onData, snapshot]);
-  const options: OwpHeatmapChartProps['options'] = {
+  const heatmap = createHeatmapData(data, {
+    x: snapshot.labels,
+    y: snapshot.series.map((series) => series.label),
+    domain: [0, maximum],
+  });
+  const options: ChartOptions<'heatmap'> = {
     ...chartMotion,
     animation: { ...chartMotion.animation, duration: 160 },
+    interaction: { mode: 'nearest', intersect: true, axis: 'xy' },
     onClick: (_event, items) =>
       props.onRecord?.(
         'click',
         items.map((item) => `${item.datasetIndex}:${item.index}`).join(', '),
       ),
-    scales: { y: { ticks: { maxTicksLimit: 6 } } },
+    scales: {
+      x: {
+        type: 'category',
+        offset: true,
+        labels: heatmap.x.map(String),
+        grid: { display: false },
+      },
+      y: {
+        type: 'category',
+        offset: true,
+        reverse: false,
+        labels: heatmap.y.map(String),
+        grid: { display: false },
+        ticks: { maxTicksLimit: 6 },
+      },
+    },
     plugins: {
       tooltip: {
         callbacks: {
@@ -84,7 +106,7 @@ export function ChartExample(props: ChartExampleProps) {
           options={options}
           height="100%"
           showExportButton={false}
-          aria-label={t('차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.')}
+          aria-label={t('차트 데이터는 데이터 탭에서 확인할 수 있습니다.')}
         />
       </div>
       <div className="chart-heat-key">
@@ -100,3 +122,5 @@ export function ChartExample(props: ChartExampleProps) {
     </>
   );
 }
+
+export { ChartExample as NativeHeatmapExample } from './native/heatmap';

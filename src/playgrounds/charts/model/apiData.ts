@@ -1,5 +1,5 @@
+import type { useOwpTranslation } from '@owp/components/hooks';
 import type { ApiDataSource, ApiRow } from '../../../features/code/api-data';
-import { translate } from '../../../shared/i18n/translate';
 import type { ChartSnapshot } from './types';
 
 /** 점을 포함한 API 키를 배열 인덱스별 category·series 값으로 변환합니다. */
@@ -31,7 +31,7 @@ export function chartFromApi(
 export function chartApiDocument(
   snapshot: ChartSnapshot,
   exampleId: string,
-  localize: typeof translate = translate,
+  localize: ReturnType<typeof useOwpTranslation>['t'],
 ): ApiDataSource {
   const coordinate = ['scatter', 'scatter-clusters', 'bubble'].includes(exampleId);
   return {

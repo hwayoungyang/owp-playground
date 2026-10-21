@@ -1,4 +1,5 @@
-import { PreviewActionsProvider } from '../../../shared/ui/PreviewActions';
+import { ApiLinks } from '../../../features/api/ApiLinks';
+import { PreviewActions, PreviewActionsProvider } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
 import {
   type ComponentType,
@@ -6,12 +7,13 @@ import {
   memo,
   Suspense,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
 import { ApiDataViewer } from '../../../features/code/ApiDataViewer';
-import { CodeViewer } from '../../../features/code/CodeViewer';
+import type { CodeLocation } from '../../../features/code/code-location';
 import type { EventLogEntry } from '../../../shared/types/events';
 import { EventsPanel } from '../../../shared/ui/EventsPanel';
 import { PreviewToolbar } from '../../../shared/ui/PreviewToolbar';
@@ -19,9 +21,11 @@ import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
 import { type WorkspaceTab, WorkspaceTabs } from '../../../shared/ui/WorkspaceTabs';
 import { type ChartExample, chartCategories } from '../catalog';
 import { chartApiDocument } from '../model/apiData';
-import { chartSourcePolicy } from '../model/sourceFiles';
 import type { ChartExampleProps, ChartSnapshot } from '../model/types';
+import { findChartVariantGroup } from '../model/variants';
 import { useAvailableChartHeight } from './useAvailableChartHeight';
+import { ChartCodeViewer } from './ChartCodeViewer';
+import { Choice } from './Controls';
 import '../styles.css';
 import '../guides/chart-layout.css';
 
@@ -30,8 +34,9 @@ const modules = import.meta.glob<{ ChartExample: ComponentType<ChartExampleProps
 );
 const ChartPreview = memo(function ChartPreview({
   example,
+  active,
   ...props
-}: ChartExampleProps & { readonly example: ChartExample }) {
+}: ChartExampleProps & { readonly example: ChartExample; readonly active: boolean }) {
   const [Example] = useState(() =>
     lazy(async () => {
       const load = modules[`../examples/${example.id}.tsx`];
@@ -41,7 +46,7 @@ const ChartPreview = memo(function ChartPreview({
   );
   const { t } = useOwpTranslation();
   const host = useRef<HTMLElement>(null);
-  useAvailableChartHeight(true, host);
+  useAvailableChartHeight(active, host);
   return (
     <section ref={host} className="chart-preview owp-chart-surface" aria-label={t(example.title)}>
       <Suspense
@@ -57,9 +62,22 @@ const ChartPreview = memo(function ChartPreview({
   );
 });
 
-export function ChartsWorkspace({ example }: { readonly example: ChartExample }) {
+export function ChartsWorkspace({
+  example,
+  initialTab = 'preview',
+  codeTarget,
+  canonicalId = example.id,
+  onSelectVariant,
+}: {
+  readonly example: ChartExample;
+  readonly initialTab?: 'preview' | 'code';
+  readonly codeTarget?: CodeLocation;
+  readonly canonicalId?: string;
+  readonly onSelectVariant?: (id: string) => void;
+}) {
   const { t } = useOwpTranslation();
-  const [tab, setTab] = useState<WorkspaceTab>('preview');
+  const [tab, setTab] = useState<WorkspaceTab>(initialTab);
+  useEffect(() => setTab(initialTab), [initialTab, codeTarget]);
   const [version, setVersion] = useState(0);
   const [snapshot, setSnapshot] = useState<ChartSnapshot>({ labels: [], series: [] });
   const apiDocument = useMemo(
@@ -67,6 +85,8 @@ export function ChartsWorkspace({ example }: { readonly example: ChartExample })
     [snapshot, example.id, t],
   );
   const [events, setEvents] = useState<readonly EventLogEntry[]>([]);
+  const variantGroup = findChartVariantGroup(canonicalId);
+  const variant = variantGroup?.choices.find((choice) => choice.id === example.id);
   const onData = useCallback(
     (next: ChartSnapshot) =>
       setSnapshot((previous) =>
@@ -83,7 +103,7 @@ export function ChartsWorkspace({ example }: { readonly example: ChartExample })
   const prefix = `charts-${example.id}`;
   return (
     <section
-      className={`workspace charts-workspace${(['gauge', 'doughnut'].includes(example.id) || ('layout' in example && example.layout === 'radial')) && tab === 'preview' ? ' chart-workspace-radial' : ''}`}
+      className={`workspace charts-workspace${'layout' in example && example.layout === 'radial' ? ' chart-workspace-radial' : ''}`}
       aria-label={t('차트 실행 영역')}
     >
       <WorkspaceHeading
@@ -106,12 +126,31 @@ export function ChartsWorkspace({ example }: { readonly example: ChartExample })
               divider
               onReset={() => {
                 setVersion((value) => value + 1);
+                setSnapshot({ labels: [], series: [] });
                 setEvents([]);
               }}
             />
+            {variantGroup && variant && onSelectVariant && (
+              <PreviewActions>
+                <div className="chart-controls chart-variant-controls">
+                  <Choice
+                    label={variantGroup.label}
+                    value={variant.label}
+                    options={variantGroup.choices.map((choice) => choice.label)}
+                    onChange={(label) => {
+                      const selected = variantGroup.choices.find(
+                        (choice) => choice.label === label,
+                      );
+                      if (selected && selected.id !== example.id) onSelectVariant(selected.id);
+                    }}
+                  />
+                </div>
+              </PreviewActions>
+            )}
             <ChartPreview
               key={`${example.id}-${version}`}
               example={example}
+              active={tab === 'preview'}
               onData={onData}
               onRecord={onRecord}
             />
@@ -123,7 +162,11 @@ export function ChartsWorkspace({ example }: { readonly example: ChartExample })
         </div>
         {tab === 'code' && (
           <div role="tabpanel" id={`${prefix}-panel-code`} aria-labelledby={`${prefix}-tab-code`}>
-            <CodeViewer example={example} sourcePolicy={chartSourcePolicy} />
+            <ChartCodeViewer
+              example={example}
+              codeTarget={codeTarget}
+              requestedCode={initialTab === 'code'}
+            />
           </div>
         )}
         {tab === 'data' && (
@@ -151,14 +194,7 @@ export function ChartsWorkspace({ example }: { readonly example: ChartExample })
           </div>
         )}
       </div>
-      <div className="workspace-api-reference">
-        <span>{t('Props · API')}</span>
-        <div>
-          {example.api.map((api) => (
-            <code key={api}>{api}</code>
-          ))}
-        </div>
-      </div>
+      <ApiLinks example={example} />
     </section>
   );
 }

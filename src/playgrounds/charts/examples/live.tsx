@@ -177,7 +177,7 @@ export function ChartExample(props: ChartExampleProps) {
           options={options}
           height="100%"
           showExportButton={false}
-          aria-label={t('차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.')}
+          aria-label={t('차트 데이터는 데이터 탭에서 확인할 수 있습니다.')}
         />
       </div>
     </>

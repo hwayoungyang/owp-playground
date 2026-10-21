@@ -1,6 +1,6 @@
 import { alpha } from '@mui/material/styles';
 import { OwpBoxPlotChart, useChartPalette } from '@owp/charts';
-import type { BoxPlotData, OwpBoxPlotChartProps } from '@owp/charts/types';
+import type { BoxPlotData, ChartOptions } from '@owp/charts/types';
 import { createBoxPlotTooltipCallbacks, summarizeBox } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
@@ -42,6 +42,7 @@ export function ChartExample(props: ChartExampleProps) {
         label: t('측정 분포'),
         backgroundColor: palette.colors.map((color) => alpha(color, 0.25)),
         borderColor: palette.colors,
+        medianColor: palette.ink,
         whiskerColor: palette.colors,
         outlierColor: palette.colors,
         data: observations.map((values, index) => ({
@@ -53,8 +54,10 @@ export function ChartExample(props: ChartExampleProps) {
       },
     ],
   };
-  const options: OwpBoxPlotChartProps['options'] = {
+  const options: ChartOptions<'boxPlot'> = {
     ...chartMotion,
+    interaction: { mode: 'nearest', intersect: true, axis: 'xy' },
+    scales: { x: { type: 'category', offset: true }, y: { type: 'linear' } },
     plugins: {
       tooltip: {
         callbacks: createBoxPlotTooltipCallbacks({
@@ -116,7 +119,7 @@ export function ChartExample(props: ChartExampleProps) {
           options={options}
           height="100%"
           showExportButton={false}
-          aria-label={t('차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.')}
+          aria-label={t('차트 데이터는 데이터 탭에서 확인할 수 있습니다.')}
         />
       </div>
       <p className="chart-note">
@@ -127,3 +130,5 @@ export function ChartExample(props: ChartExampleProps) {
     </>
   );
 }
+
+export { ChartExample as NativeBoxPlotExample } from './native/box-plot';

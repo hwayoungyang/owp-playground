@@ -2,13 +2,15 @@ import { chartjsEnglish } from './chartjs.en.ts';
 import { referenceEnglish } from './reference.en.ts';
 
 export const chartEnglish: Readonly<Record<string, string>> = {
+  'Drag 확대': 'Drag zoom',
+  'Wheel·Pinch 확대': 'Wheel & pinch zoom',
   ...chartjsEnglish,
   ...referenceEnglish,
   'Semi circle': 'Semi circle',
   Radar: 'Radar',
-  '공정별 처리 수량의 비중을 반원으로 비교합니다.':
+  '공정별 처리 수량의 비중을 반원으로 비교.':
     'Compare each process’s share of completed operations in a semicircle.',
-  '두 생산 라인의 6개 지표를 같은 척도로 비교합니다.':
+  '두 생산 라인의 6개 지표를 같은 척도로 비교.':
     'Compare six core capabilities of two production lines on the same scale.',
   '처리 수량': 'Completed operations',
   생산성: 'Productivity',
@@ -33,21 +35,23 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '화면 경계 여백': 'Viewport padding',
   '차트 범례': 'Chart legend',
   '범례 애니메이션': 'Legend animation',
+  '직접 구성': 'Configure directly',
+  '데이터와 옵션을 직접 지정하는 방식.': 'Specify data and options directly.',
   '범례 Point 표시': 'Legend points',
-  '차트에서 Point를 표시하거나 숨기면 범례에도 같은 설정이 적용됩니다.':
-    'Reflect line point visibility in the OWP legend.',
-  '범례 위에 제목을 표시하거나 숨길 수 있습니다.': 'Show or hide a title above the OWP legend.',
+  '차트에서 Point를 표시하거나 숨기면 범례에도 같은 설정 자동 적용.':
+    'Automatically apply point visibility from the chart to the legend.',
+  '범례 위에 제목 표시 여부 설정 가능.': 'Configure whether to display a title above the legend.',
   'Box plot': 'Box plot',
   Pareto: 'Pareto',
   'Scatter clusters': 'Scatter clusters',
-  '사분위수·중앙값·수염·이상치로 측정값 분포를 비교합니다.':
+  '사분위수·중앙값·수염·이상치로 측정값 분포 비교 가능.':
     'Compare measurement distributions using quartiles, medians, whiskers and outliers.',
-  '발생 건수와 누적 비율로 우선 개선할 항목을 확인합니다.':
+  '발생 건수와 누적 비율로 우선 개선할 항목을 확인.':
     'Prioritize improvements using counts and cumulative percentages.',
-  '네 군집의 데이터 분포를 비교하며, X·Y축 범위를 확대해 자세히 볼 수 있습니다.':
-    'Compare four dense point clusters and zoom both axes.',
-  '게이지 값이 실시간으로 바뀌며 바늘이 현재 값을 가리킵니다.':
-    'Update gauge values live and watch the needle transition.',
+  '네 군집의 데이터 분포를 비교하며, X·Y축 범위를 확대해 상세 확인 가능.':
+    'Compare four dense point clusters and zoom X and Y axes to inspect details.',
+  '게이지 값이 실시간으로 바뀌며 바늘로 현재 값 표시.':
+    'Update gauge values live and indicate the current value with a needle.',
   '차트와 범례에 Point 표시': 'Show points in legend',
   '표면 흠집': 'Surface scratches',
   '치수 편차': 'Dimensional variation',
@@ -76,7 +80,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
     'Boxes span Q1–Q3 with the median inside. Whiskers reach observations within 1.5 IQR; points outside are outliers.',
 
   'Live chart': 'Live chart',
-  '실시간으로 추가되는 데이터를 확인하고, 자동 갱신을 멈추거나 다시 시작할 수 있습니다.':
+  '실시간으로 추가되는 데이터를 확인하고, 자동 갱신을 멈추거나 다시 시작 가능.':
     'Append live data and pause or resume updates.',
   일시정지: 'Pause',
   '다시 시작': 'Resume',
@@ -88,8 +92,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   실적: 'Actual',
   토: 'Sat',
   '다시 시도': 'Retry',
-  '차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.':
-    'Data visualization. Open the Data tab to inspect individual values.',
+  '차트 데이터는 데이터 탭에서 확인할 수 있습니다.': 'View the chart data in the Data tab.',
   '라인별 생산 비중': 'Production share by line',
   '운영지수 게이지': 'Operating index gauge',
   'Y축 {{number}}': 'Y axis {{number}}',
@@ -98,10 +101,10 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '범위 시작': 'range start',
   '범위 끝': 'range end',
 
-  'ChartFrame은 레이아웃 utility class를 사용합니다. Tailwind가 없는 프로젝트에서는 다음 CSS를 함께 적용합니다.':
-    'ChartFrame uses layout utility classes. Projects without Tailwind can apply the following CSS.',
-  '기본 메뉴는 assets/icons의 SVG sprite 아이콘을 사용합니다. OWP Core의 아이콘 리소스를 배포하거나, 메뉴 대신 외부 버튼에서 exportRef로 차트를 내보낼 수 있습니다.':
-    'The built-in menu loads SVG sprites from assets/icons. Deploy the icon assets from your OWP Core project, or use exportRef with an external button.',
+  'ChartFrame 레이아웃에 utility class 사용. Tailwind가 없으면 아래 CSS 적용 필요.':
+    'ChartFrame uses utility classes for layout. Apply the CSS below when Tailwind is unavailable.',
+  '기본 메뉴에 assets/icons의 SVG sprite 사용. 메뉴 사용 시 OWP Core 아이콘 리소스 배포 필요. 외부 버튼과 exportRef로도 내보내기 가능.':
+    'The default menu uses SVG sprites from assets/icons and requires the OWP Core icon assets. External buttons can also export charts through exportRef.',
 
   Column: 'Column',
   'Grouped column': 'Grouped column',
@@ -121,7 +124,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '자동 갱신': 'Auto-update',
   'Small multiples': 'Small multiples',
   'Crosshair·tooltip 동기화': 'Crosshair and tooltip sync',
-  '표시 기간이 다른 두 차트의 crosshair·tooltip·zoom을 각각 동기화합니다.':
+  '표시 기간이 다른 두 차트의 crosshair·tooltip·zoom을 각각 동기화.':
     'Synchronize crosshair, tooltip and zoom independently between charts with different months.',
   'Crosshair 동기화': 'Sync crosshair',
   'Tooltip 동기화': 'Sync tooltip',
@@ -136,117 +139,113 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '표시 확장': 'Display extensions',
   조합·상태·내보내기: 'Integration and export',
   '기본 막대': 'Bar chart',
-  '월별 생산량을 비교하며 데이터를 바꿔 볼 수 있습니다.':
-    'Compare monthly output and update the data.',
+  '월별 생산량 비교와 데이터 변경 가능.': 'Compare monthly output and update the data.',
   '그룹 막대': 'Grouped bars',
-  '월별 계획과 실적을 나란히 비교합니다.': 'Compare monthly plans and actual results side by side.',
+  '월별 계획과 실적을 나란히 비교.': 'Compare monthly plans and actual results side by side.',
   '누적 막대': 'Stacked bars',
-  '라인별 생산량을 누적하고 합계를 비교합니다.': 'Stack production by line and compare totals.',
+  '라인별 생산량을 누적하고 합계를 비교.': 'Stack production by line and compare totals.',
   '100% 누적 막대': '100% stacked bars',
-  '월별 생산 비중을 백분율로 표시합니다.': 'Normalize monthly output to compare percentage shares.',
+  '월별 생산 비중을 백분율로 표시.': 'Normalize monthly output to compare percentage shares.',
   '가로 막대': 'Horizontal bars',
-  '라인별 생산량을 가로 방향으로 비교합니다.': 'Compare production lines with horizontal bars.',
+  '라인별 생산량을 가로 방향으로 비교.': 'Compare production lines with horizontal bars.',
   '단일 꺾은선': 'Line chart',
-  '월별 생산 추이를 선으로 표시하며, 선의 곡률을 조절할 수 있습니다.':
+  '월별 생산 추이를 선으로 표시하며, 선의 곡률을 조절 가능.':
     'Show monthly trends and adjust line tension.',
   '다중 꺾은선': 'Multiple lines',
-  '여러 라인의 생산 추이를 같은 축에서 비교합니다.':
+  '여러 라인의 생산 추이를 같은 축에서 비교.':
     'Compare production trends for several lines on one axis.',
   도넛: 'Doughnut chart',
-  '공정별 생산 비중을 도넛으로 비교합니다. 도넛 두께를 바꾸거나 합계가 0인 상태를 확인할 수 있습니다.':
+  '공정별 생산 비중을 도넛으로 비교. 도넛 두께를 바꾸거나 합계가 0인 상태를 확인 가능.':
     'Compare production shares by process, adjust the cutout and inspect the zero-total state.',
   '합계 0으로 표시': 'Show a zero total',
   'Ranking bar': 'Ranking bar',
-  '생산량 순으로 정렬하고 최댓값까지 남은 구간을 표시합니다.':
+  '생산량 순으로 정렬하고 최댓값까지 남은 구간을 표시.':
     'Sort output and display the remaining track to the maximum.',
   'Dual-axis Column·Line': 'Dual-axis Column·Line',
-  'Column과 Line을 조합해 계획·실적·달성률을 비교합니다.':
+  'Column과 Line을 조합해 계획·실적·달성률을 비교.':
     'Combine bars and a line to compare plans, results and achievement.',
   'Grouped column · Zoom': 'Grouped column · Zoom',
-  '자재별 월간 입고량을 Grouped column으로 비교합니다.':
+  '자재별 월간 입고량을 Grouped column으로 비교.':
     'Compare monthly receipts for multiple materials using grouped bars.',
   'Multi-line · Percent axis': 'Multi-line · Percent axis',
-  '생산 라인별 이행률을 오른쪽 백분율 축으로 비교합니다.':
+  '생산 라인별 이행률을 오른쪽 백분율 축으로 비교.':
     'Compare fulfillment by line on a right-side percentage axis.',
   'Multi-line · OEE': 'Multi-line · OEE',
-  '가동률·성능·품질·OEE를 함께 표시합니다.': 'Compare availability, performance, quality and OEE.',
+  '가동률·성능·품질·OEE를 함께 표시.': 'Compare availability, performance, quality and OEE.',
   'Top N column': 'Top N column',
-  '생산량 순으로 정렬한 목록에서 표시할 항목 수를 조절할 수 있습니다.':
+  '생산량 순으로 정렬한 목록에서 표시할 항목 수를 조절 가능.':
     'Sort production rankings and change the number of visible items.',
   '작은 통계 차트 모음': 'Small multiples',
-  '여러 설비의 통계를 같은 축 범위에서 비교합니다.':
+  '여러 설비의 통계를 같은 축 범위에서 비교.':
     'Compare equipment statistics using small charts with a shared domain.',
   히스토그램: 'Histogram',
-  '측정값의 분포를 구간별로 비교하며, 구간 수를 조절할 수 있습니다.':
+  '측정값의 분포를 구간별로 비교하며, 구간 수를 조절 가능.':
     'Aggregate measurements into bins and change the bin count.',
   '백분율·100% 초과': 'Percentages above 100%',
-  '100%를 초과하는 달성률을 잘리지 않게 표시합니다.':
+  '100%를 초과하는 달성률을 잘리지 않게 표시.':
     'Display achievement values above 100% without clipping.',
   '좌우 Y축': 'Dual Y axes',
-  '수량과 비율을 서로 다른 Y축으로 비교합니다.':
-    'Compare quantities and percentages on separate Y axes.',
+  '수량과 비율을 서로 다른 Y축으로 비교.': 'Compare quantities and percentages on separate Y axes.',
   '3개 Y축·축 숨김': 'Three Y axes',
-  '단위와 범위가 다른 MTTF·MTBF·달성률을 각 Y축에 표시합니다.':
+  '단위와 범위가 다른 MTTF·MTBF·달성률을 각 Y축에 표시.':
     'Show MTTF, MTBF and achievement on three distinct domains.',
   '날짜·시간 표시': 'Date and time labels',
-  '축 라벨과 tooltip의 날짜·시간 서식을 바꿉니다.':
+  '축 라벨과 tooltip의 날짜·시간 서식을 변경.':
     'Adjust date and time formatting for category labels and tooltips.',
   '범례로 표시·숨김': 'Interactive legend',
-  '범례에서 series를 선택해 표시하거나 숨길 수 있으며, 범례 위치도 바꿀 수 있습니다.':
+  '범례에서 series 표시·숨김과 범례 위치 변경 가능.':
     'Toggle series using the legend and change its position.',
   'HTML tooltip': 'HTML tooltip',
-  '차트 가장자리에서도 읽을 수 있는 HTML tooltip을 표시합니다.':
+  '차트 가장자리에서도 읽을 수 있는 HTML tooltip을 표시.':
     'Display an HTML tooltip that stays readable near chart edges.',
   'hover 영역·기준선': 'Hover area and crosshair',
-  '포인터를 따라 이동하는 강조 영역과 기준선의 표시 여부를 설정할 수 있습니다.':
+  '포인터를 따라 이동하는 강조 영역과 기준선의 표시 여부를 설정 가능.':
     'Toggle the hover area and reference line at the pointer.',
   '드래그 zoom': 'Drag zoom',
-  '차트 영역을 드래그해 확대하고, 초기화 버튼으로 원래 범위로 돌아갈 수 있습니다.':
-    'Drag a region to zoom in, then reset the range.',
+  '차트 영역을 드래그해 확대하고, 초기화 버튼으로 원래 범위 복귀 가능.':
+    'Drag a chart area to zoom in and use the reset button to return to the original range.',
   '휠·pinch zoom': 'Wheel and pinch zoom',
-  '마우스 휠이나 두 손가락 제스처로 차트를 확대할 수 있습니다.':
+  '마우스 휠이나 두 손가락 제스처로 차트를 확대 가능.':
     'Zoom with the wheel or pinch and toggle the gesture controls.',
   'X축 slider': 'X-axis slider',
-  '하단 slider로 표시할 월 범위를 조절합니다.':
-    'Adjust the visible month range using the bottom slider.',
+  '하단 slider로 표시할 월 범위를 조절.': 'Adjust the visible month range using the bottom slider.',
   '여러 Y축 slider': 'Multiple Y-axis sliders',
-  '좌우 slider로 수량과 달성률 범위를 따로 조절합니다.':
+  '좌우 slider로 수량과 달성률 범위를 따로 조절.':
     'Adjust quantity and achievement domains independently using side sliders.',
   '차트 간 동기화': 'Linked charts',
   '월이 다른 두 차트의 hover·zoom·초기화를 동기화합니다.':
     'Synchronize hover, zoom and reset between charts with different months.',
   '데이터 라벨': 'Data labels',
-  'Column·Bar의 데이터 라벨을 막대 안팎에 표시하며, 라벨 방향을 바꿀 수 있습니다.':
+  'Column·Bar의 데이터 라벨을 막대 안팎에 표시하며, 라벨 방향을 변경 가능.':
     'Place data labels inside or outside Columns and Bars and change their orientation.',
   추세선: 'Trendline',
-  '실적의 변화 방향을 선형 추세선으로 확인할 수 있습니다.':
+  '실적의 변화 방향을 선형 추세선으로 확인 가능.':
     'Add a linear trendline to results and toggle its visibility.',
   목표선: 'Target line',
-  '목표값을 바꾸면 수평 기준선의 위치가 함께 바뀝니다.':
+  '목표값을 바꾸면 수평 기준선의 위치가 함께 바뀜.':
     'Move a horizontal reference line by adjusting the target value.',
   '기준 범위': 'Reference band',
-  '정상 범위를 음영으로 표시하며 범위의 폭을 조절할 수 있습니다.':
+  '정상 범위를 음영으로 표시하며 범위의 폭을 조절 가능.':
     'Highlight a normal range and adjust its width.',
   게이지: 'Gauge',
   '음수 범위와 구간별 색상을 가진 게이지 값을 바꿉니다.':
     'Change a gauge value across a domain with negative values and colored bands.',
   'DataGrid Sparkline': 'DataGrid Sparkline',
-  '그리드 셀에 추세를 표시하며, 데이터를 갱신하면 차트도 함께 바뀝니다.':
+  '그리드 셀에 추세를 표시하며, 데이터를 갱신하면 차트도 함께 바뀜.':
     'Display trends inside grid cells and update the data.',
   '그리드 상세 패널': 'Grid detail charts',
-  '행을 펼쳐 요일별 생산량 차트를 확인합니다.':
-    'Expand a row to inspect its daily production chart.',
+  '행을 펼쳐 요일별 생산량 차트를 확인.': 'Expand a row to inspect its daily production chart.',
   '대량 시계열·다운샘플링': 'Large time series',
-  'min/max 다운샘플링으로 표시할 데이터 수를 줄이면서 추이를 확인합니다.':
+  'min/max 다운샘플링으로 표시할 데이터 수를 줄이면서 추이를 확인.':
     'Inspect trends after reducing raw measurements using min/max downsampling.',
   '로딩·빈 데이터·오류': 'Loading, empty and error',
-  '로딩 중·데이터 없음·오류 화면을 확인하고, 오류 화면에서 다시 조회할 수 있습니다.':
+  '로딩 중·데이터 없음·오류 화면을 확인하고, 오류 화면에서 다시 조회 가능.':
     'Switch loading states and retry after an error.',
   'PNG 다운로드': 'PNG download',
-  '차트 메뉴에서 범례를 포함한 PNG를 다운로드합니다.':
-    'Download the chart and its legend as a PNG from the chart menu.',
+  '차트 메뉴에서 범례를 포함한 PNG 다운로드 실행.':
+    'Download a PNG including the legend from the chart menu.',
   '외부 버튼으로 내보내기': 'Export from an external button',
-  '외부 버튼으로 PNG를 저장하거나 미리보기를 엽니다.':
+  '외부 버튼으로 PNG 저장 및 미리보기 실행.':
     'Save a PNG or open a preview using external controls.',
   '{{month}}월': 'Month {{month}}',
   '표시할 월 수': 'Visible months',
@@ -337,20 +336,368 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   'JSON 보기': 'View JSON',
   로딩: 'Loading',
   오류: 'Error',
-  'Dependencies: React 19 · Material UI 9 · Emotion 11 · @owp/core 5 또는 6':
-    'Dependencies: React 19 · Material UI 9 · Emotion 11 · @owp/core 5 or 6',
-  '이 예제는 @owp/charts {{version}}의 공개 API를 사용합니다. 별도 Chart.js 설치나 등록 없이 시작할 수 있습니다.':
-    'These examples use the public APIs in @owp/charts {{version}}. No separate Chart.js installation or registration is required.',
-  'Chart.js 등록은 패키지 내부에서 처리합니다. ChartFrame의 preset="owp" 설정은 공통 스타일·HTML 툴팁·범례를 제공합니다. 전용 차트는 데이터와 차트 유형에 맞는 props로 구성합니다.':
-    'The package registers Chart.js internally. ChartFrame preset="owp" provides shared styling, HTML tooltips and legends; dedicated charts accept data and chart-specific props.',
+  'Dependencies: React 19 · Material UI 9 · Emotion 11 · @owp/core {{version}}':
+    'Dependencies: React 19 · Material UI 9 · Emotion 11 · @owp/core {{version}}',
+  '@owp/charts {{version}}의 공개 API 사용. 별도 Chart.js 설치·등록 없이 실행 가능.':
+    'Uses the public API of @owp/charts {{version}}. No separate Chart.js installation or registration is needed.',
+  'Chart.js는 패키지에서 자동 등록. ChartFrame의 preset="owp"로 공통 스타일·HTML 툴팁·범례 적용. 전용 차트는 유형별 데이터·props로 구성 가능.':
+    'The package registers Chart.js automatically. ChartFrame preset="owp" applies shared styles, HTML tooltips and legends. Dedicated charts use data and props for their chart type.',
   '데이터와 series를 정의하고 ChartFrame에 전달합니다. height로 표시 높이를 지정합니다.':
     'Define data and series, pass them to ChartFrame, and set the display height with height.',
   '예제 구성': 'Example catalog',
-  '실행 예제 {{count}}개와 시작 가이드를 제공합니다.':
-    'Explore {{count}} executable examples and a getting-started guide.',
-  'Bar·Line·복합 차트는 ChartFrame으로 구성합니다. Area·Box plot·Treemap·Radar·원형·Heatmap·Live chart에는 전용 Owp 컴포넌트를 사용합니다. API 응답 변환, polling과 예제 조작은 앱에서 처리합니다.':
-    'Use ChartFrame for Bar, Line and mixed charts. Dedicated Owp components cover Area, Box plot, Treemap, Radar, radial, Heatmap and Live charts. API response mapping, polling and sample controls stay in the app.',
+  '예제 메뉴 {{count}}개와 구성 {{configCount}}개, 시작 가이드 제공.':
+    'Includes {{count}} example menu entries, {{configCount}} configurations, and a getting-started guide.',
+  'Bar·Line·복합 차트는 ChartFrame으로 구성. Area·Box plot·Treemap·Radar·원형·Heatmap·Live chart는 전용 Owp 컴포넌트 사용. Box plot·Treemap·Heatmap은 코드 탭에서 전용 컴포넌트와 직접 구성 방식 비교 가능. API 응답 변환·polling·예제 조작은 앱에서 처리.':
+    'Bar, Line and mixed charts use ChartFrame. Area, Box plot, Treemap, Radar, radial, Heatmap and Live charts use dedicated Owp components. Compare dedicated components and direct configuration for Box plot, Treemap and Heatmap in the Code tab. The app handles API conversion, polling and controls.',
   측정값: 'Measurement',
   목표: 'Target',
   항목: 'Category',
+  'OWP API의 문자열을 숫자로 변환해 ChartFrame에 전달. 데이터 탭에서 같은 값을 OWP_DATA 필드로 확인 가능.':
+    'Convert OWP API strings to numbers before passing them to ChartFrame. The Data tab shows the same values as OWP_DATA fields.',
+  '월별 계획과 실적을 나란히 비교 가능.': 'Compare monthly plans and actual results side by side.',
+  '라인별 생산량을 누적하고 합계 비교 가능.': 'Stack production by line and compare totals.',
+  '월별 생산 비중을 백분율로 비교 가능.': 'Normalize monthly output to compare percentage shares.',
+  '라인별 생산량을 가로 방향으로 비교 가능.': 'Compare production lines with horizontal bars.',
+  '월별 생산 추이를 선으로 표시하며, 선의 곡률 조절 가능.':
+    'Show monthly trends and adjust line tension.',
+  '여러 라인의 생산 추이를 같은 축에서 비교 가능.':
+    'Compare production trends for several lines on one axis.',
+  '공정별 생산 비중 비교와 도넛 두께 조절·합계 0 상태 확인 가능.':
+    'Compare production shares by process, adjust cutout thickness, and verify zero-total states.',
+  '공정별 처리 수량의 비중을 반원으로 비교 가능.':
+    'Compare each process share of completed operations in a semicircle.',
+  '실시간 게이지 값과 바늘 움직임 확인 가능.':
+    'Update gauge values live and verify needle movement.',
+  '두 생산 라인의 6개 지표를 같은 척도로 비교 가능.':
+    'Compare six core capabilities of two production lines on the same scale.',
+  '수량과 비율을 서로 다른 좌우 Y축으로 비교 가능.':
+    'Compare quantities and percentages on separate left and right Y axes.',
+  '단위와 범위가 다른 3개 지표를 각 Y축에 표시 가능.':
+    'Display MTTF, MTBF and achievement across three separate Y axes.',
+  '100%를 초과하는 달성률 수치를 잘림 없이 표시 가능.':
+    'Display achievement rates exceeding 100% without clipping.',
+  '축 라벨과 tooltip의 날짜·시간 서식 변경 가능.':
+    'Adjust date and time formats for axis labels and tooltips.',
+  '범례에서 series 선택 표시·숨김 및 범례 위치 변경 가능.':
+    'Toggle series visibility and reposition the chart legend.',
+  '차트 가장자리에서도 읽기 쉬운 HTML tooltip 표시 가능.':
+    'Display an HTML tooltip that stays fully readable near chart edges.',
+  '포인터를 따라 이동하는 강조 영역과 기준선 표시 설정 가능.':
+    'Configure hover highlight areas and reference line display.',
+  '하단 slider로 표시할 월 범위 조절 가능.':
+    'Adjust the visible month range using the bottom slider.',
+  '좌우 slider로 수량과 달성률 범위 독립 조절 가능.':
+    'Adjust quantity and achievement domains independently using side sliders.',
+  '마우스 휠이나 터치 제스처로 차트 확대·축소 가능.':
+    'Zoom in and out using mouse wheel or touch pinch gestures.',
+  '표시 기간이 다른 두 차트의 crosshair·tooltip·zoom 동기화 가능.':
+    'Synchronize crosshair, tooltip and zoom independently between charts with different periods.',
+  'Column·Bar의 데이터 라벨 표시 위치와 방향 변경 가능.':
+    'Configure data label placement and orientation for columns and bars.',
+  '목표값에 따른 수평 기준선 위치 변경 가능.':
+    'Move horizontal reference line positions dynamically based on target values.',
+  '정상 범위를 음영으로 표시하며 범위 폭 조절 가능.':
+    'Display normal operating ranges with shaded bands and adjust their width.',
+  '실적 변화 방향을 선형 추세선으로 확인 가능.':
+    'Inspect performance trend direction using a linear trendline.',
+  '실시간 추가 데이터 확인과 자동 갱신 일시정지·재개 가능.':
+    'Verify real-time streaming data and pause or resume live updates.',
+  'min/max 다운샘플링 적용 대량 시계열 추이 확인 가능.':
+    'Inspect long-span time series trends with min/max downsampling.',
+  '셀의 추세 표시와 데이터 갱신에 따른 차트 변경 확인 가능.':
+    'Display in-cell sparklines and observe chart updates when data changes.',
+  '그리드 행을 펼쳐 요일별 생산량 차트 확인 가능.':
+    'Expand grid rows to display detailed daily production charts.',
+  '로딩 중·데이터 없음·오류 화면 확인과 재조회 실행 가능.':
+    'Verify loading, empty, and error states, and retry queries on error.',
+  'Column과 Line 조합으로 계획·실적·달성률 비교 가능.':
+    'Combine columns and lines to compare plans, actual output, and achievement rates.',
+  '자재별 월간 입고량을 Grouped column으로 비교 가능.':
+    'Compare monthly material receipts using grouped columns.',
+  '생산 라인별 이행률을 오른쪽 백분율 축으로 비교 가능.':
+    'Compare fulfillment by line on a right-side percentage axis.',
+  '가동률·성능·품질·종합설비효율(OEE) 지표 표시 가능.':
+    'Display availability, performance, quality, and Overall Equipment Effectiveness (OEE).',
+  '생산량 순위 정렬과 최댓값까지 남은 구간 표시 가능.':
+    'Sort output rankings and display remaining distance to targets.',
+  '생산량 순위 목록에서 표시할 상위 항목 수 조절 가능.':
+    'Adjust the number of top-ranked items displayed from production lists.',
+  '발생 건수와 누적 비율로 우선 개선 항목 확인 가능.':
+    'Identify priority improvement items using incident counts and cumulative percentages.',
+  '측정값 분포를 구간별로 비교하며 구간 수 조절 가능.':
+    'Compare measurement distributions across bins and adjust bin counts.',
+  '여러 설비의 통계를 같은 축 범위에서 나란히 비교 가능.':
+    'Compare statistics across multiple equipment units with shared scale ranges.',
+  '막대 (Column·Bar)': 'Column and Bar',
+  '선·영역 (Line·Area)': 'Line and Area',
+  '복합 차트 (Mixed charts)': 'Mixed charts',
+  '원형·레이더 (Radial·Radar)': 'Radial and Radar',
+  '분포·구성 (Distribution·Composition)': 'Distribution and Composition',
+  '축 (Axes)': 'Axes',
+  '시간축·시계열 (Time series)': 'Time series',
+  '라벨·주석 (Labels·Annotations)': 'Labels and Annotations',
+  '데이터·상태·연동 (Data·State)': 'Data, State and Integration',
+  'Column·Line 좌우 축': 'Column and Line on dual axes',
+  '실적 Column과 달성률 Line을 수량·백분율 축에 각각 연결 가능.':
+    'Connect actual-output columns and an achievement-rate line to quantity and percentage axes respectively.',
+  '날짜·시간 서식': 'Date and time formatting',
+  'category 축 라벨과 Tooltip의 날짜·시간 서식 변경 가능.':
+    'Change date and time formats for category axis labels and tooltips.',
+  '계획·실적 Column·Line': 'Plan and actual Column and Line',
+  '계획·실적·달성률 비교와 추세선·확대 범위 확인 가능.':
+    'Compare plans, actual output and achievement rates, inspect trendlines, and adjust the zoom range.',
+  '생산량 순위를 가로 Bar로 정렬하고 기준값까지 남은 구간 표시 가능.':
+    'Rank production output using horizontal bars and show the remaining distance to a reference value.',
+  '생산량 상위 N개 항목을 Column으로 표시하고 항목 수 조절 가능.':
+    'Display the top N production items as columns and adjust the number of items.',
+  '대량 시계열을 min/max로 줄여 표시하고 원본·표시 데이터 수 비교 가능.':
+    'Reduce a large time series with min/max downsampling and compare original and displayed point counts.',
+  '차트 종류별 기본 구성과 기능별 설정 예제 제공. 활용 예제에서 여러 기능을 조합한 구성 확인 가능.':
+    'Explore chart types and individual settings, then combine features in the use-case examples.',
+  '차트 유형 (Chart types)': 'Chart types',
+  '축·시간 (Axes·Time)': 'Axes and time',
+  '범례·Tooltip (Legend·Tooltip)': 'Legend and Tooltip',
+  '데이터·연동·내보내기 (Data·Export)': 'Data, integration and export',
+  Column·Bar: 'Column and Bar',
+  '누적·100% 막대': 'Stacked and 100% bars',
+  Pie·Doughnut: 'Pie and Doughnut',
+  '범례 설정': 'Legend settings',
+  'Tooltip 설정': 'Tooltip settings',
+  '축 범위·서식': 'Axis range and formatting',
+  '선·Point 스타일': 'Line and Point styles',
+  '차트 제목·부제목': 'Chart title and subtitle',
+  '막대 스타일': 'Bar styles',
+  'PNG 내보내기': 'PNG export',
+  '생산량 순위': 'Production ranking',
+  '단일·그룹 막대를 세로·가로 방향으로 비교 가능.':
+    'Compare single and grouped bars in vertical and horizontal layouts.',
+  '누적·100% 막대를 세로·가로 방향으로 비교 가능.':
+    'Compare stacked and 100% bars in vertical and horizontal layouts.',
+  '단일·다중 Line 비교와 Tension 조절 가능.':
+    'Compare single and multiple lines and adjust their curvature.',
+  '목표 대비 차이와 여러 series의 누적 영역 비교 가능.':
+    'Compare differences from the target and stacked areas for multiple series.',
+  'Pie·Doughnut·반원·다중 고리 비교와 값·색상·범례 설정 가능.':
+    'Compare pie, doughnut, semicircle and multiple rings, and configure values, colors and legends.',
+  '범례 위치·제목·Point 표시와 표시 전환·이벤트 확인 가능.':
+    'Configure legend position, title and points, and inspect visibility changes and events.',
+  'Tooltip 내용·탐색 방식·위치·Point 표시 비교 가능.':
+    'Compare tooltip content, interaction modes, positions and point markers.',
+  '축 범위·눈금·격자·제목 설정 비교 가능.': 'Compare axis ranges, ticks, grids and titles.',
+  '선 모양·보간·Point 모양과 기준값별 스타일 비교 가능.':
+    'Compare line patterns, interpolation, point shapes and threshold styles.',
+  '제목·부제목의 표시·정렬·여러 줄 구성과 PNG 내보내기 실행.':
+    'Configure title and subtitle display, alignment and multiple lines, and export PNG.',
+  '막대의 radius와 기준값별 색상 설정 비교 가능.': 'Compare bar radius and threshold-based colors.',
+  '차트 메뉴·외부 버튼으로 PNG 저장과 미리보기 실행.':
+    'Save and preview PNG images using the chart menu or external buttons.',
+  '가로 순위 Bar와 상위 N개 Column 비교 및 항목 수 조절 가능.':
+    'Compare horizontal ranking bars and top-N columns, and adjust the item count.',
+  '구성 방식': 'Configuration',
+  '전용 컴포넌트': 'Dedicated component',
+  '막대 구성': 'Bar layout',
+  '단일 · 세로': 'Single · Vertical',
+  '그룹 · 세로': 'Grouped · Vertical',
+  '단일 · 가로': 'Single · Horizontal',
+  '그룹 · 가로': 'Grouped · Horizontal',
+  '누적 구성': 'Stack layout',
+  '누적 · 세로': 'Stacked · Vertical',
+  '100% 누적 · 세로': '100% stacked · Vertical',
+  '누적 · 가로': 'Stacked · Horizontal',
+  '라인 구성': 'Line layout',
+  '단일 라인': 'Single line',
+  '라인 3개': 'Three lines',
+  '영역 구성': 'Area layout',
+  양수·음수: 'Positive and negative',
+  '누적 영역': 'Stacked areas',
+  '원형 구성': 'Radial layout',
+  '다중 고리': 'Multiple rings',
+  '범례 옵션': 'Legend options',
+  '위치와 애니메이션': 'Position and animation',
+  '범례 제목': 'Legend title',
+  'Point 표시': 'Show points',
+  '이벤트 기록': 'Event recording',
+  '범례 클릭 기록': 'Record legend clicks',
+  'Tooltip 옵션': 'Tooltip options',
+  'Point 심볼': 'Point markers',
+  '축 옵션': 'Axis options',
+  범위: 'Range',
+  '눈금 표시': 'Tick display',
+  격자: 'Grid',
+  '축 제목': 'Axis title',
+  '선 옵션': 'Line options',
+  '선 패턴': 'Line pattern',
+  보간: 'Interpolation',
+  'Point 모양': 'Point shape',
+  조건색: 'Conditional colors',
+  '보간 방식': 'Interpolation mode',
+  'Column 옵션': 'Column options',
+  '모서리 radius': 'Corner radius',
+  '제목 옵션': 'Title options',
+  제목: 'Title',
+  부제목: 'Subtitle',
+  'PNG 내보내기 방식': 'PNG export method',
+  '내장 메뉴': 'Built-in menu',
+  '외부 버튼과 미리보기': 'External buttons and preview',
+  '랭킹 표시': 'Ranking layout',
+  '가로 잔여 영역': 'Horizontal remaining track',
+  '상위 N Column': 'Top-N columns',
+  'Stacked & 100% bars': 'Stacked & 100% bars',
+  'Axis range & formatting': 'Axis range & formatting',
+  'Logarithmic scale': 'Logarithmic scale',
+  'Centered axes': 'Centered axes',
+  'Stacked axes': 'Stacked axes',
+  'Column & Line · Dual axes': 'Column & Line · Dual axes',
+  'Line · Dual axes': 'Line · Dual axes',
+  'Scatter · Dual axes': 'Scatter · Dual axes',
+  'Three Y axes': 'Three Y axes',
+  'Percent axis': 'Percent axis',
+  'Date & time formats': 'Date & time formats',
+  'Time scale spacing': 'Time scale spacing',
+  'Time scale · Column & Line': 'Time scale · Column & Line',
+  'Time scale gaps': 'Time scale gaps',
+  'Large time series': 'Large time series',
+  Legend: 'Legend',
+  Tooltip: 'Tooltip',
+  'Hover layer & Crosshair': 'Hover layer & Crosshair',
+  'Programmatic events': 'Programmatic events',
+  'X-axis slider': 'X-axis slider',
+  'Y-axis sliders': 'Y-axis sliders',
+  'Drag zoom': 'Drag zoom',
+  'Wheel & pinch zoom': 'Wheel & pinch zoom',
+  'Crosshair & Tooltip sync': 'Crosshair & Tooltip sync',
+  'Data labels': 'Data labels',
+  'Target line': 'Target line',
+  'Range band': 'Range band',
+  Trendline: 'Trendline',
+  'Chart area border': 'Chart area border',
+  Quadrants: 'Quadrants',
+  'Title & subtitle': 'Title & subtitle',
+  'Bar styles': 'Bar styles',
+  'Line & Point styles': 'Line & Point styles',
+  'DataGrid detail panel': 'DataGrid detail panel',
+  'Loading, empty & error': 'Loading, empty & error',
+  'PNG export': 'PNG export',
+  'Column & Line': 'Column & Line',
+  'Ranking bar & Top N column': 'Ranking bar & Top N column',
+  Tension: 'Tension',
+  'Doughnut cutout': 'Doughnut cutout',
+  'Legend animation': 'Legend animation',
+  'Grouped bar': 'Grouped bar',
+  'Stacked bar': 'Stacked bar',
+  Area: 'Area',
+  'Stacked area': 'Stacked area',
+  Pie: 'Pie',
+  'Semi-circle': 'Semi-circle',
+  'Multi-ring doughnut': 'Multi-ring doughnut',
+  'Legend title': 'Legend title',
+  'Legend point style': 'Legend point style',
+  'Legend events': 'Legend events',
+  'Tooltip content': 'Tooltip content',
+  'Tooltip interaction': 'Tooltip interaction',
+  'Tooltip position': 'Tooltip position',
+  'Tooltip point style': 'Tooltip point style',
+  'Axis range': 'Axis range',
+  'Axis step size': 'Axis step size',
+  Ticks: 'Ticks',
+  Grid: 'Grid',
+  'Axis titles': 'Axis titles',
+  'Line dash': 'Line dash',
+  'Line interpolation': 'Line interpolation',
+  'Point style': 'Point style',
+  'Conditional line colors': 'Conditional line colors',
+  Title: 'Title',
+  Subtitle: 'Subtitle',
+  'Bar border radius': 'Bar border radius',
+  'Conditional bar colors': 'Conditional bar colors',
+  'External PNG export': 'External PNG export',
+  '월별 생산 추이를 선으로 표시하며, Tension 조절 가능.':
+    'Display monthly production trends with adjustable Tension.',
+  '차트 유형': 'Chart types',
+  axis·시간: 'Axes and time',
+  확대·동기화: 'Zoom and sync',
+  라벨·주석: 'Labels and Annotations',
+  스타일: 'Style',
+  데이터·연동·내보내기: 'Data, integration and export',
+  시작하기: 'Getting started',
+  'Scatter 군집': 'Scatter clusters',
+  '누적·100% Column·Bar': 'Stacked & 100% bars',
+  '백분율 axis': 'Percent axis',
+  'Column & Line · 이중 axis': 'Column & Line · Dual axes',
+  'Y-axis 3개': 'Three Y axes',
+  범례: 'Legend',
+  'Hover 영역·Crosshair': 'Hover layer & Crosshair',
+  '휠·핀치 확대': 'Wheel & pinch zoom',
+  'Crosshair·Tooltip 동기화': 'Crosshair & Tooltip sync',
+  '실시간 차트': 'Live chart',
+  'DataGrid 상세 패널': 'DataGrid detail panel',
+  '대용량 시계열': 'Large time series',
+  '순위 Bar·상위 N Column': 'Ranking bar & Top N column',
+  '그룹 Column · 확대': 'Grouped column · Zoom',
+  '다중 Line · 백분율 axis': 'Multi-line · Percent axis',
+  '다중 Line · OEE': 'Multi-line · OEE',
+  '작은 차트 모음': 'Small multiples',
+  '시간 axis 간격': 'Time scale spacing',
+  '시간 axis · Column & Line': 'Time scale · Column & Line',
+  '시간 axis 누락 구간': 'Time scale gaps',
+  '로그 scale': 'Logarithmic scale',
+  'Bar 스타일': 'Bar styles',
+  '구간 Column': 'Floating bars',
+  '계단형 Line': 'Stepped line',
+  'Line·Point 스타일': 'Line & Point styles',
+  'Line 구간 스타일': 'Line segments',
+  'Line · 이중 axis': 'Line · Dual axes',
+  '누적 Column·Line': 'Stacked Column and Line',
+  'Axis 범위·서식': 'Axis range & formatting',
+  'Axis 영역 분할': 'Stacked axes',
+  'Axis 중앙 배치': 'Centered axes',
+  제목·부제목: 'Title & subtitle',
+  '외부 버튼 이벤트': 'Programmatic events',
+  사분면: 'Quadrants',
+  'Scatter · 이중 axis': 'Scatter · Dual axes',
+  '누적 Column · 그룹 axis': 'Stacked column · Grouped axis',
+  '시나리오별 예측': 'Divergent forecast',
+  '양방향 Bar': 'Diverging bar',
+  '겹친 Column': 'Layered column',
+  '복합 차트': 'Mixed chart',
+  '일별 Column·Line': 'Daily Column and Line',
+  '누적 Column': 'Stacked column',
+  'Axis 범위': 'Axis range',
+  'Line 선 패턴': 'Line dash',
+  'Bar 모서리 radius': 'Bar border radius',
+  '순위 Bar': 'Ranking bar',
+  '그룹 Column': 'Grouped column',
+  '그룹 Bar': 'Grouped bar',
+  '100% 누적 Column': '100% stacked column',
+  '누적 Bar': 'Stacked bar',
+  '다중 Line': 'Multi-line',
+  '누적 Area': 'Stacked area',
+  반원: 'Semi-circle',
+  '다중 고리 Doughnut': 'Multi-ring doughnut',
+  '범례 Point 스타일': 'Legend Point style',
+  'Tooltip Point 스타일': 'Tooltip Point style',
+  'Axis 눈금 간격': 'Axis step size',
+  눈금: 'Ticks',
+  'Axis 제목': 'Axis titles',
+  'Line 보간': 'Line interpolation',
+  'Point 스타일': 'Point style',
+  'Line 조건부 색상': 'Conditional line colors',
+  'Bar 조건부 색상': 'Conditional bar colors',
+  '외부 버튼 PNG 내보내기': 'External PNG export',
+  '@owp/charts {{version}}의 공개 API를 사용합니다. 별도 Chart.js 설치·등록 없이 실행할 수 있습니다.':
+    'Uses the public API of @owp/charts {{version}}. No separate Chart.js installation or registration is needed.',
+  '패키지에서 Chart.js를 자동으로 등록합니다. ChartFrame의 preset="owp"로 공통 스타일·HTML 툴팁·범례를 적용합니다. 전용 차트는 유형별 데이터·props로 구성할 수 있습니다.':
+    'The package registers Chart.js automatically. ChartFrame preset="owp" applies shared styles, HTML tooltips and legends. Dedicated charts use data and props for their chart type.',
+  'OWP API의 문자열을 숫자로 변환해 ChartFrame에 전달합니다. 데이터 탭에서 같은 값을 OWP_DATA 필드로 확인할 수 있습니다.':
+    'Convert OWP API strings to numbers before passing them to ChartFrame. The Data tab shows the same values as OWP_DATA fields.',
+  'ChartFrame 레이아웃에 utility class를 사용합니다. Tailwind가 없으면 아래 CSS를 적용해 주세요.':
+    'ChartFrame uses utility classes for layout. Apply the CSS below when Tailwind is unavailable.',
+  '기본 메뉴에 assets/icons의 SVG sprite를 사용합니다. 메뉴를 사용하려면 OWP Core 아이콘 리소스를 배포해야 합니다. 외부 버튼과 exportRef로도 내보낼 수 있습니다.':
+    'The default menu uses SVG sprites from assets/icons and requires the OWP Core icon assets. External buttons can also export charts through exportRef.',
+  '예제 메뉴 {{count}}개와 구성 {{configCount}}개, 시작 가이드를 제공합니다.':
+    'Includes {{count}} example menu entries, {{configCount}} configurations, and a getting-started guide.',
+  '차트 종류별 기본 구성과 기능별 설정 예제를 제공합니다. 활용 예제에서 여러 기능을 조합한 구성을 확인할 수 있습니다.':
+    'Explore chart types and individual settings, then combine features in the use-case examples.',
+  'Bar·Line·복합 차트는 ChartFrame으로 구성합니다. Area·Box plot·Treemap·Radar·원형·Heatmap·Live chart는 전용 Owp 컴포넌트를 사용합니다. Box plot·Treemap·Heatmap은 코드 탭에서 전용 컴포넌트와 직접 구성 방식을 비교할 수 있습니다. API 응답 변환·polling·예제 조작은 앱에서 처리합니다.':
+    'Bar, Line and mixed charts use ChartFrame. Area, Box plot, Treemap, Radar, radial, Heatmap and Live charts use dedicated Owp components. Compare dedicated components and direct configuration for Box plot, Treemap and Heatmap in the Code tab. The app handles API conversion, polling and controls.',
 };

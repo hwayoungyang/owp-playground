@@ -1,6 +1,6 @@
 import { getContrastRatio } from '@mui/material/styles';
 import { OwpTreemapChart, useChartPalette } from '@owp/charts';
-import type { OwpTreemapChartProps } from '@owp/charts/types';
+import type { ChartOptions, OwpTreemapChartProps } from '@owp/charts/types';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { chartMotion } from '../model/chartMotion';
@@ -42,9 +42,13 @@ export function ChartExample(props: ChartExampleProps) {
       }),
     [data, onData, t],
   );
-  const options: OwpTreemapChartProps['options'] = {
+  const formatter: NonNullable<OwpTreemapChartProps['formatter']> = (item) =>
+    labels ? `${item.label}: ${item.value}` : (item.label ?? item.id);
+  const options: ChartOptions<'treemap'> = {
     ...chartMotion,
     animation: { ...chartMotion.animation, duration: 160 },
+    interaction: { mode: 'nearest', intersect: true, axis: 'xy' },
+    layout: { padding: 0 },
     onClick: (_event, items) =>
       props.onRecord?.(
         'click',
@@ -80,13 +84,15 @@ export function ChartExample(props: ChartExampleProps) {
             backgroundColor: raw.color,
             color: getContrastRatio(raw.color, '#ffffff') >= 4.5 ? '#ffffff' : '#000000',
           })}
-          formatter={(item) => (labels ? `${item.label}: ${item.value}` : (item.label ?? item.id))}
+          formatter={formatter}
           options={options}
           height="100%"
           showExportButton={false}
-          aria-label={t('차트입니다. 데이터 탭에서 값을 확인할 수 있습니다.')}
+          aria-label={t('차트 데이터는 데이터 탭에서 확인할 수 있습니다.')}
         />
       </div>
     </>
   );
 }
+
+export { ChartExample as NativeTreemapExample } from './native/treemap';
