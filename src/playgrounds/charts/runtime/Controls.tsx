@@ -1,12 +1,4 @@
-import {
-  Button,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Select,
-  Switch,
-} from '@mui/material';
+import { Button, FormControl, FormControlLabel, MenuItem, Select, Switch } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { type ReactNode, useId } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
@@ -52,7 +44,7 @@ export function Range({
 }) {
   const { t } = useOwpTranslation();
   return (
-    <label className="chart-range">
+    <label className="chart-range chart-control-field">
       <span>
         {t(label)} <span className="chart-range-value">{value}</span>
       </span>
@@ -91,11 +83,12 @@ export function Choice<T extends string>({
   const { t } = useOwpTranslation();
   const id = useId();
   return (
-    <FormControl size="small" sx={{ minWidth: 160 }}>
-      <InputLabel id={id}>{t(label)}</InputLabel>
+    <FormControl size="small" className="chart-choice chart-control-field">
+      <span id={id} className="chart-control-label">
+        {t(label)}
+      </span>
       <Select
         labelId={id}
-        label={t(label)}
         value={value}
         onChange={(event) => {
           const selected = options.find((option) => option === event.target.value);

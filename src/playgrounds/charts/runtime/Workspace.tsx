@@ -123,6 +123,7 @@ export function ChartsWorkspace({
         >
           <PreviewActionsProvider>
             <PreviewToolbar
+              className="preview-toolbar--charts"
               divider
               onReset={() => {
                 setVersion((value) => value + 1);
