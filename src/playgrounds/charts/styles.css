@@ -106,12 +106,12 @@
   max-width: 100%;
   min-width: 0;
   align-items: flex-end;
-  align-content: flex-start;
+  align-content: flex-end;
+  column-gap: 16px;
 }
 .preview-toolbar--charts .chart-variant-controls {
   grid-column: 1;
   grid-row: 1;
-  align-content: end;
   flex: none;
 }
 .preview-toolbar--charts > .preview-start-actions:has(> .chart-variant-controls) > .chart-controls:not(.chart-variant-controls) {
