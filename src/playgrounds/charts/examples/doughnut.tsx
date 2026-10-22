@@ -46,7 +46,7 @@ export function ChartExample(props: ChartExampleProps) {
           step={5}
           onChange={setCutout}
         />
-        <Toggle label="합계 0으로 표시" value={empty} onChange={setEmpty} />
+        <Toggle label="빈 상태 표시" value={empty} onChange={setEmpty} />
       </Controls>
       <div ref={chart.plot} className={chart.className}>
         <OwpRadialChart

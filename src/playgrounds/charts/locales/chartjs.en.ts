@@ -189,7 +189,7 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   '선택 해제': 'Clear selection',
   '점선 테두리': 'Dashed border',
   '사분면 배경 표시': 'Show quadrant backgrounds',
-  '합계 0으로 표시': 'Set total to zero',
+  '빈 상태 표시': 'Show empty state',
   'Point 크기': 'Point size',
   '크기 배율': 'Radius multiplier',
   '생산량 기준값 (개)': 'Output threshold (units)',

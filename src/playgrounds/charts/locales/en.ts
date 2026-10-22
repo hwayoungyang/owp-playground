@@ -157,7 +157,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   도넛: 'Doughnut chart',
   '공정별 생산 비중을 도넛으로 비교. 도넛 두께를 바꾸거나 합계가 0인 상태를 확인 가능.':
     'Compare production shares by process, adjust the cutout and inspect the zero-total state.',
-  '합계 0으로 표시': 'Show a zero total',
+  '빈 상태 표시': 'Show empty state',
   'Ranking bar': 'Ranking bar',
   '생산량 순으로 정렬하고 최댓값까지 남은 구간을 표시.':
     'Sort output and display the remaining track to the maximum.',
@@ -362,8 +362,8 @@ export const chartEnglish: Readonly<Record<string, string>> = {
     'Show monthly trends and adjust line tension.',
   '여러 라인의 생산 추이를 같은 축에서 비교 가능.':
     'Compare production trends for several lines on one axis.',
-  '공정별 생산 비중 비교와 Doughnut 두께 조절·합계 0 상태 확인 가능.':
-    'Compare production shares by process, adjust cutout thickness, and verify zero-total states.',
+  '공정별 생산 비중 비교와 Doughnut 두께 조절·빈 상태 확인 가능.':
+    'Compare production shares by process, adjust cutout thickness, and inspect the empty state.',
   '공정별 처리 수량의 비중을 Semi-circle로 비교 가능.':
     'Compare each process share of completed operations in a semicircle.',
   '실시간 Gauge 값과 바늘 움직임 확인 가능.':

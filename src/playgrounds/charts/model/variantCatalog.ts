@@ -45,7 +45,7 @@ export const chartDefaultCatalog = [
     id: 'doughnut',
     title: 'Doughnut',
     category: 'types',
-    description: '공정별 생산 비중 비교와 Doughnut 두께 조절·합계 0 상태 확인 가능.',
+    description: '공정별 생산 비중 비교와 Doughnut 두께 조절·빈 상태 확인 가능.',
     api: ['cutout', 'outsideLabels', 'emptyState'],
     kind: 'chart',
     package: '@owp/charts',

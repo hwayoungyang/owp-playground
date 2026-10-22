@@ -97,7 +97,7 @@ export function ChartExample(props: ChartExampleProps) {
           value={count}
           min={200}
           max={2000}
-          step={200}
+          step={10}
           onChange={setCount}
         />
         <Toggle label="자동 갱신" value={running} onChange={setRunning} />

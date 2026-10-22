@@ -13857,18 +13857,18 @@
           "packageId": "charts",
           "id": "gauge",
           "url": "/?package=charts&sample=gauge",
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=95&endLine=95",
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=113&endLine=113",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 95,
-            "endLine": 95,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 113,
+            "endLine": 113,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/gauge.tsx",
-          "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+          "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
         },
         {
           "packageId": "charts",
@@ -13953,7 +13953,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         },
         {
           "packageId": "charts",
@@ -15213,7 +15213,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.data",
-      "contentHash": "c794611e3f4460a4c45548d898763e1fb9b57711af6a9289fe4155d4f859554a"
+      "contentHash": "306fa1bfb28dedea1f28b6f582790bc4b314eff72e6d07d23420273cd5ada74e"
     },
     {
       "id": "@owp/charts:ChartFrameProps.datasetIdKey",
@@ -15551,7 +15551,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         },
         {
           "packageId": "charts",
@@ -16767,7 +16767,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.datasetIdKey",
-      "contentHash": "56795eb199e98d92a68880e81b7a13a36d04a72d466e2751e0db436429cfaf96"
+      "contentHash": "0f59cd322e96d67bf97e108d8ff29ea5d95aaad0d3ecdf448fbb5a57a08914b1"
     },
     {
       "id": "@owp/charts:ChartFrameProps.errorOverlay",
@@ -17883,18 +17883,18 @@
           "packageId": "charts",
           "id": "gauge",
           "url": "/?package=charts&sample=gauge",
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=97&endLine=97",
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=115&endLine=115",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 97,
-            "endLine": 97,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 115,
+            "endLine": 115,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/gauge.tsx",
-          "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+          "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
         },
         {
           "packageId": "charts",
@@ -17928,7 +17928,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         },
         {
           "packageId": "charts",
@@ -18515,7 +18515,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.externalTooltip",
-      "contentHash": "88e40cc4e607ebcd86935d37f32c69edd604f0fc48ace41f0f4c9a0431ca8bd1"
+      "contentHash": "68f3482d7ece02de1df87aaded330cff37a7f0daa07484a1b7e950a342be4688"
     },
     {
       "id": "@owp/charts:ChartFrameProps.fallbackContent",
@@ -18901,18 +18901,18 @@
           "packageId": "charts",
           "id": "gauge",
           "url": "/?package=charts&sample=gauge",
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=99&endLine=99",
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=117&endLine=117",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 99,
-            "endLine": 99,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 117,
+            "endLine": 117,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/gauge.tsx",
-          "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+          "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
         },
         {
           "packageId": "charts",
@@ -18991,13 +18991,13 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 107,
             "endLine": 107,
-            "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         },
         {
           "packageId": "charts",
@@ -20213,7 +20213,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.height",
-      "contentHash": "4af5d5a30f6f2621e54daf1724b99d594c664a66d31aaddc6d8e795c94884b34"
+      "contentHash": "78ac9ea5c216eae60e77001b3ff22987a5d56aa6f8021e33a132a7f0ef35a8a7"
     },
     {
       "id": "@owp/charts:ChartFrameProps.interactionLayer",
@@ -20406,18 +20406,18 @@
           "packageId": "charts",
           "id": "gauge",
           "url": "/?package=charts&sample=gauge",
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=101&endLine=101",
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=119&endLine=119",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 101,
-            "endLine": 101,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 119,
+            "endLine": 119,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/gauge.tsx",
-          "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+          "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
         },
         {
           "packageId": "charts",
@@ -21226,7 +21226,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.interactionLayer",
-      "contentHash": "70e493acade1c63e77f1c1808623bea9f7945551e76ce1af0d2cda7b48693fbc"
+      "contentHash": "867ed343ee24bb6abde9df7c5817ad2607f9257d8d788141c50c8f47c52a4d9d"
     },
     {
       "id": "@owp/charts:ChartFrameProps.legend",
@@ -21503,18 +21503,18 @@
           "packageId": "charts",
           "id": "gauge",
           "url": "/?package=charts&sample=gauge",
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=100&endLine=100",
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=118&endLine=118",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 100,
-            "endLine": 100,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 118,
+            "endLine": 118,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/gauge.tsx",
-          "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+          "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
         },
         {
           "packageId": "charts",
@@ -21576,13 +21576,13 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 107,
             "endLine": 107,
-            "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         },
         {
           "packageId": "charts",
@@ -22781,7 +22781,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.legend",
-      "contentHash": "597dd14d225d948576473fb22b6e78debb8368e425b23b28cd64b19dd91704b0"
+      "contentHash": "07eff3f4cf66c948b47acc673c2d643834e3f93a705cbc1b1aea6d5f19da1922"
     },
     {
       "id": "@owp/charts:ChartFrameProps.linkedInteraction",
@@ -23522,18 +23522,18 @@
           "packageId": "charts",
           "id": "gauge",
           "url": "/?package=charts&sample=gauge",
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=96&endLine=96",
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=114&endLine=114",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 96,
-            "endLine": 96,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 114,
+            "endLine": 114,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/gauge.tsx",
-          "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+          "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
         },
         {
           "packageId": "charts",
@@ -23618,7 +23618,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         },
         {
           "packageId": "charts",
@@ -24834,7 +24834,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.options",
-      "contentHash": "2b26a697c9a9b30a257a4bb59dba0e592ba61b65c06e0c439880f613a1ed8dbb"
+      "contentHash": "50e8135fc5c0298239d73561a35877d73fb34956133c9dd16902b5ea084c2889"
     },
     {
       "id": "@owp/charts:ChartFrameProps.plugins",
@@ -25984,7 +25984,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         },
         {
           "packageId": "charts",
@@ -27200,7 +27200,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.preset",
-      "contentHash": "8e599088ca5b839fde276298aede305884a93034fa79b61c39bbec9ae7261fd2"
+      "contentHash": "dd33d27b4e676b8bc9947220a1c917ac452b1684de4e16012d5f5e2aff2272d1"
     },
     {
       "id": "@owp/charts:ChartFrameProps.redraw",
@@ -28624,18 +28624,18 @@
           "packageId": "charts",
           "id": "gauge",
           "url": "/?package=charts&sample=gauge",
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=98&endLine=98",
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=116&endLine=116",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 98,
-            "endLine": 98,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 116,
+            "endLine": 116,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/gauge.tsx",
-          "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+          "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
         },
         {
           "packageId": "charts",
@@ -28714,13 +28714,13 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 107,
             "endLine": 107,
-            "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         },
         {
           "packageId": "charts",
@@ -29936,7 +29936,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.type",
-      "contentHash": "d8ae35c73604e5d3678b0599dcfccb9c466ffe5c55742af78fda09b498c0a517"
+      "contentHash": "02eea16f0507e36ef761eae30ea9268e6d5851e6c8cf21a0051bd43195b9ff63"
     },
     {
       "id": "@owp/charts:ChartFrameProps.updateMode",
@@ -31089,18 +31089,18 @@
           "packageId": "charts",
           "id": "gauge",
           "url": "/?package=charts&sample=gauge",
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=102&endLine=102",
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=120&endLine=120",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 102,
-            "endLine": 102,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 120,
+            "endLine": 120,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/gauge.tsx",
-          "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+          "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
         },
         {
           "packageId": "charts",
@@ -31128,13 +31128,13 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 107,
             "endLine": 107,
-            "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         },
         {
           "packageId": "charts",
@@ -31314,7 +31314,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.zoomSlider",
-      "contentHash": "3251416a9ab3aa0e4f1bcd0e74bf2fb56f68b10ceb394828063ae89d523ae2ba"
+      "contentHash": "397f968c338f4105f0dcf86c51e14ac164d5c1e79836c6a5c56987a0c823dadb"
     },
     {
       "id": "@owp/charts:ChartInteractionLayerOptions",
@@ -49267,7 +49267,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         }
       ],
       "sources": [
@@ -49276,7 +49276,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AcreateChartData",
-      "contentHash": "70f1a1487adcc4f3e993af62c362c60c68265e4b3f8da544c0a89a9dd75cbbfd"
+      "contentHash": "bb5243d5fa08a78db3e1ac8ac8127c4f46a9585e61d231cdf53760360a55a9e4"
     },
     {
       "id": "@owp/charts:CreateChartDataParams",
@@ -49969,23 +49969,23 @@
           "packageId": "charts",
           "id": "gauge",
           "url": "/?package=charts&sample=gauge",
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=36&endLine=36",
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=38&endLine=38",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 36,
-            "endLine": 36,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 38,
+            "endLine": 38,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/gauge.tsx",
-          "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+          "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
         }
       ],
       "sources": [],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AcreateGaugeChartData",
-      "contentHash": "810df36a748f33d905cd47b58d917b51e5f12827eec8f75e256877bcd1a1d7a2"
+      "contentHash": "c7676a4d70eb73fc89cf72068c8d107dbe5223f61e0eb6477c5f1ce446305ec2"
     },
     {
       "id": "@owp/charts:CreateGaugeChartDataParams",
@@ -50283,23 +50283,23 @@
           "packageId": "charts",
           "id": "gauge",
           "url": "/?package=charts&sample=gauge",
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=42&endLine=42",
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=44&endLine=44",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 42,
-            "endLine": 42,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 44,
+            "endLine": 44,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/gauge.tsx",
-          "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+          "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
         }
       ],
       "sources": [],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AcreateGaugeChartOptions",
-      "contentHash": "6509eeb91bf32843b6d06bf3f7b4a30c367d4cf6e0618876648ebe0807cc6276"
+      "contentHash": "1bedcf1742d04d901f0a9e5e51395d27b2de2586fcb1fdd415b6250ba9ee1a03"
     },
     {
       "id": "@owp/charts:CreateGaugeChartOptionsParams",
@@ -51226,13 +51226,13 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 54,
             "endLine": 54,
-            "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         },
         {
           "packageId": "charts",
@@ -51254,7 +51254,7 @@
       ],
       "sources": [],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AcreateIntegerAxisScale",
-      "contentHash": "e12e44f9806057e159854975f9afbd816c7d08d867acf440e40dec92d50bba1b"
+      "contentHash": "e5e87a86522547c3800ebe2244d3299f96d07ed07d25e4c05cb290f5d34fba83"
     },
     {
       "id": "@owp/charts:createInteractionLayerPlugin",
@@ -73390,13 +73390,13 @@
             "file": "playgrounds/charts/examples/doughnut.tsx",
             "line": 54,
             "endLine": 54,
-            "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+            "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-          "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+          "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
         },
         {
           "packageId": "charts",
@@ -73437,7 +73437,7 @@
         "framework/packages/owp-charts/docs/area-radial.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AOwpRadialChartProps.cutout",
-      "contentHash": "0e6b663fda9536556c7375fbfb4bc14a82e4baa47ed6a9d0d0e8e31d3d366912"
+      "contentHash": "9f70c7a4d6fbcd349a4f8494c9a25825c7056bdbbc784163ead230dee9f68638"
     },
     {
       "id": "@owp/charts:OwpRadialChartProps.emptyState",
@@ -73490,20 +73490,20 @@
             "file": "playgrounds/charts/examples/doughnut.tsx",
             "line": 55,
             "endLine": 55,
-            "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+            "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-          "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+          "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
         }
       ],
       "sources": [
         "framework/packages/owp-charts/docs/area-radial.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AOwpRadialChartProps.emptyState",
-      "contentHash": "e7f0afa3e65aff875e664ba46582d62de95e25bc1c769f298f393ba64f34b97e"
+      "contentHash": "cdc21ee8c9db923b14cbff595bf934f40d961e7e9957e37b4ab03db9bf64d0d0"
     },
     {
       "id": "@owp/charts:OwpRadialChartProps.errorOverlay",
@@ -73901,7 +73901,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-          "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+          "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
         },
         {
           "packageId": "charts",
@@ -73959,7 +73959,7 @@
         "framework/packages/owp-charts/docs/area-radial.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AOwpRadialChartProps.height",
-      "contentHash": "446d7d0e865215e13a7e4f80643d390b65c80329930c1cddabfe34d2d2d1f015"
+      "contentHash": "0e647e2e8ca623b21690498ba59f411ce64cd98f00138f99f5c6d3b07186d5ff"
     },
     {
       "id": "@owp/charts:OwpRadialChartProps.interactionLayer",
@@ -74096,7 +74096,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-          "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+          "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
         },
         {
           "packageId": "charts",
@@ -74154,7 +74154,7 @@
         "framework/packages/owp-charts/docs/area-radial.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AOwpRadialChartProps.legend",
-      "contentHash": "e0e2434f4e61a1f21bf9f4731825c33b753fa4ddda4feaf405b1542f74bf181b"
+      "contentHash": "5ef3e10c5d65b68ab41e43a752b507e6dee2689d81b3047ef60d6e79ebe69c74"
     },
     {
       "id": "@owp/charts:OwpRadialChartProps.linkedInteraction",
@@ -74541,13 +74541,13 @@
             "file": "playgrounds/charts/examples/doughnut.tsx",
             "line": 57,
             "endLine": 57,
-            "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+            "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-          "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+          "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
         },
         {
           "packageId": "charts",
@@ -74605,7 +74605,7 @@
         "framework/packages/owp-charts/docs/area-radial.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AOwpRadialChartProps.options",
-      "contentHash": "692991385c6df10f66bc57574e273b9573d056ffbd4a68f41fce91b6d36ac65e"
+      "contentHash": "1ac38586e6f53483c6e59b0f6d7f3f5e99de1ad3b4f6143dd0de4734c4675b00"
     },
     {
       "id": "@owp/charts:OwpRadialChartProps.outsideLabels",
@@ -74662,13 +74662,13 @@
             "file": "playgrounds/charts/examples/doughnut.tsx",
             "line": 56,
             "endLine": 56,
-            "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+            "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-          "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+          "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
         },
         {
           "packageId": "charts",
@@ -74726,7 +74726,7 @@
         "framework/packages/owp-charts/docs/area-radial.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AOwpRadialChartProps.outsideLabels",
-      "contentHash": "90d1ddf203279173cbb3928fbc0f585df2d84ff5b91217927c408dd05b48003f"
+      "contentHash": "eb51b9e89cfbcc5939fbf2c8a025dd960f62c786d9de949fc6b5b735a47cb71c"
     },
     {
       "id": "@owp/charts:OwpRadialChartProps.plugins",
@@ -75046,13 +75046,13 @@
             "file": "playgrounds/charts/examples/doughnut.tsx",
             "line": 53,
             "endLine": 53,
-            "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+            "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-          "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+          "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
         },
         {
           "packageId": "charts",
@@ -75110,7 +75110,7 @@
         "framework/packages/owp-charts/docs/area-radial.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AOwpRadialChartProps.rings",
-      "contentHash": "afc7972afd7bdc381369b0ca4a629692e073e363a13f39a6c48e114906060a60"
+      "contentHash": "49bd9d7e9f5076cb4af64abfc8d69767edb4d39595cd3d1a722d0df30796c1f7"
     },
     {
       "id": "@owp/charts:OwpRadialChartProps.rotation",
@@ -75330,7 +75330,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-          "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+          "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
         },
         {
           "packageId": "charts",
@@ -75388,7 +75388,7 @@
         "framework/packages/owp-charts/docs/area-radial.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AOwpRadialChartProps.showExportButton",
-      "contentHash": "6cc8d6f5bb079313b140a2b0431072b8334b6e8e632168ece3f6be6784a72a4c"
+      "contentHash": "e2723cac621689274dd9ddcd8581edd700adca4a411350518336fc472c0c8a1a"
     },
     {
       "id": "@owp/charts:OwpRadialChartProps.title",
@@ -217134,7 +217134,7 @@
           "location": null,
           "codeReview": null,
           "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-          "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+          "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
         }
       ],
       "source": {
@@ -217148,7 +217148,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3Aguide.identity",
-      "contentHash": "d431b4d1915188dbe5afb6d971ef3c34f9c0c96ed0f63db42eb043c238f0d6ef"
+      "contentHash": "aa1864d83a0dc1436bafbd38218acf76cd717a0ff70c1534742cedeed688686e"
     },
     {
       "id": "@owp/charts:guide.zoom",
@@ -217283,7 +217283,7 @@
           "location": null,
           "codeReview": null,
           "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-          "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+          "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
         },
         {
           "packageId": "charts",
@@ -217307,7 +217307,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3Aguide.states",
-      "contentHash": "670f67aa9568b4c1d9beef0fd3a718c62cd5eec392d1fdeac711ce5782be9847"
+      "contentHash": "84494ab751c47496e7b37ee1572697b86669638c1f6a2a4b0c98fa2755148dbd"
     },
     {
       "id": "@owp/charts:guide.tooltip-plugins",
@@ -217489,7 +217489,7 @@
           "location": null,
           "codeReview": null,
           "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-          "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+          "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
         }
       ],
       "source": {
@@ -217501,7 +217501,7 @@
         "framework/packages/owp-charts/docs/area-radial.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3Aguide.area-radial",
-      "contentHash": "10783803e4b45eb1bedf216a0095332e000134ea4abdf108cad44a706677a01e"
+      "contentHash": "bef6396b85ea83ceb152d69cb149c42219edc254d44a2e4be23132db156eca67"
     },
     {
       "id": "@owp/charts:guide.geometry",
@@ -217607,7 +217607,7 @@
           "location": null,
           "codeReview": null,
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
         },
         {
           "packageId": "charts",
@@ -217641,7 +217641,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3Aguide.utilities",
-      "contentHash": "515ccec58ea8e69e03d3fb93af4f6764d4f86c3b0ba487e5470bdd65bb83ae9c"
+      "contentHash": "19c03d75d8009d7e9af54883ae304d89d06035f6bd5802be9e0a7c5ecc1ace72"
     },
     {
       "id": "@owp/charts:guide.export-layout",
@@ -250341,7 +250341,7 @@
       "id": "doughnut",
       "packageId": "charts",
       "title": "Doughnut",
-      "description": "공정별 생산 비중 비교와 Doughnut 두께 조절·합계 0 상태 확인 가능.",
+      "description": "공정별 생산 비중 비교와 Doughnut 두께 조절·빈 상태 확인 가능.",
       "source": "examples/doughnut.tsx",
       "references": [
         {
@@ -250367,7 +250367,7 @@
             "file": "playgrounds/charts/examples/doughnut.tsx",
             "line": 54,
             "endLine": 54,
-            "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+            "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
           },
           "codeReview": {
             "method": "ast"
@@ -250382,7 +250382,7 @@
             "file": "playgrounds/charts/examples/doughnut.tsx",
             "line": 55,
             "endLine": 55,
-            "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+            "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
           },
           "codeReview": {
             "method": "ast"
@@ -250427,7 +250427,7 @@
             "file": "playgrounds/charts/examples/doughnut.tsx",
             "line": 57,
             "endLine": 57,
-            "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+            "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
           },
           "codeReview": {
             "method": "ast"
@@ -250442,7 +250442,7 @@
             "file": "playgrounds/charts/examples/doughnut.tsx",
             "line": 56,
             "endLine": 56,
-            "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+            "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
           },
           "codeReview": {
             "method": "ast"
@@ -250457,7 +250457,7 @@
             "file": "playgrounds/charts/examples/doughnut.tsx",
             "line": 53,
             "endLine": 53,
-            "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4"
+            "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec"
           },
           "codeReview": {
             "method": "ast"
@@ -250467,7 +250467,7 @@
       ],
       "url": "/?package=charts&sample=doughnut",
       "entrypoint": "/snippets/playgrounds/charts/examples/doughnut.tsx",
-      "sha256": "b97ae1295d03e2c17f68d759d58aa362bf3859226dfdad0985dd3c97c878ffd4",
+      "sha256": "37758894d42c8c74d538535a7ba5752df1c3994cba184fd23d497332cd350cec",
       "propDiagnostics": [
         {
           "kind": "excluded-prop",
@@ -250491,14 +250491,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 36,
-            "endLine": 36,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 38,
+            "endLine": 38,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=36&endLine=36"
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=38&endLine=38"
         },
         {
           "label": "createGaugeChartOptions",
@@ -250506,14 +250506,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 42,
-            "endLine": 42,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 44,
+            "endLine": 44,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=42&endLine=42"
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=44&endLine=44"
         },
         {
           "id": "@owp/charts:ChartFrameProps.data",
@@ -250521,14 +250521,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 95,
-            "endLine": 95,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 113,
+            "endLine": 113,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=95&endLine=95"
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=113&endLine=113"
         },
         {
           "id": "@owp/charts:ChartFrameProps.externalTooltip",
@@ -250536,14 +250536,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 97,
-            "endLine": 97,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 115,
+            "endLine": 115,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=97&endLine=97"
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=115&endLine=115"
         },
         {
           "id": "@owp/charts:ChartFrameProps.height",
@@ -250551,14 +250551,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 99,
-            "endLine": 99,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 117,
+            "endLine": 117,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=99&endLine=99"
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=117&endLine=117"
         },
         {
           "id": "@owp/charts:ChartFrameProps.interactionLayer",
@@ -250566,14 +250566,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 101,
-            "endLine": 101,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 119,
+            "endLine": 119,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=101&endLine=101"
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=119&endLine=119"
         },
         {
           "id": "@owp/charts:ChartFrameProps.legend",
@@ -250581,14 +250581,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 100,
-            "endLine": 100,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 118,
+            "endLine": 118,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=100&endLine=100"
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=118&endLine=118"
         },
         {
           "id": "@owp/charts:ChartFrameProps.options",
@@ -250596,14 +250596,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 96,
-            "endLine": 96,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 114,
+            "endLine": 114,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=96&endLine=96"
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=114&endLine=114"
         },
         {
           "id": "@owp/charts:ChartFrameProps.type",
@@ -250611,14 +250611,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 98,
-            "endLine": 98,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 116,
+            "endLine": 116,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=98&endLine=98"
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=116&endLine=116"
         },
         {
           "id": "@owp/charts:ChartFrameProps.zoomSlider",
@@ -250626,19 +250626,19 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/gauge.tsx",
-            "line": 102,
-            "endLine": 102,
-            "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395"
+            "line": 120,
+            "endLine": 120,
+            "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=102&endLine=102"
+          "codeUrl": "/?package=charts&sample=gauge&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fgauge.tsx&line=120&endLine=120"
         }
       ],
       "url": "/?package=charts&sample=gauge",
       "entrypoint": "/snippets/playgrounds/charts/examples/gauge.tsx",
-      "sha256": "254ec201533c1e5fe2391737910f189edbfa6377708ce19d512d352139712395",
+      "sha256": "62c4c465dda2522f52577001fb40687b522fd310be6b9e575ed9e0780418fe3b",
       "propDiagnostics": [
         {
           "kind": "excluded-prop",
@@ -251998,7 +251998,7 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 54,
             "endLine": 54,
-            "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
           },
           "codeReview": {
             "method": "ast"
@@ -252058,7 +252058,7 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 107,
             "endLine": 107,
-            "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
           },
           "codeReview": {
             "method": "ast"
@@ -252073,7 +252073,7 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 107,
             "endLine": 107,
-            "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
           },
           "codeReview": {
             "method": "ast"
@@ -252118,7 +252118,7 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 107,
             "endLine": 107,
-            "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
           },
           "codeReview": {
             "method": "ast"
@@ -252133,7 +252133,7 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 107,
             "endLine": 107,
-            "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3"
+            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
           },
           "codeReview": {
             "method": "ast"
@@ -252143,7 +252143,7 @@
       ],
       "url": "/?package=charts&sample=histogram",
       "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-      "sha256": "4b6183dc47cf126bb5b4636b9dbfd1309cba982d15f1518901f9462b8a880fc3",
+      "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049",
       "propDiagnostics": [
         {
           "kind": "excluded-prop",

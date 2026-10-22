@@ -1,4 +1,5 @@
 import { Button, useMediaQuery } from '@mui/material';
+import { lighten } from '@mui/material/styles';
 import { ChartFrame } from '@owp/charts';
 import { createGaugeChartData, createGaugeChartOptions } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
@@ -32,7 +33,8 @@ export function ChartExample(props: ChartExampleProps) {
     { from: 0, to: 40, label: t('보통'), color: palette.warning },
     { from: 40, to: 80, label: t('우수'), color: palette.colors[2] ?? palette.ink },
     { from: 80, to: 100, label: t('탁월'), color: palette.success },
-  ];
+  ].map((band) => ({ ...band, color: lighten(band.color, 0.45) }));
+  const needleColor = '#202020';
   const data = createGaugeChartData({
     min: -40,
     max: 100,
@@ -44,21 +46,37 @@ export function ChartExample(props: ChartExampleProps) {
     max: 100,
     value,
     radius: '100%',
-    layout: { padding: { left: 32, right: 32, top: 24, bottom: 28 } },
+    layout: { padding: { left: 48, right: 48, top: 40, bottom: 48 } },
     motion:
       reducedMotion || !visible
         ? false
         : { animateOnMount: true, duration: 500, respectReducedMotion: true },
-    ticks: { stepSize: 20, color: palette.muted, fontSize: 12, fontFamily: palette.fontFamily },
-    bandLabels: { color: palette.ink, fontSize: 14, fontFamily: palette.fontFamily },
-    needle: { color: 'auto', hubRadius: 8, baseWidth: 12, tailLengthRatio: 0 },
-    valueLabel: {
-      color: palette.ink,
-      backgroundColor: palette.surface,
-      fontSize: 22,
-      radius: 24,
+    ticks: {
+      stepSize: 20,
+      offset: 24,
+      color: palette.muted,
+      fontSize: 12,
       fontFamily: palette.fontFamily,
-      formatter: (next) => String(Math.round(next)),
+      formatter: (next) => `${Math.round(next)}%`,
+    },
+    bandLabels: {
+      color: palette.contrastText(lighten(palette.danger, 0.45)),
+      fontSize: 14,
+      fontFamily: palette.fontFamily,
+    },
+    needle: {
+      color: needleColor,
+      hubRadius: 36,
+      baseWidth: 20,
+      tailLengthRatio: 0,
+    },
+    valueLabel: {
+      color: '#fff',
+      backgroundColor: needleColor,
+      fontSize: 22,
+      radius: 36,
+      fontFamily: palette.fontFamily,
+      formatter: (next) => `${Math.round(next)}%`,
     },
   });
   useEffect(

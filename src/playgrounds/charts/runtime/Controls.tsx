@@ -1,4 +1,12 @@
-import { Button, FormControl, FormControlLabel, MenuItem, Select, Switch } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  MenuItem,
+  Select,
+  Slider,
+  Switch,
+} from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { type ReactNode, useId } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
@@ -48,14 +56,15 @@ export function Range({
       <span>
         {t(label)} <span className="chart-range-value">{value}</span>
       </span>
-      <input
-        type="range"
+      <Slider
+        className="chart-range-slider"
+        size="small"
         aria-label={t(label)}
         min={min}
         max={max}
         step={step}
         value={value}
-        onChange={(event) => onChange(event.currentTarget.valueAsNumber)}
+        onChange={(_, next: number) => onChange(next)}
       />
     </label>
   );
