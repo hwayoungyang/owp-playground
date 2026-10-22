@@ -40,8 +40,8 @@ importers:
         specifier: 7.0.1
         version: 7.0.1(8263a84851293284f640dd15cbbe9b01)
       '@owp/datagrid':
-        specifier: 3.2.1
-        version: 3.2.1(80415e6875ce8b1b3902af7086bc795b)
+        specifier: 3.5.0
+        version: 3.5.0(80415e6875ce8b1b3902af7086bc795b)
       '@owp/date-picker':
         specifier: 2.0.2
         version: 2.0.2(e46feedeb715a416484e92e39c04d985)
@@ -548,8 +548,8 @@ packages:
       react-i18next: ^17.0.13
       react-router-dom: ^7.18.3
 
-  '@owp/datagrid@3.2.1':
-    resolution: {integrity: sha512-qfsXzCPB/ShBAKCu8UBAyKOUp9epKtXZoyr+PAw6IA5goxeU6J3UB8CPTWOD1+JowEhPb6qgHyk6JKkMWDXsxA==}
+  '@owp/datagrid@3.5.0':
+    resolution: {integrity: sha512-A2iKMfnY2J08OzjxItaDP3zZZ94orifw9UeFbzwqdUdCRdW7o0wEOa5sLTuvulWsnq/uvLWeRd4y6Q3+bd2DHQ==}
     peerDependencies:
       '@emotion/react': ^11.14.0
       '@emotion/styled': ^11.14.1
@@ -3924,7 +3924,7 @@ snapshots:
       - '@types/react'
       - date-fns-tz
 
-  '@owp/datagrid@3.2.1(80415e6875ce8b1b3902af7086bc795b)':
+  '@owp/datagrid@3.5.0(80415e6875ce8b1b3902af7086bc795b)':
     dependencies:
       '@emotion/react': 11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@7.2.0)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.1)(supports-color@7.2.0)

@@ -42,7 +42,7 @@
     "@owp/charts": "5.0.1",
     "@owp/components": "3.0.1",
     "@owp/core": "7.0.1",
-    "@owp/datagrid": "3.2.1",
+    "@owp/datagrid": "3.5.0",
     "@owp/date-picker": "2.0.2",
     "@owp/excel": "2.0.0",
     "@owp/pdf": "2.0.0",
