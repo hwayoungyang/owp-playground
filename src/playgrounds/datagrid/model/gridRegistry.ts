@@ -148,6 +148,10 @@ import {
 } from '../examples/summary-rows';
 import { TaskTreeGrid, gridConfiguration as treeConfiguration } from '../examples/tree';
 import {
+  TextInputPolicyGrid,
+  gridConfiguration as textInputPolicyConfiguration,
+} from '../examples/text-input-policy';
+import {
   SpanningTreeGrid,
   gridConfiguration as treeSpanConfiguration,
 } from '../examples/tree-span';
@@ -246,6 +250,10 @@ export const gridRegistry = {
   'save-changes': {
     Component: withTaskGridPreview(ServerSaveGrid),
     configuration: serverSaveConfiguration,
+  },
+  'text-input-policy': {
+    Component: withTaskGridPreview(TextInputPolicyGrid),
+    configuration: textInputPolicyConfiguration,
   },
   validation: {
     Component: withTaskGridPreview(InputValidationGrid),

@@ -35,18 +35,25 @@ export function RadiusGrid(props: TaskGridProps = {}) {
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
       <PreviewActions>
-        <div className="example-controls">
-          <span>{t('모서리 둥글기')}</span>
-          <Select
-            value={radius}
-            inputProps={{ 'aria-label': t('모서리 둥글기') }}
-            onChange={handleRadiusChange}
+        <div className="example-settings-toolbar example-settings-toolbar--general">
+          <div
+            className="example-settings-fields example-settings-fields--general"
+            data-columns="1"
           >
-            <MenuItem value={0}>{t('기본 (각진)')}</MenuItem>
-            <MenuItem value={0.25}>{t('작게')}</MenuItem>
-            <MenuItem value={0.5}>{t('중간')}</MenuItem>
-            <MenuItem value={0.75}>{t('크게')}</MenuItem>
-          </Select>
+            <div className="example-setting-field">
+              <span className="example-setting-label">{t('모서리 둥글기')}</span>
+              <Select
+                value={radius}
+                inputProps={{ 'aria-label': t('모서리 둥글기') }}
+                onChange={handleRadiusChange}
+              >
+                <MenuItem value={0}>{t('기본 (각진)')}</MenuItem>
+                <MenuItem value={0.25}>{t('작게')}</MenuItem>
+                <MenuItem value={0.5}>{t('중간')}</MenuItem>
+                <MenuItem value={0.75}>{t('크게')}</MenuItem>
+              </Select>
+            </div>
+          </div>
         </div>
       </PreviewActions>
       <div className="example-grid" style={{ padding: 12 }}>

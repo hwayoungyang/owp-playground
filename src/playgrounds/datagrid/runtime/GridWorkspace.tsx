@@ -162,13 +162,6 @@ export function GridWorkspace({
         )}
       </div>
       <ApiLinks example={example} />
-      {example.id === 'row-span' && (
-        <p className="grid-behavior-note">
-          {t(
-            '행 수를 4로 지정하면 1~4행, 5~8행처럼 묶어 병합합니다. 자동 행 병합은 같은 값이 연속된 셀을 묶습니다.',
-          )}
-        </p>
-      )}
       <GridSettingsDrawer
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}

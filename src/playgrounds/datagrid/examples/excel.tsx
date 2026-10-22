@@ -25,19 +25,27 @@ export function ExcelExportGrid(props: TaskGridProps = {}) {
       style={{ height: props.height ?? taskExcelConfiguration.height }}
     >
       <PreviewActions>
-        <div className="example-controls">
-          <Select
-            value={scope}
-            onChange={(event) => {
-              const parsed = scopeSchema.safeParse(event.target.value);
-              if (parsed.success) setScope(parsed.data);
-            }}
-            inputProps={{ 'aria-label': t('Excel 내보내기 범위') }}
+        <div className="example-settings-toolbar example-settings-toolbar--general">
+          <div
+            className="example-settings-fields example-settings-fields--general"
+            data-columns="1"
           >
-            <MenuItem value="visible">{t('현재 표시된 행')}</MenuItem>
-            <MenuItem value="all">{t('전체 행')}</MenuItem>
-            <MenuItem value="selected">{t('선택 행')}</MenuItem>
-          </Select>
+            <div className="example-setting-field">
+              <span className="example-setting-label">{t('Excel 내보내기 범위')}</span>
+              <Select
+                value={scope}
+                onChange={(event) => {
+                  const parsed = scopeSchema.safeParse(event.target.value);
+                  if (parsed.success) setScope(parsed.data);
+                }}
+                inputProps={{ 'aria-label': t('Excel 내보내기 범위') }}
+              >
+                <MenuItem value="visible">{t('현재 표시된 행')}</MenuItem>
+                <MenuItem value="all">{t('전체 행')}</MenuItem>
+                <MenuItem value="selected">{t('선택 행')}</MenuItem>
+              </Select>
+            </div>
+          </div>
         </div>
       </PreviewActions>
       <PreviewActions position="end">

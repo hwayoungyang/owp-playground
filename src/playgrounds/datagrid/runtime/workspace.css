@@ -6,13 +6,20 @@
 .grid-binding-time {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  padding: 8px 12px;
+  border: 1px solid var(--pg-line);
+  border-radius: 4px;
+  background: var(--pg-subtle);
   color: var(--pg-secondary);
-  font-size: 11px;
+  font-size: 12px;
+  line-height: 1.5;
   font-variant-numeric: tabular-nums;
 }
 .grid-binding-time > span:first-child {
   color: var(--pg-ink);
+  font-size: 14px;
+  font-weight: 500;
 }
 .grid-preview {
   container-type: inline-size;
@@ -53,12 +60,6 @@
 .grid-status-divider {
   margin: 0 10px;
   color: var(--pg-line);
-}
-.grid-behavior-note {
-  font-size: 12px;
-  line-height: 1.8;
-  color: var(--pg-secondary);
-  max-width: 740px;
 }
 .grid-settings-panel {
   width: 320px;
@@ -143,4 +144,12 @@
   .grid-preview .example-grid {
     flex: 0 0 auto;
   }
+}
+
+.grid-preview[data-fit-rows="true"] {
+  height: auto;
+}
+.grid-preview[data-fit-rows="true"] .grid-preview-content,
+.grid-preview[data-fit-rows="true"] .example-grid {
+  flex: 0 0 auto;
 }

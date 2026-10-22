@@ -30,19 +30,31 @@ export function ExplicitRowSpanGrid(props: TaskGridProps = {}) {
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
       <PreviewActions>
-        <div className="example-controls">
-          <span>{t('병합할 행 수')}</span>
-          <Select
-            value={size}
-            inputProps={{ 'aria-label': t('병합할 행 수') }}
-            onChange={handleSpanSizeChange}
+        <div className="example-settings-toolbar example-settings-toolbar--general">
+          <div
+            className="example-settings-fields example-settings-fields--general"
+            data-columns="1"
           >
-            {[2, 3, 4].map((count) => (
-              <MenuItem key={count} value={count}>
-                {t('{{count}}행씩', { count })}
-              </MenuItem>
-            ))}
-          </Select>
+            <div className="example-setting-field">
+              <span className="example-setting-label">{t('병합할 행 수')}</span>
+              <Select
+                value={size}
+                inputProps={{ 'aria-label': t('병합할 행 수') }}
+                onChange={handleSpanSizeChange}
+              >
+                {[2, 3, 4].map((count) => (
+                  <MenuItem key={count} value={count}>
+                    {t('{{count}}행씩', { count })}
+                  </MenuItem>
+                ))}
+              </Select>
+              <p className="example-setting-help">
+                {t(
+                  '행 수를 4로 지정하면 1~4행, 5~8행처럼 묶어 병합합니다. 자동 행 병합은 같은 값이 연속된 셀을 묶습니다.',
+                )}
+              </p>
+            </div>
+          </div>
         </div>
       </PreviewActions>
       <div className="example-grid">

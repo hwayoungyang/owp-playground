@@ -1,4 +1,59 @@
 export const appEnglish: Readonly<Record<string, string>> = {
+  '입력 조건': 'Input rules',
+  '검사 시점': 'When to validate',
+  '값 확정 시': 'When committed',
+  '직접 검사': 'Check manually',
+  '오류 처리': 'Error handling',
+  '오류 유지': 'Keep errors',
+  '수정 시 해제': 'Clear when edited',
+  '검사와 오류 처리': 'Validation and error handling',
+  '필수 입력': 'Require a value',
+  '수정 시 오류 해제': 'Clear errors when edited',
+  '안내 없음': 'No feedback',
+  '기본 문구': 'Default message',
+  '직접 입력한 문구': 'Entered message',
+  '사용자 안내 문구': 'Custom feedback message',
+  '비우거나 공백만 입력하면 기본 문구로 안내합니다.':
+    'Leave empty or enter only whitespace to use the default message.',
+  '편집을 확정하지 못했습니다. 입력을 마친 뒤 다시 시도해 주세요.':
+    'The edit could not be committed. Finish entering the value and try again.',
+  '셀 값을 바꾸며 검사 시점과 오류 처리 방식을 비교해 보세요. 외부 오류를 표시한 뒤 수정하면 차이를 확인할 수 있습니다.':
+    'Edit cells to compare validation timing and error handling. Set external errors, then edit to see the difference.',
+  '정규식 컬럼은 대소문자를 유지하고, Y/N은 한 글자, 코드는 대문자 영숫자만 허용합니다. 안내 방식과 사용자 문구는 Y/N 컬럼에 적용됩니다.':
+    'The pattern column preserves case, Y/N accepts one letter, and codes accept uppercase letters and digits. Feedback settings and custom messages apply to Y/N.',
+  '첫 행에 외부 오류를 표시한 뒤 입력을 비교해 보세요. 둘째 행은 기존 서버 값이며, 셋째 행의 빈 값으로 필수 입력을 확인할 수 있습니다.':
+    'Set external errors on the first row, then compare inputs. The second row holds existing server values; use the empty third row to check required values.',
+  'API 데이터를 불러오는 중입니다.': 'Loading API data.',
+  'API 데이터를 불러오지 못했습니다. 다시 시도해 주세요.':
+    'Unable to load API data. Please try again.',
+  '안내 끄기 · 문구만 지정': 'Feedback off · message only',
+  '기본 안내': 'Default feedback',
+  테두리만: 'Border only',
+  '사용자 문구': 'Custom message',
+  '빈 문구 fallback': 'Empty message fallback',
+  '공백 문구 fallback': 'Whitespace message fallback',
+  '사용자 문구 숨기기': 'Hide custom message',
+  '영문과 숫자만 입력해 주세요. 대소문자는 유지합니다.':
+    'Enter letters and digits. Letter case is preserved.',
+  'Y 또는 N 한 글자를 입력해 주세요.': 'Enter a single Y or N.',
+  '영문 대문자와 숫자로 코드를 입력해 주세요.': 'Enter a code using uppercase letters and digits.',
+  '정규식만 · 대소문자 유지': 'Pattern only · preserve case',
+  'Y/N · 대문자 · 1글자': 'Y/N · uppercase · 1 character',
+  '코드 · 대문자 · 영숫자': 'Code · uppercase · alphanumeric',
+  'Y/N 컬럼 거부 안내': 'Y/N column rejection feedback',
+  '입력 정책과 검증 옵션': 'Input policy and validation options',
+  required: 'required',
+  clearErrorOnInput: 'clearErrorOnInput',
+  '입력 정책 비교용 외부 오류입니다.': 'External error for input policy comparison.',
+  '첫 행의 세 셀에 외부 오류를 표시했습니다.':
+    'External errors displayed in all three cells of the first row.',
+  '외부 오류를 표시하지 못했습니다.': 'External errors could not be displayed.',
+  '정규식 컬럼은 대소문자와 길이를 유지합니다. Y/N은 대문자 한 글자, 코드는 대문자 영숫자만 허용합니다. 빈 값은 입력 정책에서 허용하며 required는 별도로 검사합니다.':
+    'The pattern column preserves case without limiting length. Y/N accepts one uppercase letter, and codes accept uppercase letters and digits. Input policies allow empty values; required validates them separately.',
+  '안내 설정은 Y/N 컬럼에만 적용합니다. 코드 컬럼은 항상 기본 warning 안내를 표시하므로, 숨긴 안내가 다른 컬럼의 알림 간격을 소비하지 않는지 비교할 수 있습니다.':
+    'Feedback settings apply only to Y/N. The code column always uses default warning feedback, so you can compare whether hidden messages leave the other column’s notification interval unchanged.',
+  '첫 행에 오류를 표시한 뒤 거부 입력과 대문자 변환 후 같은 값을 비교해 보세요. clearErrorOnInput은 허용된 실제 변경에만 적용됩니다. 둘째 행은 정책에 맞지 않는 서버 값이며 조회·변경 없는 확정으로 정규화하지 않습니다.':
+    'Set errors on the first row, then compare rejected input and input that becomes the same value after uppercasing. clearErrorOnInput applies only to accepted actual changes. The second row contains server values outside the policy; viewing or committing unchanged values does not normalize them.',
   '영문 원문': 'English source text',
   '{{package}} 원문': '{{package}} source text',
   '설명 원문: {{source}}': 'Description source: {{source}}',
@@ -486,6 +541,40 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '전체 펼치기': 'Expand all',
   '전체 접기': 'Collapse all',
   '입력 검증': 'Validate',
+  '검증 시점': 'Validation timing',
+  '검증 시점 (validationMode)': 'Validation timing (validationMode)',
+  '입력 시 해제': 'Clear on input',
+  '입력 시 오류 해제 (clearErrorOnInput)': 'Clear errors on input (clearErrorOnInput)',
+  onCommit: 'onCommit',
+  manual: 'manual',
+  true: 'true',
+  false: 'false',
+  '외부 오류 표시': 'Set external errors',
+  '외부 오류 모두 해제': 'Clear all external errors',
+  '편집을 확정하지 못해 검증·설정 변경을 중단했습니다. 입력값을 확인한 뒤 다시 시도해 주세요.':
+    'The edit could not be committed, so validation or the settings change was stopped. Check the input and try again.',
+  '서버에서 상태를 확인하지 못했습니다.': 'Could not verify the status with the server.',
+  '서버에서 마감일을 확인하지 못했습니다.': 'Could not verify the due date with the server.',
+  '작업명·완료 수량·상태·마감일에 외부 오류를 표시했습니다.':
+    'External errors are displayed for the task name, completed units, status and due date.',
+  '외부 오류를 표시하지 못했습니다. 대상 행과 컬럼이 있는지 확인해 주세요.':
+    'Could not set external errors. Check that the target rows and columns exist.',
+  '외부 오류를 모두 해제했습니다. intrinsic 검증 오류는 유지됩니다.':
+    'All external errors cleared. Intrinsic validation errors are retained.',
+  'onCommit(기본값)은 값 확정·자동 갱신 때 자동 검증합니다. manual은 입력·확정·자동 갱신 때 자동 검증하지 않으며 명시적 validate()에서만 검사합니다.':
+    'onCommit (default) validates automatically on commit and automatic updates. manual skips automatic validation during input, commit and automatic updates; only explicit validate() checks values.',
+  'clearErrorOnInput의 기본값은 false입니다. true는 실제 사용자 입력이 바뀐 셀의 intrinsic·external 오류만 해제합니다. 포커스·편집 시작·같은 값·변경 없는 확정에서는 유지합니다. 오류 해제는 검증 통과가 아니며 다음 검증에서 실패하면 다시 표시됩니다.':
+    'clearErrorOnInput defaults to false. true clears intrinsic and external errors only for a cell whose value changes through user input. Focus, starting an edit, the same value and an unchanged commit retain errors. Clearing errors does not mean validation passed; a failed subsequent validation displays them again.',
+  '날짜·숫자 변환과 선택값 확정 규칙은 두 옵션과 관계없이 유지됩니다. 자동완성 검색어·picker 내부 입력은 저장할 draft 변경과 다릅니다.':
+    'Date and number conversion and selection commit rules apply with either option. Autocomplete search text and internal picker input are distinct from changes to the draft value to be stored.',
+  'clearCellError()·clearCellErrors()는 외부 오류만 해제합니다.':
+    'clearCellError() and clearCellErrors() clear only external errors.',
+  '직전 검증 결과는 검증 당시의 값입니다. 이후 입력이나 오류 해제에 따라 현재 셀 오류 표시와 다를 수 있습니다.':
+    'The last validation result describes the values at that time. Later input or error clearing may change the errors currently displayed in cells.',
+  '직전 명시적 검증: 오류 {{count}}건_one': 'Last explicit validation: {{count}} error',
+  '직전 명시적 검증: 오류 {{count}}건_other': 'Last explicit validation: {{count}} errors',
+  '검증 당시: validationMode={{mode}}, clearErrorOnInput={{clear}}':
+    'At validation: validationMode={{mode}}, clearErrorOnInput={{clear}}',
   '일괄 완료': 'Mark complete',
   '변경 확정': 'Confirm changes',
   'Excel 내보내기 범위': 'Excel export scope',

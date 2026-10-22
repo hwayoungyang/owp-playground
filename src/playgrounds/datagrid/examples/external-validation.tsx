@@ -6,6 +6,7 @@ import { useDataGridApi } from '@owp/datagrid/hooks';
 import type { OwpDataGridRowId } from '@owp/datagrid/types';
 import { useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
+import { useExampleFeedback } from '../../../shared/ui/useExampleFeedback';
 import type { Task, TaskGridProps } from '../types';
 import { taskExternalValidationConfiguration } from './configs/taskExternalValidation';
 
@@ -19,24 +20,34 @@ export function ValidationMessagesGrid(props: TaskGridProps = {}) {
   const { onAction } = callbacks ?? {};
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
-  const [feedback, setFeedback] = useState<{ message: string; count?: number } | null>(null);
+  const { notify, feedback } = useExampleFeedback();
 
   const publish = (api: string, value: unknown) => {
     onAction?.(api, value);
     const count = gridApi.getCellErrors().length;
-    setFeedback({
-      message:
+    notify(
+      t(
         count === 0
           ? '표시된 검증 메시지가 없습니다.'
           : '검증 메시지 {{count}}건이 표시되어 있습니다.',
-      count,
-    });
+        { count },
+      ),
+    );
   };
 
   const handleClearValidationMessages = () => {
     gridApi.clearCellErrors();
     onAction?.('clearCellErrors', { cleared: true });
-    setFeedback({ message: '검증 메시지를 모두 지웠습니다.' });
+    const count = gridApi.getCellErrors().length;
+    notify(
+      t(
+        count === 0
+          ? '검증 메시지를 모두 지웠습니다.'
+          : '검증 메시지 {{count}}건이 표시되어 있습니다.',
+        { count },
+      ),
+      'success',
+    );
   };
 
   return (
@@ -80,11 +91,7 @@ export function ValidationMessagesGrid(props: TaskGridProps = {}) {
           <Button onClick={handleClearValidationMessages}>{t('검증 메시지 모두 지우기')}</Button>
         </div>
       </PreviewActions>
-      {feedback && (
-        <p className="example-caption" role="status">
-          {t(feedback.message, { count: feedback.count })}
-        </p>
-      )}
+      {feedback}
       <div className="example-grid">
         <OwpDataGrid
           api={gridApi}

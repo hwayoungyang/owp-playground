@@ -184,19 +184,63 @@ resetChanges는 Grid의 마지막 승인 baseline을 복원. 앱이 보관하는
       'OwpDataGridApi.commitEditing',
       'OwpDataGridApi.hasUnsavedChanges',
       'OwpDataGridApi.getChanges',
+      'OwpDataGridColumn.validationMode',
+      'OwpDataGridColumn.clearErrorOnInput',
+      'OwpDataGridColumn.textOptions',
+      'OwpDataGridTextOptions',
+      'OwpDataGridTextOptions.allowedPattern',
+      'OwpDataGridTextOptions.maxLength',
+      'OwpDataGridTextOptions.uppercase',
+      'OwpDataGridTextOptions.showRejectedInputFeedback',
+      'OwpDataGridTextOptions.showRejectedInputMessage',
+      'OwpDataGridTextOptions.rejectedInputMessage',
       'OwpDataGridApi.validate',
       'OwpDataGridApi.setCellErrors',
+      'OwpDataGridApi.clearCellError',
+      'OwpDataGridApi.clearCellErrors',
     ],
-    ['editing', 'validation', 'external-validation'],
+    ['editing', 'text-input-policy', 'validation', 'external-validation'],
     `editable은 셀 편집 허용 여부를 지정. 기본 편집기·IME·확정·취소 동작을 DOM 이벤트나 앱 전용 편집기로 중복 구현하지 않음. 연관 필드 변경은 순수하고 immutable한 valueSetter에서 처리.
 
 현재 공개 API의 enterKeyAction 기본값은 nextEditableCell. Enter 확정 후 다음 편집 가능 셀로 이동하며 stay는 현재 셀을 유지. Tab/Shift+Tab은 editable 여부와 관계없이 다음/이전 body cell로 이동. 이전 소비 앱 스킬의 'Enter는 항상 현재 셀 유지' 설명은 현재 기본 계약에 적용하지 않음.
 
 hasUnsavedChanges는 working-copy 변경과 미확정 draft를 함께 감지. getChanges는 working-copy에 반영된 변경만 반환하므로 입력·취소·확정 시 두 결과가 다를 수 있음.
 
-commitEditing의 true는 최신 draft 확정 성공이며 업무 검증 성공을 뜻하지 않음. 저장 전 commitEditing 성공 → validate → getChanges 순서로 실행하고, 검증 실패 시 반환된 rowId·columnId로 focusCell을 호출. rowIds·columnIds로 검증 범위 제한 가능.
+validationMode의 기본값은 onCommit이며 입력 확정 시 required와 column validate를 자동 검증. manual은 입력·확정·자동 값 갱신에서 required와 custom validate를 자동 검증하지 않고 explicit validate에서만 검사. 날짜·숫자 파싱과 선택값 변환 등 기존 값 확정 규칙은 유지.
 
-검증 출처는 required·column·external. setCellErrors는 외부 오류 집합을 원자적으로 교체. 같은 셀의 외부 오류는 우선 표시되고 편집만으로 자동 삭제되지 않음. 재검증으로 해소가 확인되면 clearCellError(s)를 호출. 네트워크 장애처럼 셀과 무관한 실패는 셀 오류로 만들지 않음.`,
+commitEditing의 true는 최신 draft 확정 성공이며 업무 검증 성공을 뜻하지 않음. commitEditing이 false를 반환하면 validate를 계속하지 않음. 저장 전 commitEditing 성공 → validate → getChanges 순서로 실행하고, 검증 실패 시 반환된 rowId·columnId로 focusCell을 호출. rowIds·columnIds로 검증 범위 제한 가능.
+
+clearErrorOnInput의 기본값은 false이며 오류를 유지. true이면 실제 사용자 입력으로 Grid의 draft나 직접 확정할 값이 바뀔 때 해당 셀의 intrinsic(required·column)과 external 오류만 해제. 첫 문자로 편집을 시작하는 입력도 포함. 포커스 이동, 편집 시작, 같은 값 입력, 변경 없는 확정에서는 오류를 유지하며 다른 셀 오류나 working row·dirty 상태를 오류 해제만으로 바꾸지 않음. 오류 해제는 검증 성공이나 저장 가능을 뜻하지 않으며 다음 validate에서 다시 실패하면 오류가 재표시됨. imperative setCellValue는 사용자 입력 오류 해제 대상이 아님. autocomplete 검색어나 picker 내부 미확정 입력은 저장 draft로 취급하지 않음.
+
+manual에서는 재입력 뒤 확정하거나 Escape로 취소해도 자동 재검증하지 않음. 취소는 기존 working value 복원 규칙을 따르며 다음 명시적 validate가 현재 값을 다시 판정. 직전 validate 결과는 해당 검증 시점의 기록이며 현재 셀 오류 표시와 다를 수 있음.
+
+검증 출처는 required·column·external. setCellErrors는 외부 오류 집합을 원자적으로 교체하며 같은 셀에서는 external 오류가 우선 표시됨. clearErrorOnInput이 false인 기본 조건에서는 외부 오류가 편집만으로 자동 삭제되지 않음. clearCellError와 clearCellErrors는 external 오류만 제거하며 intrinsic 오류는 유지. 네트워크 장애처럼 셀과 무관한 실패는 셀 오류로 만들지 않음.
+
+Text 컬럼 입력 정책
+
+OwpDataGridColumn.textOptions는 text editor의 사용자 입력 정책이며 @owp/datagrid/types에서 OwpDataGridTextOptions를 공개. getCellType이 text로 결정한 셀에도 적용. allowedPattern·maxLength·uppercase는 독립 옵션이며 미지정 컬럼은 기존 동작 유지. 직접 설정하는 정규식의 기본값은 /^[A-Za-z0-9]*$/이며 대소문자를 유지하고 길이를 제한하지 않음. Y/N 예제는 /^[YN]*$/·uppercase: true·maxLength: 1, 코드 예제는 /^[A-Z0-9]*$/·uppercase: true를 사용. taskTextInputPolicy config의 기본 정책에 factory가 적용된 사용자 정규식과 Y/N 안내·검증 설정을 합성.
+
+uppercase: true는 ASCII a-z만 A-Z로 변환한 뒤 후보 전체의 패턴·길이를 검사. ß 등 다른 문자는 변경하지 않음. allowedPattern은 RegExp 전체 일치만 허용하며 부분 일치는 불허. g·y 플래그에 따라 반복 판정 결과가 달라지지 않고 원본 RegExp 객체와 lastIndex는 보존하며 다른 플래그의 의미는 유지. maxLength는 UTF-16 string.length 기준으로 한글 음절은 1, 😀는 2이며 grapheme 수나 byte 수가 아님. 0 이상의 safe integer만 유효하고 0은 빈 문자열만 허용. 음수·소수·NaN·Infinity·safe integer 범위 초과와 잘못된 runtime 타입은 해당 길이 제한을 무시. 잘못된 runtime 정규식은 패턴 제한을 무시. uppercase·showRejectedInputFeedback은 정확히 true일 때만 활성화하고 showRejectedInputMessage는 정확히 false일 때만 숨김. TypeScript는 잘못된 옵션 타입을 컴파일 오류로 검출.
+
+첫 문자로 시작한 편집과 활성 editor의 타이핑·붙여넣기·선택 영역 교체에 후보 전체를 판정. 허용된 실제 draft만 표시·확정·working value에 반영. 거부하면 직전 draft와 가능한 커서·선택 영역을 보존하며 금지 문자 제거·trim·길이 절단으로 보정하지 않음. 빈 문자열은 정규식과 관계없이 허용하므로 required/custom 검증과 분리. clearErrorOnInput: true도 허용된 후보로 draft가 실제로 바뀐 셀의 intrinsic·external 오류만 해제. 거부 입력과 대문자 변환 후 같은 값은 기존 오류·working row·dirty를 유지하며 다른 셀 오류도 변경하지 않음. Escape 취소로 이미 해제한 오류를 복원하지 않으며 manual에서는 명시적 validate까지 재검증하지 않음.
+
+IME 조합 중에는 임시 문자열과 마지막 허용 draft를 구분하고 변환·복원·오류 해제를 강제하지 않음. 완료 후보를 판정하고 거부 시 조합 전 허용 draft 복원. 완료 뒤 중복 input event로 변경·안내를 중복 처리하지 않으며 취소·교체된 editor의 지연 이벤트는 새 편집에 반영하지 않음. 조합 중 Enter·Escape·Tab을 Grid의 확정·취소로 가로채지 않고 blur 확정 요청은 조합 종료 후 처리. 조합 중 commitEditing()은 false를 반환하며 working row를 변경하거나 새 셀로 기존 editor·draft를 교체하지 않음. 저장·validate·정책 변경 흐름은 false이면 중단하고 조합 완료 후 다시 요청. 비조합 Enter/Tab·Shift+Tab·click-away 확정과 Escape 취소, 기존 working row·dirty·persistent validation 계약은 유지.
+
+기존 서버 값은 조회·렌더·편집 진입·변경 없는 확정만으로 정규화하거나 삭제하지 않음. setCellValue·applyTransaction·row 추가·서버 값에는 textOptions를 적용하지 않으며 validate()도 textOptions를 업무 검증으로 자동 실행하지 않음. 프로그램·서버 값의 업무 조건은 소비앱 validate에 명시. 값을 수정했다가 원래 값으로 확정하면 기존 변경 추적에 따라 dirty·변경 강조 해제. 비편집 셀의 Ctrl+V·Process 키 편집 진입이나 여러 셀 붙여넣기는 textOptions가 새로 추가하는 기능이 아니며 기존 문자 키·F2·더블클릭으로 editor 활성화.
+
+거부 안내와 메시지 우선순위
+
+showRejectedInputFeedback 기본값은 false. 미지정·false이면 rejectedInputMessage를 지정해도 테두리와 메시지가 모두 없음. true이고 새 메시지 옵션을 생략하면 기존 테두리 pulse와 기본 i18n 안내를 표시. showRejectedInputMessage 기본값은 true이며 false이면 기본·사용자 문구를 모두 숨기고 테두리만 표시. 숨긴 거부 입력은 notify 호출이나 알림 간격 시각 갱신을 하지 않으므로 같은 Grid의 다른 컬럼 안내는 마지막으로 표시한 알림 시각 기준으로 판정.
+
+rejectedInputMessage는 컬럼별 표시 문자열이며 Framework가 번역 key로 해석하거나 재번역하지 않음. 사용자 번역은 Playground의 기존 t() 호출부에서 수행. 미지정·빈 문자열·공백만인 문자열은 기본 Message.허용되지 않는 값입니다. 번역 문구로 fallback. 유효 문구의 앞뒤 공백은 원문 그대로 보존. 빈 문자열은 숨김 수단이 아니므로 메시지를 숨기려면 showRejectedInputMessage: false를 사용. 사용자 문구가 있어도 숨김 옵션과 전체 feedback 비활성 설정이 우선.
+
+기존 애니메이션·reduced-motion·Grid hook의 1.5초 알림 간격·preventDuplicate 중복 방지를 유지. 한 후보가 여러 조건을 위반해도 안내는 한 번. 대문자 변환 자체·변환 후 같은 값·IME 조합 중 임시 입력·잘못된 옵션 설정 자체에는 거부 안내 없음. manual에서도 거부 안내는 동작하지만 required/custom 검증을 실행하거나 셀 오류를 추가하지 않음. text·숫자 입력 거부 Snackbar는 연결된 공통 warning 스타일을 사용하며 컬럼별 색상·#ffa726을 하드코딩하지 않음. 이 warning 정책은 Excel 실패·서버 오류 등 다른 오류 경로에 확장하지 않음. 내부 editor import·DOM 이벤트 보정·CSS textTransform·Snackbar 가로채기·메시지 문자열 비교·별도 타이머로 정책을 재구현하지 않음.
+
+Text 입력 정책 실행 예제는 직접 설정한 정규식·입력 안내와 오류 비교·미리 설정된 영문 숫자 코드의 세 컬럼으로 구성. 가운데 컬럼은 입력 안내와 오류 비교가 목적이며 Y/N 한 글자를 예제의 테스트 규칙으로 사용. 정규식은 슬래시 없이 작성하며 문법 유효성과 테스트 값의 일치 여부를 구분. 작성 중인 정규식은 문법이 유효해도 자동 적용하지 않으며 적용 버튼과 commitEditing 성공 뒤 첫 번째 컬럼에 반영. 문법 오류나 편집 확정 실패 시 마지막 적용 규칙과 셀 값을 보존. 정규식 입력란을 비우고 적용하면 패턴 제한을 해제. 테스트는 작성 중인 규칙으로 전체 값의 일치를 확인하며 빈 값은 입력 정책에서 허용되고 필수값 검증은 별도임을 표시. 정규식이나 테스트 값을 바꾸면 이전 일치 결과를 지움.
+
+Y/N 컬럼에서 안내 없음·테두리만·기본 안내·직접 입력한 문구를 비교. 사용자 안내 문구 입력란의 라벨·입력창·도움말은 직접 입력한 문구에서만 보이고, 다른 방식에서는 데스크톱의 공간만 유지하며 좁은 화면에서는 빈 공간을 접음. 빈 문자열·공백만인 문구의 기본 메시지 fallback도 입력란에서 직접 확인. 초기 제안 문구만 t()로 번역하고, 사용자가 입력한 문구는 trim·재번역 없이 전달하며 안내 전환이나 언어 변경에도 보존. 기본 안내는 메시지 옵션을 생략하고 안내 없음·테두리만은 입력 문구를 함께 전달해 숨김 우선순위 확인 가능. 문구 변경도 commitEditing 실패 시 중단하고 이벤트로 결과를 기록.
+
+코드 컬럼은 기본 안내를 계속 사용하므로 Y/N 숨김 거부 직후 코드 거부를 통해 알림 간격 보존 확인 가능. 검사 시점·오류 처리 버튼은 동작을 설명하는 문구로 표시하며 API 옵션 계약은 이 가이드와 코드에서 확인. Text 예제의 검증 설정은 접힌 영역에서 조절하고 Y/N 컬럼에 적용. 첫 행 Y/N 셀의 외부 오류, 필수 입력·직접 검사·수정 시 오류 해제 설정, 변경 상태 조회로 거부·같은 값·실제 변경을 비교하며 둘째 행 서버 값과 셋째 행 빈 값으로 입력 정책과 업무 검증 구분. 명시적 검증·조회 결과는 공통 Snackbar로 요약하고 상세 payload는 이벤트로 기록. 정규식 문법과 테스트 일치 결과는 해당 입력란 옆에 표시. 실제 OS IME 완료·취소, clipboard·선택 영역, 테두리·Snackbar 렌더링은 브라우저에서 별도로 검증.`,
   ),
   guide(
     'datagrid',

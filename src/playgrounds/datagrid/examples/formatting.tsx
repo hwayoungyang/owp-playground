@@ -49,20 +49,29 @@ export function NumberDateFormatsGrid(props: TaskGridProps = {}) {
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
       <PreviewActions>
-        <div className="example-controls">
-          <label htmlFor="amount-precision">{t('금액 소수 자릿수')}</label>
-          <Select
-            id="amount-precision"
-            value={precision}
-            inputProps={{ 'aria-label': t('금액 소수 자릿수') }}
-            onChange={handlePrecisionChange}
+        <div className="example-settings-toolbar example-settings-toolbar--general">
+          <div
+            className="example-settings-fields example-settings-fields--general"
+            data-columns="1"
           >
-            {numberDateFormatsFractionDigits.map((digits) => (
-              <MenuItem key={digits} value={digits}>
-                {digits}
-              </MenuItem>
-            ))}
-          </Select>
+            <div className="example-setting-field">
+              <label className="example-setting-label" htmlFor="amount-precision">
+                {t('금액 소수 자릿수')}
+              </label>
+              <Select
+                id="amount-precision"
+                value={precision}
+                inputProps={{ 'aria-label': t('금액 소수 자릿수') }}
+                onChange={handlePrecisionChange}
+              >
+                {numberDateFormatsFractionDigits.map((digits) => (
+                  <MenuItem key={digits} value={digits}>
+                    {digits}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
+          </div>
         </div>
       </PreviewActions>
       <div className="example-grid">

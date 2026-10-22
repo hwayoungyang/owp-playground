@@ -17,10 +17,7 @@ export function ClickEventsGrid(props: TaskGridProps = {}) {
   const { onAction } = callbacks ?? {};
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const selected = gridProps.rowSelectionModel ?? selection;
-  const [result, setResult] = useState<unknown>(null);
-
   const publish = (api: string, value: unknown) => {
-    setResult({ api, value });
     onAction?.(api, value);
   };
 
@@ -29,11 +26,9 @@ export function ClickEventsGrid(props: TaskGridProps = {}) {
       className="example-with-controls"
       style={{ height: props.height ?? taskClickEventsConfiguration.height }}
     >
-      {result !== null && (
-        <output className="example-result" aria-label={t('실행 결과')}>
-          {JSON.stringify(result, null, 2)}
-        </output>
-      )}
+      <div className="example-guidance">
+        <p>{t('셀·행 클릭 결과는 이벤트 탭에서 확인할 수 있습니다.')}</p>
+      </div>
       <div className="example-grid">
         <OwpDataGrid
           api={gridApi}

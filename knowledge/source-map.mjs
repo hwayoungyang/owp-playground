@@ -10,14 +10,28 @@ const source = (root, file, packageId, topics, scope = 'usage') => ({
 
 export const sourceMap = [
   source('agents', `${framework}/SKILL.md`, 'shared', [], 'workflow'),
-  source('agents', `${framework}/references/datagrid.md`, 'datagrid', [
-    'connection',
-    'columns',
-    'styling',
-    'select',
-    'tree-detail',
-    'formatting',
-  ]),
+  {
+    ...source('agents', `${framework}/references/datagrid.md`, 'datagrid', [
+      'connection',
+      'columns',
+      'styling',
+      'select',
+      'tree-detail',
+      'formatting',
+    ]),
+    sectionOverrides: {
+      'Text 컬럼 입력 정책': {
+        disposition: 'mapped',
+        guideIds: ['@owp/datagrid:guide.editing'],
+        note: 'textOptions의 입력·IME·오류 보존과 거부 메시지·warning 계약을 편집 가이드에 연결합니다. 개발·회귀 검증 절차는 원본에서 관리합니다.',
+      },
+      '컬럼별 검증 시점과 재입력 오류 해제': {
+        disposition: 'mapped',
+        guideIds: ['@owp/datagrid:guide.editing'],
+        note: 'validationMode·clearErrorOnInput의 공개 컬럼 계약과 명시적 검증·오류 수명을 편집 가이드에 연결합니다. 회귀 검사 절차는 원본에서 관리합니다.',
+      },
+    },
+  },
   source('agents', `${framework}/references/charts.md`, 'charts', [
     'composition',
     'identity',
@@ -50,7 +64,21 @@ export const sourceMap = [
     ['selection', 'states'],
     'consumer',
   ),
-  source('agents', `${consumer}/references/editing.md`, 'datagrid', ['editing', 'rows']),
+  {
+    ...source('agents', `${consumer}/references/editing.md`, 'datagrid', ['editing', 'rows']),
+    sectionOverrides: {
+      'Text 컬럼 입력 정책': {
+        disposition: 'mapped',
+        guideIds: ['@owp/datagrid:guide.editing'],
+        note: '공개 textOptions와 검증·오류 수명 계약만 편집 가이드에 연결합니다. 소비앱의 업무별 컬럼·저장 정책과 검증 절차는 일반 패키지 계약으로 확장하지 않습니다.',
+      },
+      'Row reordering': {
+        disposition: 'mapped',
+        guideIds: ['@owp/datagrid:guide.rows'],
+        note: '행 이동과 순서 변경의 공개 계약을 행 관리 가이드에 연결합니다. 서버 저장·실패 복구 정책은 소비앱이 담당합니다.',
+      },
+    },
+  },
   source('agents', `${consumer}/references/editing-save.md`, 'datagrid', ['saving', 'rows']),
   source('agents', `${consumer}/references/master-detail.md`, 'datagrid', ['tree-detail']),
   source('agents', `${consumer}/references/number-formatting.md`, 'datagrid', ['formatting']),

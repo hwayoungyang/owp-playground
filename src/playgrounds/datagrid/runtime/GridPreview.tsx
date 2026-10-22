@@ -24,6 +24,7 @@ export function GridPreview({
   const { isTabletOrDown } = useResponsiveDevice();
   const gridHost = useRef<HTMLElement>(null);
   const GridView = gridRegistry[example.id].Component;
+  const fitRows = controller.configuration.visibleRowCount !== undefined;
   useLayoutEffect(() => {
     if (example.id !== 'worksheet' || isTabletOrDown) return;
     const host = gridHost.current;
@@ -88,6 +89,7 @@ export function GridPreview({
       ref={gridHost}
       className={`grid-preview${(themeRadius ?? settings.radius) ? ' rounded' : ''}`}
       data-sample={example.id}
+      data-fit-rows={fitRows || undefined}
       aria-label={`${t(example.title)} ${t('그리드와 조작 영역')}`}
     >
       <div className="grid-preview-content">
@@ -101,7 +103,7 @@ export function GridPreview({
           onBusyChange={controller.setBusy}
           rows={controller.rows}
           columns={controller.columns}
-          height="100%"
+          height={fitRows ? 'auto' : '100%'}
           radius={themeRadius ?? settings.radius}
           layout={{ ...controller.configuration.layout, filterRow: settings.filter }}
           rowSelectionMode={settings.selection}

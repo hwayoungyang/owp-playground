@@ -1,6 +1,6 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import './styles.css';
-import { useMediaQuery } from '@mui/material';
+import { Alert, useMediaQuery } from '@mui/material';
 import { OwpDataGrid } from '@owp/datagrid';
 import { useDataGridApi } from '@owp/datagrid/hooks';
 import { useState } from 'react';
@@ -80,39 +80,46 @@ export function CalculatedCellsGrid(props: TaskGridProps = {}) {
   };
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
-      <div className="example-controls worksheet-legend">
-        {(['입력', '계산', '연동', '합계'] as const).map((label, index) => (
-          <span key={label} className="worksheet-legend-item">
-            <span
-              className="worksheet-legend-swatch"
-              style={{
-                backgroundColor: [
-                  'var(--pg-warning-wash)',
-                  'var(--pg-blue-wash)',
-                  'var(--pg-purple-wash)',
-                  'var(--pg-success-wash)',
-                ][index],
-              }}
-              aria-hidden="true"
-            />
-            {t(label)}
-          </span>
-        ))}
+      <div className="example-guidance">
+        <div className="worksheet-legend">
+          {(['입력', '계산', '연동', '합계'] as const).map((label, index) => (
+            <span key={label} className="worksheet-legend-item">
+              <span
+                className="worksheet-legend-swatch"
+                style={{
+                  backgroundColor: [
+                    'var(--pg-warning-wash)',
+                    'var(--pg-blue-wash)',
+                    'var(--pg-purple-wash)',
+                    'var(--pg-success-wash)',
+                  ][index],
+                }}
+                aria-hidden="true"
+              />
+              {t(label)}
+            </span>
+          ))}
+        </div>
+        <p>
+          <span>{t('기본 적용률 → 프로젝트 전체')}</span>
+          {' · '}
+          <span>{t('작업 3 → 작업 4 → 다음 프로젝트')}</span>
+        </p>
       </div>
-      <p className="example-caption">
-        <span>{t('기본 적용률 → 프로젝트 전체')}</span>
-        {' · '}
-        <span>{t('작업 3 → 작업 4 → 다음 프로젝트')}</span>
-      </p>
       {(error || update.message) && (
-        <output className="example-caption" role={error ? 'alert' : 'status'}>
+        <Alert
+          severity={error ? 'error' : 'info'}
+          role={error ? 'alert' : 'status'}
+          variant="outlined"
+          sx={{ mx: 2, mb: 2, fontSize: 14, lineHeight: 1.6 }}
+        >
           {error
             ? t('연동 값을 반영하지 못했습니다. 예제를 초기화한 뒤 다시 입력해 주세요.')
             : t(update.message, {
                 project: t(update.project),
                 task: t(update.task),
               })}
-        </output>
+        </Alert>
       )}
       <div className="example-grid">
         <OwpDataGrid

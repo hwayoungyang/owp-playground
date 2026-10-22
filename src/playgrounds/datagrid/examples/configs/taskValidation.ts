@@ -4,12 +4,19 @@ import { getRowId, initialTasks } from '../../model/data';
 import type { Task } from '../../types';
 import { editableTaskColumns } from './taskList';
 
+export type TaskValidationOptions = Readonly<
+  Pick<OwpDataGridColumn<Task>, 'validationMode' | 'clearErrorOnInput'>
+>;
+
 export function createTaskValidationColumns(
   t?: ReturnType<typeof useOwpTranslation>['t'],
   columns: readonly OwpDataGridColumn<Task>[] = editableTaskColumns,
+  { validationMode = 'onCommit', clearErrorOnInput = false }: TaskValidationOptions = {},
 ): OwpDataGridColumn<Task>[] {
   return columns.map((column) => ({
     ...column,
+    validationMode,
+    clearErrorOnInput,
     required: column.id === 'task',
     ...(column.id === 'completed'
       ? {

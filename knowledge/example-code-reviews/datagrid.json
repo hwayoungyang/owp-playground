@@ -368,7 +368,7 @@
       },
       {
         "file": "playgrounds/datagrid/examples/server-save.tsx",
-        "snippet": "      grid.applyServerRows({\n        rows: savedRows.map((row) => ({\n          rowId: row.id,\n          row,\n          submittedRow: submittedById.get(row.id),\n        })),\n        deletedRowIds,\n      });"
+        "snippet": "      const result = grid.applyServerRows({\n        rows: savedRows.map((row) => ({\n          rowId: row.id,\n          row,\n          submittedRow: submittedById.get(row.id),\n        })),\n        deletedRowIds,\n      });"
       }
     ]
   },
@@ -380,7 +380,7 @@
     "mode": "forwarded",
     "file": "playgrounds/datagrid/examples/configs/taskValidation.ts",
     "snippet": "    required: column.id === 'task',\n    ...(column.id === 'completed'",
-    "reason": "taskValidationConfiguration.columns의 map 결과에 task column만 required로 지정하며 검증 예제가 이 columns 배열을 전달한다.",
+    "reason": "createTaskValidationColumns는 task 컬럼에만 required를 지정하고, 예제는 전달받은 columns와 비교 옵션으로 만든 배열을 같은 Grid에 전달한다.",
     "evidence": [
       {
         "file": "playgrounds/datagrid/examples/configs/taskValidation.ts",
@@ -388,7 +388,7 @@
       },
       {
         "file": "playgrounds/datagrid/examples/validation.tsx",
-        "snippet": "  const columns = useMemo(\n    () => createTaskValidationColumns(t, gridProps.columns),\n    [gridProps.columns, t],\n  );"
+        "snippet": "  const columns = useMemo(\n    () => createTaskValidationColumns(t, gridProps.columns, { validationMode, clearErrorOnInput }),\n    [gridProps.columns, t, validationMode, clearErrorOnInput],\n  );"
       },
       {
         "file": "playgrounds/datagrid/examples/validation.tsx",
@@ -523,7 +523,7 @@
     "evidence": [
       {
         "file": "playgrounds/datagrid/examples/ref-changes.tsx",
-        "snippet": "    const unsaved = gridApi.hasUnsavedChanges();\n    const currentChanges = gridApi.getChanges();\n    setInspection({ unsaved, count: currentChanges.length });"
+        "snippet": "    const unsaved = gridApi.hasUnsavedChanges();\n    const currentChanges = gridApi.getChanges();"
       }
     ],
     "mode": "direct",
@@ -602,7 +602,7 @@
       },
       {
         "file": "playgrounds/datagrid/runtime/GridToolbar.tsx",
-        "snippet": "          {example.id === 'states' && (\n            <DataStateButtons state={controller.state} onChange={controller.changeState} />\n          )}"
+        "snippet": "                <DataStateButtons state={controller.state} onChange={controller.changeState} />"
       },
       {
         "file": "playgrounds/datagrid/runtime/useGridController.ts",
@@ -650,7 +650,7 @@
       },
       {
         "file": "playgrounds/datagrid/runtime/GridToolbar.tsx",
-        "snippet": "                variant={countChanged ? 'contained' : 'outlined'}\n                disabled={generating}\n                onClick={() => void controller.generate(count)}\n              >\n                {t('데이터 생성')}"
+        "snippet": "                  variant={countChanged ? 'contained' : 'outlined'}\n                  disabled={generating}\n                  onClick={() => void controller.generate(count)}\n                >\n                  {t('데이터 생성')}"
       },
       {
         "file": "playgrounds/datagrid/runtime/GridPreview.tsx",
@@ -754,12 +754,12 @@
     "action": "locate",
     "mode": "direct",
     "file": "playgrounds/datagrid/examples/ref-changes.tsx",
-    "snippet": "          <OwpDataGridResetChangesButton\n            api={gridApi}",
+    "snippet": "            <OwpDataGridResetChangesButton\n              api={gridApi}",
     "reason": "실제 Grid 또는 버튼에 전달한 hook API source와 callback을 공개 API Props에 연결합니다.",
     "evidence": [
       {
         "file": "playgrounds/datagrid/examples/ref-changes.tsx",
-        "snippet": "          <OwpDataGridResetChangesButton\n            api={gridApi}"
+        "snippet": "            <OwpDataGridResetChangesButton\n              api={gridApi}"
       }
     ]
   },
@@ -824,6 +824,590 @@
       {
         "file": "playgrounds/datagrid/examples/hook-connection.tsx",
         "snippet": "api={gridApi}"
+      }
+    ]
+  },
+  {
+    "exampleId": "validation",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.validationMode",
+    "label": "validationMode",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskValidation.ts",
+    "snippet": "    ...column,\n    validationMode,",
+    "reason": "validationMode는 공개 컬럼 타입에서 가져온 비교 옵션이며, factory가 반환하는 각 컬럼에 지정되어 예제의 columns prop으로 전달된다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskValidation.ts",
+        "snippet": "    ...column,\n    validationMode,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/validation.tsx",
+        "snippet": "  const columns = useMemo(\n    () => createTaskValidationColumns(t, gridProps.columns, { validationMode, clearErrorOnInput }),\n    [gridProps.columns, t, validationMode, clearErrorOnInput],\n  );"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/validation.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height=\"100%\""
+      }
+    ]
+  },
+  {
+    "exampleId": "validation",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.clearErrorOnInput",
+    "label": "clearErrorOnInput",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskValidation.ts",
+    "snippet": "    clearErrorOnInput,\n    required: column.id === 'task',",
+    "reason": "clearErrorOnInput는 공개 컬럼 타입에서 가져온 비교 옵션이며, factory가 반환하는 각 컬럼에 지정되어 예제의 columns prop으로 전달된다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskValidation.ts",
+        "snippet": "    clearErrorOnInput,\n    required: column.id === 'task',"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/validation.tsx",
+        "snippet": "  const columns = useMemo(\n    () => createTaskValidationColumns(t, gridProps.columns, { validationMode, clearErrorOnInput }),\n    [gridProps.columns, t, validationMode, clearErrorOnInput],\n  );"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/validation.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height=\"100%\""
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.textOptions",
+    "label": "OwpDataGridColumn.textOptions",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+    "snippet": "    textOptions: { allowedPattern: /^[YN]*$/, uppercase: true, maxLength: 1 },",
+    "reason": "세 text 컬럼의 정적 정책을 config에서 정의하고 registry·adapter를 거친 columns를 factory로 구성해 Grid에 전달한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "    textOptions: { allowedPattern: /^[YN]*$/, uppercase: true, maxLength: 1 },"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      ...validation,\n      textOptions: {\n        ...column.textOptions,\n        ...feedback.options,"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'text-input-policy': {\n    Component: withTaskGridPreview(TextInputPolicyGrid),\n    configuration: textInputPolicyConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    () =>\n      createTextInputPolicyColumns(\n        gridProps.columns,\n        feedback,\n        validation,\n        message,\n        appliedPattern.pattern,\n      ),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height={props.height ?? taskTextInputPolicyConfiguration.height}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridTextOptions",
+    "label": "OwpDataGridTextOptions",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+    "snippet": "  readonly options: OwpDataGridTextOptions;",
+    "reason": "안내 preset은 공개 OwpDataGridTextOptions 타입으로 검사하고 factory가 Y/N 컬럼에만 합성한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "  readonly options: OwpDataGridTextOptions;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      ...validation,\n      textOptions: {\n        ...column.textOptions,\n        ...feedback.options,"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'text-input-policy': {\n    Component: withTaskGridPreview(TextInputPolicyGrid),\n    configuration: textInputPolicyConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    () =>\n      createTextInputPolicyColumns(\n        gridProps.columns,\n        feedback,\n        validation,\n        message,\n        appliedPattern.pattern,\n      ),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height={props.height ?? taskTextInputPolicyConfiguration.height}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridTextOptions.allowedPattern",
+    "label": "OwpDataGridTextOptions.allowedPattern",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+    "snippet": "      return { ...column, textOptions: allowedPattern === null ? {} : { allowedPattern } };",
+    "reason": "첫 번째 컬럼에 문법 검사를 통과하고 명시적으로 적용한 정규식을 전달한다. 빈 정규식은 패턴 제한을 해제하며 대소문자 변환이나 길이 제한은 추가하지 않는다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "    textOptions: { allowedPattern: /^[A-Za-z0-9]*$/ },"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      ...validation,\n      textOptions: {\n        ...column.textOptions,\n        ...feedback.options,"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'text-input-policy': {\n    Component: withTaskGridPreview(TextInputPolicyGrid),\n    configuration: textInputPolicyConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    () =>\n      createTextInputPolicyColumns(\n        gridProps.columns,\n        feedback,\n        validation,\n        message,\n        appliedPattern.pattern,\n      ),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height={props.height ?? taskTextInputPolicyConfiguration.height}"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    if (!committed) return;\n    setAppliedPattern({ source: patternSource, pattern: draftPattern.pattern });"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/textPattern.ts",
+        "snippet": "    return { valid: true, pattern: source === '' ? null : new RegExp(source) };"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridTextOptions.maxLength",
+    "label": "OwpDataGridTextOptions.maxLength",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+    "snippet": "    textOptions: { allowedPattern: /^[YN]*$/, uppercase: true, maxLength: 1 },",
+    "reason": "owner 컬럼의 정적 Y/N 정책에 maxLength: 1을 지정하고 사용자 입력에 적용한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "    textOptions: { allowedPattern: /^[YN]*$/, uppercase: true, maxLength: 1 },"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      ...validation,\n      textOptions: {\n        ...column.textOptions,\n        ...feedback.options,"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'text-input-policy': {\n    Component: withTaskGridPreview(TextInputPolicyGrid),\n    configuration: textInputPolicyConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    () =>\n      createTextInputPolicyColumns(\n        gridProps.columns,\n        feedback,\n        validation,\n        message,\n        appliedPattern.pattern,\n      ),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height={props.height ?? taskTextInputPolicyConfiguration.height}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridTextOptions.uppercase",
+    "label": "OwpDataGridTextOptions.uppercase",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+    "snippet": "      allowedPattern: /^[A-Z0-9]*$/,\n      uppercase: true,\n      showRejectedInputFeedback: true,",
+    "reason": "status 컬럼은 ASCII 대문자 변환과 영숫자 패턴을 설정하고 기본 거부 안내를 계속 유지한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      allowedPattern: /^[A-Z0-9]*$/,\n      uppercase: true,\n      showRejectedInputFeedback: true,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      ...validation,\n      textOptions: {\n        ...column.textOptions,\n        ...feedback.options,"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'text-input-policy': {\n    Component: withTaskGridPreview(TextInputPolicyGrid),\n    configuration: textInputPolicyConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    () =>\n      createTextInputPolicyColumns(\n        gridProps.columns,\n        feedback,\n        validation,\n        message,\n        appliedPattern.pattern,\n      ),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height={props.height ?? taskTextInputPolicyConfiguration.height}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridTextOptions.showRejectedInputFeedback",
+    "label": "OwpDataGridTextOptions.showRejectedInputFeedback",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+    "snippet": "  { id: 'default', label: '기본 안내', options: { showRejectedInputFeedback: true } },",
+    "reason": "default preset은 전체 feedback만 활성화하고 새 메시지 옵션을 생략하며 owner 컬럼에 합성된다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "  { id: 'default', label: '기본 안내', options: { showRejectedInputFeedback: true } },"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      ...validation,\n      textOptions: {\n        ...column.textOptions,\n        ...feedback.options,"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'text-input-policy': {\n    Component: withTaskGridPreview(TextInputPolicyGrid),\n    configuration: textInputPolicyConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    () =>\n      createTextInputPolicyColumns(\n        gridProps.columns,\n        feedback,\n        validation,\n        message,\n        appliedPattern.pattern,\n      ),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height={props.height ?? taskTextInputPolicyConfiguration.height}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridTextOptions.showRejectedInputMessage",
+    "label": "OwpDataGridTextOptions.showRejectedInputMessage",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+    "snippet": "    id: 'border',\n    label: '테두리만',\n    options: { showRejectedInputFeedback: true, showRejectedInputMessage: false },",
+    "reason": "테두리만 preset은 feedback을 켜고 메시지를 false로 숨긴다. 입력 문구를 함께 전달하므로 유효 문구보다 숨김 설정이 우선하는 동작도 비교한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "    id: 'border',\n    label: '테두리만',\n    options: { showRejectedInputFeedback: true, showRejectedInputMessage: false },"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      ...validation,\n      textOptions: {\n        ...column.textOptions,\n        ...feedback.options,"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'text-input-policy': {\n    Component: withTaskGridPreview(TextInputPolicyGrid),\n    configuration: textInputPolicyConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    () =>\n      createTextInputPolicyColumns(\n        gridProps.columns,\n        feedback,\n        validation,\n        message,\n        appliedPattern.pattern,\n      ),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height={props.height ?? taskTextInputPolicyConfiguration.height}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridTextOptions.rejectedInputMessage",
+    "label": "OwpDataGridTextOptions.rejectedInputMessage",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+    "snippet": "        ...(useCustomMessage ? { rejectedInputMessage: message } : {}),",
+    "reason": "초기 제안 문구만 t()로 번역하고 사용자가 입력한 값은 trim·재번역 없이 그대로 전달한다. 기본 안내 preset은 메시지 옵션을 생략하고 나머지 preset은 입력 문구를 함께 전달한다. 빈 문자열·공백의 fallback은 실제 입력란에서 비교한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "        ...(useCustomMessage ? { rejectedInputMessage: message } : {}),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      ...validation,\n      textOptions: {\n        ...column.textOptions,\n        ...feedback.options,"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'text-input-policy': {\n    Component: withTaskGridPreview(TextInputPolicyGrid),\n    configuration: textInputPolicyConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    () =>\n      createTextInputPolicyColumns(\n        gridProps.columns,\n        feedback,\n        validation,\n        message,\n        appliedPattern.pattern,\n      ),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height={props.height ?? taskTextInputPolicyConfiguration.height}"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "  const message = customMessage ?? t('Y 또는 N 한 글자를 입력해 주세요.');"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    if (!committed) return;\n    setCustomMessage(next);"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "                  disabled={feedback.id !== 'custom'}\n                  onChange={(event) => changeMessage(event.target.value)}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.validationMode",
+    "label": "OwpDataGridColumn.validationMode",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+    "snippet": "    validationMode: 'manual',\n    required: true,\n    clearErrorOnInput: false,",
+    "reason": "공개 컬럼 옵션으로 선언한 validation 상태를 factory가 안내·오류 비교 컬럼에 전달하며 설정 변경 전 commitEditing 실패 시 중단한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    validationMode: 'manual',\n    required: true,\n    clearErrorOnInput: false,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      ...validation,\n      textOptions: {\n        ...column.textOptions,\n        ...feedback.options,"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'text-input-policy': {\n    Component: withTaskGridPreview(TextInputPolicyGrid),\n    configuration: textInputPolicyConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    () =>\n      createTextInputPolicyColumns(\n        gridProps.columns,\n        feedback,\n        validation,\n        message,\n        appliedPattern.pattern,\n      ),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height={props.height ?? taskTextInputPolicyConfiguration.height}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.clearErrorOnInput",
+    "label": "OwpDataGridColumn.clearErrorOnInput",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+    "snippet": "    required: true,\n    clearErrorOnInput: false,",
+    "reason": "수정 시 오류 해제 동작을 버튼으로 켜거나 끄고 factory의 validation spread를 통해 안내·오류 비교 컬럼에 전달한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    required: true,\n    clearErrorOnInput: false,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      ...validation,\n      textOptions: {\n        ...column.textOptions,\n        ...feedback.options,"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'text-input-policy': {\n    Component: withTaskGridPreview(TextInputPolicyGrid),\n    configuration: textInputPolicyConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    () =>\n      createTextInputPolicyColumns(\n        gridProps.columns,\n        feedback,\n        validation,\n        message,\n        appliedPattern.pattern,\n      ),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height={props.height ?? taskTextInputPolicyConfiguration.height}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridColumn.required",
+    "label": "OwpDataGridColumn.required",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+    "snippet": "    validationMode: 'manual',\n    required: true,",
+    "reason": "초기 required 설정과 토글을 실제 컬럼에 적용하며 빈 셋째 행에서 입력 정책과 업무 검증을 구분한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    validationMode: 'manual',\n    required: true,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/configs/taskTextInputPolicy.ts",
+        "snippet": "      ...validation,\n      textOptions: {\n        ...column.textOptions,\n        ...feedback.options,"
+      },
+      {
+        "file": "playgrounds/datagrid/model/gridRegistry.ts",
+        "snippet": "  'text-input-policy': {\n    Component: withTaskGridPreview(TextInputPolicyGrid),\n    configuration: textInputPolicyConfiguration,\n  },"
+      },
+      {
+        "file": "playgrounds/datagrid/runtime/taskGridPreview.tsx",
+        "snippet": "    return <Component {...gridProps} callbacks={callbacks} />;"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    () =>\n      createTextInputPolicyColumns(\n        gridProps.columns,\n        feedback,\n        validation,\n        message,\n        appliedPattern.pattern,\n      ),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "          {...gridProps}\n          columns={columns}\n          height={props.height ?? taskTextInputPolicyConfiguration.height}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridApi.commitEditing",
+    "label": "OwpDataGridApi.commitEditing",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+    "snippet": "    const committed = gridApi.commitEditing();",
+    "reason": "supplied API 또는 자체 hook API를 Grid api에 연결하고 검증·설정·문구 변경에 앞서 확정 성공 여부를 확인한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    const committed = gridApi.commitEditing();"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "        <OwpDataGrid\n          api={gridApi}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridApi.validate",
+    "label": "OwpDataGridApi.validate",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+    "snippet": "    if (!commitCurrentEdit('validate')) return;\n    const result = gridApi.validate();",
+    "reason": "commitEditing 실패 시 validate를 호출하지 않으며 성공 시 명시적 검증 결과를 기록한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    if (!commitCurrentEdit('validate')) return;\n    const result = gridApi.validate();"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "        <OwpDataGrid\n          api={gridApi}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridApi.setCellErrors",
+    "label": "OwpDataGridApi.setCellErrors",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+    "snippet": "    const applied = gridApi.setCellErrors([\n      { rowId: 'task-1', columnId: 'owner', message: t('입력 정책 비교용 외부 오류입니다.') },\n    ]);",
+    "reason": "안내·오류 비교 컬럼의 첫 행에 외부 오류를 설정해 거부·동일값·허용 변경의 오류 해제 차이를 비교한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "    const applied = gridApi.setCellErrors([\n      { rowId: 'task-1', columnId: 'owner', message: t('입력 정책 비교용 외부 오류입니다.') },\n    ]);"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "        <OwpDataGrid\n          api={gridApi}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridApi.clearCellErrors",
+    "label": "OwpDataGridApi.clearCellErrors",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+    "snippet": "                gridApi.clearCellErrors();\n                callbacks?.onAction?.('clearCellErrors', { source: 'external' });",
+    "reason": "연결한 API에서 외부 오류만 명시적으로 해제하고 동작을 이벤트로 기록한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "                gridApi.clearCellErrors();\n                callbacks?.onAction?.('clearCellErrors', { source: 'external' });"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "        <OwpDataGrid\n          api={gridApi}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridApi.hasUnsavedChanges",
+    "label": "OwpDataGridApi.hasUnsavedChanges",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+    "snippet": "      unsaved: gridApi.hasUnsavedChanges(),",
+    "reason": "기존 조회 버튼의 focus 보존 패턴으로 편집을 확정하지 않고 draft를 포함한 미저장 상태를 조회한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "      unsaved: gridApi.hasUnsavedChanges(),"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "        <OwpDataGrid\n          api={gridApi}"
+      }
+    ]
+  },
+  {
+    "exampleId": "text-input-policy",
+    "apiId": "@owp/datagrid:OwpDataGridApi.getChanges",
+    "label": "OwpDataGridApi.getChanges",
+    "action": "locate",
+    "mode": "direct",
+    "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+    "snippet": "      changes: gridApi.getChanges().length,",
+    "reason": "편집 확정 없이 working-copy 변경 수를 조회해 미저장 draft와 구분한다.",
+    "evidence": [
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "      changes: gridApi.getChanges().length,"
+      },
+      {
+        "file": "playgrounds/datagrid/examples/text-input-policy.tsx",
+        "snippet": "        <OwpDataGrid\n          api={gridApi}"
       }
     ]
   }

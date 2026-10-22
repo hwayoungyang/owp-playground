@@ -133,47 +133,59 @@ export function StyledHeadersGrid(props: TaskGridProps = {}) {
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
       <PreviewActions>
-        <fieldset className="example-controls" aria-label={t('스타일')}>
-          {(['default', 'striped', 'emphasis'] as const).map((value) => (
-            <Button
-              key={value}
-              variant={preset === value ? 'contained' : 'outlined'}
-              aria-pressed={preset === value}
-              onClick={() => setPreset(value)}
-            >
-              {t(value === 'default' ? '기본' : value === 'striped' ? '줄무늬' : '강조')}
-            </Button>
-          ))}
-        </fieldset>
-      </PreviewActions>
-      <PreviewActions>
-        <div className="example-controls">
-          <label htmlFor="custom-header-depth">{t('헤더 단계')}</label>
-          <Select
-            id="custom-header-depth"
-            value={headerDepth}
-            inputProps={{ 'aria-label': t('헤더 단계') }}
-            onChange={handleHeaderDepthChange}
+        <div className="example-settings-toolbar example-settings-toolbar--general">
+          <div
+            className="example-settings-fields example-settings-fields--general"
+            data-columns="3"
           >
-            <MenuItem value={2}>{t('2단')}</MenuItem>
-            <MenuItem value={3}>{t('3단')}</MenuItem>
-          </Select>
-          <div className="custom-style-size">
-            <span>{t('글자 크기')}</span>
-            <Slider
-              size="small"
-              min={12}
-              max={18}
-              step={1}
-              value={fontSize}
-              disabled={!styled}
-              aria-label={t('글자 크기')}
-              valueLabelDisplay="auto"
-              onChange={(_, value) => {
-                if (typeof value === 'number') setFontSize(value);
-              }}
-            />
-            <span>{fontSize}px</span>
+            <fieldset className="example-setting-field" aria-label={t('스타일')}>
+              <span className="example-setting-label">{t('스타일')}</span>
+              <div className="example-setting-buttons example-setting-buttons--three">
+                {(['default', 'striped', 'emphasis'] as const).map((value) => (
+                  <Button
+                    key={value}
+                    variant={preset === value ? 'contained' : 'outlined'}
+                    aria-pressed={preset === value}
+                    onClick={() => setPreset(value)}
+                  >
+                    {t(value === 'default' ? '기본' : value === 'striped' ? '줄무늬' : '강조')}
+                  </Button>
+                ))}
+              </div>
+            </fieldset>
+            <div className="example-setting-field">
+              <label className="example-setting-label" htmlFor="custom-header-depth">
+                {t('헤더 단계')}
+              </label>
+              <Select
+                id="custom-header-depth"
+                value={headerDepth}
+                inputProps={{ 'aria-label': t('헤더 단계') }}
+                onChange={handleHeaderDepthChange}
+              >
+                <MenuItem value={2}>{t('2단')}</MenuItem>
+                <MenuItem value={3}>{t('3단')}</MenuItem>
+              </Select>
+            </div>
+            <div className="example-setting-field">
+              <span className="example-setting-label">{t('글자 크기')}</span>
+              <div className="custom-style-size">
+                <Slider
+                  size="small"
+                  min={12}
+                  max={18}
+                  step={1}
+                  value={fontSize}
+                  disabled={!styled}
+                  aria-label={t('글자 크기')}
+                  valueLabelDisplay="auto"
+                  onChange={(_, value) => {
+                    if (typeof value === 'number') setFontSize(value);
+                  }}
+                />
+                <span>{fontSize}px</span>
+              </div>
+            </div>
           </div>
         </div>
       </PreviewActions>

@@ -24,18 +24,28 @@ export function DraggableRowsGrid(props: TaskGridProps = {}) {
       style={{ height: props.height ?? taskReorderingConfiguration.height }}
     >
       <PreviewActions>
-        <fieldset className="example-controls" aria-label={t('드래그 대상')}>
-          {(['single', 'selected'] as const).map((value) => (
-            <Button
-              key={value}
-              variant={mode === value ? 'contained' : 'outlined'}
-              aria-pressed={mode === value}
-              onClick={() => setMode(value)}
-            >
-              {t(value === 'single' ? '단일 행' : '선택 행')}
-            </Button>
-          ))}
-        </fieldset>
+        <div className="example-settings-toolbar example-settings-toolbar--general">
+          <div
+            className="example-settings-fields example-settings-fields--general"
+            data-columns="1"
+          >
+            <fieldset className="example-setting-field" aria-label={t('드래그 대상')}>
+              <span className="example-setting-label">{t('드래그 대상')}</span>
+              <div className="example-setting-buttons">
+                {(['single', 'selected'] as const).map((value) => (
+                  <Button
+                    key={value}
+                    variant={mode === value ? 'contained' : 'outlined'}
+                    aria-pressed={mode === value}
+                    onClick={() => setMode(value)}
+                  >
+                    {t(value === 'single' ? '단일 행' : '선택 행')}
+                  </Button>
+                ))}
+              </div>
+            </fieldset>
+          </div>
+        </div>
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid

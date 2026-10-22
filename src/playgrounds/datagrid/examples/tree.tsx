@@ -67,21 +67,30 @@ export function TaskTreeGrid(props: TaskGridProps = {}) {
   return (
     <div className="example-with-controls" style={{ height: props.height ?? 420 }}>
       <PreviewActions>
-        <div className="example-controls">
-          <span>{t('하위 데이터')}</span>
-          <Select
-            value={lazy ? 'lazy' : 'all'}
-            inputProps={{ 'aria-label': t('하위 데이터') }}
-            onChange={(event) => {
-              setLazy(event.target.value === 'lazy');
-              gridProps.onRowSelectionModelChange?.([]);
-            }}
+        <div className="example-settings-toolbar example-settings-toolbar--general">
+          <div
+            className="example-settings-fields example-settings-fields--general"
+            data-columns="1"
           >
-            <MenuItem value="all">{t('미리 불러오기')}</MenuItem>
-            <MenuItem value="lazy">{t('펼칠 때 불러오기')}</MenuItem>
-          </Select>
-          <Button onClick={() => gridApi.expandAll()}>{t('전체 펼치기')}</Button>
-          <Button onClick={() => gridApi.collapseAll()}>{t('전체 접기')}</Button>
+            <div className="example-setting-field">
+              <span className="example-setting-label">{t('하위 데이터')}</span>
+              <Select
+                value={lazy ? 'lazy' : 'all'}
+                inputProps={{ 'aria-label': t('하위 데이터') }}
+                onChange={(event) => {
+                  setLazy(event.target.value === 'lazy');
+                  gridProps.onRowSelectionModelChange?.([]);
+                }}
+              >
+                <MenuItem value="all">{t('미리 불러오기')}</MenuItem>
+                <MenuItem value="lazy">{t('펼칠 때 불러오기')}</MenuItem>
+              </Select>
+            </div>
+          </div>
+          <div className="example-settings-actions">
+            <Button onClick={() => gridApi.expandAll()}>{t('전체 펼치기')}</Button>
+            <Button onClick={() => gridApi.collapseAll()}>{t('전체 접기')}</Button>
+          </div>
         </div>
       </PreviewActions>
       <div className="example-grid">

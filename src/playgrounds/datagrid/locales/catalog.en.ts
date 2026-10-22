@@ -1,4 +1,57 @@
 export const catalogEnglish: Readonly<Record<string, string>> = {
+  '작성한 정규식은 적용 버튼을 눌러야 Grid에 반영됩니다.':
+    'The draft pattern affects the Grid only after Apply.',
+  '빈 정규식은 문자 제한을 두지 않습니다.': 'An empty pattern leaves characters unrestricted.',
+  '정규식 형식이 올바르지 않습니다.': 'The regular expression syntax is invalid.',
+  '데이터 상태': 'Data state',
+  '편집 제한': 'Editing restrictions',
+  '정규식을 적용했습니다.': 'The regular expression was applied.',
+  '정규식 제한을 해제했습니다.': 'The regular expression restriction was removed.',
+  '정규식을 직접 적용하고, 입력 거부 안내와 검증 오류를 비교합니다.':
+    'Apply your own regular expression and compare rejection feedback with validation errors.',
+  '직접 설정한 정규식': 'Custom regular expression',
+  '입력 안내·오류 비교': 'Input feedback and errors',
+  '입력 거부 안내': 'Rejection feedback',
+  '입력 거부 안내와 검증 오류의 표시 방식을 비교합니다.':
+    'Compare how input rejection feedback and validation errors are displayed.',
+  '테스트 규칙: Y/N 한 글자 · 소문자는 대문자로 변환':
+    'Test rule: one Y/N character · lowercase becomes uppercase',
+  '영문·숫자 코드': 'Alphanumeric code',
+  '기본 안내': 'Default feedback',
+  정규식: 'Regular expression',
+  '정규식 형식을 확인해 주세요.': 'Check the regular expression syntax.',
+  '문법이 올바릅니다. 일치 여부는 별도로 확인해 주세요.':
+    'The syntax is valid. Check matching separately.',
+  '정규식 적용': 'Apply pattern',
+  '현재 정규식이 적용되어 있습니다.': 'The current pattern is applied.',
+  '작성한 정규식이 아직 적용되지 않았습니다.': 'The draft pattern has not been applied.',
+  '적용된 정규식: {{pattern}}': 'Applied pattern: {{pattern}}',
+  '문자 제한 없음': 'No character restriction',
+  '작성한 정규식 테스트': 'Test the draft pattern',
+  '테스트할 값': 'Value to test',
+  '일치 확인': 'Check match',
+  '일치 확인은 작성 중인 정규식으로 값 전체를 검사합니다.':
+    'Matching checks the entire value against the draft pattern.',
+  '빈 값은 입력 정책에서 허용합니다. 필수 입력은 별도로 검사합니다.':
+    'The input policy allows an empty value. Required values are validated separately.',
+  '값 전체가 일치합니다.': 'The entire value matches.',
+  '값 전체가 일치하지 않습니다.': 'The entire value does not match.',
+  '빈 값이나 공백만 입력하면 기본 안내 문구를 사용합니다.':
+    'An empty or whitespace-only message uses the default feedback message.',
+  '소문자는 대문자로 바꾸며 영문과 숫자만 허용합니다.':
+    'Lowercase letters become uppercase; only letters and digits are allowed.',
+  '이 컬럼은 기본 거부 안내를 항상 표시합니다.':
+    'This column always uses default rejection feedback.',
+  '검증 설정': 'Validation settings',
+  '검증 설정은 안내·오류 비교 컬럼에만 적용합니다.':
+    'Validation settings apply only to the feedback and errors column.',
+  '첫 행의 안내·오류 비교 셀에 외부 오류를 표시했습니다.':
+    'An external error was set on the feedback and errors cell in the first row.',
+  '작성한 정규식은 적용 버튼을 눌러야 Grid에 반영됩니다. 빈 정규식은 문자 제한을 두지 않습니다.':
+    'The draft pattern affects the Grid only after Apply. An empty pattern leaves characters unrestricted.',
+  '둘째 행의 기존 서버 값은 정책을 바꿔도 그대로 유지됩니다. 외부 오류는 첫 행의 두 번째 셀에서 비교합니다.':
+    'Existing server values in the second row remain unchanged when policies change. Compare external errors in the second cell of the first row.',
+  'Text 입력 정책': 'Text input policy',
   'Grid API': 'Grid API',
   'Hook 연결': 'Hook connection',
   'Ref 연결': 'Ref connection',
@@ -14,7 +67,24 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '미확정 입력·working-copy 변경 조회와 확정·초기화 실행.':
     'Inspect uncommitted input and working-copy changes, then commit or reset them.',
   '행 조회': 'Read rows',
-  '조회 결과: {{count}}행': 'Query result: {{count}} rows',
+  '조회 결과: {{count}}건_one': 'Query result: {{count}} item',
+  '조회 결과: {{count}}건_other': 'Query result: {{count}} items',
+  '조회 결과: 전체 {{rows}}건 · 선택 {{selected}}건':
+    'Query result: {{rows}} total · {{selected}} selected',
+  '미저장 입력이 있습니다. Working-copy 변경 {{count}}건입니다.':
+    'There is unsaved input. Working-copy changes: {{count}}.',
+  '미저장 입력이 없습니다. Working-copy 변경 {{count}}건입니다.':
+    'There is no unsaved input. Working-copy changes: {{count}}.',
+  '변경을 되돌렸습니다.': 'Changes reverted.',
+  '검사를 통과했습니다.': 'Validation passed.',
+  '검사 결과: 오류 {{count}}건_one': 'Validation result: {{count}} error',
+  '검사 결과: 오류 {{count}}건_other': 'Validation result: {{count}} errors',
+  '저장했습니다: {{count}}건_one': 'Saved: {{count}} item',
+  '저장했습니다: {{count}}건_other': 'Saved: {{count}} items',
+  '서버 저장은 완료됐지만 Grid에 반영하지 못했습니다. 편집을 마친 뒤 다시 저장해 주세요.':
+    'The server saved the data, but the Grid could not apply it. Finish editing and save again.',
+  '셀·행 클릭 결과는 이벤트 탭에서 확인할 수 있습니다.':
+    'View cell and row click results in the Events tab.',
   '안정적인 API 객체로 연결된 Grid 제어 가능. 연결 전·해제 후 호출 시 ReferenceError 발생.':
     'Control the connected Grid through a stable API object. Calls before connection or after disconnection throw ReferenceError.',
   'ref.current로 연결된 Grid 제어 가능. 연결 전·해제 후 current는 null.':
@@ -35,14 +105,11 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
     'View, edit or delete rows from the context menu and query the main Grid from a dialog.',
   '현재 변경 상태 조회': 'Inspect current changes',
   'Working-copy 변경 {{count}}건': 'Working-copy changes: {{count}}',
-  '조회 결과: 미저장 {{unsaved}} · working-copy {{count}}건':
-    'Last inspection: unsaved {{unsaved}} · working-copy changes {{count}}',
   'hasUnsavedChanges()로 미확정 입력까지 감지 가능. getChanges()는 working-copy 변경만 반환. 조회 버튼은 편집을 확정하지 않으며, 결과는 조회 시점 기준.':
     'hasUnsavedChanges() includes uncommitted input; getChanges() returns working-copy changes. Inspecting keeps the editor open and shows values at the time of the query.',
   '입력값은 다이얼로그를 연 시점의 행. 전달받은 API로 버튼을 누른 시점의 메인 Grid 조회 가능.':
     'The fields use the row captured when the dialog opened. Query the passed API to read main Grid values when the button is pressed.',
   '메인 Grid 현재 값 조회': 'Read current main Grid values',
-  '현재 {{rows}}행 · 선택 {{selected}}행': 'Current rows: {{rows}} · selected: {{selected}}',
   'useDataGridApi() 객체를 Grid의 api에 연결. 이벤트·Effect에서 최신 Grid 값 조회 가능. 객체·메서드 reference 유지. React 상태 자동 구독은 미지원.':
     'Connect the useDataGridApi() object to the Grid api prop. Read current Grid values in events or Effects. Object and method references stay stable; React state subscriptions are not automatic.',
   'API 객체당 Grid 하나에만 연결 가능. 연결 전·해제 후 호출 시 ReferenceError 발생. Grid 마운트 중에만 호출. 기존 ref와 함께 연결 가능.':
@@ -290,6 +357,8 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
     'Edit cells and commit with Enter or cancel with Esc.',
   '같은 Grid에 hook API와 ref를 연결해 셀 값·포커스 제어 가능.':
     'Control cell values and focus by connecting both hook API and ref to the same Grid.',
+  '값 확정 시 검사와 직접 검사, 셀 수정 시 오류 처리 비교 가능.':
+    'Compare validation on commit with manual checks and error handling when cells are edited.',
   '필수값, 숫자 범위와 완료 수량 검사 가능.':
     'Validate required fields, numeric ranges and completed quantities.',
   '행 편집 툴바에서 행 추가·삭제 실행.': 'Add and delete rows using the row editing toolbar.',

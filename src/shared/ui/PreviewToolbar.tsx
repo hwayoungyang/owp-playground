@@ -8,15 +8,20 @@ export function PreviewToolbar({
   startActions,
   children,
   divider = false,
+  className,
 }: {
   readonly onReset: () => void;
   readonly status?: ReactNode;
   readonly startActions?: ReactNode;
   readonly children?: ReactNode;
   readonly divider?: boolean;
+  readonly className?: string;
 }) {
   return (
-    <div className="preview-toolbar" data-divider={divider || undefined}>
+    <div
+      className={className ? `preview-toolbar ${className}` : 'preview-toolbar'}
+      data-divider={divider || undefined}
+    >
       <PreviewActionsHost>{startActions}</PreviewActionsHost>
       {status && <div className="preview-toolbar-status">{status}</div>}
       <div className="preview-actions">

@@ -52,19 +52,28 @@ export function SelectionGrid({
   return (
     <div className="example-with-controls" style={{ height: gridProps.height ?? 420 }}>
       <PreviewActions>
-        <fieldset className="example-controls" aria-label={t('행 선택 방식')}>
-          <span>{t('행 선택 방식')}</span>
-          {selectionModes.map(({ value, label }) => (
-            <Button
-              key={value}
-              variant={selectionMode === value ? 'contained' : 'outlined'}
-              aria-pressed={selectionMode === value}
-              onClick={() => handleSelectionModeChange(value)}
-            >
-              {t(label)}
-            </Button>
-          ))}
-        </fieldset>
+        <div className="example-settings-toolbar example-settings-toolbar--general">
+          <div
+            className="example-settings-fields example-settings-fields--general"
+            data-columns="1"
+          >
+            <fieldset className="example-setting-field" aria-label={t('행 선택 방식')}>
+              <span className="example-setting-label">{t('행 선택 방식')}</span>
+              <div className="example-setting-buttons example-setting-buttons--three">
+                {selectionModes.map(({ value, label }) => (
+                  <Button
+                    key={value}
+                    variant={selectionMode === value ? 'contained' : 'outlined'}
+                    aria-pressed={selectionMode === value}
+                    onClick={() => handleSelectionModeChange(value)}
+                  >
+                    {t(label)}
+                  </Button>
+                ))}
+              </div>
+            </fieldset>
+          </div>
+        </div>
       </PreviewActions>
       <div className="example-grid">
         <OwpDataGrid

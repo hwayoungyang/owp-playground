@@ -6,11 +6,13 @@ import type { OwpDataGridCellParams } from '@owp/datagrid/types';
 import { FileTextIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { z } from 'zod';
+import { useExampleFeedback } from '../../../shared/ui/useExampleFeedback';
 import type { Task, TaskGridProps } from '../types';
 import { taskContextMenuConfiguration } from './configs/taskContextMenu';
 
 import {
   Button,
+  Alert,
   Dialog,
   DialogActions,
   DialogContent,
@@ -40,13 +42,16 @@ function RowEditor({
   const [task, setTask] = useState(row.task);
   const [owner, setOwner] = useState(row.owner);
   const [error, setError] = useState('');
-  const [latest, setLatest] = useState<{ readonly rows: number; readonly selected: number } | null>(
-    null,
-  );
+  const { notify, feedback } = useExampleFeedback({ disablePortal: true });
   const readMainGrid = () => {
     const rows = gridApi.getRows();
     const selectedRows = gridApi.getSelectedRows();
-    setLatest({ rows: rows.length, selected: selectedRows.length });
+    notify(
+      t('조회 결과: 전체 {{rows}}건 · 선택 {{selected}}건', {
+        rows: rows.length,
+        selected: selectedRows.length,
+      }),
+    );
     onAction?.('dialog.getRows', { rows, selectedRows });
   };
   const apply = () => {
@@ -95,14 +100,12 @@ function RowEditor({
           )}
         </p>
         <Button onClick={readMainGrid}>{t('메인 Grid 현재 값 조회')}</Button>
-        {latest && (
-          <output aria-live="polite">{t('현재 {{rows}}행 · 선택 {{selected}}행', latest)}</output>
-        )}
         {error && (
-          <p role="alert" className="grid-error-text">
+          <Alert severity="error" sx={{ fontSize: 14, lineHeight: 1.6 }}>
             {t(error)}
-          </p>
+          </Alert>
         )}
+        {feedback}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>{t('닫기')}</Button>

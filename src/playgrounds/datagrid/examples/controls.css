@@ -38,9 +38,6 @@
 .grid-preview .example-option-row > span {
   min-width: 0;
 }
-.grid-preview .example-with-controls > .example-caption:first-child {
-  padding-top: 12px;
-}
 .grid-preview .example-controls .MuiButton-root {
   height: 30px;
   padding-inline: 9px;
@@ -56,30 +53,10 @@
   display: flex;
   align-items: center;
 }
-.grid-preview .example-result {
-  display: block;
-  flex: 0 0 auto;
-  max-height: 84px;
-  overflow: auto;
-  margin: 0;
-  padding: 8px 12px;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  font: 11px / 1.5 var(--font-mono);
-  color: var(--pg-secondary);
-}
 .grid-preview .example-grid {
   flex: 1;
   min-width: 0;
   min-height: 0;
-}
-.grid-preview .example-caption {
-  margin: 0;
-  padding: 0 12px 10px;
-  font-size: 11px;
-  line-height: 1.7;
-  color: var(--pg-secondary);
-  flex: 0 0 auto;
 }
 .grid-preview .custom-style-size {
   display: flex;
@@ -104,4 +81,459 @@
   height: 12px;
   border: 1px solid var(--pg-line);
   border-radius: 2px;
+}
+
+.preview-toolbar--datagrid:has(.example-settings-toolbar) {
+  container: example-settings / inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  align-items: start;
+  gap: 16px;
+}
+.preview-start-actions:has(> .example-settings-toolbar),
+.example-settings-toolbar {
+  display: contents;
+}
+.example-settings-fields {
+  grid-column: 1 / -1;
+  display: grid;
+  align-items: start;
+  gap: 16px;
+  min-width: 0;
+}
+.example-settings-fields--text {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--pg-line);
+}
+.example-settings-fields--validation {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--pg-line);
+}
+.example-settings-fields .example-setting-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.example-settings-fields--validation > .example-setting-field {
+  padding: 16px;
+}
+.example-setting-label {
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--pg-secondary);
+}
+.example-setting-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.preview-toolbar--datagrid .example-setting-buttons .MuiButton-root {
+  min-width: 0;
+}
+.preview-toolbar--datagrid:has(.example-settings-toolbar) .MuiButton-root,
+.preview-toolbar--datagrid:has(.example-settings-toolbar) .MuiInputBase-root {
+  height: 36px;
+  min-height: 36px;
+  font-size: 13px;
+}
+.example-setting-field .MuiFormHelperText-root {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.example-settings-actions {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.preview-toolbar--datagrid:has(.example-settings-toolbar) > .preview-actions {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: end;
+  align-self: stretch;
+  align-content: center;
+  gap: 8px;
+  margin: 0;
+  min-width: 0;
+}
+@container example-settings (max-width: 900px) {
+  .example-settings-fields--text {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .text-policy-custom-message.is-hidden {
+    display: none;
+  }
+}
+@container example-settings (max-width: 760px) {
+  .example-settings-actions {
+    grid-column: 1 / -1;
+  }
+  .preview-toolbar--datagrid:has(.example-settings-toolbar) > .preview-actions {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: stretch;
+    justify-content: flex-start;
+    align-content: flex-start;
+    width: 100%;
+  }
+  .preview-toolbar--datagrid:has(.example-settings-actions:not(:empty)) > .preview-actions {
+    grid-row: 3;
+  }
+}
+@container example-settings (max-width: 600px) {
+  .example-settings-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .example-setting-buttons {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  }
+}
+
+.preview-toolbar--datagrid:has(.example-settings-toolbar--text) .MuiButton-root,
+.preview-toolbar--datagrid:has(.example-settings-toolbar--text) .MuiInputBase-root,
+.preview-toolbar--datagrid:has(.example-settings-toolbar--validation) .MuiButton-root {
+  height: 36px;
+  min-height: 36px;
+  font-size: 13px;
+}
+.example-settings-toolbar--text .example-setting-label,
+.example-settings-toolbar--text .MuiFormHelperText-root,
+.example-settings-toolbar--validation .example-setting-label,
+.text-policy-status,
+.text-policy-pattern,
+.text-policy-validation {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.text-policy-setting {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 0;
+  padding: 16px;
+}
+.text-policy-setting + .text-policy-setting {
+  border-inline-start: 1px solid var(--pg-line);
+}
+.text-policy-input-action {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 8px;
+  min-width: 0;
+}
+.text-policy-input-action .MuiFormControl-root {
+  min-width: 0;
+}
+.text-policy-setting .text-policy-input-action .MuiButton-root {
+  white-space: nowrap;
+}
+.text-policy-setting h3,
+.text-policy-setting h4 {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+.text-policy-setting h4 {
+  margin-top: 8px;
+}
+.text-policy-status {
+  margin: 0;
+  color: var(--pg-secondary);
+  overflow-wrap: anywhere;
+}
+.text-policy-pattern {
+  display: block;
+  padding-block: 8px;
+  overflow-wrap: anywhere;
+}
+.text-policy-custom-message.is-hidden,
+.text-policy-custom-message.is-hidden * {
+  visibility: hidden;
+}
+.text-policy-validation {
+  min-width: 0;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--pg-line);
+}
+.text-policy-validation > summary {
+  min-height: 36px;
+  padding-block: 8px;
+  cursor: pointer;
+}
+.text-policy-validation-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+}
+.text-policy-validation-fields .example-setting-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+@container example-settings (max-width: 900px) {
+  .text-policy-setting + .text-policy-setting {
+    border-inline-start: 0;
+    border-top: 1px solid var(--pg-line);
+  }
+}
+
+.preview-toolbar.preview-toolbar--datagrid {
+  container: example-settings / inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  align-items: stretch;
+  gap: 16px;
+  padding-block: 16px;
+  border-bottom: 1px solid var(--pg-line);
+}
+.preview-toolbar--datagrid > .preview-start-actions {
+  grid-column: 1;
+  grid-row: 1;
+  align-items: end;
+  gap: 16px;
+  font-size: 13px;
+}
+.preview-toolbar--datagrid:not(:has(.example-settings-toolbar)) > .preview-actions {
+  grid-column: 2;
+  grid-row: 1;
+  align-content: center;
+  gap: 8px;
+  margin-inline-start: 0;
+  min-width: 0;
+}
+.preview-toolbar--datagrid > .preview-toolbar-status {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  font-size: 13px;
+}
+.preview-toolbar--datagrid:has(.example-settings-toolbar) > .preview-toolbar-status {
+  grid-row: 3;
+}
+.preview-toolbar--datagrid:has(.example-settings-actions:not(:empty)) > .preview-actions,
+.preview-toolbar--datagrid:not(:has(.example-settings-toolbar)):has(
+    > .preview-start-actions:not(:empty)
+  )
+  > .preview-actions {
+  padding-inline-start: 16px;
+  border-inline-start: 1px solid var(--pg-line);
+}
+.preview-toolbar.preview-toolbar--datagrid .MuiButton-root,
+.preview-toolbar.preview-toolbar--datagrid .MuiInputBase-root {
+  height: 36px;
+  min-height: 36px;
+  font-size: 13px;
+}
+.preview-toolbar--datagrid .MuiInputBase-root:has(.MuiSelect-select) {
+  width: min(100%, 320px);
+  align-self: flex-start;
+}
+.preview-toolbar.preview-toolbar--datagrid .MuiInputBase-root .MuiSelect-select {
+  font-size: 13px;
+}
+.preview-toolbar--datagrid .MuiFormControlLabel-root {
+  min-height: 36px;
+  margin: 0;
+}
+.preview-toolbar--datagrid .MuiFormControlLabel-label,
+.preview-toolbar--datagrid .example-setting-label {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.preview-toolbar--datagrid .example-runtime-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.preview-toolbar--datagrid .example-runtime-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.example-settings-fields--general {
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--pg-line);
+}
+.example-settings-fields--general[data-columns="1"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+.example-settings-fields--general[data-columns="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.example-settings-fields--general[data-columns="3"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.example-settings-toolbar--general .example-settings-fields--general > .example-setting-field {
+  padding: 16px;
+}
+.example-settings-toolbar--general
+  .example-settings-fields--general
+  > :where(.example-setting-field)
+  + .example-setting-field {
+  border-inline-start: 1px solid var(--pg-line);
+}
+.example-settings-fields--general[data-columns="1"] .MuiInputBase-root {
+  max-width: 320px;
+}
+.example-settings-fields--general[data-columns="1"] .example-setting-buttons {
+  max-width: 640px;
+}
+.example-setting-buttons--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.preview-toolbar--datagrid .custom-style-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: auto;
+  max-width: 100%;
+  min-height: 36px;
+  font-size: 13px;
+}
+.preview-toolbar--datagrid .custom-style-size .MuiSlider-root {
+  flex: 1;
+  min-width: 60px;
+}
+@container example-settings (max-width: 760px) {
+  .preview-toolbar--datagrid > .preview-start-actions {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-inline-end: 0;
+  }
+  .preview-toolbar--datagrid:not(:has(.example-settings-toolbar)) > .preview-actions {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: stretch;
+    justify-content: flex-start;
+    align-content: flex-start;
+    width: 100%;
+  }
+  .preview-toolbar--datagrid:not(:has(.example-settings-toolbar)):has(
+      > .preview-start-actions:empty
+    )
+    > .preview-actions {
+    grid-row: 1;
+  }
+  .preview-toolbar--datagrid > .preview-toolbar-status {
+    grid-row: 3;
+  }
+  .preview-toolbar--datagrid:has(.example-settings-actions:not(:empty)) > .preview-toolbar-status {
+    grid-row: 4;
+  }
+  .preview-toolbar--datagrid:not(:has(.example-settings-toolbar)):has(
+      > .preview-start-actions:empty
+    )
+    > .preview-toolbar-status {
+    grid-row: 2;
+  }
+  .preview-toolbar--datagrid:has(.example-settings-actions:not(:empty)) > .preview-actions,
+  .preview-toolbar--datagrid:not(:has(.example-settings-toolbar)):has(
+      > .preview-start-actions:not(:empty)
+    )
+    > .preview-actions {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    padding-block-start: 16px;
+    border-block-start: 1px solid var(--pg-line);
+  }
+  .example-settings-fields--general[data-columns] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .example-settings-toolbar--general
+    .example-settings-fields--general
+    > :where(.example-setting-field)
+    + .example-setting-field {
+    border-inline-start: 0;
+    border-top: 1px solid var(--pg-line);
+  }
+}
+@container example-settings (max-width: 600px) {
+  .preview-toolbar.preview-toolbar--datagrid .MuiButton-root {
+    height: auto;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .example-setting-buttons--three {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.example-settings-toolbar--validation
+  .example-settings-fields--validation
+  > :where(.example-setting-field)
+  + .example-setting-field {
+  border-inline-start: 1px solid var(--pg-line);
+}
+@container example-settings (max-width: 600px) {
+  .example-settings-toolbar--validation
+    .example-settings-fields--validation
+    > :where(.example-setting-field)
+    + .example-setting-field {
+    border-inline-start: 0;
+    border-top: 1px solid var(--pg-line);
+  }
+}
+
+.grid-preview .example-guidance,
+.preview-toolbar--datagrid .example-guidance {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  margin: 0;
+  background: var(--pg-hover);
+  border-bottom: 1px solid var(--pg-line);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--pg-secondary);
+  flex-shrink: 0;
+  min-width: 0;
+}
+.grid-preview .example-guidance > p,
+.preview-toolbar--datagrid .example-guidance > p {
+  margin: 0;
+}
+.preview-toolbar--datagrid .example-setting-help {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--pg-secondary);
+}
+.preview-toolbar--datagrid .example-setting-help--wide {
+  grid-column: 1 / -1;
+  padding: 16px 16px 0;
+}
+.grid-preview .worksheet-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
 }

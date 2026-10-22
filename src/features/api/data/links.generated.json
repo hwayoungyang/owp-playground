@@ -3399,7 +3399,229 @@
       "packageId": "datagrid"
     }
   ],
+  "datagrid/text-input-policy": [
+    {
+      "label": "OwpDataGridColumn.clearErrorOnInput",
+      "id": "@owp/datagrid:OwpDataGridColumn.clearErrorOnInput",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "loading",
+      "id": "@owp/datagrid:OwpDataGridProps.loading",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridColumn.required",
+      "id": "@owp/datagrid:OwpDataGridColumn.required",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridTextOptions.showRejectedInputFeedback",
+      "id": "@owp/datagrid:OwpDataGridTextOptions.showRejectedInputFeedback",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridTextOptions.showRejectedInputMessage",
+      "id": "@owp/datagrid:OwpDataGridTextOptions.showRejectedInputMessage",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridTextOptions.uppercase",
+      "id": "@owp/datagrid:OwpDataGridTextOptions.uppercase",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridTextOptions.allowedPattern",
+      "id": "@owp/datagrid:OwpDataGridTextOptions.allowedPattern",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "api",
+      "id": "@owp/datagrid:OwpDataGridExportExcelButtonProps.api",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridProps.api",
+      "id": "@owp/datagrid:OwpDataGridProps.api",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "aria-label",
+      "id": "@owp/datagrid:OwpDataGridProps.aria-label",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "columns",
+      "id": "@owp/datagrid:OwpDataGridProps.columns",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "errorOverlay",
+      "id": "@owp/datagrid:OwpDataGridProps.errorOverlay",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "exportName",
+      "id": "@owp/datagrid:OwpDataGridExportExcelButtonProps.exportName",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "filterModel",
+      "id": "@owp/datagrid:OwpDataGridProps.filterModel",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "getRowId",
+      "id": "@owp/datagrid:OwpDataGridProps.getRowId",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "height",
+      "id": "@owp/datagrid:OwpDataGridProps.height",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "layout",
+      "id": "@owp/datagrid:OwpDataGridProps.layout",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridTextOptions.maxLength",
+      "id": "@owp/datagrid:OwpDataGridTextOptions.maxLength",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridTextOptions",
+      "id": "@owp/datagrid:OwpDataGridTextOptions",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "radius",
+      "id": "@owp/datagrid:OwpDataGridProps.radius",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridTextOptions.rejectedInputMessage",
+      "id": "@owp/datagrid:OwpDataGridTextOptions.rejectedInputMessage",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "rows",
+      "id": "@owp/datagrid:OwpDataGridProps.rows",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "rowSelectionMode",
+      "id": "@owp/datagrid:OwpDataGridProps.rowSelectionMode",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "rowSelectionModel",
+      "id": "@owp/datagrid:OwpDataGridProps.rowSelectionModel",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "saveMode",
+      "id": "@owp/datagrid:OwpDataGridExportExcelButtonProps.saveMode",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "scope",
+      "id": "@owp/datagrid:OwpDataGridExportExcelButtonProps.scope",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "sortModel",
+      "id": "@owp/datagrid:OwpDataGridProps.sortModel",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridColumn.textOptions",
+      "id": "@owp/datagrid:OwpDataGridColumn.textOptions",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridColumn.validationMode",
+      "id": "@owp/datagrid:OwpDataGridColumn.validationMode",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "virtualization",
+      "id": "@owp/datagrid:OwpDataGridProps.virtualization",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "visibleRowCount",
+      "id": "@owp/datagrid:OwpDataGridProps.visibleRowCount",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridApi.clearCellErrors",
+      "id": "@owp/datagrid:OwpDataGridApi.clearCellErrors",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridApi.commitEditing",
+      "id": "@owp/datagrid:OwpDataGridApi.commitEditing",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridApi.getChanges",
+      "id": "@owp/datagrid:OwpDataGridApi.getChanges",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridApi.hasUnsavedChanges",
+      "id": "@owp/datagrid:OwpDataGridApi.hasUnsavedChanges",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "onCellClick",
+      "id": "@owp/datagrid:OwpDataGridProps.onCellClick",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "onCellValueCommit",
+      "id": "@owp/datagrid:OwpDataGridProps.onCellValueCommit",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "onChangesChange",
+      "id": "@owp/datagrid:OwpDataGridProps.onChangesChange",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "onFilterModelChange",
+      "id": "@owp/datagrid:OwpDataGridProps.onFilterModelChange",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "onRowSelectionModelChange",
+      "id": "@owp/datagrid:OwpDataGridProps.onRowSelectionModelChange",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "onSortModelChange",
+      "id": "@owp/datagrid:OwpDataGridProps.onSortModelChange",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridApi.setCellErrors",
+      "id": "@owp/datagrid:OwpDataGridApi.setCellErrors",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "OwpDataGridApi.validate",
+      "id": "@owp/datagrid:OwpDataGridApi.validate",
+      "packageId": "datagrid"
+    }
+  ],
   "datagrid/validation": [
+    {
+      "label": "clearErrorOnInput",
+      "id": "@owp/datagrid:OwpDataGridColumn.clearErrorOnInput",
+      "packageId": "datagrid"
+    },
     {
       "label": "loading",
       "id": "@owp/datagrid:OwpDataGridProps.loading",
@@ -3501,8 +3723,23 @@
       "packageId": "datagrid"
     },
     {
+      "label": "validationMode",
+      "id": "@owp/datagrid:OwpDataGridColumn.validationMode",
+      "packageId": "datagrid"
+    },
+    {
       "label": "virtualization",
       "id": "@owp/datagrid:OwpDataGridProps.virtualization",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "clearCellErrors",
+      "id": "@owp/datagrid:OwpDataGridApi.clearCellErrors",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "commitEditing",
+      "id": "@owp/datagrid:OwpDataGridApi.commitEditing",
       "packageId": "datagrid"
     },
     {
@@ -3533,6 +3770,11 @@
     {
       "label": "onSortModelChange",
       "id": "@owp/datagrid:OwpDataGridProps.onSortModelChange",
+      "packageId": "datagrid"
+    },
+    {
+      "label": "setCellErrors",
+      "id": "@owp/datagrid:OwpDataGridApi.setCellErrors",
       "packageId": "datagrid"
     },
     {

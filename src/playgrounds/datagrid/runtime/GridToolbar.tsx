@@ -30,6 +30,7 @@ export function GridToolbar({
 
   return (
     <PreviewToolbar
+      className="preview-toolbar--datagrid"
       onReset={() => {
         onReset();
         setCount(10000);
@@ -58,38 +59,48 @@ export function GridToolbar({
       startActions={
         <>
           {example.id === 'states' && (
-            <DataStateButtons state={controller.state} onChange={controller.changeState} />
+            <div className="example-setting-field example-runtime-field">
+              <span className="example-setting-label">{t('데이터 상태')}</span>
+              <div className="example-runtime-buttons">
+                <DataStateButtons state={controller.state} onChange={controller.changeState} />
+              </div>
+            </div>
           )}
           {example.id === 'large-data' && (
             <>
-              <Select
-                value={count}
-                disabled={generating}
-                onChange={(event) => {
-                  const parsed = countSchema.safeParse(event.target.value);
-                  if (parsed.success) setCount(parsed.data);
-                }}
-                inputProps={{ 'aria-label': t('생성할 데이터 건수') }}
-              >
-                {counts.map((value) => (
-                  <MenuItem key={value} value={value}>
-                    {value.toLocaleString()}
-                    {t('행')}
-                  </MenuItem>
-                ))}
-              </Select>
-              <Button
-                variant={countChanged ? 'contained' : 'outlined'}
-                disabled={generating}
-                onClick={() => void controller.generate(count)}
-              >
-                {t('데이터 생성')}
-              </Button>
-              {generating && (
-                <Button variant="outlined" onClick={controller.cancel}>
-                  {t('취소')}
+              <div className="example-setting-field example-runtime-field">
+                <span className="example-setting-label">{t('생성할 데이터 건수')}</span>
+                <Select
+                  value={count}
+                  disabled={generating}
+                  onChange={(event) => {
+                    const parsed = countSchema.safeParse(event.target.value);
+                    if (parsed.success) setCount(parsed.data);
+                  }}
+                  inputProps={{ 'aria-label': t('생성할 데이터 건수') }}
+                >
+                  {counts.map((value) => (
+                    <MenuItem key={value} value={value}>
+                      {value.toLocaleString()}
+                      {t('행')}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
+              <div className="example-controls">
+                <Button
+                  variant={countChanged ? 'contained' : 'outlined'}
+                  disabled={generating}
+                  onClick={() => void controller.generate(count)}
+                >
+                  {t('데이터 생성')}
                 </Button>
-              )}
+                {generating && (
+                  <Button variant="outlined" onClick={controller.cancel}>
+                    {t('취소')}
+                  </Button>
+                )}
+              </div>
             </>
           )}
         </>

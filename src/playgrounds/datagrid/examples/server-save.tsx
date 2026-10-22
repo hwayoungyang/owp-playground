@@ -6,6 +6,7 @@ import { useDataGridApi } from '@owp/datagrid/hooks';
 import type { OwpDataGridRowId } from '@owp/datagrid/types';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { PreviewActions } from '../../../shared/ui/PreviewActions';
+import { useExampleFeedback } from '../../../shared/ui/useExampleFeedback';
 import { seedTask } from '../model/data';
 import { saveTasks } from '../model/server';
 import type { Task, TaskGridProps } from '../types';
@@ -20,7 +21,7 @@ export function ServerSaveGrid({ api: suppliedApi, callbacks, ...gridProps }: Ta
   const request = useRef<AbortController | null>(null);
   const [selection, setSelection] = useState<readonly OwpDataGridRowId[]>([]);
   const [saving, setSaving] = useState(false);
-  const [saveError, setSaveError] = useState('');
+  const { notify, dismiss, feedback } = useExampleFeedback();
   const selectedRowIds = gridProps.rowSelectionModel ?? selection;
 
   useLayoutEffect(() => () => request.current?.abort(), []);
@@ -63,12 +64,12 @@ export function ServerSaveGrid({ api: suppliedApi, callbacks, ...gridProps }: Ta
     const controller = new AbortController();
     request.current = controller;
     setSaving(true);
-    setSaveError('');
+    dismiss();
     try {
       const savedRows = await saveTasks(submittedRows, controller.signal);
       if (controller.signal.aborted) return;
       // 요청 당시 행을 함께 전달해 저장 대기 중에 다시 편집한 값을 보존합니다.
-      grid.applyServerRows({
+      const result = grid.applyServerRows({
         rows: savedRows.map((row) => ({
           rowId: row.id,
           row,
@@ -76,9 +77,23 @@ export function ServerSaveGrid({ api: suppliedApi, callbacks, ...gridProps }: Ta
         })),
         deletedRowIds,
       });
+      if (!controller.signal.aborted) {
+        callbacks?.onAction?.('applyServerRows', result);
+        if (result.success) {
+          notify(t('저장했습니다: {{count}}건', { count: submittedRows.length }), 'success');
+        } else {
+          notify(
+            t(
+              '서버 저장은 완료됐지만 Grid에 반영하지 못했습니다. 편집을 마친 뒤 다시 저장해 주세요.',
+            ),
+            'error',
+          );
+        }
+      }
     } catch (error) {
       if (!(error instanceof Error)) throw error;
-      if (!controller.signal.aborted) setSaveError(t('저장하지 못했습니다. 다시 시도해 주세요.'));
+      if (!controller.signal.aborted)
+        notify(t('저장하지 못했습니다. 다시 시도해 주세요.'), 'error');
     } finally {
       if (request.current === controller) {
         request.current = null;
@@ -110,9 +125,9 @@ export function ServerSaveGrid({ api: suppliedApi, callbacks, ...gridProps }: Ta
               <Button onClick={handleCancelSave}>{t('취소')}</Button>
             </>
           )}
-          {saveError && <span role="alert">{saveError}</span>}
         </div>
       </PreviewActions>
+      {feedback}
       <div className="example-grid">
         <OwpDataGrid
           api={gridApi}
