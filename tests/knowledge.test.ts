@@ -1,9 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { knowledgeAssets } from '../scripts/knowledge-resources';
 import data from '../src/features/api/data/knowledge.generated.json';
-import { knowledge, packageRecords, recordsById } from '../src/features/api/model/knowledge';
+import { knowledge, packageRecords, recordsById } from './fixtures/api-knowledge';
 import { apiHref, exampleApiLinks } from '../src/features/api/model/links';
 import { matchesApiQuery } from '../src/features/api/model/search';
+import { ApiKnowledgeLoadError, createApiKnowledgeLoader } from '../src/features/api/model/knowledge';
+import { createPackageKnowledge } from '../src/features/api/model/package-data';
+import { packageKnowledgeSchema } from '../src/features/api/model/schema';
 import { createPlaygroundUrl, readPlaygroundRoute } from '../src/playgrounds/registry';
 
 describe('API documentation navigation', () => {
@@ -44,6 +47,92 @@ describe('API documentation navigation', () => {
       packageId: 'datagrid',
       id: '@owp/datagrid:OwpDataGridDetailPanelOptions.renderDetail',
     });
+  });
+});
+
+describe('package API loading', () => {
+  const payload = {
+    schemaVersion: 1,
+    id: 'datagrid',
+    name: '@owp/datagrid',
+    version: '1.0.0',
+    dependencies: {},
+    records: [],
+    referenceRecords: [],
+    examples: [],
+  };
+
+  it('shares pending requests and reuses the parsed dataset after re-entry', async () => {
+    // Given
+    const deferred: { complete?: (response: Response) => void } = {};
+    const response = new Promise<Response>((resolve) => { deferred.complete = resolve; });
+    let calls = 0;
+    const load = createApiKnowledgeLoader(async () => { calls += 1; return response; });
+    // When
+    const first = load('datagrid');
+    const second = load('datagrid');
+    deferred.complete?.(new Response(JSON.stringify(payload)));
+    const dataset = await first;
+    const revisited = await load('datagrid');
+    // Then
+    expect(second).toBe(first);
+    expect(revisited).toBe(dataset);
+    expect(calls).toBe(1);
+  });
+
+  it('retries failed HTTP responses without retaining a rejected promise', async () => {
+    // Given
+    let calls = 0;
+    const load = createApiKnowledgeLoader(async () => {
+      calls += 1;
+      return calls === 1 ? new Response('', { status: 503 }) : new Response(JSON.stringify(payload));
+    });
+    // When
+    const failure = load('datagrid');
+    // Then
+    await expect(failure).rejects.toMatchObject({ reason: 'http', status: 503 });
+    await expect(load('datagrid')).resolves.toMatchObject({ knowledge: { id: 'datagrid' } });
+    expect(calls).toBe(2);
+  });
+
+  it('rejects unsupported package IDs before making a request', async () => {
+    // Given
+    let calls = 0;
+    const load = createApiKnowledgeLoader(async () => { calls += 1; return new Response(); });
+    // When / Then
+    await expect(load('unknown')).rejects.toBeInstanceOf(ApiKnowledgeLoadError);
+    expect(calls).toBe(0);
+  });
+
+  it('rejects malformed nested records at the fetch boundary', async () => {
+    // Given
+    const load = createApiKnowledgeLoader(async () => new Response(JSON.stringify({
+      ...payload, records: [{ ...data.records[0], source: { path: 'types.d.ts', line: 'invalid', sha256: '' } }],
+    })));
+    // When / Then
+    await expect(load('datagrid')).rejects.toMatchObject({ reason: 'schema' });
+  });
+
+  it('retains cross-package references without broadening the package search scope', () => {
+    // Given
+    const base = knowledge.records[0];
+    if (!base) throw new TypeError('Missing API fixture');
+    const external = {
+      ...base, id: '@owp/charts:Shared', package: '@owp/charts', owner: 'Shared', path: '',
+      related: [], guideIds: [], typeReferences: {}, typeDetails: undefined,
+      inheritedFrom: [], declaredIn: undefined, examples: [],
+    };
+    const local = {
+      ...external, id: '@owp/datagrid:Local', package: '@owp/datagrid', owner: 'Local',
+      typeReferences: { Shared: external.id }, related: [external.id],
+    };
+    // When
+    const result = packageKnowledgeSchema.parse(createPackageKnowledge({
+      dependencies: {}, records: [local, external], examples: [],
+    }, { id: 'datagrid', name: '@owp/datagrid', version: '1.0.0' }));
+    // Then
+    expect(result.records.map((record) => record.id)).toEqual([local.id]);
+    expect(result.referenceRecords.map((record) => record.id)).toEqual([external.id]);
   });
 });
 

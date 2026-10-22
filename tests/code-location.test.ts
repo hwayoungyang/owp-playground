@@ -6,7 +6,7 @@ import {
   getPlaygroundRoute,
   readPlaygroundRoute,
 } from '../src/playgrounds/registry';
-import { recordsById } from '../src/features/api/model/knowledge';
+import { recordsById } from './fixtures/api-knowledge';
 
 it('round-trips code links, drops source state on new navigation and preserves other query parameters', () => {
   const location = { file: 'playgrounds/datagrid/examples/renderer.tsx', line: 36, endLine: 36 };

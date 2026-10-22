@@ -1,5 +1,5 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PlaygroundLink } from '../../shared/ui/PlaygroundLink';
 import { CodeSnippet } from '../code/CodeSnippet';
 import {
@@ -12,9 +12,9 @@ import {
 } from './ApiRecordContent';
 import { ApiRelatedRecords } from './ApiRelatedRecords';
 import { ApiTypeDetails } from './ApiTypeDetails';
-import { type ApiRecord, knowledge, recordsById } from './model/knowledge';
-import { apiHref } from './model/links';
-import { compareApiMembers } from './model/presentation';
+import { useApiKnowledge } from './ApiKnowledgeContext';
+import type { ApiRecord } from './model/knowledge';
+import { apiExampleKey } from './model/package-data';
 
 export { RecordLink } from './ApiRecordContent';
 
@@ -26,6 +26,8 @@ export function ApiDetail({
   readonly focus: boolean;
 }) {
   const { t } = useOwpTranslation();
+  const { recordsById, membersByOwner, examplesByKey } = useApiKnowledge();
+  const [declarationOpen, setDeclarationOpen] = useState(false);
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     if (!focus) return;
@@ -33,17 +35,8 @@ export function ApiDetail({
     heading.current?.scrollIntoView({ block: 'nearest' });
   }, [record.id, focus]);
   const owner = recordsById.get(`${record.package}:${record.owner}`);
-  const properties = record.path
-    ? []
-    : knowledge.records
-        .filter(
-          (entry) =>
-            entry.package === record.package &&
-            entry.owner === record.owner &&
-            entry.path &&
-            !entry.path.includes('.'),
-        )
-        .sort(compareApiMembers);
+  const inherited = record.declaredIn ? recordsById.get(record.declaredIn) : undefined;
+  const properties = record.path ? [] : membersByOwner.get(`${record.package}:${record.owner}`) ?? [];
   const linked = [...new Set([...record.guideIds, ...record.related])].flatMap((id) => {
     const related = recordsById.get(id);
     return related ? [related] : [];
@@ -75,15 +68,10 @@ export function ApiDetail({
       ) : (
         <p className="api-description">{t('타입 정의·관련 예제 참고.')}</p>
       )}
-      {record.declaredIn && variants.length < 2 && recordsById.get(record.declaredIn) && (
+      {inherited && variants.length < 2 && (
         <p className="api-inherited">
           {t('Inherited from')}:{' '}
-          <PlaygroundLink
-            href={apiHref(
-              record.package === '@owp/datagrid' ? 'datagrid' : 'charts',
-              record.declaredIn,
-            )}
-          >
+          <PlaygroundLink href={inherited.url}>
             {record.declaredIn}
           </PlaygroundLink>
         </p>
@@ -125,9 +113,7 @@ export function ApiDetail({
           <h3 id="api-examples-heading">{t('실행 예제')}</h3>
           <div className="api-example-links">
             {record.examples.map((reference) => {
-              const example = knowledge.examples.find(
-                (entry) => entry.id === reference.id && entry.packageId === reference.packageId,
-              );
+              const example = examplesByKey.get(apiExampleKey(reference));
               return example ? (
                 <PlaygroundLink
                   key={`${reference.packageId}/${reference.id}`}
@@ -146,9 +132,15 @@ export function ApiDetail({
         </section>
       )}
       {record.signature && !record.path && (
-        <details className="api-source-details">
+        <details
+          className="api-source-details"
+          open={declarationOpen}
+          onToggle={(event) => setDeclarationOpen(event.currentTarget.open)}
+        >
           <summary>{t('Type declaration')}</summary>
-          <CodeSnippet label={record.owner} code={record.signature} language="typescript" />
+          {declarationOpen && (
+            <CodeSnippet label={record.owner} code={record.signature} language="typescript" />
+          )}
         </details>
       )}
     </article>

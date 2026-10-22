@@ -1,6 +1,7 @@
 import type { Plugin } from 'vite';
 import knowledge from '../src/features/api/data/knowledge.generated.json';
 import type { ApiRecord } from '../src/features/api/model/knowledge';
+import { createPackageKnowledge } from '../src/features/api/model/package-data.ts';
 
 type ResourceRecord = Omit<ApiRecord, 'kind' | 'requirement'> & { readonly kind: string; readonly requirement: string };
 type KnowledgeResourceData = Omit<typeof knowledge, 'records'> & { readonly records: readonly ResourceRecord[] };
@@ -15,8 +16,7 @@ export function reviewedApiCatalog<T extends { readonly id: string; readonly api
 export function knowledgeAssets(data: KnowledgeResourceData = knowledge): ReadonlyMap<string, string> {
   const assets = new Map<string, string>();
   for (const entry of data.packages) {
-    const records = data.records.filter((record) => record.package === entry.name || (entry.id === 'charts' && Object.hasOwn(data.dependencies, record.package)));
-    assets.set(`api/${entry.id}.json`, JSON.stringify({ schemaVersion: 1, ...entry, dependencies: data.dependencies, records }, null, 2));
+    assets.set(`api/${entry.id}.json`, JSON.stringify(createPackageKnowledge(data, entry), null, 2));
   }
   assets.set('knowledge/index.json', JSON.stringify({
     schemaVersion: 1, packages: data.packages, reviewed: data.reviewed,

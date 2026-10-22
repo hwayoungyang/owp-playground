@@ -1,6 +1,7 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { PlaygroundLink } from '../../shared/ui/PlaygroundLink';
-import { type ApiRecord, recordsById } from './model/knowledge';
+import type { ApiRecord } from './model/knowledge';
+import { useApiKnowledge } from './ApiKnowledgeContext';
 import { apiHref } from './model/links';
 import { descriptionOrigins } from './model/presentation';
 
@@ -12,6 +13,7 @@ export function TypeExpression({
   readonly record: ApiRecord;
 }) {
   const { t } = useOwpTranslation();
+  const { recordsById } = useApiKnowledge();
   return (
     <code className="api-type-expression" title={t('Type')}>
       {text
@@ -67,6 +69,7 @@ export function ApiRequirement({ record }: { readonly record: ApiRecord }) {
 
 export function ApiDescription({ record }: { readonly record: ApiRecord }) {
   const { t, i18n } = useOwpTranslation();
+  const { recordsById } = useApiKnowledge();
   if (!record.description) return null;
   const showSource =
     (i18n.resolvedLanguage ?? i18n.language).startsWith('ko') && record.locale.startsWith('en');

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { type ApiRecord, recordsById } from '../src/features/api/model/knowledge';
+import type { ApiRecord } from '../src/features/api/model/knowledge';
+import { recordsById } from './fixtures/api-knowledge';
 import {
   compareApiMembers,
   descriptionOrigins,

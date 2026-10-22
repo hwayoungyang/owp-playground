@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { recordsById } from '../src/features/api/model/knowledge';
+import { recordsById } from './fixtures/api-knowledge';
 import { exampleApiLinks } from '../src/features/api/model/links';
 
 it('접근성 prop은 API에서 유지하고 예제 하단에서만 생략한다', () => {

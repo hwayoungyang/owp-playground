@@ -22,6 +22,8 @@ import { discoverExamplePropReferences } from './api-example-props.mjs';
 import { exampleCodeHref } from '../src/features/code/code-location.ts';
 import { toReferenceStyle } from '../knowledge/korean-copy.mjs';
 import { compareApiMembers } from '../src/features/api/model/presentation.ts';
+import { apiRecordReferenceIds, createPackageKnowledge } from '../src/features/api/model/package-data.ts';
+import { knowledgeSchema, packageKnowledgeSchema } from '../src/features/api/model/schema.ts';
 
 const root = path.resolve(import.meta.dirname, '..');
 const hash = (content) => createHash('sha256').update(content).digest('hex');
@@ -118,8 +120,7 @@ for (const source of sourceAudit.sources) for (const section of source.sections)
 const usedNative = new Set(examples.flatMap((entry) => entry.references.map((reference) => reference.id)).filter((id) => id.startsWith('chart.js:')));
 const queue = allRecords.filter((record) => !record.id.startsWith('chart.js:') || usedNative.has(record.id));
 for (const record of queue) {
-  const parentId = `${record.package}:${record.owner}`;
-  for (const id of [...record.related, parentId]) {
+  for (const id of apiRecordReferenceIds(record)) {
     if (!id.startsWith('chart.js:') || usedNative.has(id)) continue;
     const related = byId.get(id);
     if (related) { usedNative.add(id); queue.push(related); }
@@ -162,6 +163,7 @@ for (const guide of guides) {
 const ids = new Set(records.map((record) => record.id));
 if (ids.size !== records.length) throw new Error('중복 API ID가 있습니다.');
 for (const record of records) for (const id of [...record.related, ...record.guideIds]) if (!ids.has(id)) throw new ReferenceError(`관련 API 누락: ${record.id}/${id}`);
+for (const record of records) for (const id of apiRecordReferenceIds(record)) if (!ids.has(id)) throw new ReferenceError(`API 참조 누락: ${record.id}/${id}`);
 for (const record of records) {
   const packageId = record.package === '@owp/datagrid' ? 'datagrid' : 'charts';
   record.url = `/?${new URLSearchParams({ package: packageId, view: 'api', symbol: record.id })}`;
@@ -186,6 +188,8 @@ const exampleLinkAudit = {
   reviewed: Object.fromEntries(['locate', 'replace', 'remove', 'unlocated'].map((action) => [action, decisions.filter((entry) => entry.action === action).length])),
 };
 const data = { schemaVersion: 1, packages, reviewed, dependencies: Object.fromEntries(externalPackages.map((name, index) => [name, dependencies[index].version])), records, examples, exampleLinkAudit, sourceAudit };
+knowledgeSchema.parse(data);
+for (const entry of packages) packageKnowledgeSchema.parse(createPackageKnowledge(data, entry));
 const links = Object.fromEntries(examples.map((example) => [`${example.packageId}/${example.id}`, example.references.map(({ label, id, packageId }) => ({ label, id, packageId }))]));
 const outputs = { 'knowledge.generated.json': data, 'links.generated.json': links };
 const destination = path.join(root, 'src/features/api/data');

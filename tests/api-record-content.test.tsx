@@ -4,7 +4,16 @@ import { I18nextProvider } from 'react-i18next';
 import { describe, expect, it } from 'vitest';
 import { ApiDescription, ApiGuideBody, ApiMemberList } from '../src/features/api/ApiRecordContent';
 import { ApiRelatedRecords } from '../src/features/api/ApiRelatedRecords';
-import { type ApiRecord, recordsById } from '../src/features/api/model/knowledge';
+import type { ApiRecord } from '../src/features/api/model/knowledge';
+import { recordsById, packageDataset } from './fixtures/api-knowledge';
+import type { ReactNode } from 'react';
+import { ApiKnowledgeContext } from '../src/features/api/ApiKnowledgeContext';
+
+const dataset = packageDataset('charts');
+
+function renderWithKnowledge(children: ReactNode): string {
+  return renderToStaticMarkup(<ApiKnowledgeContext value={dataset}>{children}</ApiKnowledgeContext>);
+}
 
 function getRecord(id: string): ApiRecord {
   const record = recordsById.get(id);
@@ -31,7 +40,7 @@ describe('API record rendering', () => {
   it('places the identifier and its linked type in the same member heading', async () => {
     const i18n = await translation('ko');
     const record = getRecord('@owp/charts:ChartDataLabelsContext.chart');
-    const markup = renderToStaticMarkup(
+    const markup = renderWithKnowledge(
       <I18nextProvider i18n={i18n}>
         <ApiMemberList records={[record]} />
       </I18nextProvider>,
@@ -49,7 +58,7 @@ describe('API record rendering', () => {
   it('limits original-language badges to Korean UI while preserving the description', async () => {
     const record = getRecord('@owp/charts:ChartDataLabelsContext.chart');
     const i18n = await translation('en');
-    const markup = renderToStaticMarkup(
+    const markup = renderWithKnowledge(
       <I18nextProvider i18n={i18n}>
         <ApiDescription record={record} />
       </I18nextProvider>,
@@ -61,7 +70,7 @@ describe('API record rendering', () => {
   it('shows an unknown English origin without claiming an external package', async () => {
     const record = getRecord('@owp/charts:ChartDataLabelsContext');
     const i18n = await translation('ko');
-    const markup = renderToStaticMarkup(
+    const markup = renderWithKnowledge(
       <I18nextProvider i18n={i18n}>
         <ApiDescription record={record} />
       </I18nextProvider>,
@@ -73,9 +82,9 @@ describe('API record rendering', () => {
   it('uses titled native disclosures when sections exist and keeps paragraph fallback', () => {
     const base = getRecord('@owp/charts:ChartDataLabelsContext');
     const body = 'First paragraph.\n\nSecond paragraph.';
-    const fallback = renderToStaticMarkup(<ApiGuideBody record={{ ...base, body }} />);
+    const fallback = renderWithKnowledge(<ApiGuideBody record={{ ...base, body }} />);
     expect(fallback).toContain('<p>First paragraph.</p><p>Second paragraph.</p>');
-    const markup = renderToStaticMarkup(
+    const markup = renderWithKnowledge(
       <ApiGuideBody
         record={{
           ...base,
@@ -102,7 +111,7 @@ describe('API record rendering', () => {
       name: 'Guide entry',
     } satisfies ApiRecord;
     const i18n = await translation('ko');
-    const markup = renderToStaticMarkup(
+    const markup = renderWithKnowledge(
       <I18nextProvider i18n={i18n}>
         <ApiRelatedRecords records={[base, guide]} />
       </I18nextProvider>,

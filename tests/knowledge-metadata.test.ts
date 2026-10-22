@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { knowledgeAssets } from '../scripts/knowledge-resources';
 import data from '../src/features/api/data/knowledge.generated.json';
-import { knowledge } from '../src/features/api/model/knowledge';
+import { knowledge } from './fixtures/api-knowledge';
 
 const guides = knowledge.records.filter((record) => record.kind === 'guide');
 
@@ -70,7 +70,7 @@ describe('standalone guide metadata', () => {
       // Given
       const fixture = {
         ...data,
-        records: guides.map((guide) => ({ ...guide, sources })),
+        records: data.records.map((record) => record.kind === 'guide' ? { ...record, sources } : record),
         sourceAudit: { ...data.sourceAudit, sources: [] },
       };
 
@@ -131,11 +131,11 @@ describe('Charts dependency exports', () => {
   it('includes declared Chart.js plugins in Charts without leaking them into DataGrid', () => {
     // Given
     const pluginNames = ['chartjs-plugin-annotation', 'chartjs-plugin-datalabels'];
-    const pluginRecords = data.records
-      .slice(0, 1)
-      .flatMap((record) =>
-        pluginNames.map((name) => ({ ...record, id: `${name}:${record.path}`, package: name })),
-      );
+    const pluginRecords = pluginNames.map((name) => {
+      const record = data.records.find((record) => record.package === name);
+      if (!record) throw new TypeError(`Missing plugin fixture: ${name}`);
+      return { ...record, id: `${name}:Fixture` };
+    });
     const fixture = {
       ...data,
       dependencies: {
@@ -158,12 +158,20 @@ describe('Charts dependency exports', () => {
           (entry.id === 'charts' &&
             ['chart.js', 'react-chartjs-2', ...pluginNames].includes(record.package)),
       );
-      expect(JSON.parse(assets.get(`api/${entry.id}.json`) ?? 'null')).toEqual({
+      const payload = JSON.parse(assets.get(`api/${entry.id}.json`) ?? 'null');
+      expect(payload).toMatchObject({
         schemaVersion: 1,
         ...entry,
         dependencies: fixture.dependencies,
         records: expectedRecords,
+        referenceRecords: [],
       });
+      const exampleKeys = new Set(expectedRecords.flatMap((record) =>
+        record.examples.map((example: { readonly packageId: string; readonly id: string }) =>
+          `${example.packageId}/${example.id}`)));
+      expect(payload.examples).toEqual(data.examples
+        .filter((example) => exampleKeys.has(`${example.packageId}/${example.id}`))
+        .map(({ packageId, id, title, source }) => ({ packageId, id, title, source })));
     }
   });
 });
