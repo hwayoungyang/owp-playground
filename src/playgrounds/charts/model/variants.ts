@@ -51,9 +51,9 @@ export const chartVariantGroups = [
     label: '구성 방식',
     choices: [
       { id: 'legend', label: '범례' },
-      { id: 'legend-title', label: '범례 제목' },
+      { id: 'legend-title', label: '범례 + 제목' },
       { id: 'legend-point-style', label: '범례 Point 스타일' },
-      { id: 'legend-events', label: '범례 이벤트' },
+      { id: 'legend-events', label: '범례로 막대 강조' },
     ],
   },
   {

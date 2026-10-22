@@ -352,3 +352,19 @@
   border-radius: 2px;
   flex: none;
 }
+
+.chart-legend-preview__plot {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+.chart-legend-preview__legend {
+  flex: none;
+  min-width: 0;
+}
+.chart-legend-preview__title {
+  margin: 12px 0 0;
+  color: var(--pg-ink);
+  font-size: 12px;
+  line-height: 1.5;
+}

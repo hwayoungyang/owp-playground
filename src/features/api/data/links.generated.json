@@ -12632,13 +12632,18 @@
   ],
   "charts/legend-title": [
     {
-      "label": "plugins.legend.title.display",
-      "id": "chart.js:LegendOptions.title.display",
+      "label": "showExportButton",
+      "id": "@owp/charts:ChartFrameProps.showExportButton",
       "packageId": "charts"
     },
     {
-      "label": "showExportButton",
-      "id": "@owp/charts:ChartFrameProps.showExportButton",
+      "label": "align",
+      "id": "@owp/charts:ChartLegendProps.align",
+      "packageId": "charts"
+    },
+    {
+      "label": "chart",
+      "id": "@owp/charts:ChartLegendProps.chart",
       "packageId": "charts"
     },
     {
@@ -12652,13 +12657,13 @@
       "packageId": "charts"
     },
     {
-      "label": "datasetIdKey",
-      "id": "@owp/charts:ChartFrameProps.datasetIdKey",
+      "label": "ChartLegendProps.data",
+      "id": "@owp/charts:ChartLegendProps.data",
       "packageId": "charts"
     },
     {
-      "label": "exportRef",
-      "id": "@owp/charts:ChartFrameProps.exportRef",
+      "label": "datasetIdKey",
+      "id": "@owp/charts:ChartFrameProps.datasetIdKey",
       "packageId": "charts"
     },
     {
@@ -12682,8 +12687,8 @@
       "packageId": "charts"
     },
     {
-      "label": "plugins",
-      "id": "@owp/charts:ChartFrameProps.plugins",
+      "label": "position",
+      "id": "@owp/charts:ChartLegendProps.position",
       "packageId": "charts"
     },
     {
@@ -12692,18 +12697,28 @@
       "packageId": "charts"
     },
     {
-      "label": "plugins.legend.title.text",
-      "id": "chart.js:LegendOptions.title.text",
-      "packageId": "charts"
-    },
-    {
       "label": "type",
       "id": "@owp/charts:ChartFrameProps.type",
       "packageId": "charts"
     },
     {
+      "label": "ChartLegendProps.type",
+      "id": "@owp/charts:ChartLegendProps.type",
+      "packageId": "charts"
+    },
+    {
       "label": "xAxisLabelMarker",
       "id": "@owp/charts:ChartFrameProps.xAxisLabelMarker",
+      "packageId": "charts"
+    },
+    {
+      "label": "onClick",
+      "id": "@owp/charts:ChartLegendProps.onClick",
+      "packageId": "charts"
+    },
+    {
+      "label": "onHover",
+      "id": "@owp/charts:ChartLegendProps.onHover",
       "packageId": "charts"
     }
   ],
@@ -12786,6 +12801,16 @@
       "packageId": "charts"
     },
     {
+      "label": "align",
+      "id": "@owp/charts:ChartLegendProps.align",
+      "packageId": "charts"
+    },
+    {
+      "label": "chart",
+      "id": "@owp/charts:ChartLegendProps.chart",
+      "packageId": "charts"
+    },
+    {
       "label": "chartRef",
       "id": "@owp/charts:ChartFrameProps.chartRef",
       "packageId": "charts"
@@ -12796,13 +12821,13 @@
       "packageId": "charts"
     },
     {
-      "label": "datasetIdKey",
-      "id": "@owp/charts:ChartFrameProps.datasetIdKey",
+      "label": "ChartLegendProps.data",
+      "id": "@owp/charts:ChartLegendProps.data",
       "packageId": "charts"
     },
     {
-      "label": "exportRef",
-      "id": "@owp/charts:ChartFrameProps.exportRef",
+      "label": "datasetIdKey",
+      "id": "@owp/charts:ChartFrameProps.datasetIdKey",
       "packageId": "charts"
     },
     {
@@ -12826,8 +12851,8 @@
       "packageId": "charts"
     },
     {
-      "label": "plugins",
-      "id": "@owp/charts:ChartFrameProps.plugins",
+      "label": "position",
+      "id": "@owp/charts:ChartLegendProps.position",
       "packageId": "charts"
     },
     {
@@ -12841,6 +12866,11 @@
       "packageId": "charts"
     },
     {
+      "label": "ChartLegendProps.type",
+      "id": "@owp/charts:ChartLegendProps.type",
+      "packageId": "charts"
+    },
+    {
       "label": "xAxisLabelMarker",
       "id": "@owp/charts:ChartFrameProps.xAxisLabelMarker",
       "packageId": "charts"
@@ -12851,8 +12881,18 @@
       "packageId": "charts"
     },
     {
+      "label": "onClick",
+      "id": "@owp/charts:ChartLegendProps.onClick",
+      "packageId": "charts"
+    },
+    {
       "label": "legend.onHover",
       "id": "@owp/charts:ChartLegendOptions.onHover",
+      "packageId": "charts"
+    },
+    {
+      "label": "onHover",
+      "id": "@owp/charts:ChartLegendProps.onHover",
       "packageId": "charts"
     }
   ],

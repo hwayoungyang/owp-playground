@@ -40,8 +40,8 @@ it.each([
   [
     'legend-events',
     'legend.onClick',
-    'runtime/ChartCanvas.tsx',
-    "onClick: (item) => onRecord?.('legend-click'",
+    'runtime/LegendPreview.tsx',
+    "onRecord?.('legend-click', String(item.label))",
   ],
 ])('connects %s %s to its own API usage', async (id, label, file, code) => {
   const reference = data.examples

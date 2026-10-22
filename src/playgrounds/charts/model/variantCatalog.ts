@@ -243,10 +243,10 @@ export const chartVariantCatalog = [
   },
   {
     id: 'legend-title',
-    title: '범례 제목',
+    title: '범례 + 제목',
     category: 'display',
-    description: '범례 위에 제목 표시 여부 설정 가능.',
-    api: ['plugins.legend.title.display', 'plugins.legend.title.text'],
+    description: '제목 표시와 왼쪽·가운데·오른쪽 정렬을 비교합니다.',
+    api: ['legend'],
     kind: 'chart',
     package: '@owp/charts',
     source: 'examples/legend-title.tsx',
@@ -263,9 +263,10 @@ export const chartVariantCatalog = [
   },
   {
     id: 'legend-events',
-    title: '범례 이벤트',
+    title: '범례로 막대 강조',
     category: 'display',
-    description: '범례 마우스 호버와 클릭 이벤트 기록 확인 가능.',
+    description:
+      '범례에 마우스를 올리면 해당 라인의 막대를 강조합니다. 클릭하면 표시하거나 숨깁니다.',
     api: ['legend.onClick', 'legend.onHover'],
     kind: 'chart',
     package: '@owp/charts',

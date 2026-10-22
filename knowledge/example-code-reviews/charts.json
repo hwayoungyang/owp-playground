@@ -2487,5 +2487,49 @@
     "mode": "forwarded",
     "file": "playgrounds/charts/model/useCartesian.ts",
     "snippet": "datasetIdKey: 'id',\n    data,"
+  },
+  {
+    "exampleId": "legend-events",
+    "apiId": "@owp/charts:ChartLegendOptions.onClick",
+    "label": "legend.onClick",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+    "snippet": "          onClick={(item) => {\n            clearHighlight();\n            onRecord?.('legend-click', String(item.label));\n          }}",
+    "reason": "legend-events가 LegendPreview를 사용하며 ChartLegendOptions에서 파생한 공개 ChartLegend의 onClick으로 강조를 해제하고 범례 클릭 이벤트를 기록합니다. 표시 전환은 ChartLegend가 처리합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/legend-events.tsx",
+        "snippet": "      <LegendPreview\n        data={data}\n        options={options}\n        highlightBars={enabled}\n        recordLegendHover"
+      },
+      {
+        "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+        "snippet": "        <ChartLegend<NativeChartType, NativeValue[]>\n          chart={chart}\n          data={data}"
+      }
+    ]
+  },
+  {
+    "exampleId": "legend-events",
+    "apiId": "@owp/charts:ChartLegendOptions.onHover",
+    "label": "legend.onHover",
+    "action": "locate",
+    "mode": "forwarded",
+    "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+    "snippet": "          onHover={recordLegendHover || highlightBars ? handleLegendHover : undefined}",
+    "reason": "legend-events가 LegendPreview에 recordLegendHover를 전달하고 ChartLegendOptions에서 파생한 공개 ChartLegend의 onHover로 handleLegendHover를 연결해 이벤트 기록과 막대 강조를 실행합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/charts/examples/legend-events.tsx",
+        "snippet": "      <LegendPreview\n        data={data}\n        options={options}\n        highlightBars={enabled}\n        recordLegendHover"
+      },
+      {
+        "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+        "snippet": "        <ChartLegend<NativeChartType, NativeValue[]>\n          chart={chart}\n          data={data}"
+      },
+      {
+        "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+        "snippet": "  const handleLegendHover = (item: ChartLegendItem) => {\n    if (recordLegendHover) onRecord?.('legend-hover', String(item.label));"
+      }
+    ]
   }
 ]

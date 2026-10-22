@@ -28,7 +28,7 @@ export function ChartExample(props: ChartExampleProps) {
       <Controls>
         <Range label="표시할 월 수" value={count} min={3} max={12} onChange={setCount} />
         <Toggle label="범례를 상단에 표시" value={top} onChange={setTop} />
-        <Toggle label="Legend animation" value={animated} onChange={setAnimated} />
+        <Toggle label="범례 애니메이션" value={animated} onChange={setAnimated} />
       </Controls>
       <div className="chart-canvas">
         <ChartFrame

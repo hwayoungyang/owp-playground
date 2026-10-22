@@ -13134,18 +13134,18 @@
           "packageId": "charts",
           "id": "legend-title",
           "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=79&endLine=79",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=105&endLine=105",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 79,
-            "endLine": 79,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 105,
+            "endLine": 105,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
         },
         {
           "packageId": "charts",
@@ -13168,18 +13168,18 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=79&endLine=79",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=105&endLine=105",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 79,
-            "endLine": 79,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 105,
+            "endLine": 105,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         },
         {
           "packageId": "charts",
@@ -13392,7 +13392,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.chartRef",
-      "contentHash": "ee44d349209d3db3e9e827ed5ac18d93c30081738f9ac64c5739832b31abdcd6"
+      "contentHash": "ebee49164a7368493f6530f636184513e6e0a73abb37172ef7be666459bf117f"
     },
     {
       "id": "@owp/charts:ChartFrameProps.containerClassName",
@@ -14242,7 +14242,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend.tsx",
-          "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+          "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
         },
         {
           "packageId": "charts",
@@ -14893,18 +14893,18 @@
           "packageId": "charts",
           "id": "legend-title",
           "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=75&endLine=75",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=102&endLine=102",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 75,
-            "endLine": 75,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 102,
+            "endLine": 102,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
         },
         {
           "packageId": "charts",
@@ -14927,18 +14927,18 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=75&endLine=75",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=102&endLine=102",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 75,
-            "endLine": 75,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 102,
+            "endLine": 102,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         },
         {
           "packageId": "charts",
@@ -15213,7 +15213,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.data",
-      "contentHash": "95bc54ab8f302f32aeb3ace0505855244a373551a124a363a982428a2ab3a0db"
+      "contentHash": "c794611e3f4460a4c45548d898763e1fb9b57711af6a9289fe4155d4f859554a"
     },
     {
       "id": "@owp/charts:ChartFrameProps.datasetIdKey",
@@ -15840,7 +15840,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend.tsx",
-          "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+          "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
         },
         {
           "packageId": "charts",
@@ -16475,18 +16475,18 @@
           "packageId": "charts",
           "id": "legend-title",
           "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=76&endLine=76",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=103&endLine=103",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 76,
-            "endLine": 76,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 103,
+            "endLine": 103,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
         },
         {
           "packageId": "charts",
@@ -16509,18 +16509,18 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=76&endLine=76",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=103&endLine=103",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 76,
-            "endLine": 76,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 103,
+            "endLine": 103,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         },
         {
           "packageId": "charts",
@@ -16767,7 +16767,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.datasetIdKey",
-      "contentHash": "0381732f591937a97e0d7ae5501a55b818650d7f8d4c53e836c4dc3d12525092"
+      "contentHash": "56795eb199e98d92a68880e81b7a13a36d04a72d466e2751e0db436429cfaf96"
     },
     {
       "id": "@owp/charts:ChartFrameProps.errorOverlay",
@@ -17498,23 +17498,6 @@
         },
         {
           "packageId": "charts",
-          "id": "legend-title",
-          "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=80&endLine=80",
-          "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 80,
-            "endLine": 80,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
-          },
-          "codeReview": {
-            "method": "ast"
-          },
-          "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
-        },
-        {
-          "packageId": "charts",
           "id": "legend-point-style",
           "url": "/?package=charts&sample=legend-point-style",
           "codeUrl": "/?package=charts&sample=legend-point-style&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=80&endLine=80",
@@ -17529,23 +17512,6 @@
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-point-style.tsx",
           "sha256": "8c73f6d1954a99d20103592c5f71cf2d6b5d248000f49b520480f72c65b3449f"
-        },
-        {
-          "packageId": "charts",
-          "id": "legend-events",
-          "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=80&endLine=80",
-          "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 80,
-            "endLine": 80,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
-          },
-          "codeReview": {
-            "method": "ast"
-          },
-          "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
         },
         {
           "packageId": "charts",
@@ -17775,7 +17741,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.exportRef",
-      "contentHash": "e0c3adf03258b317296525ae41c4db606601cb8943f5d3644ba080e520179b2a"
+      "contentHash": "100d3c94a78d636a8803aeb0dcb4317c601f8a0d1dc3333b4328cf89f3e50414"
     },
     {
       "id": "@owp/charts:ChartFrameProps.externalTooltip",
@@ -18064,7 +18030,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend.tsx",
-          "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+          "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
         },
         {
           "packageId": "charts",
@@ -18549,7 +18515,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.externalTooltip",
-      "contentHash": "1fbccaf0731430779568451d811d999719c8faa590c715554b93b98493c14fb4"
+      "contentHash": "88e40cc4e607ebcd86935d37f32c69edd604f0fc48ace41f0f4c9a0431ca8bd1"
     },
     {
       "id": "@owp/charts:ChartFrameProps.fallbackContent",
@@ -19314,13 +19280,13 @@
             "file": "playgrounds/charts/examples/legend.tsx",
             "line": 37,
             "endLine": 37,
-            "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+            "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend.tsx",
-          "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+          "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
         },
         {
           "packageId": "charts",
@@ -19955,18 +19921,18 @@
           "packageId": "charts",
           "id": "legend-title",
           "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=81&endLine=81",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=106&endLine=106",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 81,
-            "endLine": 81,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 106,
+            "endLine": 106,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
         },
         {
           "packageId": "charts",
@@ -19989,18 +19955,18 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=81&endLine=81",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=106&endLine=106",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 81,
-            "endLine": 81,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 106,
+            "endLine": 106,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         },
         {
           "packageId": "charts",
@@ -20247,7 +20213,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.height",
-      "contentHash": "2490b363d5c85ae723c5b7b03563c51df5234c72c27280cd55b38fc01acd065f"
+      "contentHash": "4af5d5a30f6f2621e54daf1724b99d594c664a66d31aaddc6d8e795c94884b34"
     },
     {
       "id": "@owp/charts:ChartFrameProps.interactionLayer",
@@ -21001,18 +20967,18 @@
           "packageId": "charts",
           "id": "legend-title",
           "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=83&endLine=83",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=108&endLine=108",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 83,
-            "endLine": 83,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 108,
+            "endLine": 108,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
         },
         {
           "packageId": "charts",
@@ -21035,18 +21001,18 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=83&endLine=83",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=108&endLine=108",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 83,
-            "endLine": 83,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 108,
+            "endLine": 108,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         },
         {
           "packageId": "charts",
@@ -21260,7 +21226,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.interactionLayer",
-      "contentHash": "ce93b349e22e4fe979aa3702d26e536c2ed0566049e861ea414e187ba5ac4bd3"
+      "contentHash": "70e493acade1c63e77f1c1808623bea9f7945551e76ce1af0d2cda7b48693fbc"
     },
     {
       "id": "@owp/charts:ChartFrameProps.legend",
@@ -21882,13 +21848,13 @@
             "file": "playgrounds/charts/examples/legend.tsx",
             "line": 38,
             "endLine": 43,
-            "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+            "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend.tsx",
-          "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+          "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
         },
         {
           "packageId": "charts",
@@ -22523,18 +22489,18 @@
           "packageId": "charts",
           "id": "legend-title",
           "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=86&endLine=101",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=111&endLine=111",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 86,
-            "endLine": 101,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 111,
+            "endLine": 111,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
         },
         {
           "packageId": "charts",
@@ -22557,18 +22523,18 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=86&endLine=101",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=111&endLine=111",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 86,
-            "endLine": 101,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 111,
+            "endLine": 111,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         },
         {
           "packageId": "charts",
@@ -22815,7 +22781,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.legend",
-      "contentHash": "1669b955b81747ae0e615d5242163357c5d4b03d2d1e78c76ef7e30c50617af0"
+      "contentHash": "597dd14d225d948576473fb22b6e78debb8368e425b23b28cd64b19dd91704b0"
     },
     {
       "id": "@owp/charts:ChartFrameProps.linkedInteraction",
@@ -23941,7 +23907,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend.tsx",
-          "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+          "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
         },
         {
           "packageId": "charts",
@@ -24576,18 +24542,18 @@
           "packageId": "charts",
           "id": "legend-title",
           "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=77&endLine=77",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=104&endLine=104",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 77,
-            "endLine": 77,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 104,
+            "endLine": 104,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
         },
         {
           "packageId": "charts",
@@ -24610,18 +24576,18 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=77&endLine=77",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=104&endLine=104",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 77,
-            "endLine": 77,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 104,
+            "endLine": 104,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         },
         {
           "packageId": "charts",
@@ -24868,7 +24834,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.options",
-      "contentHash": "1df36428b282e30eea44cf58367e563d77eb7e7534bd6f4d2600ac73d74203e0"
+      "contentHash": "2b26a697c9a9b30a257a4bb59dba0e592ba61b65c06e0c439880f613a1ed8dbb"
     },
     {
       "id": "@owp/charts:ChartFrameProps.plugins",
@@ -25454,23 +25420,6 @@
         },
         {
           "packageId": "charts",
-          "id": "legend-title",
-          "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=78&endLine=78",
-          "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 78,
-            "endLine": 78,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
-          },
-          "codeReview": {
-            "method": "ast"
-          },
-          "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
-        },
-        {
-          "packageId": "charts",
           "id": "legend-point-style",
           "url": "/?package=charts&sample=legend-point-style",
           "codeUrl": "/?package=charts&sample=legend-point-style&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=78&endLine=78",
@@ -25485,23 +25434,6 @@
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-point-style.tsx",
           "sha256": "8c73f6d1954a99d20103592c5f71cf2d6b5d248000f49b520480f72c65b3449f"
-        },
-        {
-          "packageId": "charts",
-          "id": "legend-events",
-          "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=78&endLine=78",
-          "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 78,
-            "endLine": 78,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
-          },
-          "codeReview": {
-            "method": "ast"
-          },
-          "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
         },
         {
           "packageId": "charts",
@@ -25714,7 +25646,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.plugins",
-      "contentHash": "f8d104912aff07b6eb369a42cd0ee90cd28d3109cd758db3821c9e9d97a00802"
+      "contentHash": "b32038a13fbce53907afa24afebf55fe6453ae98d137f01e48b18b2e779a20cc"
     },
     {
       "id": "@owp/charts:ChartFrameProps.preset",
@@ -26341,7 +26273,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend.tsx",
-          "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+          "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
         },
         {
           "packageId": "charts",
@@ -26976,18 +26908,18 @@
           "packageId": "charts",
           "id": "legend-title",
           "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=73&endLine=73",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=100&endLine=100",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 73,
-            "endLine": 73,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 100,
+            "endLine": 100,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
         },
         {
           "packageId": "charts",
@@ -27010,18 +26942,18 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=73&endLine=73",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=100&endLine=100",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 73,
-            "endLine": 73,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 100,
+            "endLine": 100,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         },
         {
           "packageId": "charts",
@@ -27268,7 +27200,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.preset",
-      "contentHash": "4f28d465a1db86d0cbbba513374f0ef7cc7843a91d42c1ee7c76081b0be93dd4"
+      "contentHash": "8e599088ca5b839fde276298aede305884a93034fa79b61c39bbec9ae7261fd2"
     },
     {
       "id": "@owp/charts:ChartFrameProps.redraw",
@@ -28024,18 +27956,18 @@
           "packageId": "charts",
           "id": "legend-title",
           "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=82&endLine=82",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=107&endLine=107",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 82,
-            "endLine": 82,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 107,
+            "endLine": 107,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
         },
         {
           "packageId": "charts",
@@ -28058,18 +27990,18 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=82&endLine=82",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=107&endLine=107",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 82,
-            "endLine": 82,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 107,
+            "endLine": 107,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         },
         {
           "packageId": "charts",
@@ -28299,7 +28231,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.showExportButton",
-      "contentHash": "d740ed53a28b1ba2cf6d454a56d673ffb879ff4fa76bcaad1401c5db6947334e"
+      "contentHash": "a745508625e3bf745319f2d03ef9e603d2e2e693334bb3310180d475e4b6ce17"
     },
     {
       "id": "@owp/charts:ChartFrameProps.title",
@@ -29071,13 +29003,13 @@
             "file": "playgrounds/charts/examples/legend.tsx",
             "line": 35,
             "endLine": 35,
-            "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+            "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend.tsx",
-          "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+          "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
         },
         {
           "packageId": "charts",
@@ -29712,18 +29644,18 @@
           "packageId": "charts",
           "id": "legend-title",
           "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=74&endLine=74",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=101&endLine=101",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 74,
-            "endLine": 74,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 101,
+            "endLine": 101,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
         },
         {
           "packageId": "charts",
@@ -29746,18 +29678,18 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=74&endLine=74",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=101&endLine=101",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 74,
-            "endLine": 74,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 101,
+            "endLine": 101,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         },
         {
           "packageId": "charts",
@@ -30004,7 +29936,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.type",
-      "contentHash": "b9a8ce4dd5038f9ad066d33bc8c0eb79ce57f44ffb31b27ffb856bc8e200408e"
+      "contentHash": "d8ae35c73604e5d3678b0599dcfccb9c466ffe5c55742af78fda09b498c0a517"
     },
     {
       "id": "@owp/charts:ChartFrameProps.updateMode",
@@ -30791,18 +30723,18 @@
           "packageId": "charts",
           "id": "legend-title",
           "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=84&endLine=84",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=109&endLine=109",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 84,
-            "endLine": 84,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 109,
+            "endLine": 109,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
         },
         {
           "packageId": "charts",
@@ -30825,18 +30757,18 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=84&endLine=84",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=109&endLine=109",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 84,
-            "endLine": 84,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 109,
+            "endLine": 109,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         },
         {
           "packageId": "charts",
@@ -31049,7 +30981,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.xAxisLabelMarker",
-      "contentHash": "452a1743294ad96f443cb5d612dd9b965bd79bd91efb3cab6a29c20399a8ec4c"
+      "contentHash": "3f24c04fc58e0aa0a133208a283d9e87b43508a8d7c40fc6a59734c40eb82081"
     },
     {
       "id": "@owp/charts:ChartFrameProps.zoomSlider",
@@ -33468,18 +33400,34 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=102&endLine=102",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=132&endLine=135",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 102,
-            "endLine": 102,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 132,
+            "endLine": 135,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
-            "method": "ast"
+            "method": "reviewed",
+            "mode": "forwarded",
+            "reason": "legend-events가 LegendPreview를 사용하며 ChartLegendOptions에서 파생한 공개 ChartLegend의 onClick으로 강조를 해제하고 범례 클릭 이벤트를 기록합니다. 표시 전환은 ChartLegend가 처리합니다.",
+            "evidence": [
+              {
+                "file": "playgrounds/charts/examples/legend-events.tsx",
+                "line": 20,
+                "endLine": 24,
+                "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+              },
+              {
+                "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+                "line": 126,
+                "endLine": 128,
+                "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+              }
+            ]
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         }
       ],
       "sources": [
@@ -33488,7 +33436,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartLegendOptions.onClick",
-      "contentHash": "a26fc8de40a418535e09e076af5eb0890202f1eee4a9378cea2959f17cc675d9"
+      "contentHash": "8bbd61c6be151856255d3c2a7fa5468ae940d6c70eb0e0587126a49b85332a84"
     },
     {
       "id": "@owp/charts:ChartLegendOptions.onHover",
@@ -33543,18 +33491,40 @@
           "packageId": "charts",
           "id": "legend-events",
           "url": "/?package=charts&sample=legend-events",
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=103&endLine=103",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=136&endLine=136",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 103,
-            "endLine": 103,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 136,
+            "endLine": 136,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
-            "method": "ast"
+            "method": "reviewed",
+            "mode": "forwarded",
+            "reason": "legend-events가 LegendPreview에 recordLegendHover를 전달하고 ChartLegendOptions에서 파생한 공개 ChartLegend의 onHover로 handleLegendHover를 연결해 이벤트 기록과 막대 강조를 실행합니다.",
+            "evidence": [
+              {
+                "file": "playgrounds/charts/examples/legend-events.tsx",
+                "line": 20,
+                "endLine": 24,
+                "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+              },
+              {
+                "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+                "line": 126,
+                "endLine": 128,
+                "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+              },
+              {
+                "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+                "line": 73,
+                "endLine": 74,
+                "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+              }
+            ]
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-          "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434"
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
         }
       ],
       "sources": [
@@ -33563,7 +33533,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartLegendOptions.onHover",
-      "contentHash": "eac033a11bb19a5bee2e6b2d633900a2f271ff4ea07300df053de84e3dd164d4"
+      "contentHash": "e429cc0e650af1a6d0b642260613d747988792dc44044fadb0d81759ef9e6960"
     },
     {
       "id": "@owp/charts:ChartLegendOptions.position",
@@ -33824,10 +33794,45 @@
       "usageNote": null,
       "locale": "en",
       "guideIds": [],
-      "examples": [],
+      "examples": [
+        {
+          "packageId": "charts",
+          "id": "legend-title",
+          "url": "/?package=charts&sample=legend-title",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=130&endLine=130",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 130,
+            "endLine": 130,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
+        },
+        {
+          "packageId": "charts",
+          "id": "legend-events",
+          "url": "/?package=charts&sample=legend-events",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=130&endLine=130",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 130,
+            "endLine": 130,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+        }
+      ],
       "sources": [],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartLegendProps.align",
-      "contentHash": "ec312eaab2ffc6a32a8924324545cda076dcd3ba982973a183d787b8ae0fb54b"
+      "contentHash": "421717b3e54a8509288da9d6aeb351ba5cd30f26e46908ce53ea485080cd695d"
     },
     {
       "id": "@owp/charts:ChartLegendProps.chart",
@@ -33888,10 +33893,45 @@
       "usageNote": null,
       "locale": "en",
       "guideIds": [],
-      "examples": [],
+      "examples": [
+        {
+          "packageId": "charts",
+          "id": "legend-title",
+          "url": "/?package=charts&sample=legend-title",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=127&endLine=127",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 127,
+            "endLine": 127,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
+        },
+        {
+          "packageId": "charts",
+          "id": "legend-events",
+          "url": "/?package=charts&sample=legend-events",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=127&endLine=127",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 127,
+            "endLine": 127,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+        }
+      ],
       "sources": [],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartLegendProps.chart",
-      "contentHash": "f25b6696b0506b0624e2feddc5bc31e56799b58a1f99a036fea9ea9d6c4fecb6"
+      "contentHash": "ab3bb78633dde0609f878c64ac865123fef4e8a77d40ca19aea97ab97bba51ee"
     },
     {
       "id": "@owp/charts:ChartLegendProps.data",
@@ -33952,10 +33992,45 @@
       "usageNote": null,
       "locale": "en",
       "guideIds": [],
-      "examples": [],
+      "examples": [
+        {
+          "packageId": "charts",
+          "id": "legend-title",
+          "url": "/?package=charts&sample=legend-title",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=128&endLine=128",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 128,
+            "endLine": 128,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
+        },
+        {
+          "packageId": "charts",
+          "id": "legend-events",
+          "url": "/?package=charts&sample=legend-events",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=128&endLine=128",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 128,
+            "endLine": 128,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+        }
+      ],
       "sources": [],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartLegendProps.data",
-      "contentHash": "60dcd22058d59e70aa80ef70bb2de3914b25f2af92e89c05411e1da40e7e2b79"
+      "contentHash": "9d6a5437ce11866d64880da16a714b810c1e9030e4c2f6aabcec164dd033a570"
     },
     {
       "id": "@owp/charts:ChartLegendProps.formatter",
@@ -34168,10 +34243,45 @@
       "usageNote": null,
       "locale": "en",
       "guideIds": [],
-      "examples": [],
+      "examples": [
+        {
+          "packageId": "charts",
+          "id": "legend-title",
+          "url": "/?package=charts&sample=legend-title",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=132&endLine=135",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 132,
+            "endLine": 135,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
+        },
+        {
+          "packageId": "charts",
+          "id": "legend-events",
+          "url": "/?package=charts&sample=legend-events",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=132&endLine=135",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 132,
+            "endLine": 135,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+        }
+      ],
       "sources": [],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartLegendProps.onClick",
-      "contentHash": "3322891a1aa181846abcd82ff586eb4cc3979430dcb7ce9aac70a954522dca10"
+      "contentHash": "fdb424c90f96c44f73baa8a7ab15e37f815a7b2e6d9a44c4c3d81263c2dc4072"
     },
     {
       "id": "@owp/charts:ChartLegendProps.onHover",
@@ -34239,10 +34349,45 @@
       "usageNote": null,
       "locale": "en",
       "guideIds": [],
-      "examples": [],
+      "examples": [
+        {
+          "packageId": "charts",
+          "id": "legend-title",
+          "url": "/?package=charts&sample=legend-title",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=136&endLine=136",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 136,
+            "endLine": 136,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
+        },
+        {
+          "packageId": "charts",
+          "id": "legend-events",
+          "url": "/?package=charts&sample=legend-events",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=136&endLine=136",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 136,
+            "endLine": 136,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+        }
+      ],
       "sources": [],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartLegendProps.onHover",
-      "contentHash": "d97ae3bacffc334768b54a145fe5ea92440930ffacf185f512499eac7c66b6aa"
+      "contentHash": "3045888e7f969c7af6bb4f2046ae1ec85eada6e8a951d9a6cb0177818d9aafc4"
     },
     {
       "id": "@owp/charts:ChartLegendProps.position",
@@ -34311,10 +34456,45 @@
       "usageNote": null,
       "locale": "en",
       "guideIds": [],
-      "examples": [],
+      "examples": [
+        {
+          "packageId": "charts",
+          "id": "legend-title",
+          "url": "/?package=charts&sample=legend-title",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=131&endLine=131",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 131,
+            "endLine": 131,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
+        },
+        {
+          "packageId": "charts",
+          "id": "legend-events",
+          "url": "/?package=charts&sample=legend-events",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=131&endLine=131",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 131,
+            "endLine": 131,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+        }
+      ],
       "sources": [],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartLegendProps.position",
-      "contentHash": "00c9217906ab1ff89a4c664fb05cb3349c3b6c1f82d1339f91809c0371ecc6f3"
+      "contentHash": "5d8e7ea71505cc54c1862d99dc1e11b7b8998a1becb5edddfb89756992dc6919"
     },
     {
       "id": "@owp/charts:ChartLegendProps.title",
@@ -34475,10 +34655,45 @@
       "usageNote": null,
       "locale": "en",
       "guideIds": [],
-      "examples": [],
+      "examples": [
+        {
+          "packageId": "charts",
+          "id": "legend-title",
+          "url": "/?package=charts&sample=legend-title",
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=129&endLine=129",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 129,
+            "endLine": 129,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
+          "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f"
+        },
+        {
+          "packageId": "charts",
+          "id": "legend-events",
+          "url": "/?package=charts&sample=legend-events",
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=129&endLine=129",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 129,
+            "endLine": 129,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
+          "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+        }
+      ],
       "sources": [],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartLegendProps.type",
-      "contentHash": "cdf2cb2530826f02b87caf79d080042bd20d56f32425fc9e1a4c83f2ddf2a39e"
+      "contentHash": "1a155edbbea2e3d3f50e55411fa8a86d519bd752021eef9a05e0bc2a5124a2a7"
     },
     {
       "id": "@owp/charts:ChartLinkedInteractionOptions",
@@ -166897,153 +167112,6 @@
       "contentHash": "1b297eca59d325343fec131fcf937d825ad1123212a0ee2d20165c477965d532"
     },
     {
-      "id": "chart.js:LegendOptions.title.display",
-      "package": "chart.js",
-      "packageVersion": "4.5.1",
-      "owner": "LegendOptions",
-      "name": "display",
-      "path": "title.display",
-      "kind": "property",
-      "imports": [
-        "chart.js",
-        "chart.js/auto"
-      ],
-      "description": "Is the legend title displayed.",
-      "signature": "boolean",
-      "typeParameters": [
-        {
-          "name": "TType",
-          "constraint": "ChartType",
-          "default": null
-        }
-      ],
-      "typeReferences": {
-        "ChartType": "chart.js:ChartType"
-      },
-      "optional": false,
-      "bases": [],
-      "related": [],
-      "source": {
-        "path": "chart.js/dist/types/index.d.ts",
-        "line": 2512,
-        "sha256": "e87c70e28847174af0cf4448544b9826d810188394999d17ef38c344cb902276"
-      },
-      "requirement": "required",
-      "typeDetails": {
-        "values": [],
-        "valueKind": null,
-        "extensible": false,
-        "sources": [],
-        "augmentationSources": []
-      },
-      "body": "",
-      "documentation": "Is the legend title displayed.\n@default false",
-      "docTags": [
-        {
-          "name": "default",
-          "text": "false"
-        }
-      ],
-      "defaultDescription": "false",
-      "defaultNote": null,
-      "usageNote": "Chart.js 원본 타입. OWP 설정·callback·배열 지원은 관련 타입·예제 참고.",
-      "locale": "en",
-      "guideIds": [],
-      "examples": [
-        {
-          "packageId": "charts",
-          "id": "legend-title",
-          "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Flegend-title.tsx&line=16&endLine=16",
-          "location": {
-            "file": "playgrounds/charts/examples/legend-title.tsx",
-            "line": 16,
-            "endLine": 16,
-            "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
-          },
-          "codeReview": {
-            "method": "ast"
-          },
-          "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
-        }
-      ],
-      "sources": [],
-      "url": "/?package=charts&view=api&symbol=chart.js%3ALegendOptions.title.display",
-      "contentHash": "9fdcd782e3c645402d2ab0407d6d7e72bfe5b7cfc539138cc39304b4667bacd1"
-    },
-    {
-      "id": "chart.js:LegendOptions.title.text",
-      "package": "chart.js",
-      "packageVersion": "4.5.1",
-      "owner": "LegendOptions",
-      "name": "text",
-      "path": "title.text",
-      "kind": "property",
-      "imports": [
-        "chart.js",
-        "chart.js/auto"
-      ],
-      "description": "The string title.",
-      "signature": "string",
-      "typeParameters": [
-        {
-          "name": "TType",
-          "constraint": "ChartType",
-          "default": null
-        }
-      ],
-      "typeReferences": {
-        "ChartType": "chart.js:ChartType"
-      },
-      "optional": false,
-      "bases": [],
-      "related": [],
-      "source": {
-        "path": "chart.js/dist/types/index.d.ts",
-        "line": 2527,
-        "sha256": "e87c70e28847174af0cf4448544b9826d810188394999d17ef38c344cb902276"
-      },
-      "requirement": "required",
-      "typeDetails": {
-        "values": [],
-        "valueKind": null,
-        "extensible": false,
-        "sources": [],
-        "augmentationSources": []
-      },
-      "body": "",
-      "documentation": "The string title.",
-      "docTags": [],
-      "defaultDescription": null,
-      "defaultNote": null,
-      "usageNote": "Chart.js 원본 타입. OWP 설정·callback·배열 지원은 관련 타입·예제 참고.",
-      "locale": "en",
-      "guideIds": [],
-      "examples": [
-        {
-          "packageId": "charts",
-          "id": "legend-title",
-          "url": "/?package=charts&sample=legend-title",
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Flegend-title.tsx&line=16&endLine=16",
-          "location": {
-            "file": "playgrounds/charts/examples/legend-title.tsx",
-            "line": 16,
-            "endLine": 16,
-            "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
-          },
-          "codeReview": {
-            "method": "ast"
-          },
-          "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-          "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
-        }
-      ],
-      "sources": [],
-      "url": "/?package=charts&view=api&symbol=chart.js%3ALegendOptions.title.text",
-      "contentHash": "630f8b604c6e2b047f107e0d3e0216ed1e6a4fe739611253287d88e3b0db1f14"
-    },
-    {
       "id": "chart.js:LinearScaleOptions",
       "package": "chart.js",
       "packageVersion": "4.5.1",
@@ -217056,7 +217124,7 @@
           "location": null,
           "codeReview": null,
           "entrypoint": "/snippets/playgrounds/charts/examples/legend.tsx",
-          "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+          "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
         },
         {
           "packageId": "charts",
@@ -217080,7 +217148,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3Aguide.identity",
-      "contentHash": "86ddc362d1701d0009531da16ffb78bf3f438a92c02c1a51cbe2506eaf9a6065"
+      "contentHash": "d431b4d1915188dbe5afb6d971ef3c34f9c0c96ed0f63db42eb043c238f0d6ef"
     },
     {
       "id": "@owp/charts:guide.zoom",
@@ -256533,7 +256601,7 @@
             "file": "playgrounds/charts/examples/legend.tsx",
             "line": 37,
             "endLine": 37,
-            "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+            "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
           },
           "codeReview": {
             "method": "ast"
@@ -256548,7 +256616,7 @@
             "file": "playgrounds/charts/examples/legend.tsx",
             "line": 38,
             "endLine": 43,
-            "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+            "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
           },
           "codeReview": {
             "method": "ast"
@@ -256593,7 +256661,7 @@
             "file": "playgrounds/charts/examples/legend.tsx",
             "line": 35,
             "endLine": 35,
-            "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea"
+            "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa"
           },
           "codeReview": {
             "method": "ast"
@@ -256603,7 +256671,7 @@
       ],
       "url": "/?package=charts&sample=legend",
       "entrypoint": "/snippets/playgrounds/charts/examples/legend.tsx",
-      "sha256": "94fa91e798111d6331ad68f22595281d6cff41339b9f2f452c2effbc7c17c5ea",
+      "sha256": "8d77331245a77e766fb8bf3b6938121dc63994937c7c5a0f3cf4494255042daa",
       "propDiagnostics": [
         {
           "kind": "excluded-prop",
@@ -268521,245 +268589,290 @@
     {
       "id": "legend-title",
       "packageId": "charts",
-      "title": "범례 제목",
-      "description": "범례 위에 제목 표시 여부 설정 가능.",
+      "title": "범례 + 제목",
+      "description": "제목 표시와 왼쪽·가운데·오른쪽 정렬을 비교합니다.",
       "source": "examples/legend-title.tsx",
       "references": [
-        {
-          "label": "plugins.legend.title.display",
-          "id": "chart.js:LegendOptions.title.display",
-          "packageId": "charts",
-          "location": {
-            "file": "playgrounds/charts/examples/legend-title.tsx",
-            "line": 16,
-            "endLine": 16,
-            "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
-          },
-          "codeReview": {
-            "method": "ast"
-          },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Flegend-title.tsx&line=16&endLine=16"
-        },
         {
           "id": "@owp/charts:ChartFrameProps.showExportButton",
           "label": "showExportButton",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 82,
-            "endLine": 82,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 107,
+            "endLine": 107,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=82&endLine=82"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=107&endLine=107"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.align",
+          "label": "align",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 130,
+            "endLine": 130,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=130&endLine=130"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.chart",
+          "label": "chart",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 127,
+            "endLine": 127,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=127&endLine=127"
         },
         {
           "id": "@owp/charts:ChartFrameProps.chartRef",
           "label": "chartRef",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 79,
-            "endLine": 79,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 105,
+            "endLine": 105,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=79&endLine=79"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=105&endLine=105"
         },
         {
           "id": "@owp/charts:ChartFrameProps.data",
           "label": "data",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 75,
-            "endLine": 75,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 102,
+            "endLine": 102,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=75&endLine=75"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=102&endLine=102"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.data",
+          "label": "ChartLegendProps.data",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 128,
+            "endLine": 128,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=128&endLine=128"
         },
         {
           "id": "@owp/charts:ChartFrameProps.datasetIdKey",
           "label": "datasetIdKey",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 76,
-            "endLine": 76,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 103,
+            "endLine": 103,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=76&endLine=76"
-        },
-        {
-          "id": "@owp/charts:ChartFrameProps.exportRef",
-          "label": "exportRef",
-          "packageId": "charts",
-          "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 80,
-            "endLine": 80,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
-          },
-          "codeReview": {
-            "method": "ast"
-          },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=80&endLine=80"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=103&endLine=103"
         },
         {
           "id": "@owp/charts:ChartFrameProps.height",
           "label": "height",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 81,
-            "endLine": 81,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 106,
+            "endLine": 106,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=81&endLine=81"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=106&endLine=106"
         },
         {
           "id": "@owp/charts:ChartFrameProps.interactionLayer",
           "label": "interactionLayer",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 83,
-            "endLine": 83,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 108,
+            "endLine": 108,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=83&endLine=83"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=108&endLine=108"
         },
         {
-          "id": "@owp/charts:ChartFrameProps.legend",
           "label": "legend",
+          "id": "@owp/charts:ChartFrameProps.legend",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 86,
-            "endLine": 101,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 111,
+            "endLine": 111,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=86&endLine=101"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=111&endLine=111"
         },
         {
           "id": "@owp/charts:ChartFrameProps.options",
           "label": "options",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 77,
-            "endLine": 77,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 104,
+            "endLine": 104,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=77&endLine=77"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=104&endLine=104"
         },
         {
-          "id": "@owp/charts:ChartFrameProps.plugins",
-          "label": "plugins",
+          "id": "@owp/charts:ChartLegendProps.position",
+          "label": "position",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 78,
-            "endLine": 78,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 131,
+            "endLine": 131,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=78&endLine=78"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=131&endLine=131"
         },
         {
           "id": "@owp/charts:ChartFrameProps.preset",
           "label": "preset",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 73,
-            "endLine": 73,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 100,
+            "endLine": 100,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=73&endLine=73"
-        },
-        {
-          "label": "plugins.legend.title.text",
-          "id": "chart.js:LegendOptions.title.text",
-          "packageId": "charts",
-          "location": {
-            "file": "playgrounds/charts/examples/legend-title.tsx",
-            "line": 16,
-            "endLine": 16,
-            "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62"
-          },
-          "codeReview": {
-            "method": "ast"
-          },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Flegend-title.tsx&line=16&endLine=16"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=100&endLine=100"
         },
         {
           "id": "@owp/charts:ChartFrameProps.type",
           "label": "type",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 74,
-            "endLine": 74,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 101,
+            "endLine": 101,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=74&endLine=74"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=101&endLine=101"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.type",
+          "label": "ChartLegendProps.type",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 129,
+            "endLine": 129,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=129&endLine=129"
         },
         {
           "id": "@owp/charts:ChartFrameProps.xAxisLabelMarker",
           "label": "xAxisLabelMarker",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 84,
-            "endLine": 84,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 109,
+            "endLine": 109,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=84&endLine=84"
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=109&endLine=109"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.onClick",
+          "label": "onClick",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 132,
+            "endLine": 135,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=132&endLine=135"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.onHover",
+          "label": "onHover",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 136,
+            "endLine": 136,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "codeUrl": "/?package=charts&sample=legend-title&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=136&endLine=136"
         }
       ],
       "url": "/?package=charts&sample=legend-title",
       "entrypoint": "/snippets/playgrounds/charts/examples/legend-title.tsx",
-      "sha256": "7eb10436091db867d56d9fc5ceec4b4bbf00085e943cfc978167ade324f3ea62",
+      "sha256": "5d4a4090ce59140347e4b07096c6cab657b15d7e8979823bc379d7562806731f",
       "propDiagnostics": [
         {
           "kind": "excluded-prop",
           "component": "ChartFrame",
           "prop": "aria-label",
-          "file": "playgrounds/charts/runtime/ChartCanvas.tsx"
+          "file": "playgrounds/charts/runtime/LegendPreview.tsx"
         }
       ],
       "referenceReviews": []
@@ -269057,8 +269170,8 @@
     {
       "id": "legend-events",
       "packageId": "charts",
-      "title": "범례 이벤트",
-      "description": "범례 마우스 호버와 클릭 이벤트 기록 확인 가능.",
+      "title": "범례로 막대 강조",
+      "description": "범례에 마우스를 올리면 해당 라인의 막대를 강조합니다. 클릭하면 표시하거나 숨깁니다.",
       "source": "examples/legend-events.tsx",
       "references": [
         {
@@ -269066,239 +269179,419 @@
           "label": "showExportButton",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 82,
-            "endLine": 82,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 107,
+            "endLine": 107,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=82&endLine=82"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=107&endLine=107"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.align",
+          "label": "align",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 130,
+            "endLine": 130,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=130&endLine=130"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.chart",
+          "label": "chart",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 127,
+            "endLine": 127,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=127&endLine=127"
         },
         {
           "id": "@owp/charts:ChartFrameProps.chartRef",
           "label": "chartRef",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 79,
-            "endLine": 79,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 105,
+            "endLine": 105,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=79&endLine=79"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=105&endLine=105"
         },
         {
           "id": "@owp/charts:ChartFrameProps.data",
           "label": "data",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 75,
-            "endLine": 75,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 102,
+            "endLine": 102,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=75&endLine=75"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=102&endLine=102"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.data",
+          "label": "ChartLegendProps.data",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 128,
+            "endLine": 128,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=128&endLine=128"
         },
         {
           "id": "@owp/charts:ChartFrameProps.datasetIdKey",
           "label": "datasetIdKey",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 76,
-            "endLine": 76,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 103,
+            "endLine": 103,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=76&endLine=76"
-        },
-        {
-          "id": "@owp/charts:ChartFrameProps.exportRef",
-          "label": "exportRef",
-          "packageId": "charts",
-          "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 80,
-            "endLine": 80,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
-          },
-          "codeReview": {
-            "method": "ast"
-          },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=80&endLine=80"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=103&endLine=103"
         },
         {
           "id": "@owp/charts:ChartFrameProps.height",
           "label": "height",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 81,
-            "endLine": 81,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 106,
+            "endLine": 106,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=81&endLine=81"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=106&endLine=106"
         },
         {
           "id": "@owp/charts:ChartFrameProps.interactionLayer",
           "label": "interactionLayer",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 83,
-            "endLine": 83,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 108,
+            "endLine": 108,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=83&endLine=83"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=108&endLine=108"
         },
         {
           "id": "@owp/charts:ChartFrameProps.legend",
           "label": "legend",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 86,
-            "endLine": 101,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 111,
+            "endLine": 111,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=86&endLine=101"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=111&endLine=111"
         },
         {
           "id": "@owp/charts:ChartFrameProps.options",
           "label": "options",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 77,
-            "endLine": 77,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 104,
+            "endLine": 104,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=77&endLine=77"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=104&endLine=104"
         },
         {
-          "id": "@owp/charts:ChartFrameProps.plugins",
-          "label": "plugins",
+          "id": "@owp/charts:ChartLegendProps.position",
+          "label": "position",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 78,
-            "endLine": 78,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 131,
+            "endLine": 131,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=78&endLine=78"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=131&endLine=131"
         },
         {
           "id": "@owp/charts:ChartFrameProps.preset",
           "label": "preset",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 73,
-            "endLine": 73,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 100,
+            "endLine": 100,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=73&endLine=73"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=100&endLine=100"
         },
         {
           "id": "@owp/charts:ChartFrameProps.type",
           "label": "type",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 74,
-            "endLine": 74,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 101,
+            "endLine": 101,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=74&endLine=74"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=101&endLine=101"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.type",
+          "label": "ChartLegendProps.type",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 129,
+            "endLine": 129,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "ast"
+          },
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=129&endLine=129"
         },
         {
           "id": "@owp/charts:ChartFrameProps.xAxisLabelMarker",
           "label": "xAxisLabelMarker",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 84,
-            "endLine": 84,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 109,
+            "endLine": 109,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=84&endLine=84"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=109&endLine=109"
         },
         {
           "label": "legend.onClick",
           "id": "@owp/charts:ChartLegendOptions.onClick",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 102,
-            "endLine": 102,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 132,
+            "endLine": 135,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "reviewed",
+            "mode": "forwarded",
+            "reason": "legend-events가 LegendPreview를 사용하며 ChartLegendOptions에서 파생한 공개 ChartLegend의 onClick으로 강조를 해제하고 범례 클릭 이벤트를 기록합니다. 표시 전환은 ChartLegend가 처리합니다.",
+            "evidence": [
+              {
+                "file": "playgrounds/charts/examples/legend-events.tsx",
+                "line": 20,
+                "endLine": 24,
+                "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+              },
+              {
+                "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+                "line": 126,
+                "endLine": 128,
+                "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+              }
+            ]
+          },
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=132&endLine=135"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.onClick",
+          "label": "onClick",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 132,
+            "endLine": 135,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=102&endLine=102"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=132&endLine=135"
         },
         {
           "label": "legend.onHover",
           "id": "@owp/charts:ChartLegendOptions.onHover",
           "packageId": "charts",
           "location": {
-            "file": "playgrounds/charts/runtime/ChartCanvas.tsx",
-            "line": 103,
-            "endLine": 103,
-            "sha256": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8"
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 136,
+            "endLine": 136,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          },
+          "codeReview": {
+            "method": "reviewed",
+            "mode": "forwarded",
+            "reason": "legend-events가 LegendPreview에 recordLegendHover를 전달하고 ChartLegendOptions에서 파생한 공개 ChartLegend의 onHover로 handleLegendHover를 연결해 이벤트 기록과 막대 강조를 실행합니다.",
+            "evidence": [
+              {
+                "file": "playgrounds/charts/examples/legend-events.tsx",
+                "line": 20,
+                "endLine": 24,
+                "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+              },
+              {
+                "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+                "line": 126,
+                "endLine": 128,
+                "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+              },
+              {
+                "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+                "line": 73,
+                "endLine": 74,
+                "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+              }
+            ]
+          },
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=136&endLine=136"
+        },
+        {
+          "id": "@owp/charts:ChartLegendProps.onHover",
+          "label": "onHover",
+          "packageId": "charts",
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 136,
+            "endLine": 136,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FChartCanvas.tsx&line=103&endLine=103"
+          "codeUrl": "/?package=charts&sample=legend-events&tab=code&file=playgrounds%2Fcharts%2Fruntime%2FLegendPreview.tsx&line=136&endLine=136"
         }
       ],
       "url": "/?package=charts&sample=legend-events",
       "entrypoint": "/snippets/playgrounds/charts/examples/legend-events.tsx",
-      "sha256": "497e1104900cc72897c8d7599eaef413c0453ba66e93642db4674b18d22f3434",
+      "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918",
       "propDiagnostics": [
         {
           "kind": "excluded-prop",
           "component": "ChartFrame",
           "prop": "aria-label",
-          "file": "playgrounds/charts/runtime/ChartCanvas.tsx"
+          "file": "playgrounds/charts/runtime/LegendPreview.tsx"
         }
       ],
-      "referenceReviews": []
+      "referenceReviews": [
+        {
+          "label": "legend.onClick",
+          "id": "@owp/charts:ChartLegendOptions.onClick",
+          "action": "locate",
+          "reason": "legend-events가 LegendPreview를 사용하며 ChartLegendOptions에서 파생한 공개 ChartLegend의 onClick으로 강조를 해제하고 범례 클릭 이벤트를 기록합니다. 표시 전환은 ChartLegend가 처리합니다.",
+          "evidence": [
+            {
+              "file": "playgrounds/charts/examples/legend-events.tsx",
+              "line": 20,
+              "endLine": 24,
+              "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+            },
+            {
+              "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+              "line": 126,
+              "endLine": 128,
+              "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+            }
+          ],
+          "target": {
+            "label": "legend.onClick",
+            "id": "@owp/charts:ChartLegendOptions.onClick"
+          },
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 132,
+            "endLine": 135,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          }
+        },
+        {
+          "label": "legend.onHover",
+          "id": "@owp/charts:ChartLegendOptions.onHover",
+          "action": "locate",
+          "reason": "legend-events가 LegendPreview에 recordLegendHover를 전달하고 ChartLegendOptions에서 파생한 공개 ChartLegend의 onHover로 handleLegendHover를 연결해 이벤트 기록과 막대 강조를 실행합니다.",
+          "evidence": [
+            {
+              "file": "playgrounds/charts/examples/legend-events.tsx",
+              "line": 20,
+              "endLine": 24,
+              "sha256": "af5fa56e6063dcc0ec238edeb22bd7e4b26a8759656c9ec0e41ce3ca812c0918"
+            },
+            {
+              "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+              "line": 126,
+              "endLine": 128,
+              "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+            },
+            {
+              "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+              "line": 73,
+              "endLine": 74,
+              "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+            }
+          ],
+          "target": {
+            "label": "legend.onHover",
+            "id": "@owp/charts:ChartLegendOptions.onHover"
+          },
+          "location": {
+            "file": "playgrounds/charts/runtime/LegendPreview.tsx",
+            "line": 136,
+            "endLine": 136,
+            "sha256": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401"
+          }
+        }
+      ]
     },
     {
       "id": "tooltip-mode",
@@ -273112,12 +273405,12 @@
       "unlocated": 117
     },
     "current": {
-      "references": 2715,
-      "located": 2712,
+      "references": 2723,
+      "located": 2720,
       "unlocated": 3
     },
     "reviewed": {
-      "locate": 119,
+      "locate": 121,
       "replace": 17,
       "remove": 6,
       "unlocated": 3

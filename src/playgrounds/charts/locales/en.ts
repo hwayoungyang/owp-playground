@@ -515,6 +515,17 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '범례 옵션': 'Legend options',
   '위치와 애니메이션': 'Position and animation',
   '범례 제목': 'Legend title',
+  '범례 + 제목': 'Legend + title',
+  '범례로 막대 강조': 'Highlight bars with the legend',
+  '제목 표시와 왼쪽·가운데·오른쪽 정렬을 비교합니다.':
+    'Compare title visibility and left, center, and right alignment.',
+  '범례에 마우스를 올리면 해당 라인의 막대를 강조합니다. 클릭하면 표시하거나 숨깁니다.':
+    'Hover over a legend item to highlight all bars for that production line. Click to show or hide them.',
+  '제목 정렬': 'Title alignment',
+  왼쪽: 'Left',
+  가운데: 'Center',
+  오른쪽: 'Right',
+  '막대 강조': 'Highlight bars',
   'Point 표시': 'Show points',
   '이벤트 기록': 'Event recording',
   '범례 클릭 기록': 'Record legend clicks',
