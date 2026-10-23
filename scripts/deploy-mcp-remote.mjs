@@ -4,17 +4,21 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { promisify } from 'node:util';
 import { validateMcpConfig } from './deploy-mcp-config.mjs';
-import { inspectMcpServer, optionalStat, hashContent, assertMcpUnitConfiguration } from './deploy-mcp-preflight.mjs';
+import { inspectMcpServer, optionalStat, hashContent, assertMcpUnitConfiguration, selectMcpPackageManager, mcpPackageManagerEnvironment } from './deploy-mcp-preflight.mjs';
 import { extractMcpTar, inspectMcpTar, sha256 } from './deploy-mcp-tar.mjs';
 import { prepareMcpArchiveMerge } from './deploy-mcp-archive.mjs';
 import { renderMcpUnit } from './deploy-mcp-unit.mjs';
 import { assertMcpOwner, atomicMcpFile, atomicMcpLink, saveMcpTransaction, rollbackMcpTransaction, commitMcpTransaction, finalizeMcpRollback } from './deploy-mcp-transaction.mjs';
 
 const execute = promisify(execFile);
-export async function installMcpDependencies(appDirectory) {
+export async function installMcpDependencies(appDirectory, selection) {
+  const packageManager = selection ?? await selectMcpPackageManager();
+  const installed = packageManager.command === 'pnpm' && Array.isArray(packageManager.prefix) && packageManager.prefix.length === 0;
+  const cached = packageManager.command === 'corepack' && Array.isArray(packageManager.prefix) && packageManager.prefix.length === 1 && packageManager.prefix[0] === 'pnpm@12.15.0';
+  if (packageManager.version !== '12.15.0' || (!installed && !cached)) throw new Error('검증된 pnpm 12.15.0 실행 정보가 필요합니다.');
   try {
-    await execute('corepack', ['pnpm', 'install', '--prod', '--frozen-lockfile', '--ignore-scripts', '--config.manage-package-manager-versions=false'], {
-      cwd: appDirectory, env: { ...process.env, NODE_ENV: 'production', COREPACK_ENABLE_NETWORK: '0' }, timeout: 10 * 60 * 1000, maxBuffer: 4 * 1024 * 1024,
+    await execute(installed ? 'pnpm' : 'corepack', [...(cached ? ['pnpm@12.15.0'] : []), 'install', '--prod', '--frozen-lockfile', '--ignore-scripts', '--config.manage-package-manager-versions=false'], {
+      cwd: appDirectory, env: { ...mcpPackageManagerEnvironment(), NODE_ENV: 'production' }, timeout: 10 * 60 * 1000, maxBuffer: 4 * 1024 * 1024,
     });
   } catch (cause) { throw new Error('prod frozen dependency 설치에 실패했습니다. 준비된 pnpm·registry·lockfile을 확인해 주세요.', { cause }); }
 }
@@ -36,10 +40,10 @@ export async function activateMcpDeployment(context, dependencies = {}) {
   if (appTar.comment !== metadata.head) throw new Error('수신 source tar commit이 다릅니다.');
   await extractMcpTar(appTar, appDirectory);
   await extractMcpTar(inspectMcpTar(await readFile(path.join(incoming, 'archive.tar.gz'))), path.join(incoming, 'archive'));
-  await (dependencies.install ?? installMcpDependencies)(appDirectory);
+  await (dependencies.install ?? installMcpDependencies)(appDirectory, server.packageManager);
   const merged = await prepareMcpArchiveMerge({ ...context, appDirectory });
   const nextUnit = renderMcpUnit(config, server.node);
-  const receipt = { schemaVersion: 1, releaseId: metadata.releaseId, head: metadata.head, root: config.remoteRoot, url: config.url, service: config.service, appDirectory, node: server.node, owner, unitSha256: hashContent(nextUnit) };
+  const receipt = { schemaVersion: 1, releaseId: metadata.releaseId, head: metadata.head, root: config.remoteRoot, url: config.url, service: config.service, appDirectory, node: server.node, packageManager: server.packageManager, owner, unitSha256: hashContent(nextUnit) };
   const state = {
     owner, root: config.remoteRoot, rollbackBaseline, phase: 'prepared', appDirectory, ...merged,
     beforeCurrent: server.receipt ? await readlink(path.join(config.remoteRoot, 'current')) : undefined,

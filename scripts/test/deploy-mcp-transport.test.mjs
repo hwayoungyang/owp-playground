@@ -41,20 +41,20 @@ test('Given an explicit bundle, When SCP is planned, Then only frozen files and 
   assert.equal(call[1].at(-1), `root@127.0.0.1:${fixture.config.remoteRoot}/.incoming-${plan.owner}/`);
   assert.ok(bundle.transferFiles.every((file) => call[1].includes(path.join(bundle.directory, file.name))));
 });
-test('Given a local Corepack process shim, When dependencies install, Then prod, frozen lockfile and ignored lifecycle scripts are passed', async (t) => {
+test('Given only a cached Corepack process shim on PATH, When dependencies install, Then prod, frozen lockfile and ignored lifecycle scripts are passed', async (t) => {
   const fixture = await mcpFixture(t);
   const bin = path.join(fixture.root, 'bin');
   await mkdir(bin);
   const output = path.join(fixture.root, 'corepack-call.json');
   const corepack = path.join(bin, 'corepack');
-  await writeFile(corepack, `#!/usr/bin/env node\nimport{writeFileSync}from'node:fs';writeFileSync(${JSON.stringify(output)},JSON.stringify({args:process.argv.slice(2),cwd:process.cwd(),network:process.env.COREPACK_ENABLE_NETWORK}));`);
+  await writeFile(corepack, `#!${process.execPath}\nimport{writeFileSync}from'node:fs';if(process.argv.at(-1)==='--version')process.stdout.write('12.15.0');else writeFileSync(${JSON.stringify(output)},JSON.stringify({args:process.argv.slice(2),cwd:process.cwd(),network:process.env.COREPACK_ENABLE_NETWORK}));`);
   await chmod(corepack, 0o755);
   const previous = process.env.PATH;
-  process.env.PATH = `${bin}:${previous}`;
+  process.env.PATH = bin;
   try { await installMcpDependencies(fixture.bundle); }
   finally { process.env.PATH = previous; }
   const call = JSON.parse(await readFile(output, 'utf8'));
-  assert.deepEqual(call.args, ['pnpm', 'install', '--prod', '--frozen-lockfile', '--ignore-scripts', '--config.manage-package-manager-versions=false']);
+  assert.deepEqual(call.args, ['pnpm@12.15.0', 'install', '--prod', '--frozen-lockfile', '--ignore-scripts', '--config.manage-package-manager-versions=false']);
   assert.equal(call.cwd, fixture.bundle);
   assert.equal(call.network, '0');
 });

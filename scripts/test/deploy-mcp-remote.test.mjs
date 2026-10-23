@@ -20,12 +20,54 @@ test('Given an initial server, When activated and committed, Then exact receipt 
   const { fixture, bundle, shim, plan } = await scenario(t);
   const activated = await runMcpRemoteOperation('activate', plan, shim);
   assert.equal(activated.releaseId, bundle.metadata.releaseId);
+  assert.deepEqual(activated.packageManager, { command: 'pnpm', prefix: [], version: '12.15.0' });
   assert.equal(await readlink(path.join(fixture.config.remoteRoot, 'current')), activated.appDirectory);
   assert.equal((await shim.state()).active, 'active');
   assert.equal((await shim.state()).enabled, 'enabled');
   assert.equal(await readFile(path.join(fixture.config.remoteRoot, '.deploy.lock/owner'), 'utf8'), plan.owner);
   assert.deepEqual(await runMcpRemoteOperation('commit', plan, shim), activated);
   await assert.rejects(readFile(path.join(fixture.config.remoteRoot, '.deploy.lock/owner')), { code: 'ENOENT' });
+});
+test('Given a cached preflight selection and changed server runtimes, When activation holds the lock, Then installation uses the fresh server selection', async (t) => {
+  const { shim, plan } = await scenario(t);
+  await shim.state({ pnpmPresent: false });
+  const first = await inspectMcpServer(plan.config, { ...shim.preflight, lockOwner: plan.owner });
+  assert.equal(first.packageManager.command, 'corepack');
+  plan.packageManager = { command: '/untrusted/command', prefix: ['install'], version: '12.15.0' };
+  plan.metadata.packageManager = first.packageManager;
+  await shim.state({ pnpmPresent: true, corepackPresent: false });
+  const install = shim.install;
+  let selected;
+  shim.install = async (directory, selection) => { selected = selection; await install(directory); };
+  const activated = await runMcpRemoteOperation('activate', plan, shim);
+  assert.deepEqual(selected, { command: 'pnpm', prefix: [], version: '12.15.0' });
+  assert.deepEqual(activated.packageManager, selected);
+  await runMcpRemoteOperation('commit', plan, shim);
+});
+test('Given a valid installed pnpm without Corepack, When server preflight runs, Then Corepack is never invoked', async (t) => {
+  const fixture = await mcpFixture(t);
+  const shim = await systemShim(fixture);
+  await shim.state({ corepackPresent: false });
+  assert.equal((await inspectMcpServer(fixture.config, shim.preflight)).packageManager.command, 'pnpm');
+  assert.equal((await shim.state()).calls.some(([command]) => command === 'corepack'), false);
+});
+for (const nodeVersion of ['v24.22.0', 'v26.12.1']) test(`Given Node ${nodeVersion}, When server preflight runs, Then exact Node 24.22.1 is required before package-manager checks`, async (t) => {
+  const fixture = await mcpFixture(t);
+  const shim = await systemShim(fixture);
+  await assert.rejects(inspectMcpServer(fixture.config, { ...shim.preflight, nodeVersion }), /Node 24\.22\.1/);
+  assert.deepEqual((await shim.state()).calls, []);
+});
+test('Given an existing receipt without package-manager metadata, When server preflight runs, Then its managed deployment remains compatible', async (t) => {
+  const { fixture, shim, plan } = await scenario(t);
+  await runMcpRemoteOperation('activate', plan, shim);
+  await runMcpRemoteOperation('commit', plan, shim);
+  const file = path.join(fixture.config.remoteRoot, 'deployment.json');
+  const receipt = JSON.parse(await readFile(file, 'utf8'));
+  delete receipt.packageManager;
+  await writeFile(file, JSON.stringify(receipt));
+  const server = await inspectMcpServer(fixture.config, shim.preflight);
+  assert.equal(server.receipt.packageManager, undefined);
+  assert.equal(server.packageManager.command, 'pnpm');
 });
 for (const failure of ['install', 'start']) test(`Given an initial ${failure} failure, When activation fails, Then no service or unit remains and rollback holds the lock for verification`, async (t) => {
   const { fixture, shim, plan } = await scenario(t);

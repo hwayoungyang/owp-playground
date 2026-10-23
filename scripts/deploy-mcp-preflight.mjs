@@ -19,9 +19,20 @@ export async function assertRealAncestors(directory) {
     if (info && (!info.isDirectory() || info.isSymbolicLink())) throw new Error(`실제 디렉터리가 필요합니다: ${current}`);
   }
 }
-export async function capture(command, args) {
-  try { return (await execute(command, args, { encoding: 'utf8', timeout: 30000, maxBuffer: 1024 * 1024, env: { ...process.env, COREPACK_ENABLE_NETWORK: '0' } })).stdout.trim(); }
+export function mcpPackageManagerEnvironment() {
+  return { ...process.env, COREPACK_ENABLE_NETWORK: '0', COREPACK_ENABLE_PROJECT_SPEC: '0', npm_config_manage_package_manager_versions: 'false' };
+}
+export async function capture(command, args, options = {}) {
+  try { return (await execute(command, args, { encoding: 'utf8', timeout: 30000, maxBuffer: 1024 * 1024, cwd: options.cwd, env: { ...mcpPackageManagerEnvironment(), ...options.env } })).stdout.trim(); }
   catch (error) { throw new Error(`${command} 준비 상태를 확인하지 못했습니다. 필요한 런타임을 서버에 먼저 준비해 주세요.`, { cause: error }); }
+}
+export async function selectMcpPackageManager(run = capture) {
+  for (const candidate of [{ command: 'pnpm', prefix: [], version: '12.15.0' }, { command: 'corepack', prefix: ['pnpm@12.15.0'], version: '12.15.0' }]) {
+    try {
+      if (await run(candidate.command, [...candidate.prefix, '--version'], { cwd: '/', env: mcpPackageManagerEnvironment() }) === candidate.version) return candidate;
+    } catch { /* 설치된 실행 파일 또는 캐시를 사용할 수 없으면 다음 후보를 확인한다. */ }
+  }
+  throw new Error('서버 pnpm 12.15.0이 필요합니다. PATH에 pnpm 12.15.0을 설치하거나, 선택적으로 Corepack에 pnpm@12.15.0을 미리 캐시해 주세요. 사전 점검은 도구를 다운로드하거나 설치하지 않습니다.');
 }
 
 export async function assertMcpUnitConfiguration(config, run = capture) {
@@ -53,7 +64,7 @@ export async function inspectMcpServer(config, dependencies = {}) {
   if (version !== 'v24.22.1') throw new Error('서버 Node 24.22.1이 필요합니다. OS 런타임은 자동 설치하지 않습니다.');
   const node = await realpath(dependencies.nodePath ?? process.execPath);
   if (!/^\/[A-Za-z0-9_./+-]+$/.test(node)) throw new Error('Node binary 절대 경로가 안전하지 않습니다.');
-  if (await run('corepack', ['pnpm@12.15.0', '--version']) !== '12.15.0') throw new Error('서버 Corepack에 pnpm 12.15.0을 먼저 준비해 주세요.');
+  const packageManager = await selectMcpPackageManager(run);
   await run('systemctl', ['--version']);
   await run('sha256sum', ['--version']);
   await assertMcpDropInDirectories(config, run);
@@ -102,5 +113,5 @@ export async function inspectMcpServer(config, dependencies = {}) {
     previousManifest = JSON.parse(await readFile(manifestPath, 'utf8'));
     if (previousManifest.releaseId !== receipt.releaseId || !receipt.head.startsWith(previousManifest.commit)) throw new Error('이전 receipt와 manifest 정보가 다릅니다.');
   }
-  return { node, receipt, previousManifest, active, enabled, unitPath };
+  return { node, packageManager, receipt, previousManifest, active, enabled, unitPath };
 }

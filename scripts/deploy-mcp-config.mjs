@@ -28,7 +28,7 @@ export function parseMcpDeployOptions(args) {
     bundle: { type: 'string' }, help: { type: 'boolean', short: 'h' },
     'assume-vpn': { type: 'boolean' }, 'dry-run': { type: 'boolean' }, 'preflight-only': { type: 'boolean' },
   } });
-  if (!values.help && !values.bundle?.trim()) throw new Error('--bundle DIR로 준비된 묶음을 명시해 주세요.');
+  if (values.bundle !== undefined && !values.bundle.trim()) throw new Error('--bundle DIR에는 비어 있지 않은 경로가 필요합니다.');
   if (values['dry-run'] && values['preflight-only']) throw new Error('--dry-run과 --preflight-only는 함께 사용할 수 없습니다.');
   return { bundle: values.bundle, help: values.help ?? false, assumeVpn: values['assume-vpn'] ?? false, dryRun: values['dry-run'] ?? false, preflightOnly: values['preflight-only'] ?? false };
 }

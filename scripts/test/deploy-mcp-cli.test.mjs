@@ -31,9 +31,13 @@ function scenario() {
   };
   return { calls, dependencies, signals };
 }
-test('Given explicit options and pnpm forwarding, When parsed, Then the required bundle and modes are preserved', () => {
+test('Given optional bundle options and pnpm forwarding, When parsed, Then omission and explicit overrides are preserved', () => {
   assert.equal(parseMcpDeployOptions(['--', '--bundle', '/private/tmp/input', '--dry-run']).dryRun, true);
-  assert.throws(() => parseMcpDeployOptions([]), /--bundle/);
+  assert.equal(parseMcpDeployOptions([]).bundle, undefined);
+  assert.equal(parseMcpDeployOptions(['--dry-run']).dryRun, true);
+  assert.equal(parseMcpDeployOptions(['--bundle', 'input']).bundle, 'input');
+  for (const empty of ['', '   ']) assert.throws(() => parseMcpDeployOptions(['--bundle', empty]), /--bundle/);
+  assert.throws(() => parseMcpDeployOptions(['--bundle']), /argument/);
   assert.throws(() => parseMcpDeployOptions(['--bundle', 'input', '--dry-run', '--preflight-only']));
   assert.throws(() => parseMcpDeployOptions(['--bundle', 'input', '--host', 'evil']));
   for (const config of [{ remoteRoot: '/home/../etc' }, { service: 'foo;rm' }, { url: 'http://user:secret@192.168.100.20:30011' }, { remoteRoot: '/tmp/a b' }, { remoteRoot: '/etc/systemd/system' }]) assert.throws(() => validateMcpConfig(config));
@@ -42,6 +46,9 @@ test('Given --help, When the real CLI runs, Then no bundle or VPN is needed', as
   const { stdout } = await execute(process.execPath, ['--experimental-strip-types', cli, '--help'], { cwd: '/private/tmp', timeout: 10000 });
   assert.match(stdout, /deploy:mcp/);
   assert.match(stdout, /30011/);
+  assert.match(stdout, /\[--bundle DIR\]/);
+  assert.match(stdout, /최신 clean stable/);
+  assert.match(stdout, /설치된 pnpm 12\.15\.0 또는 Corepack에 캐시된 pnpm 12\.15\.0/);
 });
 test('Given a prepared bundle, When dry-run is requested, Then no network dependency is called', async (t) => {
   const fixture = await mcpFixture(t);
@@ -49,6 +56,7 @@ test('Given a prepared bundle, When dry-run is requested, Then no network depend
   const result = await runMcpDeployment({ bundle: fixture.bundle, dryRun: true }, dependencies);
   assert.equal(result.stage, 'dry-run');
   assert.equal(result.plan.files.length, 11);
+  assert.equal(result.plan.bundle, fixture.bundle);
   assert.deepEqual(calls, []);
 });
 test('Given no explicit VPN confirmation, When noninteractive CLI runs, Then it stops before SSH', async (t) => {

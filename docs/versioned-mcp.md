@@ -88,7 +88,7 @@ AI 클라이언트에는 `http://owp.internal:30011/mcp`를 Streamable HTTP 서�
 | 대상 | 명령 | 서버 경로 | 운영 방식 |
 | --- | --- | --- | --- |
 | 최신 정적 Playground · 30010 | `corepack pnpm deploy` | `/home/owp-playground` | 기존 Nginx·Docker |
-| 버전별 Playground + MCP · 30011 | `corepack pnpm deploy:mcp --bundle <묶음 경로>` | `/home/owp-playground-mcp` | `owp-playground-mcp.service` · systemd |
+| 버전별 Playground + MCP · 30011 | `pnpm deploy:mcp` | `/home/owp-playground-mcp` | `owp-playground-mcp.service` · systemd |
 
 SSH 연결 공유 방식을 재사용하며 서비스·잠금·릴리스 보관 경로를 분리합니다. 기존 `deploy:status`·`deploy:rollback`·`deploy:cleanup`은 30010 정적 서비스 전용입니다.
 
@@ -106,25 +106,35 @@ corepack pnpm deploy:status
 
 ### MCP 최초 설치와 이후 갱신
 
-회사 VPN에 연결한 Mac의 프로젝트 루트에서 준비된 묶음 경로를 지정합니다. 서버에서 별도로 설치 명령을 입력할 필요 없이 다음 한 명령이 전송·설치·서비스 시작·검증을 수행합니다.
+회사 VPN에 연결한 Mac의 프로젝트 루트에서 실행합니다. 서버에서 별도로 설치 명령을 입력할 필요 없이 다음 한 명령이 최신 stable 묶음 선택·검증·전송·설치·서비스 시작·검증을 수행합니다.
 
 ```sh
-corepack pnpm deploy:mcp --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db
+pnpm deploy:mcp
 ```
 
-이 묶음은 코드 commit `8f5e7db9d5c84028ed42c9ddceeda26f2524658e`와 stable `20261023-205804-8f5e7db9d5c8`을 배포합니다. 과거 stable도 함께 포함합니다. `--bundle`은 필수이며 자동으로 가장 최근 폴더를 선택하지 않습니다. 배포할 때 새 묶음의 경로로 바꿉니다. CLI는 새 빌드·commit·스냅샷 생성을 수행하지 않습니다.
+`--bundle`을 생략하면 저장소 루트의 `.omo/evidence/versioned-mcp/` 바로 아래에 있는 `deploy-bundle-*` 실제 디렉터리를 검사합니다. `release.json`의 `channel: "stable"`, `dirty: false`를 확인하고 `releaseId`의 날짜·시각이 가장 최신인 묶음을 선택합니다. 폴더 이름의 Git SHA나 수정 시각으로 순서를 정하지 않습니다. 기존 전체 검증을 마친 뒤 선택 경로와 release ID를 표시하므로 SSH 접속 전에 확인할 수 있습니다.
+
+`release.json`이 없는 과거 형식·미완성 디렉터리와 draft·dirty 묶음은 선택 대상에서 제외합니다. 메타데이터가 손상됐거나 링크인 후보는 오류로 중단합니다. 최신 시각의 후보가 여러 개면 임의로 선택하지 않고 명시 경로를 요구합니다. 선택한 최신 stable의 파일·해시 검증에 실패해도 이전 묶음으로 넘어가지 않습니다.
+
+특정 묶음을 선택하려면 `--bundle`을 지정합니다. 이 경우 자동 탐색을 생략하고 지정한 경로만 검사합니다. 아래 예시는 코드 commit `8f5e7db9d5c84028ed42c9ddceeda26f2524658e`와 stable `20261023-205804-8f5e7db9d5c8`을 담은 기존 묶음입니다.
+
+```sh
+pnpm deploy:mcp --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db
+```
+
+CLI는 새 빌드·commit·스냅샷·배포 묶음을 생성하지 않습니다. 새 묶음을 준비하지 않았다면 기존 최신 stable을 다시 배포합니다. 자동 탐색 경로는 CLI 파일이 속한 저장소를 기준으로 하며 실행한 터미널의 작업 디렉터리에 따라 바뀌지 않습니다.
 
 ```sh
 # 서버 접속 없이 묶음을 검증하고 배포 계획만 표시합니다.
-corepack pnpm deploy:mcp --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db --dry-run
+pnpm deploy:mcp --dry-run
 
 # SSH 인증과 서버 준비 상태만 검사합니다. 전송·설치·서비스 변경은 하지 않습니다.
-corepack pnpm deploy:mcp:preflight --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db
+pnpm deploy:mcp:preflight
 
 # 비대화형 실행: 기존 키·SSH Agent의 비대화형 인증이 필요합니다.
-corepack pnpm deploy:mcp --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db --assume-vpn
+pnpm deploy:mcp --assume-vpn
 
-corepack pnpm deploy:mcp --help
+pnpm deploy:mcp --help
 ```
 
 인증은 기존 OpenSSH 연결 공유 방식을 사용합니다. 첫 SSH 인증에서 입력한 비밀번호는 저장하지 않으며 이후 작업은 같은 연결을 재사용합니다. `StrictHostKeyChecking=yes`이므로 처음 연결하는 Mac에서는 `ssh root@192.168.100.20`으로 지문을 먼저 확인합니다. `--assume-vpn`은 VPN 확인 질문만 생략하며 실제 접근 검사는 유지합니다.
@@ -133,12 +143,14 @@ corepack pnpm deploy:mcp --help
 
 배포 대상은 `root@192.168.100.20:22`이며 다음 조건이 필요합니다.
 
-- 이번 배포 계약에 고정한 Node.js `24.22.1`과 Corepack을 사용할 수 있어야 합니다. Corepack에는 pnpm `12.15.0`이 준비되어 있어야 하며 사전 검사는 이를 새로 내려받지 않습니다.
+- 이번 배포 계약에 고정한 Node.js `24.22.1`과 pnpm `12.15.0`을 사용할 수 있어야 합니다. 설치된 pnpm의 버전이 일치하면 Corepack 없이 사용합니다. 설치된 pnpm이 없거나 버전이 다르거나 실행에 실패하면, 선택적으로 Corepack에 캐시된 pnpm `12.15.0`을 확인합니다. 두 경로 모두 사용할 수 없으면 중단하며 사전 검사에서 패키지 관리자를 설치하거나 내려받지 않습니다.
 - systemd와 서비스 등록·시작 권한이 있어야 합니다. SSH 로그인 환경과 systemd의 실행 환경에서 런타임을 사용할 수 있어야 하며 `ss`와 `sha256sum`도 필요합니다.
 - 서버에서 lockfile에 고정된 의존성과 사내 OWP registry에 접근할 수 있어야 합니다. registry 인증은 기존 서버 설정으로 제공합니다.
 - 30011번 포트가 비어 있거나 이 스크립트로 설치한 MCP 서비스가 사용 중이어야 합니다. 기존 수동 서비스·알 수 없는 앱 경로·관리되지 않은 systemd 추가 설정(drop-in)은 자동으로 인수하지 않습니다.
 
 CLI는 준비 조건이 부족하면 중단합니다. OS 런타임을 자동 설치하거나 방화벽·SELinux·Nginx·Docker·SSH·Verdaccio 설정을 변경하지 않습니다. 30011의 사내 접근 허용은 서버 운영 정책에 맞게 준비합니다.
+
+로컬에서도 pnpm `12.15.0`을 직접 실행할 수 있으면 위 명령에 `corepack`을 붙일 필요가 없습니다. 로컬 pnpm 선택을 Corepack으로 관리하는 환경에서는 `corepack pnpm deploy:mcp`로 실행해도 됩니다.
 
 ### 묶음 형식과 검증
 
@@ -157,7 +169,7 @@ CLI는 로컬의 비공개 임시 경로에 묶음을 복사해 검증한 뒤 �
 
 ### 설치·전환·실패 복구
 
-전송한 코드는 새 앱 디렉터리에 풀고 `corepack pnpm install --frozen-lockfile --prod`로 의존성을 설치합니다. 서버에서 Playground를 빌드하거나 스냅샷을 다시 생성하지 않습니다. 서버의 설치·검증·복구를 담당하는 helper는 준비된 코드 묶음과 별도로 전송하므로, CLI 추가 전 생성한 위 stable 묶음도 배포할 수 있습니다. 배포 CLI와 MCP SDK 조회 검증은 로컬에서 실행합니다.
+전송한 코드는 새 앱 디렉터리에 풀고, 배포 잠금 안의 사전 검사에서 선택한 pnpm으로 `install --prod --frozen-lockfile --ignore-scripts --config.manage-package-manager-versions=false`를 실행합니다. 설치된 pnpm이 유효하면 `pnpm`을 직접 실행하고, 대체 경로를 선택한 경우에만 `corepack pnpm@12.15.0`을 사용합니다. 서버에서 Playground를 빌드하거나 스냅샷을 다시 생성하지 않습니다. 서버의 설치·검증·복구를 담당하는 helper는 준비된 코드 묶음과 별도로 전송하므로, CLI 추가 전 생성한 위 stable 묶음도 배포할 수 있습니다. 배포 CLI와 MCP SDK 조회 검증은 로컬에서 실행합니다.
 
 서버의 영구 archive는 실제 디렉터리로 유지합니다. 기존 stable을 보존하면서 신규 스냅샷을 등록하고 index를 전환합니다. 같은 release ID의 내용이 다르거나 서버의 최신 stable보다 오래된 묶음이면 중단합니다. archive에는 `rsync --delete`, 정적 사이트의 최근 5개 릴리스 정리나 자동 삭제를 적용하지 않습니다.
 
@@ -181,7 +193,7 @@ journalctl -u owp-playground-mcp.service -n 100 --no-pager
 AI 클라이언트 안내에는 `<OWP_MCP_URL>/mcp`로 표기하며 `<OWP_MCP_URL>`을 해당 서비스의 origin으로 바꿉니다. 운영 archive와 index는 함께 백업합니다. 배포 자동화 테스트는 다음 명령으로 실행합니다.
 
 ```sh
-corepack pnpm test:deploy:mcp
+pnpm test:deploy:mcp
 ```
 
 ## 개인 로컬 stdio
