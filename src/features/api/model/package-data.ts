@@ -1,4 +1,5 @@
 import type { ApiExampleSummary } from './schema.ts';
+import { referencePackagesFor } from '../../../playgrounds/packages.ts';
 
 type ReferenceRecord = {
   readonly id: string;
@@ -16,18 +17,23 @@ type ReferenceRecord = {
 };
 
 export function apiRecordReferenceIds(record: ReferenceRecord): readonly string[] {
-  return [...new Set([
-    ...record.related,
-    ...(record.guideIds ?? []),
-    ...Object.values(record.typeReferences ?? {}),
-    ...(record.typeDetails?.sources ?? []),
-    ...(record.inheritedFrom ?? []),
-    ...(record.declaredIn ? [record.declaredIn] : []),
-    ...(record.path && record.kind !== 'guide' ? [`${record.package}:${record.owner}`] : []),
-  ])];
+  return [
+    ...new Set([
+      ...record.related,
+      ...(record.guideIds ?? []),
+      ...Object.values(record.typeReferences ?? {}),
+      ...(record.typeDetails?.sources ?? []),
+      ...(record.inheritedFrom ?? []),
+      ...(record.declaredIn ? [record.declaredIn] : []),
+      ...(record.path && record.kind !== 'guide' ? [`${record.package}:${record.owner}`] : []),
+    ]),
+  ];
 }
 
-export function apiExampleKey(example: { readonly packageId: string; readonly id: string }): string {
+export function apiExampleKey(example: {
+  readonly packageId: string;
+  readonly id: string;
+}): string {
   return `${example.packageId}/${example.id}`;
 }
 
@@ -52,8 +58,10 @@ export function createPackageKnowledge<T extends ReferenceRecord>(
   entry: { readonly id: string; readonly name: string; readonly version: string },
 ) {
   const records = data.records.filter(
-    (record) => record.package === entry.name ||
-      (entry.id === 'charts' && Object.hasOwn(data.dependencies, record.package)),
+    (record) =>
+      record.package === entry.name ||
+      (referencePackagesFor(entry.id).includes(record.package) &&
+        Object.hasOwn(data.dependencies, record.package)),
   );
   const allRecords = new Map(data.records.map((record) => [record.id, record]));
   const included = new Set(records.map((record) => record.id));
@@ -70,11 +78,19 @@ export function createPackageKnowledge<T extends ReferenceRecord>(
     }
   }
   const exampleKeys = new Set(pending.flatMap((record) => record.examples.map(apiExampleKey)));
-  const examples = data.examples.filter((example) => exampleKeys.has(apiExampleKey(example)))
+  const examples = data.examples
+    .filter((example) => exampleKeys.has(apiExampleKey(example)))
     .map(({ packageId, id, title, source }) => ({ packageId, id, title, source }));
   const summaries = new Set(examples.map(apiExampleKey));
   for (const key of exampleKeys) {
     if (!summaries.has(key)) throw new ApiKnowledgeReferenceError(entry.name, key);
   }
-  return { schemaVersion: 1, ...entry, dependencies: data.dependencies, records, referenceRecords, examples };
+  return {
+    schemaVersion: 1,
+    ...entry,
+    dependencies: data.dependencies,
+    records,
+    referenceRecords,
+    examples,
+  };
 }

@@ -5,8 +5,7 @@ import path from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
 import { guides } from '../knowledge/guides.mjs';
 import { guideSections } from '../knowledge/guide-sections.mjs';
-import { gridCatalog } from '../src/playgrounds/datagrid/catalog.ts';
-import { chartExecutionCatalog } from '../src/playgrounds/charts/catalog.ts';
+import { knowledgePackageAdapters } from '../knowledge/package-adapters.mjs';
 import { readDeclarations } from './api-declarations.mjs';
 import { resolveExampleReferences } from './api-references.mjs';
 import { inheritApiMembers } from './api-inheritance.mjs';
@@ -15,8 +14,6 @@ import { parseDocumentation } from './api-documentation.mjs';
 import { describeApiTypes } from './api-type-details.mjs';
 import { readSourceResources, sourceDependencyGraph } from './source-resources.ts';
 import { groupExampleSources } from '../src/features/code/source-groups.ts';
-import { getGridSourcePolicy } from '../src/playgrounds/datagrid/model/sourceFiles.ts';
-import { chartSourcePolicy } from '../src/playgrounds/charts/model/sourceFiles.ts';
 import { createExampleCodeReviews } from './api-example-reviews.mjs';
 import { discoverExamplePropReferences } from './api-example-props.mjs';
 import { exampleCodeHref } from '../src/features/code/code-location.ts';
@@ -27,17 +24,22 @@ import { knowledgeSchema, packageKnowledgeSchema } from '../src/features/api/mod
 
 const root = path.resolve(import.meta.dirname, '..');
 const hash = (content) => createHash('sha256').update(content).digest('hex');
-const catalogs = { datagrid: gridCatalog, charts: chartExecutionCatalog };
-const externalPackages = ['chart.js', 'react-chartjs-2', 'chartjs-plugin-annotation', 'chartjs-plugin-datalabels'];
-const own = await Promise.all(['datagrid', 'charts'].map((id) => readDeclarations(path.join(root, `node_modules/@owp/${id}`), { externalPackages })));
-const require = createRequire(await realpath(path.join(root, 'node_modules/@owp/charts/package.json')));
-const dependencies = await Promise.all(externalPackages.map((name) => readDeclarations(path.resolve(require.resolve(name), '../..'), {
+const packageIds = knowledgePackageAdapters.map((entry) => entry.id);
+const catalogs = Object.fromEntries(knowledgePackageAdapters.map((entry) => [entry.id, entry.catalog]));
+const externalPackages = [...new Set(knowledgePackageAdapters.flatMap((entry) => entry.referencePackages))];
+const own = await Promise.all(packageIds.map((id) => readDeclarations(path.join(root, `node_modules/@owp/${id}`), { externalPackages })));
+const dependencies = await Promise.all(externalPackages.map(async (name) => {
+  const owner = knowledgePackageAdapters.find((entry) => entry.referencePackages.includes(name));
+  if (!owner) throw new ReferenceError(`외부 API의 소속 패키지가 없습니다: ${name}`);
+  const require = createRequire(await realpath(path.join(root, 'node_modules', owner.name, 'package.json')));
+  return readDeclarations(path.resolve(require.resolve(name), '../..'), {
   externalPackages,
   additionalEntries: name === 'chartjs-plugin-datalabels' ? { './types/options': { types: './types/options.d.ts' } } : {},
-})));
+  });
+}));
 const native = dependencies[0];
 const reviewed = JSON.parse(await readFile(path.join(root, 'knowledge/reviewed-packages.json'), 'utf8'));
-for (const [index, packageId] of ['datagrid', 'charts'].entries()) {
+for (const [index, packageId] of packageIds.entries()) {
   const current = own[index];
   const previous = reviewed[`@owp/${packageId}`];
   if (!previous || previous.version !== current.version || previous.declarationHash !== current.declarationHash || previous.runtimeHash !== current.runtimeHash) throw new Error(`패키지 계약이 검토한 버전과 다릅니다: @owp/${packageId}. API·가이드·명칭을 대조한 뒤 reviewed-packages.json을 갱신하세요.`);
@@ -62,7 +64,7 @@ try {
 if (sourcesAvailable && !isDeepStrictEqual(await auditKnowledgeSources(sourceRoots), sourceAudit)) throw new Error('스킬·문서 원본이 검토본과 다릅니다. 삭제·이름·계약을 대조하고 source-audit.json을 갱신하세요.');
 const allRecords = describeApiTypes(inheritApiMembers([...own, ...dependencies].flatMap((result) => result.records)), [...own, ...dependencies].flatMap((result) => result.augmentations));
 const examples = [];
-for (const packageId of ['datagrid', 'charts']) {
+for (const packageId of packageIds) {
   const sourceText = new Map(await Promise.all(catalogs[packageId].map(async (entry) => [entry.id, await readFile(path.join(root, `src/playgrounds/${packageId}/${entry.source}`), 'utf8')])));
   examples.push(...resolveExampleReferences({ packageId, examples: catalogs[packageId], records: allRecords, sourceText }).map((entry) => ({ ...entry, url: `/?${new URLSearchParams({ package: packageId, sample: entry.id })}`, entrypoint: `/snippets/playgrounds/${packageId}/${entry.source}`, sha256: hash(sourceText.get(entry.id)) })));
 }
@@ -70,17 +72,19 @@ const byId = new Map(allRecords.map((entry) => [entry.id, entry]));
 const resources = await readSourceResources(root);
 const graph = sourceDependencyGraph(resources);
 const codeReviews = createExampleCodeReviews(
-  Object.fromEntries(await Promise.all(['datagrid', 'charts'].map(async (id) => [id, JSON.parse(await readFile(path.join(root, `knowledge/example-code-reviews/${id}.json`), 'utf8'))]))),
+  Object.fromEntries(await Promise.all(packageIds.map(async (id) => [id, JSON.parse(await readFile(path.join(root, `knowledge/example-code-reviews/${id}.json`), 'utf8'))]))),
   JSON.parse(await readFile(path.join(root, 'knowledge/example-code-reviews/sources.json'), 'utf8')),
 );
 for (const example of examples) {
   const entry = catalogs[example.packageId].find((item) => item.id === example.id);
-  const groups = groupExampleSources({ example: entry, sources: [...resources.keys()], dependencies: graph, policy: example.packageId === 'datagrid' ? getGridSourcePolicy(entry.id) : chartSourcePolicy });
+  const adapter = knowledgePackageAdapters.find((item) => item.id === example.packageId);
+  if (!adapter) throw new ReferenceError(`예제의 Knowledge adapter가 없습니다: ${example.packageId}`);
+  const groups = groupExampleSources({ example: entry, sources: [...resources.keys()], dependencies: graph, policy: adapter.sourcePolicy(entry.id) });
   const reachable = new Set(groups.core);
   for (const file of reachable) for (const dependency of graph[file] ?? []) {
     if (dependency.startsWith(`/src/playgrounds/${example.packageId}/`)) reachable.add(dependency);
   }
-  if (example.packageId === 'datagrid' && entry.kind === 'grid') for (const file of ['runtime/useGridController.ts', 'runtime/GridPreview.tsx', 'runtime/GridToolbar.tsx']) reachable.add(`/src/playgrounds/datagrid/${file}`);
+  if (entry.kind === 'grid') for (const file of adapter.runtimeFiles) reachable.add(`/src/playgrounds/${adapter.id}/${file}`);
   const files = [...reachable].flatMap((file) => {
     const source = resources.get(file);
     return source ? [{ file, content: source.content, sha256: source.sha256, priority: file === groups.core[0] ? 100 : groups.core.includes(file) ? 60 : 0 }] : [];
@@ -126,7 +130,7 @@ for (const record of queue) {
     if (related) { usedNative.add(id); queue.push(related); }
   }
 }
-const packages = ['datagrid', 'charts'].map((id, index) => ({
+const packages = packageIds.map((id, index) => ({
   id, name: `@owp/${id}`, version: own[index].version, declarationHash: own[index].declarationHash,
 }));
 const records = allRecords.filter((record) => !record.id.startsWith('chart.js:') || usedNative.has(record.id)).map((record) => {
@@ -165,7 +169,8 @@ if (ids.size !== records.length) throw new Error('중복 API ID가 있습니다.
 for (const record of records) for (const id of [...record.related, ...record.guideIds]) if (!ids.has(id)) throw new ReferenceError(`관련 API 누락: ${record.id}/${id}`);
 for (const record of records) for (const id of apiRecordReferenceIds(record)) if (!ids.has(id)) throw new ReferenceError(`API 참조 누락: ${record.id}/${id}`);
 for (const record of records) {
-  const packageId = record.package === '@owp/datagrid' ? 'datagrid' : 'charts';
+  const packageId = knowledgePackageAdapters.find((entry) => entry.name === record.package || entry.referencePackages.includes(record.package))?.id;
+  if (!packageId) throw new ReferenceError(`API의 Playground 소속이 없습니다: ${record.id}`);
   record.url = `/?${new URLSearchParams({ package: packageId, view: 'api', symbol: record.id })}`;
   record.examples = record.examples.map((reference) => {
     const example = examples.find((entry) => entry.packageId === reference.packageId && entry.id === reference.id);

@@ -18,6 +18,7 @@ import {
 } from '../../playgrounds/registry';
 import type { ColorMode } from '../../shared/theme/tokens';
 import type { ExampleMetadata } from '../../shared/types/playground';
+import { VersionSelector } from '../../features/releases/VersionSelector';
 
 export function Header({
   playground,
@@ -62,7 +63,13 @@ export function Header({
             onPackageChange(dataGridPackage);
           }}
         >
-          <img className="brand-symbol" src="/brand/owp-symbol.svg" alt="" width={24} height={24} />
+          <img
+            className="brand-symbol"
+            src={`${import.meta.env.BASE_URL}brand/owp-symbol.svg`}
+            alt=""
+            width={24}
+            height={24}
+          />
           <span>
             OWP <b>Playground</b>
           </span>
@@ -121,8 +128,14 @@ export function Header({
               ) : null}
             </MenuItem>
           ))}
-          <MenuItem disabled>MCP · {t('준비 중')}</MenuItem>
         </Menu>
+        {playground.status === 'ready' && (
+          <VersionSelector
+            packageId={playground.id}
+            version={playground.version}
+            colorMode={mode}
+          />
+        )}
         <span className="header-separator" />
         <Button
           className="language-switch"

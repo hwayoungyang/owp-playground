@@ -346,7 +346,7 @@ DataGrid의 기본 연결은 `@owp/datagrid/hooks`의 `useDataGridApi<Task>()`�
 
 Box plot·Treemap·Heatmap 예제는 기존 전용 컴포넌트와 `ChartFrame` 직접 사용을 전환할 수 있습니다. 설치된 `@owp/charts 5.0.1`에서는 `boxPlot`·`treemap`·`heatmap`이 native 타입명이며 전용 컴포넌트도 같은 타입을 사용합니다. 이전 `owpBoxPlot`·`owpTreemap`·`owpHeatmap` 타입명은 지원하지 않습니다. `CoreChart`·`ChartFrame`은 controller를 자동 등록하며, Chart.js instance를 직접 생성할 때는 공개 `@owp/charts/chartjs/register`의 `registerChartCore()`를 사용합니다.
 
-MCP는 카탈로그에서 예제를 찾고 소스 매니페스트의 진입 파일과 의존 파일을 `/snippets/`에서 읽을 수 있습니다. RAG도 같은 매니페스트를 기준으로 예제 ID·API·패키지 버전·파일 관계를 연결하고, SHA-256으로 원본 변경 여부를 판별할 수 있습니다. 코드 메뉴의 주요 구현에는 현재 예제에서 실제로 사용하는 설정·컴포넌트·타입·데이터만 표시합니다. 소스 매니페스트는 스타일과 번역 등 직접·간접 의존 파일도 함께 제공합니다. 코드 표시를 위한 `?raw` 문자열 import는 실행 의존성에서 제외합니다. 별도의 설명용 샘플 사본은 만들지 않습니다. MCP 서버와 다른 패키지의 독립 샘플은 후속 범위입니다.
+MCP는 카탈로그에서 예제를 찾고 소스 매니페스트의 진입 파일과 의존 파일을 `/snippets/`에서 읽습니다. RAG도 같은 매니페스트를 기준으로 예제 ID·API·패키지 버전·파일 관계를 연결하고, SHA-256으로 원본 변경 여부를 판별할 수 있습니다. 코드 메뉴의 주요 구현에는 현재 예제에서 실제로 사용하는 설정·컴포넌트·타입·데이터만 표시합니다. 소스 매니페스트는 스타일과 번역 등 직접·간접 의존 파일도 함께 제공합니다. 코드 표시를 위한 `?raw` 문자열 import는 실행 의존성에서 제외합니다. 별도의 설명용 샘플 사본은 만들지 않습니다. DataGrid·Charts MCP와 버전별 Playground의 실행·보존·연결 방법은 [버전별 Playground와 MCP](./docs/versioned-mcp.md)를 따릅니다. 다른 패키지는 해당 Playground를 완성한 시점에 추가합니다.
 
 ## API 문서와 지식 데이터
 
@@ -379,7 +379,7 @@ pnpm knowledge:check
 
 검사가 실패하면 삭제·개명·공개 타입·실제 동작을 먼저 대조하고 관련 가이드·예제·대응표를 수정합니다. 검토 후에만 `knowledge:audit`에 `--write`를 추가해 원본 지문을 갱신하고, 패키지 계약 검토 결과에 맞춰 `reviewed-packages.json`을 갱신합니다. 생성한 `src/features/api/data/*.generated.json`은 직접 수정하지 않습니다.
 
-빌드는 같은 문서 데이터에서 다음 정적 리소스를 생성합니다. MCP 서버·벡터 DB는 별도 후속 범위이며, 로컬 스킬 경로 없이 이 배포 자료로 API 설명과 실행 소스를 조회할 수 있습니다.
+빌드는 같은 문서 데이터에서 다음 정적 리소스를 생성합니다. MCP의 HTTP·stdio 조회는 이 자료를 포함한 불변 스냅샷을 사용합니다. 로컬 스킬 경로 없이 API 설명과 실행 소스를 조회할 수 있습니다. 벡터 DB는 사용하지 않습니다.
 
 - `/api/datagrid.json`, `/api/charts.json`: 타입 원문·기본 동작·관련 설명·실행 예제·출처·버전·내용 해시.
 - `/knowledge/index.json`: 전체 ID·버전·언어·문서 URL·내용 해시와 원본 대응표. RAG 동기화 시 현재 ID 집합을 기준으로 삭제된 항목도 제거합니다.
@@ -388,6 +388,17 @@ pnpm knowledge:check
 - `/knowledge/guides/{package}/{topic}.md`: 사용 가이드와 관련 API·실행 소스 링크, record ID·내용 해시·원본 경로·섹션·SHA-256.
 - `/catalogs/charts.sources.json`: DataGrid와 같은 형식의 Charts 실행 파일·의존 파일·실제 설치 버전·해시.
 - `/llms.txt`: 위 리소스의 진입 색인.
+
+버전별 Playground와 MCP를 로컬에서 확인하려면 다음 명령을 사용합니다. `draft`는 커밋되지 않은 작업을 확인할 때 사용하며, 팀 정식 제공에는 clean Git tree의 `snapshot:create --stable`을 사용합니다.
+
+```sh
+corepack pnpm snapshot:create --draft
+corepack pnpm mcp:http --allow-drafts
+# 별도 터미널 또는 AI 클라이언트에서 실행
+corepack pnpm mcp:stdio --allow-drafts
+```
+
+화면은 `http://127.0.0.1:30011/`, HTTP MCP는 `http://127.0.0.1:30011/mcp`입니다. `.playground-versions/`는 Git에서 제외하며 기존 운영 릴리스 정리와 별도로 보존합니다. [팀 HTTP·로컬 stdio 설정과 패키지 등록 조건](./docs/versioned-mcp.md)을 확인하세요.
 
 ## 디자인과 접근성
 

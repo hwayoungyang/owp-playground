@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { completedPlaygroundPackages } from '../../../playgrounds/packages';
 import { apiExampleKey } from './package-data.ts';
 import { compareApiMembers } from './presentation.ts';
 import {
@@ -40,8 +41,10 @@ export function createApiDataset(knowledge: PackageKnowledge): ApiDataset {
     return index < 0 ? order.length : index;
   };
   const records = [...knowledge.records].sort(
-    (left, right) => rank(left.owner) - rank(right.owner) ||
-      Number(Boolean(left.path)) - Number(Boolean(right.path)) || left.id.localeCompare(right.id),
+    (left, right) =>
+      rank(left.owner) - rank(right.owner) ||
+      Number(Boolean(left.path)) - Number(Boolean(right.path)) ||
+      left.id.localeCompare(right.id),
   );
   return {
     knowledge,
@@ -83,19 +86,27 @@ async function fetchPackageKnowledge(
       signal,
       headers: { Accept: 'application/json' },
     });
-    if (!response.ok) throw new ApiKnowledgeLoadError(packageId, 'http', undefined, response.status);
+    if (!response.ok)
+      throw new ApiKnowledgeLoadError(packageId, 'http', undefined, response.status);
     const payload: unknown = await response.json();
     const knowledge = packageKnowledgeSchema.parse(payload);
     if (knowledge.id !== packageId) throw new ApiKnowledgeLoadError(packageId, 'schema');
     return createApiDataset(knowledge);
   } catch (error) {
     if (error instanceof ApiKnowledgeLoadError) throw error;
-    if (error instanceof z.ZodError) throw new ApiKnowledgeLoadError(packageId, 'schema', { cause: error });
-    if (error instanceof SyntaxError) throw new ApiKnowledgeLoadError(packageId, 'json', { cause: error });
-    if (signal.aborted && signal.reason instanceof DOMException && signal.reason.name === 'TimeoutError') {
+    if (error instanceof z.ZodError)
+      throw new ApiKnowledgeLoadError(packageId, 'schema', { cause: error });
+    if (error instanceof SyntaxError)
+      throw new ApiKnowledgeLoadError(packageId, 'json', { cause: error });
+    if (
+      signal.aborted &&
+      signal.reason instanceof DOMException &&
+      signal.reason.name === 'TimeoutError'
+    ) {
       throw new ApiKnowledgeLoadError(packageId, 'timeout', { cause: error });
     }
-    if (error instanceof Error) throw new ApiKnowledgeLoadError(packageId, 'network', { cause: error });
+    if (error instanceof Error)
+      throw new ApiKnowledgeLoadError(packageId, 'network', { cause: error });
     throw error;
   }
 }
@@ -106,7 +117,8 @@ export function createApiKnowledgeLoader(fetchResource: typeof fetch = fetch) {
   const requests = new Map<ApiPackageId, Promise<ApiDataset>>();
   return (value: string): Promise<ApiDataset> => {
     const parsed = apiPackageIdSchema.safeParse(value);
-    if (!parsed.success) return Promise.reject(new ApiKnowledgeLoadError(value, 'package'));
+    if (!parsed.success || !completedPlaygroundPackages.some((entry) => entry.id === parsed.data))
+      return Promise.reject(new ApiKnowledgeLoadError(value, 'package'));
     const packageId = parsed.data;
     const cached = datasets.get(packageId);
     if (cached) return Promise.resolve(cached);

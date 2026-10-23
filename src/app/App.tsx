@@ -41,7 +41,9 @@ import { Provider } from './providers/Provider';
 export function App() {
   const { t, i18n } = useOwpTranslation();
   const [route, setRoute] = useState(() => readPlaygroundRoute(location.search));
-  const [mode, setMode] = useState<ColorMode>('light');
+  const [mode, setMode] = useState<ColorMode>(() =>
+    new URLSearchParams(location.search).get('colorMode') === 'dark' ? 'dark' : 'light',
+  );
   const [menuOpen, setMenuOpen] = useState(false);
   const [packageThemes, setPackageThemes] = useState({
     datagrid: defaultPreviewTheme,

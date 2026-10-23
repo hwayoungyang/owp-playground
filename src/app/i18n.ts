@@ -13,9 +13,11 @@ const korean = Object.fromEntries(
     key.replace(/_(?:zero|one|two|few|many|other|theme)$/, ''),
   ]),
 );
+const requestedLanguage =
+  typeof location === 'undefined' ? null : new URLSearchParams(location.search).get('lang');
 
 await i18next.use(initReactI18next).init({
-  lng: 'ko',
+  lng: requestedLanguage === 'en' ? 'en' : 'ko',
   fallbackLng: 'ko',
   defaultNS: 'app',
   ns: ['app', 'owp'],

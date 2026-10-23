@@ -1,10 +1,18 @@
 import type { Plugin } from 'vite';
+import { createHash } from 'node:crypto';
 import knowledge from '../src/features/api/data/knowledge.generated.json';
 import type { ApiRecord } from '../src/features/api/model/knowledge';
 import { createPackageKnowledge } from '../src/features/api/model/package-data.ts';
+import { markdownWithPublicBase, withPublicBase } from '../src/features/releases/model/urls.ts';
 
 type ResourceRecord = Omit<ApiRecord, 'kind' | 'requirement'> & { readonly kind: string; readonly requirement: string };
-type KnowledgeResourceData = Omit<typeof knowledge, 'records'> & { readonly records: readonly ResourceRecord[] };
+type ResourceExample = Omit<typeof knowledge.examples[number], 'references'> & {
+  readonly references: readonly (typeof knowledge.examples[number]['references'][number])[];
+};
+type KnowledgeResourceData = Omit<typeof knowledge, 'records' | 'examples'> & {
+  readonly records: readonly ResourceRecord[];
+  readonly examples: readonly ResourceExample[];
+};
 
 export function reviewedApiCatalog<T extends { readonly id: string; readonly api: readonly string[] }>(catalog: readonly T[], packageId: string): readonly (Omit<T, 'api'> & { readonly api: readonly string[] })[] {
   return catalog.map((entry) => {
@@ -13,14 +21,43 @@ export function reviewedApiCatalog<T extends { readonly id: string; readonly api
   });
 }
 
-export function knowledgeAssets(data: KnowledgeResourceData = knowledge): ReadonlyMap<string, string> {
+export function projectKnowledgeData(data: KnowledgeResourceData, basePath: string): KnowledgeResourceData {
+  if (basePath === '/') return data;
+  return {
+    ...data,
+    records: data.records.map(({ contentHash: _contentHash, ...record }) => {
+      const projected = {
+        ...record,
+        url: withPublicBase(record.url, basePath),
+        body: markdownWithPublicBase(record.body, basePath),
+        ...(record.sections ? { sections: record.sections.map((section) => ({ ...section,
+          body: markdownWithPublicBase(section.body, basePath),
+        })) } : {}),
+        examples: record.examples.map((example) => ({ ...example,
+          url: withPublicBase(example.url, basePath), codeUrl: withPublicBase(example.codeUrl, basePath),
+          entrypoint: withPublicBase(example.entrypoint, basePath),
+        })),
+      };
+      return { ...projected, contentHash: createHash('sha256').update(JSON.stringify(projected)).digest('hex') };
+    }),
+    examples: data.examples.map((example) => ({ ...example,
+      url: withPublicBase(example.url, basePath), entrypoint: withPublicBase(example.entrypoint, basePath),
+      references: example.references.map((reference) => ({ ...reference,
+        codeUrl: withPublicBase(reference.codeUrl, basePath),
+      })),
+    })),
+  };
+}
+
+export function knowledgeAssets(input: KnowledgeResourceData = knowledge, basePath = '/'): ReadonlyMap<string, string> {
+  const data = projectKnowledgeData(input, basePath);
   const assets = new Map<string, string>();
   for (const entry of data.packages) {
     assets.set(`api/${entry.id}.json`, JSON.stringify(createPackageKnowledge(data, entry), null, 2));
   }
   assets.set('knowledge/index.json', JSON.stringify({
     schemaVersion: 1, packages: data.packages, reviewed: data.reviewed,
-    resources: ['/api/datagrid.json', '/api/charts.json', '/catalogs/datagrid.sources.json', '/catalogs/charts.sources.json', '/knowledge/records.jsonl', '/knowledge/example-links.json'],
+    resources: [...data.packages.map((entry) => `/api/${entry.id}.json`), ...data.packages.map((entry) => `/catalogs/${entry.id}.sources.json`), '/knowledge/records.jsonl', '/knowledge/example-links.json'].map((url) => withPublicBase(url, basePath)),
     records: data.records.map(({ id, url, packageVersion, locale, contentHash }) => ({ id, url, packageVersion, locale, contentHash })),
     sourceAudit: data.sourceAudit,
   }, null, 2));
@@ -44,18 +81,31 @@ export function knowledgeAssets(data: KnowledgeResourceData = knowledge): Readon
       return record ? `- [${record.id}](${record.url})` : '';
     }).join('\n')}\n\n## Examples\n\n${guide.examples.map((example: ApiRecord['examples'][number]) => `- [${example.id}](${example.url}) · [Code](${example.codeUrl}) · [Source](${example.entrypoint})`).join('\n')}\n\n## Original sources\n\n${originals}\n`);
   }
-  assets.set('llms.txt', '# OWP Playground\n\nVersioned API contracts, usage guides and executing examples for @owp/datagrid and @owp/charts.\n\n- [Knowledge index](/knowledge/index.json): package versions, record IDs, content hashes and source review coverage.\n- [DataGrid API](/api/datagrid.json)\n- [Charts API](/api/charts.json)\n- [Records for retrieval](/knowledge/records.jsonl): one API symbol or guide per line; retain packageVersion, locale and canonical URL.\n- [Reviewed example links](/knowledge/example-links.json): API usage locations, forwarding evidence, corrections and exclusions.\n- [DataGrid executing sources](/catalogs/datagrid.sources.json)\n- [Charts executing sources](/catalogs/charts.sources.json)\n');
+  assets.set('llms.txt', [
+    '# OWP Playground', '',
+    'Versioned API contracts, usage guides and executing examples for completed OWP Playgrounds.', '',
+    '- [Knowledge index](/knowledge/index.json): package versions, record IDs, content hashes and source review coverage.',
+    ...data.packages.flatMap((entry) => [
+      `- [${entry.name} API](/api/${entry.id}.json)`,
+      `- [${entry.name} executing sources](/catalogs/${entry.id}.sources.json)`,
+    ]),
+    '- [Records for retrieval](/knowledge/records.jsonl): one API symbol or guide per line; retain packageVersion, locale and canonical URL.',
+    '- [Reviewed example links](/knowledge/example-links.json): API usage locations, forwarding evidence, corrections and exclusions.', '',
+  ].join('\n'));
+  assets.set('llms.txt', markdownWithPublicBase(assets.get('llms.txt') ?? '', basePath));
   return assets;
 }
 
 export function knowledgeResourcesPlugin(): Plugin {
+  let basePath = '/';
   return {
     name: 'playground-knowledge',
+    configResolved(config) { basePath = config.base; },
     generateBundle() {
-      for (const [fileName, source] of knowledgeAssets()) this.emitFile({ type: 'asset', fileName, source });
+      for (const [fileName, source] of knowledgeAssets(knowledge, basePath)) this.emitFile({ type: 'asset', fileName, source });
     },
     configureServer(server) {
-      const assets = knowledgeAssets();
+      const assets = knowledgeAssets(knowledge, basePath);
       server.middlewares.use((request, response, next) => {
         const key = new URL(request.url ?? '/', 'http://localhost').pathname.slice(1);
         const content = assets.get(key);

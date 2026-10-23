@@ -1,6 +1,6 @@
-import chartsManifest from '@owp/charts/package.json' with { type: 'json' };
-import dataGridManifest from '@owp/datagrid/package.json' with { type: 'json' };
 import { z } from 'zod';
+import { type chartsPackage, dataGridPackage, packageCatalog } from './packages';
+export { chartsPackage, dataGridPackage, packageCatalog } from './packages';
 import { type ChartCatalogEntry, findChartEntry } from './charts/catalog.ts';
 import { chartConsolidations } from './charts/model/consolidations.ts';
 import { findGridEntry, type GridCatalogEntry } from './datagrid/catalog.ts';
@@ -8,37 +8,6 @@ import { type CodeLocation, readCodeLocation } from '../features/code/code-locat
 import { inferChartVariantFromCode } from './charts/model/variants';
 
 type CodeRouteState = { readonly tab?: 'code'; readonly codeTarget?: CodeLocation };
-
-export const dataGridPackage = {
-  id: 'datagrid',
-  title: 'OwpDataGrid',
-  name: '@owp/datagrid',
-  version: dataGridManifest.version,
-  status: 'ready',
-} as const;
-
-export const chartsPackage = {
-  id: 'charts',
-  title: 'OwpCharts',
-  name: '@owp/charts',
-  version: chartsManifest.version,
-  status: 'ready',
-} as const;
-
-const planned = <T extends string>(id: T, title: string) =>
-  ({ id, title, name: `@owp/${id}`, version: null, status: 'planned' }) as const;
-
-export const packageCatalog = [
-  dataGridPackage,
-  chartsPackage,
-  planned('components', 'OwpComponents'),
-  planned('date-picker', 'OwpDatePicker'),
-  planned('core', 'OwpCore'),
-  planned('excel', 'OwpExcel'),
-  planned('pdf', 'OwpPdf'),
-  planned('theme', 'OwpTheme'),
-  planned('tailwind-config', 'OwpTailwindConfig'),
-] as const;
 
 export type PlaygroundPackage = (typeof packageCatalog)[number];
 type PlannedPackage = Exclude<PlaygroundPackage, typeof dataGridPackage | typeof chartsPackage>;

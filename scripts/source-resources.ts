@@ -4,6 +4,7 @@ import path from 'node:path';
 import { parseSync } from 'vite';
 import { z } from 'zod';
 import { exampleSourcePath } from '../src/features/code/source-paths.ts';
+import { withPublicBase } from '../src/features/releases/model/urls.ts';
 
 export type SourceResource = {
   readonly path: string;
@@ -149,17 +150,19 @@ export async function createPackageSourceManifest(options: {
   readonly catalog: readonly SourceCatalogEntry[];
   readonly resources: ReadonlyMap<string, SourceResource>;
   readonly packageName: string;
+  readonly basePath?: string;
 }) {
+  const sourceUrl = (file: string) => withPublicBase(snippetPath(file), options.basePath ?? '/');
   const samples = options.catalog.map((entry) => {
     const entrypoint = `/src/${exampleSourcePath(entry)}`;
     const files = dependencyClosure(entrypoint, options.resources);
     return {
       ...entry,
-      entrypoint: snippetPath(entrypoint),
+      entrypoint: sourceUrl(entrypoint),
       files: files.map((file) => ({
-        path: snippetPath(file.path),
+        path: sourceUrl(file.path),
         sha256: file.sha256,
-        dependencies: file.dependencies.map(snippetPath),
+        dependencies: file.dependencies.map(sourceUrl),
         externalImports: file.externalImports,
       })),
       externalImports: [...new Set(files.flatMap((file) => file.externalImports))].sort(),

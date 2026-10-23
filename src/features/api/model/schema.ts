@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { playgroundPackageIdSchema, referencePackagesFor } from '../../../playgrounds/packages.ts';
 import { codeLocationSchema } from '../../code/code-location.ts';
 import { apiExampleKey, apiRecordReferenceIds } from './package-data.ts';
 
@@ -93,43 +94,54 @@ export const knowledgeSchema = z.object({
   examples: z.array(apiExampleSummarySchema),
 });
 
-export const apiPackageIdSchema = z.enum(['datagrid', 'charts']);
-export const packageKnowledgeSchema = z.object({
-  schemaVersion: z.literal(1),
-  id: apiPackageIdSchema,
-  name: z.string(),
-  version: z.string(),
-  dependencies: z.record(z.string(), z.string()),
-  records: z.array(apiRecordSchema),
-  referenceRecords: z.array(apiRecordSchema),
-  examples: z.array(apiExampleSummarySchema),
-}).superRefine((data, context) => {
-  if (data.name !== `@owp/${data.id}`) {
-    context.addIssue({ code: 'custom', message: 'API package identity mismatch' });
-  }
-  const records = [...data.records, ...data.referenceRecords];
-  const ids = new Set(records.map((record) => record.id));
-  if (ids.size !== records.length) {
-    context.addIssue({ code: 'custom', message: 'Duplicate API record ID' });
-  }
-  for (const record of data.records) {
-    if (record.package !== data.name &&
-      !(data.id === 'charts' && Object.hasOwn(data.dependencies, record.package))) {
-      context.addIssue({ code: 'custom', message: `Unexpected searchable API: ${record.id}` });
+export const apiPackageIdSchema = playgroundPackageIdSchema;
+export const packageKnowledgeSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    id: apiPackageIdSchema,
+    name: z.string(),
+    version: z.string(),
+    dependencies: z.record(z.string(), z.string()),
+    records: z.array(apiRecordSchema),
+    referenceRecords: z.array(apiRecordSchema),
+    examples: z.array(apiExampleSummarySchema),
+  })
+  .superRefine((data, context) => {
+    if (data.name !== `@owp/${data.id}`) {
+      context.addIssue({ code: 'custom', message: 'API package identity mismatch' });
     }
-  }
-  const examples = new Set(data.examples.map(apiExampleKey));
-  for (const record of records) {
-    for (const id of apiRecordReferenceIds(record)) {
-      if (!ids.has(id)) context.addIssue({ code: 'custom', message: `Missing API: ${record.id}/${id}` });
+    const records = [...data.records, ...data.referenceRecords];
+    const ids = new Set(records.map((record) => record.id));
+    if (ids.size !== records.length) {
+      context.addIssue({ code: 'custom', message: 'Duplicate API record ID' });
     }
-    for (const example of record.examples) {
-      if (!examples.has(apiExampleKey(example))) {
-        context.addIssue({ code: 'custom', message: `Missing example: ${record.id}/${apiExampleKey(example)}` });
+    for (const record of data.records) {
+      if (
+        record.package !== data.name &&
+        !(
+          referencePackagesFor(data.id).includes(record.package) &&
+          Object.hasOwn(data.dependencies, record.package)
+        )
+      ) {
+        context.addIssue({ code: 'custom', message: `Unexpected searchable API: ${record.id}` });
       }
     }
-  }
-});
+    const examples = new Set(data.examples.map(apiExampleKey));
+    for (const record of records) {
+      for (const id of apiRecordReferenceIds(record)) {
+        if (!ids.has(id))
+          context.addIssue({ code: 'custom', message: `Missing API: ${record.id}/${id}` });
+      }
+      for (const example of record.examples) {
+        if (!examples.has(apiExampleKey(example))) {
+          context.addIssue({
+            code: 'custom',
+            message: `Missing example: ${record.id}/${apiExampleKey(example)}`,
+          });
+        }
+      }
+    }
+  });
 
 export type ApiRecord = z.infer<typeof apiRecordSchema>;
 export type ApiExampleSummary = z.infer<typeof apiExampleSummarySchema>;

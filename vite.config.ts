@@ -18,10 +18,28 @@ import { packageCatalog } from './src/playgrounds/registry.ts';
 
 const gridDocumentationCatalog = reviewedApiCatalog(gridCatalog, 'datagrid');
 const chartDocumentationCatalog = reviewedApiCatalog(chartCatalog, 'charts');
+const publicBase = process.env.OWP_PUBLIC_BASE ?? '/';
+if (!/^\/(?:[A-Za-z0-9_.-]+\/)*$/.test(publicBase))
+  throw new TypeError('OWP_PUBLIC_BASE는 /로 시작하고 끝나는 안전한 공개 경로여야 합니다.');
 
 export default defineConfig({
+  base: publicBase,
+  define: {
+    __OWP_RELEASE__: JSON.stringify({
+      releaseId: process.env.OWP_RELEASE_ID ?? null,
+      createdAt: process.env.OWP_RELEASE_CREATED_AT ?? null,
+      channel: process.env.OWP_RELEASE_CHANNEL ?? 'draft',
+    }),
+  },
   lint: {
-    ignorePatterns: ['/*', '!/src/', '!/tests/', '!/vite.config.ts', '!/vitest.config.ts'],
+    ignorePatterns: [
+      '/*',
+      '!/src/',
+      '!/mcp/',
+      '!/tests/',
+      '!/vite.config.ts',
+      '!/vitest.config.ts',
+    ],
     plugins: ['typescript', 'unicorn', 'oxc', 'react', 'jsx-a11y'],
     options: { denyWarnings: true, reportUnusedDisableDirectives: 'error' },
     rules: {
@@ -94,6 +112,7 @@ export default defineConfig({
               root,
               catalog: gridDocumentationCatalog,
               resources: sources,
+              basePath: publicBase,
             }),
             null,
             2,
@@ -113,6 +132,7 @@ export default defineConfig({
               catalog: chartDocumentationCatalog,
               resources: sources,
               packageName: '@owp/charts',
+              basePath: publicBase,
             }),
             null,
             2,
@@ -192,5 +212,5 @@ export default defineConfig({
       },
     },
   ],
-  build: { target: 'es2022' },
+  build: { target: 'es2022', outDir: process.env.OWP_BUILD_OUT_DIR ?? 'dist' },
 });

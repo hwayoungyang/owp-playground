@@ -17,5 +17,12 @@
     "noEmit": true,
     "types": ["vite/client"]
   },
-  "include": ["src", "vite.config.ts", "vitest.config.ts", "tests"]
+  "include": [
+    "src",
+    "mcp",
+    "scripts/version-archive*.ts",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "tests"
+  ]
 }

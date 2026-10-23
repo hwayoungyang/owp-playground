@@ -1,4 +1,5 @@
 import { createContext, type ComponentProps, type ReactNode, useContext } from 'react';
+import { isSamePlaygroundDocument } from '../../features/releases/model/urls';
 
 const NavigationContext = createContext<((href: string) => void) | null>(null);
 
@@ -26,6 +27,9 @@ export function PlaygroundLink({
       onClick={(event) => {
         if (
           !navigate ||
+          !isSamePlaygroundDocument(href, location.href) ||
+          (props.target !== undefined && props.target !== '_self') ||
+          props.download !== undefined ||
           event.defaultPrevented ||
           event.button !== 0 ||
           event.metaKey ||

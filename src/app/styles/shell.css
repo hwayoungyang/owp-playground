@@ -158,6 +158,20 @@ button {
   padding-inline: 4px;
   font-size: 11px;
 }
+.header-actions .version-selector {
+  min-width: 0;
+  white-space: nowrap;
+}
+.version-menu-entry {
+  display: grid;
+  gap: 4px;
+  flex: 1;
+  padding-right: 16px;
+}
+.version-menu-date {
+  color: var(--pg-muted);
+  font-size: 11px;
+}
 .desktop-sidebar {
   grid-row: 2;
   min-height: 0;
@@ -459,13 +473,22 @@ kbd {
   .brand > a b {
     display: none;
   }
+  .brand > a > span,
+  .version-release-state {
+    display: none;
+  }
+  .app-header {
+    gap: 8px;
+  }
   .brand {
     gap: 4px;
+    flex: 0 0 auto;
   }
   .header-separator {
     margin: 0 2px;
   }
-  .header-actions .package-selector {
+  .header-actions .package-selector,
+  .header-actions .version-selector {
     font-size: 11px;
     padding: 4px;
   }
@@ -474,6 +497,24 @@ kbd {
   }
   .package-heading h1 {
     font-size: 32px;
+  }
+}
+@media (max-width: 359px) {
+  .app-header {
+    height: 96px;
+    flex-wrap: wrap;
+    align-content: center;
+    gap: 4px;
+  }
+  .app-shell {
+    grid-template-rows: 96px minmax(0, 1fr);
+  }
+  .brand {
+    flex-basis: 100%;
+  }
+  .header-actions {
+    flex: 1;
+    justify-content: flex-end;
   }
 }
 @media (prefers-reduced-motion: reduce) {

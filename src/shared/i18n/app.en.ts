@@ -1,4 +1,11 @@
 export const appEnglish: Readonly<Record<string, string>> = {
+  '패키지 버전 선택': 'Select package version',
+  개발본: 'Draft',
+  '버전 목록을 불러오는 중입니다.': 'Loading versions.',
+  '보관된 버전이 없습니다.': 'No archived versions.',
+  '버전 목록을 불러오지 못했습니다. 다시 시도': 'Unable to load versions. Retry',
+  '선택한 버전을 열지 못했습니다. 다시 선택해 주세요.':
+    'Unable to open this version. Select it again.',
   '입력 조건': 'Input rules',
   '검사 시점': 'When to validate',
   '값 확정 시': 'When committed',
