@@ -56,11 +56,13 @@ export async function createMcpFixture(knowledge?: {
     ['release-new', '2.0.0', 'stable'],
     ['release-draft', '3.0.0', 'draft'],
   ] as const) {
-    const packages = ['datagrid', 'charts'].map((id) => ({
-      id,
-      name: `@owp/${id}`,
-      version: knowledge?.packages.find((entry) => entry.id === id)?.version ?? version,
-    }));
+    const packages = (knowledge?.packages.map((entry) => entry.id) ?? ['datagrid', 'charts']).map(
+      (id) => ({
+        id,
+        name: `@owp/${id}`,
+        version: knowledge?.packages.find((entry) => entry.id === id)?.version ?? version,
+      }),
+    );
     const files: Record<string, string> = {
       'index.html': '<!doctype html><title>OWP</title>',
       'knowledge/index.json': JSON.stringify({ schemaVersion: 1, packages }),

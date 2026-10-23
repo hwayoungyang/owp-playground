@@ -11,7 +11,7 @@ import { exampleSourcePath } from './source-paths';
 import { groupExampleSources, type SourcePolicy } from './source-groups';
 import type { CodeLocation } from './code-location';
 
-const allSources = import.meta.glob<string>('/src/**/*.{ts,tsx,css}', {
+const allSources = import.meta.glob<string>('/src/**/*.{ts,tsx,css,json}', {
   query: '?raw',
   import: 'default',
 });
@@ -139,7 +139,13 @@ export function CodeViewer({
     () =>
       highlightSource(
         content,
-        data !== undefined ? dataFormat : file.endsWith('.css') ? 'css' : 'typescript',
+        data !== undefined
+          ? dataFormat
+          : file.endsWith('.css')
+            ? 'css'
+            : file.endsWith('.json')
+              ? 'json'
+              : 'typescript',
       ),
     [content, data, dataFormat, file],
   );

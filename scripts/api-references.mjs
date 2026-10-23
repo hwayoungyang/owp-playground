@@ -92,7 +92,7 @@ const exampleTargets = {
 /** 예제의 컴포넌트와 선언의 참조 관계로 API 설명 대상을 확인합니다. */
 export function resolveExampleReferences({ packageId, examples, records, sourceText }) {
   const byId = new Map(records.map((record) => [record.id, record]));
-  const rootNames = packageId === 'datagrid' ? ['OwpDataGridProps', 'OwpDataGridColumn', 'OwpDataGridApi'] : ['ChartFrameProps', 'CoreChartProps', 'ChartSeriesConfig', 'CreateChartDataParams'];
+  const rootNames = packageId === 'datagrid' ? ['OwpDataGridProps', 'OwpDataGridColumn', 'OwpDataGridApi'] : packageId === 'core' ? [] : ['ChartFrameProps', 'CoreChartProps', 'ChartSeriesConfig', 'CreateChartDataParams'];
   function follow(record, parts, seen = new Set()) {
     if (!record || seen.has(`${record.id}/${parts.join('.')}`)) return [];
     if (!parts.length) return [record];
@@ -123,7 +123,7 @@ export function resolveExampleReferences({ packageId, examples, records, sourceT
       if (!record && packageId === 'charts' && native[label]) record = required(`chart.js:${native[label]}`);
       // 컴포넌트의 직접 props를 우선하고 관련 타입의 동명 속성은 명시 규칙 뒤에서 탐색합니다.
       if (!record && component) record = unique(follow(byId.get(`@owp/${packageId}:${component}Props.${parts[0]}`), parts.slice(1)));
-      if (!record && explicit[packageId][label]) {
+      if (!record && explicit[packageId]?.[label]) {
         const id = explicit[packageId][label];
         record = required(id.includes(':') ? id : `@owp/${packageId}:${id}`);
       }
@@ -137,7 +137,7 @@ export function resolveExampleReferences({ packageId, examples, records, sourceT
         record = unique(candidates);
       }
       if (!record) throw new ReferenceError(`API 설명 대상을 확인할 수 없습니다: ${packageId}/${example.id}/${label}`);
-      return { label, id: record.id, packageId: record.package === '@owp/datagrid' ? 'datagrid' : 'charts' };
+      return { label, id: record.id, packageId: record.package.startsWith('@owp/') ? record.package.slice(5) : packageId };
     });
     return { id: example.id, packageId, title: example.title, description: example.description, source: example.source, references };
   });

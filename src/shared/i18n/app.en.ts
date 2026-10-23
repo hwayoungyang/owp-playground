@@ -1,7 +1,7 @@
 export const appEnglish: Readonly<Record<string, string>> = {
-  'AI 도구에 MCP 연결하기': 'Connect an AI tool to MCP',
-  'AI 도구의 MCP 설정에서 서버 추가를 선택하고, 아래 세 가지 값을 입력한 뒤 저장합니다. 입력 위치와 설정 형식은 AI 도구마다 다릅니다.':
-    'In your AI tool’s MCP settings, choose Add server, enter the three values below, and save. Field locations and configuration formats vary by AI tool.',
+  'MCP 서버 연결': 'Connect to the MCP server',
+  '사용하는 앱의 MCP 설정에 아래 서버 정보를 등록합니다. 설정 위치와 형식은 앱마다 다릅니다.':
+    'Add the server details below in your app’s MCP settings. The settings location and format vary by app.',
   '서버 이름: owp': 'Server name: owp',
   '전송 방식: Streamable HTTP': 'Transport: Streamable HTTP',
   '공용 MCP 주소': 'Shared MCP URL',
@@ -16,9 +16,7 @@ export const appEnglish: Readonly<Record<string, string>> = {
     'MCP provides materials only for fully supported packages. Reuse the same releaseId in subsequent lookups to avoid mixing materials from different releases.',
   '패키지 버전 선택': 'Select package version',
   개발본: 'Draft',
-  '현재 개발 버전': 'Current development version',
-  '개발 서버에서는 현재 버전만 제공합니다.':
-    'The development server provides only the current version.',
+  '개발 중': 'In development',
   '버전 목록을 불러오는 중입니다.': 'Loading versions.',
   '잠시만 기다려 주세요.': 'Please wait.',
   '보관된 버전이 없습니다.': 'No archived versions.',
@@ -492,8 +490,8 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '패키지 선택': 'Select package',
   '예제 준비 중': 'Examples coming soon',
   '예제를 추가하고 있습니다.': 'More package examples are on the way.',
-  'OwpDataGrid 예제를 확인할 수 있습니다.': 'Explore the OwpDataGrid examples in the meantime.',
-  'OwpDataGrid 보기': 'Open OwpDataGrid',
+  'owp/datagrid 예제를 확인할 수 있습니다.': 'Explore the owp/datagrid examples.',
+  'owp/datagrid 보기': 'Open owp/datagrid',
   '어두운 화면': 'Dark screen',
   '밝은 화면': 'Light screen',
   '다크 모드로 전환': 'Switch to dark mode',

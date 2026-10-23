@@ -3,8 +3,11 @@ import { gridCatalog } from '../src/playgrounds/datagrid/catalog.ts';
 import { getGridSourcePolicy } from '../src/playgrounds/datagrid/model/sourceFiles.ts';
 import { chartExecutionCatalog } from '../src/playgrounds/charts/catalog.ts';
 import { chartSourcePolicy } from '../src/playgrounds/charts/model/sourceFiles.ts';
+import { coreCatalog } from '../src/playgrounds/core/catalog.ts';
+import { coreSourcePolicy } from '../src/playgrounds/core/model/sourceFiles.ts';
 
 const adapters = new Map([
+  ['core', { catalog: coreCatalog, sourcePolicy: () => coreSourcePolicy, runtimeFiles: [] }],
   [
     'datagrid',
     {

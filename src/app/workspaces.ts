@@ -1,5 +1,16 @@
 import { lazy } from 'react';
 
+export const CoreWorkspace = lazy(() =>
+  import('../playgrounds/core/runtime/Workspace').then((module) => ({
+    default: module.CoreWorkspace,
+  })),
+);
+export const CoreGettingStarted = lazy(() =>
+  import('../playgrounds/core/guides/GettingStarted').then((module) => ({
+    default: module.CoreGettingStarted,
+  })),
+);
+
 export const GuideCodeWorkspace = lazy(() =>
   import('../features/code/GuideCodeWorkspace').then((module) => ({
     default: module.GuideCodeWorkspace,

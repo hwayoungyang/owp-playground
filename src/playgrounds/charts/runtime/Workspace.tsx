@@ -108,7 +108,7 @@ export function ChartsWorkspace({
     >
       <WorkspaceHeading
         example={example}
-        packageTitle="OwpCharts"
+        packageTitle="owp/charts"
         categoryLabel={
           chartCategories.find((category) => category.id === example.category)?.label ?? ''
         }

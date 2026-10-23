@@ -104,8 +104,10 @@ describe('standalone guide metadata', () => {
       resources: [
         '/api/datagrid.json',
         '/api/charts.json',
+        '/api/core.json',
         '/catalogs/datagrid.sources.json',
         '/catalogs/charts.sources.json',
+        '/catalogs/core.sources.json',
         '/knowledge/records.jsonl',
         '/knowledge/example-links.json',
       ],

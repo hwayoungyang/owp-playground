@@ -1,12 +1,12 @@
 # OWP Playground
 
-MUI 기반의 OWP 컴포넌트 실행·코드 Playground입니다. `@owp/datagrid`와 `@owp/charts`의 실행 예제와 시작 가이드를 제공합니다. 현재 [package.json](./package.json)에 고정된 OWP 의존성은 다음과 같습니다.
+MUI 기반의 OWP 컴포넌트 실행·코드 Playground입니다. `@owp/datagrid`, `@owp/charts`, `@owp/core`의 실행 예제와 시작 가이드를 제공합니다. 현재 [package.json](./package.json)에 고정된 OWP 의존성은 다음과 같습니다.
 
 | 패키지 | 버전 |
 | --- | --- |
 | `@owp/datagrid` | `3.5.0` |
 | `@owp/charts` | `5.0.1` |
-| `@owp/core` | `7.0.1` |
+| `@owp/core` | `7.1.0` |
 | `@owp/components` | `3.0.1` |
 | `@owp/date-picker` | `2.0.2` |
 | `@owp/utils` | `1.0.1` |
@@ -53,7 +53,7 @@ pnpm preview
 | `/?package=date-picker` | OwpDatePicker 준비 상태 |
 | `/?package=pdf` | OwpPdf 준비 상태 |
 
-패키지 값은 `datagrid`, `components`, `date-picker`, `core`, `charts`, `excel`, `pdf`, `theme`, `tailwind-config`입니다. `@owp/datagrid` 같은 전체 패키지 이름도 받으며 주소는 짧은 값으로 정리합니다. 현재 OwpDataGrid와 OwpCharts 예제를 실행할 수 있고 나머지는 해당 패키지의 준비 화면을 표시합니다. TreeGrid는 포함하지 않습니다.
+패키지 값은 `datagrid`, `components`, `date-picker`, `core`, `charts`, `excel`, `pdf`, `theme`, `utils`, `tailwind-config`입니다. `@owp/datagrid` 같은 전체 패키지 이름도 받으며 주소는 짧은 값으로 정리합니다. 현재 OwpDataGrid, OwpCharts, OwpCore 예제를 실행할 수 있고 나머지는 해당 패키지의 준비 화면을 표시합니다. TreeGrid는 포함하지 않습니다.
 
 기존 `?sample=auto-span` 링크도 OwpDataGrid 예제로 열립니다. 패키지를 생략하거나 알 수 없는 값을 넣으면 OwpDataGrid로, 알 수 없는 샘플은 시작 안내로 열립니다. 메뉴와 샘플 링크는 URL에 선택을 반영하며 새로고침·브라우저 앞/뒤 이동도 지원합니다. 패키지를 바꾸면 이전 패키지의 샘플 값은 지우고, 다른 GET 파라미터와 URL 해시는 유지합니다. Cmd/Ctrl+K로 샘플을 검색할 수 있습니다.
 
@@ -271,7 +271,7 @@ CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styl
 
 ## Charts
 
-`@owp/charts` 5.0.1의 시작 가이드와 70개 예제 메뉴에서 97개 구성을 제공합니다. 패키지 메뉴에서 OwpCharts를 선택하거나 `/?package=charts`로 엽니다. 탐색 메뉴의 DataGrid·Charts 버전과 두 시작 가이드의 설치 명령은 설치된 패키지의 버전을 사용합니다. Excel은 2.x, Core는 7.x 기준으로 안내합니다.
+`@owp/charts` 5.0.1의 시작 가이드와 70개 예제 메뉴에서 97개 구성을 제공합니다. 패키지 메뉴에서 `owp/charts`를 선택하거나 `/?package=charts`로 엽니다. 탐색 메뉴의 DataGrid·Charts 버전과 두 시작 가이드의 설치 명령은 설치된 패키지의 버전을 사용합니다. Excel은 2.x, Core는 7.x 기준으로 안내합니다.
 
 Semi circle은 공정별 처리 수량의 비중을 반원으로 보여줍니다. Radar는 생산 라인 A·B의 생산성, 품질, 가동 안정성, 납기 준수, 에너지 효율, 예방 정비를 같은 0–100점 척도로 비교합니다. Semi circle은 `OwpRadialChart`, Radar는 `OwpRadarChart`를 사용하며 패키지가 native geometry·hit test·OWP HTML 툴팁·범례를 처리합니다. 두 예제 모두 OWP API 문자열 데이터를 `chartFromApi`로 변환합니다.
 
@@ -316,7 +316,7 @@ Box plot은 실제 관측값에서 Q1·중앙값·Q3와 1.5 IQR 수염·이상�
 
 모든 차트는 `ChartFrame`의 OWP 범례를 사용합니다. 일반 차트의 범례는 패키지의 160ms show/hide 전환을 사용합니다. `범례로 표시·숨김` 예제에서 `범례 애니메이션`을 끄면 즉시 전환하며, 데이터 갱신 애니메이션은 유지합니다. 단일 Pie·Doughnut은 항목별 geometry를 전환합니다. Multi-series pie는 기본적으로 두 ring의 범례를 표시하며, `항목별 범례`를 켜면 각 ring과 그 안의 항목을 독립적으로 전환합니다. Live chart는 이동과 범례 opacity 전환을 패키지의 공용 frame driver에서 처리하며, 일시정지 중에도 범례를 조작할 수 있습니다. `window.axisLayout`으로 시간 라벨 폭과 축 높이를 예약해 이동 중 plot 영역을 고정합니다. 움직임 줄이기·숨겨진 탭에서는 범례 효과를 생략합니다. 시계열 Tooltip은 원본 ISO 데이터를 유지하면서 축과 같은 UTC 기준의 날짜·시간으로 표시합니다.
 
-차트 예제의 번역 hook은 현재 공개 경로인 `@owp/components/hooks`의 `useOwpTranslation`을 사용합니다. `owp` namespace에 차트 번역을 등록합니다. 설치된 `@owp/core` 7.0.0은 이 hook을 export하지 않습니다.
+차트 예제의 번역 hook은 현재 공개 경로인 `@owp/components/hooks`의 `useOwpTranslation`을 사용합니다. `owp` namespace에 차트 번역을 등록합니다. 설치된 `@owp/core` 7.1.0은 이 hook을 export하지 않습니다.
 
 정수 축·소수 축·긴 label 처리는 별도 예제에서 제외했습니다. 기존 URL은 각각 눈금 간격·눈금 서식·Bar 예제로 연결합니다. Pie는 9개 공정의 생산 비중을 촘촘한 조각과 항목·비율 라벨로 표시합니다. Multi-series pie는 중앙이 빈 두 고리로 2026·2025년을 비교하며 얇은 경계와 명도로 구분합니다. Doughnut은 같은 단색 팔레트와 둥근 조각을 사용합니다. 넓은 화면에서는 바깥 라벨과 연결선을 표시하고 작은 화면에서는 범례·툴팁에서 항목과 비율을 확인합니다. 그라데이션 로직과 전용 메뉴는 제거했습니다.
 
@@ -328,7 +328,29 @@ Chart.js 공식 실행 샘플 75개 중 신규 40개, 기존 9개, 대체·연�
 
 Native 시간축의 Luxon 경로는 optional peer인 `luxon` 3.x·`chartjs-adapter-luxon` 1.3.1 이상을 준비한 뒤 첫 chart mount 전에 `@owp/charts/chartjs/time`의 `registerChartTime()`을 await합니다. 현재 Playground에는 두 peer를 설치했으며 `time-line`·`time-combo`·`time-max-span`은 초기화가 끝난 뒤 표시합니다. 기존 `date-time`·`time-series` 예제는 category 축을 유지합니다. 다른 날짜 adapter를 이미 사용하는 앱은 기존 초기화를 유지하고 이 helper를 호출하지 않습니다. 로그축은 native wheel·pan·drag zoom·reset을 지원하지만 로그축의 OWP `zoomSlider`를 활성화하면 `RangeError`가 발생합니다. Subtitle은 `options.plugins.subtitle`로 설정하며 canvas·PNG export에 반영됩니다. `log-scale`은 선형·로그 Y축 비교, `subtitle`은 부제목 표시·여러 줄·정렬과 PNG 저장을 제공합니다. Scatter·Multi-axis scatter·Quadrants는 native `scatter`, Bubble은 native `bubble`과 point의 `r`을 사용합니다.
 
-패키지 메뉴는 구현된 DataGrid·Charts를 위에 표시하고 나머지는 `준비 중`으로 비활성화합니다. 기존 준비 화면의 직접 URL은 유지합니다.
+패키지 메뉴는 구현된 DataGrid·Charts·Core를 위에 표시하고 나머지는 `준비 중`으로 비활성화합니다. 기존 준비 화면의 직접 URL은 유지합니다.
+
+## Core
+
+설치된 `@owp/core` 7.1.0은 `/?package=core`에서 시작합니다. DataGrid·Charts와 같은 탭, 옵션 도구막대, 초기화 버튼을 사용하며 5개 카테고리에 14개 실행 예제와 시작 가이드를 제공합니다.
+
+| 카테고리 | 예제 |
+| --- | --- |
+| 앱 구성 | 앱 설정, API 요청, 사용자와 페이지 권한, 언어 전환 |
+| 페이지 구성 | 검색과 페이지, 페이지 콘텐츠 |
+| 조회·선택 | 검색 필터, API 선택, 공통코드 선택 |
+| 피드백 | 다이얼로그 상태 관리, 확인과 알림, 로딩 표시, 오류와 복구 |
+| 파일 | Excel 내보내기 |
+
+한금 소비앱의 provider·API factory·인증 응답 적용·페이지 구성 방식을 단순화했습니다. Core가 소유한 공개 API만 독립 예제와 메뉴로 다룹니다. 다른 패키지의 컴포넌트는 Core 동작을 설명하는 데 필요한 경우에만 해당 패키지에서 가져옵니다.
+
+Framework에서 Components로 이관 중인 Table·FieldTable의 독립 예제는 먼저 제외했습니다. 다이얼로그는 Core의 manager·미저장 변경 확인만 다룹니다. 패키지는 업데이트하지 않았으므로 다른 예제에 필요한 테이블·다이얼로그는 설치된 7.1.0의 Core adapter로 사용합니다. 이 사용을 Components 이관 완료로 해석하지 않습니다.
+
+각 예제의 코드·현재 데이터·실제 이벤트를 같은 workspace에서 확인합니다. 초기화는 현재 예제만 다시 구성합니다. API 요청과 API 선택은 정적 JSON을 실제 요청하며 정상·빈 목록·실패 응답을 비교합니다. 검색 필터는 900ms 로컬 query를 실행하고 취소할 수 있습니다. 사용자 예제는 샘플 인증 응답을 Core 상태에 적용하고, MemoryRouter 경로에 따라 조회·저장 권한을 확인합니다. 서버 인증·저장은 수행하지 않습니다. 사용자 예제는 언마운트 때 사용한 localStorage 키를 원문으로 복원하며, 공통코드는 독립 store에서 샘플을 준비한 뒤 기존 sessionStorage 원문을 즉시 복원합니다.
+
+Core의 공개 CSS는 10px rem 기준을 사용합니다. 공통 MUI theme의 `typography.htmlFontSize=10`으로 실제 글자 크기를 유지합니다. Core 전용 provider는 화면 모드를 `settingsConfig.theme.main.table`·`dataGrid`와 동기화하고, `kr`·`en`·`lc` 언어 ID를 Playground의 `ko`·`en`과 연결합니다. Data Router가 필요한 페이지 이탈 보호와 전체 `OwpLayout` 앱 shell은 범위에 포함하지 않습니다.
+
+공개 API와 가이드는 설치된 7.1.0의 선언·runtime 지문을 기준으로 생성합니다. 소스 매니페스트에는 provider, 스타일과 JSON fixture를 함께 포함합니다. Core 수정본의 패키지 반영과 Playground 재검증을 마친 뒤 MCP 자료를 갱신합니다.
 
 ## 코드와 리소스
 
@@ -387,11 +409,11 @@ DataGrid의 기본 연결은 `@owp/datagrid/hooks`의 `useDataGridApi<Task>()`�
 
 Box plot·Treemap·Heatmap 예제는 기존 전용 컴포넌트와 `ChartFrame` 직접 사용을 전환할 수 있습니다. 설치된 `@owp/charts 5.0.1`에서는 `boxPlot`·`treemap`·`heatmap`이 native 타입명이며 전용 컴포넌트도 같은 타입을 사용합니다. 이전 `owpBoxPlot`·`owpTreemap`·`owpHeatmap` 타입명은 지원하지 않습니다. `CoreChart`·`ChartFrame`은 controller를 자동 등록하며, Chart.js instance를 직접 생성할 때는 공개 `@owp/charts/chartjs/register`의 `registerChartCore()`를 사용합니다.
 
-MCP는 카탈로그에서 예제를 찾고 소스 매니페스트의 진입 파일과 의존 파일을 `/snippets/`에서 읽습니다. RAG도 같은 매니페스트를 기준으로 예제 ID·API·패키지 버전·파일 관계를 연결하고, SHA-256으로 원본 변경 여부를 판별할 수 있습니다. 코드 메뉴의 주요 구현에는 현재 예제에서 실제로 사용하는 설정·컴포넌트·타입·데이터만 표시합니다. 소스 매니페스트는 스타일과 번역 등 직접·간접 의존 파일도 함께 제공합니다. 코드 표시를 위한 `?raw` 문자열 import는 실행 의존성에서 제외합니다. 별도의 설명용 샘플 사본은 만들지 않습니다. DataGrid·Charts MCP와 버전별 Playground의 실행·보존·연결 방법은 [버전별 Playground와 MCP](./docs/versioned-mcp.md)를 따릅니다. 다른 패키지는 해당 Playground를 완성한 시점에 추가합니다.
+MCP는 카탈로그에서 예제를 찾고 소스 매니페스트의 진입 파일과 의존 파일을 `/snippets/`에서 읽습니다. RAG도 같은 매니페스트를 기준으로 예제 ID·API·패키지 버전·파일 관계를 연결하고, SHA-256으로 원본 변경 여부를 판별할 수 있습니다. 코드 메뉴의 주요 구현에는 현재 예제에서 실제로 사용하는 설정·컴포넌트·타입·데이터만 표시합니다. 소스 매니페스트는 스타일과 번역 등 직접·간접 의존 파일도 함께 제공합니다. 코드 표시를 위한 `?raw` 문자열 import는 실행 의존성에서 제외합니다. 별도의 설명용 샘플 사본은 만들지 않습니다. DataGrid·Charts MCP와 버전별 Playground의 실행·보존·연결 방법은 [버전별 Playground와 MCP](./docs/versioned-mcp.md)를 따릅니다. Core의 MCP 반영은 Framework 이관과 패키지 갱신 후 진행합니다. 다른 패키지는 해당 Playground를 완성한 시점에 추가합니다.
 
 ## API 문서와 지식 데이터
 
-DataGrid와 Charts는 사이드바의 `문서`에서 `시작하기`와 `API`를 제공하고, 실행 샘플은 별도 `예제` 그룹에서 탐색합니다. API는 기본 필터로 Props를 선택하며 공개 컴포넌트·props·이벤트·Ref 메서드·타입·유틸리티와 사용 가이드를 제공합니다. 예제 하단의 `관련 API`는 소속 타입과 경로를 포함한 ID로 정확한 설명에 연결됩니다. API의 `실행 예제`는 코드 탭을 열고 관련 파일의 사용 위치를 강조합니다. 직접 호출·설정 위치를 확인하지 못한 항목은 예제 진입 파일과 안내를 표시합니다. 선택한 API ID와 코드 위치를 주소에 포함하므로 직접 열기·새로고침·브라우저 뒤로 가기를 지원합니다.
+DataGrid·Charts·Core는 사이드바의 `문서`에서 `시작하기`와 `API`를 제공하고, 실행 샘플은 별도 `예제` 그룹에서 탐색합니다. API는 기본 필터로 Props를 선택하며 공개 컴포넌트·props·이벤트·Ref 메서드·타입·유틸리티와 사용 가이드를 제공합니다. 예제 하단의 `관련 API`는 소속 타입과 경로를 포함한 ID로 정확한 설명에 연결됩니다. API의 `실행 예제`는 코드 탭을 열고 관련 파일의 사용 위치를 강조합니다. 직접 호출·설정 위치를 확인하지 못한 항목은 예제 진입 파일과 안내를 표시합니다. 선택한 API ID와 코드 위치를 주소에 포함하므로 직접 열기·새로고침·브라우저 뒤로 가기를 지원합니다.
 
 이 구분은 [TanStack의 Get Started·API·Examples 탐색 구조](https://tanstack.com/table/latest/docs/framework/react), [MUI의 API reference](https://mui.com/x/api/data-grid/data-grid), [AG Grid의 Reference](https://www.ag-grid.com/javascript-data-grid/reference/)를 참고했습니다. 항목 필터는 `항목 유형`으로 표시합니다. 출처·버전·해시·원본 선언은 JSON·JSONL과 원본 대응표에 보존하며 API 본문에는 별도 출처 영역을 표시하지 않습니다. API 문서 JSON은 아래 정적 리소스 경로에서 받을 수 있으며, Playground의 지식 데이터 형식으로 OpenAPI 명세와는 구분됩니다.
 

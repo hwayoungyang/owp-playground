@@ -2,6 +2,8 @@
 
 DataGrid·Charts의 실행 화면, 공개 API, 가이드와 실제 예제 소스를 같은 불변 스냅샷으로 제공합니다. 팀 공용 HTTP와 개인 로컬 stdio는 같은 MCP 조회 로직과 아카이브를 사용합니다. 다른 OWP 패키지는 해당 Playground 구현과 Knowledge 검증을 마친 뒤 등록합니다. 설치된 의존 패키지나 `planned` 목록은 MCP 지원 목록으로 취급하지 않습니다.
 
+Core는 현재 로컬 Playground와 API 자료를 정리한 단계입니다. Framework의 컴포넌트 이관과 패키지 갱신 후 실제 설치본을 검증한 뒤 MCP 스냅샷과 팀 서버에 반영합니다.
+
 ## 버전 기준
 
 | 대상 | 기준 |

@@ -119,8 +119,8 @@ export function VersionSelector({
       : [];
   const statusMessages = {
     development: {
-      title: t('현재 개발 버전'),
-      description: t('개발 서버에서는 현재 버전만 제공합니다.'),
+      title: t('개발 중'),
+      description: '',
     },
     loading: {
       title: t('버전 목록을 불러오는 중입니다.'),
@@ -163,15 +163,38 @@ export function VersionSelector({
         open={open}
         onClose={() => setAnchor(null)}
         slotProps={{
-          paper: { className: 'version-menu', 'aria-label': t('패키지 버전 선택') },
+          paper: {
+            className:
+              state.status === 'development'
+                ? 'version-menu version-menu--development'
+                : 'version-menu',
+            'aria-label': t('패키지 버전 선택'),
+          },
         }}
       >
         {statusMessage && (
           <li role="presentation">
-            <div className="version-menu-status" role="status">
-              <span className="version-menu-status-title">{statusMessage.title}</span>
-              {state.status === 'development' && <span>v{version}</span>}
-              <span className="version-menu-status-description">{statusMessage.description}</span>
+            <div
+              className={
+                state.status === 'development'
+                  ? 'version-menu-status version-menu-status--development'
+                  : 'version-menu-status'
+              }
+              role="status"
+            >
+              {state.status === 'development' ? (
+                <>
+                  <span className="version-menu-status-title">v{version}</span>
+                  <span className="version-menu-status-description">{statusMessage.title}</span>
+                </>
+              ) : (
+                <>
+                  <span className="version-menu-status-title">{statusMessage.title}</span>
+                  <span className="version-menu-status-description">
+                    {statusMessage.description}
+                  </span>
+                </>
+              )}
             </div>
           </li>
         )}

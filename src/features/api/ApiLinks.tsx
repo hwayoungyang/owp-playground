@@ -2,10 +2,11 @@ import { PlaygroundLink } from '../../shared/ui/PlaygroundLink';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { ExampleMetadata } from '../../shared/types/playground';
 import { apiHref, exampleApiLinks } from './model/links';
+import { apiPackageIdFor } from '../../playgrounds/packages';
 
 export function ApiLinks({ example }: { readonly example: ExampleMetadata }) {
   const { t } = useOwpTranslation();
-  const packageId = example.package === '@owp/datagrid' ? 'datagrid' : 'charts';
+  const packageId = apiPackageIdFor(example.package);
   const references = exampleApiLinks(packageId, example.id);
   if (references.length === 0) return null;
   return (

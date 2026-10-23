@@ -19,7 +19,7 @@ export function GridGettingStarted({
   const { t } = useOwpTranslation();
   return (
     <section className="workspace getting-started" aria-label={t('설치 및 사용 안내')}>
-      <WorkspaceHeading example={example} packageTitle="OwpDataGrid" categoryLabel="문서" />
+      <WorkspaceHeading example={example} packageTitle="owp/datagrid" categoryLabel="문서" />
       <div className="guide-sections">
         <FrameworkIntroduction packageId="datagrid" />
         <McpGettingStarted packageName={dataGridPackage.name} version={dataGridPackage.version} />

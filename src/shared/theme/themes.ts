@@ -20,6 +20,7 @@ export function createMuiTheme(
     },
     shape: { borderRadius: 4, ...overrides?.shape },
     typography: {
+      htmlFontSize: 10,
       fontFamily: fonts.ui,
       fontSize: 14,
       button: { textTransform: 'none', fontSize: 13, fontWeight: 500 },

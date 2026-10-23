@@ -1,4 +1,9 @@
 {
+  "@owp/core": {
+    "version": "7.1.0",
+    "declarationHash": "1cd9ca4630aeebcb7cac4f796b8c112ab59c77e478b8af2d1ac8b7a53e89d00c",
+    "runtimeHash": "e025ac991e70062cb599746f9774124853454887e792a60a0bc1b602b8de8c33"
+  },
   "@owp/datagrid": {
     "version": "3.5.0",
     "declarationHash": "1b1deb4f85ba9e58b2bc9cc0ab1eaa4085772b26ac9b0ee56ae9d1e89242343f",

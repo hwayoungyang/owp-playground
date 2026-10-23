@@ -176,13 +176,21 @@ export async function readDeclarations(directory, { externalPackages = [], addit
     }
     return undefined;
   }
+  function isReactExoticComponent(annotation) {
+    if (!annotation) return false;
+    if (annotation.type === 'TSIntersectionType') return annotation.types.some(isReactExoticComponent);
+    if (annotation.type === 'TSParenthesizedType') return isReactExoticComponent(annotation.typeAnnotation);
+    return annotation.type === 'TSImportType' && annotation.source?.value === 'react'
+      && ['ForwardRefExoticComponent', 'NamedExoticComponent', 'MemoExoticComponent'].includes(annotation.qualifier?.name);
+  }
   for (const symbol of publicSymbols.values()) {
     const { module, node, name, imports } = symbol;
     const source = { path: `${manifest.name}/${path.relative(directory, module.file).split(path.sep).join('/')}`, line: module.content.slice(0, node.start).split('\n').length, sha256: digest(module.content) };
     const id = `${manifest.name}:${name}`;
     const scope = new Set((node.typeParameters?.params ?? []).map((parameter) => nameOf(parameter.name)));
     const callable = node.type === 'VariableDeclarator' || node.type === 'TSDeclareFunction' ? callableTarget(module, node) : undefined;
-    const kind = callable ? (/^[A-Z][a-z]/.test(name) ? 'component' : 'function') : node.type === 'VariableDeclarator' ? 'constant' : 'type';
+    const exoticComponent = node.type === 'VariableDeclarator' && isReactExoticComponent(node.id.typeAnnotation?.typeAnnotation);
+    const kind = exoticComponent ? 'component' : callable ? (/^[A-Z][a-z]/.test(name) ? 'component' : 'function') : node.type === 'VariableDeclarator' ? 'constant' : 'type';
     const parameters = node.typeParameters?.params ?? callable?.node.id?.typeAnnotation?.typeAnnotation?.typeParameters?.params ?? [];
     const typeParameters = parameters.map((parameter) => ({ name: nameOf(parameter.name), constraint: parameter.constraint ? module.content.slice(parameter.constraint.start, parameter.constraint.end) : null, default: parameter.default ? module.content.slice(parameter.default.start, parameter.default.end) : null }));
     const related = [...new Set([...references(module, node), ...(callable ? references(callable.module, callable.node) : [])])].filter((ref) => ref !== id);

@@ -61,6 +61,31 @@ const discover = (files, options = {}) =>
 const ids = (result) => result.references.map((reference) => reference.id);
 
 describe('actual public component prop references', () => {
+  it('connects Core props to the Core package and actual source positions', () => {
+    const file = source(
+      'core/examples/dialog.tsx',
+      `import { OwpDialog } from '@owp/core';\nconst dialog = <OwpDialog open={true} isDirty={true} />;`,
+    );
+    const result = discover([file], {
+      packageId: 'core',
+      records: records(
+        component('OwpDialog', 'OwpDialogProps', 'core'),
+        contracts('OwpDialogProps', ['open', 'isDirty'], 'core'),
+      ),
+    });
+    expect(ids(result)).toEqual([
+      '@owp/core:OwpDialogProps.isDirty',
+      '@owp/core:OwpDialogProps.open',
+    ]);
+    expect(
+      result.references.every(
+        (entry) =>
+          entry.packageId === 'core' &&
+          entry.location.file === 'playgrounds/core/examples/dialog.tsx' &&
+          entry.location.line === 2,
+      ),
+    ).toBe(true);
+  });
   it('binds aliases and namespaces while excluding same-name DOM props, strings and comments', () => {
     const file = source(
       'charts/examples/direct.tsx',

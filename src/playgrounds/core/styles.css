@@ -1,0 +1,159 @@
+.core-demo,
+.core-specimens,
+.core-section,
+.core-section-content {
+  min-width: 0;
+}
+.core-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 16px;
+  min-width: 0;
+  max-width: 100%;
+}
+.core-controls .MuiFormControlLabel-root {
+  margin: 0;
+  min-height: 36px;
+  max-width: 100%;
+}
+.core-controls .MuiFormControlLabel-label,
+.core-control-label {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.core-control-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 240px;
+  max-width: min(100%, 320px);
+  min-width: 0;
+  flex: 0 1 240px;
+}
+.core-control-field .MuiInputBase-root {
+  min-height: 36px;
+  height: 36px;
+  font-size: 13px;
+}
+.core-control-field .MuiSelect-select {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-height: 0;
+  padding-block: 0;
+  box-sizing: border-box;
+}
+.core-workspace .preview-toolbar--core {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  gap: 16px;
+  align-items: center;
+}
+.preview-toolbar--core > .preview-start-actions {
+  margin: 0;
+  align-items: flex-end;
+}
+.preview-toolbar--core > .preview-actions {
+  margin: 0;
+}
+.preview-toolbar--core:has(> .preview-start-actions:not(:empty)) > .preview-actions {
+  padding-inline-start: 16px;
+  border-inline-start: 1px solid var(--pg-line);
+}
+.preview-toolbar--core .MuiButton-root {
+  min-height: 36px;
+  height: 36px;
+  font-size: 13px;
+}
+.core-specimens {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+.core-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.core-section + .core-section {
+  border-top: 1px solid var(--pg-line);
+  padding-top: 16px;
+}
+.core-section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.core-section-heading h2 {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0;
+}
+.core-section-heading p,
+.core-data > p {
+  font-size: 12px;
+  line-height: 1.75;
+  color: var(--pg-secondary);
+  margin: 0;
+  max-width: 740px;
+}
+.core-section-content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+}
+.core-section-content > .MuiButton-root {
+  align-self: flex-start;
+}
+.core-section-content .MuiTableContainer-root {
+  max-width: 100%;
+}
+.core-field {
+  width: 240px;
+  max-width: 100%;
+  min-width: 0;
+}
+.core-field > .MuiFormControl-root {
+  width: 100%;
+  max-width: 100%;
+}
+.core-data {
+  padding: 16px;
+  min-width: 0;
+}
+.core-data > p {
+  margin-bottom: 16px;
+}
+.core-data pre {
+  overflow-x: auto;
+}
+.core-section .MuiTypography-root {
+  overflow-wrap: anywhere;
+}
+.core-section .MuiButton-root {
+  min-height: 36px;
+}
+@container preview-toolbar (max-width: 760px) {
+  .preview-toolbar--core > .preview-start-actions {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+  .preview-toolbar--core > .preview-actions {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
+  }
+  .preview-toolbar--core:has(> .preview-start-actions:empty) > .preview-actions {
+    grid-row: 1;
+  }
+  .preview-toolbar--core:has(> .preview-start-actions:not(:empty)) > .preview-actions {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    padding-block-start: 16px;
+    border-block-start: 1px solid var(--pg-line);
+  }
+}

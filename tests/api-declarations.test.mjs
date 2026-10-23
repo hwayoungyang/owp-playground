@@ -101,6 +101,10 @@ export type CallableType = (value: string) => string;
 declare const WithRef: (props: DemoGridProps) => unknown;
 /** Public component contract. */
 export declare const DemoGrid: typeof WithRef;
+export declare const Dialog: import('react').ForwardRefExoticComponent<DemoGridProps>;
+export declare const Carded: import('react').NamedExoticComponent<DemoGridProps> & { displayName?: string };
+export declare const NonReact: import('other').NamedExoticComponent<DemoGridProps>;
+export declare const UppercaseValue: number;
 /** Stable only for the same input order. */
 export declare const createRows: (rows: string[]) => string[];
 export type Mode = 'line' | 'bar';
@@ -130,6 +134,10 @@ declare module 'chart.js' { interface ChartTypeRegistry { custom: {} } }
         '@example/chart:DemoGridProps',
       );
       expect(inherited.get('@example/chart:CallableType')?.kind).toBe('type');
+      expect(inherited.get('@example/chart:Dialog')?.kind).toBe('component');
+      expect(inherited.get('@example/chart:Carded')?.kind).toBe('component');
+      expect(inherited.get('@example/chart:NonReact')?.kind).toBe('constant');
+      expect(inherited.get('@example/chart:UppercaseValue')?.kind).toBe('constant');
       expect(inherited.get('@example/chart:Concrete.optional')).toMatchObject({
         signature: "'line'",
         requirement: 'required',

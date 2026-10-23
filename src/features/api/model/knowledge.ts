@@ -34,7 +34,12 @@ export function createApiDataset(knowledge: PackageKnowledge): ApiDataset {
     membersByOwner.set(key, members);
   }
   for (const members of membersByOwner.values()) members.sort(compareApiMembers);
-  const main = knowledge.id === 'datagrid' ? 'OwpDataGridProps' : 'ChartFrameProps';
+  const main =
+    knowledge.id === 'core'
+      ? 'OwpCoreProviderProps'
+      : knowledge.id === 'datagrid'
+        ? 'OwpDataGridProps'
+        : 'ChartFrameProps';
   const order = [main, 'OwpDataGridColumn', 'OwpDataGridApi', 'Guides'];
   const rank = (owner: string) => {
     const index = order.indexOf(owner);

@@ -1,6 +1,7 @@
 import { z } from 'zod';
-import { type chartsPackage, dataGridPackage, packageCatalog } from './packages';
-export { chartsPackage, dataGridPackage, packageCatalog } from './packages';
+import { type chartsPackage, type corePackage, dataGridPackage, packageCatalog } from './packages';
+export { chartsPackage, corePackage, dataGridPackage, packageCatalog } from './packages';
+import { type CoreCatalogEntry, findCoreEntry } from './core/catalog';
 import { type ChartCatalogEntry, findChartEntry } from './charts/catalog.ts';
 import { chartConsolidations } from './charts/model/consolidations.ts';
 import { findGridEntry, type GridCatalogEntry } from './datagrid/catalog.ts';
@@ -10,8 +11,9 @@ import { inferChartVariantFromCode } from './charts/model/variants';
 type CodeRouteState = { readonly tab?: 'code'; readonly codeTarget?: CodeLocation };
 
 export type PlaygroundPackage = (typeof packageCatalog)[number];
-type PlannedPackage = Exclude<PlaygroundPackage, typeof dataGridPackage | typeof chartsPackage>;
-export function apiEntry(playground: typeof dataGridPackage | typeof chartsPackage) {
+type ReadyPackage = Extract<PlaygroundPackage, { readonly status: 'ready' }>;
+type PlannedPackage = Exclude<PlaygroundPackage, ReadyPackage>;
+export function apiEntry(playground: ReadyPackage) {
   return {
     id: 'api',
     kind: 'reference',
@@ -26,10 +28,15 @@ export function apiEntry(playground: typeof dataGridPackage | typeof chartsPacka
 export type PlaygroundRoute =
   | {
       readonly status: 'api';
-      readonly playground: typeof dataGridPackage | typeof chartsPackage;
+      readonly playground: ReadyPackage;
       readonly example: ReturnType<typeof apiEntry>;
       readonly symbol: string | null;
     }
+  | ({
+      readonly status: 'core';
+      readonly playground: typeof corePackage;
+      readonly example: CoreCatalogEntry;
+    } & CodeRouteState)
   | ({
       readonly status: 'charts';
       readonly playground: typeof chartsPackage;
@@ -55,6 +62,8 @@ export function getPlaygroundRoute(
 ): PlaygroundRoute {
   if (exampleId === 'api' && playground.status === 'ready')
     return { status: 'api', playground, example: apiEntry(playground), symbol: null };
+  if (playground.id === 'core')
+    return { status: 'core', playground, example: findCoreEntry(exampleId) };
   if (playground.id === 'charts') {
     return {
       status: 'charts',
@@ -89,7 +98,10 @@ export function readPlaygroundRoute(search: string): PlaygroundRoute {
       symbol: parameters.get('symbol'),
     };
   const route = getPlaygroundRoute(playground, parameters.get('sample'));
-  if ((route.status === 'ready' || route.status === 'charts') && parameters.get('tab') === 'code') {
+  if (
+    (route.status === 'ready' || route.status === 'charts' || route.status === 'core') &&
+    parameters.get('tab') === 'code'
+  ) {
     const codeTarget = readCodeLocation(parameters, playground.id);
     if (route.status === 'charts' && codeTarget) {
       const selectedId = inferChartVariantFromCode(route.example, codeTarget.file);
@@ -132,7 +144,10 @@ export function createPlaygroundUrl(currentUrl: string, route: PlaygroundRoute):
         : route.example.id,
     );
   else url.searchParams.delete('sample');
-  if ((route.status === 'ready' || route.status === 'charts') && route.tab === 'code') {
+  if (
+    (route.status === 'ready' || route.status === 'charts' || route.status === 'core') &&
+    route.tab === 'code'
+  ) {
     url.searchParams.set('tab', 'code');
     if (route.codeTarget) {
       url.searchParams.set('file', route.codeTarget.file);

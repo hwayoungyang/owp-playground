@@ -97,7 +97,7 @@ export function Header({
           aria-expanded={Boolean(anchor)}
           aria-label={t('패키지 선택')}
         >
-          {playground.name}
+          {playground.title}
         </Button>
         <Menu
           anchorEl={anchor}
@@ -117,7 +117,7 @@ export function Header({
                 setAnchor(null);
               }}
             >
-              <span className="package-menu-name">{entry.name}</span>
+              <span className="package-menu-name">{entry.title}</span>
               {entry.status === 'planned' ? (
                 <span className="package-menu-state">{t('준비 중')}</span>
               ) : entry.id === playground.id ? (

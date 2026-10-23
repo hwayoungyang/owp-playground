@@ -4,7 +4,7 @@ export const codeLocationSchema = z
   .object({
     file: z
       .string()
-      .regex(/^playgrounds\/(?:datagrid|charts)\/(?:[\w-]+\/)*[\w.-]+\.(?:tsx?|css)$/),
+      .regex(/^playgrounds\/(?:datagrid|charts|core)\/(?:[\w-]+\/)*[\w.-]+\.(?:tsx?|css)$/),
     line: z.number().int().positive().max(100000),
     endLine: z.number().int().positive().max(100000),
   })

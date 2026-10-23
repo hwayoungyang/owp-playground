@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { locateExampleCode } from './api-example-locations.mjs';
 
-const sourcePath = z.string().regex(/^playgrounds\/(datagrid|charts)\/[\w/-]+\.tsx?$/);
+const sourcePath = z.string().regex(/^playgrounds\/(datagrid|charts|core)\/[\w/-]+\.tsx?$/);
 const anchor = z.object({ file: sourcePath, snippet: z.string().trim().min(1) }).strict();
 const identity = {
   exampleId: z.string().min(1), apiId: z.string().min(1), label: z.string().min(1),
@@ -65,7 +65,7 @@ export function createExampleCodeReviews(input, fingerprints) {
             if (!record) throw new ReferenceError(`검토한 예제 API 선언이 없습니다: ${key}/${target.id}`);
             const location = resolveAnchor(review);
             decisions.push({ ...decision, target: { label: target.label, id: target.id }, location });
-            return [{ label: target.label, id: target.id, packageId: record.package === '@owp/datagrid' ? 'datagrid' : 'charts', location, codeReview: { method: 'reviewed', mode: review.mode, reason: review.reason, evidence } }];
+            return [{ label: target.label, id: target.id, packageId: record.package.startsWith('@owp/') ? record.package.slice(5) : example.packageId, location, codeReview: { method: 'reviewed', mode: review.mode, reason: review.reason, evidence } }];
           }
           default:
             throw new TypeError(`알 수 없는 예제 코드 검토: ${key}`);

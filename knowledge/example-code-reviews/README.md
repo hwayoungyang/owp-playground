@@ -1,7 +1,9 @@
 # API와 예제 코드 연결 검수
 
-Charts·DataGrid의 예제 진입 파일, 공용 설정, JSX spread와 실제 수신 API를 대조한 검토본.
+Core·Charts·DataGrid의 예제 진입 파일, 공용 설정, JSX spread와 실제 수신 API를 대조한 검토본.
 패키지 버전은 `reviewed-packages.json`의 설치본 기준이며 실행 예제나 OWP 패키지 구현은 변경하지 않음.
+
+2026-10-24 Core 7.1.0 추가: 시작 가이드와 14개 실행 예제의 직접 import·JSX prop·provider를 설치본 declaration과 대조. Components 이관 대상인 Table·FieldTable의 독립 예제는 제외하고 Dialog는 Core 상태 관리에 집중. `core.json`은 예외 없는 빈 검토 목록이며 연결은 AST의 실제 코드 위치에서 생성. 기존 Charts·DataGrid 검토 결론은 유지. source audit의 외부 원본 변경도 현재 계약과 대조하고 지문을 갱신. 작업 중 추가 갱신된 12개 원본은 공개 예제·옵션 설명을 Knowledge 조회로 축약한 내용이며, 기존 가이드와 계약 충돌이 없음을 독립 검토로 확인.
 
 2026-10-22 구성별 코드 검토: Charts의 메뉴는 70개로 유지하고 97개 실행 구성을 별도 소스로 연결. 통합된 13개 메뉴의 40개 구성은 선택한 코드·데이터·이벤트·관련 API를 함께 표시. Box plot·Heatmap·Treemap의 native 비교 소스는 `examples/native/`로 유지.
 

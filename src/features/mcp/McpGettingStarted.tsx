@@ -20,10 +20,10 @@ export function McpGettingStarted({
 
   return (
     <section aria-labelledby={headingId}>
-      <h2 id={headingId}>{t('AI 도구에 MCP 연결하기')}</h2>
+      <h2 id={headingId}>{t('MCP 서버 연결')}</h2>
       <p>
         {t(
-          'AI 도구의 MCP 설정에서 서버 추가를 선택하고, 아래 세 가지 값을 입력한 뒤 저장합니다. 입력 위치와 설정 형식은 AI 도구마다 다릅니다.',
+          '사용하는 앱의 MCP 설정에 아래 서버 정보를 등록합니다. 설정 위치와 형식은 앱마다 다릅니다.',
         )}
       </p>
       <p>{t('서버 이름: owp')}</p>

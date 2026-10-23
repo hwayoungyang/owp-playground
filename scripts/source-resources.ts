@@ -151,11 +151,14 @@ export async function createPackageSourceManifest(options: {
   readonly resources: ReadonlyMap<string, SourceResource>;
   readonly packageName: string;
   readonly basePath?: string;
+  readonly supportFiles?: readonly string[];
 }) {
   const sourceUrl = (file: string) => withPublicBase(snippetPath(file), options.basePath ?? '/');
   const samples = options.catalog.map((entry) => {
     const entrypoint = `/src/${exampleSourcePath(entry)}`;
-    const files = dependencyClosure(entrypoint, options.resources);
+    const files = [...new Map([entrypoint, ...(options.supportFiles ?? [])]
+      .flatMap((file) => dependencyClosure(file, options.resources))
+      .map((file) => [file.path, file])).values()].sort((left, right) => left.path < right.path ? -1 : left.path > right.path ? 1 : 0);
     return {
       ...entry,
       entrypoint: sourceUrl(entrypoint),

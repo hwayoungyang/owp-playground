@@ -393,7 +393,10 @@ describe('project theme files', () => {
       'Select row',
     );
     expect(theme.typography.fontSize).toBe(21);
-    expect(theme.typography.body1.fontSize).toBe('1.5rem');
+    expect(theme.typography.htmlFontSize).toBe(10);
+    expect(
+      Number.parseFloat(String(theme.typography.body1.fontSize)) * theme.typography.htmlFontSize,
+    ).toBeCloseTo(24);
     expect(theme.shape.borderRadius).toBe(8);
   });
   it('only enables the studio for packages with supported theme controls', () => {

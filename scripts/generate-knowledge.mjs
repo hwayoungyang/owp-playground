@@ -160,7 +160,7 @@ for (const guide of guides) {
     description: guide.description, body: guide.body, sections: guideSections(guide), signature: '', optional: false, requirement: 'declaration',
     related, guideIds: [], locale: 'ko', defaultDescription: null, usageNote: null,
     examples: guide.examples.map((id) => ({ packageId: guide.packageId, id })),
-    source: { path: 'knowledge/guides.mjs', line: 1, sha256: hash(await readFile(path.join(root, 'knowledge/guides.mjs'))) },
+    source: { path: guide.sourcePath ?? 'knowledge/guides.mjs', line: 1, sha256: hash(await readFile(path.join(root, guide.sourcePath ?? 'knowledge/guides.mjs'))) },
     sources: sourceAudit.sources.filter((source) => source.sections.some((section) => section.guideIds.includes(guide.id))).map((source) => source.id),
   });
 }

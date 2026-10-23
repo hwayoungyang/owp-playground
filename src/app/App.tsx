@@ -2,6 +2,8 @@ import {
   ApiReference,
   ChartsGettingStarted,
   ChartsWorkspace,
+  CoreWorkspace,
+  CoreGettingStarted,
   GridGettingStarted,
   GridWorkspace,
   GuideCodeWorkspace,
@@ -16,6 +18,7 @@ import {
 } from '../features/theme-studio/model/preview';
 import { supportsThemeStudio } from '../features/theme-studio/model/studio';
 import { chartCatalog, chartCategories } from '../playgrounds/charts/catalog';
+import { coreCatalog, coreCategories } from '../playgrounds/core/catalog';
 import { selectedChartExample } from '../playgrounds/charts/model/variants';
 import {
   gridAliases,
@@ -44,6 +47,17 @@ export function App() {
   const [mode, setMode] = useState<ColorMode>(() =>
     new URLSearchParams(location.search).get('colorMode') === 'dark' ? 'dark' : 'light',
   );
+  useEffect(() => {
+    const syncLanguage = (language: string) => {
+      const url = new URL(location.href);
+      url.searchParams.set('lang', language === 'en' ? 'en' : 'ko');
+      history.replaceState(null, '', url);
+    };
+    i18n.on('languageChanged', syncLanguage);
+    return () => {
+      i18n.off('languageChanged', syncLanguage);
+    };
+  }, [i18n]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [packageThemes, setPackageThemes] = useState({
     datagrid: defaultPreviewTheme,
@@ -64,8 +78,18 @@ export function App() {
     setThemeOpen(false);
   };
   const navigateExample = (id: string) => navigate(getPlaygroundRoute(route.playground, id));
-  const examples = route.playground.id === 'charts' ? chartCatalog : gridCatalog;
-  const categories = route.playground.id === 'charts' ? chartCategories : gridCategories;
+  const examples =
+    route.playground.id === 'core'
+      ? coreCatalog
+      : route.playground.id === 'charts'
+        ? chartCatalog
+        : gridCatalog;
+  const categories =
+    route.playground.id === 'core'
+      ? coreCategories
+      : route.playground.id === 'charts'
+        ? chartCategories
+        : gridCategories;
   const effectiveExample =
     route.status === 'charts' && route.example.kind === 'chart'
       ? selectedChartExample(route.example, route.initialPreset)
@@ -79,10 +103,13 @@ export function App() {
         categories,
         currentId: route.example?.id ?? '',
         isApi: route.status === 'api',
-        getExampleUrl: (id: string) =>
-          createPlaygroundUrl(location.href, getPlaygroundRoute(route.playground, id)).href,
+        getExampleUrl: (id: string) => {
+          const url = createPlaygroundUrl(location.href, getPlaygroundRoute(route.playground, id));
+          url.searchParams.set('lang', i18n.language === 'en' ? 'en' : 'ko');
+          return url.href;
+        },
       }),
-    [route.playground, examples, categories, route.example?.id, route.status],
+    [route.playground, examples, categories, route.example?.id, route.status, i18n.language],
   );
 
   const navigatePackage = (next: PlaygroundPackage) => {
@@ -183,7 +210,7 @@ export function App() {
                   </h1>
                   {!route.example && <p>{t('예제를 추가하고 있습니다.')}</p>}
                 </div>
-                {!route.example && <div className="package-note">{route.playground.name}</div>}
+                {!route.example && <div className="package-note">{route.playground.title}</div>}
               </div>
             )}
             <Suspense
@@ -199,7 +226,9 @@ export function App() {
                   packageId={route.playground.id}
                   symbol={route.symbol}
                 />
-              ) : (route.status === 'ready' || route.status === 'charts') &&
+              ) : (route.status === 'ready' ||
+                  route.status === 'charts' ||
+                  route.status === 'core') &&
                 route.example.kind === 'guide' &&
                 route.tab === 'code' ? (
                 <GuideCodeWorkspace
@@ -207,6 +236,17 @@ export function App() {
                   example={route.example}
                   codeTarget={route.codeTarget}
                 />
+              ) : route.status === 'core' ? (
+                route.example.kind === 'guide' ? (
+                  <CoreGettingStarted key={`core-${route.example.id}`} example={route.example} />
+                ) : (
+                  <CoreWorkspace
+                    key={`core-${route.example.id}`}
+                    example={route.example}
+                    initialTab={route.tab}
+                    codeTarget={route.codeTarget}
+                  />
+                )
               ) : route.status === 'charts' ? (
                 route.example.kind === 'guide' ? (
                   <ChartsGettingStarted

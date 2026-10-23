@@ -116,8 +116,8 @@ describe('한국어 API 참조 문체', () => {
     expect(remaining).toEqual([]);
   });
 
-  it('가이드 22개의 description·body 문체와 API·예제 참조를 유지한다', () => {
-    expect(guides).toHaveLength(22);
+  it('가이드 25개의 description·body 문체와 API·예제 참조를 유지한다', () => {
+    expect(guides).toHaveLength(25);
     for (const guide of guides) {
       expect(proseEnding.test(guide.description), guide.id).toBe(false);
       expect(proseEnding.test(guide.body), guide.id).toBe(false);

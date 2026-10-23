@@ -19,7 +19,7 @@ export function ChartsGettingStarted({
   const exampleCount = chartCatalog.filter((entry) => entry.kind === 'chart').length;
   return (
     <section className="workspace getting-started" aria-label={t('설치 및 사용 안내')}>
-      <WorkspaceHeading example={example} packageTitle="OwpCharts" categoryLabel="문서" />
+      <WorkspaceHeading example={example} packageTitle="owp/charts" categoryLabel="문서" />
       <div className="guide-sections">
         <FrameworkIntroduction packageId="charts" />
         <McpGettingStarted packageName={chartsPackage.name} version={chartsPackage.version} />

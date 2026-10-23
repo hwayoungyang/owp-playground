@@ -119,6 +119,10 @@ const nouns = [
 const nounEnding = new RegExp(`(${nouns.join('|')})(?:입니다|이다|다)${sentenceEnd}`, 'g');
 const identifierEnding = new RegExp(`([A-Za-z0-9_\\]])(?:입니다|이다|다)${sentenceEnd}`, 'g');
 const endings = [
+  ['영향을 주지 않는다', '영향을 주지 않음'],
+  ['실패한다', '실패함'],
+  ['reject된다', 'reject됨'],
+  ['일치시킨다', '일치시킴'],
   ['하지 않습니다', '하지 않음'],
   ['하지 않는다', '하지 않음'],
   ['되지 않습니다', '되지 않음'],

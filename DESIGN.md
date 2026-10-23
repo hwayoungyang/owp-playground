@@ -1,5 +1,15 @@
 # OWP Playground Design System
 
+Core 이관 대상 선제외 (2026-10-24): 현재 Framework worktree에서 Components로 옮기는 Table·FieldTable의 독립 예제와 데이터 표시 카테고리를 제거한다. Dialog shell 옵션도 제거하고 Core manager의 Promise 결과·미저장 변경 확인만 예제로 유지한다. 패키지 버전·설치본은 변경하지 않으며 필요한 테이블과 다이얼로그는 기존 Core adapter로 사용한다. 이 마지막 제외 작업은 사용자 요청에 따라 타입·관련 테스트·생성 자료 확인만 수행하고, 패키지 갱신 후 전체 통합 검증과 MCP 확장은 후속 작업으로 남긴다.
+
+Core Playground 재정리 (2026-10-24): 화면 기준은 이 저장소의 DataGrid·Charts다. 공통 WorkspaceHeading, WorkspaceTabs, PreviewToolbar, ResetButton, PreviewActionsProvider를 재사용한다. 초기화는 예제 Paper 내부 툴바의 우측에 아이콘과 텍스트를 가진 기존 outlined 버튼으로 표시한다. 옵션은 같은 툴바 왼쪽에 배치하고 36px 높이, 13px 글자, 8/16px gap, 240px 선호 너비와 최대 320px 입력 규칙을 따른다. 모바일에서는 toolbar가 줄바꿈하고 입력은 가용 너비 안에 놓인다. Core만의 회색 옵션 띠나 탭 옆 초기화 아이콘은 사용하지 않는다.
+
+Core는 앱 초기화·환경·설정·API·인증·라우팅과 공통 UI를 통합하는 기반 패키지다. 시작 가이드와 예제 탐색은 앱 구성과 API 연결을 먼저 설명하고 페이지/폼, 피드백, 데이터 표시 순서로 이어진다. 가이드 본문의 예제 링크 모음은 제거한다. 모든 예제는 한금 소비앱의 실제 사용처를 먼저 확인하되 도메인 조건·서버 업무 흐름을 제거해 공개 API와 최소 조합만 보여준다. 소비앱에 없는 기능만 설치된 공개 API로 보완한다. Core 메뉴는 Core 소유의 핵심 기능만 다룬다. OwpSection 등 @owp/components 소유 API는 Core 예제 메뉴로 만들지 않으며, Core 동작 설명에 필수인 경우에만 해당 패키지에서 가져온다.
+
+예제 본문은 16px padding과 16px 기본 gap을 사용하고, 별도 기능을 비교하는 영역만 제목과 8px 설명 간격을 둔다. 버튼과 결과, 폼과 표, Select와 상태 안내 사이에 명시적인 간격을 둔다. 입력을 본문 전체 너비로 늘리지 않고 max-width 320px로 묶는다. 데이터는 이름·상태 같은 단순한 필드 2~3행을 사용한다. 수량 증가 등 해당 기능과 무관한 버튼과 중복 비교 표는 제거한다. Table 선택지는 mui/dataGrid만 노출한다. 표면 상단·모서리·헤더 외곽선이 실제로 보이는지 light/dark와 각 radius 상태에서 검증한다.
+
+한금 참조 경로: C141000/C201000의 OwpPageCarded.header=OwpSearchFilter, content=OwpPageContent; C152000의 FieldTable+OwpSection 간격; C121200의 OwpTable; C143000WorkDetailDialog의 dialog manager; C132000의 확인 hook; AppProviders의 ErrorBoundary/CoreProvider/StyleProvider; api/index.ts의 createOwpApiHooks; LoginForm의 LanguageSwitcherSelect. 업무 로직과 API 주소는 복제하지 않는다. main이 바깥 세로 스크롤을 소유하고 테이블·코드는 자신의 영역에서만 가로 스크롤한다. 한국어/영어, light/dark, 375/768/1280px에서 전체 예제와 조작 상태를 확인하고, 수동 시각 검증 전에는 완료로 판단하지 않는다. MCP 확장은 Playground 정리 → Core 수정 → Playground 재검증이 끝난 뒤에만 수행한다.
+
 버전 메뉴 상태와 MCP 주소 안내 (2026-10-23): 공용 MCP 주소는 사내 registry 안내처럼 서버 기본 주소를 뜻하는 `<OWP_MCP_URL>`에 `/mcp`를 붙여 표시하고 실제 URL·인증·접근 권한 확인을 안내한다. 일반 개발 서버는 아카이브 목록을 조회하지 않고 현재 개발 버전과 현재 버전만 제공한다는 설명을 표시한다. 버전 서버의 로딩·목록 없음·조회 실패는 중립 상태 영역으로 구분하고, 실패 안내 아래에 새로고침 아이콘과 `다시 시도` 메뉴 동작을 별도 행으로 제공한다. 상태 문구는 13px/1.6, 제목은 600 weight, 보조 설명은 기존 secondary ink, 영역 padding은 16px, 내부 gap은 8px를 사용한다. 메뉴는 320px 선호 너비와 화면 양옆 16px 여백 안에서 줄바꿈하며, 재시도는 기존 36px 이상 조작 영역과 keyboard menu focus를 유지한다. 새 색상·의존성·motion은 추가하지 않는다.
 
 버전 탐색 (2026-10-23): 패키지 선택 옆에 현재 패키지의 정확한 버전을 표시하는 MUI Button/Menu를 배치한다. 기존 헤더의 36px 조작 영역, 4px 액션 간격과 중립 색상·keyboard focus를 재사용한다. 메뉴는 해당 패키지를 포함한 스냅샷만 나열하고, 같은 패키지 버전의 문서 수정본은 초 단위 시각으로 구분한다. 개발본에는 텍스트로 상태를 표시한다. 로딩·목록 없음·조회 실패·재시도 상태는 메뉴 안에 표시하며 현재 예제의 실행을 막지 않는다. 버전 이동은 전체 페이지를 로드하고, 대상에 존재하는 예제·API와 언어·화면 모드를 보존한다. 코드의 과거 줄 강조는 제거한다. 600px 미만에서는 헤더의 브랜드를 symbol로 줄이고 개발본 표시는 메뉴에 유지한다. 360px 미만은 96px 높이의 두 줄 헤더를 사용해 패키지·버전·언어·테마 조작을 모두 보존한다. 새 색상·motion·scroll container는 추가하지 않는다.

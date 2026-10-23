@@ -13,11 +13,14 @@ import { legacySourcePaths } from './src/features/code/source-paths.ts';
 import { chartCatalog } from './src/playgrounds/charts/catalog.ts';
 import { chartEnglish } from './src/playgrounds/charts/locales/en.ts';
 import { gridCatalog } from './src/playgrounds/datagrid/catalog.ts';
+import { coreCatalog } from './src/playgrounds/core/catalog.ts';
+import { coreEnglish } from './src/playgrounds/core/locales/en.ts';
 import { catalogEnglish } from './src/playgrounds/datagrid/locales/catalog.en.ts';
 import { packageCatalog } from './src/playgrounds/registry.ts';
 
 const gridDocumentationCatalog = reviewedApiCatalog(gridCatalog, 'datagrid');
 const chartDocumentationCatalog = reviewedApiCatalog(chartCatalog, 'charts');
+const coreDocumentationCatalog = reviewedApiCatalog(coreCatalog, 'core');
 const publicBase = process.env.OWP_PUBLIC_BASE ?? '/';
 if (!/^\/(?:[A-Za-z0-9_.-]+\/)*$/.test(publicBase))
   throw new TypeError('OWP_PUBLIC_BASE는 /로 시작하고 끝나는 안전한 공개 경로여야 합니다.');
@@ -104,6 +107,50 @@ export default defineConfig({
       async generateBundle() {
         const root = fileURLToPath(new URL('.', import.meta.url));
         const sources = await readSourceResources(root);
+        this.emitFile({
+          type: 'asset',
+          fileName: 'catalogs/core.sources.json',
+          source: JSON.stringify(
+            await createPackageSourceManifest({
+              root,
+              catalog: coreDocumentationCatalog,
+              resources: sources,
+              packageName: '@owp/core',
+              basePath: publicBase,
+              supportFiles: [
+                '/src/playgrounds/core/runtime/CoreProviders.tsx',
+                '/src/playgrounds/core/styles.css',
+              ],
+            }),
+            null,
+            2,
+          ),
+        });
+        for (const language of ['ko', 'en'])
+          this.emitFile({
+            type: 'asset',
+            fileName: `catalogs/core${language === 'en' ? '.en' : ''}.json`,
+            source: JSON.stringify(
+              {
+                version: 1,
+                package: '@owp/core',
+                language,
+                samples: coreDocumentationCatalog.map((example) => ({
+                  ...example,
+                  title:
+                    language === 'en'
+                      ? (coreEnglish[example.title] ?? example.title)
+                      : example.title,
+                  description:
+                    language === 'en'
+                      ? (coreEnglish[example.description] ?? example.description)
+                      : example.description,
+                })),
+              },
+              null,
+              2,
+            ),
+          });
         this.emitFile({
           type: 'asset',
           fileName: 'catalogs/datagrid.sources.json',

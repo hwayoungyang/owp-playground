@@ -1,3 +1,4 @@
+import { coreGuides } from './core-guides.mjs';
 const guide = (packageId, id, title, description, api, examples, body) => ({
   id: `@owp/${packageId}:guide.${id}`,
   packageId,
@@ -9,6 +10,12 @@ const guide = (packageId, id, title, description, api, examples, body) => ({
 });
 
 export const guides = [
+  ...coreGuides.map((entry) => ({
+    ...entry,
+    sourcePath: 'knowledge/core-guides.mjs',
+    description: toReferenceStyle(entry.description),
+    body: toReferenceStyle(entry.body),
+  })),
   guide(
     'datagrid',
     'states',

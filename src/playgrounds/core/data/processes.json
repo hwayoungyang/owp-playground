@@ -1,0 +1,8 @@
+{
+  "resultCode": "STATUS_1",
+  "resultData": [
+    { "id": "A", "nameKo": "항목 A", "nameEn": "Item A", "active": true },
+    { "id": "B", "nameKo": "항목 B", "nameEn": "Item B", "active": true },
+    { "id": "C", "nameKo": "항목 C", "nameEn": "Item C", "active": false }
+  ]
+}

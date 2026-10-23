@@ -4,6 +4,7 @@ import type { ApiRecord } from './model/knowledge';
 import { useApiKnowledge } from './ApiKnowledgeContext';
 import { apiHref } from './model/links';
 import { descriptionOrigins } from './model/presentation';
+import { apiPackageIdFor } from '../../playgrounds/packages';
 
 export function TypeExpression({
   text,
@@ -24,7 +25,7 @@ export function TypeExpression({
           return target && target.id !== record.id ? (
             <PlaygroundLink
               key={`${index}-${part}`}
-              href={apiHref(target.package === '@owp/datagrid' ? 'datagrid' : 'charts', target.id)}
+              href={apiHref(apiPackageIdFor(target.package), target.id)}
             >
               {part}
             </PlaygroundLink>
@@ -43,7 +44,7 @@ export function RecordLink({
   readonly record: ApiRecord;
   readonly qualified?: boolean;
 }) {
-  const packageId = record.package === '@owp/datagrid' ? 'datagrid' : 'charts';
+  const packageId = apiPackageIdFor(record.package);
   const label = record.kind === 'guide' ? record.name : record.path || record.name;
   return (
     <PlaygroundLink href={apiHref(packageId, record.id)}>

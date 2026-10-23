@@ -62,7 +62,7 @@ export function GridWorkspace({
     <section className="workspace" aria-label={t('예제 실행 영역')}>
       <WorkspaceHeading
         example={example}
-        packageTitle="OwpDataGrid"
+        packageTitle="owp/datagrid"
         categoryLabel={categories.find((entry) => entry.id === example.category)?.label ?? ''}
       />
       <WorkspaceTabs

@@ -78,7 +78,11 @@ export function ApiReference({
   const records = dataset?.records ?? emptyRecords;
   const target = dataset?.recordsById.get(
     symbol ||
-      (packageId === 'datagrid' ? '@owp/datagrid:OwpDataGridProps' : '@owp/charts:ChartFrameProps'),
+      (packageId === 'core'
+        ? '@owp/core:OwpSearchFilterProps'
+        : packageId === 'datagrid'
+          ? '@owp/datagrid:OwpDataGridProps'
+          : '@owp/charts:ChartFrameProps'),
   );
   const selected =
     target &&

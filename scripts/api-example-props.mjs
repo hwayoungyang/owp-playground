@@ -5,7 +5,7 @@ const member = (node, name) => node?.type === 'MemberExpression' && !node.comput
 
 /** 공개 컴포넌트에 실제 전달된 최상위 prop과 그 AST 위치만 수집합니다. */
 export function discoverExamplePropReferences({ packageId, files, records }) {
-  const packages = new Set(['@owp/charts', '@owp/datagrid']);
+  const packages = new Set(['@owp/charts', '@owp/datagrid', '@owp/core']);
   const byId = records instanceof Map ? records : new Map(records.map((record) => [record.id, record]));
   const bindings = createPropBindings(files);
   const components = new Map([...byId.values()].filter((record) => packages.has(record.package)

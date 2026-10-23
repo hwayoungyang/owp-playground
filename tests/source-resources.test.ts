@@ -5,10 +5,12 @@ import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
   createDataGridSourceManifest,
+  createPackageSourceManifest,
   readSourceResources,
   sourceDependencyGraph,
 } from '../scripts/source-resources';
 import { gridCatalog } from '../src/playgrounds/datagrid/catalog';
+import { coreCatalog } from '../src/playgrounds/core/catalog';
 
 const roots: string[] = [];
 async function fixture(files: Readonly<Record<string, string>>) {
@@ -28,6 +30,45 @@ afterEach(async () => {
 });
 
 describe('source resources', () => {
+  it('includes Core providers, styles and fetched JSON with the deployment base path', async () => {
+    const root = path.resolve(import.meta.dirname, '..');
+    const resources = await readSourceResources(root);
+    const manifest = await createPackageSourceManifest({
+      root,
+      resources,
+      catalog: coreCatalog,
+      packageName: '@owp/core',
+      basePath: '/releases/core/',
+      supportFiles: [
+        '/src/playgrounds/core/runtime/CoreProviders.tsx',
+        '/src/playgrounds/core/styles.css',
+      ],
+    });
+    expect(manifest.packageVersion).toBe('7.1.0');
+    expect(manifest.samples.map((sample) => sample.id)).toEqual(
+      coreCatalog.map((sample) => sample.id),
+    );
+    for (const sample of manifest.samples) {
+      expect(sample.files.some((file) => file.path === sample.entrypoint)).toBe(true);
+      expect(
+        sample.files.some((file) => file.path.endsWith('/core/runtime/CoreProviders.tsx')),
+      ).toBe(true);
+      expect(sample.files.some((file) => file.path.endsWith('/core/styles.css'))).toBe(true);
+      expect(sample.files.every((file) => file.path.startsWith('/releases/core/snippets/'))).toBe(
+        true,
+      );
+      expect(sample.files.some((file) => file.path.endsWith('/core/runtime/Workspace.tsx'))).toBe(
+        false,
+      );
+    }
+    const query = manifest.samples.find((sample) => sample.id === 'query-selector');
+    expect(
+      query?.files.filter((file) => file.path.endsWith('.json')).length,
+    ).toBeGreaterThanOrEqual(3);
+    expect(query?.externalImports).toContain('@owp/core');
+    expect(query?.externalImports).toContain('react-router-dom');
+  });
+
   it('resolves type imports, reexports, index files, cycles and CSS when building the graph', async () => {
     // Given
     const root = await fixture({
