@@ -61,7 +61,16 @@ pnpm preview
 
 ## 배포 CLI
 
-Mac 터미널에서 회사 VPN에 연결한 뒤 **`pnpm deploy`**를 실행합니다. 프로젝트는 pnpm 12.15.0을 사용하며 모든 배포 명령을 `run` 없이 실행합니다. pnpm 11부터 같은 이름의 프로젝트 script가 내장 명령보다 우선합니다. 관련 변경은 [pnpm 공식 마이그레이션 문서](https://pnpm.io/migration)에 설명되어 있습니다.
+배포 명령은 서비스별로 분리합니다. 버전별 Playground와 MCP는 같은 아카이브를 조회하므로 하나의 별도 서비스로 배포합니다.
+
+| 명령 | 대상 | 서버 경로·포트 |
+| --- | --- | --- |
+| `deploy` | 최신 정적 Playground, 기존 Nginx | `/home/owp-playground` · `30010` |
+| `deploy:mcp --bundle <묶음 경로>` | stable 버전별 Playground와 HTTP MCP, systemd | `/home/owp-playground-mcp` · `30011` |
+
+두 명령은 SSH 연결 공유 방식을 재사용하며 서비스·배포 잠금·릴리스 보관 경로는 별도로 관리합니다. MCP의 버전 아카이브에는 기존 정적 배포의 최근 5개 릴리스 정리를 적용하지 않습니다. MCP 최초 설치와 이후 갱신은 아래 [MCP 배포](#mcp-배포)를 따릅니다.
+
+다음은 기존 정적 Playground 배포 절차입니다. Mac 터미널에서 회사 VPN에 연결한 뒤 **`pnpm deploy`**를 실행합니다. 프로젝트는 pnpm 12.15.0을 사용하며 모든 배포 명령을 `run` 없이 실행합니다. pnpm 11부터 같은 이름의 프로젝트 script가 내장 명령보다 우선합니다. 관련 변경은 [pnpm 공식 마이그레이션 문서](https://pnpm.io/migration)에 설명되어 있습니다.
 
 ```sh
 # 실제 전환 없이 네트워크·인증·서버 구성을 먼저 검사합니다.
@@ -147,6 +156,31 @@ pnpm deploy:cleanup --assume-vpn --dry-run
 `--assume-vpn`은 VPN 연결의 명시적 확인이며 실제 접근 검사를 생략하지 않습니다. 비대화형 실행에서 이 옵션이 없으면 네트워크 검사 전에 중단합니다. 변경 명령인 rollback과 cleanup에는 추가로 `--yes`가 필요하며, cleanup의 `--dry-run`은 삭제 후보만 표시합니다. 비대화형 SSH 인증이 없으면 비밀번호를 우회하거나 저장하지 않고 중단합니다.
 
 배포 테스트는 임시 파일시스템, 실제 macOS Bash·tar·SHA-256·symlink 교체, 시스템 curl과 localhost HTTP 서버에서 실행합니다. SSH와 Docker 컨테이너 조회는 모의 환경을 사용합니다. 실제 프로젝트의 새 빌드로 배포·status·rollback·재복구·정리 미리보기까지 로컬에서 검증했으며 운영 서버의 Rocky Linux·Docker·Nginx 전환은 실행하지 않았습니다. 첫 운영 실행은 위 사전 검사로 서버 구성부터 확인합니다.
+
+### MCP 배포
+
+회사 VPN에 연결한 Mac의 프로젝트 루트에서 준비된 stable 배포 묶음을 지정합니다. 다음 한 명령으로 묶음 검증·전송, 서버 의존성 설치, systemd 서비스 등록·시작, HTTP와 MCP 조회 검증까지 수행합니다.
+
+```sh
+corepack pnpm deploy:mcp --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db
+```
+
+```sh
+# 서버 접속 없이 로컬 묶음과 배포 계획을 확인합니다.
+corepack pnpm deploy:mcp --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db --dry-run
+
+# SSH 인증과 서버 준비 상태만 확인합니다. 전송·설치·서비스 변경은 하지 않습니다.
+corepack pnpm deploy:mcp:preflight --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db
+
+corepack pnpm deploy:mcp --help
+corepack pnpm test:deploy:mcp
+```
+
+`--bundle`은 필수이며 `app.tar.gz`, `archive.tar.gz`, `SHA256SUMS`, `release.json`이 있는 디렉터리를 지정합니다. 명령은 새 빌드·commit·스냅샷 생성을 수행하지 않습니다. 위 경로의 묶음은 `20261023-205804-8f5e7db9d5c8` stable을 제공하며, 다른 묶음을 배포할 때는 경로를 바꿉니다.
+
+서버에는 Node.js `24.22.1`, Corepack에 준비된 pnpm `12.15.0`, systemd와 사내 OWP registry 접근이 필요합니다. CLI가 OS 런타임·방화벽·Nginx·Docker 설정을 설치하거나 변경하지 않습니다. 배포 후 서비스는 `owp-playground-mcp.service`로 운영하며, MCP 주소는 `http://192.168.100.20:30011/mcp`입니다. 처음 연결하는 Mac은 위 SSH 서버 지문 확인 절차를 먼저 따릅니다. 비대화형 실행에는 `--assume-vpn`과 기존 키·Agent 인증이 필요합니다.
+
+묶음 검증, 기존 아카이브 보존, 실패 시 복구와 운영 확인 명령은 [버전별 Playground와 MCP의 배포 절차](./docs/versioned-mcp.md#운영-배포-순서)를 따릅니다. 기존 `deploy:status`·`deploy:rollback`·`deploy:cleanup`은 30010 정적 서비스 전용입니다.
 
 ## 소스 구조
 

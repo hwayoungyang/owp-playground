@@ -48,7 +48,7 @@ corepack pnpm snapshot:create --draft
 corepack pnpm snapshot:create --stable
 ```
 
-`--stable`은 커밋되지 않은 변경이 있으면 실패합니다. 생성 자료도 현재 소스와 일치해야 합니다. 이 구현은 자동 commit·패키지 게시·운영 서버 배포를 수행하지 않습니다. 아카이브는 기존 운영 배포의 `releases/`와 별도로 보존하므로 최근 5개 운영 릴리스 정리·rollback 정책의 영향을 받지 않습니다. `pnpm deploy`는 기존 최신 사이트 배포 절차를 유지합니다. 버전별 사이트와 MCP를 운영하려면 아카이브를 서비스 서버의 영구 디렉터리로 전달하고 아래 HTTP 프로세스를 별도로 운영합니다.
+`--stable`은 커밋되지 않은 변경이 있으면 실패합니다. 생성 자료도 현재 소스와 일치해야 합니다. `snapshot:create`는 자동 commit·패키지 게시·운영 서버 배포를 수행하지 않습니다. 아카이브는 기존 운영 배포의 `releases/`와 별도로 보존하므로 최근 5개 운영 릴리스 정리·rollback 정책의 영향을 받지 않습니다. `pnpm deploy`는 기존 최신 사이트 배포 절차를 유지합니다. 버전별 사이트와 MCP는 아래 `deploy:mcp` 명령으로 별도 서비스에 설치합니다.
 
 ## 로컬에서 화면과 HTTP MCP 확인
 
@@ -83,7 +83,14 @@ AI 클라이언트에는 `http://owp.internal:30011/mcp`를 Streamable HTTP 서�
 
 ## 운영 배포 순서
 
-기존 정적 사이트는 `http://192.168.100.20:30010`에서 제공하며, `pnpm deploy`가 이를 관리합니다. 버전 아카이브와 MCP는 Node.js 프로세스를 별도로 실행해야 합니다. 아래의 30011번 포트는 이 별도 서비스의 예시이며, 서버의 포트·접근 정책과 실행 계정은 배포자가 확인합니다.
+배포 명령은 서비스별로 분리합니다. `deploy`는 30010의 최신 정적 Playground를 관리하고, `deploy:mcp`는 30011의 버전별 Playground와 HTTP MCP를 함께 관리합니다. 버전별 화면과 MCP는 같은 stable 아카이브를 조회하므로 한 서비스로 전환·검증합니다.
+
+| 대상 | 명령 | 서버 경로 | 운영 방식 |
+| --- | --- | --- | --- |
+| 최신 정적 Playground · 30010 | `corepack pnpm deploy` | `/home/owp-playground` | 기존 Nginx·Docker |
+| 버전별 Playground + MCP · 30011 | `corepack pnpm deploy:mcp --bundle <묶음 경로>` | `/home/owp-playground-mcp` | `owp-playground-mcp.service` · systemd |
+
+SSH 연결 공유 방식을 재사용하며 서비스·잠금·릴리스 보관 경로를 분리합니다. 기존 `deploy:status`·`deploy:rollback`·`deploy:cleanup`은 30010 정적 서비스 전용입니다.
 
 ### 기존 30010 정적 사이트
 
@@ -97,77 +104,85 @@ corepack pnpm deploy:status
 
 이 경로는 최신 정적 사이트를 새로 빌드해 기존 Nginx의 `current`를 전환합니다. 버전 아카이브 전송이나 MCP 프로세스 설치는 포함하지 않습니다. 실패 복구는 기존 `deploy:rollback`을 사용합니다. 자세한 서버 조건은 [README의 배포 CLI](../README.md#배포-cli)를 따릅니다.
 
-### 버전별 Playground와 MCP 서비스
+### MCP 최초 설치와 이후 갱신
 
-서버에는 프로젝트의 Node.js·pnpm 버전과 OWP 사설 registry 접근이 필요합니다. 코드와 아카이브는 기존 `/home/owp-playground/releases` 밖에 둡니다. 이 예시는 `/home/owp-playground-mcp/app`과 `/home/owp-playground-mcp/archive`를 사용합니다.
-
-1. 로컬 작업 트리를 커밋하고 `corepack pnpm snapshot:create --stable`을 실행합니다. 이미 생성한 stable을 배포할 때는 다시 생성하지 않아도 됩니다. `git status --short` 출력이 없어야 하며, 배포할 스냅샷의 manifest에 기록된 commit과 배포 코드의 commit을 일치시킵니다.
-2. 다음 명령으로 커밋된 코드와 **모든 stable 스냅샷만** 담은 전송 자료를 준비합니다. `.playground-versions`는 Git ignore 대상이므로 코드 전송과 별개로 보관합니다.
+회사 VPN에 연결한 Mac의 프로젝트 루트에서 준비된 묶음 경로를 지정합니다. 서버에서 별도로 설치 명령을 입력할 필요 없이 다음 한 명령이 전송·설치·서비스 시작·검증을 수행합니다.
 
 ```sh
-export OWP_EXPORT_DIR="$(mktemp -d)"
-corepack pnpm exec node --experimental-strip-types --input-type=module <<'NODE'
-import { cp, mkdir, writeFile } from 'node:fs/promises';
-import path from 'node:path';
-import { readVersionArchive } from './scripts/version-archive.ts';
-const index = await readVersionArchive('.playground-versions');
-const releases = index.releases.filter((entry) => entry.channel === 'stable');
-const latest = releases.at(-1);
-if (!latest) throw new Error('배포할 stable 스냅샷이 없습니다.');
-const target = path.join(process.env.OWP_EXPORT_DIR, 'archive', 'versions');
-await mkdir(target, { recursive: true });
-for (const entry of releases) {
-  await cp(path.join('.playground-versions/versions', entry.releaseId),
-    path.join(target, entry.releaseId), { recursive: true, force: false, errorOnExist: true });
-}
-await writeFile(path.join(target, 'index.json'),
-  `${JSON.stringify({ ...index, releases, latestReleaseId: latest.releaseId }, null, 2)}\n`);
-console.log(`stable ${releases.length}개, 최신 ${latest.releaseId}`);
-NODE
-git archive HEAD | gzip > "$OWP_EXPORT_DIR/app.tar.gz"
-tar -czf "$OWP_EXPORT_DIR/archive.tar.gz" -C "$OWP_EXPORT_DIR/archive" versions
+corepack pnpm deploy:mcp --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db
 ```
 
-3. 서버에 `/home/owp-playground-mcp/incoming`을 준비한 뒤 두 파일을 전송합니다. 이 명령은 로컬에서 실행하며 SSH 인증은 기존 방식을 사용합니다.
+이 묶음은 코드 commit `8f5e7db9d5c84028ed42c9ddceeda26f2524658e`와 stable `20261023-205804-8f5e7db9d5c8`을 배포합니다. 과거 stable도 함께 포함합니다. `--bundle`은 필수이며 자동으로 가장 최근 폴더를 선택하지 않습니다. 배포할 때 새 묶음의 경로로 바꿉니다. CLI는 새 빌드·commit·스냅샷 생성을 수행하지 않습니다.
 
 ```sh
-scp "$OWP_EXPORT_DIR/app.tar.gz" "$OWP_EXPORT_DIR/archive.tar.gz" \
-  root@192.168.100.20:/home/owp-playground-mcp/incoming/
+# 서버 접속 없이 묶음을 검증하고 배포 계획만 표시합니다.
+corepack pnpm deploy:mcp --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db --dry-run
+
+# SSH 인증과 서버 준비 상태만 검사합니다. 전송·설치·서비스 변경은 하지 않습니다.
+corepack pnpm deploy:mcp:preflight --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db
+
+# 비대화형 실행: 기존 키·SSH Agent의 비대화형 인증이 필요합니다.
+corepack pnpm deploy:mcp --bundle .omo/evidence/versioned-mcp/deploy-bundle-8f5e7db --assume-vpn
+
+corepack pnpm deploy:mcp --help
 ```
 
-4. 서버에서 코드는 새 앱 디렉터리에, archive는 별도 임시 디렉터리에 풉니다. 실행 중인 앱 파일 위에 덮어쓰지 않습니다. 새 앱 디렉터리에서 `corepack pnpm install --frozen-lockfile --prod`를 실행합니다. 서버 빌드나 스냅샷 재생성은 필요하지 않습니다.
-5. 새 앱의 `scripts/version-archive.ts`에 있는 `readVersionArchive()`로 임시 archive 전체를 검증합니다. 예를 들어 새 앱 디렉터리에서 다음과 같이 실행합니다.
+인증은 기존 OpenSSH 연결 공유 방식을 사용합니다. 첫 SSH 인증에서 입력한 비밀번호는 저장하지 않으며 이후 작업은 같은 연결을 재사용합니다. `StrictHostKeyChecking=yes`이므로 처음 연결하는 Mac에서는 `ssh root@192.168.100.20`으로 지문을 먼저 확인합니다. `--assume-vpn`은 VPN 확인 질문만 생략하며 실제 접근 검사는 유지합니다.
+
+### 서버 준비 조건
+
+배포 대상은 `root@192.168.100.20:22`이며 다음 조건이 필요합니다.
+
+- 이번 배포 계약에 고정한 Node.js `24.22.1`과 Corepack을 사용할 수 있어야 합니다. Corepack에는 pnpm `12.15.0`이 준비되어 있어야 하며 사전 검사는 이를 새로 내려받지 않습니다.
+- systemd와 서비스 등록·시작 권한이 있어야 합니다. SSH 로그인 환경과 systemd의 실행 환경에서 런타임을 사용할 수 있어야 하며 `ss`와 `sha256sum`도 필요합니다.
+- 서버에서 lockfile에 고정된 의존성과 사내 OWP registry에 접근할 수 있어야 합니다. registry 인증은 기존 서버 설정으로 제공합니다.
+- 30011번 포트가 비어 있거나 이 스크립트로 설치한 MCP 서비스가 사용 중이어야 합니다. 기존 수동 서비스·알 수 없는 앱 경로·관리되지 않은 systemd 추가 설정(drop-in)은 자동으로 인수하지 않습니다.
+
+CLI는 준비 조건이 부족하면 중단합니다. OS 런타임을 자동 설치하거나 방화벽·SELinux·Nginx·Docker·SSH·Verdaccio 설정을 변경하지 않습니다. 30011의 사내 접근 허용은 서버 운영 정책에 맞게 준비합니다.
+
+### 묶음 형식과 검증
+
+묶음 디렉터리에는 다음 네 파일이 필요합니다. 기존의 tar 파일 두 개만 만든 수동 전송 자료는 이 CLI의 입력으로 사용할 수 없습니다.
+
+| 파일 | 내용 |
+| --- | --- |
+| `app.tar.gz` | 스냅샷과 같은 commit의 `git archive` 소스. `package.json`, lockfile, MCP 서버 코드를 포함 |
+| `archive.tar.gz` | `versions/index.json`과 stable 스냅샷. draft를 포함하지 않음 |
+| `SHA256SUMS` | 두 tar 파일의 SHA-256 |
+| `release.json` | 배포할 `head`, `releaseId`, `channel: "stable"`, `dirty: false`, `manifestCommit`, 패키지 목록, stable ID 목록과 tar 파일별 크기·SHA-256 |
+
+CLI는 로컬의 비공개 임시 경로에 묶음을 복사해 검증한 뒤 그 사본을 전송합니다. tar의 경로·타입·중복 항목, 코드 commit, index·manifest·파일별 SHA-256과 패키지 버전을 대조합니다. 링크·특수 파일·상위 경로·변조된 자료는 업로드 전에 거부합니다. 현재 작업 트리의 HEAD와 달라도 준비된 묶음 자체의 코드·스냅샷 계약이 일치하면 사용할 수 있습니다.
+
+묶음 파일은 각각 64MiB 이하이며 tar 하나의 압축 해제 크기는 512MiB, 항목 수는 50,000개로 제한합니다. 서버의 모든 과거 스냅샷을 매번 전송할 필요는 없습니다. 신규 stable만 담은 묶음도 사용할 수 있으며 `release.json`의 목록과 묶음 안의 index는 서로 일치해야 합니다. 서버에서는 기존 stable과 병합합니다.
+
+### 설치·전환·실패 복구
+
+전송한 코드는 새 앱 디렉터리에 풀고 `corepack pnpm install --frozen-lockfile --prod`로 의존성을 설치합니다. 서버에서 Playground를 빌드하거나 스냅샷을 다시 생성하지 않습니다. 서버의 설치·검증·복구를 담당하는 helper는 준비된 코드 묶음과 별도로 전송하므로, CLI 추가 전 생성한 위 stable 묶음도 배포할 수 있습니다. 배포 CLI와 MCP SDK 조회 검증은 로컬에서 실행합니다.
+
+서버의 영구 archive는 실제 디렉터리로 유지합니다. 기존 stable을 보존하면서 신규 스냅샷을 등록하고 index를 전환합니다. 같은 release ID의 내용이 다르거나 서버의 최신 stable보다 오래된 묶음이면 중단합니다. archive에는 `rsync --delete`, 정적 사이트의 최근 5개 릴리스 정리나 자동 삭제를 적용하지 않습니다.
+
+새 앱은 `apps/`에 보관하고 검증된 앱으로 `current` 연결을 전환한 뒤 `owp-playground-mcp.service`를 등록·활성화·시작합니다. 서비스는 `0.0.0.0:30011`에서 실행하며 공개 origin은 `http://192.168.100.20:30011`입니다. 선택적 서버 환경 파일 `/home/owp-playground-mcp/mcp.env`를 유지합니다. 인증 토큰을 쓴다면 서버의 `OWP_MCP_BEARER_TOKEN`과 같은 값을 로컬 검증 프로세스의 환경 변수에도 제공하며, 명령 인자나 저장소에 기록하지 않습니다. 브라우저 화면에도 토큰을 요구하면 인증 프록시가 해당 헤더를 처리해야 합니다.
+
+전환 후에는 루트의 query 보존·307 이동, stable index와 최신 ID, 고정 버전 HTML·asset의 실제 SHA-256을 검사합니다. 로컬 MCP SDK로 연결·초기화하고 `list_packages`와 패키지별 가이드 조회의 release ID·버전을 확인합니다. 프로세스 시작 직후의 연결 거부·연결 시간 초과는 최대 30초 동안 재시도하며 파일 내용·릴리스 불일치는 즉시 실패합니다. HTTP 200 또는 `/mcp`의 단순 GET만으로 성공 처리하지 않습니다.
+
+설치·시작·검증에 실패하면 배포 잠금을 유지한 상태에서 이전 앱 연결·index·unit과 활성화 상태를 복구합니다. 최초 설치가 실패하면 이번 실행이 만든 서비스와 앱 연결만 해제합니다. 실패한 자료와 과거 스냅샷은 원인 확인을 위해 보존하며, 복구에 성공해도 명령은 실패 코드로 끝납니다.
+
+SSH 연결 중단·완료 응답 누락·강제 종료가 발생하면 결과를 추정해 반복 배포하거나 남은 잠금을 삭제하지 않습니다. 복구 중 unit 경로나 추가 설정이 예상과 달라도 서비스 조작을 중단하고 기록과 잠금을 남깁니다. 서버의 서비스·실제 앱 연결·배포 기록을 확인한 뒤 수동으로 복구합니다. CLI가 관리하지 않는 기존 unit이나 다른 실행의 잠금은 덮어쓰지 않습니다.
+
+### 운영 확인
+
+배포 명령이 검증까지 성공하면 버전별 화면은 `http://192.168.100.20:30011/`, 팀 공용 MCP는 `http://192.168.100.20:30011/mcp`에서 제공합니다. 서버에서 서비스 상태와 로그를 확인할 때는 다음 명령을 사용합니다.
 
 ```sh
-corepack pnpm exec node --experimental-strip-types --input-type=module \
-  -e 'import { readVersionArchive } from "./scripts/version-archive.ts"; console.log(await readVersionArchive(process.argv[1]));' \
-  /absolute/path/to/extracted-archive
+systemctl status owp-playground-mcp.service --no-pager
+journalctl -u owp-playground-mcp.service -n 100 --no-pager
 ```
 
-6. archive를 등록할 때는 각 `versions/<releaseId>/` 디렉터리를 먼저 완전히 전달하고, `versions/index.json`은 마지막에 같은 디렉터리의 임시 파일에서 rename해 교체합니다. 같은 ID가 이미 있으면 파일별 내용이 동일한지 확인하고 재사용하며, 다른 내용으로 덮어쓰지 않습니다. 배포 기준 아카이브는 하나로 유지하고, 서버의 기존 stable 항목이 새 index에서 빠지지 않도록 확인합니다. 기존 아카이브에 `rsync --delete`나 운영 릴리스 정리 정책을 적용하지 않습니다.
-7. 검증한 코드 디렉터리를 `/home/owp-playground-mcp/app`으로 연결하고 아래 명령으로 실행합니다. 초기 foreground 확인을 마친 뒤 서버의 systemd 등 기존 프로세스 관리 방식에 같은 작업 디렉터리·실행 명령·환경 변수를 등록합니다. `--allow-drafts`는 지정하지 않습니다.
+AI 클라이언트 안내에는 `<OWP_MCP_URL>/mcp`로 표기하며 `<OWP_MCP_URL>`을 해당 서비스의 origin으로 바꿉니다. 운영 archive와 index는 함께 백업합니다. 배포 자동화 테스트는 다음 명령으로 실행합니다.
 
 ```sh
-cd /home/owp-playground-mcp/app
-corepack pnpm mcp:http \
-  --archive-root /home/owp-playground-mcp/archive \
-  --host 0.0.0.0 \
-  --port 30011 \
-  --public-url http://192.168.100.20:30011
+corepack pnpm test:deploy:mcp
 ```
-
-인증 프록시 뒤에서 제공하면 loopback으로 바인딩하고 `--public-url`에는 팀이 접속할 외부 origin을 지정합니다. 프록시는 `/mcp`, `/versions/`와 `/`를 같은 서비스로 전달하고 Streamable HTTP 응답을 버퍼링하지 않도록 설정합니다. `OWP_MCP_BEARER_TOKEN`을 사용하면 인증된 정적 GET·HEAD 응답은 `private, no-store`로 제공됩니다. 브라우저도 사용할 경우 인증 프록시가 필요한 헤더를 처리해야 합니다.
-
-8. 클라이언트가 접근하는 주소에서 다음을 확인합니다. 인증을 설정했다면 같은 인증 정책으로 조회합니다.
-
-```sh
-curl -I 'http://192.168.100.20:30011/?package=datagrid'
-curl --fail 'http://192.168.100.20:30011/versions/index.json'
-```
-
-루트는 stable 버전 경로로 307 이동해야 합니다. index에는 stable만 있어야 하며, 브라우저에서 DataGrid·Charts와 고정 버전 링크를 확인합니다. AI 클라이언트에는 `http://192.168.100.20:30011/mcp`를 Streamable HTTP로 연결하고 `list_packages`의 버전과 `get_api`·`get_example`의 `releaseId`를 확인합니다. `/mcp`에 대한 단순 GET은 MCP 연결 검증을 대신하지 않습니다.
-
-코드 교체 후에는 프로세스를 재시작합니다. 아카이브만 추가할 때는 디렉터리와 index 등록을 마치면 다음 조회부터 반영됩니다. 코드 rollback은 이전 코드 디렉터리로 연결을 되돌려 재시작하고, 최신 스냅샷 포인터를 되돌릴 때는 같은 index의 `latestReleaseId`를 보존된 이전 stable ID로 바꿔 원자적으로 교체합니다. 개별 과거 조회는 계속 `releaseId`로 고정할 수 있습니다. archive와 index는 함께 백업합니다.
 
 ## 개인 로컬 stdio
 
