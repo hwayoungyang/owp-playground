@@ -16,12 +16,15 @@ function scenario() {
   const calls = [];
   const run = async () => {};
   const signals = new EventEmitter();
+  const runtime = { node: '/managed/runtime/node', packageManager: { command: '/managed/runtime/pnpm', prefix: [], version: '12.15.0' } };
   const dependencies = {
     signals, interactive: false, log() {}, owner: () => '11111111-1111-4111-8111-111111111111',
     confirm: async () => calls.push('confirm'), checkPort: async () => calls.push('port'),
+    prepareOffline: async () => { calls.push('prepare-offline'); return { manifest: { target: 'linux-x64-glibc', nodeVersion: '24.22.1', pnpmVersion: '12.15.0' }, transferFiles: [] }; },
     connect: async () => { calls.push('connect'); return { run, close: async () => calls.push('close') }; },
+    probe: async () => { calls.push('probe'); return { runtimePending: false, runtime }; },
+    bootstrap: async (plan) => { calls.push('bootstrap'); plan.runtime = runtime; },
     preflight: async (_config, execution) => { assert.equal(execution.run, run); calls.push('preflight'); return {}; },
-    createIncoming: async (_plan, execution) => { assert.equal(execution.run, run); calls.push('incoming'); },
     transfer: async (_plan, _bundle, execution) => { assert.equal(execution.run, run); calls.push('transfer'); },
     operate: async (operation, plan, execution) => {
       assert.equal(execution.run, run); calls.push(operation);
@@ -48,14 +51,15 @@ test('Given --help, When the real CLI runs, Then no bundle or VPN is needed', as
   assert.match(stdout, /30011/);
   assert.match(stdout, /\[--bundle DIR\]/);
   assert.match(stdout, /최신 clean stable/);
-  assert.match(stdout, /설치된 pnpm 12\.15\.0 또는 Corepack에 캐시된 pnpm 12\.15\.0/);
+  assert.match(stdout, /24\.22\.1/);
+  assert.match(stdout, /12\.15\.0/);
 });
 test('Given a prepared bundle, When dry-run is requested, Then no network dependency is called', async (t) => {
   const fixture = await mcpFixture(t);
   const { calls, dependencies } = scenario();
   const result = await runMcpDeployment({ bundle: fixture.bundle, dryRun: true }, dependencies);
   assert.equal(result.stage, 'dry-run');
-  assert.equal(result.plan.files.length, 11);
+  assert.ok(result.plan.files.some((file) => file.name === 'app.tar.gz'));
   assert.equal(result.plan.bundle, fixture.bundle);
   assert.deepEqual(calls, []);
 });
@@ -72,13 +76,37 @@ test('Given preflight-only, When executed, Then the shared connection closes wit
   const { calls, dependencies } = scenario();
   const result = await runMcpDeployment({ bundle: fixture.bundle, preflightOnly: true }, dependencies);
   assert.equal(result.stage, 'preflight-checked');
-  assert.deepEqual(calls, ['confirm', 'port', 'connect', 'preflight', 'close']);
+  assert.deepEqual(calls, ['confirm', 'prepare-offline', 'port', 'connect', 'probe', 'preflight', 'close']);
+});
+test('Given a server without the dedicated runtime, When preflight-only runs, Then it reports pending bootstrap without installing or claiming full inspection', async (t) => {
+  const fixture = await mcpFixture(t);
+  const { calls, dependencies } = scenario();
+  dependencies.probe = async () => { calls.push('probe'); return { runtimePending: true }; };
+  const result = await runMcpDeployment({ bundle: fixture.bundle, preflightOnly: true }, dependencies);
+  assert.equal(result.stage, 'preflight-bootstrap-required');
+  assert.deepEqual(calls, ['confirm', 'prepare-offline', 'port', 'connect', 'probe', 'close']);
+});
+test('Given cancellation during local artifact preparation, When preparation settles, Then no server connection or bootstrap starts', async (t) => {
+  const fixture = await mcpFixture(t);
+  const { calls, dependencies, signals } = scenario();
+  const prepare = dependencies.prepareOffline;
+  dependencies.prepareOffline = async (...args) => { const result = await prepare(...args); signals.emit('SIGINT'); return result; };
+  await assert.rejects(runMcpDeployment({ bundle: fixture.bundle }, dependencies), /취소/);
+  assert.deepEqual(calls, ['confirm', 'prepare-offline']);
+  assert.equal(signals.listenerCount('SIGINT'), 0);
+});
+test('Given failed local dependency preparation, When deployment runs, Then it stops before accessing the server', async (t) => {
+  const fixture = await mcpFixture(t);
+  const { calls, dependencies } = scenario();
+  dependencies.prepareOffline = async () => { throw new Error('local dependency preparation failed'); };
+  await assert.rejects(runMcpDeployment({ bundle: fixture.bundle }, dependencies), /local dependency preparation failed/);
+  assert.deepEqual(calls, ['confirm']);
 });
 test('Given a successful deployment, When all phases run, Then every phase shares one session and verification precedes commit', async (t) => {
   const fixture = await mcpFixture(t);
   const { calls, dependencies } = scenario();
   assert.equal((await runMcpDeployment({ bundle: fixture.bundle }, dependencies)).stage, 'deployed');
-  assert.deepEqual(calls, ['confirm', 'port', 'connect', 'preflight', 'incoming', 'transfer', 'activate', 'verify', 'commit', 'close']);
+  assert.deepEqual(calls, ['confirm', 'prepare-offline', 'port', 'connect', 'probe', 'bootstrap', 'preflight', 'transfer', 'activate', 'verify', 'commit', 'close']);
 });
 for (const reason of ['HTTP stale HTML', 'MCP wrong release']) test(`Given ${reason}, When post-verification fails, Then rollback finalizes before the connection closes`, async (t) => {
   const fixture = await mcpFixture(t);

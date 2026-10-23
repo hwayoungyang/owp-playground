@@ -106,7 +106,7 @@ corepack pnpm deploy:status
 
 ### MCP 최초 설치와 이후 갱신
 
-회사 VPN에 연결한 Mac의 프로젝트 루트에서 실행합니다. 서버에서 별도로 설치 명령을 입력할 필요 없이 다음 한 명령이 최신 stable 묶음 선택·검증·전송·설치·서비스 시작·검증을 수행합니다.
+아래 [서버 준비 조건](#서버-준비-조건)을 확인한 뒤, 회사 VPN에 연결한 Mac의 프로젝트 루트에서 실행합니다. 다음 한 명령이 최신 stable 묶음 선택·검증, Linux x64용 Node.js·pnpm·production 의존성의 로컬 준비, 전송, 최초 런타임 설치, 서비스 시작과 검증을 수행합니다. 서버에서 외부 사이트나 registry에 접속하지 않습니다.
 
 ```sh
 pnpm deploy:mcp
@@ -128,7 +128,7 @@ CLI는 새 빌드·commit·스냅샷·배포 묶음을 생성하지 않습니다
 # 서버 접속 없이 묶음을 검증하고 배포 계획만 표시합니다.
 pnpm deploy:mcp --dry-run
 
-# SSH 인증과 서버 준비 상태만 검사합니다. 전송·설치·서비스 변경은 하지 않습니다.
+# 로컬 오프라인 자료 준비와 읽기 전용 서버 검사를 수행합니다. 서버 전송·설치·서비스 변경은 하지 않습니다.
 pnpm deploy:mcp:preflight
 
 # 비대화형 실행: 기존 키·SSH Agent의 비대화형 인증이 필요합니다.
@@ -141,16 +141,41 @@ pnpm deploy:mcp --help
 
 ### 서버 준비 조건
 
-배포 대상은 `root@192.168.100.20:22`이며 다음 조건이 필요합니다.
+배포 대상은 `root@192.168.100.20:22`이며 현재 오프라인 런타임의 대상은 Linux x64 glibc입니다. Rocky Linux 9 x86_64 서버에 다음 기본 환경이 필요합니다.
 
-- 이번 배포 계약에 고정한 Node.js `24.22.1`과 pnpm `12.15.0`을 사용할 수 있어야 합니다. 설치된 pnpm의 버전이 일치하면 Corepack 없이 사용합니다. 설치된 pnpm이 없거나 버전이 다르거나 실행에 실패하면, 선택적으로 Corepack에 캐시된 pnpm `12.15.0`을 확인합니다. 두 경로 모두 사용할 수 없으면 중단하며 사전 검사에서 패키지 관리자를 설치하거나 내려받지 않습니다.
-- systemd와 서비스 등록·시작 권한이 있어야 합니다. SSH 로그인 환경과 systemd의 실행 환경에서 런타임을 사용할 수 있어야 하며 `ss`와 `sha256sum`도 필요합니다.
-- 서버에서 lockfile에 고정된 의존성과 사내 OWP registry에 접근할 수 있어야 합니다. registry 인증은 기존 서버 설정으로 제공합니다.
+- SSH·SCP 접속, root 권한, systemd와 `ss`가 필요합니다.
+- 기본 명령 `sh`, `id`, `uname`, `getconf`, `sha256sum`, `mkdir`, `chmod`, GNU `mv`(`-Tn` 지원), `rm`, `rmdir`, `cat`, `wc`, `env`가 필요합니다. Node.js 실행에 필요한 시스템 라이브러리도 있어야 합니다. 준비한 바이너리가 실제로 실행되는지 서비스 변경 전에 검사합니다.
 - 30011번 포트가 비어 있거나 이 스크립트로 설치한 MCP 서비스가 사용 중이어야 합니다. 기존 수동 서비스·알 수 없는 앱 경로·관리되지 않은 systemd 추가 설정(drop-in)은 자동으로 인수하지 않습니다.
+- 30011의 사내 접근 허용과 선택적인 `mcp.env`는 운영 정책에 맞게 준비합니다.
 
-CLI는 준비 조건이 부족하면 중단합니다. OS 런타임을 자동 설치하거나 방화벽·SELinux·Nginx·Docker·SSH·Verdaccio 설정을 변경하지 않습니다. 30011의 사내 접근 허용은 서버 운영 정책에 맞게 준비합니다.
+서버에 전역 Node.js·pnpm·Corepack을 미리 설치할 필요가 없습니다. 서버의 외부 DNS·인터넷·npm registry 접근도 필요하지 않습니다. CLI는 `dnf`, `curl`, `npm install`, `pnpm install`을 서버에서 실행하지 않으며 OS 패키지·전역 실행 파일·방화벽·SELinux·Nginx·Docker·SSH·Verdaccio 설정을 변경하지 않습니다. 기본 도구나 시스템 라이브러리가 부족하면 필요한 항목을 안내하고 중단하므로 사내 OS 저장소나 별도 RPM으로 준비합니다.
 
-로컬에서도 pnpm `12.15.0`을 직접 실행할 수 있으면 위 명령에 `corepack`을 붙일 필요가 없습니다. 로컬 pnpm 선택을 Corepack으로 관리하는 환경에서는 `corepack pnpm deploy:mcp`로 실행해도 됩니다.
+### 로컬 준비와 최초 설치
+
+Mac에서는 pnpm `12.15.0`을 실행할 수 있어야 하며 공식 Node.js 다운로드 사이트, npm registry와 사내 OWP registry에 접근할 수 있어야 합니다. 사내 registry 접근에는 회사 VPN과 기존 로컬 인증 설정을 사용합니다. 로컬 pnpm을 직접 실행할 수 있으면 Corepack은 필요하지 않습니다. Corepack으로 관리하는 환경은 캐시된 pnpm `12.15.0`을 사용할 수도 있습니다.
+
+```sh
+# 서버에 접속하거나 파일을 다운로드하지 않고 묶음과 준비 계획만 확인합니다.
+pnpm deploy:mcp --dry-run
+
+# 오프라인 자료를 로컬에서 준비한 뒤 서버의 기본 환경만 읽기 전용으로 확인합니다.
+pnpm deploy:mcp:preflight
+
+# 자료 준비·전송·최초 런타임 설치·서비스 시작·HTTP/MCP 검증을 이어서 수행합니다.
+pnpm deploy:mcp
+```
+
+`--dry-run`의 오프라인 자료는 `pending-preparation`으로 표시됩니다. `--preflight-only`는 로컬 다운로드·의존성 준비를 수행할 수 있지만 서버에 파일을 전송하거나 설치하지 않습니다. 서버에 전용 런타임이 아직 없으면 `preflight-bootstrap-required` 상태와 설치 필요 안내를 반환합니다. 이 상태는 기본 환경만 확인한 결과이며 Node·앱·서비스 상세 검사 완료를 뜻하지 않습니다. 실제 배포에서는 런타임 설치 후 배포 잠금 안에서 전체 검사를 이어 갑니다.
+
+Node.js `24.22.1`의 [공식 Linux x64 배포 파일](https://nodejs.org/en/blog/release/v24.22.1)과 pnpm `12.15.0`의 공식 Linux x64 배포 파일을 로컬에서 내려받아 고정된 SHA-256·integrity로 검사합니다. 압축 파일은 `.omo/evidence/mcp-offline/cache/`에 보관하며 재사용할 때도 검증합니다. 서버에서는 이 파일에서 추출한 실행 바이너리만 설치하므로 `tar`·`xz`·npm을 이용한 런타임 설치가 필요하지 않습니다.
+
+런타임 경로는 `/home/owp-playground-mcp/runtime/node24.22.1-pnpm12.15.0-<node SHA-256>-<pnpm SHA-256>/`입니다. `/usr/local/bin`이나 전역 PATH를 변경하지 않습니다. 동일 경로의 파일이 검증값과 다르면 덮어쓰지 않고 중단합니다. 설치한 런타임은 앱 배포의 실패·복구 이후에도 재사용할 수 있도록 보존합니다.
+
+앱 의존성은 선택한 stable 소스의 새 임시 사본에서 준비합니다. 고정 pnpm으로 `--prod --frozen-lockfile --ignore-scripts --ignore-pnpmfile --no-runtime --os linux --cpu x64 --libc glibc --node-linker=hoisted`를 적용하고, package·lockfile·workspace가 바뀌지 않았는지 검사합니다. 로컬 작업 트리의 `node_modules`를 재사용하지 않으며 pnpm store나 로컬 인증 설정을 서버에 복사하지 않습니다. 서버에서는 준비된 `node_modules`를 검증·배치하고 패키지 관리자를 실행하지 않습니다.
+
+플랫폼 옵션은 Linux용으로 배포된 optional dependency를 선택하며 native 코드를 크로스 컴파일하지 않습니다. 설치 스크립트 실행이나 별도 컴파일이 필요한 의존성을 추가하면 이 배포 방식에서 실행 가능한지 검증해야 합니다.
+
+이후 갱신도 `pnpm deploy:mcp`로 실행합니다. 검증된 같은 서버 런타임은 재사용하며, 앱 의존성은 선택한 묶음의 lockfile 기준으로 로컬에서 새로 준비합니다. 서버 외부 접속을 허용하거나 수동으로 Node.js·pnpm 설치 명령을 반복할 필요가 없습니다.
 
 ### 묶음 형식과 검증
 
@@ -169,7 +194,7 @@ CLI는 로컬의 비공개 임시 경로에 묶음을 복사해 검증한 뒤 �
 
 ### 설치·전환·실패 복구
 
-전송한 코드는 새 앱 디렉터리에 풀고, 배포 잠금 안의 사전 검사에서 선택한 pnpm으로 `install --prod --frozen-lockfile --ignore-scripts --config.manage-package-manager-versions=false`를 실행합니다. 설치된 pnpm이 유효하면 `pnpm`을 직접 실행하고, 대체 경로를 선택한 경우에만 `corepack pnpm@12.15.0`을 사용합니다. 서버에서 Playground를 빌드하거나 스냅샷을 다시 생성하지 않습니다. 서버의 설치·검증·복구를 담당하는 helper는 준비된 코드 묶음과 별도로 전송하므로, CLI 추가 전 생성한 위 stable 묶음도 배포할 수 있습니다. 배포 CLI와 MCP SDK 조회 검증은 로컬에서 실행합니다.
+전송한 코드는 새 앱 디렉터리에 풉니다. 원본 소스와 연결된 `offline.json`, 의존성 압축 파일의 SHA-256, 내부 파일별 크기·SHA-256과 경로를 검증한 뒤 `node_modules`를 배치합니다. 상대 symlink는 전체 연결을 따라가도 의존성 루트 안에 있는 경우만 허용하며 일반 파일을 쓴 뒤 마지막에 생성합니다. 경로 이탈·순환·상위 경로와의 충돌·특수 파일은 거부합니다. 서버에서 Playground를 빌드하거나 스냅샷을 다시 생성하지 않습니다. 런타임·의존성·설치 helper는 기존 네 파일과 별도로 준비해 전송하므로 기존 stable 묶음도 변경 없이 배포할 수 있습니다. 배포 CLI와 MCP SDK 조회 검증은 로컬에서 실행합니다.
 
 서버의 영구 archive는 실제 디렉터리로 유지합니다. 기존 stable을 보존하면서 신규 스냅샷을 등록하고 index를 전환합니다. 같은 release ID의 내용이 다르거나 서버의 최신 stable보다 오래된 묶음이면 중단합니다. archive에는 `rsync --delete`, 정적 사이트의 최근 5개 릴리스 정리나 자동 삭제를 적용하지 않습니다.
 

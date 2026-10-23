@@ -169,7 +169,7 @@ pnpm deploy:mcp
 # 서버 접속 없이 로컬 묶음과 배포 계획을 확인합니다.
 pnpm deploy:mcp --dry-run
 
-# SSH 인증과 서버 준비 상태만 확인합니다. 전송·설치·서비스 변경은 하지 않습니다.
+# 로컬 오프라인 자료 준비와 서버 상태를 확인합니다. 서버 전송·설치·서비스 변경은 하지 않습니다.
 pnpm deploy:mcp:preflight
 
 # 특정 묶음을 선택할 때만 경로를 지정합니다.
@@ -183,9 +183,9 @@ pnpm test:deploy:mcp
 
 묶음에는 `app.tar.gz`, `archive.tar.gz`, `SHA256SUMS`, `release.json`이 있어야 합니다. 명령은 준비된 묶음을 배포하며 새 빌드·commit·스냅샷·묶음 생성을 수행하지 않습니다. 새 묶음을 준비하지 않았다면 기존 최신 stable을 다시 배포합니다.
 
-서버에는 Node.js `24.22.1`, pnpm `12.15.0`, systemd와 사내 OWP registry 접근이 필요합니다. 설치된 pnpm의 버전이 맞으면 Corepack 없이 사용합니다. 설치된 pnpm을 사용할 수 없으면 Corepack에 캐시된 pnpm `12.15.0`을 확인해 대체하며 사전 검사에서 CLI를 내려받지 않습니다. 로컬도 pnpm `12.15.0`을 직접 실행할 수 있으면 `corepack` 접두어가 필요하지 않습니다.
+로컬에서 Linux x64 glibc용 Node.js `24.22.1`·pnpm `12.15.0`과 선택한 stable의 production 의존성을 준비해 전송합니다. 로컬에는 공식 다운로드 사이트·npm registry·사내 OWP registry 접근이 필요합니다. 서버에는 systemd·`ss`·기본 shell 도구가 필요하며, 외부 접속이나 전역 Node.js·pnpm·Corepack 설치는 필요하지 않습니다. 서버 전용 경로에 런타임과 의존성을 설치하므로 서버에서 패키지를 다운로드하지 않습니다. 로컬에서 pnpm `12.15.0`을 직접 실행할 수 있으면 `corepack` 접두어도 필요하지 않습니다.
 
-CLI가 OS 런타임·방화벽·Nginx·Docker 설정을 설치하거나 변경하지 않습니다. 배포 후 서비스는 `owp-playground-mcp.service`로 운영하며, MCP 주소는 `http://192.168.100.20:30011/mcp`입니다. 처음 연결하는 Mac은 위 SSH 서버 지문 확인 절차를 먼저 따릅니다. 비대화형 실행에는 `--assume-vpn`과 기존 키·Agent 인증이 필요합니다.
+CLI는 OS 패키지·전역 실행 파일·방화벽·Nginx·Docker 설정을 변경하지 않습니다. 최초 `preflight`에서 전용 런타임이 없으면 설치 필요 상태를 표시하며, 실제 배포에서 런타임 설치 후 전체 서비스 검사를 이어 갑니다. 배포 후 서비스는 `owp-playground-mcp.service`로 운영하며, MCP 주소는 `http://192.168.100.20:30011/mcp`입니다. 처음 연결하는 Mac은 위 SSH 서버 지문 확인 절차를 먼저 따릅니다. 비대화형 실행에는 `--assume-vpn`과 기존 키·Agent 인증이 필요합니다. [오프라인 준비·최초 설치·검증 절차](docs/versioned-mcp.md#로컬-준비와-최초-설치)를 따릅니다.
 
 묶음 검증, 기존 아카이브 보존, 실패 시 복구와 운영 확인 명령은 [버전별 Playground와 MCP의 배포 절차](./docs/versioned-mcp.md#운영-배포-순서)를 따릅니다. 기존 `deploy:status`·`deploy:rollback`·`deploy:cleanup`은 30010 정적 서비스 전용입니다.
 

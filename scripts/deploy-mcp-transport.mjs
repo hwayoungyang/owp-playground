@@ -3,8 +3,9 @@ import path from 'node:path';
 import { authenticationOptions } from './deploy-ssh-options.mjs';
 import { shellQuote } from './deploy-mcp-config.mjs';
 import { sha256 } from './deploy-mcp-tar.mjs';
+import { discardMcpBootstrap } from './deploy-mcp-bootstrap.mjs';
 
-export const mcpHelperNames = ['config', 'preflight', 'tar', 'archive', 'unit', 'transaction', 'remote'].map((part) => `deploy-mcp-${part}.mjs`);
+export const mcpHelperNames = ['config', 'preflight', 'tar', 'archive', 'unit', 'transaction', 'remote', 'offline-format'].map((part) => `deploy-mcp-${part}.mjs`);
 const encoded = (value) => Buffer.from(JSON.stringify(value)).toString('base64');
 const ssh = (config, command, execution) => execution.run('ssh', ['-p', String(config.sshPort), ...authenticationOptions(config, execution), `${config.user}@${config.host}`, command], { capture: true });
 const result = (output) => {
@@ -21,10 +22,15 @@ export async function pinMcpHelpers(bundle) {
   }
   return files;
 }
-export async function preflightMcpRemote(config, execution) {
+const runtimeCommand = (plan) => plan.runtime ? `env PATH=${shellQuote(`${plan.runtime.directory}:/usr/sbin:/usr/bin:/sbin:/bin`)} COREPACK_ENABLE_NETWORK=0 COREPACK_ENABLE_PROJECT_SPEC=0 npm_config_manage_package_manager_versions=false ${shellQuote(plan.runtime.node)}` : 'node';
+export async function preflightMcpRemote(config, execution, options = {}) {
   const source = await readFile(new URL('./deploy-mcp-preflight.mjs', import.meta.url), 'utf8');
-  const script = `${source}\nconst config = JSON.parse(Buffer.from(process.argv[1], 'base64').toString('utf8')); console.log('OWP_MCP_RESULT ' + JSON.stringify(await inspectMcpServer(config)));`;
-  return result(await ssh(config, `test "$(id -u)" -eq 0 && node --input-type=module -e ${shellQuote(script)} ${shellQuote(encoded(config))}`, execution));
+  const script = `${source}\nconst {config,options} = JSON.parse(Buffer.from(process.argv[1], 'base64').toString('utf8')); console.log('OWP_MCP_RESULT ' + JSON.stringify(await inspectMcpServer(config, options)));`;
+  const missingNode = 'OWP_MCP_PREFLIGHT_NODE_MISSING';
+  const invoke = `${runtimeCommand(options)} --input-type=module -e ${shellQuote(script)} ${shellQuote(encoded({ config, options }))}`;
+  const output = await ssh(config, options.runtime ? `test "$(id -u)" -eq 0 && ${invoke}` : `test "$(id -u)" -eq 0 && if command -v node >/dev/null 2>&1; then ${invoke}; else printf '%s\\n' ${shellQuote(missingNode)}; fi`, execution);
+  if (output.trim().split('\n').includes(missingNode)) throw new Error('서버에서 node 명령을 찾지 못했습니다. Node.js 24.22.1을 서버에 준비하고 비대화형 SSH의 PATH에서 node를 실행할 수 있도록 설정해 주세요. 런타임은 자동 설치하지 않습니다.');
+  return result(output);
 }
 export async function createMcpIncoming(plan, execution) {
   const script = `const fs = await import('node:fs/promises'); const path = await import('node:path'); const p=JSON.parse(Buffer.from(process.argv[1],'base64')); let here='/'; for(const part of p.config.remoteRoot.slice(1).split('/')) {here=path.join(here,part); try {const s=await fs.lstat(here); if(!s.isDirectory()||s.isSymbolicLink()) throw Error('실제 배포 디렉터리가 필요합니다.');} catch(e){if(e.code!=='ENOENT')throw e;await fs.mkdir(here,{mode:0o755});}} const root=p.config.remoteRoot; await fs.mkdir(root+'/.deploy.lock',{mode:0o700}); await fs.writeFile(root+'/.deploy.lock/owner',p.owner,{flag:'wx',mode:0o600}); await fs.mkdir(root+'/.incoming-'+p.owner,{mode:0o700}); await fs.writeFile(root+'/.incoming-'+p.owner+'/owner',p.owner,{flag:'wx',mode:0o600});`;
@@ -33,16 +39,18 @@ export async function createMcpIncoming(plan, execution) {
 export async function transferMcpBundle(plan, bundle, execution) {
   const config = plan.config;
   const directory = `${config.remoteRoot}/.incoming-${plan.owner}`;
-  await execution.run('scp', ['-P', String(config.sshPort), ...authenticationOptions(config, execution), ...plan.files.map((file) => path.join(bundle.directory, file.name)), `${config.user}@${config.host}:${directory}/`]);
+  const files = plan.files.filter((file) => !plan.runtime || !['runtime-node', 'runtime-pnpm'].includes(file.name));
+  await execution.run('scp', ['-P', String(config.sshPort), ...authenticationOptions(config, execution), ...files.map((file) => path.join(bundle.directory, file.name)), `${config.user}@${config.host}:${directory}/`]);
 }
 export async function operateMcpRemote(operation, plan, execution) {
   if (!['activate', 'rollback', 'rollback-finalize', 'commit'].includes(operation)) throw new Error('지원하지 않는 배포 작업입니다.');
   const incoming = `${plan.config.remoteRoot}/.incoming-${plan.owner}`;
   const checklist = plan.files.map((file) => `${file.sha256}  ${incoming}/${file.name}`).join('\n');
-  const command = `set -eu; printf '%s\\n' ${shellQuote(checklist)} | sha256sum -c - >/dev/null; node ${shellQuote(`${incoming}/deploy-mcp-remote.mjs`)} ${shellQuote(operation)} ${shellQuote(encoded(plan))}`;
+  const command = `set -eu; printf '%s\\n' ${shellQuote(checklist)} | sha256sum -c - >/dev/null; ${runtimeCommand(plan)} ${shellQuote(`${incoming}/deploy-mcp-remote.mjs`)} ${shellQuote(operation)} ${shellQuote(encoded(plan))}`;
   return result(await ssh(plan.config, command, execution));
 }
 export async function discardMcpIncoming(plan, execution) {
+  if (plan.offline) return discardMcpBootstrap(plan, execution);
   const script = `const fs=await import('node:fs/promises'); const p=JSON.parse(Buffer.from(process.argv[1],'base64')); const root=p.config.remoteRoot; const incoming=root+'/.incoming-'+p.owner; const lock=root+'/.deploy.lock'; for(const d of [incoming,lock]) {const s=await fs.lstat(d);if(!s.isDirectory()||s.isSymbolicLink()||await fs.readFile(d+'/owner','utf8')!==p.owner)throw Error('소유자가 달라 잠금을 보존합니다.');} try {await fs.lstat(incoming+'/transaction.json');throw Error('transaction이 있어 단순 정리를 거부합니다.');}catch(e){if(e.code!=='ENOENT')throw e;} await fs.rm(incoming,{recursive:true});await fs.rm(lock+'/owner');await fs.rmdir(lock);`;
   await ssh(plan.config, `node --input-type=module -e ${shellQuote(script)} ${shellQuote(encoded(plan))}`, execution);
 }

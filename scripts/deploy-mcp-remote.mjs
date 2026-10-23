@@ -9,6 +9,7 @@ import { extractMcpTar, inspectMcpTar, sha256 } from './deploy-mcp-tar.mjs';
 import { prepareMcpArchiveMerge } from './deploy-mcp-archive.mjs';
 import { renderMcpUnit } from './deploy-mcp-unit.mjs';
 import { assertMcpOwner, atomicMcpFile, atomicMcpLink, saveMcpTransaction, rollbackMcpTransaction, commitMcpTransaction, finalizeMcpRollback } from './deploy-mcp-transaction.mjs';
+import { validateMcpOfflineManifest, extractMcpDependencies, MCP_DEPENDENCIES_FILE } from './deploy-mcp-offline-format.mjs';
 
 const execute = promisify(execFile);
 export async function installMcpDependencies(appDirectory, selection) {
@@ -22,6 +23,21 @@ export async function installMcpDependencies(appDirectory, selection) {
     });
   } catch (cause) { throw new Error('prod frozen dependency 설치에 실패했습니다. 준비된 pnpm·registry·lockfile을 확인해 주세요.', { cause }); }
 }
+export async function installMcpOfflineDependencies(appDirectory, context) {
+  const expected = {
+    head: context.metadata.head, releaseId: context.metadata.releaseId,
+    sourceSha256: context.metadata.files['app.tar.gz'].sha256,
+    packageSha256: sha256(await readFile(path.join(appDirectory, 'package.json'))),
+    lockSha256: sha256(await readFile(path.join(appDirectory, 'pnpm-lock.yaml'))),
+    workspaceSha256: undefined,
+  };
+  const workspace = path.join(appDirectory, 'pnpm-workspace.yaml');
+  if (await optionalStat(workspace)) expected.workspaceSha256 = sha256(await readFile(workspace));
+  const manifest = validateMcpOfflineManifest(JSON.parse(await readFile(path.join(context.incoming, 'offline.json'), 'utf8')), expected);
+  if (JSON.stringify(manifest) !== JSON.stringify(validateMcpOfflineManifest(context.offline, expected))) throw new Error('수신 오프라인 manifest와 배포 계획이 다릅니다.');
+  if (context.runtime && (context.runtime.nodeSha256 !== manifest.files['runtime-node'].sha256 || context.runtime.pnpmSha256 !== manifest.files['runtime-pnpm'].sha256)) throw new Error('설치한 런타임과 오프라인 manifest의 SHA-256이 다릅니다.');
+  return extractMcpDependencies(await readFile(path.join(context.incoming, MCP_DEPENDENCIES_FILE)), path.join(appDirectory, 'node_modules'), manifest);
+}
 export async function activateMcpDeployment(context, dependencies = {}) {
   await assertMcpOwner(context);
   const { config, incoming, owner, metadata, files } = context;
@@ -31,7 +47,8 @@ export async function activateMcpDeployment(context, dependencies = {}) {
     if (!/^[A-Za-z0-9_.-]+$/.test(entry.name) || !info?.isFile() || info.isSymbolicLink() || info.size !== entry.bytes) throw new Error('수신 파일 이름·유형·크기가 다릅니다.');
     if (sha256(await readFile(location)) !== entry.sha256) throw new Error(`수신 SHA-256이 다릅니다: ${entry.name}`);
   }
-  const server = await inspectMcpServer(config, { ...dependencies.preflight, lockOwner: owner });
+  if (!context.offline && !dependencies.install) throw new Error('로컬에서 준비한 오프라인 의존성이 필요합니다. 서버에서는 패키지를 다운로드하지 않습니다.');
+  const server = await inspectMcpServer(config, { ...dependencies.preflight, ...(context.runtime ? { runtime: context.runtime } : {}), lockOwner: owner });
   const rollbackBaseline = { receipt: server.receipt, manifest: server.previousManifest, active: server.active, enabled: server.enabled };
   await writeFile(path.join(incoming, 'baseline.json'), JSON.stringify({ owner, root: config.remoteRoot, baseline: rollbackBaseline }), { flag: 'wx', mode: 0o600 });
   const appDirectory = path.join(config.remoteRoot, 'apps', `${metadata.releaseId}-${owner}`);
@@ -40,7 +57,7 @@ export async function activateMcpDeployment(context, dependencies = {}) {
   if (appTar.comment !== metadata.head) throw new Error('수신 source tar commit이 다릅니다.');
   await extractMcpTar(appTar, appDirectory);
   await extractMcpTar(inspectMcpTar(await readFile(path.join(incoming, 'archive.tar.gz'))), path.join(incoming, 'archive'));
-  await (dependencies.install ?? installMcpDependencies)(appDirectory, server.packageManager);
+  await (dependencies.install ?? ((directory) => installMcpOfflineDependencies(directory, context)))(appDirectory, server.packageManager);
   const merged = await prepareMcpArchiveMerge({ ...context, appDirectory });
   const nextUnit = renderMcpUnit(config, server.node);
   const receipt = { schemaVersion: 1, releaseId: metadata.releaseId, head: metadata.head, root: config.remoteRoot, url: config.url, service: config.service, appDirectory, node: server.node, packageManager: server.packageManager, owner, unitSha256: hashContent(nextUnit) };

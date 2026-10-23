@@ -35,6 +35,20 @@ export async function selectMcpPackageManager(run = capture) {
   throw new Error('서버 pnpm 12.15.0이 필요합니다. PATH에 pnpm 12.15.0을 설치하거나, 선택적으로 Corepack에 pnpm@12.15.0을 미리 캐시해 주세요. 사전 점검은 도구를 다운로드하거나 설치하지 않습니다.');
 }
 
+export async function inspectMcpRuntime(config, runtime, run = capture) {
+  const pattern = new RegExp(`^${config.remoteRoot.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/runtime/node24\\.22\\.1-pnpm12\\.15\\.0-([a-f0-9]{64})-([a-f0-9]{64})$`);
+  const match = typeof runtime?.directory === 'string' ? pattern.exec(runtime.directory) : undefined;
+  if (!match || runtime.nodeSha256 !== match[1] || runtime.pnpmSha256 !== match[2] || runtime.node !== `${runtime.directory}/node` || runtime.packageManager?.command !== `${runtime.directory}/pnpm` || runtime.packageManager.version !== '12.15.0' || !Array.isArray(runtime.packageManager.prefix) || runtime.packageManager.prefix.length) throw new Error('배포 전용 런타임 경로 또는 버전이 올바르지 않습니다.');
+  await assertRealAncestors(runtime.directory);
+  for (const [name, expected] of [['node', match[1]], ['pnpm', match[2]]]) {
+    const file = path.join(runtime.directory, name);
+    const info = await optionalStat(file);
+    if (!info?.isFile() || info.isSymbolicLink() || info.size > 256 * 1024 * 1024 || hashContent(await readFile(file)) !== expected) throw new Error(`배포 전용 런타임 파일이 변경됐습니다: ${name}`);
+  }
+  if (await run(runtime.packageManager.command, ['--version'], { cwd: '/', env: { PATH: `${runtime.directory}:/usr/sbin:/usr/bin:/sbin:/bin` } }) !== '12.15.0') throw new Error('배포 전용 pnpm 12.15.0 실행 검증에 실패했습니다.');
+  return runtime.packageManager;
+}
+
 export async function assertMcpUnitConfiguration(config, run = capture) {
   const unit = `${config.service}.service`;
   const fragment = await run('systemctl', ['show', unit, '--property=FragmentPath', '--value']);
@@ -64,7 +78,8 @@ export async function inspectMcpServer(config, dependencies = {}) {
   if (version !== 'v24.22.1') throw new Error('서버 Node 24.22.1이 필요합니다. OS 런타임은 자동 설치하지 않습니다.');
   const node = await realpath(dependencies.nodePath ?? process.execPath);
   if (!/^\/[A-Za-z0-9_./+-]+$/.test(node)) throw new Error('Node binary 절대 경로가 안전하지 않습니다.');
-  const packageManager = await selectMcpPackageManager(run);
+  if (dependencies.runtime && node !== dependencies.runtime.node) throw new Error('배포 전용 Node 실행 경로가 다릅니다.');
+  const packageManager = dependencies.runtime ? await inspectMcpRuntime(config, dependencies.runtime, run) : await selectMcpPackageManager(run);
   await run('systemctl', ['--version']);
   await run('sha256sum', ['--version']);
   await assertMcpDropInDirectories(config, run);
