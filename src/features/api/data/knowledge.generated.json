@@ -13953,7 +13953,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         },
         {
           "packageId": "charts",
@@ -15213,7 +15213,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.data",
-      "contentHash": "306fa1bfb28dedea1f28b6f582790bc4b314eff72e6d07d23420273cd5ada74e"
+      "contentHash": "6496fe3ff08d8c73494e32a6311af2a30834ec5e4e9fbf91e52933e35bcd5033"
     },
     {
       "id": "@owp/charts:ChartFrameProps.datasetIdKey",
@@ -15551,7 +15551,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         },
         {
           "packageId": "charts",
@@ -16767,7 +16767,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.datasetIdKey",
-      "contentHash": "0f59cd322e96d67bf97e108d8ff29ea5d95aaad0d3ecdf448fbb5a57a08914b1"
+      "contentHash": "b2ec448c81d3cc470120080bd95286162100adad46ca5fd524cb2d3f225b07aa"
     },
     {
       "id": "@owp/charts:ChartFrameProps.errorOverlay",
@@ -17928,7 +17928,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         },
         {
           "packageId": "charts",
@@ -18515,7 +18515,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.externalTooltip",
-      "contentHash": "68f3482d7ece02de1df87aaded330cff37a7f0daa07484a1b7e950a342be4688"
+      "contentHash": "88bd98e2e9c7e48383f8d583c2b34226efb96ee1351bd6981ceaebcdc8b34fc8"
     },
     {
       "id": "@owp/charts:ChartFrameProps.fallbackContent",
@@ -18986,18 +18986,18 @@
           "packageId": "charts",
           "id": "histogram",
           "url": "/?package=charts&sample=histogram",
-          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=107&endLine=107",
+          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=100&endLine=100",
           "location": {
             "file": "playgrounds/charts/examples/histogram.tsx",
-            "line": 107,
-            "endLine": 107,
-            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+            "line": 100,
+            "endLine": 100,
+            "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         },
         {
           "packageId": "charts",
@@ -20213,7 +20213,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.height",
-      "contentHash": "78ac9ea5c216eae60e77001b3ff22987a5d56aa6f8021e33a132a7f0ef35a8a7"
+      "contentHash": "dffc62c14ce6621b4bf29a7dd9d1cf90bb0111db25881cd2c61ec661288d5f77"
     },
     {
       "id": "@owp/charts:ChartFrameProps.interactionLayer",
@@ -21571,18 +21571,18 @@
           "packageId": "charts",
           "id": "histogram",
           "url": "/?package=charts&sample=histogram",
-          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=107&endLine=107",
+          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=100&endLine=100",
           "location": {
             "file": "playgrounds/charts/examples/histogram.tsx",
-            "line": 107,
-            "endLine": 107,
-            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+            "line": 100,
+            "endLine": 100,
+            "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         },
         {
           "packageId": "charts",
@@ -22781,7 +22781,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.legend",
-      "contentHash": "07eff3f4cf66c948b47acc673c2d643834e3f93a705cbc1b1aea6d5f19da1922"
+      "contentHash": "f6507d1021c0777c828392b4f6b1c9623ee6ff563a1526e6f44f0b124ba61abe"
     },
     {
       "id": "@owp/charts:ChartFrameProps.linkedInteraction",
@@ -23618,7 +23618,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         },
         {
           "packageId": "charts",
@@ -24834,7 +24834,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.options",
-      "contentHash": "50e8135fc5c0298239d73561a35877d73fb34956133c9dd16902b5ea084c2889"
+      "contentHash": "91e790470b993043e48c1026cb0c7c84e6d74a33e10466c816442d2ab9c6760a"
     },
     {
       "id": "@owp/charts:ChartFrameProps.plugins",
@@ -25984,7 +25984,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         },
         {
           "packageId": "charts",
@@ -27200,7 +27200,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.preset",
-      "contentHash": "dd33d27b4e676b8bc9947220a1c917ac452b1684de4e16012d5f5e2aff2272d1"
+      "contentHash": "32a0d7c9c19fb5d40d71a4874c8dc604c49ad6af11a36762be83187433034b40"
     },
     {
       "id": "@owp/charts:ChartFrameProps.redraw",
@@ -28709,18 +28709,18 @@
           "packageId": "charts",
           "id": "histogram",
           "url": "/?package=charts&sample=histogram",
-          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=107&endLine=107",
+          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=100&endLine=100",
           "location": {
             "file": "playgrounds/charts/examples/histogram.tsx",
-            "line": 107,
-            "endLine": 107,
-            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+            "line": 100,
+            "endLine": 100,
+            "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         },
         {
           "packageId": "charts",
@@ -29936,7 +29936,7 @@
         "framework/packages/owp-charts/docs/chart-api.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.type",
-      "contentHash": "02eea16f0507e36ef761eae30ea9268e6d5851e6c8cf21a0051bd43195b9ff63"
+      "contentHash": "e2ef8336c73a90ef90129e78f5482dfd34812df894201fac2ed93f021352d36f"
     },
     {
       "id": "@owp/charts:ChartFrameProps.updateMode",
@@ -31123,18 +31123,18 @@
           "packageId": "charts",
           "id": "histogram",
           "url": "/?package=charts&sample=histogram",
-          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=107&endLine=107",
+          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=100&endLine=100",
           "location": {
             "file": "playgrounds/charts/examples/histogram.tsx",
-            "line": 107,
-            "endLine": 107,
-            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+            "line": 100,
+            "endLine": 100,
+            "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         },
         {
           "packageId": "charts",
@@ -31314,7 +31314,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AChartFrameProps.zoomSlider",
-      "contentHash": "397f968c338f4105f0dcf86c51e14ac164d5c1e79836c6a5c56987a0c823dadb"
+      "contentHash": "84a7f85a5e0da653473b2201a56f3f97e73d23e143d5b7a91084fc41f53c4c83"
     },
     {
       "id": "@owp/charts:ChartInteractionLayerOptions",
@@ -49267,7 +49267,7 @@
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         }
       ],
       "sources": [
@@ -49276,7 +49276,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AcreateChartData",
-      "contentHash": "bb5243d5fa08a78db3e1ac8ac8127c4f46a9585e61d231cdf53760360a55a9e4"
+      "contentHash": "e731b276676f9a9fb74f2468dd61556b353a8848dbc704fb39022cb63aee1bf6"
     },
     {
       "id": "@owp/charts:CreateChartDataParams",
@@ -51226,13 +51226,13 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 54,
             "endLine": 54,
-            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+            "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
           },
           "codeReview": {
             "method": "ast"
           },
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         },
         {
           "packageId": "charts",
@@ -51254,7 +51254,7 @@
       ],
       "sources": [],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3AcreateIntegerAxisScale",
-      "contentHash": "e5e87a86522547c3800ebe2244d3299f96d07ed07d25e4c05cb290f5d34fba83"
+      "contentHash": "a826fb46bc900b0f1f372bd1c30bf1d5512c9d9d747ab5a32561b6959760341b"
     },
     {
       "id": "@owp/charts:createInteractionLayerPlugin",
@@ -217607,7 +217607,7 @@
           "location": null,
           "codeReview": null,
           "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-          "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+          "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
         },
         {
           "packageId": "charts",
@@ -217641,7 +217641,7 @@
         "framework/packages/owp-charts/docs/common-utilities.md"
       ],
       "url": "/?package=charts&view=api&symbol=%40owp%2Fcharts%3Aguide.utilities",
-      "contentHash": "19c03d75d8009d7e9af54883ae304d89d06035f6bd5802be9e0a7c5ecc1ace72"
+      "contentHash": "3446d0740d7fe4da509f74b7a42381b5ccc7c0b9b5ab0612bfc8a1e7f1250a6d"
     },
     {
       "id": "@owp/charts:guide.export-layout",
@@ -251998,7 +251998,7 @@
             "file": "playgrounds/charts/examples/histogram.tsx",
             "line": 54,
             "endLine": 54,
-            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+            "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
           },
           "codeReview": {
             "method": "ast"
@@ -252056,14 +252056,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/histogram.tsx",
-            "line": 107,
-            "endLine": 107,
-            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+            "line": 100,
+            "endLine": 100,
+            "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=107&endLine=107"
+          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=100&endLine=100"
         },
         {
           "id": "@owp/charts:ChartFrameProps.legend",
@@ -252071,14 +252071,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/histogram.tsx",
-            "line": 107,
-            "endLine": 107,
-            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+            "line": 100,
+            "endLine": 100,
+            "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=107&endLine=107"
+          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=100&endLine=100"
         },
         {
           "id": "@owp/charts:ChartFrameProps.options",
@@ -252116,14 +252116,14 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/histogram.tsx",
-            "line": 107,
-            "endLine": 107,
-            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+            "line": 100,
+            "endLine": 100,
+            "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=107&endLine=107"
+          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=100&endLine=100"
         },
         {
           "id": "@owp/charts:ChartFrameProps.zoomSlider",
@@ -252131,19 +252131,19 @@
           "packageId": "charts",
           "location": {
             "file": "playgrounds/charts/examples/histogram.tsx",
-            "line": 107,
-            "endLine": 107,
-            "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049"
+            "line": 100,
+            "endLine": 100,
+            "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c"
           },
           "codeReview": {
             "method": "ast"
           },
-          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=107&endLine=107"
+          "codeUrl": "/?package=charts&sample=histogram&tab=code&file=playgrounds%2Fcharts%2Fexamples%2Fhistogram.tsx&line=100&endLine=100"
         }
       ],
       "url": "/?package=charts&sample=histogram",
       "entrypoint": "/snippets/playgrounds/charts/examples/histogram.tsx",
-      "sha256": "158273d7cd0786ed98933df902200f1e52ed4d7ca75ba7898b230a1261e11049",
+      "sha256": "edf1d49521c55e49c0555378adb080f2980bcc0dc5b6fa97d1f29d4499b11b4c",
       "propDiagnostics": [
         {
           "kind": "excluded-prop",

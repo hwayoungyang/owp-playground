@@ -92,14 +92,7 @@ export function ChartExample(props: ChartExampleProps) {
           onChange={setDistribution}
         />
         <Range label="구간 수" value={bins} min={6} max={30} onChange={setBins} />
-        <Range
-          label="측정값 수"
-          value={count}
-          min={200}
-          max={2000}
-          step={10}
-          onChange={setCount}
-        />
+        <Range label="측정값 수" value={count} min={200} max={2000} step={10} onChange={setCount} />
         <Toggle label="자동 갱신" value={running} onChange={setRunning} />
         <UpdateButton onClick={() => setSequence((value) => value + 1)} />
       </Controls>

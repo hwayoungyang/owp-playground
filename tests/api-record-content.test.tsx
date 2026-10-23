@@ -12,7 +12,9 @@ import { ApiKnowledgeContext } from '../src/features/api/ApiKnowledgeContext';
 const dataset = packageDataset('charts');
 
 function renderWithKnowledge(children: ReactNode): string {
-  return renderToStaticMarkup(<ApiKnowledgeContext value={dataset}>{children}</ApiKnowledgeContext>);
+  return renderToStaticMarkup(
+    <ApiKnowledgeContext value={dataset}>{children}</ApiKnowledgeContext>,
+  );
 }
 
 function getRecord(id: string): ApiRecord {

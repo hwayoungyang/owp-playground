@@ -70,7 +70,9 @@ describe('standalone guide metadata', () => {
       // Given
       const fixture = {
         ...data,
-        records: data.records.map((record) => record.kind === 'guide' ? { ...record, sources } : record),
+        records: data.records.map((record) =>
+          record.kind === 'guide' ? { ...record, sources } : record,
+        ),
         sourceAudit: { ...data.sourceAudit, sources: [] },
       };
 
@@ -166,12 +168,19 @@ describe('Charts dependency exports', () => {
         records: expectedRecords,
         referenceRecords: [],
       });
-      const exampleKeys = new Set(expectedRecords.flatMap((record) =>
-        record.examples.map((example: { readonly packageId: string; readonly id: string }) =>
-          `${example.packageId}/${example.id}`)));
-      expect(payload.examples).toEqual(data.examples
-        .filter((example) => exampleKeys.has(`${example.packageId}/${example.id}`))
-        .map(({ packageId, id, title, source }) => ({ packageId, id, title, source })));
+      const exampleKeys = new Set(
+        expectedRecords.flatMap((record) =>
+          record.examples.map(
+            (example: { readonly packageId: string; readonly id: string }) =>
+              `${example.packageId}/${example.id}`,
+          ),
+        ),
+      );
+      expect(payload.examples).toEqual(
+        data.examples
+          .filter((example) => exampleKeys.has(`${example.packageId}/${example.id}`))
+          .map(({ packageId, id, title, source }) => ({ packageId, id, title, source })),
+      );
     }
   });
 });

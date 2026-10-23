@@ -36,7 +36,9 @@ export function ApiDetail({
   }, [record.id, focus]);
   const owner = recordsById.get(`${record.package}:${record.owner}`);
   const inherited = record.declaredIn ? recordsById.get(record.declaredIn) : undefined;
-  const properties = record.path ? [] : membersByOwner.get(`${record.package}:${record.owner}`) ?? [];
+  const properties = record.path
+    ? []
+    : (membersByOwner.get(`${record.package}:${record.owner}`) ?? []);
   const linked = [...new Set([...record.guideIds, ...record.related])].flatMap((id) => {
     const related = recordsById.get(id);
     return related ? [related] : [];
@@ -71,9 +73,7 @@ export function ApiDetail({
       {inherited && variants.length < 2 && (
         <p className="api-inherited">
           {t('Inherited from')}:{' '}
-          <PlaygroundLink href={inherited.url}>
-            {record.declaredIn}
-          </PlaygroundLink>
+          <PlaygroundLink href={inherited.url}>{record.declaredIn}</PlaygroundLink>
         </p>
       )}
       {record.usageNote && <p className="api-description">{t(record.usageNote)}</p>}

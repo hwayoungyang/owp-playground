@@ -8,7 +8,8 @@ export const recordsById = new Map(knowledge.records.map((record) => [record.id,
 
 export function packageRecords(packageId: string) {
   return knowledge.records.filter(
-    (record) => record.package === `@owp/${packageId}` ||
+    (record) =>
+      record.package === `@owp/${packageId}` ||
       (packageId === 'charts' && Object.hasOwn(knowledge.dependencies, record.package)),
   );
 }

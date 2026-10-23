@@ -188,7 +188,7 @@ src/
 
 공통 컴포넌트와 상태 관리 코드는 역할에 따라 이름을 짓습니다. `WorkspaceHeading`은 제목과 경로, `ChartCanvas`는 차트 렌더링과 높이·이벤트 연결, `useGridController`는 그리드 상태와 동작을 담당합니다. 카탈로그 항목은 `ExampleMetadata`, `GridCatalogEntry`, `ChartCatalogEntry`로 구분하며 내부 탐색에서는 `example`을 사용합니다. 기존 URL의 `sample`, 공개 카탈로그의 `samples` 필드와 소스 주소는 유지합니다.
 
-DataGrid 실행부는 `GridWorkspace`, `GridToolbar`, `GridSettingsDrawer`, `GridStatusBar`로 역할을 구분합니다. 각 실행 파일은 `FixedRowsGrid`, `EditableCellsGrid`, `SelectEditorsGrid`처럼 기능을 나타내는 컴포넌트와 초기 `gridConfiguration`을 내보냅니다. `model/gridTypes.ts`는 `GridConfiguration`·`GridViewProps` 계약을, `model/gridRegistry.ts`는 50개 컴포넌트와 설정의 연결을 관리합니다. `getGridConfiguration`은 등록된 설정에 현재 언어를 적용합니다.
+DataGrid 실행부는 `GridWorkspace`, `GridToolbar`, `GridSettingsDrawer`, `GridStatusBar`로 역할을 구분합니다. 각 실행 파일은 `FixedRowsGrid`, `EditableCellsGrid`, `SelectEditorsGrid`처럼 기능을 나타내는 컴포넌트와 초기 `gridConfiguration`을 내보냅니다. `model/gridTypes.ts`는 `GridConfiguration`·`GridViewProps` 계약을, `model/gridRegistry.ts`는 51개 컴포넌트와 설정의 연결을 관리합니다. `getGridConfiguration`은 등록된 설정에 현재 언어를 적용합니다.
 
 CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styles/shell.css`, 공통 제목·탭·툴바·이벤트·프레임은 `shared/ui/workspace.css`, 공통 가이드는 `shared/ui/guide.css`에 둡니다. DataGrid의 `styles.css`는 import 진입점이며, 실행 화면은 `runtime/workspace.css`, 패키지 스타일 보정은 `runtime/grid-overrides.css`, 예제별 표현은 `examples/styles.css`로 나눕니다. 예제 CSS 진입점은 `controls.css`, `cell-renderers.css`, `detail-panel.css`를 불러오며 선택자는 `.grid-preview` 안에 적용합니다. Drawer와 Dialog는 Portal에 표시되므로 각각 `grid-settings-*`, `grid-row-dialog` 클래스로 범위를 지정합니다. Charts·코드 보기·테마 편집은 각 기능의 CSS를 사용하고, 실행 중 바뀌는 테마 값은 CSS 변수로 전달합니다.
 
@@ -198,7 +198,7 @@ CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styl
 
 첫 메뉴 ‘시작’은 프로젝트 `.npmrc`의 OWP 레지스트리 설정, 패키지 설치, 타입이 포함된 첫 그리드 예제를 안내합니다. `/?sample=getting-started`로 바로 열 수 있습니다. 레지스트리 URL과 접근 권한은 Impix SmartBiz 팀에 문의합니다.
 
-설치·사용 안내와 50개 실행 샘플을 연관된 기능에 따라 12개 예제 그룹으로 분류합니다. Grid API 메뉴에서 Hook 연결·Ref 연결을 같은 데이터와 동작으로 비교하고, 기능별 예제는 Hook을 기본으로 사용합니다. Charts와 같은 탐색 메뉴를 사용하며 한국어 화면에서는 그룹명 아래에 영어 이름을 작은 부제로 표시하고, 영어 화면에는 영어 그룹명만 표시합니다. ‘표시 행 수 고정’은 10행 표시 영역에 선택·합계를 함께 보여줍니다. ‘외부 버튼 제어’는 행 선택·선택 해제·삭제를 실행합니다. 행 선택 방식·모서리 둥글기·필터 표시는 ‘설정’에서 조정합니다. 기존 `minimal`, `visible-rows`, `radius` 링크는 ‘표시 행 수 고정’으로 연결합니다.
+설치·사용 안내와 51개 실행 샘플을 연관된 기능에 따라 12개 예제 그룹으로 분류합니다. Grid API 메뉴에서 Hook 연결·Ref 연결을 같은 데이터와 동작으로 비교하고, 기능별 예제는 Hook을 기본으로 사용합니다. Charts와 같은 탐색 메뉴를 사용하며 한국어 화면에서는 그룹명 아래에 영어 이름을 작은 부제로 표시하고, 영어 화면에는 영어 그룹명만 표시합니다. ‘표시 행 수 고정’은 10행 표시 영역에 선택·합계를 함께 보여줍니다. ‘외부 버튼 제어’는 행 선택·선택 해제·삭제를 실행합니다. 행 선택 방식·모서리 둥글기·필터 표시는 ‘설정’에서 조정합니다. 기존 `minimal`, `visible-rows`, `radius` 링크는 ‘표시 행 수 고정’으로 연결합니다.
 
 - 기본: 시작, 표시 행 수 고정.
 - 셀·컬럼: 셀 타입, 행별 셀 타입, 셀렉트, 숫자·날짜 서식, 셀 컴포넌트, 긴 내용 보기, 고정 컬럼, 다단 헤더.

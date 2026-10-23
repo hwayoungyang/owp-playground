@@ -26,7 +26,12 @@ const emptyRecords: readonly ApiRecord[] = [];
 type LoadingState =
   | { readonly status: 'loading'; readonly packageId: string }
   | { readonly status: 'error'; readonly packageId: string }
-  | { readonly status: 'ready'; readonly packageId: string; readonly dataset: ApiDataset; readonly focus: boolean };
+  | {
+      readonly status: 'ready';
+      readonly packageId: string;
+      readonly dataset: ApiDataset;
+      readonly focus: boolean;
+    };
 
 export function ApiReference({
   packageId,
@@ -62,9 +67,8 @@ export function ApiReference({
       active = false;
     };
   }, [packageId, attempt]);
-  const dataset = loading.packageId === packageId && loading.status === 'ready'
-    ? loading.dataset
-    : undefined;
+  const dataset =
+    loading.packageId === packageId && loading.status === 'ready' ? loading.dataset : undefined;
   const failed = loading.packageId === packageId && loading.status === 'error';
   useEffect(() => {
     if (!failed || retryPackage.current !== packageId) return;
@@ -72,12 +76,18 @@ export function ApiReference({
     retryPackage.current = null;
   }, [failed, packageId]);
   const records = dataset?.records ?? emptyRecords;
-  const target = dataset?.recordsById.get(symbol || (
-    packageId === 'datagrid' ? '@owp/datagrid:OwpDataGridProps' : '@owp/charts:ChartFrameProps'
-  ));
-  const selected = target && (target.package === `@owp/${packageId}` || (
-    packageId === 'charts' && dataset && Object.hasOwn(dataset.knowledge.dependencies, target.package)
-  )) ? target : undefined;
+  const target = dataset?.recordsById.get(
+    symbol ||
+      (packageId === 'datagrid' ? '@owp/datagrid:OwpDataGridProps' : '@owp/charts:ChartFrameProps'),
+  );
+  const selected =
+    target &&
+    (target.package === `@owp/${packageId}` ||
+      (packageId === 'charts' &&
+        dataset &&
+        Object.hasOwn(dataset.knowledge.dependencies, target.package)))
+      ? target
+      : undefined;
   const words = useMemo(() => normalizeApiQuery(query), [query]);
   const filtered = useMemo(() => {
     if (!kind && words.length === 0) return records;
@@ -121,7 +131,9 @@ export function ApiReference({
           <div className="api-layout">
             <details
               className="api-navigation"
-              open={typeof window === 'undefined' || window.matchMedia('(min-width: 1101px)').matches}
+              open={
+                typeof window === 'undefined' || window.matchMedia('(min-width: 1101px)').matches
+              }
             >
               <summary>{t('API 검색·목록')}</summary>
               <div className="api-search-controls">
@@ -167,7 +179,9 @@ export function ApiReference({
                     aria-current={selected?.id === record.id ? 'page' : undefined}
                   >
                     <span>
-                      <code>{record.kind === 'guide' ? record.name : record.path || record.name}</code>
+                      <code>
+                        {record.kind === 'guide' ? record.name : record.path || record.name}
+                      </code>
                       <small>{record.owner === 'Guides' ? t('Guides') : record.owner}</small>
                     </span>
                     {selected?.id === record.id && <CheckIcon size={14} aria-hidden />}

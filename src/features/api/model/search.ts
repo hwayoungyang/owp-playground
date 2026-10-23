@@ -20,7 +20,9 @@ export function matchesApiQueryWords(record: ApiRecord, words: readonly string[]
       record.signature,
       record.defaultDescription,
       ...(record.typeDetails?.values ?? []),
-    ].join(' ').toLocaleLowerCase();
+    ]
+      .join(' ')
+      .toLocaleLowerCase();
     searchText.set(record, text);
   }
   return words.every((word) => text.includes(word));

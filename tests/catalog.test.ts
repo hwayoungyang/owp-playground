@@ -3,6 +3,7 @@ import { access } from 'node:fs/promises';
 import { describe, expect, it } from 'vitest';
 import { findGridEntry, gridCatalog } from '../src/playgrounds/datagrid/catalog';
 import { getGridConfiguration } from '../src/playgrounds/datagrid/model/gridConfiguration';
+import { gridRegistry } from '../src/playgrounds/datagrid/model/gridRegistry';
 
 describe('sample resources', () => {
   it('places the installation guide first and preserves its source resource', async () => {
@@ -11,7 +12,12 @@ describe('sample resources', () => {
     expect(guide.kind).toBe('guide');
     expect(guide.category).toBe('start');
     await access(new URL(`../src/playgrounds/datagrid/${guide.source}`, import.meta.url));
-    expect(gridCatalog.filter((example) => example.kind === 'grid')).toHaveLength(50);
+  });
+  it('matches every executable catalog entry to exactly one runtime registration', () => {
+    const catalogIds = gridCatalog
+      .filter((entry) => entry.kind === 'grid')
+      .map((entry) => entry.id);
+    expect(catalogIds.sort()).toEqual(Object.keys(gridRegistry).sort());
   });
   it('resolves every grid entry to its executable source and stable row IDs', async () => {
     for (const example of gridCatalog.filter((entry) => entry.kind === 'grid')) {

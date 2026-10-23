@@ -86,10 +86,14 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   .chart-range-slider:not(.MuiSlider-dragging) .MuiSlider-thumb {
-    transition: left 180ms ease-out, box-shadow 180ms ease-out;
+    transition:
+      left 180ms ease-out,
+      box-shadow 180ms ease-out;
   }
   .chart-range-slider:not(.MuiSlider-dragging) .MuiSlider-track {
-    transition: width 180ms ease-out, left 180ms ease-out;
+    transition:
+      width 180ms ease-out,
+      left 180ms ease-out;
   }
 }
 .preview-toolbar.preview-toolbar--charts {
@@ -107,7 +111,10 @@
   gap: 16px;
   margin-inline-end: 0;
 }
-.preview-toolbar--charts > .preview-start-actions:has(> .chart-variant-controls):has(> .chart-controls:not(.chart-variant-controls)) {
+.preview-toolbar--charts
+  > .preview-start-actions:has(> .chart-variant-controls):has(
+    > .chart-controls:not(.chart-variant-controls)
+  ) {
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
   align-items: stretch;
@@ -124,7 +131,9 @@
   grid-row: 1;
   flex: none;
 }
-.preview-toolbar--charts > .preview-start-actions:has(> .chart-variant-controls) > .chart-controls:not(.chart-variant-controls) {
+.preview-toolbar--charts
+  > .preview-start-actions:has(> .chart-variant-controls)
+  > .chart-controls:not(.chart-variant-controls) {
   grid-column: 2;
   grid-row: 1;
   padding-inline-start: 16px;
@@ -154,10 +163,15 @@
     align-content: flex-start;
     width: 100%;
   }
-  .preview-toolbar--charts > .preview-start-actions:has(> .chart-variant-controls):has(> .chart-controls:not(.chart-variant-controls)) {
+  .preview-toolbar--charts
+    > .preview-start-actions:has(> .chart-variant-controls):has(
+      > .chart-controls:not(.chart-variant-controls)
+    ) {
     grid-template-columns: minmax(0, 1fr);
   }
-  .preview-toolbar--charts > .preview-start-actions:has(> .chart-variant-controls) > .chart-controls:not(.chart-variant-controls) {
+  .preview-toolbar--charts
+    > .preview-start-actions:has(> .chart-variant-controls)
+    > .chart-controls:not(.chart-variant-controls) {
     grid-column: 1;
     grid-row: 2;
     padding-inline-start: 0;
