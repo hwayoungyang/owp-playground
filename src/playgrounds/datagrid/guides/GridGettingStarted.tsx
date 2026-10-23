@@ -1,6 +1,7 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import excelManifest from '@owp/excel/package.json' with { type: 'json' };
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
+import { McpGettingStarted } from '../../../features/mcp/McpGettingStarted';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
 import { FrameworkIntroduction } from '../../../shared/ui/FrameworkIntroduction';
 import { dataGridPackage } from '../../registry';
@@ -21,6 +22,7 @@ export function GridGettingStarted({
       <WorkspaceHeading example={example} packageTitle="OwpDataGrid" categoryLabel="문서" />
       <div className="guide-sections">
         <FrameworkIntroduction packageId="datagrid" />
+        <McpGettingStarted packageName={dataGridPackage.name} version={dataGridPackage.version} />
         <section aria-labelledby="registry-heading">
           <h2 id="registry-heading">{t('레지스트리 설정')}</h2>
           <p>{t('프로젝트 루트의 .npmrc에 사내 OWP 레지스트리 주소를 설정합니다.')}</p>
