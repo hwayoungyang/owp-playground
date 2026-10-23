@@ -162,6 +162,38 @@ button {
   min-width: 0;
   white-space: nowrap;
 }
+.version-menu.MuiPaper-root {
+  width: 320px;
+  max-width: calc(100vw - 32px);
+}
+.version-menu-status {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  color: var(--pg-ink);
+  background: var(--pg-subtle);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.version-menu-status-title {
+  font-weight: 600;
+}
+.version-menu-status-description {
+  color: var(--pg-secondary);
+}
+.version-menu .MuiMenuItem-root {
+  min-height: 36px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.version-menu .version-menu-retry {
+  gap: 8px;
+  font-size: 13px;
+}
+.version-menu-retry svg {
+  flex-shrink: 0;
+}
 .version-menu-entry {
   display: grid;
   gap: 4px;

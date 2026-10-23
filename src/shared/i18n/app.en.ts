@@ -16,9 +16,15 @@ export const appEnglish: Readonly<Record<string, string>> = {
     'MCP provides materials only for fully supported packages. Reuse the same releaseId in subsequent lookups to avoid mixing materials from different releases.',
   '패키지 버전 선택': 'Select package version',
   개발본: 'Draft',
+  '현재 개발 버전': 'Current development version',
+  '개발 서버에서는 현재 버전만 제공합니다.':
+    'The development server provides only the current version.',
   '버전 목록을 불러오는 중입니다.': 'Loading versions.',
+  '잠시만 기다려 주세요.': 'Please wait.',
   '보관된 버전이 없습니다.': 'No archived versions.',
-  '버전 목록을 불러오지 못했습니다. 다시 시도': 'Unable to load versions. Retry',
+  '현재 버전을 계속 사용할 수 있습니다.': 'You can continue using the current version.',
+  '버전 목록을 불러오지 못했습니다.': 'Unable to load versions.',
+  '잠시 후 다시 시도해 주세요.': 'Please try again shortly.',
   '선택한 버전을 열지 못했습니다. 다시 선택해 주세요.':
     'Unable to open this version. Select it again.',
   '입력 조건': 'Input rules',

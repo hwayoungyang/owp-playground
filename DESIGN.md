@@ -1,5 +1,7 @@
 # OWP Playground Design System
 
+버전 메뉴 상태와 MCP 주소 안내 (2026-10-23): 공용 MCP 주소는 사내 registry 안내처럼 서버 기본 주소를 뜻하는 `<OWP_MCP_URL>`에 `/mcp`를 붙여 표시하고 실제 URL·인증·접근 권한 확인을 안내한다. 일반 개발 서버는 아카이브 목록을 조회하지 않고 현재 개발 버전과 현재 버전만 제공한다는 설명을 표시한다. 버전 서버의 로딩·목록 없음·조회 실패는 중립 상태 영역으로 구분하고, 실패 안내 아래에 새로고침 아이콘과 `다시 시도` 메뉴 동작을 별도 행으로 제공한다. 상태 문구는 13px/1.6, 제목은 600 weight, 보조 설명은 기존 secondary ink, 영역 padding은 16px, 내부 gap은 8px를 사용한다. 메뉴는 320px 선호 너비와 화면 양옆 16px 여백 안에서 줄바꿈하며, 재시도는 기존 36px 이상 조작 영역과 keyboard menu focus를 유지한다. 새 색상·의존성·motion은 추가하지 않는다.
+
 버전 탐색 (2026-10-23): 패키지 선택 옆에 현재 패키지의 정확한 버전을 표시하는 MUI Button/Menu를 배치한다. 기존 헤더의 36px 조작 영역, 4px 액션 간격과 중립 색상·keyboard focus를 재사용한다. 메뉴는 해당 패키지를 포함한 스냅샷만 나열하고, 같은 패키지 버전의 문서 수정본은 초 단위 시각으로 구분한다. 개발본에는 텍스트로 상태를 표시한다. 로딩·목록 없음·조회 실패·재시도 상태는 메뉴 안에 표시하며 현재 예제의 실행을 막지 않는다. 버전 이동은 전체 페이지를 로드하고, 대상에 존재하는 예제·API와 언어·화면 모드를 보존한다. 코드의 과거 줄 강조는 제거한다. 600px 미만에서는 헤더의 브랜드를 symbol로 줄이고 개발본 표시는 메뉴에 유지한다. 360px 미만은 96px 높이의 두 줄 헤더를 사용해 패키지·버전·언어·테마 조작을 모두 보존한다. 새 색상·motion·scroll container는 추가하지 않는다.
 
 Gauge hub (2026-10-23): fix the needle and its 36px-radius center circle to #202020 in both modes, with white percentage text. Use a 20px needle base width for a stronger connection to the hub. Reserve 48px bottom padding to keep the full hub visible below the semicircle baseline.

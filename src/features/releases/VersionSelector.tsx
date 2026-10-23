@@ -1,6 +1,6 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, Menu, MenuItem } from '@mui/material';
-import { CaretDownIcon, CheckIcon } from '@phosphor-icons/react';
+import { ArrowClockwiseIcon, CaretDownIcon, CheckIcon } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { packageKnowledgeSchema } from '../api/model/schema';
@@ -8,6 +8,7 @@ import { createVersionUrl } from './model/navigation';
 import { releaseIndexSchema, type ReleaseIndex, type ReleaseIndexEntry } from './model/schema';
 
 type VersionState =
+  | { readonly status: 'development' }
   | { readonly status: 'loading' }
   | { readonly status: 'ready'; readonly index: ReleaseIndex }
   | { readonly status: 'empty' }
@@ -26,7 +27,9 @@ export function VersionSelector({
 }) {
   const { t, i18n } = useOwpTranslation();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
-  const [state, setState] = useState<VersionState>({ status: 'loading' });
+  const [state, setState] = useState<VersionState>({
+    status: import.meta.env.DEV ? 'development' : 'loading',
+  });
   const [retry, setRetry] = useState(0);
   const [moving, setMoving] = useState(false);
   const [navigationFailed, setNavigationFailed] = useState(false);
@@ -34,7 +37,7 @@ export function VersionSelector({
   const currentRelease = typeof __OWP_RELEASE__ === 'undefined' ? null : __OWP_RELEASE__;
 
   useEffect(() => {
-    if (!open) return;
+    if (!open || import.meta.env.DEV) return;
     const controller = new AbortController();
     const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(10_000)]);
     setState({ status: 'loading' });
@@ -114,6 +117,32 @@ export function VersionSelector({
           .reverse()
           .filter((entry) => entry.packages.some((item) => item.id === packageId))
       : [];
+  const statusMessages = {
+    development: {
+      title: t('현재 개발 버전'),
+      description: t('개발 서버에서는 현재 버전만 제공합니다.'),
+    },
+    loading: {
+      title: t('버전 목록을 불러오는 중입니다.'),
+      description: t('잠시만 기다려 주세요.'),
+    },
+    empty: {
+      title: t('보관된 버전이 없습니다.'),
+      description: t('현재 버전을 계속 사용할 수 있습니다.'),
+    },
+    failed: {
+      title: t('버전 목록을 불러오지 못했습니다.'),
+      description: t('잠시 후 다시 시도해 주세요.'),
+    },
+    ready: null,
+  } satisfies Record<
+    VersionState['status'],
+    { readonly title: string; readonly description: string } | null
+  >;
+  const statusMessage =
+    state.status === 'ready' && entries.length === 0
+      ? statusMessages.empty
+      : statusMessages[state.status];
   return (
     <>
       <Button
@@ -133,17 +162,29 @@ export function VersionSelector({
         anchorEl={anchor}
         open={open}
         onClose={() => setAnchor(null)}
-        slotProps={{ paper: { 'aria-label': t('패키지 버전 선택') } }}
+        slotProps={{
+          paper: { className: 'version-menu', 'aria-label': t('패키지 버전 선택') },
+        }}
       >
-        {state.status === 'loading' && (
-          <MenuItem disabled>{t('버전 목록을 불러오는 중입니다.')}</MenuItem>
-        )}
-        {(state.status === 'empty' || (state.status === 'ready' && entries.length === 0)) && (
-          <MenuItem disabled>{t('보관된 버전이 없습니다.')}</MenuItem>
+        {statusMessage && (
+          <li role="presentation">
+            <div className="version-menu-status" role="status">
+              <span className="version-menu-status-title">{statusMessage.title}</span>
+              {state.status === 'development' && <span>v{version}</span>}
+              <span className="version-menu-status-description">{statusMessage.description}</span>
+            </div>
+          </li>
         )}
         {state.status === 'failed' && (
-          <MenuItem onClick={() => setRetry((value) => value + 1)}>
-            {t('버전 목록을 불러오지 못했습니다. 다시 시도')}
+          <MenuItem
+            className="version-menu-retry"
+            onClick={(event) => {
+              event.currentTarget.closest<HTMLElement>('[role="menu"]')?.focus();
+              setRetry((value) => value + 1);
+            }}
+          >
+            <ArrowClockwiseIcon size={16} aria-hidden="true" />
+            {t('다시 시도')}
           </MenuItem>
         )}
         {entries.map((entry) => {
