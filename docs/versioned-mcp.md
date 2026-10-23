@@ -88,7 +88,7 @@ AI 클라이언트에는 `http://owp.internal:30011/mcp`를 Streamable HTTP 서�
 | 대상 | 명령 | 서버 경로 | 운영 방식 |
 | --- | --- | --- | --- |
 | 최신 정적 Playground · 30010 | `corepack pnpm deploy` | `/home/owp-playground` | 기존 Nginx·Docker |
-| 버전별 Playground + MCP · 30011 | `pnpm deploy:mcp` | `/home/owp-playground-mcp` | `owp-playground-mcp.service` · systemd |
+| 버전별 Playground + MCP · 30011 | `pnpm deploy:mcp` | `/opt/owp-playground-mcp` | `owp-playground-mcp.service` · systemd |
 
 SSH 연결 공유 방식을 재사용하며 서비스·잠금·릴리스 보관 경로를 분리합니다. 기존 `deploy:status`·`deploy:rollback`·`deploy:cleanup`은 30010 정적 서비스 전용입니다.
 
@@ -145,10 +145,11 @@ pnpm deploy:mcp --help
 
 - SSH·SCP 접속, root 권한, systemd와 `ss`가 필요합니다.
 - 기본 명령 `sh`, `id`, `uname`, `getconf`, `sha256sum`, `mkdir`, `chmod`, GNU `mv`(`-Tn` 지원), `rm`, `rmdir`, `cat`, `wc`, `env`가 필요합니다. Node.js 실행에 필요한 시스템 라이브러리도 있어야 합니다. 준비한 바이너리가 실제로 실행되는지 서비스 변경 전에 검사합니다.
+- SELinux가 Enforcing 또는 Permissive이면 `restorecon`과 `matchpathcon`이 필요합니다. 런타임의 `bin/node`와 `bin/pnpm`에 적용될 기본 정책이 `bin_t`인지 읽기 전용으로 확인하며, 설치 시 소유권과 무결성을 확인한 전용 경로에 기본 컨텍스트를 적용합니다.
 - 30011번 포트가 비어 있거나 이 스크립트로 설치한 MCP 서비스가 사용 중이어야 합니다. 기존 수동 서비스·알 수 없는 앱 경로·관리되지 않은 systemd 추가 설정(drop-in)은 자동으로 인수하지 않습니다.
 - 30011의 사내 접근 허용과 선택적인 `mcp.env`는 운영 정책에 맞게 준비합니다.
 
-서버에 전역 Node.js·pnpm·Corepack을 미리 설치할 필요가 없습니다. 서버의 외부 DNS·인터넷·npm registry 접근도 필요하지 않습니다. CLI는 `dnf`, `curl`, `npm install`, `pnpm install`을 서버에서 실행하지 않으며 OS 패키지·전역 실행 파일·방화벽·SELinux·Nginx·Docker·SSH·Verdaccio 설정을 변경하지 않습니다. 기본 도구나 시스템 라이브러리가 부족하면 필요한 항목을 안내하고 중단하므로 사내 OS 저장소나 별도 RPM으로 준비합니다.
+서버에 전역 Node.js·pnpm·Corepack을 미리 설치할 필요가 없습니다. 서버의 외부 DNS·인터넷·npm registry 접근도 필요하지 않습니다. CLI는 `dnf`, `curl`, `npm install`, `pnpm install`을 서버에서 실행하지 않으며 OS 패키지·전역 실행 파일·방화벽·Nginx·Docker·SSH·Verdaccio 설정을 변경하지 않습니다. SELinux 정책과 실행 모드는 유지하며 `restorecon`으로 전용 설치 경로의 기본 컨텍스트만 복원합니다. 기본 도구나 시스템 라이브러리가 부족하면 필요한 항목을 안내하고 중단하므로 사내 OS 저장소나 별도 RPM으로 준비합니다.
 
 ### 로컬 준비와 최초 설치
 
@@ -169,7 +170,9 @@ pnpm deploy:mcp
 
 Node.js `24.22.1`의 [공식 Linux x64 배포 파일](https://nodejs.org/en/blog/release/v24.22.1)과 pnpm `12.15.0`의 공식 Linux x64 배포 파일을 로컬에서 내려받아 고정된 SHA-256·integrity로 검사합니다. 압축 파일은 `.omo/evidence/mcp-offline/cache/`에 보관하며 재사용할 때도 검증합니다. 서버에서는 이 파일에서 추출한 실행 바이너리만 설치하므로 `tar`·`xz`·npm을 이용한 런타임 설치가 필요하지 않습니다.
 
-런타임 경로는 `/home/owp-playground-mcp/runtime/node24.22.1-pnpm12.15.0-<node SHA-256>-<pnpm SHA-256>/`입니다. `/usr/local/bin`이나 전역 PATH를 변경하지 않습니다. 동일 경로의 파일이 검증값과 다르면 덮어쓰지 않고 중단합니다. 설치한 런타임은 앱 배포의 실패·복구 이후에도 재사용할 수 있도록 보존합니다.
+런타임 경로는 `/opt/owp-playground-mcp/runtime/node24.22.1-pnpm12.15.0-<node SHA-256>-<pnpm SHA-256>/bin/`이며 이 안에 `node`와 `pnpm`을 설치합니다. `/usr/local/bin`이나 전역 PATH를 변경하지 않습니다. 동일 경로의 파일이 검증값과 다르면 덮어쓰지 않고 중단합니다. 설치한 런타임은 앱 배포의 실패·복구 이후에도 재사용할 수 있도록 보존합니다.
+
+이 경로는 Rocky Linux의 SELinux 기본 정책에서 서비스가 실행할 수 있는 `bin_t`를 적용받도록 선택했습니다. 이전 `/home/owp-playground-mcp/runtime/`의 `user_home_t` 실행 파일은 SSH에서 실행되더라도 systemd에서 `203/EXEC`와 AVC `execute denied`로 차단될 수 있습니다. 이전 최초 설치가 실패한 경우에는 수정한 CLI로 `pnpm deploy:mcp`를 다시 실행하면 `/opt`에 설치합니다. `/home`에 남은 실패 자료는 자동으로 이동하거나 삭제하지 않습니다. 이미 다른 경로에서 운영 중인 서비스가 있으면 자동으로 인수·이전하지 않고 중단합니다.
 
 앱 의존성은 선택한 stable 소스의 새 임시 사본에서 준비합니다. 고정 pnpm으로 `--prod --frozen-lockfile --ignore-scripts --ignore-pnpmfile --no-runtime --os linux --cpu x64 --libc glibc --node-linker=hoisted`를 적용하고, package·lockfile·workspace가 바뀌지 않았는지 검사합니다. 로컬 작업 트리의 `node_modules`를 재사용하지 않으며 pnpm store나 로컬 인증 설정을 서버에 복사하지 않습니다. 서버에서는 준비된 `node_modules`를 검증·배치하고 패키지 관리자를 실행하지 않습니다.
 
@@ -198,11 +201,13 @@ CLI는 로컬의 비공개 임시 경로에 묶음을 복사해 검증한 뒤 �
 
 서버의 영구 archive는 실제 디렉터리로 유지합니다. 기존 stable을 보존하면서 신규 스냅샷을 등록하고 index를 전환합니다. 같은 release ID의 내용이 다르거나 서버의 최신 stable보다 오래된 묶음이면 중단합니다. archive에는 `rsync --delete`, 정적 사이트의 최근 5개 릴리스 정리나 자동 삭제를 적용하지 않습니다.
 
-새 앱은 `apps/`에 보관하고 검증된 앱으로 `current` 연결을 전환한 뒤 `owp-playground-mcp.service`를 등록·활성화·시작합니다. 서비스는 `0.0.0.0:30011`에서 실행하며 공개 origin은 `http://192.168.100.20:30011`입니다. 선택적 서버 환경 파일 `/home/owp-playground-mcp/mcp.env`를 유지합니다. 인증 토큰을 쓴다면 서버의 `OWP_MCP_BEARER_TOKEN`과 같은 값을 로컬 검증 프로세스의 환경 변수에도 제공하며, 명령 인자나 저장소에 기록하지 않습니다. 브라우저 화면에도 토큰을 요구하면 인증 프록시가 해당 헤더를 처리해야 합니다.
+새 앱은 `apps/`에 보관하고 검증된 앱으로 `current` 연결을 전환한 뒤 `owp-playground-mcp.service`를 등록·활성화·시작합니다. 서비스는 `0.0.0.0:30011`에서 실행하며 공개 origin은 `http://192.168.100.20:30011`입니다. 선택적 서버 환경 파일 `/opt/owp-playground-mcp/mcp.env`를 유지합니다. 인증 토큰을 쓴다면 서버의 `OWP_MCP_BEARER_TOKEN`과 같은 값을 로컬 검증 프로세스의 환경 변수에도 제공하며, 명령 인자나 저장소에 기록하지 않습니다. 브라우저 화면에도 토큰을 요구하면 인증 프록시가 해당 헤더를 처리해야 합니다.
 
 전환 후에는 루트의 query 보존·307 이동, stable index와 최신 ID, 고정 버전 HTML·asset의 실제 SHA-256을 검사합니다. 로컬 MCP SDK로 연결·초기화하고 `list_packages`와 패키지별 가이드 조회의 release ID·버전을 확인합니다. 프로세스 시작 직후의 연결 거부·연결 시간 초과는 최대 30초 동안 재시도하며 파일 내용·릴리스 불일치는 즉시 실패합니다. HTTP 200 또는 `/mcp`의 단순 GET만으로 성공 처리하지 않습니다.
 
 설치·시작·검증에 실패하면 배포 잠금을 유지한 상태에서 이전 앱 연결·index·unit과 활성화 상태를 복구합니다. 최초 설치가 실패하면 이번 실행이 만든 서비스와 앱 연결만 해제합니다. 실패한 자료와 과거 스냅샷은 원인 확인을 위해 보존하며, 복구에 성공해도 명령은 실패 코드로 끝납니다.
+
+서비스 시작에 실패하면 `ActiveState`, `SubState`, `Result`, `ExecMainStatus`와 로그 확인 명령을 로컬 오류에 함께 표시합니다. 예를 들어 `ExecMainStatus=203`이면 실행 파일과 실행 경로의 권한·SELinux 컨텍스트를 확인합니다. 상세 로그는 자동으로 수집하지 않습니다.
 
 SSH 연결 중단·완료 응답 누락·강제 종료가 발생하면 결과를 추정해 반복 배포하거나 남은 잠금을 삭제하지 않습니다. 복구 중 unit 경로나 추가 설정이 예상과 달라도 서비스 조작을 중단하고 기록과 잠금을 남깁니다. 서버의 서비스·실제 앱 연결·배포 기록을 확인한 뒤 수동으로 복구합니다. CLI가 관리하지 않는 기존 unit이나 다른 실행의 잠금은 덮어쓰지 않습니다.
 

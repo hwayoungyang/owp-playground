@@ -66,7 +66,7 @@ pnpm preview
 | 명령 | 대상 | 서버 경로·포트 |
 | --- | --- | --- |
 | `deploy` | 최신 정적 Playground, 기존 Nginx | `/home/owp-playground` · `30010` |
-| `deploy:mcp` | 최신 stable 묶음의 버전별 Playground와 HTTP MCP, systemd | `/home/owp-playground-mcp` · `30011` |
+| `deploy:mcp` | 최신 stable 묶음의 버전별 Playground와 HTTP MCP, systemd | `/opt/owp-playground-mcp` · `30011` |
 
 두 명령은 SSH 연결 공유 방식을 재사용하며 서비스·배포 잠금·릴리스 보관 경로는 별도로 관리합니다. MCP의 버전 아카이브에는 기존 정적 배포의 최근 5개 릴리스 정리를 적용하지 않습니다. MCP 최초 설치와 이후 갱신은 아래 [MCP 배포](#mcp-배포)를 따릅니다.
 

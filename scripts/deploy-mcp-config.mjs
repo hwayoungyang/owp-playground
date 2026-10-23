@@ -3,7 +3,7 @@ import { parseArgs } from 'node:util';
 
 export const mcpDeploymentConfig = Object.freeze({
   host: '192.168.100.20', sshPort: 22, user: 'root', timeoutMs: 5000,
-  remoteRoot: '/home/owp-playground-mcp', url: 'http://192.168.100.20:30011',
+  remoteRoot: '/opt/owp-playground-mcp', url: 'http://192.168.100.20:30011',
   listenPort: 30011, service: 'owp-playground-mcp', unitDirectory: '/etc/systemd/system',
 });
 

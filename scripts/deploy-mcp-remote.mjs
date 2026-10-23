@@ -12,6 +12,15 @@ import { assertMcpOwner, atomicMcpFile, atomicMcpLink, saveMcpTransaction, rollb
 import { validateMcpOfflineManifest, extractMcpDependencies, MCP_DEPENDENCIES_FILE } from './deploy-mcp-offline-format.mjs';
 
 const execute = promisify(execFile);
+async function serviceStartupError(run, unit, cause) {
+  let details = '상세 상태를 확인하지 못했습니다';
+  try {
+    const output = await run('systemctl', ['show', unit, '--property=ActiveState', '--property=SubState', '--property=Result', '--property=ExecMainStatus']);
+    const fields = output.slice(0, 4096).split('\n').filter((line) => /^(ActiveState|SubState|Result|ExecMainStatus)=[A-Za-z0-9_.-]{1,64}$/.test(line));
+    if (fields.length) details = fields.join(', ');
+  } catch { /* 시작 실패를 유지하며 상태 조회 실패를 별도로 안내한다. */ }
+  return new Error(`MCP 서비스 시작에 실패했습니다 (${details}). 로그 확인: journalctl -u ${unit} -n 100 --no-pager -o cat`, cause ? { cause } : undefined);
+}
 export async function installMcpDependencies(appDirectory, selection) {
   const packageManager = selection ?? await selectMcpPackageManager();
   const installed = packageManager.command === 'pnpm' && Array.isArray(packageManager.prefix) && packageManager.prefix.length === 0;
@@ -77,8 +86,10 @@ export async function activateMcpDeployment(context, dependencies = {}) {
   await run('systemctl', ['daemon-reload']);
   await assertMcpUnitConfiguration(config, run);
   await run('systemctl', ['enable', `${config.service}.service`]);
-  await run('systemctl', [server.active === 'active' ? 'restart' : 'start', `${config.service}.service`]);
-  if (await run('systemctl', ['show', `${config.service}.service`, '--property=ActiveState', '--value']) !== 'active') throw new Error('새 MCP service가 active 상태가 아닙니다.');
+  const unit = `${config.service}.service`;
+  try { await run('systemctl', [server.active === 'active' ? 'restart' : 'start', unit]); }
+  catch (cause) { throw await serviceStartupError(run, unit, cause); }
+  if (await run('systemctl', ['show', unit, '--property=ActiveState', '--value']) !== 'active') throw await serviceStartupError(run, unit);
   await atomicMcpFile(path.join(config.remoteRoot, 'deployment.json'), state.nextReceipt, owner);
   state.phase = 'activated';
   await saveMcpTransaction(context, state);
@@ -105,5 +116,5 @@ if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === imp
   const [, , operation, encoded] = process.argv;
   runMcpRemoteOperation(operation, JSON.parse(Buffer.from(encoded, 'base64').toString('utf8')))
     .then((result) => console.log(`OWP_MCP_RESULT ${JSON.stringify(result)}`))
-    .catch((error) => { console.error(`MCP 배포 중단: ${error.message}`); process.exitCode = 1; });
+    .catch((error) => { console.error(`MCP 배포 중단: ${error.message}`); console.log(`OWP_MCP_ERROR ${JSON.stringify({ message: error.message })}`); process.exitCode = 1; });
 }

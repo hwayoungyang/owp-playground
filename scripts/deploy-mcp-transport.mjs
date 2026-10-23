@@ -9,6 +9,12 @@ export const mcpHelperNames = ['config', 'preflight', 'tar', 'archive', 'unit', 
 const encoded = (value) => Buffer.from(JSON.stringify(value)).toString('base64');
 const ssh = (config, command, execution) => execution.run('ssh', ['-p', String(config.sshPort), ...authenticationOptions(config, execution), `${config.user}@${config.host}`, command], { capture: true });
 const result = (output) => {
+  const failure = output.trim().split('\n').findLast((item) => item.startsWith('OWP_MCP_ERROR '));
+  if (failure) {
+    const error = JSON.parse(failure.slice('OWP_MCP_ERROR '.length));
+    if (typeof error?.message !== 'string' || !error.message || error.message.length > 16384) throw new Error('서버 오류 응답의 형식이 올바르지 않습니다.');
+    throw new Error(error.message);
+  }
   const line = output.trim().split('\n').findLast((item) => item.startsWith('OWP_MCP_RESULT '));
   if (!line) throw new Error('서버가 검증 가능한 MCP 배포 결과를 반환하지 않았습니다.');
   return JSON.parse(line.slice('OWP_MCP_RESULT '.length));
@@ -22,7 +28,7 @@ export async function pinMcpHelpers(bundle) {
   }
   return files;
 }
-const runtimeCommand = (plan) => plan.runtime ? `env PATH=${shellQuote(`${plan.runtime.directory}:/usr/sbin:/usr/bin:/sbin:/bin`)} COREPACK_ENABLE_NETWORK=0 COREPACK_ENABLE_PROJECT_SPEC=0 npm_config_manage_package_manager_versions=false ${shellQuote(plan.runtime.node)}` : 'node';
+const runtimeCommand = (plan) => plan.runtime ? `env PATH=${shellQuote(`${plan.runtime.directory}/bin:/usr/sbin:/usr/bin:/sbin:/bin`)} COREPACK_ENABLE_NETWORK=0 COREPACK_ENABLE_PROJECT_SPEC=0 npm_config_manage_package_manager_versions=false ${shellQuote(plan.runtime.node)}` : 'node';
 export async function preflightMcpRemote(config, execution, options = {}) {
   const source = await readFile(new URL('./deploy-mcp-preflight.mjs', import.meta.url), 'utf8');
   const script = `${source}\nconst {config,options} = JSON.parse(Buffer.from(process.argv[1], 'base64').toString('utf8')); console.log('OWP_MCP_RESULT ' + JSON.stringify(await inspectMcpServer(config, options)));`;
@@ -46,7 +52,7 @@ export async function operateMcpRemote(operation, plan, execution) {
   if (!['activate', 'rollback', 'rollback-finalize', 'commit'].includes(operation)) throw new Error('지원하지 않는 배포 작업입니다.');
   const incoming = `${plan.config.remoteRoot}/.incoming-${plan.owner}`;
   const checklist = plan.files.map((file) => `${file.sha256}  ${incoming}/${file.name}`).join('\n');
-  const command = `set -eu; printf '%s\\n' ${shellQuote(checklist)} | sha256sum -c - >/dev/null; ${runtimeCommand(plan)} ${shellQuote(`${incoming}/deploy-mcp-remote.mjs`)} ${shellQuote(operation)} ${shellQuote(encoded(plan))}`;
+  const command = `set -eu; printf '%s\\n' ${shellQuote(checklist)} | sha256sum -c - >/dev/null; set +e; owp_output=$(${runtimeCommand(plan)} ${shellQuote(`${incoming}/deploy-mcp-remote.mjs`)} ${shellQuote(operation)} ${shellQuote(encoded(plan))}); owp_status=$?; set -e; printf '%s\\n' "$owp_output"; if [ "$owp_status" -ne 0 ]; then case "$owp_output" in 'OWP_MCP_ERROR '*) ;; *) exit "$owp_status" ;; esac; fi`;
   return result(await ssh(plan.config, command, execution));
 }
 export async function discardMcpIncoming(plan, execution) {

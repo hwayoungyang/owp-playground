@@ -11,8 +11,23 @@ import { installMcpDependencies } from '../deploy-mcp-remote.mjs';
 import { runMcpDeployment } from '../deploy-mcp.mjs';
 import { operateMcpRemote, pinMcpHelpers, preflightMcpRemote, transferMcpBundle } from '../deploy-mcp-transport.mjs';
 import { mcpFixture, stageMcpFixture } from './deploy-mcp-fixture.mjs';
+import { sha256 } from '../deploy-mcp-tar.mjs';
 
 const execute = promisify(execFile);
+test('Given a structured remote failure, When the generated SSH control command runs, Then its cause reaches the caller instead of a generic SSH status', async (t) => {
+  const fixture = await mcpFixture(t);
+  const bundle = await prepareMcpBundle(fixture.bundle);
+  t.after(bundle.cleanup);
+  const source = Buffer.from(`console.log('OWP_MCP_ERROR ' + JSON.stringify({message:'ActiveState=failed, ExecMainStatus=203'})); process.exitCode=1;`);
+  await writeFile(path.join(bundle.directory, 'deploy-mcp-remote.mjs'), source);
+  bundle.transferFiles.push({ name: 'deploy-mcp-remote.mjs', bytes: source.length, sha256: sha256(source) });
+  const plan = await stageMcpFixture(fixture, bundle);
+  const execution = { interactive: false, run: async (_command, args) => {
+    try { return (await execute('/bin/sh', ['-c', args.at(-1)], { encoding: 'utf8', timeout: 10000 })).stdout; }
+    catch (cause) { throw new Error(`ssh 실행에 실패했습니다 (${cause.code}).`, { cause }); }
+  } };
+  await assert.rejects(operateMcpRemote('activate', plan, execution), /ExecMainStatus=203/);
+});
 async function preflightShell(t, uid = '0') {
   const bin = await mkdtemp(path.join(tmpdir(), 'owp-mcp-preflight-shell-'));
   t.after(() => rm(bin, { recursive: true, force: true }));

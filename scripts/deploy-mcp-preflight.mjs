@@ -38,14 +38,14 @@ export async function selectMcpPackageManager(run = capture) {
 export async function inspectMcpRuntime(config, runtime, run = capture) {
   const pattern = new RegExp(`^${config.remoteRoot.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/runtime/node24\\.22\\.1-pnpm12\\.15\\.0-([a-f0-9]{64})-([a-f0-9]{64})$`);
   const match = typeof runtime?.directory === 'string' ? pattern.exec(runtime.directory) : undefined;
-  if (!match || runtime.nodeSha256 !== match[1] || runtime.pnpmSha256 !== match[2] || runtime.node !== `${runtime.directory}/node` || runtime.packageManager?.command !== `${runtime.directory}/pnpm` || runtime.packageManager.version !== '12.15.0' || !Array.isArray(runtime.packageManager.prefix) || runtime.packageManager.prefix.length) throw new Error('배포 전용 런타임 경로 또는 버전이 올바르지 않습니다.');
-  await assertRealAncestors(runtime.directory);
+  if (!match || runtime.nodeSha256 !== match[1] || runtime.pnpmSha256 !== match[2] || runtime.node !== `${runtime.directory}/bin/node` || runtime.packageManager?.command !== `${runtime.directory}/bin/pnpm` || runtime.packageManager.version !== '12.15.0' || !Array.isArray(runtime.packageManager.prefix) || runtime.packageManager.prefix.length) throw new Error('배포 전용 런타임 경로 또는 버전이 올바르지 않습니다.');
+  await assertRealAncestors(path.join(runtime.directory, 'bin'));
   for (const [name, expected] of [['node', match[1]], ['pnpm', match[2]]]) {
-    const file = path.join(runtime.directory, name);
+    const file = path.join(runtime.directory, 'bin', name);
     const info = await optionalStat(file);
     if (!info?.isFile() || info.isSymbolicLink() || info.size > 256 * 1024 * 1024 || hashContent(await readFile(file)) !== expected) throw new Error(`배포 전용 런타임 파일이 변경됐습니다: ${name}`);
   }
-  if (await run(runtime.packageManager.command, ['--version'], { cwd: '/', env: { PATH: `${runtime.directory}:/usr/sbin:/usr/bin:/sbin:/bin` } }) !== '12.15.0') throw new Error('배포 전용 pnpm 12.15.0 실행 검증에 실패했습니다.');
+  if (await run(runtime.packageManager.command, ['--version'], { cwd: '/', env: { PATH: `${runtime.directory}/bin:/usr/sbin:/usr/bin:/sbin:/bin` } }) !== '12.15.0') throw new Error('배포 전용 pnpm 12.15.0 실행 검증에 실패했습니다.');
   return runtime.packageManager;
 }
 

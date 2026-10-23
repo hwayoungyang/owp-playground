@@ -28,6 +28,21 @@ test('Given an initial server, When activated and committed, Then exact receipt 
   assert.deepEqual(await runMcpRemoteOperation('commit', plan, shim), activated);
   await assert.rejects(readFile(path.join(fixture.config.remoteRoot, '.deploy.lock/owner')), { code: 'ENOENT' });
 });
+test('Given a service that exits before becoming active, When activation fails, Then the error preserves systemd exit details while rolling back', async (t) => {
+  const { fixture, shim, plan } = await scenario(t);
+  const run = shim.run;
+  let justStarted = false;
+  shim.run = async (command, args) => {
+    if (command === 'systemctl' && args.filter((arg) => arg.startsWith('--property=')).length > 1) return 'ActiveState=failed\nSubState=failed\nResult=exit-code\nExecMainStatus=203';
+    if (justStarted && args.includes('--property=ActiveState')) { justStarted = false; return 'failed'; }
+    const result = await run(command, args);
+    if (['start', 'restart'].includes(args[0])) justStarted = true;
+    return result;
+  };
+  await assert.rejects(runMcpRemoteOperation('activate', plan, shim), /ExecMainStatus=203/);
+  assert.equal((await shim.state()).active, 'inactive');
+  await assert.rejects(readFile(path.join(fixture.config.unitDirectory, `${fixture.config.service}.service`)), { code: 'ENOENT' });
+});
 test('Given a cached preflight selection and changed server runtimes, When activation holds the lock, Then installation uses the fresh server selection', async (t) => {
   const { shim, plan } = await scenario(t);
   await shim.state({ pnpmPresent: false });
