@@ -101,6 +101,7 @@ describe('standalone guide metadata', () => {
       schemaVersion: 1,
       packages: data.packages,
       reviewed: data.reviewed,
+      resolvedDependencies: data.resolvedDependencies,
       resources: [
         '/api/datagrid.json',
         '/api/charts.json',
@@ -126,6 +127,12 @@ describe('standalone guide metadata', () => {
 
     // Then
     expect(JSON.parse(assets.get('knowledge/index.json') ?? 'null')).toEqual(expectedIndex);
+    expect(
+      expectedIndex.resolvedDependencies['@owp/core'].dependencies['@owp/components'].version,
+    ).toBe('3.1.1');
+    expect(
+      expectedIndex.resolvedDependencies['@owp/datagrid'].dependencies['@owp/components'].version,
+    ).toBe('3.1.0');
     const lines = assets.get('knowledge/records.jsonl')?.trim().split('\n') ?? [];
     expect(lines.map((line) => JSON.parse(line))).toEqual(data.records);
   });

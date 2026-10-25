@@ -56,7 +56,7 @@ export function knowledgeAssets(input: KnowledgeResourceData = knowledge, basePa
     assets.set(`api/${entry.id}.json`, JSON.stringify(createPackageKnowledge(data, entry), null, 2));
   }
   assets.set('knowledge/index.json', JSON.stringify({
-    schemaVersion: 1, packages: data.packages, reviewed: data.reviewed,
+    schemaVersion: 1, packages: data.packages, reviewed: data.reviewed, resolvedDependencies: data.resolvedDependencies,
     resources: [...data.packages.map((entry) => `/api/${entry.id}.json`), ...data.packages.map((entry) => `/catalogs/${entry.id}.sources.json`), '/knowledge/records.jsonl', '/knowledge/example-links.json'].map((url) => withPublicBase(url, basePath)),
     records: data.records.map(({ id, url, packageVersion, locale, contentHash }) => ({ id, url, packageVersion, locale, contentHash })),
     sourceAudit: data.sourceAudit,

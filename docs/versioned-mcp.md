@@ -16,7 +16,7 @@ Core의 앱 정책 adapter와 Components의 공통 UI는 소유 패키지를 구
 | MCP 서버 프로그램 | `mcp/package.json`의 버전 |
 | Knowledge·아카이브 형식 | 각 데이터의 `schemaVersion` |
 
-설치 계약은 workspace 직접 의존성과 패키지 소유자별 해석을 구분합니다. `reviewed-packages.json`은 직접 설치본을, `reviewed-package-resolutions.json`은 각 소유 패키지의 실제 전이 의존 버전과 declaration/runtime 지문을 검토합니다. 생성 원본의 `resolvedDependencies`는 이 소유자별 설치 계약이며 번들의 dedupe 설정으로 패키지 설치 버전이 바뀌지는 않습니다. 기존 MCP의 `dependencies`를 특정 패키지의 전체 전이 의존 그래프로 해석하지 않습니다.
+설치 계약은 workspace 직접 의존성과 패키지 소유자별 해석을 구분합니다. `reviewed-packages.json`은 직접 설치본을, `reviewed-package-resolutions.json`은 각 소유 패키지의 실제 전이 의존 버전과 declaration/runtime 지문을 검토합니다. 생성 원본과 `knowledge/index.json`의 `resolvedDependencies`는 이 소유자별 설치 계약이며 번들의 dedupe 설정으로 패키지 설치 버전이 바뀌지는 않습니다. 기존 MCP의 `dependencies`를 특정 패키지의 전체 전이 의존 그래프로 해석하지 않습니다.
 
 문서만 수정하면 패키지 버전을 유지하고 새 스냅샷을 만듭니다. 같은 `releaseId`는 덮어쓰지 않습니다. 과거 버전은 해당 버전의 패키지·소스·의존성과 동작을 검증할 수 있는 경우에만 등록합니다.
 
