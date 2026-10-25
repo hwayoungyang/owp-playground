@@ -1,5 +1,6 @@
 import data from '../../src/features/api/data/knowledge.generated.json';
 import { createApiDataset } from '../../src/features/api/model/knowledge';
+import { referencePackagesFor } from '../../src/playgrounds/packages';
 import { createPackageKnowledge } from '../../src/features/api/model/package-data';
 import { knowledgeSchema, packageKnowledgeSchema } from '../../src/features/api/model/schema';
 
@@ -10,7 +11,8 @@ export function packageRecords(packageId: string) {
   return knowledge.records.filter(
     (record) =>
       record.package === `@owp/${packageId}` ||
-      (packageId === 'charts' && Object.hasOwn(knowledge.dependencies, record.package)),
+      (referencePackagesFor(packageId).includes(record.package) &&
+        Object.hasOwn(knowledge.dependencies, record.package)),
   );
 }
 

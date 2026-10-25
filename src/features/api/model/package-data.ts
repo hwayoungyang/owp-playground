@@ -64,11 +64,23 @@ export function createPackageKnowledge<T extends ReferenceRecord>(
         Object.hasOwn(data.dependencies, record.package)),
   );
   const allRecords = new Map(data.records.map((record) => [record.id, record]));
+  const membersByOwner = new Map<string, T[]>();
+  for (const record of data.records) {
+    if (!record.path || record.kind === 'guide') continue;
+    const ownerId = `${record.package}:${record.owner}`;
+    const members = membersByOwner.get(ownerId) ?? [];
+    members.push(record);
+    membersByOwner.set(ownerId, members);
+  }
   const included = new Set(records.map((record) => record.id));
   const referenceRecords: T[] = [];
   const pending = [...records];
   for (const record of pending) {
-    for (const id of apiRecordReferenceIds(record)) {
+    const memberIds =
+      !record.path && record.kind !== 'guide' && record.package !== entry.name
+        ? (membersByOwner.get(`${record.package}:${record.owner}`) ?? []).map((member) => member.id)
+        : [];
+    for (const id of [...apiRecordReferenceIds(record), ...memberIds]) {
       const target = allRecords.get(id);
       if (!target) throw new ApiKnowledgeReferenceError(record.id, id);
       if (included.has(id)) continue;

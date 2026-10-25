@@ -4,13 +4,13 @@ MUI 기반의 OWP 컴포넌트 실행·코드 Playground입니다. `@owp/datagri
 
 | 패키지 | 버전 |
 | --- | --- |
-| `@owp/datagrid` | `3.5.0` |
-| `@owp/charts` | `5.0.1` |
-| `@owp/core` | `7.1.0` |
-| `@owp/components` | `3.0.1` |
-| `@owp/date-picker` | `2.0.2` |
+| `@owp/datagrid` | `3.5.1` |
+| `@owp/charts` | `5.0.2` |
+| `@owp/core` | `8.1.0` |
+| `@owp/components` | `3.1.1` |
+| `@owp/date-picker` | `2.0.3` |
 | `@owp/utils` | `1.0.1` |
-| `@owp/theme` | `2.1.0` |
+| `@owp/theme` | `2.2.1` |
 | `@owp/excel` · `@owp/pdf` | `2.0.0` |
 
 `@owp/utils`는 Core·Components에서 분리된 공통 값·browser·barcode·QR·ZIP 유틸리티 패키지입니다. 직접 사용하는 함수는 `@owp/utils` 또는 `@owp/utils/browser` 등 기능별 public entry에서 import합니다. Core·Components는 이관된 함수의 호환 export를 제공하지 않습니다. DataGrid의 숫자 변환·focus 처리는 패키지 내부에서 Utils를 사용하므로 기존 DataGrid public API와 샘플의 `numberOptions` 설정은 유지합니다.
@@ -259,7 +259,7 @@ CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styl
 
 ‘데이터 없음’은 빈 그리드로 시작하며 상단 버튼으로 로딩을 시작·종료합니다. 종료하면 빈 화면으로 돌아갑니다. 기존 `loading` 링크도 이 샘플로 연결합니다. ‘셀렉트’는 검색 없는 셀렉트와 검색 가능한 자동완성에서 단일·다중 선택을 지원합니다. 일반 다중 선택은 `selectOptions.multiple`, 자동완성 다중 선택은 `autocompleteOptions.multiple`을 사용합니다. 기존 `autocomplete` 링크는 자동완성 모드로 연결합니다.
 
-‘커스텀 스타일’은 2단·3단 헤더, 기본·줄무늬·강조 프리셋과 12–18px 글자 크기를 즉시 적용합니다. 그룹 헤더와 하위 헤더의 색상·크기를 함께 바꾸며 입력한 값은 유지됩니다. `@owp/datagrid` 3.0.0의 `sx` 객체·테마 콜백·조건부 배열과 공개 클래스 선택자를 사용합니다. 행 높이는 `virtualization.rowHeight`, 헤더 높이는 `OwpThemeProvider.dataGrid.header.height`로 설정합니다. 프리셋과 크기를 바꿔도 편집값과 테마는 유지됩니다. Portal에 표시되는 편집기 목록은 루트 `sx`의 적용 범위 밖입니다.
+‘커스텀 스타일’은 2단·3단 헤더, 기본·줄무늬·강조 프리셋과 12–18px 글자 크기를 즉시 적용합니다. 그룹 헤더와 하위 헤더의 색상·크기를 함께 바꾸며 입력한 값은 유지됩니다. `@owp/datagrid` 3.5.1의 `sx` 객체·테마 콜백·조건부 배열과 공개 클래스 선택자를 사용합니다. 행 높이는 `virtualization.rowHeight`, 헤더 높이는 `OwpThemeProvider.dataGrid.header.height`로 설정합니다. 프리셋과 크기를 바꿔도 편집값과 테마는 유지됩니다. Portal에 표시되는 편집기 목록은 루트 `sx`의 적용 범위 밖입니다.
 
 필터·enum 메뉴의 hover와 선택 배경은 예제 테마의 `enumMenu` 색상을 사용합니다. 다크 모드에서는 Grid 경계색의 밝기를 높여 편집 가능 셀 배경과 구분하며, 화면 전체 경계색과 사용자가 지정한 테마 override는 유지합니다.
 
@@ -271,7 +271,7 @@ CSS는 화면의 소유권에 맞춰 관리합니다. 앱의 배치는 `app/styl
 
 ## Charts
 
-`@owp/charts` 5.0.1의 시작 가이드와 70개 예제 메뉴에서 97개 구성을 제공합니다. 패키지 메뉴에서 `owp/charts`를 선택하거나 `/?package=charts`로 엽니다. 탐색 메뉴의 DataGrid·Charts 버전과 두 시작 가이드의 설치 명령은 설치된 패키지의 버전을 사용합니다. Excel은 2.x, Core는 7.x 기준으로 안내합니다.
+`@owp/charts` 5.0.2의 시작 가이드와 70개 예제 메뉴에서 97개 구성을 제공합니다. 패키지 메뉴에서 `owp/charts`를 선택하거나 `/?package=charts`로 엽니다. 탐색 메뉴의 DataGrid·Charts 버전과 두 시작 가이드의 설치 명령은 설치된 패키지의 버전을 사용합니다. 의존성 기준은 Excel 2.x·Core 8.x이며, 설치 후 시작 가이드의 패키지 버전을 확인합니다.
 
 Semi circle은 공정별 처리 수량의 비중을 반원으로 보여줍니다. Radar는 생산 라인 A·B의 생산성, 품질, 가동 안정성, 납기 준수, 에너지 효율, 예방 정비를 같은 0–100점 척도로 비교합니다. Semi circle은 `OwpRadialChart`, Radar는 `OwpRadarChart`를 사용하며 패키지가 native geometry·hit test·OWP HTML 툴팁·범례를 처리합니다. 두 예제 모두 OWP API 문자열 데이터를 `chartFromApi`로 변환합니다.
 
@@ -308,7 +308,7 @@ Layered column은 `Column 겹치기`와 `값 표시`를 각각 켜고 끌 수 �
 
 Gauge는 `motion.animateOnMount: true`로 최솟값(-40)에서 초기값(76)까지 500ms 동안 이동합니다. 이후 1.5초마다 가상 값을 갱신하며, 바늘과 숫자는 같은 500ms 동안 이동합니다. 일시정지·다시 시작을 지원하고 값을 직접 조절하면 자동 갱신을 멈춥니다. 브라우저 탭이 가려지거나 예제에서 나가면 타이머를 정리하며, 움직임 줄이기 설정에서는 값을 즉시 갱신합니다.
 
-Box plot은 실제 관측값에서 Q1·중앙값·Q3와 1.5 IQR 수염·이상치를 계산합니다. Pareto는 발생 건수를 내림차순으로 정렬하고 누적 비율과 80% 기준선을 겹쳐 표시하며, 누적 비율 Line을 Bar 위에 그립니다. 누적 축의 0–100% 범위를 유지하면서 상단 padding과 Line의 clip 여유를 확보해 100% 지점의 점도 온전히 표시합니다. Grouped stacks는 그룹별 누적을 켜면 범례에 그룹 번호를 표시하고, 끄면 series 이름만 표시합니다. 모드를 전환해도 series의 표시·숨김 상태는 유지합니다. `@owp/charts` 4.0.3이 누적 series의 범례 표시 상태에 맞춰 남은 series의 좌표를 다시 계산하며, 샘플은 패키지의 기본 전환을 사용합니다. 군집 Scatter는 네 군집의 반투명 점을 최대 20,000개까지 표시하며 하단 X·오른쪽 Y slider로 범위를 조절합니다.
+Box plot은 실제 관측값에서 Q1·중앙값·Q3와 1.5 IQR 수염·이상치를 계산합니다. Pareto는 발생 건수를 내림차순으로 정렬하고 누적 비율과 80% 기준선을 겹쳐 표시하며, 누적 비율 Line을 Bar 위에 그립니다. 누적 축의 0–100% 범위를 유지하면서 상단 padding과 Line의 clip 여유를 확보해 100% 지점의 점도 온전히 표시합니다. Grouped stacks는 그룹별 누적을 켜면 범례에 그룹 번호를 표시하고, 끄면 series 이름만 표시합니다. 모드를 전환해도 series의 표시·숨김 상태는 유지합니다. `@owp/charts` 5.0.2이 누적 series의 범례 표시 상태에 맞춰 남은 series의 좌표를 다시 계산하며, 샘플은 패키지의 기본 전환을 사용합니다. 군집 Scatter는 네 군집의 반투명 점을 최대 20,000개까지 표시하며 하단 X·오른쪽 Y slider로 범위를 조절합니다.
 
 한국어 화면에서는 그룹명 아래에 영어 이름을 작은 부제로 표시하고, 영어 화면에서는 영어 그룹명만 표시합니다. 범례와 툴팁은 별도 그룹입니다. 표시되는 모든 차트 툴팁은 `ChartFrame`의 `externalTooltip`을 사용하며, Box plot 통계값·날짜 서식·point 표시와 연결 차트의 동기화를 유지합니다. HTML tooltip 예제에서는 화면 경계 여백을 조절할 수 있습니다. 그리드 셀 sparkline은 기존처럼 툴팁을 표시하지 않습니다.
 
@@ -316,15 +316,15 @@ Box plot은 실제 관측값에서 Q1·중앙값·Q3와 1.5 IQR 수염·이상�
 
 모든 차트는 `ChartFrame`의 OWP 범례를 사용합니다. 일반 차트의 범례는 패키지의 160ms show/hide 전환을 사용합니다. `범례로 표시·숨김` 예제에서 `범례 애니메이션`을 끄면 즉시 전환하며, 데이터 갱신 애니메이션은 유지합니다. 단일 Pie·Doughnut은 항목별 geometry를 전환합니다. Multi-series pie는 기본적으로 두 ring의 범례를 표시하며, `항목별 범례`를 켜면 각 ring과 그 안의 항목을 독립적으로 전환합니다. Live chart는 이동과 범례 opacity 전환을 패키지의 공용 frame driver에서 처리하며, 일시정지 중에도 범례를 조작할 수 있습니다. `window.axisLayout`으로 시간 라벨 폭과 축 높이를 예약해 이동 중 plot 영역을 고정합니다. 움직임 줄이기·숨겨진 탭에서는 범례 효과를 생략합니다. 시계열 Tooltip은 원본 ISO 데이터를 유지하면서 축과 같은 UTC 기준의 날짜·시간으로 표시합니다.
 
-차트 예제의 번역 hook은 현재 공개 경로인 `@owp/components/hooks`의 `useOwpTranslation`을 사용합니다. `owp` namespace에 차트 번역을 등록합니다. 설치된 `@owp/core` 7.1.0은 이 hook을 export하지 않습니다.
+차트 예제의 번역 hook은 현재 공개 경로인 `@owp/components/hooks`의 `useOwpTranslation`을 사용합니다. `owp` namespace에 차트 번역을 등록합니다. `@owp/core` root는 이 hook을 export하지 않습니다.
 
 정수 축·소수 축·긴 label 처리는 별도 예제에서 제외했습니다. 기존 URL은 각각 눈금 간격·눈금 서식·Bar 예제로 연결합니다. Pie는 9개 공정의 생산 비중을 촘촘한 조각과 항목·비율 라벨로 표시합니다. Multi-series pie는 중앙이 빈 두 고리로 2026·2025년을 비교하며 얇은 경계와 명도로 구분합니다. Doughnut은 같은 단색 팔레트와 둥근 조각을 사용합니다. 넓은 화면에서는 바깥 라벨과 연결선을 표시하고 작은 화면에서는 범례·툴팁에서 항목과 비율을 확인합니다. 그라데이션 로직과 전용 메뉴는 제거했습니다.
 
 애니메이션 그룹과 전용 예제 6개는 사용자 요청으로 제외했습니다. 일반 차트에는 `createChartOptions()`의 애니메이션과 전환 기본값을 적용합니다. `preset="owp"`는 일반 애니메이션을 기본으로 끄므로, 예제의 움직임을 유지하는 `chartMotion` 설정은 명시적으로 전달합니다. `@owp/charts`는 4.0.2부터 일반 차트의 최초 반응형 레이아웃 조정 중에도 진입 보간을 유지하므로 샘플에서 재생용 timer나 reset을 추가하지 않습니다. Live chart는 패키지 계약에 따라 첫 snapshot을 실제 timestamp 범위에 즉시 표시하고, 후속 데이터부터 기존 시간 창 이동을 적용합니다. Gauge의 최초 바늘 움직임은 전용 driver의 공개 옵션으로 연결합니다. 대량 시계열·군집 Scatter·그리드 셀 sparkline은 성능을 위해 일반 애니메이션을 끕니다. 기존 애니메이션 예제 URL은 관련 Column·Line 예제로 연결합니다.
 
-`@owp/charts` 4.0.1이 slider의 접근성 속성과 키보드 조작, 범례의 키보드 포커스, zoom 초기화 버튼의 Tab 순서와 포커스 복귀를 처리합니다. 샘플에서 내부 DOM을 수정하지 않으며, 여러 Y축 예제는 `ariaLabel`과 `valueTextFormatter`로 축의 의미와 백분율 서식을 전달합니다. 로딩·빈 데이터·오류 예제는 `ChartFrame`의 `loading`·`noData`·`noDataMessage`·`errorOverlay`를 사용합니다. 패키지가 상태 안내와 오류 Alert·재시도 버튼을 표시하고, 샘플은 상태 선택과 재시도 callback을 담당합니다. 상태 표시 우선순위는 로딩 → 오류 → 빈 데이터이며, `noData`는 호출자가 명시적으로 지정합니다.
+`@owp/charts` 5.0.2이 slider의 접근성 속성과 키보드 조작, 범례의 키보드 포커스, zoom 초기화 버튼의 Tab 순서와 포커스 복귀를 처리합니다. 샘플에서 내부 DOM을 수정하지 않으며, 여러 Y축 예제는 `ariaLabel`과 `valueTextFormatter`로 축의 의미와 백분율 서식을 전달합니다. 로딩·빈 데이터·오류 예제는 `ChartFrame`의 `loading`·`noData`·`noDataMessage`·`errorOverlay`를 사용합니다. 패키지가 상태 안내와 오류 Alert·재시도 버튼을 표시하고, 샘플은 상태 선택과 재시도 callback을 담당합니다. 상태 표시 우선순위는 로딩 → 오류 → 빈 데이터이며, `noData`는 호출자가 명시적으로 지정합니다.
 
-Chart.js 공식 실행 샘플 75개 중 신규 40개, 기존 9개, 대체·연관 예제 13개를 제공합니다. 애니메이션 전용 6개와 그라데이션 2개는 제외했습니다. 시간축 3개·로그축·Subtitle은 전용 실행 예제로 제공하며, PolarArea 3개와 custom scale·controller 2개는 패키지 지원이 필요한 `unavailable` 5개입니다. Area·Radar는 패키지가 등록한 native Filler·Radar·RadialLinearScale을 사용합니다. 예제는 설치된 정식 `@owp/charts` 5.0.1의 공개 API를 사용합니다. 정확한 대응 범위와 제약은 [Chart.js 샘플 대응표](src/playgrounds/charts/CHARTJS-SAMPLES.md)를 확인합니다.
+Chart.js 공식 실행 샘플 75개 중 신규 40개, 기존 9개, 대체·연관 예제 13개를 제공합니다. 애니메이션 전용 6개와 그라데이션 2개는 제외했습니다. 시간축 3개·로그축·Subtitle은 전용 실행 예제로 제공하며, PolarArea 3개와 custom scale·controller 2개는 패키지 지원이 필요한 `unavailable` 5개입니다. Area·Radar는 패키지가 등록한 native Filler·Radar·RadialLinearScale을 사용합니다. 예제는 `@owp/charts`의 공개 API를 사용하며, 지정한 5.0.2 설치 후 다시 검증합니다. 정확한 대응 범위와 제약은 [Chart.js 샘플 대응표](src/playgrounds/charts/CHARTJS-SAMPLES.md)를 확인합니다.
 
 Native 시간축의 Luxon 경로는 optional peer인 `luxon` 3.x·`chartjs-adapter-luxon` 1.3.1 이상을 준비한 뒤 첫 chart mount 전에 `@owp/charts/chartjs/time`의 `registerChartTime()`을 await합니다. 현재 Playground에는 두 peer를 설치했으며 `time-line`·`time-combo`·`time-max-span`은 초기화가 끝난 뒤 표시합니다. 기존 `date-time`·`time-series` 예제는 category 축을 유지합니다. 다른 날짜 adapter를 이미 사용하는 앱은 기존 초기화를 유지하고 이 helper를 호출하지 않습니다. 로그축은 native wheel·pan·drag zoom·reset을 지원하지만 로그축의 OWP `zoomSlider`를 활성화하면 `RangeError`가 발생합니다. Subtitle은 `options.plugins.subtitle`로 설정하며 canvas·PNG export에 반영됩니다. `log-scale`은 선형·로그 Y축 비교, `subtitle`은 부제목 표시·여러 줄·정렬과 PNG 저장을 제공합니다. Scatter·Multi-axis scatter·Quadrants는 native `scatter`, Bubble은 native `bubble`과 point의 `r`을 사용합니다.
 
@@ -332,31 +332,28 @@ Native 시간축의 Luxon 경로는 optional peer인 `luxon` 3.x·`chartjs-adapt
 
 ## Core
 
-설치된 `@owp/core` 7.1.0은 `/?package=core`에서 시작합니다. DataGrid·Charts와 같은 탭, 옵션 도구막대, 초기화 버튼을 사용하며 5개 카테고리에 14개 실행 예제와 시작 가이드를 제공합니다.
+`@owp/core` 예제는 `/?package=core`에서 시작합니다. 시작하기에서 Provider와 앱 초기화를 설명하고, 4개 역할 분류에 14개 실행 예제를 제공합니다. 기존 예제 URL·옵션·이벤트는 유지합니다.
 
-| 카테고리 | 예제 |
+| 역할 | 예제 |
 | --- | --- |
-| 앱 구성 | 앱 설정, API 요청, 사용자와 페이지 권한, 언어 전환 |
-| 페이지 구성 | 검색과 페이지, 페이지 콘텐츠 |
-| 조회·선택 | 검색 필터, API 선택, 공통코드 선택 |
-| 피드백 | 다이얼로그 상태 관리, 확인과 알림, 로딩 표시, 오류와 복구 |
-| 파일 | Excel 내보내기 |
+| API·데이터 연결 | API 요청, API 선택, 공통코드 선택, Excel 내보내기 |
+| 앱 상태·설정 | 앱 설정, 사용자와 페이지 권한, 언어 전환 |
+| 전역 상태·복구 | 다이얼로그 상태 관리, 확인과 알림, 로딩 표시, 오류와 복구 |
+| UI Adapter | 검색과 페이지, 페이지 콘텐츠, 검색 필터 |
 
-한금 소비앱의 provider·API factory·인증 응답 적용·페이지 구성 방식을 단순화했습니다. Core가 소유한 공개 API만 독립 예제와 메뉴로 다룹니다. 다른 패키지의 컴포넌트는 Core 동작을 설명하는 데 필요한 경우에만 해당 패키지에서 가져옵니다.
+공통 UI는 `@owp/components`에서 가져오고, 앱 정책·provider·store·API는 Core 공개 경로로 연결합니다. Dialog와 PageCarded 예제는 `useDialogPolicy`·`usePageCardedPolicy`의 props와 styles를 함께 사용합니다. ErrorBoundary는 `@owp/core/utils`의 `errorBoundaryPolicy`를 연결하고, PageContent는 `OwpCoreResponsiveLayoutGlobalStyles`를 slot에 지정합니다. 앱 설정의 Table·FieldTable과 검색 진행용 SearchFilter처럼 기존 Core adapter를 설명하는 구간은 유지하며, 동일 정책을 중복 적용하지 않습니다.
 
-Framework에서 Components로 이관 중인 Table·FieldTable의 독립 예제는 먼저 제외했습니다. 다이얼로그는 Core의 manager·미저장 변경 확인만 다룹니다. 패키지는 업데이트하지 않았으므로 다른 예제에 필요한 테이블·다이얼로그는 설치된 7.1.0의 Core adapter로 사용합니다. 이 사용을 Components 이관 완료로 해석하지 않습니다.
+각 예제의 코드·현재 데이터·이벤트를 같은 workspace에서 확인합니다. 초기화는 현재 예제만 다시 구성합니다. API 요청과 선택은 정적 JSON을 요청하며 정상·빈 목록·실패 응답을 구분합니다. 사용자 예제는 샘플 인증 응답을 Core 상태에 적용하며 실제 서버 인증·저장은 수행하지 않습니다. storage 복원과 언어 전환 bridge도 예제 수명에 맞춰 유지합니다.
 
-각 예제의 코드·현재 데이터·실제 이벤트를 같은 workspace에서 확인합니다. 초기화는 현재 예제만 다시 구성합니다. API 요청과 API 선택은 정적 JSON을 실제 요청하며 정상·빈 목록·실패 응답을 비교합니다. 검색 필터는 900ms 로컬 query를 실행하고 취소할 수 있습니다. 사용자 예제는 샘플 인증 응답을 Core 상태에 적용하고, MemoryRouter 경로에 따라 조회·저장 권한을 확인합니다. 서버 인증·저장은 수행하지 않습니다. 사용자 예제는 언마운트 때 사용한 localStorage 키를 원문으로 복원하며, 공통코드는 독립 store에서 샘플을 준비한 뒤 기존 sessionStorage 원문을 즉시 복원합니다.
+Core CSS는 10px rem 기준이며 공통 MUI theme의 `typography.htmlFontSize=10`을 사용합니다. 페이지 이탈 보호·전역 loading·오류 복구 예제만 독립 Data Router와 OwpUiProvider를 사용합니다. 앱 전체 OwpLayout shell은 별도 범위입니다. Theme Preview의 공개 이름·기본값과 `owp-theme` version 1 저장 파일 형식을 유지합니다. 앱과 DataGrid가 동일 Theme Context를 사용하도록 Vite에서 `@owp/theme`을 dedupe하며, 실제 설치된 의존 버전은 소유 패키지별로 검토합니다.
 
-Core의 공개 CSS는 10px rem 기준을 사용합니다. 공통 MUI theme의 `typography.htmlFontSize=10`으로 실제 글자 크기를 유지합니다. Core 전용 provider는 화면 모드를 `settingsConfig.theme.main.table`·`dataGrid`와 동기화하고, `kr`·`en`·`lc` 언어 ID를 Playground의 `ko`·`en`과 연결합니다. Data Router가 필요한 페이지 이탈 보호와 전체 `OwpLayout` 앱 shell은 범위에 포함하지 않습니다.
-
-공개 API와 가이드는 설치된 7.1.0의 선언·runtime 지문을 기준으로 생성합니다. 소스 매니페스트에는 provider, 스타일과 JSON fixture를 함께 포함합니다. Core 수정본의 패키지 반영과 Playground 재검증을 마친 뒤 MCP 자료를 갱신합니다.
+Knowledge·MCP 자료는 실제 설치본의 정확한 버전과 검토한 declaration/runtime 지문, 실행 코드와 source manifest를 기준으로 생성합니다. 로컬 draft는 팀 서버에 자동 배포되지 않습니다. install·test·lockfile 갱신과 실제 브라우저 확인 결과는 자료 생성·타입 검사·빌드 결과와 구분합니다.
 
 ## 코드와 리소스
 
 본문 액션 버튼은 아웃라인을 기본으로 사용합니다. 단일·다중 선택이나 드래그 대상처럼 선택 상태를 유지하는 버튼은 선택된 값만 채움으로 표시합니다.
 
-부모 높이가 정해진 예제와 중첩 그리드는 공개 `height="100%"` 속성을 사용합니다. `package.json`에 지정한 `@owp/datagrid` 3.5.0의 기본 동작에 따라 데스크톱에서는 부모 높이를 채우고, 태블릿에서는 500px, 모바일에서는 420px로 표시합니다. 공통 미리보기도 같은 속성을 전달합니다. 태블릿·모바일에서는 미리보기 영역이 컨트롤과 그리드 높이에 맞춰 늘어나며, 상세 그리드는 상세 패널 안에서 스크롤할 수 있습니다. ‘표시 행 수 고정’ 예제는 지정한 행 수에 따른 자동 높이를 유지합니다. 독립된 그리드에 고정 높이가 필요하면 `height={420}`처럼 숫자를 지정할 수 있습니다.
+부모 높이가 정해진 예제와 중첩 그리드는 공개 `height="100%"` 속성을 사용합니다. `package.json`에 지정한 `@owp/datagrid` 3.5.1의 기본 동작에 따라 데스크톱에서는 부모 높이를 채우고, 태블릿에서는 500px, 모바일에서는 420px로 표시합니다. 공통 미리보기도 같은 속성을 전달합니다. 태블릿·모바일에서는 미리보기 영역이 컨트롤과 그리드 높이에 맞춰 늘어나며, 상세 그리드는 상세 패널 안에서 스크롤할 수 있습니다. ‘표시 행 수 고정’ 예제는 지정한 행 수에 따른 자동 높이를 유지합니다. 독립된 그리드에 고정 높이가 필요하면 `height={420}`처럼 숫자를 지정할 수 있습니다.
 
 코드 탭은 각 샘플의 실제 TSX 컴포넌트를 기본으로 보여줍니다. 이 파일은 `<OwpDataGrid ... />`를 반환하며 미리보기에서도 같은 컴포넌트를 사용합니다. 모든 DataGrid 예제는 한금 소비앱처럼 정적 컬럼·레이아웃·서식을 `examples/configs`에, 공용 row 타입과 예제 콜백 계약을 `types/index.ts`에 둡니다. 상세 패널·차트처럼 별도 렌더링이 필요한 구현은 `examples/components`에서 관리합니다. 실행 파일은 native props·Ref 연결, 상태와 이름 있는 이벤트 핸들러를 보여줍니다. 부모와 연결할 때는 선택적인 `callbacks`를 전달하며, `runtime/taskGridPreview.tsx`가 미리보기의 이벤트·데이터·로딩 관찰용 props를 이 계약에 연결합니다. 기존 예제 URL과 source export, props 우선순위와 동작을 유지합니다. 데이터·타입·번역·테마는 공유하며 파일 선택에서 원본을 확인할 수 있습니다. 코드 표시·복사·다운로드와 `/snippets` 리소스는 같은 포맷된 원본을 사용합니다. 공통 실행부는 선택·편집·이벤트 기록용 props를 전달합니다. 데이터 탭은 현재 작업 데이터를 OWP API response 형식으로 표시하며, 100개씩 범위를 이동할 수 있습니다. 이벤트는 최근 40개로 제한합니다.
 
@@ -481,7 +478,7 @@ OWP 심볼은 한금 소비앱의 공통 패키지에 있는 `owp-core/assets/im
 
 ‘한금’의 밝은 모드는 소비앱의 `configs/theme/settings.ts`에 정의한 Main 팔레트와 `defaultGridTheme`을 그대로 사용합니다. 편집 가능한 셀, 변경한 값, 행·셀 선택, 셀렉트 메뉴, 추가·삭제·드래그·필터 상태도 같은 설정을 따릅니다. 필터 하단 선은 소비앱과 같은 1px이며 일반 프리셋은 2px를 유지합니다. 컴포넌트 색상에서는 입력 포커스, 버튼별 색상, 기본색의 밝은 색·어두운 색과 비활성 글자색도 편집할 수 있으며, 이 값들은 테마 파일 저장·불러오기에 포함됩니다. 소비앱의 기본 Main 테마는 밝은 모드이므로 한금의 어두운 모드는 Playground에서 별도로 구성한 색상을 사용합니다. 이 테마는 그리드와 샘플 컴포넌트에 적용하며 앱 탐색 메뉴와 코드 탭은 화면 테마를 따릅니다.
 
-`@owp/datagrid` 3.0.0은 데이터 영역의 `grid`·`treegrid` 역할과 행 정보, 외부 rowgroup 연결을 직접 구성합니다. 스크롤바·행 편집 툴바·테두리와 오류 Alert·재시도 버튼도 패키지의 기본 구현을 사용하며, 샘플에서 DOM을 수정하거나 해당 레이아웃을 보정하지 않습니다. 샘플은 업무별 계산, 데이터 조회와 재시도 callback, 화면 구성과 이벤트 기록을 담당합니다.
+`@owp/datagrid` 3.5.1은 데이터 영역의 `grid`·`treegrid` 역할과 행 정보, 외부 rowgroup 연결을 직접 구성합니다. 스크롤바·행 편집 툴바·테두리와 오류 Alert·재시도 버튼도 패키지의 기본 구현을 사용하며, 샘플에서 DOM을 수정하거나 해당 레이아웃을 보정하지 않습니다. 샘플은 업무별 계산, 데이터 조회와 재시도 callback, 화면 구성과 이벤트 기록을 담당합니다.
 
 전역 ‘초기화’는 샘플 데이터·설정·이벤트를 원래 상태로 복구합니다. 그리드 내부 ‘변경 초기화’와 ‘변경 되돌리기’는 마지막 확정 상태로 복구합니다. ‘변경 확정’은 현재 값을 새 기준으로 삼으며 업무 서버에 전송하지 않습니다.
 

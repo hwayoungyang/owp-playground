@@ -97,6 +97,64 @@ test('예제별 대상이 누락되면 같은 이름의 다른 선언으로 대�
   );
 });
 
+test('명시적 qualified ID는 label 의미를 유지하고 예정된 패키지 대신 현재 조회 문맥을 보존한다', () => {
+  assert.deepEqual(
+    resolve(
+      [
+        record('@owp/components:OwpLoading', ['@owp/components:OwpLoadingProps']),
+        record('@owp/components:OwpLoadingProps'),
+      ],
+      {
+        packageId: 'core',
+        id: 'loading',
+        component: 'OwpLoading',
+        label: '@owp/components:OwpLoading',
+      },
+    ),
+    {
+      label: 'OwpLoading',
+      id: '@owp/components:OwpLoading',
+      packageId: 'core',
+    },
+  );
+});
+
+test('비자격 Core API는 동명 Components 선언으로 오인하지 않으며 누락된 qualified ID는 즉시 거부한다', () => {
+  assert.deepEqual(
+    resolve([record('@owp/core:OwpDialog'), record('@owp/components:OwpDialog')], {
+      packageId: 'core',
+      id: 'dialog',
+      component: 'OwpDialog',
+      label: 'OwpDialog',
+    }),
+    {
+      label: 'OwpDialog',
+      id: '@owp/core:OwpDialog',
+      packageId: 'core',
+    },
+  );
+  assert.throws(
+    () =>
+      resolve([record('@owp/components:OwpLoading')], {
+        packageId: 'core',
+        id: 'loading',
+        component: 'OwpLoading',
+        label: 'OwpLoading',
+      }),
+    /core\/loading\/OwpLoading/,
+  );
+  assert.throws(
+    () =>
+      resolve([record('@owp/core:OwpLoading')], {
+        packageId: 'core',
+        id: 'loading',
+        component: 'OwpLoading',
+        label: '@owp/components:OwpLoading',
+      }),
+    /@owp\/components:OwpLoading/,
+  );
+});
+
 test('관련 타입의 동명 후보는 순서와 관계없이 모호성 오류를 낸다', () => {
   for (const related of [
     ['First', 'Second'],

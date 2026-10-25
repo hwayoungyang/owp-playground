@@ -1,12 +1,68 @@
-import { OwpCoreProvider, OwpDialogsProvider, type OwpAppConfigs } from '@owp/core/contexts';
+import { OwpRouteErrorElement } from '@owp/core';
+import {
+  OwpCoreProvider,
+  OwpDialogsProvider,
+  OwpUiProvider,
+  type OwpAppConfigs,
+} from '@owp/core/contexts';
 import { STORAGE_KEYS } from '@owp/core/constants';
 import { useGetCurrentLanguage, useSetDefaultSettings } from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
-import { useEffect, useMemo, type ReactNode } from 'react';
-import { MemoryRouter } from 'react-router-dom';
-import { useTheme } from '@mui/material';
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createMemoryRouter, MemoryRouter, RouterProvider } from 'react-router-dom';
+import { Alert, useTheme } from '@mui/material';
 import { createGridTheme } from '../../../shared/theme/themes';
 import { colors } from '../../../shared/theme/tokens';
+import {
+  createCorePolicyRoutes,
+  createCoreProviderEnv,
+  resolveCoreProviderMode,
+  type CoreProviderMode,
+} from '../model/policy';
+
+const CoreRouterChildrenContext = createContext<ReactNode>(null);
+
+function PolicyRouteRoot() {
+  const children = useContext(CoreRouterChildrenContext);
+  return (
+    <OwpUiProvider
+      queryCancellation={{
+        routeChange: true,
+        pageExit: true,
+      }}
+    >
+      {children}
+    </OwpUiProvider>
+  );
+}
+
+function RouteNormalOutlet() {
+  const { t } = useOwpTranslation();
+  return <Alert severity="success">{t('라우트 loader와 화면이 정상 상태입니다.')}</Alert>;
+}
+
+function CorePolicyRouter({ children }: { readonly children: ReactNode }) {
+  const { i18n } = useOwpTranslation();
+  const [router] = useState(() =>
+    createMemoryRouter(
+      createCorePolicyRoutes({
+        rootElement: <PolicyRouteRoot />,
+        normalElement: <RouteNormalOutlet />,
+        errorElement: <OwpRouteErrorElement />,
+        getRouteErrorMessage: () =>
+          i18n.t('라우트 loader에서 데이터를 불러오지 못해 OwpRouteErrorElement로 전환했습니다.', {
+            ns: 'app',
+          }),
+      }),
+      { initialEntries: ['/list'] },
+    ),
+  );
+  return (
+    <CoreRouterChildrenContext.Provider value={children}>
+      <RouterProvider router={router} />
+    </CoreRouterChildrenContext.Provider>
+  );
+}
 
 function CoreSettingsBridge({
   configs,
@@ -55,8 +111,17 @@ function CoreLanguageBridge({ children }: { readonly children: ReactNode }) {
   return children;
 }
 
-export function CoreProviders({ children }: { readonly children: ReactNode }) {
+export function CoreProviders({
+  children,
+  exampleId,
+  mode,
+}: {
+  readonly children: ReactNode;
+  readonly exampleId?: string;
+  readonly mode?: CoreProviderMode;
+}) {
   const theme = useTheme();
+  const resolvedMode = resolveCoreProviderMode(exampleId, mode);
   const configs = useMemo(() => {
     const table = {
       borderColor: theme.palette.divider,
@@ -97,28 +162,25 @@ export function CoreProviders({ children }: { readonly children: ReactNode }) {
     } satisfies OwpAppConfigs;
   }, [theme]);
   return (
-    <MemoryRouter>
-      <OwpCoreProvider
-        configs={configs}
-        styledEngineProviderProps={{ injectFirst: false, enableCssLayer: false }}
-        env={{
-          apiBaseUrl: window.location.origin,
-          isAutoLogoutEnabled: false,
-          isAccessTokenGuardEnabled: false,
-          isI18nEnabled: true,
-          isI18nLanguageSwitcherEnabled: true,
-          isErrorMessageEnabled: false,
-        }}
-        queryClientConfig={{
-          defaultOptions: { queries: { retry: false, refetchOnWindowFocus: false } },
-        }}
-      >
-        <OwpDialogsProvider>
-          <CoreSettingsBridge configs={configs}>
-            <CoreLanguageBridge>{children}</CoreLanguageBridge>
-          </CoreSettingsBridge>
-        </OwpDialogsProvider>
-      </OwpCoreProvider>
-    </MemoryRouter>
+    <OwpCoreProvider
+      configs={configs}
+      styledEngineProviderProps={{ injectFirst: false, enableCssLayer: false }}
+      env={createCoreProviderEnv(resolvedMode, window.location.origin)}
+      queryClientConfig={{
+        defaultOptions: { queries: { retry: false, refetchOnWindowFocus: false } },
+      }}
+    >
+      <CoreSettingsBridge configs={configs}>
+        <CoreLanguageBridge>
+          {resolvedMode === 'policy' ? (
+            <CorePolicyRouter>{children}</CorePolicyRouter>
+          ) : (
+            <MemoryRouter>
+              <OwpDialogsProvider>{children}</OwpDialogsProvider>
+            </MemoryRouter>
+          )}
+        </CoreLanguageBridge>
+      </CoreSettingsBridge>
+    </OwpCoreProvider>
   );
 }

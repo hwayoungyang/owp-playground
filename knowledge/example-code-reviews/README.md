@@ -1,7 +1,13 @@
 # API와 예제 코드 연결 검수
 
 Core·Charts·DataGrid의 예제 진입 파일, 공용 설정, JSX spread와 실제 수신 API를 대조한 검토본.
-패키지 버전은 `reviewed-packages.json`의 설치본 기준이며 실행 예제나 OWP 패키지 구현은 변경하지 않음.
+패키지 버전과 선언·runtime 지문은 `reviewed-packages.json`의 실제 설치본을 기준으로 한다. 코드 위치 검토는 공개 API와 소스의 연결 근거이며 브라우저 실행 검증을 대신하지 않는다.
+
+2026-10-26 Core 8.1.0 연동: Components 3.1.1의 Dialog·PageCarded에 Core policy hook의 props와 styles를 함께 연결하고 ErrorBoundary callback·PageContent 스타일 slot을 공개 경로로 사용한다. 기존 Core adapter의 정책은 중복 적용하지 않는다. 실제 설치본의 Core·Components·Theme 선언/runtime 변경을 대조하며 소유자별 중첩 의존 계약을 별도 검토본으로 관리한다. Theme 공개 runtime export와 기존 기본 토큰을 대조한 뒤 번들에서 Theme Context를 공유한다. 테스트 실행과 브라우저 동작 확인은 사용자 검증 범위이며 자료 생성·타입·빌드 검사와 구분한다.
+
+2026-10-25 Core 역할별 정리: Provider·앱 초기화는 시작하기에서 설명하고 실행 예제는 API·데이터 연결, 앱 상태·설정, 전역 상태·복구, UI Adapter로 분류한다. 기존 예제 ID·URL·조작·이벤트는 유지한다. API 결과·권한·Excel·페이지·검색의 표와 dialog의 저장 결과 표는 Components 공개 API를 직접 사용한다. 앱 설정 Table·FieldTable과 정책을 시연하는 Core adapter는 Core import를 유지한다. Core 고유 API와 dialog manager 타입은 이전 대상이 아니며, 검사기·Knowledge 생성은 메뉴 대신 symbol별 역할과 설치본 공개 API를 검사한다.
+
+2026-10-25 Core 8.0.0 연동: Loading은 Components 3.1.0의 공개 API로 연결하고 Core 정책 adapter의 소유권은 유지한다. Core의 15개 진입점·5개 예제 카테고리를 보존하며 Data Router·loading lock·오류 복구의 정책용 runtime과 코드 위치를 함께 수집한다. Components 참조 선언은 전체 Playground 지원과 구분한다. Charts 5.0.2·DataGrid 3.5.1은 기존 검토본과 선언·runtime 지문이 같으며, Theme·Date Picker 등 변경된 의존성도 별도 지문으로 확인한다. 아래의 과거 검토 기록과 기존 제외 결정은 이력으로 보존한다.
 
 2026-10-24 Core 7.1.0 추가: 시작 가이드와 14개 실행 예제의 직접 import·JSX prop·provider를 설치본 declaration과 대조. Components 이관 대상인 Table·FieldTable의 독립 예제는 제외하고 Dialog는 Core 상태 관리에 집중. `core.json`은 예외 없는 빈 검토 목록이며 연결은 AST의 실제 코드 위치에서 생성. 기존 Charts·DataGrid 검토 결론은 유지. source audit의 외부 원본 변경도 현재 계약과 대조하고 지문을 갱신. 작업 중 추가 갱신된 12개 원본은 공개 예제·옵션 설명을 Knowledge 조회로 축약한 내용이며, 기존 가이드와 계약 충돌이 없음을 독립 검토로 확인.
 

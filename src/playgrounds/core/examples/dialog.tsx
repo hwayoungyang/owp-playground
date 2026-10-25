@@ -1,7 +1,8 @@
 import { useEffect, useId, useState } from 'react';
 import { Button, TextField } from '@mui/material';
-import { OwpDialog, OwpFieldTable } from '@owp/core';
-import { useOwpDialogs } from '@owp/core/hooks';
+import { OwpDialog, OwpFieldTable } from '@owp/components';
+// Components UI에 Core의 dialog stack·포커스 복원과 미저장 변경 확인 정책을 연결합니다.
+import { useDialogPolicy, useOwpDialogs } from '@owp/core/hooks';
 import type { DialogProps } from '@owp/core/types';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
@@ -17,37 +18,43 @@ export function EditItemDialog({ open, onClose, payload }: DialogProps<EditItemP
   const { t } = useOwpTranslation();
   const id = useId();
   const [name, setName] = useState(payload.name);
+  const dialogPolicy = useDialogPolicy({
+    open,
+    isDirty: payload.protectChanges && name !== payload.name,
+  });
 
   return (
-    <OwpDialog
-      open={open}
-      title={<span id={id}>{t('항목 편집')}</span>}
-      aria-labelledby={id}
-      maxWidth="sm"
-      isDirty={payload.protectChanges && name !== payload.name}
-      submitOnConfirm
-      confirmText={t('저장')}
-      cancelText={t('닫기')}
-      onClose={() => void onClose()}
-      onSubmit={(event) => {
-        event.preventDefault();
-        const value = name.trim();
-        if (value) void onClose(value);
-      }}
-    >
-      <div className="core-field">
-        <TextField
-          autoFocus
-          required
-          fullWidth
-          size="small"
-          label={t('이름')}
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          slotProps={{ htmlInput: { maxLength: 80 } }}
-        />
-      </div>
-    </OwpDialog>
+    <>
+      {dialogPolicy.styles}
+      <OwpDialog
+        title={<span id={id}>{t('항목 편집')}</span>}
+        aria-labelledby={id}
+        maxWidth="sm"
+        submitOnConfirm
+        confirmText={t('저장')}
+        cancelText={t('닫기')}
+        onClose={() => void onClose()}
+        onSubmit={(event) => {
+          event.preventDefault();
+          const value = name.trim();
+          if (value) void onClose(value);
+        }}
+        {...dialogPolicy.props}
+      >
+        <div className="core-field">
+          <TextField
+            autoFocus
+            required
+            fullWidth
+            size="small"
+            label={t('이름')}
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            slotProps={{ htmlInput: { maxLength: 80 } }}
+          />
+        </div>
+      </OwpDialog>
+    </>
   );
 }
 

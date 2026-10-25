@@ -92,7 +92,7 @@ export function CoreWorkspace({
                 setEvents([]);
               }}
             />
-            <CoreProviders key={`${example.id}-${version}`}>
+            <CoreProviders key={`${example.id}-${version}`} exampleId={example.id}>
               <CorePreview example={example} onRecord={onRecord} onData={onData} />
             </CoreProviders>
           </PreviewActionsProvider>

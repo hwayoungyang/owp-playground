@@ -1,11 +1,13 @@
+import { completedPlaygroundPackages } from '../src/playgrounds/packages.ts';
 import { createPropBindings, propKey, walkPropNodes } from './api-example-prop-bindings.mjs';
 
 const sourcePath = (file) => file.replace(/^\/src\//, '');
 const member = (node, name) => node?.type === 'MemberExpression' && !node.computed && propKey(node.property) === name;
+const ownPackages = new Set(completedPlaygroundPackages.map((entry) => entry.name));
 
 /** 공개 컴포넌트에 실제 전달된 최상위 prop과 그 AST 위치만 수집합니다. */
-export function discoverExamplePropReferences({ packageId, files, records }) {
-  const packages = new Set(['@owp/charts', '@owp/datagrid', '@owp/core']);
+export function discoverExamplePropReferences({ packageId, files, records, referenceOnlyPackages = packageId === 'core' ? ['@owp/components'] : [] }) {
+  const packages = new Set([...ownPackages, ...referenceOnlyPackages]);
   const byId = records instanceof Map ? records : new Map(records.map((record) => [record.id, record]));
   const bindings = createPropBindings(files);
   const components = new Map([...byId.values()].filter((record) => packages.has(record.package)
@@ -24,7 +26,14 @@ export function discoverExamplePropReferences({ packageId, files, records }) {
     const line = module.content.slice(0, node.start).split('\n').length;
     const end = node.type === 'Property' ? node.key.end : node.end;
     const location = { file: sourcePath(module.file), line, endLine: Math.min(line + 15, module.content.slice(0, end).split('\n').length), sha256: module.sha256 };
-    const candidate = { id: record.id, label: name, packageId: record.package.slice('@owp/'.length), location, codeReview: { method: 'ast' }, priority: module.priority ?? 0 };
+    const candidate = {
+      id: record.id,
+      label: name,
+      packageId: ownPackages.has(record.package) ? record.package.slice('@owp/'.length) : packageId,
+      location,
+      codeReview: { method: 'ast' },
+      priority: module.priority ?? 0,
+    };
     const current = references.get(record.id);
     if (!current || candidate.priority > current.priority
       || (candidate.priority === current.priority && `${location.file}:${line}` < `${current.location.file}:${current.location.line}`)) references.set(record.id, candidate);

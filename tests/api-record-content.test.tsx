@@ -2,9 +2,15 @@ import { createInstance } from 'i18next';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { I18nextProvider } from 'react-i18next';
 import { describe, expect, it } from 'vitest';
-import { ApiDescription, ApiGuideBody, ApiMemberList } from '../src/features/api/ApiRecordContent';
+import {
+  ApiDescription,
+  ApiGuideBody,
+  ApiMemberList,
+  RecordLink,
+  TypeExpression,
+} from '../src/features/api/ApiRecordContent';
 import { ApiRelatedRecords } from '../src/features/api/ApiRelatedRecords';
-import type { ApiRecord } from '../src/features/api/model/knowledge';
+import { createApiDataset, type ApiRecord } from '../src/features/api/model/knowledge';
 import { recordsById, packageDataset } from './fixtures/api-knowledge';
 import type { ReactNode } from 'react';
 import { ApiKnowledgeContext } from '../src/features/api/ApiKnowledgeContext';
@@ -124,5 +130,55 @@ describe('API record rendering', () => {
     expect(markup).toContain('symbol=guide-test');
     expect(markup).toContain('symbol=%40owp%2Fcharts%3AChartDataLabelsContext');
     expect(markup).toContain('role="status"');
+  });
+
+  it('links Components reference records inside the Core dataset without routing to planned Components or Charts fallback', () => {
+    const base = getRecord('@owp/charts:ChartDataLabelsContext');
+    const variantRecord: ApiRecord = {
+      ...base,
+      id: '@owp/components:OwpLoadingVariant',
+      package: '@owp/components',
+      packageVersion: '3.1.0',
+      owner: 'OwpLoadingVariant',
+      name: 'OwpLoadingVariant',
+      path: '',
+      kind: 'type',
+      url: '/?package=core&view=api&symbol=%40owp%2Fcomponents%3AOwpLoadingVariant',
+    };
+    const propRecord: ApiRecord = {
+      ...variantRecord,
+      id: '@owp/components:OwpLoadingProps.variant',
+      owner: 'OwpLoadingProps',
+      name: 'variant',
+      path: 'variant',
+      kind: 'property',
+      signature: 'OwpLoadingVariant',
+      typeReferences: { OwpLoadingVariant: variantRecord.id },
+      url: '/?package=core&view=api&symbol=%40owp%2Fcomponents%3AOwpLoadingProps.variant',
+    };
+    const coreDataset = createApiDataset({
+      schemaVersion: 1,
+      id: 'core',
+      name: '@owp/core',
+      version: '8.0.0',
+      dependencies: { '@owp/components': '3.1.0' },
+      records: [],
+      referenceRecords: [variantRecord, propRecord],
+      examples: [],
+    });
+    const markup = renderToStaticMarkup(
+      <ApiKnowledgeContext value={coreDataset}>
+        <RecordLink record={propRecord} qualified />
+        <TypeExpression text={propRecord.signature} record={propRecord} />
+      </ApiKnowledgeContext>,
+    );
+    expect(markup).toContain(
+      'href="?package=core&amp;view=api&amp;symbol=%40owp%2Fcomponents%3AOwpLoadingProps.variant"',
+    );
+    expect(markup).toContain(
+      'href="?package=core&amp;view=api&amp;symbol=%40owp%2Fcomponents%3AOwpLoadingVariant"',
+    );
+    expect(markup).not.toContain('package=components');
+    expect(markup).not.toContain('package=charts');
   });
 });

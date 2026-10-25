@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { OwpExportDataToExcelButton, OwpPageContent, OwpTable } from '@owp/core';
+import { OwpPageContent, OwpTable } from '@owp/components';
+// Components 페이지의 slot에 Core 반응형 스타일을 연결합니다.
+import { OwpCoreResponsiveLayoutGlobalStyles, OwpExportDataToExcelButton } from '@owp/core';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
 import { exampleRows } from '../model/fixtures';
@@ -30,6 +32,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
           title={t('항목 목록')}
           loading={loading}
           responsiveLayout={responsive}
+          slots={{ responsiveLayoutGlobalStyles: OwpCoreResponsiveLayoutGlobalStyles }}
           actions={
             <OwpExportDataToExcelButton
               size="small"

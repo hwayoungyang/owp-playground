@@ -27,6 +27,10 @@ if (!/^\/(?:[A-Za-z0-9_.-]+\/)*$/.test(publicBase))
 
 export default defineConfig({
   base: publicBase,
+  resolve: {
+    // DataGrid의 중첩 설치본과 앱이 같은 Theme Context를 사용하도록 연결합니다.
+    dedupe: ['@owp/theme'],
+  },
   define: {
     __OWP_RELEASE__: JSON.stringify({
       releaseId: process.env.OWP_RELEASE_ID ?? null,
@@ -119,6 +123,7 @@ export default defineConfig({
               basePath: publicBase,
               supportFiles: [
                 '/src/playgrounds/core/runtime/CoreProviders.tsx',
+                '/src/playgrounds/core/runtime/CoreEnvironmentScope.tsx',
                 '/src/playgrounds/core/styles.css',
               ],
             }),

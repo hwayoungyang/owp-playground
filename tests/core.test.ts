@@ -8,8 +8,8 @@ import { readCodeLocation } from '../src/features/code/code-location';
 import { exampleSourcePath } from '../src/features/code/source-paths';
 
 describe('Core Playground integration', () => {
-  it('uses the installed 7.1.0 contract and a useful default route', () => {
-    expect(corePackage.version).toBe('7.1.0');
+  it('uses the installed 8.1.0 contract and a useful default route', () => {
+    expect(corePackage.version).toBe('8.1.0');
     expect(readPlaygroundRoute('?package=%40owp%2Fcore')).toMatchObject({
       status: 'core',
       playground: { id: 'core' },
@@ -52,11 +52,25 @@ describe('Core Playground integration', () => {
     const examples = coreCatalog.filter((entry) => entry.kind === 'core');
     const categoryOrder = [...new Set(examples.map((example) => example.category))];
 
-    expect(coreCategories).toHaveLength(5);
+    expect(coreCategories).toEqual([
+      { id: 'api', label: 'API·데이터 연결' },
+      { id: 'state', label: '앱 상태·설정' },
+      { id: 'policy', label: '전역 상태·복구' },
+      { id: 'adapter', label: 'UI Adapter' },
+    ]);
     expect(coreCatalog[0]).toMatchObject({ id: 'getting-started', kind: 'guide' });
     expect(
-      examples.filter((example) => example.category === 'app').map((example) => example.id),
-    ).toEqual(['app-settings', 'api-query', 'user-permissions', 'language-switcher']);
+      examples.filter((example) => example.category === 'api').map((example) => example.id),
+    ).toEqual(['api-query', 'query-selector', 'common-code', 'excel-export']);
+    expect(
+      examples.filter((example) => example.category === 'state').map((example) => example.id),
+    ).toEqual(['app-settings', 'user-permissions', 'language-switcher']);
+    expect(
+      examples.filter((example) => example.category === 'policy').map((example) => example.id),
+    ).toEqual(['dialog', 'confirm', 'loading', 'error-boundary']);
+    expect(
+      examples.filter((example) => example.category === 'adapter').map((example) => example.id),
+    ).toEqual(['page-carded', 'page-content', 'search-filter']);
     expect(categoryOrder).toEqual(coreCategories.map((category) => category.id));
     expect(examples.map((example) => example.category)).toEqual(
       coreCategories.flatMap((category) =>

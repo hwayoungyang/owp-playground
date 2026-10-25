@@ -19,6 +19,7 @@ import {
 import { supportsThemeStudio } from '../features/theme-studio/model/studio';
 import { chartCatalog, chartCategories } from '../playgrounds/charts/catalog';
 import { coreCatalog, coreCategories } from '../playgrounds/core/catalog';
+import { CoreEnvironmentScope } from '../playgrounds/core/runtime/CoreEnvironmentScope';
 import { selectedChartExample } from '../playgrounds/charts/model/variants';
 import {
   gridAliases,
@@ -240,12 +241,14 @@ export function App() {
                 route.example.kind === 'guide' ? (
                   <CoreGettingStarted key={`core-${route.example.id}`} example={route.example} />
                 ) : (
-                  <CoreWorkspace
-                    key={`core-${route.example.id}`}
-                    example={route.example}
-                    initialTab={route.tab}
-                    codeTarget={route.codeTarget}
-                  />
+                  <CoreEnvironmentScope>
+                    <CoreWorkspace
+                      key={`core-${route.example.id}`}
+                      example={route.example}
+                      initialTab={route.tab}
+                      codeTarget={route.codeTarget}
+                    />
+                  </CoreEnvironmentScope>
                 )
               ) : route.status === 'charts' ? (
                 route.example.kind === 'guide' ? (

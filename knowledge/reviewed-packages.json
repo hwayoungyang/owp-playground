@@ -1,16 +1,16 @@
 {
   "@owp/core": {
-    "version": "7.1.0",
-    "declarationHash": "1cd9ca4630aeebcb7cac4f796b8c112ab59c77e478b8af2d1ac8b7a53e89d00c",
-    "runtimeHash": "e025ac991e70062cb599746f9774124853454887e792a60a0bc1b602b8de8c33"
+    "version": "8.1.0",
+    "declarationHash": "346b0cdb64aa226b9648238db5afb62aeabc6e695cdcf9467095a1f70fb19371",
+    "runtimeHash": "2b73e43827b8f0acafa8352f5c2c767e86195bf2caf9f4543cd0b4182db1754c"
   },
   "@owp/datagrid": {
-    "version": "3.5.0",
+    "version": "3.5.1",
     "declarationHash": "1b1deb4f85ba9e58b2bc9cc0ab1eaa4085772b26ac9b0ee56ae9d1e89242343f",
     "runtimeHash": "18b5e4ffa89d0b5cd60b77a64157de97b160f9b4198361e53e14ef097d212107"
   },
   "@owp/charts": {
-    "version": "5.0.1",
+    "version": "5.0.2",
     "declarationHash": "9c45472e2ceef5250f0960c60743fe86be3454a14845195e2cb20c83a003c60f",
     "runtimeHash": "91ae6c74c563c99dab1a9e98bc115a3cbf682e87a12b6df60b80149aaacd0fad"
   },
@@ -33,5 +33,30 @@
     "version": "2.2.0",
     "declarationHash": "f7fafd5021d76f67c90c58dad846f34a57ca840e0eaf4f4811bf102179067f9d",
     "runtimeHash": "f966db5709e2e6281931b8119f15ebbe942e2cc2a4f2bc49d15bfe5739f2437d"
+  },
+  "@owp/components": {
+    "version": "3.1.1",
+    "declarationHash": "b62be5e46c8440945a4e404b953b241b5c4c1ffb019acb3e65f25eff1a162173",
+    "runtimeHash": "9786221d12dba4e01437e26718be9749b7cb8c3d8e900f668512f03b4755c50d"
+  },
+  "@owp/theme": {
+    "version": "2.2.1",
+    "declarationHash": "ce94fa12eafd449876f86ac1bc03d3449a91c6638ff9495d4989ac92ae23a69e",
+    "runtimeHash": "d06e12a2b8420109fd34b43cc1b81b0ec941ad8d79e4a1fd74026462410c6f0c"
+  },
+  "@owp/date-picker": {
+    "version": "2.0.3",
+    "declarationHash": "4a719900b7733c54f6dc71bafb752ea0a2c328ba6c7dd737c0cc614beb6fd381",
+    "runtimeHash": "b3f6469835df4a28c823a7b45872f10357df1722cb6e15c9791036501f46a25b"
+  },
+  "@owp/utils": {
+    "version": "1.0.1",
+    "declarationHash": "8aed0d07ee5b843e22850b34446d93981cf8944d8bf81374e6e6fc69193ecb8a",
+    "runtimeHash": "671edda85f17f91998da45b05c9ef0d9a3e88dd6ee950ad4343a51dcfbb6e2df"
+  },
+  "@owp/excel": {
+    "version": "2.0.0",
+    "declarationHash": "2e4aff5398e1a54362f43c9d0750d77baa0f683977f3496dae07d70c97251f2e",
+    "runtimeHash": "075029470c61c794f17748324b36c1171ed02268d72165a2ecc5c1dbe9d66d41"
   }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Box, Button, Typography } from '@mui/material';
-import { OwpTable } from '@owp/core';
+import { OwpTable } from '@owp/components';
 import { OwpStoreProvider } from '@owp/core/contexts';
 import { STORAGE_ACCESS_TOKEN_KEY, STORAGE_KEYS } from '@owp/core/constants';
 import {

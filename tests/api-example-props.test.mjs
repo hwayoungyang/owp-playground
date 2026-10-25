@@ -86,6 +86,42 @@ describe('actual public component prop references', () => {
       ),
     ).toBe(true);
   });
+
+  it('collects configured Components reference-only props in Core context without fabricating ownership for type-only or local wrappers', () => {
+    const file = source(
+      'core/examples/loading.tsx',
+      `import { OwpLoading as Loading } from '@owp/components';
+import type { OwpHidden } from '@owp/components';
+import { OwpDialog } from '@owp/core';
+const LocalLoading = (props: { variant?: string }) => <div {...props} />;
+const view = <>
+  <Loading variant="beat" size={12} />
+  <OwpDialog open={true} isDirty={true} />
+  <OwpHidden only="sm" />
+  <LocalLoading variant="sync" />
+</>;`,
+    );
+    const result = discover([file], {
+      packageId: 'core',
+      records: records(
+        component('OwpLoading', 'OwpLoadingProps', 'components'),
+        contracts('OwpLoadingProps', ['variant', 'size'], 'components'),
+        component('OwpHidden', 'OwpHiddenProps', 'components'),
+        contracts('OwpHiddenProps', ['only'], 'components'),
+        component('OwpDialog', 'OwpDialogProps', 'core'),
+        contracts('OwpDialogProps', ['open', 'isDirty'], 'core'),
+        component('OwpDialog', 'OwpDialogProps', 'components'),
+        contracts('OwpDialogProps', ['open'], 'components'),
+      ),
+    });
+    expect(ids(result)).toEqual([
+      '@owp/components:OwpLoadingProps.size',
+      '@owp/components:OwpLoadingProps.variant',
+      '@owp/core:OwpDialogProps.isDirty',
+      '@owp/core:OwpDialogProps.open',
+    ]);
+    expect(result.references.every((entry) => entry.packageId === 'core')).toBe(true);
+  });
   it('binds aliases and namespaces while excluding same-name DOM props, strings and comments', () => {
     const file = source(
       'charts/examples/direct.tsx',

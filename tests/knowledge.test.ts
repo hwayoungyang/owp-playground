@@ -175,6 +175,97 @@ describe('package API loading', () => {
     expect(result.records.map((record) => record.id)).toEqual([local.id]);
     expect(result.referenceRecords.map((record) => record.id)).toEqual([external.id]);
   });
+
+  it('includes referenced Components roots, contracts and member records in referenceRecords while keeping Core searchable records own-only', () => {
+    const base = knowledge.records[0];
+    if (!base) throw new TypeError('Missing API fixture');
+    const loadingVariant = {
+      ...base,
+      id: '@owp/components:OwpLoadingVariant',
+      package: '@owp/components',
+      packageVersion: '3.1.0',
+      owner: 'OwpLoadingVariant',
+      name: 'OwpLoadingVariant',
+      path: '',
+      kind: 'type' as const,
+      related: [],
+      guideIds: [],
+      typeReferences: {},
+      typeDetails: undefined,
+      inheritedFrom: [],
+      declaredIn: undefined,
+      examples: [],
+    };
+    const loadingProps = {
+      ...loadingVariant,
+      id: '@owp/components:OwpLoadingProps',
+      owner: 'OwpLoadingProps',
+      name: 'OwpLoadingProps',
+      related: [loadingVariant.id],
+      typeReferences: { OwpLoadingVariant: loadingVariant.id },
+    };
+    const loadingPropVariant = {
+      ...loadingVariant,
+      id: '@owp/components:OwpLoadingProps.variant',
+      owner: 'OwpLoadingProps',
+      name: 'variant',
+      path: 'variant',
+      kind: 'property' as const,
+      related: [loadingVariant.id],
+      typeReferences: { OwpLoadingVariant: loadingVariant.id },
+    };
+    const loadingComponent = {
+      ...loadingVariant,
+      id: '@owp/components:OwpLoading',
+      owner: 'OwpLoading',
+      name: 'OwpLoading',
+      kind: 'component' as const,
+      related: [loadingProps.id],
+      typeReferences: { OwpLoadingProps: loadingProps.id },
+    };
+    const unusedComponent = {
+      ...loadingVariant,
+      id: '@owp/components:OwpHidden',
+      owner: 'OwpHidden',
+      name: 'OwpHidden',
+      kind: 'component' as const,
+    };
+    const guide = {
+      ...loadingVariant,
+      id: '@owp/core:guide.composition',
+      package: '@owp/core',
+      packageVersion: '8.0.0',
+      owner: 'Guides',
+      name: 'Composition',
+      path: 'guide.composition',
+      kind: 'guide' as const,
+      related: [loadingComponent.id],
+    };
+    const result = packageKnowledgeSchema.parse(
+      createPackageKnowledge(
+        {
+          dependencies: { '@owp/components': '3.1.0', '@owp/theme': '2.2.0' },
+          records: [
+            guide,
+            loadingComponent,
+            loadingProps,
+            loadingPropVariant,
+            loadingVariant,
+            unusedComponent,
+          ],
+          examples: [],
+        },
+        { id: 'core', name: '@owp/core', version: '8.0.0' },
+      ),
+    );
+    expect(result.records.map((record) => record.id)).toEqual([guide.id]);
+    expect(result.referenceRecords.map((record) => record.id).sort()).toEqual([
+      loadingComponent.id,
+      loadingProps.id,
+      loadingPropVariant.id,
+      loadingVariant.id,
+    ]);
+  });
 });
 
 describe('shared knowledge resources', () => {

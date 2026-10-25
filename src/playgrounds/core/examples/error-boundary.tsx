@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Alert, Box, Button } from '@mui/material';
-import { OwpErrorBoundary } from '@owp/core';
+import { OwpErrorBoundary } from '@owp/components';
+// Components 오류 경계에 청크 로드 실패 1회 새로고침과 앱 오류 복구 정책을 연결합니다.
+import { errorBoundaryPolicy } from '@owp/core/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { CoreExampleProps } from '../model/types';
 import { CoreDemo, DemoSection } from '../runtime/Demo';
 
@@ -20,10 +23,17 @@ function RenderContent({ crash, message }: { readonly crash: boolean; readonly m
 
 export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const { t } = useOwpTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [state, setState] = useState({ crash: false, revision: 0 });
+  const hasRouteError = location.pathname === '/route-error';
   useEffect(() => {
-    onData(state);
-  }, [onData, state]);
+    onData({
+      ...state,
+      routePath: location.pathname,
+      hasRouteError,
+    });
+  }, [hasRouteError, location.pathname, onData, state]);
 
   return (
     <CoreDemo
@@ -49,17 +59,48 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
           >
             {t('오류 경계 복구')}
           </Button>
+          <Button
+            variant="outlined"
+            disabled={hasRouteError}
+            onClick={() => {
+              void navigate('/route-error');
+              onRecord('route.error', '/route-error');
+            }}
+          >
+            {t('라우트 오류 발생')}
+          </Button>
+          <Button
+            variant="outlined"
+            disabled={!hasRouteError}
+            onClick={() => {
+              void navigate('/list');
+              onRecord('route.recover', '/list');
+            }}
+          >
+            {t('라우트 오류 복구')}
+          </Button>
         </>
       }
     >
-      <DemoSection>
+      <DemoSection
+        title="렌더 오류 경계와 수동 복구"
+        description="동적 import(청크) 실패는 sessionStorage 키 기준으로 1회 자동 새로고침을 시도하며, 일반 렌더 오류는 원인을 해결한 뒤 key 재마운트로 복구합니다."
+      >
         <Box sx={{ maxHeight: 400, overflow: 'auto', width: '100%' }}>
-          <OwpErrorBoundary key={state.revision}>
+          <OwpErrorBoundary key={state.revision} {...errorBoundaryPolicy}>
             <RenderContent
               crash={state.crash}
               message={t('예제에서 의도적으로 발생시킨 렌더 오류입니다.')}
             />
           </OwpErrorBoundary>
+        </Box>
+      </DemoSection>
+      <DemoSection
+        title="Data Router 라우트 오류 처리"
+        description="라우트 loader·action 오류는 Data Router의 errorElement에 연결한 OwpRouteErrorElement가 처리합니다."
+      >
+        <Box sx={{ maxHeight: 400, overflow: 'auto', width: '100%' }}>
+          <Outlet />
         </Box>
       </DemoSection>
     </CoreDemo>

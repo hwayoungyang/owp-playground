@@ -58,6 +58,17 @@ export const advancedEnglish: Readonly<Record<string, string>> = {
   '하위 콘텐츠가 정상적으로 표시됩니다.': 'The child content is rendering successfully.',
   '렌더 오류 발생': 'Trigger render error',
   '오류 경계 복구': 'Recover error boundary',
+  '라우트 오류 발생': 'Trigger route error',
+  '라우트 오류 복구': 'Recover route error',
+  '렌더 오류 경계와 수동 복구': 'Render error boundary and manual recovery',
+  '동적 import(청크) 실패는 sessionStorage 키 기준으로 1회 자동 새로고침을 시도하며, 일반 렌더 오류는 원인을 해결한 뒤 key 재마운트로 복구합니다.':
+    'Dynamic import (chunk) failures attempt a one-time reload tracked in sessionStorage, while ordinary render errors recover by remounting with a new key.',
+  'Data Router 라우트 오류 처리': 'Data Router route error handling',
+  '라우트 loader·action 오류는 Data Router의 errorElement에 연결한 OwpRouteErrorElement가 처리합니다.':
+    'Route loader and action errors are handled by OwpRouteErrorElement connected to Data Router errorElement.',
+  '라우트 loader와 화면이 정상 상태입니다.': 'The route loader and view are healthy.',
+  '라우트 loader에서 데이터를 불러오지 못해 OwpRouteErrorElement로 전환했습니다.':
+    'The route loader failed to load data and switched to OwpRouteErrorElement.',
   '기본 오류 경계': 'Default error boundary',
   '버튼을 누르면 하위 render에서 한 번 오류를 발생시킵니다. 복구하면 오류 경계를 다시 생성합니다.':
     'Press the button to trigger a child render error. Recover by remounting the error boundary.',
@@ -107,5 +118,18 @@ export const advancedEnglish: Readonly<Record<string, string>> = {
   'Label.확인': 'Confirm',
   'Label.취소': 'Cancel',
   'Label.홈으로': 'Go home',
+  'Label.로딩 중...': 'Loading...',
+  'Label.계속 편집': 'Keep editing',
+  'Label.이동': 'Leave',
+  'Label.진행': 'Proceed',
+  'Label.조회': 'Search',
+  'Label.덮어쓰기': 'Overwrite',
   'Message.문제가 발생했습니다.': 'Something went wrong.',
+  'Message.저장하지 않은 변경 내용이 있습니다.': 'You have unsaved changes.',
+  'Message.저장하지 않고 이동하면 변경 내용이 사라집니다.':
+    'If you leave without saving, your changes will be lost.',
+  'Message.저장하지 않고 진행하면 변경 내용이 사라집니다. 진행하시겠습니까?':
+    'If you proceed without saving, your changes will be lost. Continue?',
+  'Message.저장하지 않고 닫으면 변경 내용이 사라집니다.':
+    'If you close without saving, your changes will be lost.',
 };

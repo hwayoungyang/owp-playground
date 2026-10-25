@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { MenuItem, OutlinedInput, TextField, Typography } from '@mui/material';
-import { OwpQuerySelector, OwpSearchFilter, OwpTable } from '@owp/core';
+import { OwpTable } from '@owp/components';
+// useSearchAction으로 query 진행 상태 추적과 취소 정책을 연결하는 Core adapter입니다.
+import { OwpQuerySelector, OwpSearchFilter } from '@owp/core';
 import { useQueryClient } from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';

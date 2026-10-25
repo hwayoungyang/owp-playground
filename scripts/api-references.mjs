@@ -1,3 +1,5 @@
+import { completedPlaygroundPackages } from '../src/playgrounds/packages.ts';
+
 const native = {
   borderRadius: 'BarOptions.borderRadius', borderSkipped: 'BarOptions.borderSkipped',
   barPercentage: 'BarControllerDatasetOptions.barPercentage', barThickness: 'BarControllerDatasetOptions.barThickness', grouped: 'BarControllerDatasetOptions.grouped',
@@ -88,6 +90,7 @@ const exampleTargets = {
     'programmatic-events': { chartRef: '@owp/charts:ChartFrameProps.chartRef' },
   },
 };
+const ownPackages = new Set(completedPlaygroundPackages.map((entry) => entry.name));
 
 /** 예제의 컴포넌트와 선언의 참조 관계로 API 설명 대상을 확인합니다. */
 export function resolveExampleReferences({ packageId, examples, records, sourceText }) {
@@ -104,8 +107,9 @@ export function resolveExampleReferences({ packageId, examples, records, sourceT
   return examples.map((example) => {
     const component = sourceText.get(example.id)?.match(/<(Owp\w+|ChartFrame|CoreChart)(?:\s|<)/)?.[1];
     const preferred = component ? [`${component}Props`, ...rootNames] : rootNames;
-    const references = example.api.map((label) => {
-      const context = `${packageId}/${example.id}/${label}`;
+    const references = example.api.map((raw) => {
+      const label = raw.includes(':') ? raw.slice(raw.indexOf(':') + 1) : raw;
+      const context = `${packageId}/${example.id}/${raw}`;
       const unique = (candidates) => {
         const matches = [...new Map(candidates.map((entry) => [entry.id, entry])).values()];
         if (matches.length > 1) throw new ReferenceError(`API 설명 대상이 모호합니다: ${context} (${matches.map((entry) => entry.id).sort().join(', ')})`);
@@ -118,8 +122,9 @@ export function resolveExampleReferences({ packageId, examples, records, sourceT
       };
       const parts = label.split('.');
       let record;
-      const exampleTarget = exampleTargets[packageId]?.[example.id]?.[label];
+      const exampleTarget = exampleTargets[packageId]?.[example.id]?.[raw] ?? exampleTargets[packageId]?.[example.id]?.[label];
       if (exampleTarget) record = required(exampleTarget);
+      if (!record && raw.includes(':')) record = required(raw);
       if (!record && packageId === 'charts' && native[label]) record = required(`chart.js:${native[label]}`);
       // 컴포넌트의 직접 props를 우선하고 관련 타입의 동명 속성은 명시 규칙 뒤에서 탐색합니다.
       if (!record && component) record = unique(follow(byId.get(`@owp/${packageId}:${component}Props.${parts[0]}`), parts.slice(1)));
@@ -136,8 +141,12 @@ export function resolveExampleReferences({ packageId, examples, records, sourceT
         const candidates = records.filter((entry) => entry.package === `@owp/${packageId}` && (entry.name === label || entry.path === label));
         record = unique(candidates);
       }
-      if (!record) throw new ReferenceError(`API 설명 대상을 확인할 수 없습니다: ${packageId}/${example.id}/${label}`);
-      return { label, id: record.id, packageId: record.package.startsWith('@owp/') ? record.package.slice(5) : packageId };
+      if (!record) throw new ReferenceError(`API 설명 대상을 확인할 수 없습니다: ${context}`);
+      return {
+        label,
+        id: record.id,
+        packageId: ownPackages.has(record.package) ? record.package.slice('@owp/'.length) : packageId,
+      };
     });
     return { id: example.id, packageId, title: example.title, description: example.description, source: example.source, references };
   });

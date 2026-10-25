@@ -9,6 +9,9 @@ const source = (root, file, packageId, topics, scope = 'usage') => ({
 });
 
 export const sourceMap = [
+  source('framework', 'docs/core/8.1.0/README.md', 'core', ['setup', 'composition']),
+  source('framework', 'docs/components/3.1.1/README.md', 'core', ['composition']),
+  source('framework', 'docs/theme/2.2.1/README.md', 'core', ['setup', 'composition']),
   source('agents', `${framework}/SKILL.md`, 'shared', [], 'workflow'),
   {
     ...source('agents', `${framework}/references/datagrid.md`, 'datagrid', [

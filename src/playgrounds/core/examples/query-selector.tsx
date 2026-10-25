@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useEffectEvent, useState } from 'react';
 import { Alert, OutlinedInput } from '@mui/material';
 import { OwpQuerySelector } from '@owp/core';
 import { useQueryClient } from '@owp/core/hooks';
@@ -29,6 +29,8 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const [requestState, setRequestState] = useState<Readonly<Record<string, unknown>>>({});
   const apiUrl = new URL(responses[response].url, window.location.href).href;
 
+  const onQueryResult = useEffectEvent(onRecord);
+
   useEffect(() => {
     setRequestState({ status: 'pending' });
     return client.getQueryCache().subscribe((event) => {
@@ -41,10 +43,13 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
         error: state.error instanceof Error ? state.error.message : null,
       });
       if (event.action.type === 'success' || event.action.type === 'error') {
-        onRecord(`query.${event.action.type}`, JSON.stringify({ apiUrl, status: state.status }));
+        onQueryResult(
+          `query.${event.action.type}`,
+          JSON.stringify({ apiUrl, status: state.status }),
+        );
       }
     });
-  }, [apiUrl, client, onRecord]);
+  }, [apiUrl, client]);
 
   useEffect(() => {
     onData({

@@ -84,14 +84,7 @@ export function ApiReference({
           ? '@owp/datagrid:OwpDataGridProps'
           : '@owp/charts:ChartFrameProps'),
   );
-  const selected =
-    target &&
-    (target.package === `@owp/${packageId}` ||
-      (packageId === 'charts' &&
-        dataset &&
-        Object.hasOwn(dataset.knowledge.dependencies, target.package)))
-      ? target
-      : undefined;
+  const selected = target;
   const words = useMemo(() => normalizeApiQuery(query), [query]);
   const filtered = useMemo(() => {
     if (!kind && words.length === 0) return records;

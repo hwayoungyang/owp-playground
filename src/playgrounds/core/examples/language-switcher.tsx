@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 import { Typography } from '@mui/material';
 import { OwpLanguageSwitcherSelect } from '@owp/core';
 import { useGetCurrentLanguage } from '@owp/core/hooks';
@@ -10,19 +10,20 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const { t, i18n } = useOwpTranslation();
   const currentLanguage = useGetCurrentLanguage();
 
+  const onLanguageChanged = useEffectEvent((language: string) => {
+    onRecord(
+      'language.change',
+      JSON.stringify({ requested: language, app: language === 'en' ? 'en' : 'ko' }),
+    );
+    if (language === 'kr' || language === 'lc') void i18n.changeLanguage('ko');
+  });
+
   useEffect(() => {
-    const handleChange = (language: string) => {
-      onRecord(
-        'language.change',
-        JSON.stringify({ requested: language, app: language === 'en' ? 'en' : 'ko' }),
-      );
-      if (language === 'kr' || language === 'lc') void i18n.changeLanguage('ko');
-    };
-    i18n.on('languageChanged', handleChange);
+    i18n.on('languageChanged', onLanguageChanged);
     return () => {
-      i18n.off('languageChanged', handleChange);
+      i18n.off('languageChanged', onLanguageChanged);
     };
-  }, [i18n, onRecord]);
+  }, [i18n]);
 
   useEffect(() => {
     onData({

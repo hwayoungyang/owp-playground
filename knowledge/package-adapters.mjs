@@ -7,7 +7,16 @@ import { coreCatalog } from '../src/playgrounds/core/catalog.ts';
 import { coreSourcePolicy } from '../src/playgrounds/core/model/sourceFiles.ts';
 
 const adapters = new Map([
-  ['core', { catalog: coreCatalog, sourcePolicy: () => coreSourcePolicy, runtimeFiles: [] }],
+  [
+    'core',
+    {
+      catalog: coreCatalog,
+      sourcePolicy: () => coreSourcePolicy,
+      runtimeFiles: [],
+      referenceOnlyPackages: ['@owp/components'],
+      contractPackages: ['@owp/theme', '@owp/date-picker', '@owp/utils', '@owp/excel'],
+    },
+  ],
   [
     'datagrid',
     {
@@ -18,11 +27,25 @@ const adapters = new Map([
         'runtime/GridPreview.tsx',
         'runtime/GridToolbar.tsx',
       ],
+      referenceOnlyPackages: [],
+      contractPackages: [
+        '@owp/components',
+        '@owp/theme',
+        '@owp/date-picker',
+        '@owp/utils',
+        '@owp/excel',
+      ],
     },
   ],
   [
     'charts',
-    { catalog: chartExecutionCatalog, sourcePolicy: () => chartSourcePolicy, runtimeFiles: [] },
+    {
+      catalog: chartExecutionCatalog,
+      sourcePolicy: () => chartSourcePolicy,
+      runtimeFiles: [],
+      referenceOnlyPackages: [],
+      contractPackages: ['@owp/components', '@owp/utils'],
+    },
   ],
 ]);
 

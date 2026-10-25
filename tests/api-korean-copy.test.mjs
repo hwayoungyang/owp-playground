@@ -27,6 +27,7 @@ describe('한국어 API 참조 문체', () => {
     ['모든 대비를 보장할 수 없습니다.', '모든 대비를 보장할 수 없음.'],
     ['빈 값은 자동 반영되지 않는다.', '빈 값은 자동 반영되지 않음.'],
     ['입력을 수정하지 않습니다.', '입력을 수정하지 않음.'],
+    ['i18next 언어는 호출부에서 별도로 변경한다.', 'i18next 언어는 호출부에서 별도로 변경.'],
     ['기본 입력은 id/value를 가져야 합니다.', '기본 입력에 id/value 필요.'],
     ['renderer 출력은 사각형 안에서 clip됩니다.', 'renderer 출력은 사각형 안에서 clip 처리.'],
     [
@@ -125,7 +126,7 @@ describe('한국어 API 참조 문체', () => {
       expect(toReferenceStyle(guide.body), guide.id).toBe(guide.body);
       const generated = records.find((record) => record.id === guide.id);
       expect(generated.related, guide.id).toEqual(
-        guide.api.map((id) => `@owp/${guide.packageId}:${id}`),
+        guide.api.map((id) => (id.includes(':') ? id : `@owp/${guide.packageId}:${id}`)),
       );
       expect(
         generated.examples.map((example) => example.id),

@@ -41,10 +41,11 @@ describe('source resources', () => {
       basePath: '/releases/core/',
       supportFiles: [
         '/src/playgrounds/core/runtime/CoreProviders.tsx',
+        '/src/playgrounds/core/runtime/CoreEnvironmentScope.tsx',
         '/src/playgrounds/core/styles.css',
       ],
     });
-    expect(manifest.packageVersion).toBe('7.1.0');
+    expect(manifest.packageVersion).toBe('8.1.0');
     expect(manifest.samples.map((sample) => sample.id)).toEqual(
       coreCatalog.map((sample) => sample.id),
     );
@@ -54,6 +55,9 @@ describe('source resources', () => {
         sample.files.some((file) => file.path.endsWith('/core/runtime/CoreProviders.tsx')),
       ).toBe(true);
       expect(sample.files.some((file) => file.path.endsWith('/core/styles.css'))).toBe(true);
+      expect(
+        sample.files.some((file) => file.path.endsWith('/core/runtime/CoreEnvironmentScope.tsx')),
+      ).toBe(true);
       expect(sample.files.every((file) => file.path.startsWith('/releases/core/snippets/'))).toBe(
         true,
       );
@@ -67,6 +71,9 @@ describe('source resources', () => {
     ).toBeGreaterThanOrEqual(3);
     expect(query?.externalImports).toContain('@owp/core');
     expect(query?.externalImports).toContain('react-router-dom');
+    const loading = manifest.samples.find((sample) => sample.id === 'loading');
+    expect(loading?.externalImports).toContain('@owp/components');
+    expect(loading?.externalImports).toContain('@owp/core');
   });
 
   it('resolves type imports, reexports, index files, cycles and CSS when building the graph', async () => {

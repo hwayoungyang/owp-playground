@@ -1,4 +1,26 @@
 const titles = {
+  '@owp/core:guide.setup': [
+    '패키지 역할과 설치본',
+    '앱 초기화와 provider',
+    'API·인증·페이지 권한',
+    '라우팅과 앱 정책',
+    '테마 선택·설정·영속 저장',
+    'CSS와 정적 리소스',
+    '언어와 앱 bridge',
+    '역할별 예제와 import 기준',
+  ],
+  '@owp/core:guide.selection': ['API selector 계약', '예제 요청과 응답', '공통코드 cache'],
+  '@owp/core:guide.composition': [
+    'Components 페이지와 Core 정책',
+    '검색 진행과 취소',
+    'Core adapter의 앱 정책',
+    'Dialog manager와 닫기 정책',
+    'Components UI와 전역 loading lock',
+    'Query 취소 정책',
+    'Render·route·chunk 오류 복구',
+    'Excel 내보내기',
+    '보조 UI와 타입 소유권',
+  ],
   '@owp/charts:guide.composition': [
     '차트 구성',
     '옵션 우선순위',

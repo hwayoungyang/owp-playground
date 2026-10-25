@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { parseSync } from 'vite';
+import { parseSync, Visitor } from 'vite';
 import { z } from 'zod';
 import { exampleSourcePath } from '../src/features/code/source-paths.ts';
 import { withPublicBase } from '../src/features/releases/model/urls.ts';
@@ -41,26 +41,32 @@ function sourceImports(file: string, content: string): readonly ImportReference[
   if (parsed.errors.length > 0) {
     throw new SyntaxError(`${file}: ${parsed.errors.map((error) => error.message).join('; ')}`);
   }
-  return parsed.program.body.flatMap((node): ImportReference[] => {
-    if (node.type === 'ImportDeclaration') {
-      return [{
+  const references: ImportReference[] = [];
+  new Visitor({
+    ImportDeclaration(node) {
+      references.push({
         specifier: node.source.value,
         runtime: node.importKind !== 'type' && (node.specifiers.length === 0 || node.specifiers.some(
           (specifier) => specifier.type !== 'ImportSpecifier' || specifier.importKind !== 'type',
         )),
-      }];
-    }
-    if (node.type === 'ExportNamedDeclaration' && node.source) {
-      return [{
+      });
+    },
+    ExportNamedDeclaration(node) {
+      if (!node.source) return;
+      references.push({
         specifier: node.source.value,
         runtime: node.exportKind !== 'type' && (node.specifiers.length === 0 || node.specifiers.some((specifier) => specifier.exportKind !== 'type')),
-      }];
-    }
-    if (node.type === 'ExportAllDeclaration') {
-      return [{ specifier: node.source.value, runtime: node.exportKind !== 'type' }];
-    }
-    return [];
-  });
+      });
+    },
+    ExportAllDeclaration(node) {
+      references.push({ specifier: node.source.value, runtime: node.exportKind !== 'type' });
+    },
+    ImportExpression(node) {
+      if (node.source.type === 'Literal' && typeof node.source.value === 'string')
+        references.push({ specifier: node.source.value, runtime: true });
+    },
+  }).visit(parsed.program);
+  return references;
 }
 
 /** 실행 파일과 타입·스타일 의존성을 같은 원본에서 읽습니다. ?raw는 코드 표시용 문자열이므로 제외합니다. */

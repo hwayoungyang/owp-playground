@@ -1,10 +1,22 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { PlaygroundLink } from '../../shared/ui/PlaygroundLink';
-import type { ApiRecord } from './model/knowledge';
+import type { ApiDataset, ApiRecord } from './model/knowledge';
 import { useApiKnowledge } from './ApiKnowledgeContext';
 import { apiHref } from './model/links';
 import { descriptionOrigins } from './model/presentation';
-import { apiPackageIdFor } from '../../playgrounds/packages';
+import { apiPackageIdFor, completedPlaygroundPackages } from '../../playgrounds/packages';
+
+function recordPackageId(record: ApiRecord, dataset: ApiDataset): string {
+  const own = completedPlaygroundPackages.find((entry) => entry.name === record.package);
+  if (own) return own.id;
+  if (dataset.recordsById.has(record.id)) return dataset.knowledge.id;
+  const query = record.url.split('?')[1];
+  const urlPackage = query ? new URLSearchParams(query).get('package') : null;
+  if (urlPackage && completedPlaygroundPackages.some((entry) => entry.id === urlPackage)) {
+    return urlPackage;
+  }
+  return apiPackageIdFor(record.package);
+}
 
 export function TypeExpression({
   text,
@@ -14,7 +26,8 @@ export function TypeExpression({
   readonly record: ApiRecord;
 }) {
   const { t } = useOwpTranslation();
-  const { recordsById } = useApiKnowledge();
+  const dataset = useApiKnowledge();
+  const { recordsById } = dataset;
   return (
     <code className="api-type-expression" title={t('Type')}>
       {text
@@ -25,7 +38,7 @@ export function TypeExpression({
           return target && target.id !== record.id ? (
             <PlaygroundLink
               key={`${index}-${part}`}
-              href={apiHref(apiPackageIdFor(target.package), target.id)}
+              href={apiHref(recordPackageId(target, dataset), target.id)}
             >
               {part}
             </PlaygroundLink>
@@ -44,7 +57,8 @@ export function RecordLink({
   readonly record: ApiRecord;
   readonly qualified?: boolean;
 }) {
-  const packageId = apiPackageIdFor(record.package);
+  const dataset = useApiKnowledge();
+  const packageId = recordPackageId(record, dataset);
   const label = record.kind === 'guide' ? record.name : record.path || record.name;
   return (
     <PlaygroundLink href={apiHref(packageId, record.id)}>
@@ -70,7 +84,8 @@ export function ApiRequirement({ record }: { readonly record: ApiRecord }) {
 
 export function ApiDescription({ record }: { readonly record: ApiRecord }) {
   const { t, i18n } = useOwpTranslation();
-  const { recordsById } = useApiKnowledge();
+  const dataset = useApiKnowledge();
+  const { recordsById } = dataset;
   if (!record.description) return null;
   const showSource =
     (i18n.resolvedLanguage ?? i18n.language).startsWith('ko') && record.locale.startsWith('en');
@@ -89,10 +104,7 @@ export function ApiDescription({ record }: { readonly record: ApiRecord }) {
               <PlaygroundLink
                 key={origin.id}
                 className="api-description-source"
-                href={apiHref(
-                  origin.package === '@owp/datagrid' ? 'datagrid' : 'charts',
-                  origin.id,
-                )}
+                href={apiHref(recordPackageId(origin, dataset), origin.id)}
                 title={t('설명 원문: {{source}}', { source: origin.id })}
               >
                 {t('{{package}} 원문', {

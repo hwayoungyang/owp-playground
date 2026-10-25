@@ -13926,45 +13926,63 @@
       "packageId": "core"
     },
     {
-      "label": "env",
-      "id": "@owp/core:OwpCoreProviderProps.env",
-      "packageId": "core"
-    },
-    {
-      "label": "OwpCoreProvider",
-      "id": "@owp/core:OwpCoreProvider",
-      "packageId": "core"
-    },
-    {
-      "label": "queryClientConfig",
-      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
-      "packageId": "core"
-    },
-    {
-      "label": "styledEngineProviderProps",
-      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
-      "packageId": "core"
-    }
-  ],
-  "core/app-settings": [
-    {
-      "label": "configs",
-      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "label": "content",
+      "id": "@owp/components:OwpPageCardedProps.content",
       "packageId": "core"
     },
     {
       "label": "env",
       "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "errorBoundaryPolicy",
+      "id": "@owp/core:errorBoundaryPolicy",
       "packageId": "core"
     },
     {
       "label": "headers",
-      "id": "@owp/core:OwpTableProps.headers",
+      "id": "@owp/components:OwpTableProps.headers",
       "packageId": "core"
     },
     {
       "label": "OwpCoreProvider",
       "id": "@owp/core:OwpCoreProvider",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpErrorBoundary",
+      "id": "@owp/components:OwpErrorBoundary",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpPageCarded",
+      "id": "@owp/components:OwpPageCarded",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpRouteErrorElement",
+      "id": "@owp/core:OwpRouteErrorElement",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpStyleProvider",
+      "id": "@owp/core:OwpStyleProvider",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpTable",
+      "id": "@owp/components:OwpTable",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpUiProvider",
+      "id": "@owp/core:OwpUiProvider",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
       "packageId": "core"
     },
     {
@@ -13974,7 +13992,7 @@
     },
     {
       "label": "rows",
-      "id": "@owp/core:OwpTableProps.rows",
+      "id": "@owp/components:OwpTableProps.rows",
       "packageId": "core"
     },
     {
@@ -13983,13 +14001,18 @@
       "packageId": "core"
     },
     {
-      "label": "useGetCurrentSettings",
-      "id": "@owp/core:useGetCurrentSettings",
+      "label": "useInitApp",
+      "id": "@owp/core:useInitApp",
       "packageId": "core"
     },
     {
-      "label": "useSetSettings",
-      "id": "@owp/core:useSetSettings",
+      "label": "usePageCardedPolicy",
+      "id": "@owp/core:usePageCardedPolicy",
+      "packageId": "core"
+    },
+    {
+      "label": "variant",
+      "id": "@owp/components:OwpLoadingProps.variant",
       "packageId": "core"
     }
   ],
@@ -14011,7 +14034,17 @@
     },
     {
       "label": "headers",
-      "id": "@owp/core:OwpTableProps.headers",
+      "id": "@owp/components:OwpTableProps.headers",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpTable",
+      "id": "@owp/components:OwpTable",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
       "packageId": "core"
     },
     {
@@ -14021,386 +14054,26 @@
     },
     {
       "label": "rows",
-      "id": "@owp/core:OwpTableProps.rows",
+      "id": "@owp/components:OwpTableProps.rows",
       "packageId": "core"
     },
     {
       "label": "styledEngineProviderProps",
       "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
-      "packageId": "core"
-    }
-  ],
-  "core/user-permissions": [
-    {
-      "label": "configs",
-      "id": "@owp/core:OwpCoreProviderProps.configs",
-      "packageId": "core"
-    },
-    {
-      "label": "env",
-      "id": "@owp/core:OwpCoreProviderProps.env",
-      "packageId": "core"
-    },
-    {
-      "label": "headers",
-      "id": "@owp/core:OwpTableProps.headers",
-      "packageId": "core"
-    },
-    {
-      "label": "preloadedState",
-      "id": "@owp/core:OwpStoreProviderProps.preloadedState",
-      "packageId": "core"
-    },
-    {
-      "label": "queryClientConfig",
-      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
-      "packageId": "core"
-    },
-    {
-      "label": "rows",
-      "id": "@owp/core:OwpTableProps.rows",
-      "packageId": "core"
-    },
-    {
-      "label": "styledEngineProviderProps",
-      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
-      "packageId": "core"
-    },
-    {
-      "label": "useApplyAuthenticatedUser",
-      "id": "@owp/core:useApplyAuthenticatedUser",
-      "packageId": "core"
-    },
-    {
-      "label": "useGetCurrentUser",
-      "id": "@owp/core:useGetCurrentUser",
-      "packageId": "core"
-    },
-    {
-      "label": "usePagePermission",
-      "id": "@owp/core:usePagePermission",
-      "packageId": "core"
-    }
-  ],
-  "core/language-switcher": [
-    {
-      "label": "configs",
-      "id": "@owp/core:OwpCoreProviderProps.configs",
-      "packageId": "core"
-    },
-    {
-      "label": "env",
-      "id": "@owp/core:OwpCoreProviderProps.env",
-      "packageId": "core"
-    },
-    {
-      "label": "OwpLanguageSwitcherSelect",
-      "id": "@owp/core:OwpLanguageSwitcherSelect",
-      "packageId": "core"
-    },
-    {
-      "label": "queryClientConfig",
-      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
-      "packageId": "core"
-    },
-    {
-      "label": "styledEngineProviderProps",
-      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
-      "packageId": "core"
-    }
-  ],
-  "core/page-carded": [
-    {
-      "label": "fillContentHeight",
-      "id": "@owp/core:OwpPageCardedProps.fillContentHeight",
-      "packageId": "core"
-    },
-    {
-      "label": "responsiveLayout",
-      "id": "@owp/core:OwpPageCardedProps.responsiveLayout",
-      "packageId": "core"
-    },
-    {
-      "label": "OwpPageContentProps.responsiveLayout",
-      "id": "@owp/core:OwpPageContentProps.responsiveLayout",
-      "packageId": "core"
-    },
-    {
-      "label": "OwpSearchFilterProps.responsiveLayout",
-      "id": "@owp/core:OwpSearchFilterProps.responsiveLayout",
-      "packageId": "core"
-    },
-    {
-      "label": "configs",
-      "id": "@owp/core:OwpCoreProviderProps.configs",
-      "packageId": "core"
-    },
-    {
-      "label": "content",
-      "id": "@owp/core:OwpPageCardedProps.content",
-      "packageId": "core"
-    },
-    {
-      "label": "env",
-      "id": "@owp/core:OwpCoreProviderProps.env",
-      "packageId": "core"
-    },
-    {
-      "label": "header",
-      "id": "@owp/core:OwpPageCardedProps.header",
-      "packageId": "core"
-    },
-    {
-      "label": "headers",
-      "id": "@owp/core:OwpTableProps.headers",
-      "packageId": "core"
-    },
-    {
-      "label": "OwpPageCarded",
-      "id": "@owp/core:OwpPageCarded",
-      "packageId": "core"
-    },
-    {
-      "label": "queryClientConfig",
-      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
-      "packageId": "core"
-    },
-    {
-      "label": "rows",
-      "id": "@owp/core:OwpTableProps.rows",
-      "packageId": "core"
-    },
-    {
-      "label": "scroll",
-      "id": "@owp/core:OwpPageCardedProps.scroll",
-      "packageId": "core"
-    },
-    {
-      "label": "styledEngineProviderProps",
-      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
-      "packageId": "core"
-    },
-    {
-      "label": "title",
-      "id": "@owp/core:OwpPageContentProps.title",
-      "packageId": "core"
-    },
-    {
-      "label": "OwpSearchFilterProps.title",
-      "id": "@owp/core:OwpSearchFilterProps.title",
-      "packageId": "core"
-    },
-    {
-      "label": "variant",
-      "id": "@owp/core:OwpTableProps.variant",
-      "packageId": "core"
-    },
-    {
-      "label": "onReset",
-      "id": "@owp/core:OwpSearchFilterProps.onReset",
-      "packageId": "core"
-    },
-    {
-      "label": "onSubmit",
-      "id": "@owp/core:OwpSearchFilterProps.onSubmit",
-      "packageId": "core"
-    }
-  ],
-  "core/page-content": [
-    {
-      "label": "loading",
-      "id": "@owp/core:OwpPageContentProps.loading",
-      "packageId": "core"
-    },
-    {
-      "label": "responsiveLayout",
-      "id": "@owp/core:OwpPageContentProps.responsiveLayout",
-      "packageId": "core"
-    },
-    {
-      "label": "actions",
-      "id": "@owp/core:OwpPageContentProps.actions",
-      "packageId": "core"
-    },
-    {
-      "label": "columnMappers",
-      "id": "@owp/core:OwpExportDataToExcelButtonProps.columnMappers",
-      "packageId": "core"
-    },
-    {
-      "label": "configs",
-      "id": "@owp/core:OwpCoreProviderProps.configs",
-      "packageId": "core"
-    },
-    {
-      "label": "data",
-      "id": "@owp/core:OwpExportDataToExcelButtonProps.data",
-      "packageId": "core"
-    },
-    {
-      "label": "env",
-      "id": "@owp/core:OwpCoreProviderProps.env",
-      "packageId": "core"
-    },
-    {
-      "label": "exportName",
-      "id": "@owp/core:OwpExportDataToExcelButtonProps.exportName",
-      "packageId": "core"
-    },
-    {
-      "label": "header",
-      "id": "@owp/core:OwpExportDataToExcelButtonProps.header",
-      "packageId": "core"
-    },
-    {
-      "label": "headers",
-      "id": "@owp/core:OwpTableProps.headers",
-      "packageId": "core"
-    },
-    {
-      "label": "OwpPageContent",
-      "id": "@owp/core:OwpPageContent",
-      "packageId": "core"
-    },
-    {
-      "label": "queryClientConfig",
-      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
-      "packageId": "core"
-    },
-    {
-      "label": "rows",
-      "id": "@owp/core:OwpTableProps.rows",
-      "packageId": "core"
-    },
-    {
-      "label": "styledEngineProviderProps",
-      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
-      "packageId": "core"
-    },
-    {
-      "label": "title",
-      "id": "@owp/core:OwpPageContentProps.title",
-      "packageId": "core"
-    },
-    {
-      "label": "variant",
-      "id": "@owp/core:OwpTableProps.variant",
-      "packageId": "core"
-    }
-  ],
-  "core/search-filter": [
-    {
-      "label": "responsiveLayout",
-      "id": "@owp/core:OwpSearchFilterProps.responsiveLayout",
-      "packageId": "core"
-    },
-    {
-      "label": "showSkeleton",
-      "id": "@owp/core:OwpSearchFilterProps.showSkeleton",
-      "packageId": "core"
-    },
-    {
-      "label": "showSubmitLoading",
-      "id": "@owp/core:OwpSearchFilterProps.showSubmitLoading",
-      "packageId": "core"
-    },
-    {
-      "label": "apiUrl",
-      "id": "@owp/core:OwpQuerySelectorProps.apiUrl",
-      "packageId": "core"
-    },
-    {
-      "label": "configs",
-      "id": "@owp/core:OwpCoreProviderProps.configs",
-      "packageId": "core"
-    },
-    {
-      "label": "env",
-      "id": "@owp/core:OwpCoreProviderProps.env",
-      "packageId": "core"
-    },
-    {
-      "label": "headers",
-      "id": "@owp/core:OwpTableProps.headers",
-      "packageId": "core"
-    },
-    {
-      "label": "labelResolver",
-      "id": "@owp/core:OwpQuerySelectorProps.labelResolver",
-      "packageId": "core"
-    },
-    {
-      "label": "OwpSearchFilter",
-      "id": "@owp/core:OwpSearchFilter",
-      "packageId": "core"
-    },
-    {
-      "label": "query",
-      "id": "@owp/core:OwpQuerySelectorProps.query",
-      "packageId": "core"
-    },
-    {
-      "label": "queryClientConfig",
-      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
-      "packageId": "core"
-    },
-    {
-      "label": "queryKeyDeps",
-      "id": "@owp/core:OwpQuerySelectorProps.queryKeyDeps",
-      "packageId": "core"
-    },
-    {
-      "label": "rows",
-      "id": "@owp/core:OwpTableProps.rows",
-      "packageId": "core"
-    },
-    {
-      "label": "styledEngineProviderProps",
-      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
-      "packageId": "core"
-    },
-    {
-      "label": "submitProgressFilter",
-      "id": "@owp/core:OwpSearchFilterProps.submitProgressFilter",
-      "packageId": "core"
-    },
-    {
-      "label": "title",
-      "id": "@owp/core:OwpSearchFilterProps.title",
-      "packageId": "core"
-    },
-    {
-      "label": "valueKey",
-      "id": "@owp/core:OwpQuerySelectorProps.valueKey",
-      "packageId": "core"
-    },
-    {
-      "label": "variant",
-      "id": "@owp/core:OwpTableProps.variant",
-      "packageId": "core"
-    },
-    {
-      "label": "onCancel",
-      "id": "@owp/core:OwpSearchFilterProps.onCancel",
-      "packageId": "core"
-    },
-    {
-      "label": "onChange",
-      "id": "@owp/core:OwpQuerySelectorProps.onChange",
-      "packageId": "core"
-    },
-    {
-      "label": "onReset",
-      "id": "@owp/core:OwpSearchFilterProps.onReset",
-      "packageId": "core"
-    },
-    {
-      "label": "onSubmit",
-      "id": "@owp/core:OwpSearchFilterProps.onSubmit",
       "packageId": "core"
     }
   ],
   "core/query-selector": [
+    {
+      "label": "fullWidth",
+      "id": "@owp/core:OwpQuerySelectorProps.fullWidth",
+      "packageId": "core"
+    },
+    {
+      "label": "showAllOption",
+      "id": "@owp/core:OwpQuerySelectorProps.showAllOption",
+      "packageId": "core"
+    },
     {
       "label": "apiUrl",
       "id": "@owp/core:OwpQuerySelectorProps.apiUrl",
@@ -14422,6 +14095,11 @@
       "packageId": "core"
     },
     {
+      "label": "label",
+      "id": "@owp/core:OwpQuerySelectorProps.label",
+      "packageId": "core"
+    },
+    {
       "label": "labelResolver",
       "id": "@owp/core:OwpQuerySelectorProps.labelResolver",
       "packageId": "core"
@@ -14434,6 +14112,11 @@
     {
       "label": "query",
       "id": "@owp/core:OwpQuerySelectorProps.query",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
       "packageId": "core"
     },
     {
@@ -14452,8 +14135,23 @@
       "packageId": "core"
     },
     {
+      "label": "selectProps",
+      "id": "@owp/core:OwpQuerySelectorProps.selectProps",
+      "packageId": "core"
+    },
+    {
       "label": "styledEngineProviderProps",
       "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "textFieldProps",
+      "id": "@owp/core:OwpQuerySelectorProps.textFieldProps",
+      "packageId": "core"
+    },
+    {
+      "label": "value",
+      "id": "@owp/core:OwpQuerySelectorProps.value",
       "packageId": "core"
     },
     {
@@ -14519,6 +14217,11 @@
       "packageId": "core"
     },
     {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
       "label": "queryClientConfig",
       "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
       "packageId": "core"
@@ -14536,174 +14239,6 @@
     {
       "label": "onChange",
       "id": "@owp/core:OwpCommonCodeSelectorProps.onChange",
-      "packageId": "core"
-    }
-  ],
-  "core/dialog": [
-    {
-      "label": "submitOnConfirm",
-      "id": "@owp/core:OwpDialogProps.submitOnConfirm",
-      "packageId": "core"
-    },
-    {
-      "label": "cancelText",
-      "id": "@owp/core:OwpDialogProps.cancelText",
-      "packageId": "core"
-    },
-    {
-      "label": "configs",
-      "id": "@owp/core:OwpCoreProviderProps.configs",
-      "packageId": "core"
-    },
-    {
-      "label": "confirmText",
-      "id": "@owp/core:OwpDialogProps.confirmText",
-      "packageId": "core"
-    },
-    {
-      "label": "data",
-      "id": "@owp/core:OwpFieldTableProps.data",
-      "packageId": "core"
-    },
-    {
-      "label": "env",
-      "id": "@owp/core:OwpCoreProviderProps.env",
-      "packageId": "core"
-    },
-    {
-      "label": "isDirty",
-      "id": "@owp/core:OwpDialogProps.isDirty",
-      "packageId": "core"
-    },
-    {
-      "label": "layout",
-      "id": "@owp/core:OwpFieldTableProps.layout",
-      "packageId": "core"
-    },
-    {
-      "label": "OwpDialog",
-      "id": "@owp/core:OwpDialog",
-      "packageId": "core"
-    },
-    {
-      "label": "queryClientConfig",
-      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
-      "packageId": "core"
-    },
-    {
-      "label": "styledEngineProviderProps",
-      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
-      "packageId": "core"
-    },
-    {
-      "label": "title",
-      "id": "@owp/core:OwpDialogProps.title",
-      "packageId": "core"
-    },
-    {
-      "label": "titleWidth",
-      "id": "@owp/core:OwpFieldTableProps.titleWidth",
-      "packageId": "core"
-    },
-    {
-      "label": "useOwpDialogs",
-      "id": "@owp/core:useOwpDialogs",
-      "packageId": "core"
-    }
-  ],
-  "core/confirm": [
-    {
-      "label": "configs",
-      "id": "@owp/core:OwpCoreProviderProps.configs",
-      "packageId": "core"
-    },
-    {
-      "label": "env",
-      "id": "@owp/core:OwpCoreProviderProps.env",
-      "packageId": "core"
-    },
-    {
-      "label": "queryClientConfig",
-      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
-      "packageId": "core"
-    },
-    {
-      "label": "styledEngineProviderProps",
-      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
-      "packageId": "core"
-    },
-    {
-      "label": "useOwpDialogs",
-      "id": "@owp/core:useOwpDialogs",
-      "packageId": "core"
-    }
-  ],
-  "core/loading": [
-    {
-      "label": "ariaLabel",
-      "id": "@owp/core:OwpLoadingProps.ariaLabel",
-      "packageId": "core"
-    },
-    {
-      "label": "configs",
-      "id": "@owp/core:OwpCoreProviderProps.configs",
-      "packageId": "core"
-    },
-    {
-      "label": "env",
-      "id": "@owp/core:OwpCoreProviderProps.env",
-      "packageId": "core"
-    },
-    {
-      "label": "OwpLoading",
-      "id": "@owp/core:OwpLoading",
-      "packageId": "core"
-    },
-    {
-      "label": "queryClientConfig",
-      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
-      "packageId": "core"
-    },
-    {
-      "label": "size",
-      "id": "@owp/core:OwpLoadingProps.size",
-      "packageId": "core"
-    },
-    {
-      "label": "styledEngineProviderProps",
-      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
-      "packageId": "core"
-    },
-    {
-      "label": "variant",
-      "id": "@owp/core:OwpLoadingProps.variant",
-      "packageId": "core"
-    }
-  ],
-  "core/error-boundary": [
-    {
-      "label": "configs",
-      "id": "@owp/core:OwpCoreProviderProps.configs",
-      "packageId": "core"
-    },
-    {
-      "label": "env",
-      "id": "@owp/core:OwpCoreProviderProps.env",
-      "packageId": "core"
-    },
-    {
-      "label": "OwpErrorBoundary",
-      "id": "@owp/core:OwpErrorBoundary",
-      "packageId": "core"
-    },
-    {
-      "label": "queryClientConfig",
-      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
-      "packageId": "core"
-    },
-    {
-      "label": "styledEngineProviderProps",
-      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
       "packageId": "core"
     }
   ],
@@ -14740,12 +14275,84 @@
     },
     {
       "label": "headers",
-      "id": "@owp/core:OwpTableProps.headers",
+      "id": "@owp/components:OwpTableProps.headers",
       "packageId": "core"
     },
     {
       "label": "OwpExportDataToExcelButton",
       "id": "@owp/core:OwpExportDataToExcelButton",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpTable",
+      "id": "@owp/components:OwpTable",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
+      "label": "queryClientConfig",
+      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "rows",
+      "id": "@owp/components:OwpTableProps.rows",
+      "packageId": "core"
+    },
+    {
+      "label": "styledEngineProviderProps",
+      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    }
+  ],
+  "core/app-settings": [
+    {
+      "label": "configs",
+      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "packageId": "core"
+    },
+    {
+      "label": "data",
+      "id": "@owp/core:OwpFieldTableProps.data",
+      "packageId": "core"
+    },
+    {
+      "label": "env",
+      "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "headers",
+      "id": "@owp/core:OwpTableProps.headers",
+      "packageId": "core"
+    },
+    {
+      "label": "layout",
+      "id": "@owp/core:OwpFieldTableProps.layout",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpCoreProvider",
+      "id": "@owp/core:OwpCoreProvider",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpFieldTable",
+      "id": "@owp/core:OwpFieldTable",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpTable",
+      "id": "@owp/core:OwpTable",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
       "packageId": "core"
     },
     {
@@ -14761,6 +14368,734 @@
     {
       "label": "styledEngineProviderProps",
       "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "titleWidth",
+      "id": "@owp/core:OwpFieldTableProps.titleWidth",
+      "packageId": "core"
+    },
+    {
+      "label": "useChangeOwpTheme",
+      "id": "@owp/core:useChangeOwpTheme",
+      "packageId": "core"
+    },
+    {
+      "label": "useGetCurrentSettings",
+      "id": "@owp/core:useGetCurrentSettings",
+      "packageId": "core"
+    },
+    {
+      "label": "useGetDefaultSettings",
+      "id": "@owp/core:useGetDefaultSettings",
+      "packageId": "core"
+    },
+    {
+      "label": "useResetSettings",
+      "id": "@owp/core:useResetSettings",
+      "packageId": "core"
+    },
+    {
+      "label": "useSetSettings",
+      "id": "@owp/core:useSetSettings",
+      "packageId": "core"
+    },
+    {
+      "label": "useStorage",
+      "id": "@owp/core:useStorage",
+      "packageId": "core"
+    }
+  ],
+  "core/user-permissions": [
+    {
+      "label": "configs",
+      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "packageId": "core"
+    },
+    {
+      "label": "env",
+      "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "headers",
+      "id": "@owp/components:OwpTableProps.headers",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpTable",
+      "id": "@owp/components:OwpTable",
+      "packageId": "core"
+    },
+    {
+      "label": "preloadedState",
+      "id": "@owp/core:OwpStoreProviderProps.preloadedState",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
+      "label": "queryClientConfig",
+      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "rows",
+      "id": "@owp/components:OwpTableProps.rows",
+      "packageId": "core"
+    },
+    {
+      "label": "styledEngineProviderProps",
+      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "useApplyAuthenticatedUser",
+      "id": "@owp/core:useApplyAuthenticatedUser",
+      "packageId": "core"
+    },
+    {
+      "label": "useGetCurrentUser",
+      "id": "@owp/core:useGetCurrentUser",
+      "packageId": "core"
+    },
+    {
+      "label": "usePagePermission",
+      "id": "@owp/core:usePagePermission",
+      "packageId": "core"
+    }
+  ],
+  "core/language-switcher": [
+    {
+      "label": "configs",
+      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "packageId": "core"
+    },
+    {
+      "label": "env",
+      "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpLanguageSwitcherSelect",
+      "id": "@owp/core:OwpLanguageSwitcherSelect",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
+      "label": "queryClientConfig",
+      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "styledEngineProviderProps",
+      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    }
+  ],
+  "core/dialog": [
+    {
+      "label": "submitOnConfirm",
+      "id": "@owp/components:OwpDialogProps.submitOnConfirm",
+      "packageId": "core"
+    },
+    {
+      "label": "cancelText",
+      "id": "@owp/components:OwpDialogProps.cancelText",
+      "packageId": "core"
+    },
+    {
+      "label": "configs",
+      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "packageId": "core"
+    },
+    {
+      "label": "confirmText",
+      "id": "@owp/components:OwpDialogProps.confirmText",
+      "packageId": "core"
+    },
+    {
+      "label": "data",
+      "id": "@owp/components:OwpFieldTableProps.data",
+      "packageId": "core"
+    },
+    {
+      "label": "env",
+      "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "layout",
+      "id": "@owp/components:OwpFieldTableProps.layout",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpDialog",
+      "id": "@owp/components:OwpDialog",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpFieldTable",
+      "id": "@owp/components:OwpFieldTable",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
+      "label": "queryClientConfig",
+      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "styledEngineProviderProps",
+      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "title",
+      "id": "@owp/components:OwpDialogProps.title",
+      "packageId": "core"
+    },
+    {
+      "label": "titleWidth",
+      "id": "@owp/components:OwpFieldTableProps.titleWidth",
+      "packageId": "core"
+    },
+    {
+      "label": "useDialogPolicy",
+      "id": "@owp/core:useDialogPolicy",
+      "packageId": "core"
+    },
+    {
+      "label": "useOwpDialogs",
+      "id": "@owp/core:useOwpDialogs",
+      "packageId": "core"
+    }
+  ],
+  "core/confirm": [
+    {
+      "label": "configs",
+      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "packageId": "core"
+    },
+    {
+      "label": "env",
+      "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
+      "label": "queryClientConfig",
+      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "styledEngineProviderProps",
+      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "useOwpDialogs",
+      "id": "@owp/core:useOwpDialogs",
+      "packageId": "core"
+    }
+  ],
+  "core/loading": [
+    {
+      "label": "ariaLabel",
+      "id": "@owp/components:OwpLoadingProps.ariaLabel",
+      "packageId": "core"
+    },
+    {
+      "label": "configs",
+      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "packageId": "core"
+    },
+    {
+      "label": "env",
+      "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpLoading",
+      "id": "@owp/components:OwpLoading",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
+      "label": "queryClientConfig",
+      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "size",
+      "id": "@owp/components:OwpLoadingProps.size",
+      "packageId": "core"
+    },
+    {
+      "label": "styledEngineProviderProps",
+      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "useGetPageLockLoading",
+      "id": "@owp/core:useGetPageLockLoading",
+      "packageId": "core"
+    },
+    {
+      "label": "usePageLockLoading",
+      "id": "@owp/core:usePageLockLoading",
+      "packageId": "core"
+    },
+    {
+      "label": "variant",
+      "id": "@owp/components:OwpLoadingProps.variant",
+      "packageId": "core"
+    }
+  ],
+  "core/error-boundary": [
+    {
+      "label": "configs",
+      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "packageId": "core"
+    },
+    {
+      "label": "env",
+      "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "errorBoundaryPolicy",
+      "id": "@owp/core:errorBoundaryPolicy",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpErrorBoundary",
+      "id": "@owp/components:OwpErrorBoundary",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpRouteErrorElement",
+      "id": "@owp/core:OwpRouteErrorElement",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
+      "label": "queryClientConfig",
+      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "styledEngineProviderProps",
+      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    }
+  ],
+  "core/page-carded": [
+    {
+      "label": "responsiveLayout",
+      "id": "@owp/components:OwpPageContentProps.responsiveLayout",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpSearchFilterProps.responsiveLayout",
+      "id": "@owp/core:OwpSearchFilterProps.responsiveLayout",
+      "packageId": "core"
+    },
+    {
+      "label": "actions",
+      "id": "@owp/core:OwpSearchFilterProps.actions",
+      "packageId": "core"
+    },
+    {
+      "label": "configs",
+      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "packageId": "core"
+    },
+    {
+      "label": "content",
+      "id": "@owp/components:OwpPageCardedProps.content",
+      "packageId": "core"
+    },
+    {
+      "label": "env",
+      "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "header",
+      "id": "@owp/components:OwpPageCardedProps.header",
+      "packageId": "core"
+    },
+    {
+      "label": "headers",
+      "id": "@owp/components:OwpTableProps.headers",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpCoreResponsiveLayoutGlobalStyles",
+      "id": "@owp/core:OwpCoreResponsiveLayoutGlobalStyles",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpPageCarded",
+      "id": "@owp/components:OwpPageCarded",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpPageContent",
+      "id": "@owp/components:OwpPageContent",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpSearchFilter",
+      "id": "@owp/core:OwpSearchFilter",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpTable",
+      "id": "@owp/components:OwpTable",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpUiProvider",
+      "id": "@owp/core:OwpUiProvider",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
+      "label": "queryClientConfig",
+      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "rows",
+      "id": "@owp/components:OwpTableProps.rows",
+      "packageId": "core"
+    },
+    {
+      "label": "slots",
+      "id": "@owp/components:OwpPageContentProps.slots",
+      "packageId": "core"
+    },
+    {
+      "label": "styledEngineProviderProps",
+      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "title",
+      "id": "@owp/components:OwpPageContentProps.title",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpSearchFilterProps.title",
+      "id": "@owp/core:OwpSearchFilterProps.title",
+      "packageId": "core"
+    },
+    {
+      "label": "usePageCardedPolicy",
+      "id": "@owp/core:usePageCardedPolicy",
+      "packageId": "core"
+    },
+    {
+      "label": "usePageLeaveGuard",
+      "id": "@owp/core:usePageLeaveGuard",
+      "packageId": "core"
+    },
+    {
+      "label": "variant",
+      "id": "@owp/components:OwpTableProps.variant",
+      "packageId": "core"
+    },
+    {
+      "label": "onReset",
+      "id": "@owp/core:OwpSearchFilterProps.onReset",
+      "packageId": "core"
+    },
+    {
+      "label": "onSubmit",
+      "id": "@owp/core:OwpSearchFilterProps.onSubmit",
+      "packageId": "core"
+    }
+  ],
+  "core/page-content": [
+    {
+      "label": "loading",
+      "id": "@owp/components:OwpPageContentProps.loading",
+      "packageId": "core"
+    },
+    {
+      "label": "responsiveLayout",
+      "id": "@owp/components:OwpPageContentProps.responsiveLayout",
+      "packageId": "core"
+    },
+    {
+      "label": "actions",
+      "id": "@owp/components:OwpPageContentProps.actions",
+      "packageId": "core"
+    },
+    {
+      "label": "columnMappers",
+      "id": "@owp/core:OwpExportDataToExcelButtonProps.columnMappers",
+      "packageId": "core"
+    },
+    {
+      "label": "configs",
+      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "packageId": "core"
+    },
+    {
+      "label": "data",
+      "id": "@owp/core:OwpExportDataToExcelButtonProps.data",
+      "packageId": "core"
+    },
+    {
+      "label": "env",
+      "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "exportName",
+      "id": "@owp/core:OwpExportDataToExcelButtonProps.exportName",
+      "packageId": "core"
+    },
+    {
+      "label": "header",
+      "id": "@owp/core:OwpExportDataToExcelButtonProps.header",
+      "packageId": "core"
+    },
+    {
+      "label": "headers",
+      "id": "@owp/components:OwpTableProps.headers",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpCoreResponsiveLayoutGlobalStyles",
+      "id": "@owp/core:OwpCoreResponsiveLayoutGlobalStyles",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpPageContent",
+      "id": "@owp/components:OwpPageContent",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpTable",
+      "id": "@owp/components:OwpTable",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
+      "label": "queryClientConfig",
+      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "rows",
+      "id": "@owp/components:OwpTableProps.rows",
+      "packageId": "core"
+    },
+    {
+      "label": "slots",
+      "id": "@owp/components:OwpPageContentProps.slots",
+      "packageId": "core"
+    },
+    {
+      "label": "styledEngineProviderProps",
+      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "title",
+      "id": "@owp/components:OwpPageContentProps.title",
+      "packageId": "core"
+    },
+    {
+      "label": "variant",
+      "id": "@owp/components:OwpTableProps.variant",
+      "packageId": "core"
+    }
+  ],
+  "core/search-filter": [
+    {
+      "label": "disabled",
+      "id": "@owp/core:OwpQuerySelectorProps.disabled",
+      "packageId": "core"
+    },
+    {
+      "label": "fullWidth",
+      "id": "@owp/core:OwpQuerySelectorProps.fullWidth",
+      "packageId": "core"
+    },
+    {
+      "label": "responsiveLayout",
+      "id": "@owp/core:OwpSearchFilterProps.responsiveLayout",
+      "packageId": "core"
+    },
+    {
+      "label": "showSkeleton",
+      "id": "@owp/core:OwpSearchFilterProps.showSkeleton",
+      "packageId": "core"
+    },
+    {
+      "label": "showSubmitLoading",
+      "id": "@owp/core:OwpSearchFilterProps.showSubmitLoading",
+      "packageId": "core"
+    },
+    {
+      "label": "apiUrl",
+      "id": "@owp/core:OwpQuerySelectorProps.apiUrl",
+      "packageId": "core"
+    },
+    {
+      "label": "configs",
+      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "packageId": "core"
+    },
+    {
+      "label": "env",
+      "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "headers",
+      "id": "@owp/components:OwpTableProps.headers",
+      "packageId": "core"
+    },
+    {
+      "label": "label",
+      "id": "@owp/core:OwpQuerySelectorProps.label",
+      "packageId": "core"
+    },
+    {
+      "label": "labelResolver",
+      "id": "@owp/core:OwpQuerySelectorProps.labelResolver",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpSearchFilter",
+      "id": "@owp/core:OwpSearchFilter",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpTable",
+      "id": "@owp/components:OwpTable",
+      "packageId": "core"
+    },
+    {
+      "label": "query",
+      "id": "@owp/core:OwpQuerySelectorProps.query",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
+      "label": "queryClientConfig",
+      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "queryKeyDeps",
+      "id": "@owp/core:OwpQuerySelectorProps.queryKeyDeps",
+      "packageId": "core"
+    },
+    {
+      "label": "rows",
+      "id": "@owp/components:OwpTableProps.rows",
+      "packageId": "core"
+    },
+    {
+      "label": "selectProps",
+      "id": "@owp/core:OwpQuerySelectorProps.selectProps",
+      "packageId": "core"
+    },
+    {
+      "label": "styledEngineProviderProps",
+      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "submitProgressFilter",
+      "id": "@owp/core:OwpSearchFilterProps.submitProgressFilter",
+      "packageId": "core"
+    },
+    {
+      "label": "textFieldProps",
+      "id": "@owp/core:OwpQuerySelectorProps.textFieldProps",
+      "packageId": "core"
+    },
+    {
+      "label": "title",
+      "id": "@owp/core:OwpSearchFilterProps.title",
+      "packageId": "core"
+    },
+    {
+      "label": "value",
+      "id": "@owp/core:OwpQuerySelectorProps.value",
+      "packageId": "core"
+    },
+    {
+      "label": "valueKey",
+      "id": "@owp/core:OwpQuerySelectorProps.valueKey",
+      "packageId": "core"
+    },
+    {
+      "label": "variant",
+      "id": "@owp/components:OwpTableProps.variant",
+      "packageId": "core"
+    },
+    {
+      "label": "onCancel",
+      "id": "@owp/core:OwpSearchFilterProps.onCancel",
+      "packageId": "core"
+    },
+    {
+      "label": "onChange",
+      "id": "@owp/core:OwpQuerySelectorProps.onChange",
+      "packageId": "core"
+    },
+    {
+      "label": "onReset",
+      "id": "@owp/core:OwpSearchFilterProps.onReset",
+      "packageId": "core"
+    },
+    {
+      "label": "onSubmit",
+      "id": "@owp/core:OwpSearchFilterProps.onSubmit",
       "packageId": "core"
     }
   ]

@@ -168,8 +168,12 @@ describe('Charts dependency exports', () => {
         ...entry,
         dependencies: fixture.dependencies,
         records: expectedRecords,
-        referenceRecords: [],
       });
+      expect(
+        payload.referenceRecords.some((record: { readonly package: string }) =>
+          pluginNames.includes(record.package),
+        ),
+      ).toBe(false);
       const exampleKeys = new Set(
         expectedRecords.flatMap((record) =>
           record.examples.map(

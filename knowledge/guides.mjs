@@ -492,7 +492,7 @@ semiCircle·rotation·cutout과 outsideLabels는 전용 props. 좁은 화면에�
     ['box-plot', 'treemap', 'heatmap'],
     `Box plot은 요약 통계와 원자료의 입력 계약을 구분. summarizeBox·resolveBoxStatistics의 사분위수·수염·이상치 정책을 사용하고 빈 입력·null·비유한수 처리는 공개 옵션을 확인.
 
-설치된 @owp/charts 5.0.1의 native 타입명은 boxPlot·treemap·heatmap. CoreChart·ChartFrame의 type으로 직접 지정할 수 있으며 필요한 controller는 자동 등록. Chart.js instance를 직접 생성할 때는 @owp/charts/chartjs/register의 registerChartCore()를 먼저 호출.
+설치된 @owp/charts 5.0.2의 native 타입명은 boxPlot·treemap·heatmap. CoreChart·ChartFrame의 type으로 직접 지정할 수 있으며 필요한 controller는 자동 등록. Chart.js instance를 직접 생성할 때는 @owp/charts/chartjs/register의 registerChartCore()를 먼저 호출.
 
 전용 OwpBoxPlotChart·OwpTreemapChart·OwpHeatmapChart도 같은 native 타입을 사용. 5.0.0에서는 이전 owpBoxPlot·owpTreemap·owpHeatmap 타입명이 제거됨. ChartData·ChartOptions·ChartDataset·ScriptableContext·TooltipItem·chartRef와 options.datasets key를 해당 native 타입으로 맞춤.
 

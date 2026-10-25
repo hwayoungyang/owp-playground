@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { OwpExportDataToExcelButton, OwpTable } from '@owp/core';
+import { OwpTable } from '@owp/components';
+import { OwpExportDataToExcelButton } from '@owp/core';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
 import { exampleRows } from '../model/fixtures';

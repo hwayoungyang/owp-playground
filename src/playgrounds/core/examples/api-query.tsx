@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Typography } from '@mui/material';
-import { OwpTable } from '@owp/core';
+import { OwpTable } from '@owp/components';
 import { createOwpApiHooks } from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';

@@ -1,8 +1,10 @@
 # 버전별 Playground와 MCP
 
-DataGrid·Charts의 실행 화면, 공개 API, 가이드와 실제 예제 소스를 같은 불변 스냅샷으로 제공합니다. 팀 공용 HTTP와 개인 로컬 stdio는 같은 MCP 조회 로직과 아카이브를 사용합니다. 다른 OWP 패키지는 해당 Playground 구현과 Knowledge 검증을 마친 뒤 등록합니다. 설치된 의존 패키지나 `planned` 목록은 MCP 지원 목록으로 취급하지 않습니다.
+DataGrid·Charts·Core의 실행 화면, 공개 API, 가이드와 실제 예제 소스를 같은 불변 스냅샷으로 제공합니다. 팀 공용 HTTP와 개인 로컬 stdio는 같은 MCP 조회 로직과 아카이브를 사용합니다. 다른 OWP 패키지는 해당 Playground 구현과 Knowledge 검증을 마친 뒤 등록합니다. 설치된 의존 패키지나 `planned` 목록은 MCP 지원 목록으로 취급하지 않습니다.
 
-Core는 현재 로컬 Playground와 API 자료를 정리한 단계입니다. Framework의 컴포넌트 이관과 패키지 갱신 후 실제 설치본을 검증한 뒤 MCP 스냅샷과 팀 서버에 반영합니다.
+Core의 앱 정책 adapter와 Components의 공통 UI는 소유 패키지를 구분합니다. Provider·API·상태 관리와 Core 고유 API는 Core 공개 경로를 유지하고, 보조 결과 UI는 Components에서 직접 가져옵니다. 앱 설정의 Table·FieldTable처럼 Core adapter를 시연하는 구간은 메뉴 분류와 관계없이 Core import를 유지합니다. Dialog·PageCarded는 Components UI에 Core policy hook의 props와 styles를 함께 연결할 수 있으며, ErrorBoundary callback 정책과 PageContent 반응형 스타일 slot도 Core 공개 API를 사용합니다. 기존 Core adapter에는 같은 정책을 중복 적용하지 않습니다. 코드 표시·API 연결·MCP 조회도 이 symbol별 기준을 따릅니다. Core 예제에 필요한 Components 선언은 Core API 자료의 `referenceRecords`로 연결하며 Components 전체 Playground의 지원 완료를 뜻하지 않습니다. 예를 들어 Core snapshot에서 `get_api`의 `symbol`에 `@owp/components:OwpLoading`을 지정하면 Components의 공개 import와 정확한 패키지 버전을 확인할 수 있습니다. 새 snapshot에는 제거된 `@owp/core:OwpLoading` 호환 API를 만들지 않으며 과거 snapshot은 당시 계약을 유지합니다.
+
+새 자료를 로컬 draft로 생성해도 팀 서버는 자동으로 갱신되지 않습니다. 기존 MCP 연결에서 새 `releaseId`와 해당 패키지 버전을 지정해 자료를 검증하고, 팀 반영은 별도로 준비한 clean stable snapshot과 배포 묶음을 사용합니다. draft의 기본 선택 여부는 연결의 `allowDrafts` 설정에 따릅니다.
 
 ## 버전 기준
 
@@ -13,6 +15,8 @@ Core는 현재 로컬 Playground와 API 자료를 정리한 단계입니다. Fra
 | Playground 프로그램 | 루트 `package.json`의 버전 |
 | MCP 서버 프로그램 | `mcp/package.json`의 버전 |
 | Knowledge·아카이브 형식 | 각 데이터의 `schemaVersion` |
+
+설치 계약은 workspace 직접 의존성과 패키지 소유자별 해석을 구분합니다. `reviewed-packages.json`은 직접 설치본을, `reviewed-package-resolutions.json`은 각 소유 패키지의 실제 전이 의존 버전과 declaration/runtime 지문을 검토합니다. 생성 원본의 `resolvedDependencies`는 이 소유자별 설치 계약이며 번들의 dedupe 설정으로 패키지 설치 버전이 바뀌지는 않습니다. 기존 MCP의 `dependencies`를 특정 패키지의 전체 전이 의존 그래프로 해석하지 않습니다.
 
 문서만 수정하면 패키지 버전을 유지하고 새 스냅샷을 만듭니다. 같은 `releaseId`는 덮어쓰지 않습니다. 과거 버전은 해당 버전의 패키지·소스·의존성과 동작을 검증할 수 있는 경우에만 등록합니다.
 
