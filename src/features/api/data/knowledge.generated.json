@@ -364580,7 +364580,7 @@
       {
         "id": "agents/solutions/owp-framework/skills/owp-framework/SKILL.md",
         "packageId": "shared",
-        "sha256": "285d96da6567e8fd94fc98c7d929c73a6ff7b65e24655bf310a11db232b06de6",
+        "sha256": "76a9d898b66c23c6eb2d6b84c0a047f734dd530731ad4645b65b79fd988341fa",
         "sections": [
           {
             "heading": "OWP Framework",
@@ -365006,7 +365006,7 @@
       {
         "id": "agents/consumer/datagrid/SKILL.md",
         "packageId": "datagrid",
-        "sha256": "5f33dce14f4b09722781d9cc8989a08c80005954a11b83b103b3a724ef883c6c",
+        "sha256": "7c2c7024e98cea9bdf4db4f9ef2f48bc44384b2904986dea36269ba450ca3696",
         "sections": [
           {
             "heading": "Reference app MES OwpDataGrid",
@@ -365055,7 +365055,7 @@
       {
         "id": "agents/consumer/datagrid/references/usage.md",
         "packageId": "datagrid",
-        "sha256": "e480ab1ae558ed23493bfa202019121c721a589d2b7e40197deaa76cc22e1771",
+        "sha256": "25d21ff5e547ce8f6da1196c1321a0e47c9ccaad5a5e9d302c6bd87186020798",
         "sections": [
           {
             "heading": "OwpDataGrid 기본 연결",
@@ -365150,7 +365150,7 @@
       {
         "id": "agents/consumer/datagrid/references/columns-layout.md",
         "packageId": "datagrid",
-        "sha256": "acb281e15f5f93d894be9c57b576e6e1c9ef3f84785a55c7411d019241e47e8e",
+        "sha256": "3b45f5e8e639b5daa3da9873471e9ff6b5a286b8f9e5e59541f9d0e87da2fc5b",
         "sections": [
           {
             "heading": "DataGrid 컬럼·레이아웃",
@@ -365273,7 +365273,7 @@
             "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
           },
           {
-            "heading": "검사결과 컬럼 예시",
+            "heading": "검사결과 컬럼 적용",
             "line": 87,
             "disposition": "development",
             "guideIds": [],
@@ -365281,7 +365281,7 @@
           },
           {
             "heading": "정렬·필터 정책",
-            "line": 112,
+            "line": 94,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.columns",
@@ -365293,7 +365293,7 @@
           },
           {
             "heading": "저장·변경 감지·Excel",
-            "line": 118,
+            "line": 100,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.columns",
@@ -365305,7 +365305,7 @@
           },
           {
             "heading": "향후 화면 적용 시 확인",
-            "line": 125,
+            "line": 107,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.columns",
@@ -365317,7 +365317,7 @@
           },
           {
             "heading": "행별 select 옵션",
-            "line": 133,
+            "line": 115,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.columns",
@@ -365329,7 +365329,7 @@
           },
           {
             "heading": "Autocomplete 셀",
-            "line": 143,
+            "line": 125,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.columns",
@@ -365341,7 +365341,7 @@
           },
           {
             "heading": "Boolean 업무값과 checkbox 필터",
-            "line": 148,
+            "line": 130,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.columns",
@@ -365353,7 +365353,7 @@
           },
           {
             "heading": "헤더 전체 선택만 제한",
-            "line": 162,
+            "line": 144,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.columns",
@@ -365365,7 +365365,7 @@
           },
           {
             "heading": "고정 합계행",
-            "line": 167,
+            "line": 149,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.columns",
@@ -365380,7 +365380,7 @@
       {
         "id": "agents/consumer/datagrid/references/styling-select.md",
         "packageId": "datagrid",
-        "sha256": "5d39d50bf500ccb41904b86a96f10f56f0774aef2ead464643d6c07c7c34df22",
+        "sha256": "e9b4089ea5952724a6cdc41e4698d3fa4e2a415b107ee878afd7f85d4c6a5426",
         "sections": [
           {
             "heading": "DataGrid sx와 select·자동완성",
@@ -365521,7 +365521,7 @@
       {
         "id": "agents/consumer/datagrid/references/editing.md",
         "packageId": "datagrid",
-        "sha256": "b8be67f8b841aca7f08ec7c735b72618083fbc89968e380aa36d8c331d61794e",
+        "sha256": "9f803282e9af4030dcc5a19c12c357baca5b2d20b34d68df7628d6826d9d2253",
         "sections": [
           {
             "heading": "DataGrid 편집·행 변경과 이동",
@@ -365545,7 +365545,7 @@
           },
           {
             "heading": "Text 컬럼 입력 정책",
-            "line": 61,
+            "line": 31,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.editing"
@@ -365554,7 +365554,7 @@
           },
           {
             "heading": "Row reordering",
-            "line": 77,
+            "line": 47,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.rows"
@@ -365756,7 +365756,7 @@
       {
         "id": "agents/consumer/datagrid/references/temporal-cells.md",
         "packageId": "datagrid",
-        "sha256": "b29299622675aff7a31554183ae7a6a707950329999370f32cbdddaa4169accb",
+        "sha256": "91f9bf443df02af53e146483343de4f81ad8528b51e5b3b945677132578019d1",
         "sections": [
           {
             "heading": "날짜·시간 셀",
@@ -365913,7 +365913,7 @@
           },
           {
             "heading": "변경과 명시적 확정 callback",
-            "line": 114,
+            "line": 106,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.formatting"
@@ -365922,7 +365922,7 @@
           },
           {
             "heading": "Public API와 컬럼 선택",
-            "line": 120,
+            "line": 112,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.formatting"
@@ -365931,7 +365931,7 @@
           },
           {
             "heading": "기존 valueFormatter 전환",
-            "line": 127,
+            "line": 119,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.formatting"
@@ -365940,7 +365940,7 @@
           },
           {
             "heading": "입력값과 시간대",
-            "line": 133,
+            "line": 125,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.formatting"
@@ -365949,7 +365949,7 @@
           },
           {
             "heading": "정렬·필터·저장과 Excel",
-            "line": 140,
+            "line": 132,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.formatting"
@@ -365958,7 +365958,7 @@
           },
           {
             "heading": "편집·필터 UI",
-            "line": 147,
+            "line": 139,
             "disposition": "mapped",
             "guideIds": [
               "@owp/datagrid:guide.formatting"
@@ -365970,7 +365970,7 @@
       {
         "id": "agents/consumer/page-layout/references/charts.md",
         "packageId": "charts",
-        "sha256": "8c5ba2b7baab00d8e9dc3d0a767869681fd75da79862cb05f1b120cc2e22e035",
+        "sha256": "e8c3bb5246666d69c14299d997f500515fcea6a572b6cac8ecd4fa3095e77e72",
         "sections": [
           {
             "heading": "차트 구현 규칙",
@@ -365987,7 +365987,7 @@
           },
           {
             "heading": "접근성과 조회 상태",
-            "line": 14,
+            "line": 13,
             "disposition": "consumer-pattern",
             "guideIds": [
               "@owp/charts:guide.composition",
@@ -366000,7 +366000,7 @@
           },
           {
             "heading": "데이터·옵션 갱신과 공통 유틸",
-            "line": 21,
+            "line": 20,
             "disposition": "consumer-pattern",
             "guideIds": [
               "@owp/charts:guide.composition",
@@ -366013,7 +366013,7 @@
           },
           {
             "heading": "패널 높이와 반응형",
-            "line": 29,
+            "line": 28,
             "disposition": "consumer-pattern",
             "guideIds": [
               "@owp/charts:guide.composition",
