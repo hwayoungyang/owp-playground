@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import { validateBuild } from './deploy-build.mjs';
+import { copyStableVersionArchive } from './deploy-version-archive.mjs';
 
 const execute = promisify(execFile);
 
@@ -86,7 +87,7 @@ export function createReleaseId(commit, date = new Date()) {
   return `${parts.year}${parts.month}${parts.day}-${parts.hour}${parts.minute}${parts.second}-${commit}`;
 }
 
-export async function createArtifact({ directory, context, builtAt = new Date() }) {
+export async function createArtifact({ directory, context, archiveRoot, builtAt = new Date() }) {
   await validateBuild(directory);
   const original = await fileManifest(directory);
   for (const reserved of ['release.json', 'deploy-manifest.json', 'deploy-files.sha256']) {
@@ -98,7 +99,7 @@ export async function createArtifact({ directory, context, builtAt = new Date() 
     }
   }
   const release = createReleaseId(context.commit, builtAt);
-  const workspace = await mkdtemp(path.join(tmpdir(), 'owp-artifact-'));
+  const workspace = await realpath(await mkdtemp(path.join(tmpdir(), 'owp-artifact-')));
   const cleanup = () => rm(workspace, { recursive: true, force: true });
   try {
     const content = path.join(workspace, 'content');
@@ -107,18 +108,20 @@ export async function createArtifact({ directory, context, builtAt = new Date() 
     if (JSON.stringify(original) !== JSON.stringify(await fileManifest(content))) {
       throw new Error('artifact 복사 중 dist 내용이 변경됐습니다. 다시 빌드해 주세요.');
     }
+    if (archiveRoot !== undefined) await copyStableVersionArchive({ archiveRoot, content });
+    const payload = await fileManifest(content);
     const metadata = {
       release,
       commit: context.commit,
       builtAt: builtAt.toISOString(),
       packages: context.packages,
       dirty: context.dirty,
-      contentSha256: createHash('sha256').update(JSON.stringify(original)).digest('hex'),
+      contentSha256: createHash('sha256').update(JSON.stringify(payload)).digest('hex'),
     };
     const metadataFile = path.join(content, 'release.json');
     await writeFile(metadataFile, `${JSON.stringify(metadata, null, 2)}\n`, { flag: 'wx' });
     const manifest = { version: 1, files: {
-      ...original,
+      ...payload,
       'release.json': { bytes: (await lstat(metadataFile)).size, sha256: await fileSha256(metadataFile) },
     } };
     await writeFile(path.join(content, 'deploy-manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, { flag: 'wx' });

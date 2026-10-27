@@ -65,7 +65,7 @@ pnpm preview
 
 ## 배포 CLI
 
-배포 명령은 서비스별로 분리합니다. 버전별 Playground와 MCP는 같은 아카이브를 조회하므로 하나의 별도 서비스로 배포합니다.
+배포 명령은 서비스별로 분리합니다. 정적 Playground는 로컬 stable 아카이브의 복사본을 같은 origin의 `/versions/`에서 제공합니다. 별도 MCP 서비스도 같은 형식의 아카이브를 사용하며 자체 배포 명령으로 갱신합니다.
 
 | 명령 | 대상 | 서버 경로·포트 |
 | --- | --- | --- |
@@ -112,9 +112,11 @@ pnpm deploy:cleanup
 
 매번 로컬에서 `pnpm build`를 새로 실행합니다. 커밋되지 않은 파일 변경도 포함하며, 빌드·artifact 생성 중 소스·설정·설치된 OWP 패키지가 변경되면 전송 전에 중단합니다. 기존 `dist`를 재사용하거나 의존성 버전·lockfile을 변경하지 않습니다.
 
+정적 배포에는 `.playground-versions/`의 검증 가능한 stable 스냅샷이 하나 이상 필요합니다. 아카이브가 없거나 stable이 없으면 오류로 중단합니다. artifact 생성 시 stable 릴리스의 전체 파일(API·catalog·assets·snippets 포함)을 `versions/`에 복사하며 draft는 공개하지 않습니다. 기존 latest가 stable이면 유지하고 draft이면 생성 시각이 가장 최근인 stable을 선택합니다. 생성 시각이 같으면 release ID 내림차순으로 선택합니다. `dist/versions`는 예약 경로이므로 기존 파일·디렉터리·symlink가 있으면 거부합니다. 원본 `dist`와 아카이브는 변경하지 않으며 복사 전후의 경로·index·manifest·전체 파일 SHA-256을 검증합니다.
+
 릴리스 ID는 한국 시간의 `YYYYMMDD-HHMMSS-<short-sha>`입니다. 같은 ID의 릴리스·업로드·배포 이력이 있으면 덮어쓰지 않고 중단하므로 잠시 후 다시 실행합니다. Git SHA만으로 빌드 내용이 같다고 판단하지 않습니다. artifact에는 다음 파일을 추가하며 원본 `dist`는 유지합니다.
 
-- `release.json`: 실제 설치된 `@owp/*` 버전, 빌드 완료 시각(UTC ISO 8601), Git SHA, 작업 트리 변경 여부와 원본 파일 목록의 SHA-256을 기록합니다. 인증 정보·서버 경로는 포함하지 않습니다.
+- `release.json`: 실제 설치된 `@owp/*` 버전, 빌드 완료 시각(UTC ISO 8601), Git SHA, 작업 트리 변경 여부와 `versions/`를 포함한 배포 콘텐츠 목록의 SHA-256을 기록합니다. 인증 정보·서버 경로는 포함하지 않습니다.
 - `deploy-manifest.json`: 파일별 SHA-256과 크기를 기록합니다.
 - `deploy-files.sha256`: 정적 파일과 두 JSON 파일의 SHA-256 목록입니다.
 
@@ -129,6 +131,7 @@ artifact 경로는 영문·숫자와 `_ . / @ + -`를 지원합니다. 공백·�
 - Nginx 컨테이너 실행 여부와 `/health`의 HTTP 200·`ok` 응답을 확인합니다.
 - `/`, `/robots.txt`, SPA fallback의 HTTP 200과 실제 파일 SHA-256을 확인합니다.
 - 신규 릴리스의 `/release.json`, `/deploy-manifest.json`, JavaScript·CSS와 `index.html`이 참조하는 로컬 파일을 확인합니다. HTTP 200이어도 이전 HTML이나 잘못된 파일이 반환되면 실패합니다.
+- `/versions/index.json`과 각 stable 릴리스의 manifest·HTML·패키지 목록·knowledge index 및 API·catalog·snippet·JavaScript·CSS의 대표 파일을 실제 HTTP SHA-256으로 확인합니다. 버전 아카이브가 없는 과거 릴리스는 rollback 검증에서 계속 지원합니다.
 
 전환 전에 기존 릴리스의 파일과 HTTP 응답을 확인해 복구 기준을 확보합니다. 새 릴리스 검증에 실패하면 같은 잠금 안에서 이전 `current`로 원자적으로 복구하고 이전 파일의 HTTP 검증을 반복합니다. 복구에 성공해도 배포 명령은 실패 코드로 종료합니다. 복구까지 실패하면 오류를 표시하고 추가 변경 없이 중단합니다. 수동 rollback의 대상 검증 실패에도 원래 `current`를 복원하고 다시 검증합니다.
 

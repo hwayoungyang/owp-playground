@@ -14,7 +14,11 @@ Core의 앱 정책 adapter와 Components의 공통 UI는 소유 패키지를 구
 | 화면·Knowledge 스냅샷 | 한국 시간의 `YYYYMMDD-HHMMSS-<Git SHA>` 형식 `releaseId` |
 | Playground 프로그램 | 루트 `package.json`의 버전 |
 | MCP 서버 프로그램 | `mcp/package.json`의 버전 |
+| MCP 통신 프로토콜 | `2026-07-28` 및 이전 `2025-11-25` 연결 지원 |
+| MCP TypeScript SDK | server·client·core `2.4.0`, Node 어댑터 `2.1.2` |
 | Knowledge·아카이브 형식 | 각 데이터의 `schemaVersion` |
+
+MCP 프로토콜 revision, SDK 버전, 서버 프로그램 버전과 OWP 패키지 버전은 서로 다른 기준입니다. 최신 프로토콜은 `server/discover`로 확인하며, 이전 클라이언트의 `initialize` 연결도 유지합니다. SDK 업데이트는 [공식 2.4.0 릴리스](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v2.4.0)를 기준으로 반영했습니다. HTTP와 로컬 stdio에서 두 프로토콜의 도구 호출·resource 조회를 검증합니다.
 
 설치 계약은 workspace 직접 의존성과 패키지 소유자별 해석을 구분합니다. `reviewed-packages.json`은 직접 설치본을, `reviewed-package-resolutions.json`은 각 소유 패키지의 실제 전이 의존 버전과 declaration/runtime 지문을 검토합니다. 생성 원본과 `knowledge/index.json`의 `resolvedDependencies`는 이 소유자별 설치 계약이며 번들의 dedupe 설정으로 패키지 설치 버전이 바뀌지는 않습니다. 기존 MCP의 `dependencies`를 특정 패키지의 전체 전이 의존 그래프로 해석하지 않습니다.
 
@@ -54,7 +58,7 @@ corepack pnpm snapshot:create --draft
 corepack pnpm snapshot:create --stable
 ```
 
-`--stable`은 커밋되지 않은 변경이 있으면 실패합니다. 생성 자료도 현재 소스와 일치해야 합니다. `snapshot:create`는 자동 commit·패키지 게시·운영 서버 배포를 수행하지 않습니다. 아카이브는 기존 운영 배포의 `releases/`와 별도로 보존하므로 최근 5개 운영 릴리스 정리·rollback 정책의 영향을 받지 않습니다. `pnpm deploy`는 기존 최신 사이트 배포 절차를 유지합니다. 버전별 사이트와 MCP는 아래 `deploy:mcp` 명령으로 별도 서비스에 설치합니다.
+`--stable`은 커밋되지 않은 변경이 있으면 실패합니다. 생성 자료도 현재 소스와 일치해야 합니다. `snapshot:create`는 자동 commit·패키지 게시·운영 서버 배포를 수행하지 않습니다. 아카이브 원본은 기존 운영 배포의 `releases/`와 별도로 보존하므로 최근 5개 운영 릴리스 정리·rollback 정책의 영향을 받지 않습니다. `pnpm deploy`는 검증한 stable 아카이브를 정적 배포 산출물에도 포함합니다. HTTP MCP는 아래 `deploy:mcp` 명령으로 별도 서비스에 설치합니다.
 
 ## 로컬에서 화면과 HTTP MCP 확인
 
@@ -69,7 +73,7 @@ corepack pnpm mcp:http --allow-drafts
 
 루트 주소는 최신 제공 가능한 스냅샷으로 이동하며 query를 보존합니다. 헤더에서 패키지 버전과 문서 날짜를 선택할 수 있습니다. 버전을 바꾸면 대상의 실행 코드를 새로 로드하고, 대상에도 존재하는 예제·API 및 언어·화면 모드를 유지합니다. 과거 파일의 줄 강조는 제거합니다. 없는 버전·파일을 최신 HTML로 대체하지 않습니다.
 
-기본 서버는 `stable`만 제공합니다. 로컬 미커밋 코드로 만든 스냅샷을 확인하려면 `--allow-drafts`를 명시합니다. 일반 `pnpm dev`·`pnpm build`는 현재 소스의 화면이며 아카이브를 자동 등록하지 않습니다. 일반 `pnpm dev`의 버전 메뉴는 현재 개발 버전만 표시하며, 아카이브 목록과 버전 이동은 위 HTTP 서버에서 제공합니다.
+기본 서버는 `stable`만 제공합니다. 로컬 미커밋 코드로 만든 스냅샷을 확인하려면 `--allow-drafts`를 명시합니다. 일반 `pnpm dev`·`pnpm build`는 현재 소스의 화면이며 아카이브를 자동 등록하지 않습니다. 일반 `pnpm dev`의 버전 메뉴는 현재 개발 버전만 표시합니다. 아카이브 목록과 버전 이동은 위 HTTP 서버와 stable 아카이브를 포함한 정적 배포에서 제공합니다.
 
 ## 팀 공용 HTTP
 
@@ -89,7 +93,7 @@ AI 클라이언트에는 `http://owp.internal:30011/mcp`를 Streamable HTTP 서�
 
 ## 운영 배포 순서
 
-배포 명령은 서비스별로 분리합니다. `deploy`는 30010의 최신 정적 Playground를 관리하고, `deploy:mcp`는 30011의 버전별 Playground와 HTTP MCP를 함께 관리합니다. 버전별 화면과 MCP는 같은 stable 아카이브를 조회하므로 한 서비스로 전환·검증합니다.
+배포 명령은 서비스별로 분리합니다. `deploy`는 30010의 최신 정적 Playground와 배포 시점의 stable 아카이브 사본을 관리하고, `deploy:mcp`는 30011의 버전별 Playground와 HTTP MCP를 함께 관리합니다. 두 배포 모두 검증한 로컬 stable 아카이브를 사용하며, 각각 배포한 시점의 목록을 제공합니다.
 
 | 대상 | 명령 | 서버 경로 | 운영 방식 |
 | --- | --- | --- | --- |
@@ -108,7 +112,9 @@ corepack pnpm deploy
 corepack pnpm deploy:status
 ```
 
-이 경로는 최신 정적 사이트를 새로 빌드해 기존 Nginx의 `current`를 전환합니다. 버전 아카이브 전송이나 MCP 프로세스 설치는 포함하지 않습니다. 실패 복구는 기존 `deploy:rollback`을 사용합니다. 자세한 서버 조건은 [README의 배포 CLI](../README.md#배포-cli)를 따릅니다.
+이 경로는 최신 정적 사이트를 새로 빌드하고, `.playground-versions`에서 검증한 stable 아카이브 전체를 `versions/`에 포함해 기존 Nginx의 `current`를 전환합니다. 배포 전에 clean commit의 `snapshot:create --stable`을 실행하세요. stable이 없거나 아카이브가 손상되면 배포를 중단합니다. draft는 정적 사이트에 포함하지 않습니다.
+
+버전 목록과 버전별 API·catalog·asset·snippet을 같은 origin에서 제공하므로 `/versions/index.json` 요청이 메인 HTML로 대체되는 오류를 방지합니다. 일반 `dist/`와 아카이브 원본은 유지하고 배포용 임시 산출물에만 복사합니다. Nginx·Docker 설정 변경이나 MCP 프로세스 설치는 포함하지 않습니다. 실패 복구는 기존 `deploy:rollback`을 사용합니다. 자세한 서버 조건은 [README의 배포 CLI](../README.md#배포-cli)를 따릅니다.
 
 ### MCP 최초 설치와 이후 갱신
 

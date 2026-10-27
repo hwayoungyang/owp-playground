@@ -58,6 +58,24 @@ health_release() {
   if test "$(basename -- "$directory")" != initial; then
     http_match /release.json "$directory/release.json" || return 1
     http_match /deploy-manifest.json "$directory/deploy-manifest.json" || return 1
+    if test -f "$directory/versions/index.json"; then
+      version_files=$(awk '
+        $2 == "versions/index.json" { print $2; next }
+        $2 ~ /^versions\// {
+          split($2, parts, "/"); category=parts[3]
+          if (category ~ /^(index.html|packages.json|knowledge-release.json)$/ || $2 ~ /\/knowledge\/index.json$/) print $2
+          else if (category ~ /^(api|catalogs|snippets)$/ && !seen[parts[2] "/" category]++) print $2
+          else if (category == "assets" && $2 ~ /\.(js|css)$/) {
+            extension=$2; sub(/^.*\./, "", extension)
+            if (!seen[parts[2] "/assets/" extension]++) print $2
+          }
+        }
+      ' "$snapshot")
+      test -n "$version_files" || return 1
+      for version_file in $version_files; do
+        http_match "/$version_file" "$directory/$version_file" || return 1
+      done
+    fi
     assets=$(awk '$2 ~ /^assets\/.*\.(js|css)$/ { print $2 }' "$snapshot" | awk '/\.js$/ && !js++ { print } /\.css$/ && !css++ { print }')
     test "$(printf '%s\n' "$assets" | wc -l)" -eq 2 || return 1
     references=$(grep -oE '(src|href)="[^"]+"' "$directory/index.html" | cut -d '"' -f 2 | sed -E 's@^/@@; s@^\./@@' | sort -u) || return 1

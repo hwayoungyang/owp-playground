@@ -54,6 +54,11 @@ test('runs a fresh build through staging, atomic activation and HTTP verificatio
   assert.deepEqual(calls[0].args, [{ interactive: false, assumeVpn: true }]);
   assert.deepEqual(result, { stage: 'deployed', build, uploaded, staged, activated });
   assert.equal(calls.find((call) => call.name === 'activate').args.at(-1).verifyHealth, true);
+  assert.deepEqual(calls.find((call) => call.name === 'package').args, [{
+    directory: fileURLToPath(new URL('../../dist', import.meta.url)),
+    archiveRoot: fileURLToPath(new URL('../../.playground-versions', import.meta.url)),
+    context,
+  }]);
 });
 
 for (const failure of ['vpn', 'tcp', 'http', 'connect', 'ssh', 'ready', 'build', 'validate', 'package', 'upload', 'stage', 'activate']) {

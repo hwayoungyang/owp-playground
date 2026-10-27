@@ -17,7 +17,8 @@ export type ArchivedRelease = {
   readonly manifest: KnowledgeRelease;
 };
 
-async function readReleaseEntry(archiveRoot: string, entry: ReleaseIndexEntry): Promise<ArchivedRelease> {
+/** 검증한 index entry에 해당하는 manifest와 전체 파일의 무결성을 확인합니다. */
+export async function readReleaseEntry(archiveRoot: string, entry: ReleaseIndexEntry): Promise<ArchivedRelease> {
   const directory = safeArchivePath(archiveRoot, `versions/${entry.releaseId}`);
   const bytes = await readArchiveBytes(directory, 'knowledge-release.json');
   if (archiveFileFingerprint(bytes).sha256 !== entry.manifestSha256) {

@@ -119,7 +119,7 @@ export async function runDeployment(options, dependencies = {}) {
     const build = await validate(path.join(repoRoot, 'dist'));
     assertBuildContext(before, await context(repoRoot));
     log(`빌드 검증: OK (${build.files}개 파일, assets ${build.assets}개, ${(build.bytes / 1_000_000).toFixed(2)}MB)`);
-    const artifact = await pack({ directory: path.join(repoRoot, 'dist'), context: before });
+    const artifact = await pack({ directory: path.join(repoRoot, 'dist'), context: before, archiveRoot: path.join(repoRoot, '.playground-versions') });
     try {
       assertBuildContext(before, await context(repoRoot));
       log(`Artifact: ${artifact.release} (${(artifact.bytes / 1_000_000).toFixed(2)}MB)`);
