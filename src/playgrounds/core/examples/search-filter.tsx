@@ -106,6 +106,47 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
     }
   }
 
+  const fields = (
+    <>
+      <div className="core-field">
+        <OwpQuerySelector<QueryFixtureItem>
+          apiUrl={apiUrl}
+          query={{}}
+          valueKey="id"
+          labelResolver={(row) => (i18n.language === 'en' ? row.nameEn : row.nameKo)}
+          queryKeyDeps={[i18n.language]}
+          value={itemId}
+          label={t('항목명')}
+          textFieldProps={{ variant: 'outlined', size: 'small' }}
+          selectProps={{
+            variant: 'outlined',
+            size: 'small',
+            input: <OutlinedInput label={t('항목명')} />,
+          }}
+          fullWidth
+          disabled={loading}
+          onChange={(event) => setItemId(event.target.value)}
+        />
+      </div>
+      <div className="core-field">
+        <TextField
+          select
+          label={t('상태')}
+          value={status}
+          variant="outlined"
+          size="small"
+          fullWidth
+          disabled={loading}
+          onChange={(event) => setStatus(event.target.value)}
+        >
+          <MenuItem value="all">{t('전체')}</MenuItem>
+          <MenuItem value="active">{t('사용')}</MenuItem>
+          <MenuItem value="inactive">{t('미사용')}</MenuItem>
+        </TextField>
+      </div>
+    </>
+  );
+
   return (
     <CoreDemo
       controls={
@@ -152,42 +193,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
             onRecord('cancel', t('조회 작업을 취소했습니다.'));
           }}
         >
-          <div className="core-field">
-            <OwpQuerySelector<QueryFixtureItem>
-              apiUrl={apiUrl}
-              query={{}}
-              valueKey="id"
-              labelResolver={(row) => (i18n.language === 'en' ? row.nameEn : row.nameKo)}
-              queryKeyDeps={[i18n.language]}
-              value={itemId}
-              label={t('항목명')}
-              textFieldProps={{ variant: 'outlined', size: 'small' }}
-              selectProps={{
-                variant: 'outlined',
-                size: 'small',
-                input: <OutlinedInput label={t('항목명')} />,
-              }}
-              fullWidth
-              disabled={loading}
-              onChange={(event) => setItemId(event.target.value)}
-            />
-          </div>
-          <div className="core-field">
-            <TextField
-              select
-              label={t('상태')}
-              value={status}
-              variant="outlined"
-              size="small"
-              fullWidth
-              disabled={loading}
-              onChange={(event) => setStatus(event.target.value)}
-            >
-              <MenuItem value="all">{t('전체')}</MenuItem>
-              <MenuItem value="active">{t('사용')}</MenuItem>
-              <MenuItem value="inactive">{t('미사용')}</MenuItem>
-            </TextField>
-          </div>
+          {skeleton ? <div className="core-controls">{fields}</div> : fields}
         </OwpSearchFilter>
         <CoreResultTable
           variant="dataGrid"

@@ -30,7 +30,7 @@ export const basicEnglish: Readonly<Record<string, string>> = {
   '화면 잠금 실행': 'Run page lock',
   '실패 후 잠금 해제': 'Unlock after failure',
   '미저장 변경 상태': 'Unsaved changes state',
-  '보호된 초기화': 'Guarded reset',
+  '변경사항 확인 후 초기화': 'Check changes and reset',
   '생산 라인': 'Production line',
   품목: 'Item',
   '목표 수량': 'Target quantity',

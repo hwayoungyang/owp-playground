@@ -12,6 +12,8 @@ Core 공개 기능 보완 (2026-10-27): Core가 직접 구현한 hooks·utils·�
 
 # OWP Playground Design System
 
+Core 시작하기 가독성 (2026-10-28): 핵심 역할·문서 이름·설정 파일을 본문과 같은 색상의 600 weight strong으로 강조한다. 강조 양옆에는 0.08em 간격을 두고 문단 간격은 20px, 본문 line-height는 1.9로 미세하게 조정한다. 시작하기 본문에만 적용하며 코드·표·목차와 다른 가이드의 간격은 유지한다. raw API 성공 결과는 기존 JSON CodeSnippet의 표면·구문 강조·복사 기능으로 표시하고 원본 JSON 값을 보존한다. 검색 필터 Skeleton은 기존 core-controls의 줄바꿈과 gap으로 입력 간격을 확보한다.
+
 사용자 권한·조회 상태·공개 명칭 정리 (2026-10-27): 사용자 권한 예제는 셀렉트 선택 즉시 적용하고 샘플 페이지 링크와 CREATE·READ·UPDATE·DELETE를 표로 표시한다. 권한은 semantic success/error 색상의 O/X와 접근성 이름을 함께 제공하며 설명은 한 문단으로 줄인다. 조회 결과 표는 전체 폭의 실제 tbody 영역을 확보하고 조회 전·로딩·결과 없음·오류 안내를 가운데 표시한다. Components 공개 API에 빈 본문 slot이 없으므로 필요한 상태 표만 공개 MUI Table과 OWP 테마로 구성하고 정상 데이터는 OwpTable로 렌더링한다. 회사 상호·로고는 공개 화면·문서에서 제외하고 참조 앱/Reference app으로 일반화한다. 테마 preset은 reference로 저장하되 이전 파일의 preset ID는 import 호환 별칭으로만 읽는다. Core9.0.0·Components3.1.2·Charts5.0.3·DataGrid3.5.2의 설치 공개 API·원본 문서·실행 예제를 대조해 Knowledge 검토 지문을 갱신한다.
 
 Core Components 표 테마 연결 (2026-10-27): Core 실행 환경의 설정 bridge에서 현재 settings.theme.main.table을 공개 OwpThemeProvider.table에 전달한다. Components OwpTable·OwpFieldTable도 Core 설정에 맞는 header·cell·row 테마를 받도록 하며, MUI dark mode의 글자색과 기본 light header 배경이 섞이지 않게 한다. 앱 설정 예제의 현재 테마 변경도 같은 context에 반영한다. 표마다 색을 직접 지정하거나 패키지 내부 CSS를 덮어쓰지 않는다.

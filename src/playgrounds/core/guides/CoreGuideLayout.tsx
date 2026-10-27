@@ -39,7 +39,11 @@ export function CoreGuideLayout({
 }: CoreGuideLayoutProps) {
   const { t } = useOwpTranslation();
   return (
-    <section className="workspace getting-started core-guide" aria-label={t(example.title)}>
+    <section
+      className="workspace getting-started core-guide"
+      data-guide={example.id}
+      aria-label={t(example.title)}
+    >
       <WorkspaceHeading example={example} packageTitle="owp/core" categoryLabel="문서" />
       <div className="core-guide-layout">
         <details className="core-guide-outline-mobile">

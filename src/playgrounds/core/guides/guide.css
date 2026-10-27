@@ -56,6 +56,20 @@
   margin-bottom: 0;
 }
 
+.core-guide[data-guide="getting-started"] .guide-sections p {
+  margin-bottom: 20px;
+  line-height: 1.9;
+}
+
+.core-guide[data-guide="getting-started"] .guide-sections p:last-child {
+  margin-bottom: 0;
+}
+
+.core-guide[data-guide="getting-started"] .guide-sections strong {
+  margin-inline: 0.08em;
+  font-weight: 600;
+}
+
 .core-guide .guide-sections .guide-introduction {
   margin: 0;
   padding-bottom: 28px;

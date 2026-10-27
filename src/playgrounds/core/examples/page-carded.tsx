@@ -107,7 +107,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
                     });
                   }}
                 >
-                  {t('보호된 초기화')}
+                  {t('변경사항 확인 후 초기화')}
                 </Button>
               }
               isRunning={searchAction.isRunning}

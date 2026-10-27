@@ -21,6 +21,20 @@ export type ApiDataset = {
   readonly examplesByKey: ReadonlyMap<string, ApiExampleSummary>;
 };
 
+function mainApiOwner(packageId: ApiPackageId): string {
+  return packageId === 'core'
+    ? 'OwpCoreProviderProps'
+    : packageId === 'datagrid'
+      ? 'OwpDataGridProps'
+      : 'ChartFrameProps';
+}
+
+export function selectApiRecord(dataset: ApiDataset, symbol: string | null): ApiRecord | undefined {
+  return dataset.recordsById.get(
+    symbol || `${dataset.knowledge.name}:${mainApiOwner(dataset.knowledge.id)}`,
+  );
+}
+
 export function createApiDataset(knowledge: PackageKnowledge): ApiDataset {
   const recordsById = new Map(
     [...knowledge.records, ...knowledge.referenceRecords].map((record) => [record.id, record]),
@@ -34,12 +48,7 @@ export function createApiDataset(knowledge: PackageKnowledge): ApiDataset {
     membersByOwner.set(key, members);
   }
   for (const members of membersByOwner.values()) members.sort(compareApiMembers);
-  const main =
-    knowledge.id === 'core'
-      ? 'OwpCoreProviderProps'
-      : knowledge.id === 'datagrid'
-        ? 'OwpDataGridProps'
-        : 'ChartFrameProps';
+  const main = mainApiOwner(knowledge.id);
   const order = [main, 'OwpDataGridColumn', 'OwpDataGridApi', 'Guides'];
   const rank = (owner: string) => {
     const index = order.indexOf(owner);

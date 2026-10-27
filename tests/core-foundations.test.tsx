@@ -19,6 +19,30 @@ vi.mock('../src/features/code/HighlightedCode', () => ({
 }));
 
 describe('Core foundation guides', () => {
+  it('renders restrained semantic emphasis in both getting-started languages', async () => {
+    const example = coreCatalog[0];
+    try {
+      for (const language of ['ko', 'en']) {
+        await i18next.changeLanguage(language);
+        const html = renderToStaticMarkup(<CoreGettingStarted example={example} />);
+        const responsibility = html
+          .split('aria-labelledby="core-responsibility"')[1]
+          ?.split('</section>')[0];
+        expect(responsibility).toContain('<strong>Components</strong>');
+        expect(responsibility).toContain('<strong>Core</strong>');
+        expect(responsibility).toContain(
+          language === 'ko'
+            ? '<strong>프로바이더·상태 관리·API·테마</strong>'
+            : '<strong>providers, state management, APIs, and themes</strong>',
+        );
+        expect(responsibility).not.toContain('&lt;strong&gt;');
+        if (language === 'en') expect(responsibility).not.toMatch(/[가-힣]/);
+      }
+    } finally {
+      await i18next.changeLanguage('ko');
+    }
+  });
+
   it('explains the shared UI and Core policy differences without claiming identical props', () => {
     const example = coreCatalog[0];
     const html = renderToStaticMarkup(<CoreGettingStarted example={example} />);

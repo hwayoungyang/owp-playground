@@ -3,6 +3,7 @@ import { Button, Typography } from '@mui/material';
 import { createOwpApiHooks } from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useQueryClient } from '@tanstack/react-query';
+import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import type { CoreExampleProps } from '../model/types';
 import {
   mutationPolicies,
@@ -204,7 +205,11 @@ function ApiRequest({
       </Typography>
       {responseMode === 'raw' ? (
         outcome.kind === 'success' && (
-          <pre className="core-json-value">{JSON.stringify(outcome.data, null, 2)}</pre>
+          <CodeSnippet
+            label="response.json"
+            language="json"
+            code={JSON.stringify(outcome.data, null, 2)}
+          />
         )
       ) : (
         <CoreResultTable

@@ -5,7 +5,12 @@ import { CaretDownIcon, CheckIcon } from '@phosphor-icons/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ApiDetail } from './ApiDetail';
 import { ApiKnowledgeContext } from './ApiKnowledgeContext';
-import { loadPackageKnowledge, type ApiDataset, type ApiRecord } from './model/knowledge';
+import {
+  loadPackageKnowledge,
+  selectApiRecord,
+  type ApiDataset,
+  type ApiRecord,
+} from './model/knowledge';
 import { apiHref } from './model/links';
 import { matchesApiQueryWords, normalizeApiQuery } from './model/search';
 import './styles.css';
@@ -76,15 +81,7 @@ export function ApiReference({
     retryPackage.current = null;
   }, [failed, packageId]);
   const records = dataset?.records ?? emptyRecords;
-  const target = dataset?.recordsById.get(
-    symbol ||
-      (packageId === 'core'
-        ? '@owp/core:OwpSearchFilterProps'
-        : packageId === 'datagrid'
-          ? '@owp/datagrid:OwpDataGridProps'
-          : '@owp/charts:ChartFrameProps'),
-  );
-  const selected = target;
+  const selected = dataset ? selectApiRecord(dataset, symbol) : undefined;
   const words = useMemo(() => normalizeApiQuery(query), [query]);
   const filtered = useMemo(() => {
     if (!kind && words.length === 0) return records;

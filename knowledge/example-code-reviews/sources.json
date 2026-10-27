@@ -108,6 +108,6 @@
   "playgrounds/datagrid/runtime/GridToolbar.tsx": "2c74ea5404369328cfa3548c68c1b0d8f33d7b3c693a5f77b27a6e4f0d1c4e89",
   "playgrounds/datagrid/runtime/taskGridPreview.tsx": "25797f8956e1b432bdb4176afa983714d1ca34d3fc91b6c6c45422e1ac358358",
   "playgrounds/datagrid/runtime/useGridController.ts": "89d8d71bc0199517ee25d18fb9c77c537b9d993ae25c923a96157f0dc0af4a33",
-  "playgrounds/core/examples/api-query.tsx": "af77dbefb407be0cec9ca1042264be3cfae1ec90f3244bbe1a9daccc3e2b0b72",
+  "playgrounds/core/examples/api-query.tsx": "9935fbf4a12d157aa2b5d108a46b6c6db416314b1425a84e86ac6bbd051abe7e",
   "playgrounds/core/guides/api-setup.tsx": "1ed80120551fb72c016d840f9539363b7a34f8753d04e9983d7f5dc311805827"
 }
