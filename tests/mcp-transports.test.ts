@@ -62,10 +62,18 @@ async function wire(
 }
 
 describe('real MCP SDK transports', () => {
-  for (const transport of ['http', 'stdio'] as const) {
-    it(`handshakes, lists five tools, calls tools and reads resources when using ${transport}`, async () => {
+  for (const [transport, protocol] of [
+    ['http', 'legacy'],
+    ['stdio', 'legacy'],
+    ['http', 'modern'],
+    ['stdio', 'modern'],
+  ] as const) {
+    it(`connects with ${protocol}, lists five tools, calls tools and reads resources over ${transport}`, async () => {
       // Given
-      const client = new Client({ name: 'owp-knowledge-test', version: '1.0.0' });
+      const client = new Client(
+        { name: 'owp-knowledge-test', version: '1.0.0' },
+        protocol === 'modern' ? { versionNegotiation: { mode: { pin: '2026-07-28' } } } : {},
+      );
       const channel =
         transport === 'http'
           ? new StreamableHTTPClientTransport(new URL(`${await httpServer()}/mcp`))
@@ -114,6 +122,13 @@ describe('real MCP SDK transports', () => {
         resourceResults.push(await client.readResource({ uri }));
       }
       // Then
+      expect(client.getProtocolEra()).toBe(protocol);
+      expect(client.getNegotiatedProtocolVersion()).toBe(
+        protocol === 'modern' ? '2026-07-28' : '2025-11-25',
+      );
+      if (protocol === 'modern') {
+        expect(client.getDiscoverResult()?.supportedVersions).toContain('2026-07-28');
+      }
       expect(tools.tools.map((tool) => tool.name).sort()).toEqual([
         'get_api',
         'get_example',
