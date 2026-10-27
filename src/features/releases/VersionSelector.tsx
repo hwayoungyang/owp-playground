@@ -1,10 +1,10 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, Menu, MenuItem } from '@mui/material';
 import { ArrowClockwiseIcon, CaretDownIcon, CheckIcon } from '@phosphor-icons/react';
-import { useEffect, useState } from 'react';
-import { z } from 'zod';
-import { packageKnowledgeSchema } from '../api/model/schema';
+import { useEffect, useRef, useState } from 'react';
 import { createVersionUrl } from './model/navigation';
+import { loadNavigationMetadata } from './model/navigation-metadata';
+import { formatReleaseDate, selectPackageVersionEntries } from './model/presentation';
 import { releaseIndexSchema, type ReleaseIndex, type ReleaseIndexEntry } from './model/schema';
 
 type VersionState =
@@ -13,8 +13,6 @@ type VersionState =
   | { readonly status: 'ready'; readonly index: ReleaseIndex }
   | { readonly status: 'empty' }
   | { readonly status: 'failed' };
-
-const sourceCatalogSchema = z.object({ samples: z.array(z.object({ id: z.string() })) });
 
 export function VersionSelector({
   packageId,
@@ -33,23 +31,33 @@ export function VersionSelector({
   const [retry, setRetry] = useState(0);
   const [moving, setMoving] = useState(false);
   const [navigationFailed, setNavigationFailed] = useState(false);
+  const menuController = useRef<AbortController | null>(null);
   const open = Boolean(anchor);
   const currentRelease = typeof __OWP_RELEASE__ === 'undefined' ? null : __OWP_RELEASE__;
+
+  const closeMenu = () => {
+    menuController.current?.abort();
+    setAnchor(null);
+  };
 
   useEffect(() => {
     if (!open || import.meta.env.DEV) return;
     const controller = new AbortController();
+    menuController.current = controller;
     const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(10_000)]);
+    setMoving(false);
     setState({ status: 'loading' });
     void (async () => {
       try {
         const response = await fetch('/versions/index.json', { signal, cache: 'no-store' });
+        if (controller.signal.aborted) return;
         if (response.status === 404) {
           setState({ status: 'empty' });
           return;
         }
         if (!response.ok) throw new TypeError('Version index HTTP failure');
         const payload: unknown = await response.json();
+        if (controller.signal.aborted) return;
         setState({ status: 'ready', index: releaseIndexSchema.parse(payload) });
       } catch (error) {
         if (controller.signal.aborted) return;
@@ -76,47 +84,36 @@ export function VersionSelector({
     });
 
   const navigate = async (release: ReleaseIndexEntry) => {
+    const signal = menuController.current?.signal;
     setMoving(true);
     setNavigationFailed(false);
     try {
-      const signal = AbortSignal.timeout(10_000);
-      const [apiResponse, catalogResponse] = await Promise.all([
-        fetch(`${release.basePath}api/${packageId}.json`, { signal }),
-        fetch(`${release.basePath}catalogs/${packageId}.sources.json`, { signal }),
-      ]);
-      if (!apiResponse.ok || !catalogResponse.ok) throw new TypeError('Version data HTTP failure');
-      const [apiPayload, catalogPayload]: readonly unknown[] = await Promise.all([
-        apiResponse.json(),
-        catalogResponse.json(),
-      ]);
-      const api = packageKnowledgeSchema.parse(apiPayload);
-      const catalog = sourceCatalogSchema.parse(catalogPayload);
-      if (
-        api.id !== packageId ||
-        !release.packages.some((entry) => entry.id === api.id && entry.version === api.version)
-      )
-        throw new TypeError('Version package mismatch');
-      location.assign(
-        destination(
-          release,
-          new Set([...api.records, ...api.referenceRecords].map((record) => record.id)),
-          new Set(catalog.samples.map((sample) => sample.id)),
-        ).href,
-      );
+      const { apiIds, sampleIds } = await loadNavigationMetadata({
+        release,
+        packageId,
+        currentHref: location.href,
+      });
+      if (signal?.aborted) return;
+      location.assign(destination(release, apiIds, sampleIds).href);
     } catch (error) {
+      if (signal?.aborted) return;
       if (error instanceof Error) setNavigationFailed(true);
       else throw error;
     } finally {
-      setMoving(false);
+      if (!signal?.aborted) setMoving(false);
     }
   };
 
+  const prefetch = (release: ReleaseIndexEntry) => {
+    void loadNavigationMetadata({ release, packageId, currentHref: location.href }).catch(
+      (error: unknown) => {
+        if (!(error instanceof Error)) throw error;
+      },
+    );
+  };
+
   const entries =
-    state.status === 'ready'
-      ? state.index.releases
-          .toReversed()
-          .filter((entry) => entry.packages.some((item) => item.id === packageId))
-      : [];
+    state.status === 'ready' ? selectPackageVersionEntries(state.index.releases, packageId) : [];
   const statusMessages = {
     development: {
       title: t('개발 중'),
@@ -161,7 +158,7 @@ export function VersionSelector({
       <Menu
         anchorEl={anchor}
         open={open}
-        onClose={() => setAnchor(null)}
+        onClose={closeMenu}
         slotProps={{
           paper: {
             className:
@@ -221,6 +218,12 @@ export function VersionSelector({
               selected={selected}
               disabled={moving}
               aria-current={selected ? 'page' : undefined}
+              onPointerEnter={() => {
+                if (!selected) prefetch(entry);
+              }}
+              onFocus={() => {
+                if (!selected) prefetch(entry);
+              }}
               onClick={(event) => {
                 if (
                   event.button !== 0 ||
@@ -231,7 +234,7 @@ export function VersionSelector({
                 )
                   return;
                 event.preventDefault();
-                if (selected) setAnchor(null);
+                if (selected) closeMenu();
                 else void navigate(entry);
               }}
             >
@@ -241,11 +244,7 @@ export function VersionSelector({
                   {entry.channel === 'draft' ? ` · ${t('개발본')}` : ''}
                 </span>
                 <span className="version-menu-date">
-                  {new Intl.DateTimeFormat(i18n.language === 'en' ? 'en-US' : 'ko-KR', {
-                    dateStyle: 'medium',
-                    timeStyle: 'medium',
-                    timeZone: 'Asia/Seoul',
-                  }).format(new Date(entry.createdAt))}
+                  {formatReleaseDate(entry.createdAt, i18n.language)}
                 </span>
               </span>
               {selected && <CheckIcon size={14} />}
