@@ -13,8 +13,8 @@ const adapters = new Map([
       catalog: coreCatalog,
       sourcePolicy: () => coreSourcePolicy,
       runtimeFiles: [],
-      referenceOnlyPackages: ['@owp/components'],
-      contractPackages: ['@owp/theme', '@owp/date-picker', '@owp/utils', '@owp/excel'],
+      referenceOnlyPackages: ['@owp/components', '@owp/theme', '@owp/utils', '@owp/excel'],
+      contractPackages: ['@owp/date-picker'],
     },
   ],
   [

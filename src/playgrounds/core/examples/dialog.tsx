@@ -43,7 +43,7 @@ export function EditItemDialog({ open, onClose, payload }: DialogProps<EditItemP
             required
             fullWidth
             size="small"
-            label={t('이름')}
+            label={t('항목명')}
             value={name}
             onChange={(event) => setName(event.target.value)}
             slotProps={{ htmlInput: { maxLength: 80 } }}
@@ -101,7 +101,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
           {t('편집 창 열기')}
         </Button>
         <OwpFieldTable
-          layout={[[{ title: t('저장된 이름'), key: 'name' }]]}
+          layout={[[{ title: t('저장된 항목명'), key: 'name' }]]}
           data={{ name: savedName }}
           titleWidth={120}
         />

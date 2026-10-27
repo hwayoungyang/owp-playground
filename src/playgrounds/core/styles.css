@@ -4,6 +4,16 @@
 .core-section-content {
   min-width: 0;
 }
+.core-ownership-guide-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--pg-blue);
+  text-underline-offset: 4px;
+}
 .core-controls {
   display: flex;
   flex-wrap: wrap;
@@ -29,6 +39,9 @@
   width: 240px;
   max-width: min(100%, 320px);
   min-width: 0;
+  flex: none;
+}
+.core-controls > .core-control-field {
   flex: 0 1 240px;
 }
 .core-control-field .MuiInputBase-root {
@@ -112,8 +125,34 @@
 .core-section-content .MuiTableContainer-root {
   max-width: 100%;
 }
+.core-result-comparison {
+  min-width: 0;
+}
+.core-result-comparison td:not([colspan]) {
+  text-align: left;
+  vertical-align: top;
+}
+.core-result-comparison .owp-table-cell-content {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.core-json-value {
+  display: block;
+  width: 100%;
+  margin: 0;
+  text-align: left;
+  white-space: pre;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+}
 .core-field {
   width: 240px;
+  max-width: 100%;
+  min-width: 0;
+}
+.core-date-range-field {
+  width: 320px;
   max-width: 100%;
   min-width: 0;
 }

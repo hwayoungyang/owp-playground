@@ -78,7 +78,7 @@ try {
   await editor().getByRole('combobox', { name: '테마', exact: true }).click();
   const menu = page.getByRole('listbox');
   const names = await menu.locator('[role=option][data-value]').allTextContents();
-  assert.deepEqual(names.map(name => name.trim()), ['화면과 같게', 'Carbon', 'Industrial', 'Navy', 'Teal', 'Plum', 'Olive', 'Bronze', 'Sand', 'Solarized', 'High Contrast', '한금']);
+  assert.deepEqual(names.map(name => name.trim()), ['화면과 같게', 'Carbon', 'Industrial', 'Navy', 'Teal', 'Plum', 'Olive', 'Bronze', 'Sand', 'Solarized', 'High Contrast', '참조 앱']);
   assert.equal(await menu.getByText('일반 테마', { exact: true }).count(), 1);
   assert.equal(await menu.getByText('프로젝트', { exact: true }).count(), 1);
   await shot('presets-grouped');
@@ -222,7 +222,7 @@ try {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
   await shot('mui-palette-mobile');
   await page.getByRole('button', { name: '색상 팔레트 닫기', exact: true }).click();
-  await choosePreset('hankum');
+  await choosePreset('reference');
   await editor().getByRole('button', { name: '어둡게', exact: true }).click();
   await axe();
   await shot('theme-mobile-dark');

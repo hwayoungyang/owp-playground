@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { describe, expect, it } from 'vitest';
-import { toReferenceStyle } from '../knowledge/korean-copy.mjs';
+import { normalizeAppTerminology, toReferenceStyle } from '../knowledge/korean-copy.mjs';
 import { guides } from '../knowledge/guides.mjs';
 
 const { records } = JSON.parse(
@@ -15,8 +15,49 @@ const numbers = (text) => text.match(/-?\d+(?:\.\d+)?/g) ?? [];
 const proseEnding = /(?:니다|세요|한다|된다|는다|이다)(?=[.!?](?:\s|$)|$)/;
 
 describe('한국어 API 참조 문체', () => {
+  it('원문 문장의 종결·코드·인용을 보존하며 일반 앱 용어를 적용한다', () => {
+    expect(
+      normalizeAppTerminology('소비앱에서 실행합니다. `소비앱` 또는 "소비 앱"은 인용입니다.'),
+    ).toBe('앱에서 실행합니다. `소비앱` 또는 "소비 앱"은 인용입니다.');
+  });
   it.each([
+    [
+      '같은 검색 폼입니다. 같은 화면 구조입니다. 값을 받습니다. 대상을 좁힙니다.',
+      '같은 검색 폼. 같은 화면 구조. 값을 받음. 대상을 좁힘.',
+    ],
+    ['독립 store가 만들어집니다. 앱을 감쌉니다.', '독립 store가 생성됨. 앱을 감쌈.'],
+    [
+      '타입을 맞춥니다. 판정을 호출부에 맡깁니다. 함께 바꿉니다.',
+      '타입을 맞춤. 판정을 호출부에 맡김. 함께 변경.',
+    ],
+    [
+      '초기 상태 옵션입니다. 최소 예제입니다. 소비 코드입니다. 반복할 필요가 줄어듭니다.',
+      '초기 상태 옵션. 최소 예제. 소비 코드. 반복할 필요가 줄어듦.',
+    ],
+    ['설정 상태를 공유합니다. 변경에 반응합니다.', '설정 상태 공유. 변경에 반응.'],
+    ['사용자 상태를 구독합니다. 로고를 초기화합니다.', '사용자 상태 구독. 로고 초기화.'],
+    ['의존성을 선언합니다. 변경을 수행합니다.', '의존성 선언. 변경 수행.'],
+    [
+      '확인 UI를 Dialog 옆에 render한다. false로 해석한다.',
+      '확인 UI를 Dialog 옆에 render. false로 해석.',
+    ],
+    [
+      '새 store를 만들지 않습니다. DOM wrapper를 만들지 않는다.',
+      '새 store를 만들지 않음. DOM wrapper를 만들지 않음.',
+    ],
+    [
+      '화면에 반영됩니다. 실패로 처리됩니다. 상태의 수명을 분명히 합니다.',
+      '화면에 반영됨. 실패로 처리됨. 상태의 수명을 분명히 함.',
+    ],
     ['외부 오류를 제거합니다.', '외부 오류 제거.'],
+    [
+      '그룹을 필터링합니다. 페이지 이동을 보호합니다. ZIP으로 저장합니다. 창을 엽니다.',
+      '그룹 필터링. 페이지 이동 보호. ZIP으로 저장. 창을 엶.',
+    ],
+    ['소비앱 UI에서 직접 여는 Hook입니다.', '앱 UI에서 직접 여는 Hook.'],
+    ['취소 버튼을 비활성화한다.', '취소 버튼 비활성화.'],
+    ['진행·취소 상태를 추적한다.', '진행·취소 상태 추적.'],
+    ['변경된 설정은 이후 reset의 기준이 된다.', '변경된 설정은 이후 reset의 기준이 됨.'],
     ['현재 row를 반환합니다.', '현재 row 반환.'],
     ['기본값을 사용한다. 설정을 유지한다.', '기본값 사용. 설정 유지.'],
     ['ID는 고유해야 합니다.', 'ID는 고유해야 함.'],
@@ -117,8 +158,8 @@ describe('한국어 API 참조 문체', () => {
     expect(remaining).toEqual([]);
   });
 
-  it('가이드 25개의 description·body 문체와 API·예제 참조를 유지한다', () => {
-    expect(guides).toHaveLength(25);
+  it('모든 가이드의 description·body 문체와 API·예제 참조를 유지한다', () => {
+    expect(guides).toHaveLength(30);
     for (const guide of guides) {
       expect(proseEnding.test(guide.description), guide.id).toBe(false);
       expect(proseEnding.test(guide.body), guide.id).toBe(false);

@@ -58,20 +58,17 @@ export function buildNavigationModel({
   readonly isApi: boolean;
   readonly getExampleUrl: (id: string) => string;
 }): NavigationViewModel {
-  const guideEntry = examples.find((entry) => entry.kind === 'guide');
+  const guideEntries = examples.filter((entry) => entry.kind === 'guide');
 
-  const docItems: NavigationItem[] = [];
-  if (guideEntry) {
-    docItems.push({
-      id: guideEntry.id,
-      title: '시작하기',
-      url: getExampleUrl(guideEntry.id),
-      active: !isApi && currentId === guideEntry.id,
-      kind: guideEntry.kind,
-      api: guideEntry.api,
-      description: guideEntry.description,
-    });
-  }
+  const docItems: NavigationItem[] = guideEntries.map((entry) => ({
+    id: entry.id,
+    title: entry.title,
+    url: getExampleUrl(entry.id),
+    active: !isApi && currentId === entry.id,
+    kind: entry.kind,
+    api: entry.api,
+    description: entry.description,
+  }));
   if (playground.status === 'ready') {
     const apiItem = apiEntry(playground);
     docItems.push({
@@ -124,7 +121,7 @@ export function buildNavigationModel({
   const exampleCount = examples.filter((entry) => entry.kind !== 'guide').length;
 
   let currentCategoryLabel = '';
-  if (isApi || currentId === guideEntry?.id) {
+  if (isApi || guideEntries.some((entry) => currentId === entry.id)) {
     currentCategoryLabel = '문서';
   } else {
     const currentExample = examples.find((entry) => entry.id === currentId);

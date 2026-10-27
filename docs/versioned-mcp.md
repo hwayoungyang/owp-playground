@@ -290,4 +290,4 @@ AI 클라이언트가 실행할 명령에는 Node.js와 CLI의 절대 경로, �
 4. API JSON과 예제 sources manifest를 빌드에서 생성하고 Knowledge·타입·실행·소스 검증을 통과시킵니다.
 5. 새 스냅샷을 등록합니다. MCP 공통 도구는 스냅샷의 지원 목록과 완료된 패키지 등록부를 확인해 이를 제공합니다.
 
-의존성 설치나 메뉴의 `planned` 항목 추가만으로 MCP 지원을 활성화하지 않습니다. 초기 제공 대상은 DataGrid·Charts입니다.
+의존성 설치나 메뉴의 `planned` 항목 추가만으로 MCP 지원을 활성화하지 않습니다. 현재 제공 대상은 DataGrid·Charts·Core입니다.

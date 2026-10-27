@@ -2,6 +2,7 @@ import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { chartEnglish } from '../playgrounds/charts/locales/en';
 import { coreEnglish } from '../playgrounds/core/locales/en';
+import { apiInspectorKorean } from '../playgrounds/core/locales/api-inspector.en';
 import { chartOwpEnglish } from '../playgrounds/charts/locales/owp.en';
 import { catalogEnglish } from '../playgrounds/datagrid/locales/catalog.en';
 import { owpEnglish } from '../playgrounds/datagrid/locales/owp.en';
@@ -15,6 +16,7 @@ const korean = Object.fromEntries(
   ]),
 );
 const coreKorean = {
+  ...apiInspectorKorean,
   'Label.검색': '검색',
   'Label.한국어': '한국어',
   'Label.English': 'English',

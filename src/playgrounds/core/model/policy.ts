@@ -3,7 +3,12 @@ import type { PageLockLoadingProps } from '@owp/core/types';
 import type { ReactNode } from 'react';
 import type { RouteObject } from 'react-router-dom';
 
-export const POLICY_ROUTER_EXAMPLES = ['page-carded', 'loading', 'error-boundary'] as const;
+export const POLICY_ROUTER_EXAMPLES = [
+  'page-carded',
+  'loading',
+  'error-boundary',
+  'api-query',
+] as const;
 export type CorePolicyRouterExampleId = (typeof POLICY_ROUTER_EXAMPLES)[number];
 export type CoreProviderMode = 'standalone' | 'policy';
 

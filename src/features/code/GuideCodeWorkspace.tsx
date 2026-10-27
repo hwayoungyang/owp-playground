@@ -18,7 +18,9 @@ export function GuideCodeWorkspace({
     <section className="workspace" aria-label={t('가이드 코드')}>
       <WorkspaceHeading
         example={example}
-        packageTitle={packageId === 'datagrid' ? 'OwpDataGrid' : 'OwpCharts'}
+        packageTitle={
+          packageId === 'core' ? 'owp/core' : packageId === 'datagrid' ? 'OwpDataGrid' : 'OwpCharts'
+        }
         categoryLabel="문서"
       />
       <p>

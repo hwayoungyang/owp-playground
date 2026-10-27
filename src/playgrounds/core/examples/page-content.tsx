@@ -31,7 +31,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
         data: rows,
         exportName: 'core-items',
         header: [
-          { key: 'A1', value: t('이름') },
+          { key: 'A1', value: t('항목명') },
           { key: 'B1', value: t('상태') },
         ],
         columnMappers: [{ key: 'name' }, { key: 'status' }],
@@ -80,7 +80,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
             aria-label={t('항목 목록')}
             variant="mui"
             size="small"
-            headers={{ name: t('이름'), status: t('상태') }}
+            headers={{ name: t('항목명'), status: t('상태') }}
             rows={rows}
           />
         </OwpPageContent>

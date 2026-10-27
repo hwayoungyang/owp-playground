@@ -48,18 +48,7 @@ export function ThemeSettings({
           }}
           aria-hidden="true"
         />
-        <span className="theme-preset-name">
-          {preset === 'hankum' && (
-            <img
-              className="theme-preset-symbol"
-              src={`${import.meta.env.BASE_URL}brand/hankum-symbol.png`}
-              alt=""
-              width={20}
-              height={20}
-            />
-          )}
-          {t(previewPresetLabels[preset])}
-        </span>
+        <span className="theme-preset-name">{t(previewPresetLabels[preset])}</span>
       </span>
     </MenuItem>
   );
@@ -80,9 +69,9 @@ export function ThemeSettings({
       >
         {[
           <ListSubheader key="themes">{t('일반 테마')}</ListSubheader>,
-          ...previewPresetSchema.options.filter((preset) => preset !== 'hankum').map(option),
+          ...previewPresetSchema.options.filter((preset) => preset !== 'reference').map(option),
           <ListSubheader key="projects">{t('프로젝트')}</ListSubheader>,
-          option('hankum'),
+          option('reference'),
         ]}
       </Select>
       <p className="theme-preset-description">{t(previewPresetDescriptions[value.preset])}</p>

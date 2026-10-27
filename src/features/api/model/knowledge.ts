@@ -45,7 +45,7 @@ export function createApiDataset(knowledge: PackageKnowledge): ApiDataset {
     const index = order.indexOf(owner);
     return index < 0 ? order.length : index;
   };
-  const records = [...knowledge.records].sort(
+  const records = knowledge.records.toSorted(
     (left, right) =>
       rank(left.owner) - rank(right.owner) ||
       Number(Boolean(left.path)) - Number(Boolean(right.path)) ||

@@ -257,7 +257,7 @@ export const presetAccents = {
       subtle: '#3b3a37',
     },
   },
-  hankum: {
+  reference: {
     light: {
       canvas: defaultOwpGridTheme.body.backgroundColor,
       chrome: '#f6f7f9',

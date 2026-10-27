@@ -8,7 +8,7 @@ export function ProjectUsage({ target }: { readonly target: 'datagrid' | 'compon
     <section className="theme-project-usage" aria-label={t('프로젝트에 적용')}>
       <h3>{t('프로젝트에 적용')}</h3>
       <p className="theme-usage-note">
-        {t('저장한 테마 설정을 한금·OWP Core 프로젝트의 configs/theme에 적용합니다.')}
+        {t('저장한 테마 설정을 프로젝트의 configs/theme에 적용합니다.')}
       </p>
       <p className="theme-usage-note">
         {t(

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Alert, Box, Button, Typography } from '@mui/material';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Alert, Box, Link, Typography } from '@mui/material';
 import { OwpTable } from '@owp/components';
 import { OwpStoreProvider } from '@owp/core/contexts';
 import { STORAGE_ACCESS_TOKEN_KEY, STORAGE_KEYS } from '@owp/core/constants';
@@ -11,15 +11,19 @@ import {
   useSetNavigationList,
   useSetSettings,
 } from '@owp/core/hooks';
-import type { AuthenticatedUser, OwpNavItemType, OwpSettingsConfigType } from '@owp/core/types';
+import type { OwpSettingsConfigType } from '@owp/core/types';
 import { useOwpTranslation } from '@owp/components/hooks';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import type { CoreExampleProps } from '../model/types';
 import { CoreDemo, DemoSection } from '../runtime/Demo';
 import { CoreChoice } from '../runtime/Controls';
+import {
+  createPermissionNavigation,
+  permissionPresets,
+  permissionRoles,
+  type PermissionRole,
+} from '../model/permission-presets';
 
-const profiles = ['읽기 전용', '편집 가능'] as const;
-const paths = ['/items', '/settings'] as const;
 const storageKeys = [
   STORAGE_ACCESS_TOKEN_KEY,
   STORAGE_KEYS.currentUser,
@@ -27,30 +31,7 @@ const storageKeys = [
   STORAGE_KEYS.currentUserSeq,
   STORAGE_KEYS.navigationList,
 ] as const;
-const sampleUser = {
-  USERID: 'demo-user',
-  USERSEQ: 1,
-  USERNAME: 'Playground',
-  token: 'playground-sample-token',
-} as const satisfies AuthenticatedUser;
-
-type Profile = (typeof profiles)[number];
 type StorageSnapshot = readonly (readonly [string, string | null])[];
-
-function navigationFor(profile: Profile): OwpNavItemType[] {
-  return paths.map((path) => ({
-    id: path,
-    title: path === '/items' ? '항목' : '설정',
-    url: path,
-    type: 'item',
-    permission: {
-      R_PERMISSION: profile === '편집 가능' || path === '/items' ? 'T' : 'F',
-      U_PERMISSION: profile === '편집 가능' ? 'T' : 'F',
-      C_PERMISSION: 'F',
-      D_PERMISSION: 'F',
-    },
-  }));
-}
 
 function restoreStorage(storage: Storage, snapshot: StorageSnapshot) {
   const failures: DOMException[] = [];
@@ -74,167 +55,164 @@ function UserPermissionsDemo({
 }: CoreExampleProps & { readonly settings: OwpSettingsConfigType }) {
   const { t } = useOwpTranslation();
   const applyAuthenticatedUser = useApplyAuthenticatedUser();
-  const currentUser = useGetCurrentUser<typeof sampleUser>();
+  const currentUser = useGetCurrentUser<(typeof permissionPresets)[PermissionRole]['user']>();
   const setNavigationList = useSetNavigationList();
   const setSettings = useSetSettings();
   const permission = usePagePermission();
-  const location = useLocation();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
-  const [profile, setProfile] = useState<Profile>('읽기 전용');
-  const [applied, setApplied] = useState(false);
-  const [message, setMessage] = useState('');
+  const [role, setRole] = useState<PermissionRole>('Super admin');
+  const [sessionReady, setSessionReady] = useState(false);
   const [storageError, setStorageError] = useState(false);
-  const routeInitialized = useRef(false);
-  const pathname = location.pathname;
-  const activePath = pathname === '/settings' ? '/settings' : '/items';
-  const canRead = applied && permission.canRead;
-  const canSave = applied && permission.canUpdate;
+  const initialized = useRef(false);
+  const applied = sessionReady && currentUser?.USERID === permissionPresets[role].user.USERID;
+  const navigation = applied ? createPermissionNavigation(role) : [];
+
+  const applyRole = useCallback(
+    (nextRole: PermissionRole) => {
+      setRole(nextRole);
+      try {
+        const preset = permissionPresets[nextRole];
+        const response = applyAuthenticatedUser({
+          user: { ...preset.user, navigation: createPermissionNavigation(nextRole) },
+          skipCommonCodeInit: true,
+        });
+        // 프런트엔드 메뉴 모드에서도 샘플의 메뉴와 권한을 함께 적용합니다.
+        setNavigationList(createPermissionNavigation(nextRole));
+        setSessionReady(true);
+        setStorageError(false);
+        onRecord('auth.apply', JSON.stringify({ role: nextRole, userId: response.userId }));
+      } catch (error) {
+        if (!(error instanceof DOMException)) throw error;
+        setSessionReady(false);
+        setStorageError(true);
+        try {
+          setNavigationList([]);
+        } catch (storageFailure) {
+          if (!(storageFailure instanceof DOMException)) throw storageFailure;
+          onRecord('storage.clear.error', storageFailure.name);
+        }
+        onRecord('storage.error', error.name);
+      }
+    },
+    [applyAuthenticatedUser, onRecord, setNavigationList],
+  );
 
   useEffect(() => {
     setSettings(settings);
   }, [settings, setSettings]);
 
   useEffect(() => {
-    if (routeInitialized.current) return;
-    routeInitialized.current = true;
+    if (initialized.current) return;
+    initialized.current = true;
     void navigate('/items', { replace: true });
-  }, [navigate]);
+    applyRole('Super admin');
+  }, [applyRole, navigate]);
 
   useEffect(() => {
     onData({
       applied,
-      profile,
+      selectedRole: role,
+      appliedRole: applied ? role : null,
+      appliedUserId: applied ? currentUser.USERID : null,
       pathname,
-      currentUser:
-        applied && currentUser?.USERID === sampleUser.USERID
-          ? {
-              USERID: currentUser.USERID,
-              USERSEQ: currentUser.USERSEQ,
-              USERNAME: currentUser.USERNAME,
-            }
-          : null,
-      navigationList: applied ? navigationFor(profile) : [],
+      currentUser: applied
+        ? {
+            USERID: currentUser.USERID,
+            USERSEQ: currentUser.USERSEQ,
+            USERNAME: currentUser.USERNAME,
+          }
+        : null,
+      navigationList: applied ? createPermissionNavigation(role) : [],
       permission: applied
         ? {
             isMatched: permission.isMatched,
             menuId: permission.menuId,
+            canCreate: permission.canCreate,
             canRead: permission.canRead,
             canUpdate: permission.canUpdate,
+            canDelete: permission.canDelete,
           }
         : null,
       storageError,
     });
-  }, [applied, currentUser, onData, pathname, permission, profile, storageError]);
+  }, [applied, currentUser, onData, pathname, permission, role, storageError]);
 
-  function updateNavigation(nextProfile: Profile) {
-    try {
-      setNavigationList(navigationFor(nextProfile));
-      setProfile(nextProfile);
-      setMessage('');
-      setStorageError(false);
-      onRecord('navigation.permission', JSON.stringify({ profile: nextProfile, pathname }));
-    } catch (error) {
-      if (!(error instanceof DOMException)) throw error;
-      setApplied(false);
-      setStorageError(true);
-      onRecord('storage.error', error.name);
-    }
+  function permissionMark(allowed: boolean) {
+    return (
+      <Box
+        component="span"
+        role="img"
+        aria-label={t(allowed ? '가능' : '불가')}
+        sx={{ color: allowed ? 'success.main' : 'error.main', fontWeight: 700 }}
+      >
+        {allowed ? 'O' : 'X'}
+      </Box>
+    );
   }
 
   return (
     <CoreDemo
       controls={
-        <>
-          <CoreChoice label="권한" value={profile} options={profiles} onChange={updateNavigation} />
-          <CoreChoice
-            label="경로"
-            value={activePath}
-            options={paths}
-            onChange={(path) => {
-              void navigate(path);
-              setMessage('');
-              onRecord('navigate', path);
-            }}
-          />
-        </>
+        <CoreChoice
+          label="샘플 사용자"
+          value={role}
+          options={permissionRoles}
+          onChange={applyRole}
+        />
       }
     >
-      <DemoSection description="인증 서버를 호출하지 않고 샘플 인증 응답을 적용합니다.">
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 2 }}>
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={() => {
-              try {
-                const response = applyAuthenticatedUser({
-                  user: { ...sampleUser, navigation: navigationFor(profile) },
-                  skipCommonCodeInit: true,
-                });
-                setNavigationList(navigationFor(profile));
-                setApplied(true);
-                setStorageError(false);
-                setMessage('샘플 인증 응답을 적용했습니다.');
-                onRecord('auth.apply', JSON.stringify({ userId: response.userId }));
-              } catch (error) {
-                if (!(error instanceof DOMException)) throw error;
-                setApplied(false);
-                setStorageError(true);
-                onRecord('storage.error', error.name);
-              }
-            }}
-          >
-            {t('샘플 사용자 적용')}
-          </Button>
-          <Typography variant="body2">
-            {applied && currentUser?.USERID === sampleUser.USERID
-              ? `${currentUser.USERNAME} (${currentUser.USERID})`
-              : t('사용자 적용 전')}
-          </Typography>
-        </Box>
+      <DemoSection description="사용자를 선택하면 샘플 인증 정보와 메뉴가 바로 바뀝니다. Core는 메뉴의 C/R/U/D 플래그로 권한을 판단합니다.">
         {storageError && (
           <Alert severity="error">{t('샘플 사용자 정보를 저장하지 못했습니다.')}</Alert>
         )}
-        <Typography variant="body2">{t('현재 페이지: {{path}}', { path: pathname })}</Typography>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-          <Button
-            variant="outlined"
-            size="small"
-            disabled={!canRead}
-            onClick={() => {
-              setMessage('샘플 조회 동작을 실행했습니다.');
-              onRecord('permission.read', pathname);
-            }}
-          >
-            {t('조회')}
-          </Button>
-          <Button
-            variant="outlined"
-            size="small"
-            disabled={!canSave}
-            onClick={() => {
-              setMessage('샘플 저장 동작을 실행했습니다.');
-              onRecord('permission.update', pathname);
-            }}
-          >
-            {t('저장')}
-          </Button>
-        </Box>
-        <OwpTable
-          aria-label={t('페이지 권한')}
-          size="small"
-          headers={{ page: t('페이지'), path: t('경로'), read: t('조회'), save: t('저장') }}
-          rows={navigationFor(profile).map((item) => ({
-            page: t(item.title ?? ''),
-            path: item.url,
-            read: t(applied && item.permission?.R_PERMISSION === 'T' ? '가능' : '불가'),
-            save: t(applied && item.permission?.U_PERMISSION === 'T' ? '가능' : '불가'),
-          }))}
-        />
-        {message && (
-          <Typography role="status" variant="body2">
-            {t(message)}
+        {!storageError && (
+          <Typography variant="body2" role="status">
+            {applied
+              ? t('적용된 사용자: {{role}} ({{userId}})', { role, userId: currentUser.USERID })
+              : t('샘플 사용자 상태를 준비하고 있습니다.')}
           </Typography>
         )}
+        <Typography variant="body2">{t('현재 페이지: {{path}}', { path: pathname })}</Typography>
+        <OwpTable
+          aria-label={t('적용된 사용자의 페이지 권한')}
+          size="small"
+          sx={{ width: '100%' }}
+          headers={{
+            page: 'LINK',
+            create: 'CREATE',
+            read: 'READ',
+            update: 'UPDATE',
+            delete: 'DELETE',
+          }}
+          rows={navigation.map((item) => {
+            const active = pathname === item.url;
+            return {
+              page: (
+                <Link
+                  component={RouterLink}
+                  to={item.url ?? '/items'}
+                  aria-current={active ? 'page' : undefined}
+                  onClick={() => onRecord('navigate', item.url ?? '/items')}
+                >
+                  {t(item.title ?? '')}
+                </Link>
+              ),
+              create: permissionMark(
+                active ? permission.canCreate : item.permission?.C_PERMISSION === 'T',
+              ),
+              read: permissionMark(
+                active ? permission.canRead : item.permission?.R_PERMISSION === 'T',
+              ),
+              update: permissionMark(
+                active ? permission.canUpdate : item.permission?.U_PERMISSION === 'T',
+              ),
+              delete: permissionMark(
+                active ? permission.canDelete : item.permission?.D_PERMISSION === 'T',
+              ),
+            };
+          })}
+        />
       </DemoSection>
     </CoreDemo>
   );

@@ -3,6 +3,10 @@
 Core·Charts·DataGrid의 예제 진입 파일, 공용 설정, JSX spread와 실제 수신 API를 대조한 검토본.
 패키지 버전과 선언·runtime 지문은 `reviewed-packages.json`의 실제 설치본을 기준으로 한다. 코드 위치 검토는 공개 API와 소스의 연결 근거이며 브라우저 실행 검증을 대신하지 않는다.
 
+2026-10-27 Core 10.2.0 응답 정책: query·suspense·queryOptions의 resultCode 누락 허용과 요청별 owp/raw 반환, falsy·null·빈 성공 응답, 정책별 캐시 분리를 설치 선언·runtime 및 실제 HTTP 테스트로 대조합니다. API 요청은 모드별 응답 유형을 나누고 raw 원문을 표시합니다. 관련 패키지의 설치 버전·의존 해석·공개 소유권을 함께 확인하고 예제 지문·API 줄 링크·로컬 MCP draft를 갱신합니다.
+
+2026-10-27 Core 10.1.0·Components 4.0.0·Charts 6.0.0·DataGrid 3.5.3 연동: 공개 소유권·선언/runtime·예제 API 연결을 재검토합니다. Core 직접 구현의 hooks·utils·Inspector를 보완하고 공통 UI·외부 재수출·내부 API는 새 Core 메뉴에서 제외합니다. 변경한 예제 지문과 API anchor를 갱신하며 실제 브라우저와 로컬 MCP의 동일 draft 자료를 확인합니다.
+
 2026-10-26 Core 8.1.0 연동: Components 3.1.1의 Dialog·PageCarded에 Core policy hook의 props와 styles를 함께 연결하고 ErrorBoundary callback·PageContent 스타일 slot을 공개 경로로 사용한다. 기존 Core adapter의 정책은 중복 적용하지 않는다. 실제 설치본의 Core·Components·Theme 선언/runtime 변경을 대조하며 소유자별 중첩 의존 계약을 별도 검토본으로 관리한다. Theme 공개 runtime export와 기존 기본 토큰을 대조한 뒤 번들에서 Theme Context를 공유한다. 테스트 실행과 브라우저 동작 확인은 사용자 검증 범위이며 자료 생성·타입·빌드 검사와 구분한다.
 
 2026-10-25 Core 역할별 정리: Provider·앱 초기화는 시작하기에서 설명하고 실행 예제는 API·데이터 연결, 앱 상태·설정, 전역 상태·복구, UI Adapter로 분류한다. 기존 예제 ID·URL·조작·이벤트는 유지한다. API 결과·권한·Excel·페이지·검색의 표와 dialog의 저장 결과 표는 Components 공개 API를 직접 사용한다. 앱 설정 Table·FieldTable과 정책을 시연하는 Core adapter는 Core import를 유지한다. Core 고유 API와 dialog manager 타입은 이전 대상이 아니며, 검사기·Knowledge 생성은 메뉴 대신 symbol별 역할과 설치본 공개 API를 검사한다.

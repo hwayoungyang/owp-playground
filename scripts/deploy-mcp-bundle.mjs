@@ -113,7 +113,7 @@ async function freezeFile(source, destination, metadataBytes) {
 export async function validateMcpArchive(archiveRoot, metadata) {
   const index = await readVersionArchive(archiveRoot);
   if (index.latestReleaseId !== metadata.releaseId || index.releases.some((entry) => entry.channel !== 'stable') ||
-      JSON.stringify(index.releases.map((entry) => entry.releaseId).sort()) !== JSON.stringify([...metadata.stableReleaseIds].sort())) throw new Error('stable index와 release.json의 릴리스 목록 또는 latest가 다릅니다.');
+      JSON.stringify(index.releases.map((entry) => entry.releaseId).sort()) !== JSON.stringify(metadata.stableReleaseIds.toSorted())) throw new Error('stable index와 release.json의 릴리스 목록 또는 latest가 다릅니다.');
   const files = await collectArchiveFiles(archiveRoot);
   const allowed = new Set(['versions/index.json']);
   let selected;
@@ -148,7 +148,7 @@ export async function prepareMcpBundle(bundleDirectory, options = {}) {
     const metadata = parseMetadata(frozen['release.json']);
     const sums = frozen.SHA256SUMS.toString('utf8').trim().split('\n');
     const expected = Object.entries(metadata.files).map(([name, entry]) => `${entry.sha256}  ${name}`).sort();
-    if (JSON.stringify([...sums].sort()) !== JSON.stringify(expected)) throw new Error('SHA256SUMS와 release.json이 다릅니다.');
+    if (JSON.stringify(sums.toSorted()) !== JSON.stringify(expected)) throw new Error('SHA256SUMS와 release.json이 다릅니다.');
     for (const [name, entry] of Object.entries(metadata.files)) {
       if (frozen[name].length !== entry.bytes || sha256(frozen[name]) !== entry.sha256) throw new Error(`묶음 파일 크기 또는 SHA-256이 다릅니다: ${name}`);
     }

@@ -13,10 +13,10 @@ export function ChartExample(props: ChartExampleProps) {
   const palette = useChartPalette();
   const [labels, setLabels] = useState(true);
   const data: NativeData = {
-    labels: [...years].reverse(),
+    labels: years.toReversed(),
     datasets: processNames.map((name, index) => ({
       label: t(name),
-      data: [...(processValues[index] ?? [])].reverse(),
+      data: (processValues[index] ?? []).toReversed(),
       backgroundColor: palette.colors[index],
       stack: 'processes',
       borderRadius: 0,

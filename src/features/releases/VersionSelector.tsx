@@ -113,8 +113,8 @@ export function VersionSelector({
 
   const entries =
     state.status === 'ready'
-      ? [...state.index.releases]
-          .reverse()
+      ? state.index.releases
+          .toReversed()
           .filter((entry) => entry.packages.some((item) => item.id === packageId))
       : [];
   const statusMessages = {

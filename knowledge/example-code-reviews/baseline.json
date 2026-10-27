@@ -976,7 +976,7 @@
     "packageId": "charts",
     "exampleId": "stacked-groups",
     "label": "plugins.datalabels",
-    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "id": "chartjs-plugin-datalabels:Options",
     "located": true
   },
   {
@@ -997,7 +997,7 @@
     "packageId": "charts",
     "exampleId": "grouped-stacks-by-line",
     "label": "plugins.datalabels",
-    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "id": "chartjs-plugin-datalabels:Options",
     "located": true
   },
   {
@@ -1018,7 +1018,7 @@
     "packageId": "charts",
     "exampleId": "diverging-bar",
     "label": "datalabels",
-    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "id": "chartjs-plugin-datalabels:Options",
     "located": false
   },
   {
@@ -1074,7 +1074,7 @@
     "packageId": "charts",
     "exampleId": "stacked-combo",
     "label": "plugins.datalabels",
-    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "id": "chartjs-plugin-datalabels:Options",
     "located": true
   },
   {
@@ -1550,21 +1550,21 @@
     "packageId": "charts",
     "exampleId": "data-labels",
     "label": "plugins.datalabels",
-    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "id": "chartjs-plugin-datalabels:Options",
     "located": true
   },
   {
     "packageId": "charts",
     "exampleId": "data-labels",
-    "label": "ChartDataLabelsContext",
-    "id": "@owp/charts:ChartDataLabelsContext",
+    "label": "Context",
+    "id": "chartjs-plugin-datalabels:Context",
     "located": false
   },
   {
     "packageId": "charts",
     "exampleId": "target-line",
     "label": "plugins.annotation",
-    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "id": "chartjs-plugin-annotation:AnnotationPluginOptions",
     "located": true
   },
   {
@@ -1578,56 +1578,56 @@
     "packageId": "charts",
     "exampleId": "range-band",
     "label": "plugins.annotation",
-    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "id": "chartjs-plugin-annotation:AnnotationPluginOptions",
     "located": true
   },
   {
     "packageId": "charts",
     "exampleId": "range-band",
     "label": "box",
-    "id": "@owp/charts:ChartAnnotationOptions",
+    "id": "chartjs-plugin-annotation:AnnotationOptions",
     "located": false
   },
   {
     "packageId": "charts",
     "exampleId": "trendline",
     "label": "trendlineLinear",
-    "id": "@owp/charts:ChartTrendlineLinearOptions",
+    "id": "@owp/charts:ChartTrendlineOptions",
     "located": false
   },
   {
     "packageId": "charts",
     "exampleId": "trendline",
-    "label": "ChartTrendlineLinearOptions",
-    "id": "@owp/charts:ChartTrendlineLinearOptions",
+    "label": "ChartTrendlineOptions",
+    "id": "@owp/charts:ChartTrendlineOptions",
     "located": false
   },
   {
     "packageId": "charts",
     "exampleId": "chart-area-border",
     "label": "plugins.annotation",
-    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "id": "chartjs-plugin-annotation:AnnotationPluginOptions",
     "located": true
   },
   {
     "packageId": "charts",
     "exampleId": "chart-area-border",
     "label": "box",
-    "id": "@owp/charts:ChartAnnotationOptions",
+    "id": "chartjs-plugin-annotation:AnnotationOptions",
     "located": false
   },
   {
     "packageId": "charts",
     "exampleId": "quadrants",
     "label": "plugins.annotation",
-    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "id": "chartjs-plugin-annotation:AnnotationPluginOptions",
     "located": true
   },
   {
     "packageId": "charts",
     "exampleId": "quadrants",
     "label": "box",
-    "id": "@owp/charts:ChartAnnotationOptions",
+    "id": "chartjs-plugin-annotation:AnnotationOptions",
     "located": false
   },
   {
@@ -1760,7 +1760,7 @@
     "packageId": "charts",
     "exampleId": "plan-actual",
     "label": "trendlineLinear",
-    "id": "@owp/charts:ChartTrendlineLinearOptions",
+    "id": "@owp/charts:ChartTrendlineOptions",
     "located": false
   },
   {
@@ -1816,7 +1816,7 @@
     "packageId": "charts",
     "exampleId": "pareto",
     "label": "annotation",
-    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "id": "chartjs-plugin-annotation:AnnotationPluginOptions",
     "located": false
   },
   {
@@ -1893,7 +1893,7 @@
     "packageId": "charts",
     "exampleId": "stacked-bar",
     "label": "plugins.datalabels",
-    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "id": "chartjs-plugin-datalabels:Options",
     "located": true
   },
   {
@@ -1914,7 +1914,7 @@
     "packageId": "charts",
     "exampleId": "percent-stacked",
     "label": "plugins.datalabels",
-    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "id": "chartjs-plugin-datalabels:Options",
     "located": true
   },
   {
@@ -1942,7 +1942,7 @@
     "packageId": "charts",
     "exampleId": "grouped-horizontal-bar",
     "label": "datalabels",
-    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "id": "chartjs-plugin-datalabels:Options",
     "located": false
   },
   {
@@ -1963,7 +1963,7 @@
     "packageId": "charts",
     "exampleId": "stacked-horizontal-bar",
     "label": "datalabels",
-    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "id": "chartjs-plugin-datalabels:Options",
     "located": false
   },
   {
@@ -2026,7 +2026,7 @@
     "packageId": "charts",
     "exampleId": "stacked-area",
     "label": "annotation",
-    "id": "@owp/charts:ChartAnnotationPluginOptions",
+    "id": "chartjs-plugin-annotation:AnnotationPluginOptions",
     "located": false
   },
   {
@@ -2411,7 +2411,7 @@
     "packageId": "charts",
     "exampleId": "ranking",
     "label": "datalabels",
-    "id": "@owp/charts:ChartDataLabelsPluginOptions",
+    "id": "chartjs-plugin-datalabels:Options",
     "located": false
   },
   {

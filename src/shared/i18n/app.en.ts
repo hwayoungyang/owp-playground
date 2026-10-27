@@ -1,5 +1,7 @@
 export const appEnglish: Readonly<Record<string, string>> = {
   'MCP 서버 연결': 'Connect to the MCP server',
+  'MCP는 지원이 완료된 패키지의 공개 API·가이드·실행 예제를 제공합니다. AI가 설치 버전에 맞는 설정과 사용 방법을 같은 스냅샷에서 확인할 수 있습니다.':
+    'MCP provides public APIs, guides, and executable examples for supported packages. AI can use the same snapshot to check setup and usage for the installed version.',
   '사용하는 앱의 MCP 설정에 아래 서버 정보를 등록합니다. 설정 위치와 형식은 앱마다 다릅니다.':
     'Add the server details below in your app’s MCP settings. The settings location and format vary by app.',
   '서버 이름: owp': 'Server name: owp',
@@ -7,13 +9,13 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '공용 MCP 주소': 'Shared MCP URL',
   '<OWP_MCP_URL>에 팀 공용 서버의 기본 주소를 입력합니다. /mcp는 MCP 연결 경로입니다. 주소·인증·접근 권한은 Impix SmartBiz 팀에 확인해 주세요.':
     'Replace <OWP_MCP_URL> with the team’s shared server base URL. /mcp is the MCP connection path. Confirm the URL, authentication, and access permissions with the Impix SmartBiz team.',
-  '연결 정보를 확인하고 등록한 뒤, 사용할 패키지와 버전을 지정해 AI에 요청합니다.':
-    'After confirming and registering the connection details, specify the package and version in your AI request.',
+  '연결 정보를 등록한 뒤 아래 예시로 요청합니다. 예시는 Playground에 설치된 정확한 패키지 버전을 사용하므로, 프로젝트의 설치 버전이 다르면 해당 버전으로 바꾸어 요청하세요.':
+    'After registering the connection details, use the example below. It uses the exact package version installed in Playground; replace it with your project’s installed version if it differs.',
   '프롬프트 예시': 'Example prompt',
-  '{{packageName}} {{version}} 기준으로 MCP에서 공개 API와 사용 예제를 찾아 구현해 주세요. 첫 조회에서 받은 releaseId를 후속 조회에도 사용해 주세요.':
-    'Use MCP to find public APIs and usage examples for {{packageName}} {{version}}, then implement the feature. Use the releaseId returned by the first lookup for subsequent lookups.',
-  'MCP는 지원이 완료된 패키지의 자료만 제공합니다. 후속 조회에서도 같은 releaseId를 사용하면 서로 다른 배포 버전의 자료가 섞이지 않습니다.':
-    'MCP provides materials only for fully supported packages. Reuse the same releaseId in subsequent lookups to avoid mixing materials from different releases.',
+  '{{packageName}} {{version}} 기준으로 MCP에서 공개 API·가이드·사용 예제를 찾아 구현해 주세요. 응답의 packageVersion을 확인하고, 후속 조회에는 그 값을 version으로 지정하고 같은 releaseId를 사용해 주세요.':
+    'Use MCP to find public APIs, guides, and usage examples for {{packageName}} {{version}}, then implement the feature. Check packageVersion in the response, pass that value as version in subsequent lookups, and reuse the same releaseId.',
+  '응답의 packageVersion이 요청한 버전과 일치하는지 확인하세요. 후속 조회에서도 같은 version과 releaseId를 사용하면 서로 다른 배포 버전의 자료가 섞이지 않습니다.':
+    'Check that packageVersion in the response matches the requested version. Reuse the same version and releaseId in subsequent lookups to avoid mixing materials from different releases.',
   '패키지 버전 선택': 'Select package version',
   개발본: 'Draft',
   '개발 중': 'In development',
@@ -355,8 +357,8 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '테마 파일을 확인해 주세요. OWP 테마 JSON v1을 지원합니다.':
     'Check the theme file. OWP theme JSON v1 is supported.',
   '프로젝트에 적용': 'Use in a project',
-  '저장한 테마 설정을 한금·OWP Core 프로젝트의 configs/theme에 적용합니다.':
-    'Apply the saved theme settings in configs/theme in Hankum and OWP Core projects.',
+  '저장한 테마 설정을 프로젝트의 configs/theme에 적용합니다.':
+    'Apply the saved theme settings to your project’s configs/theme.',
   '파일 저장': 'Save file',
   '파일 불러오기': 'Load file',
   '테마 파일': 'Theme file',
@@ -626,10 +628,10 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '이 그리드에만 적용합니다.': 'Applies only to this grid.',
   '화면과 같게': 'Follow screen',
   기본색: 'Neutral',
-  한금: 'Hankum',
+  '참조 앱': 'Reference app',
   '화면의 밝기와 색상을 따릅니다.': 'Follow the screen appearance and colors.',
-  '한금 소비앱의 그리드와 컴포넌트 색상을 적용합니다.':
-    'Apply the grid and component colors from the Hankum consumer app.',
+  '참조 앱의 그리드와 컴포넌트 색상을 적용합니다.':
+    'Apply the grid and component colors from the reference app.',
   슬레이트: 'Slate',
   블루: 'Blue',
   민트: 'Mint',

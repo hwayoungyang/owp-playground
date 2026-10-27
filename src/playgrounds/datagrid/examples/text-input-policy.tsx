@@ -197,7 +197,7 @@ export function TextInputPolicyGrid(props: TaskGridProps = {}) {
                 </div>
               </div>
               <p className="example-setting-help">
-                {t('작성한 정규식은 적용 버튼을 눌러야 Grid에 반영됩니다.')}
+                {t('작성한 정규식은 정규식 적용 버튼을 눌러야 Grid에 반영됩니다.')}
                 <br />
                 {t('빈 정규식은 문자 제한을 두지 않습니다.')}
               </p>

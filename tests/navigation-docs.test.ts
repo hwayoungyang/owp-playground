@@ -1,16 +1,72 @@
 import { expect, it } from 'vitest';
 import { buildNavigationModel } from '../src/app/layout/navigation';
 import { chartCatalog, chartCategories } from '../src/playgrounds/charts/catalog';
+import { coreCatalog, coreCategories } from '../src/playgrounds/core/catalog';
 import { chartConsolidations } from '../src/playgrounds/charts/model/consolidations';
 import { gridCatalog, categories as gridCategories } from '../src/playgrounds/datagrid/catalog';
 import { exampleApiLinks } from '../src/features/api/model/links';
 import {
   chartsPackage,
+  corePackage,
   dataGridPackage,
   getPlaygroundRoute,
   createPlaygroundUrl,
   readPlaygroundRoute,
 } from '../src/playgrounds/registry';
+
+it.each(['getting-started', 'providers', 'state-management', 'api-setup', 'theme-settings'])(
+  'includes every Core guide in document navigation and selects %s',
+  (currentId) => {
+    // Given
+    const getExampleUrl = (id: string) =>
+      createPlaygroundUrl('https://example.test/', getPlaygroundRoute(corePackage, id)).href;
+
+    // When
+    const model = buildNavigationModel({
+      playground: corePackage,
+      examples: coreCatalog,
+      categories: coreCategories,
+      currentId,
+      isApi: false,
+      getExampleUrl,
+    });
+
+    // Then
+    expect(model.currentCategoryLabel).toBe('문서');
+    expect(model.exampleCount).toBe(20);
+    const docs = model.groups.find((group) => group.type === 'docs');
+    expect(docs?.items.map((item) => item.id)).toEqual([
+      'getting-started',
+      'core-features',
+      'providers',
+      'state-management',
+      'api-setup',
+      'theme-settings',
+      'api',
+    ]);
+    for (const entry of coreCatalog.filter((entry) => entry.kind === 'guide')) {
+      const item = docs?.items.find((item) => item.id === entry.id);
+      expect(item?.title).toBe(entry.title);
+      expect(
+        readPlaygroundRoute(new URL(item?.url ?? '/', 'https://example.test').search),
+      ).toMatchObject({ status: 'core', example: { id: entry.id, kind: 'guide' } });
+    }
+    const items = model.groups.flatMap((group) =>
+      group.type === 'docs' ? group.items : group.categories.flatMap((category) => category.items),
+    );
+    expect(items.filter((item) => item.active).map((item) => item.id)).toEqual([currentId]);
+    const samples = model.groups.find((group) => group.type === 'examples');
+    expect(samples?.categories.map((category) => category.id)).toEqual(
+      coreCategories.map((category) => category.id),
+    );
+    expect(samples?.categories.flatMap((category) => category.items)).toHaveLength(20);
+    expect(
+      samples?.categories
+        .flatMap((category) => category.items)
+        .some((item) => item.kind === 'guide'),
+    ).toBe(false);
+  },
+);
 
 it('groups connection methods and shared controls under Grid API while preserving URLs', () => {
   // Given

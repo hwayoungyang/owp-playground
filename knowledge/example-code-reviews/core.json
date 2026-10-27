@@ -1,1 +1,162 @@
-[]
+[
+  {
+    "exampleId": "api-query",
+    "apiId": "@owp/core:OwpApiMutationBehaviorOptions.allowMissingResultCode",
+    "label": "OwpApiMutationBehaviorOptions.allowMissingResultCode",
+    "action": "locate",
+    "reason": "API hook에 전달하는 요청 정책 옵션을 실제 설정 위치에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/examples/api-query.tsx",
+        "snippet": "allowMissingResultCode: responseOptions.allowMissingResultCode,"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/examples/api-query.tsx",
+    "snippet": "allowMissingResultCode: responseOptions.allowMissingResultCode,"
+  },
+  {
+    "exampleId": "api-query",
+    "apiId": "@owp/core:OwpApiMutationBehaviorOptions.isServerErrorMessageEnabled",
+    "label": "OwpApiMutationBehaviorOptions.isServerErrorMessageEnabled",
+    "action": "locate",
+    "reason": "API hook에 전달하는 요청 정책 옵션을 실제 설정 위치에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/examples/api-query.tsx",
+        "snippet": "isServerErrorMessageEnabled: responseMode === 'raw' || policy !== '호출부 직접 판정',"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/examples/api-query.tsx",
+    "snippet": "isServerErrorMessageEnabled: responseMode === 'raw' || policy !== '호출부 직접 판정',"
+  },
+  {
+    "exampleId": "api-query",
+    "apiId": "@owp/core:CreateOwpApiHooksOptions.isErrorMessageEnabled",
+    "label": "CreateOwpApiHooksOptions.isErrorMessageEnabled",
+    "action": "locate",
+    "reason": "API hook에 전달하는 요청 정책 옵션을 실제 설정 위치에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/examples/api-query.tsx",
+        "snippet": "isI18nEnabled: false,\n        isErrorMessageEnabled: guidance,"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/examples/api-query.tsx",
+    "snippet": "isI18nEnabled: false,\n        isErrorMessageEnabled: guidance,"
+  },
+  {
+    "exampleId": "api-setup",
+    "apiId": "@owp/core:OwpApiMutationBehaviorOptions.allowMissingResultCode",
+    "label": "OwpApiMutationBehaviorOptions.allowMissingResultCode",
+    "action": "locate",
+    "reason": "API hook에 전달하는 요청 정책 옵션을 실제 설정 위치에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/guides/api-setup.tsx",
+        "snippet": "return useApiMutation('get', '/connection', {\n    allowMissingResultCode: true,"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/guides/api-setup.tsx",
+    "snippet": "return useApiMutation('get', '/connection', {\n    allowMissingResultCode: true,"
+  },
+  {
+    "exampleId": "api-setup",
+    "apiId": "@owp/core:OwpApiMutationBehaviorOptions.isServerErrorMessageEnabled",
+    "label": "OwpApiMutationBehaviorOptions.isServerErrorMessageEnabled",
+    "action": "locate",
+    "reason": "API hook에 전달하는 요청 정책 옵션을 실제 설정 위치에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/guides/api-setup.tsx",
+        "snippet": "isServerErrorMessageEnabled: false,"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/guides/api-setup.tsx",
+    "snippet": "isServerErrorMessageEnabled: false,"
+  },
+  {
+    "exampleId": "api-setup",
+    "apiId": "@owp/core:CreateOwpApiHooksOptions.isErrorMessageEnabled",
+    "label": "CreateOwpApiHooksOptions.isErrorMessageEnabled",
+    "action": "locate",
+    "reason": "API hook에 전달하는 요청 정책 옵션을 실제 설정 위치에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/guides/api-setup.tsx",
+        "snippet": "isErrorMessageEnabled: true,"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/guides/api-setup.tsx",
+    "snippet": "isErrorMessageEnabled: true,"
+  },
+  {
+    "exampleId": "api-query",
+    "apiId": "@owp/core:OwpApiResponseBehaviorOptions.responseMode",
+    "label": "OwpApiResponseBehaviorOptions.responseMode",
+    "action": "locate",
+    "reason": "API hook에 전달하는 요청 정책 옵션을 실제 설정 위치에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/examples/api-query.tsx",
+        "snippet": "responseMode,\n        allowMissingResultCode: responseMode === 'owp' && policy === 'resultCode 누락 허용',"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/examples/api-query.tsx",
+    "snippet": "responseMode,\n        allowMissingResultCode: responseMode === 'owp' && policy === 'resultCode 누락 허용',"
+  },
+  {
+    "exampleId": "api-query",
+    "apiId": "@owp/core:OwpApiResponseBehaviorOptions.allowMissingResultCode",
+    "label": "OwpApiResponseBehaviorOptions.allowMissingResultCode",
+    "action": "locate",
+    "reason": "API hook에 전달하는 요청 정책 옵션을 실제 설정 위치에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/examples/api-query.tsx",
+        "snippet": "allowMissingResultCode: responseMode === 'owp' && policy === 'resultCode 누락 허용',"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/examples/api-query.tsx",
+    "snippet": "allowMissingResultCode: responseMode === 'owp' && policy === 'resultCode 누락 허용',"
+  },
+  {
+    "exampleId": "api-setup",
+    "apiId": "@owp/core:OwpApiResponseBehaviorOptions.responseMode",
+    "label": "OwpApiResponseBehaviorOptions.responseMode",
+    "action": "locate",
+    "reason": "API hook에 전달하는 요청 정책 옵션을 실제 설정 위치에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/guides/api-setup.tsx",
+        "snippet": "{ parseAs: 'json' },\n  {\n    responseMode: 'raw',"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/guides/api-setup.tsx",
+    "snippet": "{ parseAs: 'json' },\n  {\n    responseMode: 'raw',"
+  },
+  {
+    "exampleId": "api-setup",
+    "apiId": "@owp/core:OwpApiResponseBehaviorOptions.allowMissingResultCode",
+    "label": "OwpApiResponseBehaviorOptions.allowMissingResultCode",
+    "action": "locate",
+    "reason": "API hook에 전달하는 요청 정책 옵션을 실제 설정 위치에 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/guides/api-setup.tsx",
+        "snippet": "return useApiQuery('get', '/connection', {}, { allowMissingResultCode: true });"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/guides/api-setup.tsx",
+    "snippet": "return useApiQuery('get', '/connection', {}, { allowMissingResultCode: true });"
+  }
+]

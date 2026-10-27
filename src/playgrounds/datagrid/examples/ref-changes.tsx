@@ -69,7 +69,7 @@ export function ChangeTrackingGrid({
           <div className="example-settings-fields example-guidance">
             <p>
               {t(
-                'hasUnsavedChanges()로 미확정 입력까지 감지 가능. getChanges()는 working-copy 변경만 반환. 조회 버튼은 편집을 확정하지 않으며, 결과는 조회 시점 기준.',
+                'hasUnsavedChanges()로 미확정 입력까지 감지 가능. getChanges()는 working-copy 변경만 반환. 현재 변경 상태 조회 버튼은 편집을 확정하지 않으며, 결과는 조회 시점 기준.',
               )}
             </p>
           </div>

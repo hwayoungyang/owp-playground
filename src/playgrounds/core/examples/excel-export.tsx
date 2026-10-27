@@ -16,7 +16,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const [downloadRequests, setDownloadRequests] = useState(0);
   const rows = exampleRows.map((row) => ({ name: t(row.name), status: t(row.status) }));
   const header = [
-    { key: 'A1', value: t('이름') },
+    { key: 'A1', value: t('항목명') },
     { key: 'B1', value: t('상태') },
   ];
   const columnMappers = [{ key: 'name' }, { key: 'status' }];
@@ -66,7 +66,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
         <OwpTable
           size="small"
           aria-label={t('내보낼 항목')}
-          headers={{ name: t('이름'), status: t('상태') }}
+          headers={{ name: t('항목명'), status: t('상태') }}
           rows={rows}
         />
       </DemoSection>

@@ -36,8 +36,9 @@ describe('real API contracts through the MCP SDK', () => {
     ['charts', '@owp/charts:BoxPlotDatasetOptions'],
     ['charts', 'chart.js:ChartType'],
     ['charts', 'chart.js:Plugin'],
-    ['core', '@owp/core:OwpDialogProps.isDirty'],
+    ['core', '@owp/components:OwpDialogProps.isDirty'],
     ['core', '@owp/core:OwpCoreProviderProps'],
+    ['core', '@owp/core:OwpApiMutationBehaviorOptions.allowMissingResultCode'],
   ] as const) {
     it(`preserves the complete declaration contract when the SDK requests ${symbol}`, async () => {
       // Given

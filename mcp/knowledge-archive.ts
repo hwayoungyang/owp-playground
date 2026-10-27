@@ -133,8 +133,7 @@ export function createKnowledgeArchive(options: KnowledgeOptions) {
         (entry) => entry.id === packageId && (!input.version || entry.version === input.version),
       );
     const latest = releases.find((entry) => entry.releaseId === index.latestReleaseId);
-    const entry =
-      explicit ?? (latest && matching(latest) ? latest : [...releases].reverse().find(matching));
+    const entry = explicit ?? (latest && matching(latest) ? latest : releases.findLast(matching));
     if (!entry)
       throw new KnowledgeError(
         input.version && availableVersions.length ? 'VERSION_NOT_FOUND' : 'PACKAGE_NOT_FOUND',

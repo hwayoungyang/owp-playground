@@ -161,7 +161,7 @@
   },
   {
     "exampleId": "diverging-bar",
-    "apiId": "@owp/charts:ChartDataLabelsPluginOptions",
+    "apiId": "chartjs-plugin-datalabels:Options",
     "label": "datalabels",
     "action": "locate",
     "reason": "plugins.datalabels 옵션을 ChartCanvas가 ChartFrame에 전달합니다.",
@@ -838,8 +838,8 @@
   },
   {
     "exampleId": "data-labels",
-    "apiId": "@owp/charts:ChartDataLabelsContext",
-    "label": "ChartDataLabelsContext",
+    "apiId": "chartjs-plugin-datalabels:Context",
+    "label": "Context",
     "action": "locate",
     "reason": "plugins.datalabels.display callback에서 문맥상 추론된 ChartDataLabelsContext의 chart·datasetIndex·dataIndex·dataset을 사용합니다.",
     "evidence": [
@@ -910,7 +910,7 @@
   },
   {
     "exampleId": "range-band",
-    "apiId": "@owp/charts:ChartAnnotationOptions",
+    "apiId": "chartjs-plugin-annotation:AnnotationOptions",
     "label": "box",
     "action": "locate",
     "reason": "plugins.annotation.annotations.range에 개별 box annotation 옵션을 지정합니다.",
@@ -942,7 +942,7 @@
   },
   {
     "exampleId": "trendline",
-    "apiId": "@owp/charts:ChartTrendlineLinearOptions",
+    "apiId": "@owp/charts:ChartTrendlineOptions",
     "label": "trendlineLinear",
     "action": "locate",
     "reason": "series.datasetOptions.trendlineLinear의 실제 옵션 객체를 createChartData가 dataset으로 전달합니다.",
@@ -978,8 +978,8 @@
   },
   {
     "exampleId": "trendline",
-    "apiId": "@owp/charts:ChartTrendlineLinearOptions",
-    "label": "ChartTrendlineLinearOptions",
+    "apiId": "@owp/charts:ChartTrendlineOptions",
+    "label": "ChartTrendlineOptions",
     "action": "locate",
     "reason": "series.datasetOptions.trendlineLinear의 실제 옵션 객체를 createChartData가 dataset으로 전달합니다.",
     "evidence": [
@@ -1014,7 +1014,7 @@
   },
   {
     "exampleId": "chart-area-border",
-    "apiId": "@owp/charts:ChartAnnotationOptions",
+    "apiId": "chartjs-plugin-annotation:AnnotationOptions",
     "label": "box",
     "action": "locate",
     "reason": "plugins.annotation.annotations의 개별 box annotation 옵션을 ChartFrame에 전달합니다.",
@@ -1042,7 +1042,7 @@
   },
   {
     "exampleId": "quadrants",
-    "apiId": "@owp/charts:ChartAnnotationOptions",
+    "apiId": "chartjs-plugin-annotation:AnnotationOptions",
     "label": "box",
     "action": "locate",
     "reason": "plugins.annotation.annotations의 개별 box annotation 옵션을 ChartFrame에 전달합니다.",
@@ -1262,7 +1262,7 @@
   },
   {
     "exampleId": "plan-actual",
-    "apiId": "@owp/charts:ChartTrendlineLinearOptions",
+    "apiId": "@owp/charts:ChartTrendlineOptions",
     "label": "trendlineLinear",
     "action": "locate",
     "reason": "실적 series의 datasetOptions.trendlineLinear를 createChartData에 전달합니다.",
@@ -1370,7 +1370,7 @@
   },
   {
     "exampleId": "pareto",
-    "apiId": "@owp/charts:ChartAnnotationPluginOptions",
+    "apiId": "chartjs-plugin-annotation:AnnotationPluginOptions",
     "label": "annotation",
     "action": "locate",
     "reason": "plugins.annotation에 누적 비율 80% 기준선 옵션을 지정합니다.",
@@ -1758,7 +1758,7 @@
   },
   {
     "exampleId": "grouped-horizontal-bar",
-    "apiId": "@owp/charts:ChartDataLabelsPluginOptions",
+    "apiId": "chartjs-plugin-datalabels:Options",
     "label": "datalabels",
     "action": "locate",
     "reason": "plugins.datalabels 옵션을 ChartCanvas가 ChartFrame에 전달합니다.",
@@ -1814,7 +1814,7 @@
   },
   {
     "exampleId": "stacked-horizontal-bar",
-    "apiId": "@owp/charts:ChartDataLabelsPluginOptions",
+    "apiId": "chartjs-plugin-datalabels:Options",
     "label": "datalabels",
     "action": "locate",
     "reason": "plugins.datalabels 옵션을 ChartCanvas가 ChartFrame에 전달합니다.",
@@ -1990,7 +1990,7 @@
   },
   {
     "exampleId": "stacked-area",
-    "apiId": "@owp/charts:ChartAnnotationPluginOptions",
+    "apiId": "chartjs-plugin-annotation:AnnotationPluginOptions",
     "label": "annotation",
     "action": "locate",
     "reason": "OwpAreaChart.options의 plugins.annotation에 주요 시점 annotation을 지정합니다.",
@@ -2430,7 +2430,7 @@
   },
   {
     "exampleId": "ranking",
-    "apiId": "@owp/charts:ChartDataLabelsPluginOptions",
+    "apiId": "chartjs-plugin-datalabels:Options",
     "label": "datalabels",
     "action": "locate",
     "reason": "plugins.datalabels의 공통 색상을 지정하고 series별 datasetOptions.datalabels에서 표시 여부와 formatter를 지정합니다.",

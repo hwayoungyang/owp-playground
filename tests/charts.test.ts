@@ -5,7 +5,7 @@ import { createHistogram, downsampleMinMax } from '@owp/charts/utils';
 import { describe, expect, it } from 'vitest';
 import { chartCatalog, chartCategories, findChartEntry } from '../src/playgrounds/charts/catalog';
 import { chartEnglish } from '../src/playgrounds/charts/locales/en';
-import { hankumChartCoverage } from '../src/playgrounds/charts/model/coverage';
+import { referenceChartCoverage } from '../src/playgrounds/charts/model/coverage';
 import { createMeasurements } from '../src/playgrounds/charts/model/data';
 import { readPlaygroundRoute } from '../src/playgrounds/registry';
 
@@ -55,9 +55,9 @@ describe('charts catalog and shared routes', () => {
       }
     }
   });
-  it('maps every reviewed Hankum renderer to an executable example', () => {
-    expect(Object.keys(hankumChartCoverage)).toHaveLength(15);
-    for (const examples of Object.values(hankumChartCoverage)) {
+  it('maps every reviewed Reference app renderer to an executable example', () => {
+    expect(Object.keys(referenceChartCoverage)).toHaveLength(15);
+    for (const examples of Object.values(referenceChartCoverage)) {
       for (const id of examples) expect(findChartEntry(id).kind, id).toBe('chart');
     }
   });

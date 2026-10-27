@@ -382,6 +382,7 @@ test('전체 카탈로그의 API 라벨을 모호함 없이 해석한다', () =>
   for (const [packageId, examples] of Object.entries(catalogs)) {
     for (const example of examples) {
       for (const label of example.api) {
+        const resolvedLabel = label.includes(':') ? label.slice(label.indexOf(':') + 1) : label;
         count += 1;
         try {
           const [result] = resolveExampleReferences({
@@ -398,8 +399,10 @@ test('전체 카탈로그의 API 라벨을 모호함 없이 해석한다', () =>
             const published = generated.examples.find(
               (entry) => entry.packageId === packageId && entry.id === example.id,
             );
-            const decision = published?.referenceReviews.find((entry) => entry.label === label);
-            const previous = published?.references.find((entry) => entry.label === label);
+            const decision = published?.referenceReviews.find(
+              (entry) => entry.label === resolvedLabel,
+            );
+            const previous = published?.references.find((entry) => entry.label === resolvedLabel);
             assert.equal(
               result.references[0].id,
               decision?.id ?? previous?.id,

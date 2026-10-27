@@ -8,8 +8,8 @@ import { readCodeLocation } from '../src/features/code/code-location';
 import { exampleSourcePath } from '../src/features/code/source-paths';
 
 describe('Core Playground integration', () => {
-  it('uses the installed 8.1.0 contract and a useful default route', () => {
-    expect(corePackage.version).toBe('8.1.0');
+  it('uses the installed 10.2.0 contract and a useful default route', () => {
+    expect(corePackage.version).toBe('10.2.0');
     expect(readPlaygroundRoute('?package=%40owp%2Fcore')).toMatchObject({
       status: 'core',
       playground: { id: 'core' },
@@ -26,8 +26,9 @@ describe('Core Playground integration', () => {
 
   it('connects every example to its actual source and translated category', async () => {
     const examples = coreCatalog.filter((entry) => entry.kind === 'core');
-    expect(coreCatalog).toHaveLength(15);
-    expect(examples).toHaveLength(14);
+    expect(coreCatalog).toHaveLength(26);
+    expect(examples).toHaveLength(20);
+    expect(coreCatalog.filter((entry) => entry.kind === 'guide')).toHaveLength(6);
     expect(new Set(coreCatalog.map((entry) => entry.id)).size).toBe(coreCatalog.length);
     for (const example of coreCatalog) {
       await access(new URL(`../src/playgrounds/core/${example.source}`, import.meta.url));
@@ -48,29 +49,74 @@ describe('Core Playground integration', () => {
     }
   });
 
+  it.each(['getting-started', 'providers', 'state-management', 'api-setup', 'theme-settings'])(
+    'round-trips the %s guide with its source code target',
+    (id) => {
+      // Given
+      const file = `playgrounds/core/guides/${id}.tsx`;
+      const parameters = new URLSearchParams({
+        package: 'core',
+        sample: id,
+        tab: 'code',
+        file,
+        line: '2',
+        endLine: '4',
+      });
+
+      // When
+      const route = readPlaygroundRoute(`?${parameters}`);
+      const url = createPlaygroundUrl('https://example.test/?lang=en', route);
+
+      // Then
+      expect(route).toMatchObject({
+        status: 'core',
+        example: { id, kind: 'guide', category: 'start', source: `guides/${id}.tsx` },
+        tab: 'code',
+        codeTarget: { file, line: 2, endLine: 4 },
+      });
+      expect(readPlaygroundRoute(url.search)).toEqual(route);
+      expect(url.searchParams.get('lang')).toBe('en');
+    },
+  );
+
   it('places app setup before UI examples and preserves contiguous category groups', () => {
     const examples = coreCatalog.filter((entry) => entry.kind === 'core');
     const categoryOrder = [...new Set(examples.map((example) => example.category))];
 
     expect(coreCategories).toEqual([
-      { id: 'api', label: 'API·데이터 연결' },
-      { id: 'state', label: '앱 상태·설정' },
-      { id: 'policy', label: '전역 상태·복구' },
+      { id: 'hooks', label: 'Hooks' },
+      { id: 'utils', label: 'Utils' },
       { id: 'integration', label: 'Package Integration' },
     ]);
     expect(coreCatalog[0]).toMatchObject({ id: 'getting-started', kind: 'guide' });
     expect(
-      examples.filter((example) => example.category === 'api').map((example) => example.id),
-    ).toEqual(['api-query', 'query-selector', 'common-code', 'excel-export']);
+      examples.filter((example) => example.category === 'hooks').map((example) => example.id),
+    ).toEqual([
+      'api-query',
+      'api-inspector',
+      'file-transfer',
+      'app-settings',
+      'user-permissions',
+      'language-switcher',
+      'dialog',
+      'discard-guard',
+      'confirm',
+      'loading',
+    ]);
     expect(
-      examples.filter((example) => example.category === 'state').map((example) => example.id),
-    ).toEqual(['app-settings', 'user-permissions', 'language-switcher']);
-    expect(
-      examples.filter((example) => example.category === 'policy').map((example) => example.id),
-    ).toEqual(['dialog', 'confirm', 'loading', 'error-boundary']);
+      examples.filter((example) => example.category === 'utils').map((example) => example.id),
+    ).toEqual(['request-parameters', 'auth-input', 'zip-download']);
     expect(
       examples.filter((example) => example.category === 'integration').map((example) => example.id),
-    ).toEqual(['page-carded', 'page-content', 'search-filter']);
+    ).toEqual([
+      'query-selector',
+      'common-code',
+      'excel-export',
+      'error-boundary',
+      'page-carded',
+      'page-content',
+      'search-filter',
+    ]);
     expect(categoryOrder).toEqual(coreCategories.map((category) => category.id));
     expect(examples.map((example) => example.category)).toEqual(
       coreCategories.flatMap((category) =>

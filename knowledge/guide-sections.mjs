@@ -1,4 +1,12 @@
+import { coreFoundations } from '../src/playgrounds/core/guides/foundation-content.ts';
+
 const titles = {
+  ...Object.fromEntries(
+    coreFoundations.map((guide) => [
+      guide.knowledgeId,
+      ['역할과 적용 범위', ...guide.sections.map((section) => section.title)],
+    ]),
+  ),
   '@owp/core:guide.setup': [
     '패키지 역할과 설치본',
     '앱 초기화와 provider',
@@ -8,8 +16,14 @@ const titles = {
     'CSS와 정적 리소스',
     '언어와 앱 bridge',
     '역할별 예제와 import 기준',
+    'MCP 연결과 버전 고정',
   ],
-  '@owp/core:guide.selection': ['API selector 계약', '예제 요청과 응답', '공통코드 cache'],
+  '@owp/core:guide.selection': [
+    'API selector 계약',
+    '예제 요청과 응답',
+    '공통코드 cache',
+    '선택 라벨과 outline',
+  ],
   '@owp/core:guide.composition': [
     '패키지별 역할과 연결',
     'Dialog 상태와 닫기 확인',

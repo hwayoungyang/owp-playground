@@ -1,7 +1,7 @@
 import { alpha, createTheme, type ThemeOptions } from '@mui/material';
 
-// 한금 소비앱 configs/theme/settings.ts의 main 팔레트입니다.
-export const hankumPalette = {
+// 참조 프로젝트의 configs/theme/settings.ts에 정의된 main 팔레트입니다.
+export const referencePalette = {
   mode: 'light',
   text: {
     primary: 'rgb(17, 24, 39)',
@@ -32,9 +32,9 @@ export const hankumPalette = {
   },
 } as const satisfies NonNullable<ThemeOptions['palette']>;
 
-export function createHankumMuiOptions(overrides?: ThemeOptions): ThemeOptions {
+export function createReferenceMuiOptions(overrides?: ThemeOptions): ThemeOptions {
   const { palette } = createTheme(
-    { palette: hankumPalette },
+    { palette: referencePalette },
     { palette: overrides?.palette ?? {} },
   );
   return {

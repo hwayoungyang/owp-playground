@@ -18,15 +18,27 @@ export const generalPreviewPresets = [
   'solarized',
   'contrast',
 ] as const;
-export const previewPresetSchema = z.enum(['inherit', ...generalPreviewPresets, 'hankum']);
+export const previewPresetSchema = z.enum(['inherit', ...generalPreviewPresets, 'reference']);
 export type PreviewPreset = z.infer<typeof previewPresetSchema>;
 export const previewPresetFileSchema = z.union([
   previewPresetSchema,
   z
-    .enum(['neutral', 'quartz', 'alpine', 'balham', 'material', 'slate', 'blue', 'mint', 'nord'])
+    .enum([
+      'neutral',
+      'quartz',
+      'alpine',
+      'balham',
+      'material',
+      'slate',
+      'blue',
+      'mint',
+      'nord',
+      'hankum',
+    ])
     .transform((preset): PreviewPreset => legacyPresets[preset]),
 ]);
 const legacyPresets = {
+  hankum: 'reference',
   neutral: 'carbon',
   quartz: 'carbon',
   alpine: 'carbon',
@@ -52,7 +64,7 @@ export const defaultPreviewTheme: PreviewThemeSettings = {
 };
 export const previewPresetLabels: Readonly<Record<PreviewPreset, string>> = {
   inherit: '화면과 같게',
-  hankum: '한금',
+  reference: '참조 앱',
   carbon: 'Carbon',
   industrial: 'Industrial',
   'owp-navy': 'Navy',
@@ -66,7 +78,7 @@ export const previewPresetLabels: Readonly<Record<PreviewPreset, string>> = {
 };
 export const previewPresetDescriptions: Readonly<Record<PreviewPreset, string>> = {
   inherit: '화면의 밝기와 색상을 따릅니다.',
-  hankum: '한금 소비앱의 그리드와 컴포넌트 색상을 적용합니다.',
+  reference: '참조 앱의 그리드와 컴포넌트 색상을 적용합니다.',
   carbon: '회색 계열의 헤더와 본문 색상을 적용합니다.',
   industrial: '차분한 청회색 계열의 헤더와 배경색을 적용합니다.',
   'owp-navy': '짙은 네이비 헤더와 차분한 배경색을 적용합니다.',
@@ -84,7 +96,7 @@ export const headerColorSchema = z.string().regex(/^#[0-9a-f]{6}$/i);
 const headerStyles: Readonly<
   Partial<Record<PreviewPreset, NonNullable<OwpGridThemeConfigType['header']>>>
 > = {
-  hankum: { height: 33, fontSize: 14, fontWeight: 400 },
+  reference: { height: 33, fontSize: 14, fontWeight: 400 },
   carbon: { height: 36, fontSize: 13, fontWeight: 600 },
   industrial: { height: 36, fontSize: 13, fontWeight: 600 },
   'owp-navy': { height: 36, fontSize: 13, fontWeight: 600 },
@@ -113,7 +125,7 @@ export function getPreviewPalette(preset: PreviewPreset, mode: ColorMode): Palet
 }
 
 export function getPreviewHeaderColor(preset: PreviewPreset, mode: ColorMode): string {
-  if (preset === 'hankum' && mode === 'light') return defaultOwpGridTheme.header.backgroundColor;
+  if (preset === 'reference' && mode === 'light') return defaultOwpGridTheme.header.backgroundColor;
   return headerColors[preset]?.[mode] ?? getPreviewPalette(preset, mode).chrome;
 }
 
@@ -127,7 +139,7 @@ export function createPreviewGridTheme(
     settings.headerColor ?? headerColors[settings.preset]?.[mode] ?? null,
     mode,
   );
-  if (settings.preset !== 'inherit' && settings.preset !== 'hankum') {
+  if (settings.preset !== 'inherit' && settings.preset !== 'reference') {
     theme.state = {
       ...theme.state,
       selectedRowBackgroundColor: palette.subtle,
@@ -137,7 +149,7 @@ export function createPreviewGridTheme(
     };
   }
   const base =
-    settings.preset === 'hankum' && mode === 'light'
+    settings.preset === 'reference' && mode === 'light'
       ? {
           ...defaultOwpGridTheme,
           header: {

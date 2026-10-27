@@ -12,7 +12,7 @@ const guide = (packageId, id, title, description, api, examples, body) => ({
 export const guides = [
   ...coreGuides.map((entry) => ({
     ...entry,
-    sourcePath: 'knowledge/core-guides.mjs',
+    sourcePath: entry.sourcePath ?? 'knowledge/core-guides.mjs',
     description: toReferenceStyle(entry.description),
     body: toReferenceStyle(entry.body),
   })),
@@ -27,7 +27,7 @@ export const guides = [
 
 선택에 따라 바뀌는 목록은 상위 항목을 선택하기 전 필요한 항목을 안내하고, 실제 조회 후에는 해당 조회의 로딩·결과·오류를 표시. 저장 요청 실패만으로 편집 가능한 Grid 전체를 가리지 않음.
 
-특정 소비 앱에서 독립 조회 오류를 공통 API hook으로만 안내하는 정책은 해당 프로젝트의 정책. 패키지의 errorOverlay 지원 범위나 다른 소비 앱의 필수 정책으로 일반화하지 않음.
+특정 앱에서 독립 조회 오류를 공통 API hook으로만 안내하는 정책은 해당 프로젝트의 정책. 패키지의 errorOverlay 지원 범위나 다른 앱의 필수 정책으로 일반화하지 않음.
 
 재조회 전에 미확정 편집과 미저장 변경의 보존 정책을 정하고, 선택한 조회에 맞는 retry만 실행. 오류 응답을 이유로 저장·삭제 요청을 자동 재전송하지 않음.`,
   ),
@@ -84,7 +84,7 @@ sortModel·filterModel은 외부 제어가 가능하며 sortingMode·filteringMo
       'ref-focus',
       'context-menu',
     ],
-    `컴포넌트는 @owp/datagrid, hook은 @owp/datagrid/hooks, 타입은 @owp/datagrid/types의 type-only import, 유틸리티는 @owp/datagrid/utils를 사용. 내부 src·dist 경로는 소비 앱의 import 경로가 아님.
+    `컴포넌트는 @owp/datagrid, hook은 @owp/datagrid/hooks, 타입은 @owp/datagrid/types의 type-only import, 유틸리티는 @owp/datagrid/utils를 사용. 내부 src·dist 경로는 앱의 import 경로가 아님.
 
 useDataGridApi<Task>()가 반환한 gridApi를 OwpDataGrid의 api prop과 관련 버튼에 전달. 객체와 필수 메서드 reference는 유지되며 호출 시 연결된 Grid의 최신 API로 전달. 자동 상태 구독은 제공하지 않으므로 UI 갱신은 이벤트·callback이나 명시적인 state 변경으로 처리.
 
@@ -98,7 +98,7 @@ getRowId는 정렬·필터·편집 후에도 유지되는 ID를 반환해야 함
 
 createDataGridRows는 각 row의 shallow copy를 생성. 중복 identity의 occurrence와 identity가 없는 row의 index fallback은 같은 입력 순서에서만 안정적이므로, 재정렬·재조회 후에도 같은 업무 항목을 연결해야 한다면 고유한 identity를 제공.
 
-정적인 columns·layout·숫자 및 날짜 설정은 모듈 상수로 관리하고, 화면 상태에 의존하는 설정만 useMemo로 구성. 설정 파일은 해당 업무나 컴포넌트에서 관리. 특정 소비 앱의 업무 코드·디렉터리 이름은 패키지의 필수 계약이 아님.
+정적인 columns·layout·숫자 및 날짜 설정은 모듈 상수로 관리하고, 화면 상태에 의존하는 설정만 useMemo로 구성. 설정 파일은 해당 업무나 컴포넌트에서 관리. 특정 앱의 업무 코드·디렉터리 이름은 패키지의 필수 계약이 아님.
 
 field는 기본 읽기와 shallow update에 사용. 파생 표시는 valueGetter, 연관 필드 변경은 immutable한 전체 row를 반환하는 valueSetter로 처리. 원본 row나 내부 모델을 직접 수정하지 않음.`,
   ),
@@ -209,7 +209,7 @@ resetChanges는 Grid의 마지막 승인 baseline을 복원. 앱이 보관하는
     ['editing', 'text-input-policy', 'validation', 'external-validation'],
     `editable은 셀 편집 허용 여부를 지정. 기본 편집기·IME·확정·취소 동작을 DOM 이벤트나 앱 전용 편집기로 중복 구현하지 않음. 연관 필드 변경은 순수하고 immutable한 valueSetter에서 처리.
 
-현재 공개 API의 enterKeyAction 기본값은 nextEditableCell. Enter 확정 후 다음 편집 가능 셀로 이동하며 stay는 현재 셀을 유지. Tab/Shift+Tab은 editable 여부와 관계없이 다음/이전 body cell로 이동. 이전 소비 앱 스킬의 'Enter는 항상 현재 셀 유지' 설명은 현재 기본 계약에 적용하지 않음.
+현재 공개 API의 enterKeyAction 기본값은 nextEditableCell. Enter 확정 후 다음 편집 가능 셀로 이동하며 stay는 현재 셀을 유지. Tab/Shift+Tab은 editable 여부와 관계없이 다음/이전 body cell로 이동. 이전 앱 스킬의 'Enter는 항상 현재 셀 유지' 설명은 현재 기본 계약에 적용하지 않음.
 
 hasUnsavedChanges는 working-copy 변경과 미확정 draft를 함께 감지. getChanges는 working-copy에 반영된 변경만 반환하므로 입력·취소·확정 시 두 결과가 다를 수 있음.
 
@@ -233,7 +233,7 @@ uppercase: true는 ASCII a-z만 A-Z로 변환한 뒤 후보 전체의 패턴·�
 
 IME 조합 중에는 임시 문자열과 마지막 허용 draft를 구분하고 변환·복원·오류 해제를 강제하지 않음. 완료 후보를 판정하고 거부 시 조합 전 허용 draft 복원. 완료 뒤 중복 input event로 변경·안내를 중복 처리하지 않으며 취소·교체된 editor의 지연 이벤트는 새 편집에 반영하지 않음. 조합 중 Enter·Escape·Tab을 Grid의 확정·취소로 가로채지 않고 blur 확정 요청은 조합 종료 후 처리. 조합 중 commitEditing()은 false를 반환하며 working row를 변경하거나 새 셀로 기존 editor·draft를 교체하지 않음. 저장·validate·정책 변경 흐름은 false이면 중단하고 조합 완료 후 다시 요청. 비조합 Enter/Tab·Shift+Tab·click-away 확정과 Escape 취소, 기존 working row·dirty·persistent validation 계약은 유지.
 
-기존 서버 값은 조회·렌더·편집 진입·변경 없는 확정만으로 정규화하거나 삭제하지 않음. setCellValue·applyTransaction·row 추가·서버 값에는 textOptions를 적용하지 않으며 validate()도 textOptions를 업무 검증으로 자동 실행하지 않음. 프로그램·서버 값의 업무 조건은 소비앱 validate에 명시. 값을 수정했다가 원래 값으로 확정하면 기존 변경 추적에 따라 dirty·변경 강조 해제. 비편집 셀의 Ctrl+V·Process 키 편집 진입이나 여러 셀 붙여넣기는 textOptions가 새로 추가하는 기능이 아니며 기존 문자 키·F2·더블클릭으로 editor 활성화.
+기존 서버 값은 조회·렌더·편집 진입·변경 없는 확정만으로 정규화하거나 삭제하지 않음. setCellValue·applyTransaction·row 추가·서버 값에는 textOptions를 적용하지 않으며 validate()도 textOptions를 업무 검증으로 자동 실행하지 않음. 프로그램·서버 값의 업무 조건은 앱의 validate에 명시. 값을 수정했다가 원래 값으로 확정하면 기존 변경 추적에 따라 dirty·변경 강조 해제. 비편집 셀의 Ctrl+V·Process 키 편집 진입이나 여러 셀 붙여넣기는 textOptions가 새로 추가하는 기능이 아니며 기존 문자 키·F2·더블클릭으로 editor 활성화.
 
 거부 안내와 메시지 우선순위
 
@@ -440,7 +440,7 @@ Slider의 이름은 ariaLabel, 날짜·백분율 등 값의 의미는 valueTextF
     ['external-tooltip', 'tooltip-content', 'data-labels', 'trendline'],
     `externalTooltip은 canvas 밖에도 표시할 수 있는 HTML tooltip. maxHeight·viewportPadding으로 읽기 가능한 영역을 제한하고 callbacks로 제목·본문·footer를 구성. 외부 callback은 기존 callback과 함께 실행하는 관찰 경로와 표시 대체 경로를 구분.
 
-datalabels는 options.plugins.datalabels 또는 dataset.datalabels, trendline은 dataset.trendlineLinear·trendlineExponential 설정으로 활성화하는 chart-local optional plugin. 소비 앱에서 전역 Chart.register를 중복 호출하지 않음.
+datalabels는 options.plugins.datalabels 또는 dataset.datalabels, trendline은 dataset.trendlineLinear·trendlineExponential 설정으로 활성화하는 chart-local optional plugin. 앱에서 전역 Chart.register를 중복 호출하지 않음.
 
 사용자 plugins 순서를 보존하고 frozen/shared 배열을 수정하지 않음. 필수 내부 plugin ID 충돌은 오류이며 제거·재활성화 시 listener와 등록 상태를 정리.
 
@@ -492,7 +492,7 @@ semiCircle·rotation·cutout과 outsideLabels는 전용 props. 좁은 화면에�
     ['box-plot', 'treemap', 'heatmap'],
     `Box plot은 요약 통계와 원자료의 입력 계약을 구분. summarizeBox·resolveBoxStatistics의 사분위수·수염·이상치 정책을 사용하고 빈 입력·null·비유한수 처리는 공개 옵션을 확인.
 
-설치된 @owp/charts 5.0.2의 native 타입명은 boxPlot·treemap·heatmap. CoreChart·ChartFrame의 type으로 직접 지정할 수 있으며 필요한 controller는 자동 등록. Chart.js instance를 직접 생성할 때는 @owp/charts/chartjs/register의 registerChartCore()를 먼저 호출.
+설치된 @owp/charts 6.0.0의 native 타입명은 boxPlot·treemap·heatmap. CoreChart·ChartFrame의 type으로 직접 지정할 수 있으며 필요한 controller는 자동 등록. Chart.js instance를 직접 생성할 때는 @owp/charts/chartjs/register의 registerChartCore()를 먼저 호출.
 
 전용 OwpBoxPlotChart·OwpTreemapChart·OwpHeatmapChart도 같은 native 타입을 사용. 5.0.0에서는 이전 owpBoxPlot·owpTreemap·owpHeatmap 타입명이 제거됨. ChartData·ChartOptions·ChartDataset·ScriptableContext·TooltipItem·chartRef와 options.datasets key를 해당 native 타입으로 맞춤.
 
@@ -537,7 +537,7 @@ useChartPalette·createChartColors는 mode·surface·minContrast로 기본 색�
 
 options.plugins.subtitle의 부제목은 native canvas와 함께 PNG에 포함된다. 상단 부제목의 layout 높이는 zoom reset 버튼 위치에 반영된다. 부제목의 여러 줄 표시는 text 배열로 지정하고 번역과 aria-label의 접근성 설명은 앱에서 준비한다.
 
-height="100%"를 사용할 때는 부모 영역의 높이를 지정. Tailwind가 없는 프로젝트는 시작 가이드의 chart-layout.css를 함께 적용. 좁은 영역에서는 min-width·overflow와 긴 label을 확인. 특정 소비 앱의 breakpoint·panel class는 앱 정책.
+height="100%"를 사용할 때는 부모 영역의 높이를 지정. Tailwind가 없는 프로젝트는 시작 가이드의 chart-layout.css를 함께 적용. 좁은 영역에서는 min-width·overflow와 긴 label을 확인. 특정 앱의 breakpoint·panel class는 앱 정책.
 
 대량 데이터의 전처리는 변경 시점에 수행하고 tooltip·draw·resize 경로의 불필요한 배열·객체 생성을 줄임. 숨겨진 페이지의 polling과 frame 작업은 정리. 계산 테스트 통과와 실제 브라우저의 FPS·메모리 측정 결과를 구분.
 

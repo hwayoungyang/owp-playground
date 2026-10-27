@@ -113,10 +113,10 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
         </>
       }
     >
-      <DemoSection description="useSetSettings는 현재 설정을, useChangeOwpTheme는 기본·현재 테마를 메모리 store에서 갱신합니다. 설정 저장은 소비앱의 책임이며 useStorage는 앱 환경 조회·저장과 storage 초기화를 제공합니다.">
+      <DemoSection description="useSetSettings는 현재 설정을, useChangeOwpTheme는 기본·현재 테마를 메모리 store에서 갱신합니다. 설정 저장은 앱의 책임이며 useStorage는 앱 환경 조회·저장과 storage 초기화를 제공합니다.">
         <OwpTable
           aria-label={t('설정 미리보기')}
-          headers={{ name: t('이름'), count: t('개수') }}
+          headers={{ name: t('항목명'), count: t('개수') }}
           rows={rows}
           size="small"
         />

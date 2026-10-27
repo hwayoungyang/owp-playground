@@ -19,7 +19,7 @@ import { groupExampleSources } from '../src/features/code/source-groups.ts';
 import { createExampleCodeReviews } from './api-example-reviews.mjs';
 import { discoverExamplePropReferences } from './api-example-props.mjs';
 import { exampleCodeHref } from '../src/features/code/code-location.ts';
-import { toReferenceStyle } from '../knowledge/korean-copy.mjs';
+import { normalizeAppTerminology, toReferenceStyle } from '../knowledge/korean-copy.mjs';
 import { compareApiMembers } from '../src/features/api/model/presentation.ts';
 import { apiRecordReferenceIds, createPackageKnowledge } from '../src/features/api/model/package-data.ts';
 import { knowledgeSchema, packageKnowledgeSchema } from '../src/features/api/model/schema.ts';
@@ -179,6 +179,7 @@ const records = allRecords.filter((record) => !isScopedExternal(record) || usedS
   return {
     ...record, requirement: record.requirement ?? 'declaration', body: '',
     ...documentation,
+    documentation: normalizeAppTerminology(documentation.documentation),
     description: toReferenceStyle(documentation.description),
     docTags: documentation.docTags.map((tag) => ['default', 'defaultValue'].includes(tag.name) ? tag : { ...tag, text: toReferenceStyle(tag.text) }),
     usageNote: record.package === 'chart.js' ? 'Chart.js 원본 타입. OWP 설정·callback·배열 지원은 관련 타입·예제 참고.' : null,

@@ -1,10 +1,14 @@
-import { OwpThemeProvider } from '@owp/theme';
 import { OwpRouteErrorElement } from '@owp/core';
 import { OwpCoreProvider, OwpUiProvider, type OwpAppConfigs } from '@owp/core/contexts';
 import { OwpDialogsProvider } from '@owp/components/feedback';
 import { STORAGE_KEYS } from '@owp/core/constants';
-import { useGetCurrentLanguage, useGetCurrentSettings, useSetDefaultSettings } from '@owp/core/hooks';
+import {
+  useGetCurrentLanguage,
+  useGetCurrentSettings,
+  useSetDefaultSettings,
+} from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
+import { OwpThemeProvider } from '@owp/theme';
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { createMemoryRouter, MemoryRouter, RouterProvider } from 'react-router-dom';
 import { Alert, useTheme } from '@mui/material';
@@ -73,7 +77,11 @@ function CoreSettingsBridge({
   useEffect(() => {
     if (configs.settingsConfig) setDefaults(configs.settingsConfig);
   }, [configs, setDefaults]);
-  return <OwpThemeProvider table={settings.theme.main.table} dataGrid={settings.theme.main.dataGrid}>{children}</OwpThemeProvider>;
+  return (
+    <OwpThemeProvider table={settings.theme.main.table} dataGrid={settings.theme.main.dataGrid}>
+      {children}
+    </OwpThemeProvider>
+  );
 }
 
 function CoreLanguageBridge({ children }: { readonly children: ReactNode }) {
@@ -163,7 +171,10 @@ export function CoreProviders({
     <OwpCoreProvider
       configs={configs}
       styledEngineProviderProps={{ injectFirst: false, enableCssLayer: false }}
-      env={createCoreProviderEnv(resolvedMode, window.location.origin)}
+      env={{
+        ...createCoreProviderEnv(resolvedMode, window.location.origin),
+        diagnostics: { apiInspector: { enabled: exampleId === 'api-inspector' } },
+      }}
       queryClientConfig={{
         defaultOptions: { queries: { retry: false, refetchOnWindowFocus: false } },
       }}

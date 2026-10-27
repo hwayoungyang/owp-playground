@@ -4,28 +4,38 @@ const actions = [
   '결정',
   '계산',
   '고려',
+  '공유',
+  '구독',
   '관리',
   '교체',
   '구분',
   '구성',
+  '기록',
+  '담당',
   '다운로드',
   '등록',
   '명시',
+  '무시',
+  '무효화',
   '반영',
   '반환',
+  '반응',
   '배치',
   '변경',
   '변환',
   '보존',
+  '보호',
   '복사',
   '복원',
   '분리',
   '분할',
   '비교',
+  '비활성화',
   '사용',
   '생략',
   '생성',
   '설명',
+  '선언',
   '설정',
   '설치',
   '선택',
@@ -34,18 +44,25 @@ const actions = [
   '시도',
   '승인',
   '실행',
+  '실패',
+  '수행',
   '안정화',
+  '요구',
+  '요청',
   '연결',
   '예약',
   '우선',
   '유지',
   '이동',
   '적용',
+  '저장',
   '재배치',
   '재사용',
   '재정의',
   '재시도',
+  '새로고침',
   '전달',
+  '전파',
   '정규화',
   '정리',
   '제거',
@@ -64,9 +81,13 @@ const actions = [
   '집계',
   '처리',
   '추가',
+  '추적',
   '취소',
+  '초기화',
   '포함',
+  '필터링',
   '표시',
+  '평가',
   '합성',
   '허용',
   '호출',
@@ -74,10 +95,13 @@ const actions = [
   '확인',
   '확정',
   '해제',
+  '해석',
   'fallback',
   'await',
   'mount',
   'import',
+  'render',
+  'reject',
 ];
 const sentenceEnd = '(?=[.!?](?:\\s|$)|$)';
 const actionEnding = new RegExp(
@@ -85,6 +109,7 @@ const actionEnding = new RegExp(
   'g',
 );
 const nouns = [
+  '객체',
   '색상',
   '설정',
   '수염',
@@ -116,16 +141,40 @@ const nouns = [
   '집계행',
   '타입',
   '배열',
+  '옵션',
+  '예제',
+  '코드',
+  '폼',
+  '구조',
+  '화면',
 ];
 const nounEnding = new RegExp(`(${nouns.join('|')})(?:입니다|이다|다)${sentenceEnd}`, 'g');
 const identifierEnding = new RegExp(`([A-Za-z0-9_\\]])(?:입니다|이다|다)${sentenceEnd}`, 'g');
 const endings = [
+  ['엽니다', '엶'],
+  ['닫는다', '닫음'],
+  ['끕니다', '끔'],
+  ['가져옵니다', '가져옴'],
+  ['정한다', '정함'],
+  ['남는다', '남음'],
+  ['기준이 된다', '기준이 됨'],
+  ['분명히 합니다', '분명히 함'],
+  ['만들어집니다', '생성됨'],
+  ['줄어듭니다', '줄어듦'],
+  ['감쌉니다', '감쌈'],
+  ['맞춥니다', '맞춤'],
+  ['맡깁니다', '맡김'],
+  ['바꿉니다', '변경'],
+  ['좁힙니다', '좁힘'],
+  ['받습니다', '받음'],
   ['영향을 주지 않는다', '영향을 주지 않음'],
   ['실패한다', '실패함'],
   ['reject된다', 'reject됨'],
   ['일치시킨다', '일치시킴'],
   ['하지 않습니다', '하지 않음'],
   ['하지 않는다', '하지 않음'],
+  ['않습니다', '않음'],
+  ['않는다', '않음'],
   ['되지 않습니다', '되지 않음'],
   ['되지 않는다', '되지 않음'],
   ['지는 않습니다', '지는 않음'],
@@ -183,6 +232,7 @@ const endings = [
   ['안정적이다', '안정적'],
   ['적용됩니다', '적용됨'],
   ['적용된다', '적용됨'],
+  ['됩니다', '됨'],
   ['배치됩니다', '배치됨'],
   ['비활성화됩니다', '비활성화됨'],
   ['clip됩니다', 'clip됨'],
@@ -196,9 +246,23 @@ const endings = [
 const protectedText =
   /(`{3,}|~{3,})[^\n]*\n[\s\S]*?(?:\n\1[\t ]*(?=\n|$)|(?![\s\S]))|(`+)(?!`)[\s\S]*?\2(?!`)|<(pre|code)\b[^>]*>[\s\S]*?<\/\3>|"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\\n])*'|“[^”]*”|‘[^’]*’|^[\t ]*>[^\n]*|^(?: {4}|\t)[^\n]*/gim;
 
+/** 코드·인용과 문장 종결을 유지하며 앱 설명의 용어만 통일합니다. */
+export function normalizeAppTerminology(text) {
+  const normalize = (prose) => prose.replaceAll('소비앱', '앱').replaceAll('소비 앱', '앱');
+  let result = '';
+  let offset = 0;
+  for (const match of text.matchAll(protectedText)) {
+    result += normalize(text.slice(offset, match.index)) + match[0];
+    offset = match.index + match[0].length;
+  }
+  return result + normalize(text.slice(offset));
+}
+
 function rewriteProse(text) {
   if (!/[가-힣]/.test(text)) return text;
   let result = text
+    .replaceAll('소비앱', '앱')
+    .replaceAll('소비 앱', '앱')
     .replaceAll('기본 입력은 id/value를 가져야 합니다.', '기본 입력에 id/value 필요.')
     .replaceAll('기본 tooltip에 표시할 번역된 항목 이름입니다.', '기본 tooltip의 번역된 항목 이름.')
     .replaceAll('wrapper의 번역된 기본 tooltip입니다.', 'wrapper가 제공하는 번역된 기본 tooltip.')

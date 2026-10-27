@@ -1,4 +1,18 @@
 export const advancedEnglish: Readonly<Record<string, string>> = {
+  '응답 유형': 'Response type',
+  '조회 결과 있음': 'Results available',
+  '조회 결과 없음': 'No results',
+  '오류 응답': 'Error response',
+  '조회된 항목': 'Retrieved items',
+  '공통코드 항목': 'Common code item',
+  항목명: 'Item name',
+  '응답 유형을 고른 뒤 조회 버튼으로 결과를 확인합니다.':
+    'Choose a response type, then select Fetch to see the result.',
+  'API로 조회한 목록에서 항목을 선택합니다.': 'Select an item from the list retrieved by the API.',
+  '초기화된 공통코드 목록에서 항목을 선택합니다.':
+    'Select an item from the initialized common code list.',
+  '목록을 불러오지 못했습니다. 응답 유형을 변경해 다시 시도해 주세요.':
+    'Could not load the list. Change the response type to try again.',
   '항목 목록': 'Item list',
   '항목 A': 'Item A',
   '항목 B': 'Item B',
@@ -21,15 +35,10 @@ export const advancedEnglish: Readonly<Record<string, string>> = {
   '내보낼 항목': 'Items to export',
   '선택한 언어로 표시됩니다.': 'Displayed in the selected language.',
   '사용 중인 공정만': 'Active processes only',
-  '정상 응답': 'Successful response',
-  '빈 응답': 'Empty response',
-  '실패 응답': 'Failed response',
   '정적 응답을 조회하는 Select': 'Select with a static response',
   '같은 출처의 JSON 파일을 실제 요청합니다. 외부 서버 없이 응답과 선택값을 비교할 수 있습니다.':
     'Request a same-origin JSON file and compare the response and selected value without an external server.',
   '공정 선택': 'Select a process',
-  '조회에 실패했습니다. 정상 응답으로 전환해 다시 조회하세요.':
-    'The request failed. Switch to the successful response to try again.',
   'Autocomplete 모드': 'Autocomplete mode',
   '조회한 목록을 입력값으로 검색합니다. 정적 파일은 서버 검색 조건을 처리하지 않습니다.':
     'Search the fetched list by typing. Static files do not process server search parameters.',

@@ -3,8 +3,6 @@ import type {
   BoxPlotDatasetOptions,
   BoxPlotDatum,
   BoxPlotStatistics,
-  ChartData,
-  ChartOptions,
   CoreChartProps,
   HeatmapDatasetOptions,
   HeatmapPoint,
@@ -14,6 +12,7 @@ import type {
   TreemapDatasetOptions,
   TreemapNode,
 } from '@owp/charts/types';
+import type { ChartData, ChartOptions } from 'chart.js';
 import {
   createBoxPlotTooltipCallbacks,
   createHeatmapData,

@@ -1,7 +1,9 @@
 import { useSearchAction } from '@owp/core/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { Button, MenuItem, TextField, Typography } from '@mui/material';
-import { OwpPageCarded, OwpPageContent, OwpTable, OwpSearchFilter } from '@owp/components';
+import { OwpPageCarded, OwpPageContent } from '@owp/components';
+
+import { OwpSearchFilter } from '@owp/components';
 import { usePageLeaveGuard } from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -9,6 +11,7 @@ import type { CoreExampleProps } from '../model/types';
 import { exampleRows } from '../model/fixtures';
 import { CoreDemo, DemoSection } from '../runtime/Demo';
 import { CoreChoice, CoreToggle } from '../runtime/Controls';
+import { CoreResultTable } from '../runtime/CoreResultTable';
 
 const routeOptions = ['/list', '/detail'] as const;
 
@@ -23,6 +26,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const [name, setName] = useState('');
   const [status, setStatus] = useState('all');
   const [filters, setFilters] = useState({ name: '', status: 'all' });
+  const [hasSearched, setHasSearched] = useState(false);
   const hasUnsavedFilter = name !== filters.name || status !== filters.status;
   const isDirty = dirtyDraft || hasUnsavedFilter;
 
@@ -31,15 +35,17 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
     location.pathname === '/detail' ? '/detail' : '/list';
   const rows = useMemo(
     () =>
-      exampleRows.filter(
-        (row) =>
-          (filters.status === 'all' || row.status === filters.status) &&
-          i18n
-            .t(row.name, { ns: 'owp', lng: language })
-            .toLowerCase()
-            .includes(filters.name.trim().toLowerCase()),
-      ),
-    [filters, i18n, language],
+      hasSearched
+        ? exampleRows.filter(
+            (row) =>
+              (filters.status === 'all' || row.status === filters.status) &&
+              i18n
+                .t(row.name, { ns: 'owp', lng: language })
+                .toLowerCase()
+                .includes(filters.name.trim().toLowerCase()),
+          )
+        : [],
+    [filters, hasSearched, i18n, language],
   );
 
   useEffect(() => {
@@ -50,8 +56,9 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
       isDirty,
       pathname: activeRoute,
       rows,
+      hasSearched,
     });
-  }, [activeRoute, filters, isDirty, responsive, onData, rows]);
+  }, [activeRoute, filters, hasSearched, isDirty, responsive, onData, rows]);
 
   return (
     <CoreDemo
@@ -94,6 +101,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
                       setName('');
                       setStatus('all');
                       setFilters({ name: '', status: 'all' });
+                      setHasSearched(false);
                       setDirtyDraft(false);
                       onRecord('discard.confirm', t('검색 조건과 결과를 초기화했습니다.'));
                     });
@@ -108,6 +116,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
               onSubmit={() =>
                 searchAction.run(() => {
                   setFilters({ name, status });
+                  setHasSearched(true);
                   setDirtyDraft(false);
                   onRecord('submit', JSON.stringify({ name, status }));
                 })
@@ -116,13 +125,14 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
                 setName('');
                 setStatus('all');
                 setFilters({ name: '', status: 'all' });
+                setHasSearched(false);
                 setDirtyDraft(false);
                 onRecord('reset', t('검색 조건과 결과를 초기화했습니다.'));
               }}
             >
               <div className="core-field">
                 <TextField
-                  label={t('이름')}
+                  label={t('항목명')}
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   variant="outlined"
@@ -152,12 +162,13 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
               <Typography variant="body2" role="status">
                 {t('현재 페이지: {{path}}', { path: activeRoute })}
               </Typography>
-              <OwpTable
-                aria-label={t('조회 결과')}
+              <CoreResultTable
                 variant="dataGrid"
-                size="small"
-                headers={{ name: t('이름'), status: t('상태') }}
+                headers={{ name: t('항목명'), status: t('상태') }}
                 rows={rows.map((row) => ({ name: t(row.name), status: t(row.status) }))}
+                state={
+                  hasSearched ? undefined : { kind: 'idle', message: t('검색 버튼을 눌러 주세요.') }
+                }
               />
             </OwpPageContent>
           }

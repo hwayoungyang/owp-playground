@@ -1,4 +1,5 @@
 export const basicEnglish: Readonly<Record<string, string>> = {
+  '저장된 항목명': 'Saved item name',
   이름: 'Name',
   '항목 편집': 'Edit item',
   '저장된 이름': 'Saved name',
@@ -86,10 +87,10 @@ export const basicEnglish: Readonly<Record<string, string>> = {
   '작업 대기 중': 'Ready to start',
   '{{count}}개 작업 지시를 조회했습니다.': 'Retrieved {{count}} work orders.',
   '검색 조건과 결과를 초기화했습니다.': 'Reset the filters and results.',
-  '조회 버튼 로딩': 'Submit loading state',
+  '검색 버튼 로딩': 'Search button loading',
   'Skeleton 레이아웃': 'Skeleton layout',
   '작업 지시 조회': 'Find work orders',
-  '900ms 후 로컬 데이터를 조회합니다. 조회 버튼의 취소 동작은 진행 중인 타이머와 query를 함께 정리합니다.':
+  '900ms 후 로컬 데이터를 조회합니다. 검색 버튼의 취소 동작은 진행 중인 타이머와 query를 함께 정리합니다.':
     'Search local data after 900ms. Cancel on the search button stops the pending timer and query.',
   '검색 조건': 'Search filters',
   '조회 작업을 취소했습니다.': 'Canceled the search.',

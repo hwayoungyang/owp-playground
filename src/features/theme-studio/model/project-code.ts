@@ -27,7 +27,8 @@ export const themeOverrides = {
   },
   {
     file: 'AppProviders.tsx',
-    code: `import merge from 'lodash/merge';
+    code: `// merge를 직접 사용하는 프로젝트는 pnpm add es-toolkit으로 설치합니다.
+import { merge } from 'es-toolkit/compat';
 import { getResolvedThemePreviewSettingsConfig }
   from '@owp/core/configs/theme';
 import { OwpCoreProvider, OwpStyleProvider }

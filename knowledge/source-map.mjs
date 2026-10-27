@@ -9,9 +9,11 @@ const source = (root, file, packageId, topics, scope = 'usage') => ({
 });
 
 export const sourceMap = [
-  source('framework', 'docs/core/8.1.0/README.md', 'core', ['setup', 'composition']),
-  source('framework', 'docs/components/3.1.1/README.md', 'core', ['composition']),
-  source('framework', 'docs/theme/2.2.1/README.md', 'core', ['setup', 'composition']),
+  source('framework', 'docs/core/10.2.0/README.md', 'core', ['setup', 'composition', 'api']),
+  source('framework', 'docs/components/4.0.0/README.md', 'core', ['composition']),
+  source('framework', 'docs/charts/6.0.0/README.md', 'charts', ['composition']),
+  source('framework', 'docs/datagrid/3.5.3/README.md', 'datagrid', ['connection']),
+  source('framework', 'docs/theme/3.0.0/README.md', 'core', ['setup', 'composition']),
   source('agents', `${framework}/SKILL.md`, 'shared', [], 'workflow'),
   {
     ...source('agents', `${framework}/references/datagrid.md`, 'datagrid', [
@@ -73,12 +75,12 @@ export const sourceMap = [
       'Text 컬럼 입력 정책': {
         disposition: 'mapped',
         guideIds: ['@owp/datagrid:guide.editing'],
-        note: '공개 textOptions와 검증·오류 수명 계약만 편집 가이드에 연결합니다. 소비앱의 업무별 컬럼·저장 정책과 검증 절차는 일반 패키지 계약으로 확장하지 않습니다.',
+        note: '공개 textOptions와 검증·오류 수명 계약만 편집 가이드에 연결합니다. 앱의 업무별 컬럼·저장 정책과 검증 절차는 일반 패키지 계약으로 확장하지 않습니다.',
       },
       'Row reordering': {
         disposition: 'mapped',
         guideIds: ['@owp/datagrid:guide.rows'],
-        note: '행 이동과 순서 변경의 공개 계약을 행 관리 가이드에 연결합니다. 서버 저장·실패 복구 정책은 소비앱이 담당합니다.',
+        note: '행 이동과 순서 변경의 공개 계약을 행 관리 가이드에 연결합니다. 서버 저장·실패 복구 정책은 프로젝트에서 구성합니다.',
       },
     },
   },

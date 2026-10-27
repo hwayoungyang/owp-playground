@@ -117,7 +117,7 @@ export async function readDeclarations(directory, { externalPackages = [], addit
   }
   const documentation = (module, node) => {
     node = module.statements.get(node.start) ?? node;
-    const comment = module.comments.filter((item) => item.end <= node.start && module.content.slice(item.start, item.end).startsWith('/**')).at(-1);
+    const comment = module.comments.findLast((item) => item.end <= node.start && module.content.slice(item.start, item.end).startsWith('/**'));
     if (!comment || module.content.slice(comment.end, node.start).replace(/\/\*[\s\S]*?\*\/|\/\/[^\r\n]*/g, '').trim()) return '';
     return comment.value.replace(/^\*/, '').split('\n').map((line) => line.replace(/^\s*\* ?/, '')).join('\n').trim();
   };

@@ -15,7 +15,7 @@ describe('Core sample ownership in generated Knowledge', () => {
     ] as const;
     for (const [id, examples] of expectedExamples) {
       const record = knowledge.records.find((entry) => entry.id === id);
-      expect(record?.packageVersion).toBe('3.1.1');
+      expect(record?.packageVersion).toBe('4.0.0');
       expect(record?.examples.map((example) => example.id).sort()).toEqual(examples);
     }
     for (const name of ['OwpDialog', 'OwpPageCarded', 'OwpPageContent', 'OwpErrorBoundary']) {
@@ -30,7 +30,7 @@ describe('Core sample ownership in generated Knowledge', () => {
     );
     const coreTable = knowledge.records.find((record) => record.id === '@owp/core:OwpTable');
     expect(componentsTable?.imports).toEqual(['@owp/components']);
-    expect(componentsTable?.packageVersion).toBe('3.1.1');
+    expect(componentsTable?.packageVersion).toBe('4.0.0');
     expect(componentsTable?.examples.map((example) => example.id).sort()).toEqual([
       'api-query',
       'app-settings',

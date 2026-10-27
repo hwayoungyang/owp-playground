@@ -1,5 +1,5 @@
-/** 한금 소비앱의 차트 렌더링 구현과 실행 예제의 대응 관계. */
-export const hankumChartCoverage = {
+/** 앱 구성 예시의 차트 렌더링 구현과 실행 예제의 대응 관계. */
+export const referenceChartCoverage = {
   OrderChart: ['bar', 'x-slider', 'y-sliders', 'linked'],
   RankChart: ['ranking', 'data-labels'],
   SalesChart: ['plan-actual', 'dual-axis', 'trendline', 'data-labels'],

@@ -20,7 +20,7 @@ import {
   usesCorePolicyRouter,
 } from '../src/playgrounds/core/model/policy';
 
-describe('Core 8.1.0 & Components 3.1.1 policy contracts', () => {
+describe('Core 10.2.0 & Components 4.0.0 policy contracts', () => {
   it('handles a browser that denies access to the storage object itself', () => {
     // Given
     vi.stubGlobal('window', {
@@ -40,7 +40,7 @@ describe('Core 8.1.0 & Components 3.1.1 policy contracts', () => {
 
   it('scopes Data Router mode strictly to policy examples and declares qualified catalog APIs', () => {
     // Given
-    const expectedRouterIds = ['loading', 'error-boundary', 'page-carded'];
+    const expectedRouterIds = ['api-query', 'loading', 'error-boundary', 'page-carded'];
 
     // When
     const matchedIds = coreCatalog
@@ -48,9 +48,15 @@ describe('Core 8.1.0 & Components 3.1.1 policy contracts', () => {
       .map((entry) => entry.id);
 
     // Then
-    expect(POLICY_ROUTER_EXAMPLES).toEqual(['page-carded', 'loading', 'error-boundary']);
+    expect(POLICY_ROUTER_EXAMPLES).toEqual([
+      'page-carded',
+      'loading',
+      'error-boundary',
+      'api-query',
+    ]);
     expect(matchedIds).toEqual(expectedRouterIds);
     expect(resolveCoreProviderMode('page-carded')).toBe('policy');
+    expect(resolveCoreProviderMode('api-query')).toBe('policy');
     expect(resolveCoreProviderMode('app-settings')).toBe('standalone');
     expect(resolveCoreProviderMode('page-carded', 'standalone')).toBe('standalone');
     expect(findCoreEntry('getting-started').api).toEqual([
@@ -58,7 +64,6 @@ describe('Core 8.1.0 & Components 3.1.1 policy contracts', () => {
       'OwpStyleProvider',
       'OwpUiProvider',
       'useInitApp',
-      '@owp/utils:recoverFromDynamicImportChunkLoadError',
       '@owp/components:OwpPageCarded',
       '@owp/components:OwpErrorBoundary',
       'OwpRouteErrorElement',

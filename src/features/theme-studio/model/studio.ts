@@ -2,7 +2,7 @@ import type { Theme } from '@mui/material';
 import type { z } from 'zod';
 import { createMuiTheme } from '../../../shared/theme/themes';
 import type { ColorMode } from '../../../shared/theme/tokens';
-import { createHankumMuiOptions } from './hankum';
+import { createReferenceMuiOptions } from './reference';
 import { createPreviewGridTheme, getPreviewPalette, type PreviewThemeSettings } from './preview';
 import { muiThemeSchema, themeFileSchema } from './schemas';
 
@@ -19,8 +19,8 @@ export function createPreviewMuiTheme(
     getPreviewPalette(settings.preset, mode),
     mode,
     selectionLabel,
-    settings.preset === 'hankum' && mode === 'light'
-      ? createHankumMuiOptions(settings.mui)
+    settings.preset === 'reference' && mode === 'light'
+      ? createReferenceMuiOptions(settings.mui)
       : settings.mui,
   );
 }

@@ -47,7 +47,7 @@ async function translation(language: string) {
 describe('API record rendering', () => {
   it('places the identifier and its linked type in the same member heading', async () => {
     const i18n = await translation('ko');
-    const record = getRecord('@owp/charts:ChartDataLabelsContext.chart');
+    const record = getRecord('chartjs-plugin-datalabels:Context.chart');
     const markup = renderWithKnowledge(
       <I18nextProvider i18n={i18n}>
         <ApiMemberList records={[record]} />
@@ -64,7 +64,7 @@ describe('API record rendering', () => {
   });
 
   it('limits original-language badges to Korean UI while preserving the description', async () => {
-    const record = getRecord('@owp/charts:ChartDataLabelsContext.chart');
+    const record = getRecord('chartjs-plugin-datalabels:Context.chart');
     const i18n = await translation('en');
     const markup = renderWithKnowledge(
       <I18nextProvider i18n={i18n}>
@@ -76,7 +76,12 @@ describe('API record rendering', () => {
   });
 
   it('shows an unknown English origin without claiming an external package', async () => {
-    const record = getRecord('@owp/charts:ChartDataLabelsContext');
+    const record = {
+      ...getRecord('@owp/charts:ChartDragZoomOptions'),
+      description: 'An app-defined chart context.',
+      declaredIn: undefined,
+      inheritedFrom: [],
+    };
     const i18n = await translation('ko');
     const markup = renderWithKnowledge(
       <I18nextProvider i18n={i18n}>
@@ -88,7 +93,7 @@ describe('API record rendering', () => {
   });
 
   it('uses titled native disclosures when sections exist and keeps paragraph fallback', () => {
-    const base = getRecord('@owp/charts:ChartDataLabelsContext');
+    const base = getRecord('chartjs-plugin-datalabels:Context');
     const body = 'First paragraph.\n\nSecond paragraph.';
     const fallback = renderWithKnowledge(<ApiGuideBody record={{ ...base, body }} />);
     expect(fallback).toContain('<p>First paragraph.</p><p>Second paragraph.</p>');
@@ -111,7 +116,7 @@ describe('API record rendering', () => {
   });
 
   it('keeps grouped related records as real anchors alongside a labeled search field', async () => {
-    const base = getRecord('@owp/charts:ChartDataLabelsContext');
+    const base = getRecord('chartjs-plugin-datalabels:Context');
     const guide = {
       ...base,
       id: 'guide-test',
@@ -128,12 +133,12 @@ describe('API record rendering', () => {
     expect(markup).toContain('type="search"');
     expect(markup).toMatch(/<label for="[^"]+">관련 항목 검색<\/label>/);
     expect(markup).toContain('symbol=guide-test');
-    expect(markup).toContain('symbol=%40owp%2Fcharts%3AChartDataLabelsContext');
+    expect(markup).toContain('symbol=chartjs-plugin-datalabels%3AContext');
     expect(markup).toContain('role="status"');
   });
 
   it('links Components reference records inside the Core dataset without routing to planned Components or Charts fallback', () => {
-    const base = getRecord('@owp/charts:ChartDataLabelsContext');
+    const base = getRecord('chartjs-plugin-datalabels:Context');
     const variantRecord: ApiRecord = {
       ...base,
       id: '@owp/components:OwpLoadingVariant',

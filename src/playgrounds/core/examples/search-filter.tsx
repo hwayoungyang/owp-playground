@@ -1,14 +1,15 @@
 import { useSearchAction } from '@owp/core/hooks';
 import { useEffect, useRef, useState } from 'react';
-import { MenuItem, OutlinedInput, TextField, Typography } from '@mui/material';
-import { OwpTable, OwpSearchFilter } from '@owp/components';
+import { MenuItem, OutlinedInput, TextField } from '@mui/material';
 import { OwpQuerySelector } from '@owp/core';
+import { OwpSearchFilter } from '@owp/components';
 import { useQueryClient } from '@tanstack/react-query';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
 import { queryFixture, type QueryFixtureItem } from '../model/fixtures';
 import { CoreDemo, DemoSection } from '../runtime/Demo';
 import { CoreToggle } from '../runtime/Controls';
+import { CoreResultTable } from '../runtime/CoreResultTable';
 import itemsUrl from '../data/processes.json?url&no-inline';
 
 const searchPath = '/playground/core/items';
@@ -23,7 +24,8 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const [showLoading, setShowLoading] = useState(true);
   const [skeleton, setSkeleton] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<readonly QueryFixtureItem[]>(queryFixture.resultData);
+  const [results, setResults] = useState<readonly QueryFixtureItem[]>([]);
+  const [resultState, setResultState] = useState<'idle' | 'ready' | 'error'>('idle');
   const pending = useRef<AbortController | null>(null);
   const apiUrl = new URL(itemsUrl, window.location.href).href;
 
@@ -43,9 +45,10 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
       showSubmitLoading: showLoading,
       showSkeleton: skeleton,
       loading,
+      resultState,
       results,
     });
-  }, [itemId, status, responsive, showLoading, skeleton, loading, results, onData]);
+  }, [itemId, status, responsive, showLoading, skeleton, loading, resultState, results, onData]);
 
   function stop() {
     pending.current?.abort();
@@ -87,11 +90,14 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
       });
       if (pending.current === request && !request.signal.aborted) {
         setResults(next);
+        setResultState('ready');
         onRecord('complete', t('{{count}}건을 조회했습니다.', { count: next.length }));
       }
     } catch (error) {
       if (error instanceof Error && request.signal.aborted) return;
-      throw error;
+      setResults([]);
+      setResultState('error');
+      onRecord('request.error', error instanceof Error ? error.message : String(error));
     } finally {
       if (pending.current === request) {
         pending.current = null;
@@ -106,7 +112,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
         <>
           <CoreToggle label="반응형 레이아웃" value={responsive} onChange={setResponsive} />
           <CoreToggle
-            label="조회 버튼 로딩"
+            label="검색 버튼 로딩"
             value={showLoading}
             onChange={(next) => {
               void stop();
@@ -136,7 +142,8 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
             void stop();
             setItemId('');
             setStatus('all');
-            setResults(queryFixture.resultData);
+            setResults([]);
+            setResultState('idle');
             onRecord('reset', t('검색 조건과 결과를 초기화했습니다.'));
           }}
           onCancel={async () => {
@@ -153,12 +160,12 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
               labelResolver={(row) => (i18n.language === 'en' ? row.nameEn : row.nameKo)}
               queryKeyDeps={[i18n.language]}
               value={itemId}
-              label={t('이름')}
+              label={t('항목명')}
               textFieldProps={{ variant: 'outlined', size: 'small' }}
               selectProps={{
                 variant: 'outlined',
                 size: 'small',
-                input: <OutlinedInput label={t('이름')} />,
+                input: <OutlinedInput label={t('항목명')} />,
               }}
               fullWidth
               disabled={loading}
@@ -182,18 +189,22 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
             </TextField>
           </div>
         </OwpSearchFilter>
-        <Typography component="p" role="status" aria-live="polite">
-          {loading ? t('조회 중') : t('조회 결과 {{count}}건', { count: results.length })}
-        </Typography>
-        <OwpTable
-          aria-label={t('조회 결과')}
+        <CoreResultTable
           variant="dataGrid"
-          size="small"
-          headers={{ name: t('이름'), status: t('상태') }}
+          headers={{ name: t('항목명'), status: t('상태') }}
           rows={results.map((row) => ({
             name: i18n.language === 'en' ? row.nameEn : row.nameKo,
             status: t(row.active ? '사용' : '미사용'),
           }))}
+          state={
+            loading
+              ? { kind: 'loading', message: t('조회 중') }
+              : resultState === 'error'
+                ? { kind: 'error', message: t('조회에 실패했습니다. 다시 시도해 주세요.') }
+                : resultState === 'idle'
+                  ? { kind: 'idle', message: t('검색 버튼을 눌러 주세요.') }
+                  : undefined
+          }
         />
       </DemoSection>
     </CoreDemo>

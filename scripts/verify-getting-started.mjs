@@ -150,13 +150,13 @@ try {
   await shot('panel-industrial');
   await settings();
   await page.getByRole('combobox', { name: '테마', exact: true }).click();
-  await page.getByRole('option', { name: '한금', exact: true }).click();
+  await page.getByRole('option', { name: '참조 앱', exact: true }).click();
   await closeSettings();
-  const hankum = await panels();
-  assert.equal(hankum.drag, hankum.panel);
-  assert.notEqual(hankum.icon, hankum.panel);
-  await shot('panel-hankum');
-  pass('colored preset and consumer-native preset keep the filter panel visible', { industrial, hankum });
+  const reference = await panels();
+  assert.equal(reference.drag, reference.panel);
+  assert.notEqual(reference.icon, reference.panel);
+  await shot('panel-reference');
+  pass('colored preset and consumer-native preset keep the filter panel visible', { industrial, reference });
 
   await page.goto(`${origin}/diagnostics/scripts/fixtures/panel-theme.html`);
   await page.locator('[data-case=separate] .OwpDataGrid-root').waitFor();

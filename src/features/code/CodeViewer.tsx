@@ -146,8 +146,9 @@ export function CodeViewer({
             : file.endsWith('.json')
               ? 'json'
               : 'typescript',
+        example,
       ),
-    [content, data, dataFormat, file],
+    [content, data, dataFormat, file, example],
   );
   const copy = async () => {
     try {

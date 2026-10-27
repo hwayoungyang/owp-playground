@@ -119,6 +119,15 @@
 .hljs-name {
   color: var(--code-purple);
 }
+.code-api-symbol {
+  color: var(--code-ink);
+  font-weight: 600;
+  background: color-mix(in srgb, var(--code-blue) 14%, transparent);
+  border-radius: 2px;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--code-blue) 55%, transparent);
+  text-underline-offset: 3px;
+}
 @media (max-width: 599px) {
   .code-toolbar {
     padding: 12px;

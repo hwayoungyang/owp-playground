@@ -1,6 +1,6 @@
 export const catalogEnglish: Readonly<Record<string, string>> = {
-  '작성한 정규식은 적용 버튼을 눌러야 Grid에 반영됩니다.':
-    'The draft pattern affects the Grid only after Apply.',
+  '작성한 정규식은 정규식 적용 버튼을 눌러야 Grid에 반영됩니다.':
+    'Choose Apply pattern to update the Grid with the draft pattern.',
   '빈 정규식은 문자 제한을 두지 않습니다.': 'An empty pattern leaves characters unrestricted.',
   '정규식 형식이 올바르지 않습니다.': 'The regular expression syntax is invalid.',
   '데이터 상태': 'Data state',
@@ -47,8 +47,8 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
     'Validation settings apply only to the feedback and errors column.',
   '첫 행의 안내·오류 비교 셀에 외부 오류를 표시했습니다.':
     'An external error was set on the feedback and errors cell in the first row.',
-  '작성한 정규식은 적용 버튼을 눌러야 Grid에 반영됩니다. 빈 정규식은 문자 제한을 두지 않습니다.':
-    'The draft pattern affects the Grid only after Apply. An empty pattern leaves characters unrestricted.',
+  '작성한 정규식은 정규식 적용 버튼을 눌러야 Grid에 반영됩니다. 빈 정규식은 문자 제한을 두지 않습니다.':
+    'Choose Apply pattern to update the Grid with the draft pattern. An empty pattern leaves characters unrestricted.',
   '둘째 행의 기존 서버 값은 정책을 바꿔도 그대로 유지됩니다. 외부 오류는 첫 행의 두 번째 셀에서 비교합니다.':
     'Existing server values in the second row remain unchanged when policies change. Compare external errors in the second cell of the first row.',
   'Text 입력 정책': 'Text input policy',
@@ -105,8 +105,8 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
     'View, edit or delete rows from the context menu and query the main Grid from a dialog.',
   '현재 변경 상태 조회': 'Inspect current changes',
   'Working-copy 변경 {{count}}건': 'Working-copy changes: {{count}}',
-  'hasUnsavedChanges()로 미확정 입력까지 감지 가능. getChanges()는 working-copy 변경만 반환. 조회 버튼은 편집을 확정하지 않으며, 결과는 조회 시점 기준.':
-    'hasUnsavedChanges() includes uncommitted input; getChanges() returns working-copy changes. Inspecting keeps the editor open and shows values at the time of the query.',
+  'hasUnsavedChanges()로 미확정 입력까지 감지 가능. getChanges()는 working-copy 변경만 반환. 현재 변경 상태 조회 버튼은 편집을 확정하지 않으며, 결과는 조회 시점 기준.':
+    'hasUnsavedChanges() includes uncommitted input; getChanges() returns working-copy changes. The Inspect current changes button keeps the editor open and shows values at the time of the query.',
   '입력값은 다이얼로그를 연 시점의 행. 전달받은 API로 버튼을 누른 시점의 메인 Grid 조회 가능.':
     'The fields use the row captured when the dialog opened. Query the passed API to read main Grid values when the button is pressed.',
   '메인 Grid 현재 값 조회': 'Read current main Grid values',

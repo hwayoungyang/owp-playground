@@ -299,10 +299,10 @@ describe('shared knowledge resources', () => {
     expect(ratio?.description).not.toContain('@default');
     expect(ratio?.defaultDescription).toBe('0.9');
     expect(ratio?.documentation).toContain('@default 0.9');
-    expect(
-      recordsById.get('@owp/charts:ChartDataLabelsPluginOptions.clamp')?.defaultDescription,
-    ).toBe('false');
-    expect(recordsById.get('@owp/charts:ChartDataLabelsPluginOptions.clamp')?.defaultNote).toBe(
+    expect(recordsById.get('chartjs-plugin-datalabels:Options.clamp')?.defaultDescription).toBe(
+      'false',
+    );
+    expect(recordsById.get('chartjs-plugin-datalabels:Options.clamp')?.defaultNote).toBe(
       '(no clamping)',
     );
     expect(recordsById.get('@owp/datagrid:OwpDataGridProps.treeOptions')?.defaultDescription).toBe(
@@ -329,7 +329,7 @@ describe('shared knowledge resources', () => {
       recordsById.get('@owp/datagrid:OwpDataGridTreeOptions.orphanRowPolicy')?.typeDetails?.values,
     ).toEqual(['undefined', '"error"', '"root"']);
     const ratio = recordsById.get('chart.js:BarControllerDatasetOptions.barPercentage');
-    const clamp = recordsById.get('@owp/charts:ChartDataLabelsPluginOptions.clamp');
+    const clamp = recordsById.get('chartjs-plugin-datalabels:Options.clamp');
     expect(ratio && matchesApiQuery(ratio, '0.9')).toBe(true);
     expect(clamp && matchesApiQuery(clamp, 'no clamping')).toBe(true);
     expect(mode && matchesApiQuery(mode, 'parent-reference')).toBe(true);
@@ -430,16 +430,18 @@ describe('shared knowledge resources', () => {
     expect(
       recordsById.get('@owp/charts:ChartInteractionLayerPluginOptions.disabled')?.requirement,
     ).toBe('optional');
-    expect(
-      recordsById.get('@owp/charts:ChartDataLabelsPluginOptions.formatter')?.signature,
-    ).toContain('context: Context');
-    expect(
-      recordsById.get('@owp/charts:ChartDataLabelsPluginOptions.formatter')?.description,
-    ).toContain('label text');
-    expect(recordsById.get('@owp/charts:ChartDataLabelsContext.dataIndex')?.signature).toBe(
+    expect(recordsById.get('chartjs-plugin-datalabels:Options.formatter')?.signature).toContain(
+      'context: Context',
+    );
+    expect(recordsById.get('chartjs-plugin-datalabels:Options.formatter')?.description).toContain(
+      'label text',
+    );
+    expect(recordsById.get('chartjs-plugin-datalabels:Context.dataIndex')?.signature).toBe(
       'number',
     );
-    expect(recordsById.get('@owp/charts:ChartAnnotationPluginOptions.annotations')).toBeDefined();
+    expect(
+      recordsById.get('chartjs-plugin-annotation:AnnotationPluginOptions.annotations'),
+    ).toBeDefined();
     expect(exampleApiLinks('charts', 'box-plot')).toContainEqual({
       label: 'BoxPlotDatasetOptions',
       id: '@owp/charts:BoxPlotDatasetOptions',

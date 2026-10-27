@@ -4,6 +4,7 @@ import { useConfirm, useOwpDialogs } from '@owp/components/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
 import { CoreDemo, DemoSection } from '../runtime/Demo';
+import { CoreChoice } from '../runtime/Controls';
 
 const resultLabels = {
   confirmed: '확인했습니다.',
@@ -14,7 +15,10 @@ const resultLabels = {
 export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const { t } = useOwpTranslation();
   const dialogs = useOwpDialogs();
-  const { confirmSave } = useConfirm();
+  const confirmations = useConfirm();
+  const [kind, setKind] = useState<'confirmSave' | 'confirmUpdate' | 'confirmDelete'>(
+    'confirmSave',
+  );
   const [pending, setPending] = useState(false);
   const [result, setResult] = useState<keyof typeof resultLabels | null>(null);
 
@@ -24,10 +28,9 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
 
   async function openConfirm() {
     setPending(true);
-    onRecord('confirm.open', 'confirmSave');
+    onRecord('confirm.open', kind);
     try {
-      const accepted = await confirmSave({
-        title: t('변경 내용을 저장하시겠습니까?'),
+      const accepted = await confirmations[kind]({
         okText: t('확인'),
         cancelText: t('취소'),
       });
@@ -54,6 +57,12 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
     <CoreDemo
       controls={
         <>
+          <CoreChoice
+            label="확인 동작"
+            value={kind}
+            options={['confirmSave', 'confirmUpdate', 'confirmDelete']}
+            onChange={setKind}
+          />
           <Button variant="outlined" disabled={pending} onClick={() => void openConfirm()}>
             {t('확인 창 열기')}
           </Button>

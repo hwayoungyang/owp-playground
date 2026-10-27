@@ -12,17 +12,17 @@ import emptyItemsUrl from '../data/processes-empty.json?url&no-inline';
 import failedItemsUrl from '../data/processes-error.json?url&no-inline';
 
 const responses = {
-  '정상 응답': { url: itemsUrl, fixture: queryFixtures.rows },
-  '빈 응답': { url: emptyItemsUrl, fixture: queryFixtures.empty },
-  '실패 응답': { url: failedItemsUrl, fixture: queryFixtures.error },
+  '조회 결과 있음': { url: itemsUrl, fixture: queryFixtures.rows },
+  '조회 결과 없음': { url: emptyItemsUrl, fixture: queryFixtures.empty },
+  '오류 응답': { url: failedItemsUrl, fixture: queryFixtures.error },
 } as const;
-const responseOptions = ['정상 응답', '빈 응답', '실패 응답'] as const;
+const responseOptions = ['조회 결과 있음', '조회 결과 없음', '오류 응답'] as const;
 const selectorOptions = ['Select', 'Autocomplete'] as const;
 
 export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const { t, i18n } = useOwpTranslation();
   const client = useQueryClient();
-  const [response, setResponse] = useState<(typeof responseOptions)[number]>('정상 응답');
+  const [response, setResponse] = useState<(typeof responseOptions)[number]>('조회 결과 있음');
   const [selector, setSelector] = useState<(typeof selectorOptions)[number]>('Select');
   const [activeOnly, setActiveOnly] = useState(false);
   const [value, setValue] = useState('');
@@ -78,7 +78,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
             }}
           />
           <CoreChoice
-            label="응답"
+            label="응답 유형"
             value={response}
             options={responseOptions}
             onChange={(next) => {
@@ -99,7 +99,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
         </>
       }
     >
-      <DemoSection>
+      <DemoSection description="API로 조회한 목록에서 항목을 선택합니다.">
         <div className="core-field">
           <OwpQuerySelector<QueryFixtureItem>
             apiUrl={apiUrl}
@@ -112,13 +112,13 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
             value={value}
             filterOptions={(rows) => (activeOnly ? rows.filter((row) => row.active) : rows)}
             queryKeyDeps={[activeOnly, i18n.language]}
-            label={t('이름')}
+            label={t('조회된 항목')}
             showAllOption={false}
             textFieldProps={{ variant: 'outlined', size: 'small' }}
             selectProps={{
               variant: 'outlined',
               size: 'small',
-              input: <OutlinedInput label={t('이름')} />,
+              input: <OutlinedInput label={t('조회된 항목')} />,
             }}
             fullWidth
             onChange={(event) => {
@@ -129,7 +129,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
         </div>
         {requestState.status === 'error' && (
           <Alert severity="error">
-            {t('조회에 실패했습니다. 정상 응답으로 전환해 다시 조회하세요.')}
+            {t('목록을 불러오지 못했습니다. 응답 유형을 변경해 다시 시도해 주세요.')}
           </Alert>
         )}
       </DemoSection>

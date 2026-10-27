@@ -4,20 +4,28 @@ import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
 import { useMemo, useState } from 'react';
 import { HighlightedCode } from './HighlightedCode';
 import { highlightSource } from './highlight';
+import type { ApiSymbolContext } from './api-symbols';
+
+const importedPublicApis: ApiSymbolContext = {};
 
 export function CodeSnippet({
   label,
   code,
   language,
+  apiContext = importedPublicApis,
 }: {
   readonly label: string;
   readonly code: string;
   readonly language?: 'typescript' | 'json' | 'css';
+  readonly apiContext?: ApiSymbolContext;
 }) {
   const { t } = useOwpTranslation();
   const [notice, setNotice] = useState('');
   const [copied, setCopied] = useState(false);
-  const html = useMemo(() => (language ? highlightSource(code, language) : null), [code, language]);
+  const html = useMemo(
+    () => (language ? highlightSource(code, language, apiContext) : null),
+    [code, language, apiContext],
+  );
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(code);

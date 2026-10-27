@@ -167,19 +167,13 @@
   gap: 8px;
   vertical-align: middle;
 }
-.theme-preset-option .theme-swatch,
-.theme-preset-symbol {
+.theme-preset-option .theme-swatch {
   flex-shrink: 0;
 }
 .theme-preset-name {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-}
-.theme-preset-symbol {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
 }
 .theme-settings-heading p {
   margin: 0;

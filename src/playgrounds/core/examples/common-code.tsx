@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Alert } from '@mui/material';
+import { Alert, OutlinedInput } from '@mui/material';
 import { OwpCommonCodeRadioGroup, OwpCommonCodeSelector } from '@owp/core';
 import { OwpStoreProvider } from '@owp/core/contexts';
 import { STORAGE_KEYS } from '@owp/core/constants';
@@ -100,16 +100,17 @@ function CommonCodeDemo({ onRecord, onData }: CoreExampleProps) {
         </>
       }
     >
-      <DemoSection>
+      <DemoSection description="초기화된 공통코드 목록에서 항목을 선택합니다.">
         <div className="core-field">
           {selector === 'Select' ? (
             <OwpCommonCodeSelector
               groupId={commonCodeGroup}
-              label={t('이름')}
+              label={t('공통코드 항목')}
               value={value}
               fullWidth
               variant="outlined"
               size="small"
+              input={<OutlinedInput label={t('공통코드 항목')} />}
               showAllOption={false}
               filterOptions={filter}
               onChange={(event) => {
@@ -120,7 +121,7 @@ function CommonCodeDemo({ onRecord, onData }: CoreExampleProps) {
           ) : (
             <OwpCommonCodeRadioGroup
               groupId={commonCodeGroup}
-              label={t('이름')}
+              label={t('공통코드 항목')}
               value={value}
               filterOptions={filter}
               onChange={(event) => {

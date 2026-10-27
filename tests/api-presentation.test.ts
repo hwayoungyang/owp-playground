@@ -90,8 +90,14 @@ describe('API member ordering', () => {
 
 describe('verified description origins', () => {
   it('resolves the real DataLabels member rather than the Chart type it references', () => {
-    const record = recordsById.get('@owp/charts:ChartDataLabelsContext.chart');
-    if (!record) throw new TypeError('Missing ChartDataLabelsContext.chart fixture');
+    const source = recordsById.get('chartjs-plugin-datalabels:Context.chart');
+    if (!source) throw new TypeError('Missing DataLabels Context.chart fixture');
+    const record = {
+      ...source,
+      id: '@owp/charts:ExampleContext.chart',
+      package: '@owp/charts',
+      declaredIn: source.id,
+    };
     expect(descriptionOrigins(record, recordsById).map((origin) => origin.id)).toEqual([
       'chartjs-plugin-datalabels:Context.chart',
     ]);
