@@ -7,6 +7,7 @@ import test from 'node:test';
 import { promisify } from 'node:util';
 import { createArtifact } from '../deploy-artifact.mjs';
 import { copyStableVersionArchive } from '../deploy-version-archive.mjs';
+import { validateVersionPresentation } from '../deploy-version-presentation.mjs';
 import { remoteHealthScript } from '../deploy-health-script.mjs';
 import { archivePlaygroundBuild, readArchivedFile, readVersionArchive } from '../version-archive.ts';
 import { collectArchiveFiles } from '../version-archive-files.ts';
@@ -38,7 +39,7 @@ test('stable archive survives tar extraction with every file hash, excludes draf
   const artifact = await createArtifact({ directory: state.directory, archiveRoot: state.archiveRoot, context });
   t.after(artifact.cleanup);
   await execute('tar', ['-xzf', artifact.archive, '-C', state.content]);
-  const index = await readVersionArchive(state.content);
+  const index = await validateVersionPresentation(state.content);
   assert.equal(index.latestReleaseId, state.last.releaseId);
   assert.deepEqual(index.releases, [state.first, state.last]);
   await assert.rejects(access(path.join(state.content, 'versions/draft-last')), { code: 'ENOENT' });
@@ -51,7 +52,10 @@ test('stable archive survives tar extraction with every file hash, excludes draf
     assert.ok(checklist.includes(`${expected.sha256}  ${file}\n`));
   }
   const copied = await collectArchiveFiles(path.join(state.content, 'versions/stable-last'));
-  assert.deepEqual(copied, await collectArchiveFiles(path.join(state.archiveRoot, 'versions/stable-last')));
+  const originalRelease = await collectArchiveFiles(path.join(state.archiveRoot, 'versions/stable-last'));
+  assert.notDeepEqual(copied['index.html'], originalRelease['index.html']);
+  assert.deepEqual({ ...copied, 'index.html': originalRelease['index.html'] }, { ...originalRelease });
+  assert.deepEqual(await readFile(path.join(state.content, 'version-ui/raw/stable-last/index.html')), await readFile(path.join(state.archiveRoot, 'versions/stable-last/index.html')));
   for (const prefix of ['api/', 'catalogs/', 'assets/', 'snippets/', 'knowledge/']) assert.ok(Object.keys(copied).some((file) => file.startsWith(prefix)));
   const payload = Object.fromEntries(Object.entries(manifest.files).filter(([file]) => file !== 'release.json'));
   assert.equal(artifact.metadata.contentSha256, createHash('sha256').update(JSON.stringify(payload)).digest('hex'));
@@ -204,6 +208,7 @@ http_get() {
     /health) printf ok > "$work/response" ;;
     /|/__owp_deploy_check__) cp "$directory/index.html" "$work/response" ;;
     "$HEALTH_FALLBACK") cp "$directory/index.html" "$work/response" ;;
+    /versions/*/) cp "$directory$request"index.html "$work/response" ;;
     *) cp "$directory$request" "$work/response" ;;
   esac
 }

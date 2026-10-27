@@ -21,11 +21,13 @@ export async function writeBuild(directory, release, packages = [{ id: 'datagrid
     'robots.txt': 'User-agent: *\nDisallow: /',
     'assets/app.js': 'document.body.dataset.ready = "true";',
     'assets/app.css': 'body { margin: 0; }',
+    'assets/version-menu-fixture.js': 'export function openVersionMenu() { return () => {}; }',
     'packages.json': JSON.stringify({ version: 1, packages: [
       ...packages.map((entry) => ({ ...entry, status: 'ready' })),
       { id: 'theme', name: '@owp/theme', version: null, status: 'planned' },
     ] }),
   };
+  files['version-ui/runtime.json'] = JSON.stringify({ schemaVersion: 1, entry: { path: 'assets/version-menu-fixture.js', bytes: Buffer.byteLength(files['assets/version-menu-fixture.js']), sha256: fingerprint(files['assets/version-menu-fixture.js']) } });
   const records = [];
   for (const entry of packages) {
     const snippet = `snippets/${entry.id}/example.tsx`;

@@ -8,6 +8,7 @@ type VersionNavigation = {
   readonly sampleIds?: ReadonlySet<string>;
   readonly language: string;
   readonly colorMode: 'light' | 'dark';
+  readonly presentationId?: string;
 };
 
 export function createVersionUrl(options: VersionNavigation): URL {
@@ -16,6 +17,7 @@ export function createVersionUrl(options: VersionNavigation): URL {
   url.searchParams.set('package', options.packageId);
   url.searchParams.set('lang', options.language === 'en' ? 'en' : 'ko');
   url.searchParams.set('colorMode', options.colorMode);
+  if (options.presentationId) url.searchParams.set('versionUi', options.presentationId);
   const symbol = url.searchParams.get('symbol');
   if (symbol && options.apiIds && !options.apiIds.has(symbol)) url.searchParams.delete('symbol');
   const sample = url.searchParams.get('sample');

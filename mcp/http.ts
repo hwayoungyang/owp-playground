@@ -116,17 +116,46 @@ export async function startKnowledgeHttpServer(options: HttpOptions) {
         });
         return response.end(request.method === 'HEAD' ? undefined : content);
       }
+      if (decoded === '/version-ui/manifest.json') {
+        const content = JSON.stringify(await store.presentationManifest());
+        response.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Cache-Control': 'no-store',
+          'Content-Length': Buffer.byteLength(content),
+        });
+        return response.end(request.method === 'HEAD' ? undefined : content);
+      }
+      const rawHtml = /^\/version-ui\/raw\/([A-Za-z0-9][A-Za-z0-9._-]{0,127})\/index.html$/.exec(
+        decoded,
+      );
+      if (rawHtml?.[1]) {
+        const bytes = await store.readStatic(rawHtml[1], 'index.html');
+        response.writeHead(200, {
+          'Content-Type': contentTypes.html,
+          'Content-Length': bytes.length,
+          'Cache-Control': options.bearerToken
+            ? 'private, no-store'
+            : 'public, max-age=31536000, immutable',
+          'X-Content-Type-Options': 'nosniff',
+        });
+        return response.end(request.method === 'HEAD' ? undefined : bytes);
+      }
       const match = /^\/versions\/([A-Za-z0-9][A-Za-z0-9._-]{0,127})\/(.*)$/.exec(decoded);
       if (!match?.[1] || match[2] === undefined)
         return respond(response, 404, '리소스가 없습니다.');
       const file = match[2] === '' ? 'index.html' : match[2];
-      const bytes = await store.readStatic(match[1], file);
+      const presentation = file === 'index.html';
+      const bytes = presentation
+        ? await store.readPresentation(match[1])
+        : await store.readStatic(match[1], file);
       response.writeHead(200, {
         'Content-Type': contentTypes[file.split('.').at(-1) ?? ''] ?? 'application/octet-stream',
         'Content-Length': bytes.length,
         'Cache-Control': options.bearerToken
           ? 'private, no-store'
-          : 'public, max-age=31536000, immutable',
+          : presentation
+            ? 'no-store'
+            : 'public, max-age=31536000, immutable',
         'X-Content-Type-Options': 'nosniff',
       });
       response.end(request.method === 'HEAD' ? undefined : bytes);

@@ -1,4 +1,6 @@
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
 import { sourceGraphPlugin } from './scripts/source-graph.ts';
@@ -22,6 +24,22 @@ const gridDocumentationCatalog = reviewedApiCatalog(gridCatalog, 'datagrid');
 const chartDocumentationCatalog = reviewedApiCatalog(chartCatalog, 'charts');
 const coreDocumentationCatalog = reviewedApiCatalog(coreCatalog, 'core');
 const publicBase = process.env.OWP_PUBLIC_BASE ?? '/';
+const versionUiFingerprint = createHash('sha256');
+for (const file of [
+  'package.json',
+  'pnpm-lock.yaml',
+  'scripts/version-presentation.ts',
+  'src/features/releases/VersionSelector.tsx',
+  'src/features/releases/standalone.tsx',
+  'src/features/releases/version-menu.css',
+  'src/features/releases/model/navigation.ts',
+  'src/features/releases/model/navigation-metadata.ts',
+  'src/features/releases/model/presentation.ts',
+  'src/features/releases/model/schema.ts',
+  'src/shared/i18n/app.en.ts',
+  'src/shared/theme/tokens.ts',
+])
+  versionUiFingerprint.update(readFileSync(new URL(file, import.meta.url)));
 if (!/^\/(?:[A-Za-z0-9_.-]+\/)*$/.test(publicBase))
   throw new TypeError('OWP_PUBLIC_BASE는 /로 시작하고 끝나는 안전한 공개 경로여야 합니다.');
 
@@ -32,6 +50,7 @@ export default defineConfig({
     dedupe: ['@owp/theme'],
   },
   define: {
+    __OWP_VERSION_UI__: JSON.stringify(versionUiFingerprint.digest('hex')),
     __OWP_RELEASE__: JSON.stringify({
       releaseId: process.env.OWP_RELEASE_ID ?? null,
       createdAt: process.env.OWP_RELEASE_CREATED_AT ?? null,
@@ -92,6 +111,28 @@ export default defineConfig({
     react(),
     sourceGraphPlugin(),
     knowledgeResourcesPlugin(),
+    {
+      name: 'version-ui-runtime',
+      generateBundle(_options, bundle) {
+        const entry = Object.values(bundle).find(
+          (file) => file.type === 'chunk' && file.isEntry && file.name === 'version-menu',
+        );
+        if (!entry || entry.type !== 'chunk')
+          throw new TypeError('공통 버전 메뉴 entry가 없습니다.');
+        this.emitFile({
+          type: 'asset',
+          fileName: 'version-ui/runtime.json',
+          source: JSON.stringify({
+            schemaVersion: 1,
+            entry: {
+              path: entry.fileName,
+              bytes: Buffer.byteLength(entry.code),
+              sha256: createHash('sha256').update(entry.code).digest('hex'),
+            },
+          }),
+        });
+      },
+    },
     {
       name: 'reuse-dev-browser-tab',
       configureServer() {
@@ -264,5 +305,17 @@ export default defineConfig({
       },
     },
   ],
-  build: { target: 'es2022', outDir: process.env.OWP_BUILD_OUT_DIR ?? 'dist' },
+  build: {
+    target: 'es2022',
+    outDir: process.env.OWP_BUILD_OUT_DIR ?? 'dist',
+    rollupOptions: {
+      input: {
+        app: fileURLToPath(new URL('./index.html', import.meta.url)),
+        'version-menu': fileURLToPath(
+          new URL('./src/features/releases/standalone.tsx', import.meta.url),
+        ),
+      },
+      preserveEntrySignatures: 'strict',
+    },
+  },
 });

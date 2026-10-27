@@ -16,6 +16,23 @@ const release = releaseIndexEntrySchema.parse({
 });
 
 describe('version navigation', () => {
+  it('uses the current menu fingerprint in native links to bypass previously cached archive HTML', () => {
+    // Given
+    const currentHref = 'https://owp.test/?package=datagrid&sample=editing&versionUi=previous';
+    // When
+    const url = createVersionUrl({
+      currentHref,
+      release,
+      packageId: 'datagrid',
+      language: 'en',
+      colorMode: 'dark',
+      presentationId: 'current-runtime',
+    });
+    // Then
+    expect(url.searchParams.get('versionUi')).toBe('current-runtime');
+    expect(url.searchParams.get('sample')).toBe('editing');
+    expect(url.pathname).toBe(release.basePath);
+  });
   it('preserves example and API selections in native links before target metadata is loaded', () => {
     // Given
     const currentHref =

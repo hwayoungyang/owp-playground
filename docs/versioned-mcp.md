@@ -75,6 +75,14 @@ corepack pnpm mcp:http --allow-drafts
 
 버전 메뉴는 현재 패키지의 같은 `package.version`마다 `createdAt`이 가장 최신인 스냅샷 하나를 표시합니다. 생성 시각이 같으면 `releaseId` 내림차순으로 대표를 정하며, 문서 날짜는 한국 시간의 날짜만 표시합니다. 과거 스냅샷과 MCP 이력 및 `releaseId` 직접 조회는 유지하므로 같은 패키지 버전의 이전 고정 링크에서도 최신 대표로 이동할 수 있습니다.
 
+버전 메뉴는 snapshot의 실행 앱과 별도로 갱신합니다. 정적 배포는 현재 빌드의 `version-ui/runtime.json`을, HTTP MCP는 공개 가능한 index의 `latestReleaseId` snapshot에 포함된 같은 descriptor를 사용합니다. descriptor는 파일명에 hash가 포함된 standalone menu entry와 그 파일의 bytes·SHA-256을 지정합니다. 새 snapshot에는 이 runtime과 필요한 공유 자산이 원본 manifest에 함께 보관됩니다. HTTP MCP 배포의 latest snapshot에 descriptor가 없거나 검증에 실패하면 준비 단계에서 중단합니다. 과거 snapshot의 파일이나 manifest에 runtime을 추가하지 않습니다.
+
+`/versions/<releaseId>/`와 `/versions/<releaseId>/index.html`은 원본 HTML에 공통 메뉴 연결만 추가한 화면용 투영 결과입니다. HTML의 동기 capture gate가 기존 버전 버튼의 이벤트를 연결하고, 최신 메뉴를 별도 React root에 표시합니다. 원래 React가 소유한 버튼과 예제 DOM은 유지합니다. 메뉴에는 runtime 제공 버전과 별도로 현재 화면의 release·패키지 버전을 전달하고, 실제 문서 언어와 화면 모드를 읽습니다. 메뉴를 닫거나 화면 선택을 바꾸면 대기 중인 버전 이동을 취소합니다. runtime 로딩 실패는 재시도할 수 있고, 이전 메뉴로 대체하지 않습니다.
+
+원본 `index.html`은 `/version-ui/raw/<releaseId>/index.html`에서 바이트 그대로 읽을 수 있습니다. `/version-ui/manifest.json`은 release manifest SHA, 원본 HTML의 경로·bytes·SHA, 화면용 HTML의 bytes·SHA와 descriptor·capture gate·공통 문구로 계산한 runtime 지문을 따로 기록합니다. `knowledge-release.json`의 `files['index.html']`은 계속 원본 HTML의 hash를 뜻합니다. API·가이드·snippets·기타 자산과 `archive.tar.gz`의 원본 계약도 유지합니다. 정적 artifact는 먼저 기존 `copyStableVersionArchive` 검증을 마친 뒤 투영하며, 투영된 복사본은 `validateVersionPresentation(content)`으로 원본 hash와 결정적 HTML 재생성 결과를 확인합니다. canonical `readVersionArchive`의 검증 기준을 완화하지 않습니다. HTTP MCP도 원본 HTML을 manifest로 검증한 뒤 같은 투영 함수를 적용하며, 배포 검증은 raw SHA와 투영 SHA를 각각 확인합니다.
+
+HTTP MCP는 화면용 HTML과 투영 manifest에 `Cache-Control: no-store`를, 원본 HTML과 버전 경로의 자산에는 `immutable`을 적용합니다. 인증 응답은 `private, no-store`를 유지합니다. 정적 서버의 HTTP cache header는 기존 Nginx 정책을 따르며 이 기능이 서버 설정을 변경하지 않습니다. 메뉴의 일반 링크와 새 탭 링크에는 현재 메뉴 지문을 `versionUi` query로 붙여 예전에 캐시한 HTML과 다른 URL로 이동합니다. 예제·패키지 탐색에서도 이 query를 보존합니다. 이미 열린 이전 페이지나 이전 URL의 warm cache를 강제로 갱신하는 기능은 아닙니다. 새 고정 링크의 cold request에는 화면용 HTML을 제공합니다.
+
 버전 이동 전에는 현재 선택을 확인하는 데 필요한 자료만 읽습니다. API symbol이 있으면 API 자료를, 예제가 있으면 예제 catalog를 검증하며 둘 다 없으면 이 요청을 생략합니다. 메뉴 항목에 pointer나 keyboard focus가 닿으면 필요한 자료를 미리 읽고 클릭 때 같은 요청을 재사용합니다. 실패한 요청은 다음 선택에서 재시도하며, 대상 스냅샷의 실행 코드는 전체 페이지 이동으로 새로 불러옵니다.
 
 기본 서버는 `stable`만 제공합니다. 로컬 미커밋 코드로 만든 스냅샷을 확인하려면 `--allow-drafts`를 명시합니다. 일반 `pnpm dev`·`pnpm build`는 현재 소스의 화면이며 아카이브를 자동 등록하지 않습니다. 일반 `pnpm dev`의 버전 메뉴는 현재 개발 버전만 표시합니다. 아카이브 목록과 버전 이동은 위 HTTP 서버와 stable 아카이브를 포함한 정적 배포에서 제공합니다.

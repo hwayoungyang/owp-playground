@@ -1,11 +1,12 @@
 import { request } from 'node:http';
-import { rm } from 'node:fs/promises';
+import { readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { Client, StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
 import { StdioClientTransport } from '@modelcontextprotocol/client/stdio';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { startKnowledgeHttpServer } from '../mcp/http.ts';
 import { createMcpFixture } from '../mcp/test-fixture.ts';
+import { createHash } from 'node:crypto';
 
 let root: string;
 const cleanup: (() => Promise<void>)[] = [];
@@ -177,6 +178,54 @@ describe('real MCP SDK transports', () => {
 });
 
 describe('HTTP archive and request boundary', () => {
+  it('serves the latest common menu on both old HTML routes and preserves raw HTML bytes separately', async () => {
+    // Given
+    const url = await httpServer();
+    const original = await readFile(path.join(root, 'versions/release-old/index.html'), 'utf8');
+    // When
+    const [directory, explicit, raw, manifest] = await Promise.all([
+      wire(url, '/versions/release-old/'),
+      wire(url, '/versions/release-old/index.html'),
+      wire(url, '/version-ui/raw/release-old/index.html'),
+      wire(url, '/version-ui/manifest.json'),
+    ]);
+    // Then
+    expect(directory.status).toBe(200);
+    expect(directory.body).toBe(explicit.body);
+    expect(directory.body).toContain('/versions/release-new/assets/version-menu-fixture.js');
+    expect(directory.body).toContain('"releaseId":"release-old"');
+    expect(directory.headers['cache-control']).toBe('no-store');
+    expect(raw.body).toBe(original);
+    expect(raw.headers['cache-control']).toContain('immutable');
+    expect(manifest.headers['cache-control']).toBe('no-store');
+    const entry = JSON.parse(manifest.body).releases.find(
+      (entry: { readonly release: { readonly releaseId: string } }) =>
+        entry.release.releaseId === 'release-old',
+    );
+    expect(entry.raw.sha256).toBe(createHash('sha256').update(raw.body).digest('hex'));
+    expect(entry.presentation.sha256).toBe(
+      createHash('sha256').update(directory.body).digest('hex'),
+    );
+  });
+  it('rejects a corrupted raw HTML before creating a presentation', async () => {
+    // Given
+    const url = await httpServer();
+    await writeFile(path.join(root, 'versions/release-old/index.html'), 'tampered');
+    // When
+    const response = await wire(url, '/versions/release-old/');
+    // Then
+    expect(response.status).toBe(409);
+    expect(response.headers['cache-control']).toBe('no-store');
+  });
+  it('keeps the runtime asset immutable while HTML follows the mutable presentation policy', async () => {
+    // Given
+    const url = await httpServer();
+    // When
+    const response = await wire(url, '/versions/release-new/assets/version-menu-fixture.js');
+    // Then
+    expect(response.status).toBe(200);
+    expect(response.headers['cache-control']).toContain('immutable');
+  });
   it('redirects the root to a stable release when the archive latest pointer is a draft', async () => {
     // Given
     const url = await httpServer();
@@ -242,7 +291,7 @@ describe('HTTP archive and request boundary', () => {
     // Given
     const url = await httpServer();
     // When
-    const response = await wire(url, '/versions/release-old/index.html', { method: 'HEAD' });
+    const response = await wire(url, '/version-ui/raw/release-old/index.html', { method: 'HEAD' });
     // Then
     expect(response.status).toBe(200);
     expect(response.body).toBe('');

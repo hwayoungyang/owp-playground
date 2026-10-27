@@ -67,6 +67,18 @@ export async function createMcpFixture(knowledge?: {
       'index.html': '<!doctype html><title>OWP</title>',
       'knowledge/index.json': JSON.stringify({ schemaVersion: 1, packages }),
     };
+    if (releaseId !== 'release-old') {
+      const runtime = 'export function openVersionMenu() { return () => {}; }';
+      files['assets/version-menu-fixture.js'] = runtime;
+      files['version-ui/runtime.json'] = JSON.stringify({
+        schemaVersion: 1,
+        entry: {
+          path: 'assets/version-menu-fixture.js',
+          bytes: Buffer.byteLength(runtime),
+          sha256: hash(runtime),
+        },
+      });
+    }
     for (const pkg of packages) {
       files[`api/${pkg.id}.json`] = JSON.stringify(
         knowledge

@@ -2,6 +2,11 @@ import { z } from 'zod';
 import type { ApiRecord } from '../src/features/api/model/schema.ts';
 import { matchesApiQueryWords, normalizeApiQuery } from '../src/features/api/model/search.ts';
 import { readArchivedFile } from '../scripts/version-archive.ts';
+import {
+  createVersionPresentation,
+  readVersionUiRuntime,
+  versionPresentationEntry,
+} from '../scripts/version-presentation.ts';
 import { apiInput, guideInput, listInput, searchInput } from './schema.ts';
 import {
   createKnowledgeArchive,
@@ -14,6 +19,10 @@ export { KnowledgeError, type KnowledgeOptions } from './knowledge-archive.ts';
 export function createKnowledgeStore(options: KnowledgeOptions) {
   const archive = createKnowledgeArchive(options);
   const { sourceUrl, eligible, archivedRelease, resolve, metadata, dataset, sources } = archive;
+  const presentationRuntime = async () => {
+    const { entry, release } = await resolve({});
+    return readVersionUiRuntime(entry.basePath, (file) => readArchivedFile(release, file));
+  };
   const summary = (record: ApiRecord, releaseId: string) => ({
     id: record.id,
     kind: record.kind === 'guide' ? 'guide' : 'api',
@@ -192,6 +201,27 @@ export function createKnowledgeStore(options: KnowledgeOptions) {
     async readStatic(releaseId: string, file: string) {
       const { release } = await resolve({ releaseId });
       return readArchivedFile(release, file);
+    },
+    async readPresentation(releaseId: string) {
+      const { entry, release } = await resolve({ releaseId });
+      const raw = await readArchivedFile(release, 'index.html');
+      const runtime = await presentationRuntime();
+      return createVersionPresentation(raw, entry, runtime);
+    },
+    async presentationManifest() {
+      const { releases } = await eligible();
+      const runtime = await presentationRuntime();
+      return {
+        schemaVersion: 1,
+        runtimeFingerprint: runtime.fingerprint,
+        releases: await Promise.all(
+          releases.map(async (entry) => {
+            const release = await archivedRelease(entry);
+            const raw = await readArchivedFile(release, 'index.html');
+            return versionPresentationEntry(raw, entry, runtime);
+          }),
+        ),
+      };
     },
     async latestReleaseId() {
       return (await resolve({})).entry.releaseId;

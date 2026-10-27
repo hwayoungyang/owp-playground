@@ -1,7 +1,7 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, Menu, MenuItem } from '@mui/material';
 import { ArrowClockwiseIcon, CaretDownIcon, CheckIcon } from '@phosphor-icons/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { createVersionUrl } from './model/navigation';
 import { loadNavigationMetadata } from './model/navigation-metadata';
 import { formatReleaseDate, selectPackageVersionEntries } from './model/presentation';
@@ -18,13 +18,27 @@ export function VersionSelector({
   packageId,
   version,
   colorMode,
+  external,
+  displayedRelease = typeof __OWP_RELEASE__ === 'undefined' ? null : __OWP_RELEASE__,
+  presentationId = typeof __OWP_VERSION_UI__ === 'undefined' ? undefined : __OWP_VERSION_UI__,
 }: {
   readonly packageId: string;
   readonly version: string;
   readonly colorMode: 'light' | 'dark';
+  readonly external?: {
+    readonly anchor: HTMLElement;
+    readonly onClose: () => void;
+  };
+  readonly displayedRelease?: {
+    readonly releaseId: string | null;
+    readonly channel: string;
+  } | null;
+  readonly presentationId?: string;
 }) {
   const { t, i18n } = useOwpTranslation();
-  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  const [internalAnchor, setAnchor] = useState<HTMLElement | null>(null);
+  const anchor = external?.anchor ?? internalAnchor;
+  const menuId = useId();
   const [state, setState] = useState<VersionState>({
     status: import.meta.env.DEV ? 'development' : 'loading',
   });
@@ -33,12 +47,24 @@ export function VersionSelector({
   const [navigationFailed, setNavigationFailed] = useState(false);
   const menuController = useRef<AbortController | null>(null);
   const open = Boolean(anchor);
-  const currentRelease = typeof __OWP_RELEASE__ === 'undefined' ? null : __OWP_RELEASE__;
+  const currentRelease = displayedRelease;
 
   const closeMenu = () => {
     menuController.current?.abort();
     setAnchor(null);
+    external?.onClose();
   };
+
+  useEffect(() => {
+    if (!external) return;
+    external.anchor.setAttribute('aria-controls', menuId);
+    external.anchor.setAttribute('aria-expanded', 'true');
+    return () => {
+      external.anchor.removeAttribute('aria-controls');
+      external.anchor.setAttribute('aria-expanded', 'false');
+      external.anchor.focus();
+    };
+  }, [external, menuId]);
 
   useEffect(() => {
     if (!open || import.meta.env.DEV) return;
@@ -66,7 +92,7 @@ export function VersionSelector({
       }
     })();
     return () => controller.abort();
-  }, [open, retry]);
+  }, [open, retry, packageId]);
 
   const destination = (
     release: ReleaseIndexEntry,
@@ -81,6 +107,7 @@ export function VersionSelector({
       sampleIds,
       language: i18n.language,
       colorMode,
+      presentationId,
     });
 
   const navigate = async (release: ReleaseIndexEntry) => {
@@ -114,6 +141,17 @@ export function VersionSelector({
 
   const entries =
     state.status === 'ready' ? selectPackageVersionEntries(state.index.releases, packageId) : [];
+  const currentReleaseId =
+    currentRelease?.releaseId ??
+    (state.status === 'ready' &&
+    !location.pathname.startsWith('/versions/') &&
+    state.index.releases.some(
+      (entry) =>
+        entry.releaseId === state.index.latestReleaseId &&
+        entry.packages.some((item) => item.id === packageId && item.version === version),
+    )
+      ? state.index.latestReleaseId
+      : null);
   const statusMessages = {
     development: {
       title: t('개발 중'),
@@ -142,20 +180,24 @@ export function VersionSelector({
       : statusMessages[state.status];
   return (
     <>
-      <Button
-        className="version-selector"
-        aria-label={t('패키지 버전 선택')}
-        aria-haspopup="menu"
-        aria-expanded={open}
-        endIcon={<CaretDownIcon size={12} />}
-        onClick={(event) => setAnchor(event.currentTarget)}
-      >
-        v{version}
-        {currentRelease?.channel === 'draft' && currentRelease.releaseId ? (
-          <span className="version-release-state"> · {t('개발본')}</span>
-        ) : null}
-      </Button>
+      {!external && (
+        <Button
+          className="version-selector"
+          aria-label={t('패키지 버전 선택')}
+          aria-haspopup="menu"
+          aria-expanded={open}
+          aria-controls={open ? menuId : undefined}
+          endIcon={<CaretDownIcon size={12} />}
+          onClick={(event) => setAnchor(event.currentTarget)}
+        >
+          v{version}
+          {currentRelease?.channel === 'draft' && currentRelease.releaseId ? (
+            <span className="version-release-state"> · {t('개발본')}</span>
+          ) : null}
+        </Button>
+      )}
       <Menu
+        id={menuId}
         anchorEl={anchor}
         open={open}
         onClose={closeMenu}
@@ -208,7 +250,7 @@ export function VersionSelector({
           </MenuItem>
         )}
         {entries.map((entry) => {
-          const selected = entry.releaseId === currentRelease?.releaseId;
+          const selected = entry.releaseId === currentReleaseId;
           const entryVersion = entry.packages.find((item) => item.id === packageId)?.version;
           return (
             <MenuItem

@@ -1,8 +1,9 @@
-import { rm, symlink, unlink, writeFile } from 'node:fs/promises';
+import { readFile, rm, symlink, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { createKnowledgeStore } from '../mcp/knowledge.ts';
-import { createMcpFixture, source } from '../mcp/test-fixture.ts';
+import { createMcpFixture, hash, source } from '../mcp/test-fixture.ts';
+import { knowledgeReleaseSchema, releaseIndexSchema } from '../src/features/releases/model/schema';
 
 let root: string;
 beforeEach(async () => {
@@ -13,6 +14,36 @@ afterEach(async () => {
 });
 
 describe('MCP Knowledge core', () => {
+  it('verifies the canonical release entry when the public package list filters an unsupported package', async () => {
+    // Given
+    const manifestFile = path.join(root, 'versions/release-new/knowledge-release.json');
+    const manifest = knowledgeReleaseSchema.parse(JSON.parse(await readFile(manifestFile, 'utf8')));
+    const packages = [
+      ...manifest.packages,
+      { id: 'future-grid', name: '@owp/future-grid', version: '1.0.0' },
+    ];
+    const bytes = JSON.stringify({ ...manifest, packages });
+    await writeFile(manifestFile, bytes);
+    const indexFile = path.join(root, 'versions/index.json');
+    const index = releaseIndexSchema.parse(JSON.parse(await readFile(indexFile, 'utf8')));
+    await writeFile(
+      indexFile,
+      JSON.stringify({
+        ...index,
+        releases: index.releases.map((entry) =>
+          entry.releaseId === manifest.releaseId
+            ? { ...entry, packages, manifestSha256: hash(bytes) }
+            : entry,
+        ),
+      }),
+    );
+    const store = createKnowledgeStore({ archiveRoot: root });
+    // When
+    const response = await store.listPackages({});
+    // Then
+    expect(response.releaseId).toBe('release-new');
+    expect(response.packages.map((entry) => entry.id)).toEqual(['datagrid', 'charts']);
+  });
   it('rejects encoded traversal when resolving an archive source URL', () => {
     // Given
     const store = createKnowledgeStore({

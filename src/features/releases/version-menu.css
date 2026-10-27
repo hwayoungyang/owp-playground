@@ -1,0 +1,53 @@
+.version-menu.MuiPaper-root {
+  width: 320px;
+  max-width: calc(100vw - 32px);
+}
+.version-menu-status {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  color: var(--pg-ink);
+  background: var(--pg-subtle);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.version-menu-status-title {
+  font-weight: 600;
+}
+.version-menu-status-description {
+  color: var(--pg-secondary);
+}
+.version-menu .MuiMenuItem-root {
+  min-height: 36px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.version-menu .version-menu-retry {
+  gap: 8px;
+  font-size: 13px;
+}
+.version-menu-retry svg {
+  flex-shrink: 0;
+}
+.version-menu-entry {
+  display: grid;
+  gap: 4px;
+  flex: 1;
+  padding-right: 16px;
+}
+.version-menu-date {
+  color: var(--pg-muted);
+  font-size: 11px;
+}
+
+.version-menu--development.MuiPaper-root {
+  width: 220px;
+}
+.version-menu-status--development {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  background: var(--pg-canvas);
+}

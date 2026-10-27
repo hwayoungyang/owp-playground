@@ -5,7 +5,7 @@ import { archivedPackageKnowledgeSchema } from '../scripts/version-archive-build
 import { filesystemErrorCode, readArchiveBytes } from '../scripts/version-archive-files.ts';
 import {
   readArchivedFile,
-  readArchivedRelease,
+  readReleaseEntry,
   readVersionArchive,
   type ArchivedRelease,
 } from '../scripts/version-archive.ts';
@@ -99,7 +99,14 @@ export function createKnowledgeArchive(options: KnowledgeOptions) {
     const key = `${entry.releaseId}:${entry.manifestSha256}`;
     let release = verifiedReleases.get(key);
     if (!release) {
-      release = await readArchivedRelease(options.archiveRoot, entry.releaseId);
+      const canonical = snapshot?.index.releases.find(
+        (registered) =>
+          registered.releaseId === entry.releaseId &&
+          registered.manifestSha256 === entry.manifestSha256,
+      );
+      if (!canonical)
+        throw new KnowledgeError('INTEGRITY_MISMATCH', '검증한 index에 없는 release입니다.');
+      release = await readReleaseEntry(options.archiveRoot, canonical);
       verifiedReleases.set(key, release);
     }
     return release;

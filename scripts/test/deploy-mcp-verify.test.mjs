@@ -28,6 +28,22 @@ test('Given a 200 response containing stale HTML, When verified, Then file SHA-2
   const fetchStale = (url, init) => String(url).endsWith('/index.html') ? Promise.resolve(new Response('stale HTML', { status: 200 })) : fetch(url, init);
   await assert.rejects(verifyMcpDeployment(config, bundle, { fetch: fetchStale }), /HTTP 파일 내용/);
 });
+test('Given immutable caching on mutable presentation HTML, When verified, Then the deployment check refuses the cache policy', async (t) => {
+  // Given
+  const fixture = await mcpFixture(t);
+  const bundle = await prepareMcpBundle(fixture.bundle);
+  t.after(bundle.cleanup);
+  const config = await serve(t, fixture);
+  const fetchCached = async (url, init) => {
+    const response = await fetch(url, init);
+    if (!String(url).endsWith('/index.html') || String(url).includes('/version-ui/raw/')) return response;
+    const headers = new Headers(response.headers);
+    headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    return new Response(response.body, { status: response.status, headers });
+  };
+  // When / Then
+  await assert.rejects(verifyMcpDeployment(config, bundle, { fetch: fetchCached }), /cache 정책/);
+});
 test('Given static files from the expected release and MCP from another real server, When verified, Then the actual SDK rejects the mismatched release', async (t) => {
   const fixture = await mcpFixture(t);
   const bundle = await prepareMcpBundle(fixture.bundle);

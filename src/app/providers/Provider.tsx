@@ -1,7 +1,7 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material';
 import { OwpThemeProvider } from '@owp/theme';
-import { type ReactNode, useMemo } from 'react';
+import { type ReactNode, useEffect, useMemo } from 'react';
 import { createGridTheme, createMuiTheme } from '../../shared/theme/themes';
 import { type ColorMode, codeColors, colors, fonts } from '../../shared/theme/tokens';
 
@@ -20,6 +20,9 @@ export function Provider({
     [palette, mode, selectionLabel],
   );
   const gridTheme = useMemo(() => createGridTheme(palette, null, mode), [palette, mode]);
+  useEffect(() => {
+    document.documentElement.dataset.colorMode = mode;
+  }, [mode]);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

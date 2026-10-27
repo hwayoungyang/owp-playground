@@ -61,6 +61,8 @@ health_release() {
     if test -f "$directory/versions/index.json"; then
       version_files=$(awk '
         $2 == "versions/index.json" { print $2; next }
+        $2 ~ /^version-ui\// { print $2; next }
+        $2 ~ /^assets\/version-menu-.*\.js$/ { print $2; next }
         $2 ~ /^versions\// {
           split($2, parts, "/"); category=parts[3]
           if (category ~ /^(index.html|packages.json|knowledge-release.json)$/ || $2 ~ /\/knowledge\/index.json$/) print $2
@@ -74,6 +76,7 @@ health_release() {
       test -n "$version_files" || return 1
       for version_file in $version_files; do
         http_match "/$version_file" "$directory/$version_file" || return 1
+        case "$version_file" in versions/*/index.html) http_match "/$(dirname -- "$version_file")/" "$directory/$version_file" || return 1 ;; esac
       done
     fi
     assets=$(awk '$2 ~ /^assets\/.*\.(js|css)$/ { print $2 }' "$snapshot" | awk '/\.js$/ && !js++ { print } /\.css$/ && !css++ { print }')

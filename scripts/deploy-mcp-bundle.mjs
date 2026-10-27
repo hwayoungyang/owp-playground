@@ -7,6 +7,8 @@ import { z } from 'zod';
 import { releaseIdSchema, releasePackageSchema, releaseFileSchema } from '../src/features/releases/model/schema.ts';
 import { readArchivedRelease, readVersionArchive } from './version-archive.ts';
 import { assertArchiveDirectory, collectArchiveFiles } from './version-archive-files.ts';
+import { readVersionUiRuntime } from './version-presentation.ts';
+import { readArchivedFile } from './version-archive.ts';
 import { extractMcpTar, inspectMcpTar, sha256 } from './deploy-mcp-tar.mjs';
 
 const metadataSchema = z.object({
@@ -128,6 +130,7 @@ export async function validateMcpArchive(archiveRoot, metadata) {
       !metadata.releaseId.endsWith(`-${selected.manifest.commit}`) || JSON.stringify(selected.manifest.packages) !== JSON.stringify(metadata.packages)) throw new Error('release.json과 manifest의 commit·packages 정보가 다릅니다.');
   const asset = Object.keys(selected.manifest.files).find((file) => /^assets\/.+\.(?:js|css)$/.test(file));
   if (!selected.manifest.files['index.html'] || !asset) throw new Error('릴리스 index.html 또는 실제 asset이 없습니다.');
+  await readVersionUiRuntime(selected.entry.basePath, (file) => readArchivedFile(selected, file));
   return { index, manifest: selected.manifest, asset };
 }
 

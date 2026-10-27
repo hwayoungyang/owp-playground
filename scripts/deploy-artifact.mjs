@@ -7,6 +7,7 @@ import path from 'node:path';
 import { promisify } from 'node:util';
 import { validateBuild } from './deploy-build.mjs';
 import { copyStableVersionArchive } from './deploy-version-archive.mjs';
+import { projectVersionPresentation } from './deploy-version-presentation.mjs';
 
 const execute = promisify(execFile);
 
@@ -108,7 +109,10 @@ export async function createArtifact({ directory, context, archiveRoot, builtAt 
     if (JSON.stringify(original) !== JSON.stringify(await fileManifest(content))) {
       throw new Error('artifact 복사 중 dist 내용이 변경됐습니다. 다시 빌드해 주세요.');
     }
-    if (archiveRoot !== undefined) await copyStableVersionArchive({ archiveRoot, content });
+    if (archiveRoot !== undefined) {
+      const index = await copyStableVersionArchive({ archiveRoot, content });
+      await projectVersionPresentation({ content, index });
+    }
     const payload = await fileManifest(content);
     const metadata = {
       release,
