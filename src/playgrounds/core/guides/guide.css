@@ -45,9 +45,19 @@
   scroll-margin-top: 24px;
 }
 
+.core-guide .core-guide-outline p,
+.core-guide-outline-mobile summary {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  font-weight: 600;
+  color: var(--pg-ink);
+}
+
 .core-guide .guide-sections p {
   margin-bottom: 16px;
   font-size: 14px;
+  font-weight: 400;
   line-height: 1.85;
   overflow-wrap: anywhere;
 }
@@ -58,6 +68,7 @@
 
 .core-guide[data-guide="getting-started"] .guide-sections p {
   margin-bottom: 20px;
+  font-size: 13px;
   line-height: 1.9;
 }
 
@@ -77,6 +88,10 @@
   font-size: 16px;
   line-height: 1.85;
   color: var(--pg-ink);
+}
+
+.core-guide[data-guide="getting-started"] .guide-sections .guide-introduction {
+  font-size: 14px;
 }
 
 .core-guide .guide-sections .guide-note {
@@ -115,15 +130,6 @@
   top: 24px;
   padding-left: 20px;
   border-left: 1px solid var(--pg-line);
-}
-
-.core-guide .core-guide-outline p,
-.core-guide-outline-mobile summary {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.6;
-  font-weight: 600;
-  color: var(--pg-ink);
 }
 
 .core-guide-outline ol,
@@ -173,29 +179,15 @@
   cursor: pointer;
 }
 
-.core-guide-adapters {
-  margin: 24px 0 0;
+.core-guide-ownership dt {
+  font-size: 16px;
+  font-weight: 600;
 }
 
-.core-guide-adapters > div {
-  padding-block: 20px;
-  border-top: 1px solid var(--pg-line);
-  scroll-margin-top: 24px;
-}
-
-.core-guide-adapters dt {
-  margin-bottom: 8px;
-  font: 500 13px / 1.7 var(--font-mono);
-  color: var(--pg-ink);
-  overflow-wrap: anywhere;
-}
-
-.core-guide-adapters dd {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.85;
-  color: var(--pg-secondary);
-  overflow-wrap: anywhere;
+.core-guide-ownership dd {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.9;
 }
 
 @container (min-width: 900px) {

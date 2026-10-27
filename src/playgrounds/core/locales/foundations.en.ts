@@ -76,14 +76,14 @@ export const foundationEnglish: Readonly<Record<string, string>> = {
     'Configure API hooks and QueryClient to share request policies and query caches across the app.',
   '기본 설정과 테마 변경·초기화 방법을 연결해 일관된 화면 스타일과 사용자 설정을 적용합니다.':
     'Configure defaults, theme changes, and reset behavior for consistent styles and user preferences.',
-  'Core는 <strong>프로바이더·상태 관리·API·테마</strong>를 연결하는 앱의 기반입니다. 프로바이더는 공유 실행 환경을 만들고, 상태 hook은 사용자·메뉴·설정을, API hook은 요청과 캐시를, 테마 설정은 앱의 공통 스타일을 관리합니다.':
-    'Core connects the app foundation: <strong>providers, state management, APIs, and themes</strong>. Providers create a shared runtime; state hooks manage users, menus, and settings; API hooks manage requests and caches; theme settings manage shared styles.',
-  '문서 메뉴의 <strong>프로바이더 구성 → 상태 관리 → API 설정 → 테마와 설정</strong> 순서로 각 기능의 역할·설정 방법·기대효과를 확인하세요. 아래에서는 설치와 전체 진입 코드를 확인할 수 있습니다.':
-    'Read <strong>Provider setup → State management → API setup → Themes and settings</strong> for each feature’s purpose, configuration, and expected behavior. Installation and the complete entry code follow below.',
-  '참조 프로젝트의 <strong>AppProviders·App·api/index.ts·configs/theme/settings.ts</strong> 구성을 기준으로 업무별 값은 줄이고 공통 연결 방법을 설명합니다. 실행 예제에서는 API 응답·권한·설정·페이지 정책의 실제 변화를 확인합니다.':
-    'The guides follow the reference project’s <strong>AppProviders, App, api/index.ts, and configs/theme/settings.ts</strong>, replacing business-specific values with shared setup patterns. Executable examples demonstrate API responses, permissions, settings, and page policies.',
-  '공통 UI는 <strong>Components</strong>가 제공하고, <strong>Core</strong>는 그 UI에 앱 설정·인증·페이지 이탈·요청 취소 같은 정책을 연결합니다. 같은 패키지별 역할에는 이미 적용된 정책을 중복 연결하지 않습니다.':
-    '<strong>Components</strong> provides shared UI, and <strong>Core</strong> connects app settings, authentication, page-leave protection, and request cancellation to that UI. Do not duplicate policies already applied by the package that owns them.',
+  'Core는 프로바이더·상태 관리·API·테마를 연결하는 앱의 기반입니다. 프로바이더는 <strong>공유 실행 환경</strong>을 만들고, 상태 hook은 사용자·메뉴·설정을, API hook은 요청과 캐시를, 테마 설정은 앱의 공통 스타일을 관리합니다.':
+    'Core connects the app foundation: providers, state management, APIs, and themes. Providers create a <strong>shared runtime</strong>; state hooks manage users, menus, and settings; API hooks manage requests and caches; theme settings manage shared styles.',
+  '문서 메뉴의 프로바이더 구성 → 상태 관리 → API 설정 → 테마와 설정 순서로 각 기능의 역할·설정 방법·기대효과를 확인하세요. 아래에서는 설치와 전체 진입 코드를 확인할 수 있습니다.':
+    'Read Provider setup → State management → API setup → Themes and settings for each feature’s purpose, configuration, and expected behavior. Installation and the complete entry code follow below.',
+  '참조 프로젝트의 AppProviders·App·api/index.ts·configs/theme/settings.ts 구성을 기준으로 업무별 값은 줄이고 공통 연결 방법을 설명합니다. 실행 예제에서는 API 응답·권한·설정·페이지 정책의 실제 변화를 확인합니다.':
+    'The guides follow the reference project’s AppProviders, App, api/index.ts, and configs/theme/settings.ts, replacing business-specific values with shared setup patterns. Executable examples demonstrate API responses, permissions, settings, and page policies.',
+  '공통 UI는 Components가 제공하고, Core는 그 UI에 앱 설정·인증·페이지 이탈·요청 취소 같은 정책을 연결합니다. 같은 패키지별 역할에는 이미 적용된 <strong>정책을 중복 연결하지 않습니다</strong>.':
+    'Components provides shared UI, and Core connects app settings, authentication, page-leave protection, and request cancellation to that UI. <strong>Do not duplicate policies</strong> already applied by the package that owns them.',
   'responseMode의 기본값은 owp입니다. successResultCode를 지정하면 기본 query·Suspense query·queryOptions와 자동 mutation은 HTTP 성공과 resultCode의 정확한 문자열 일치를 함께 요구합니다. STATUS_0의 유효한 resultMessage는 공백과 줄바꿈을 포함한 원문을 오류로 전달하고, 그 외 알 수 없는 코드는 결과를 다시 확인하라는 안내로 실패합니다. isErrorMessageEnabled=false는 공통 안내만 끄며 실패 전파와 자동 인증 오류 처리는 유지합니다. isServerMessageEnabled=false는 mutation의 성공 안내만 끕니다.':
     'responseMode defaults to owp. With successResultCode configured, default queries, Suspense queries, queryOptions, and automatic mutations require HTTP success and an exact string resultCode match. A valid STATUS_0 resultMessage is propagated unchanged, including whitespace and line breaks. Other unknown codes fail with guidance to check the result again. isErrorMessageEnabled=false only disables common guidance; rejection and automatic authentication handling remain active. isServerMessageEnabled=false only disables mutation success messages.',
   'resultCode가 없는 객체 허용': 'Allow objects without resultCode',

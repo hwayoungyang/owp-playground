@@ -20,21 +20,47 @@ vi.mock('../src/features/code/HighlightedCode', () => ({
 
 describe('Core foundation guides', () => {
   it('renders restrained semantic emphasis in both getting-started languages', async () => {
+    // Given
     const example = coreCatalog[0];
+    const copy = {
+      ko: [
+        'Core는 프로바이더·상태 관리·API·테마를 연결하는 앱의 기반입니다. 프로바이더는 공유 실행 환경을 만들고, 상태 hook은 사용자·메뉴·설정을, API hook은 요청과 캐시를, 테마 설정은 앱의 공통 스타일을 관리합니다.',
+        '문서 메뉴의 프로바이더 구성 → 상태 관리 → API 설정 → 테마와 설정 순서로 각 기능의 역할·설정 방법·기대효과를 확인하세요. 아래에서는 설치와 전체 진입 코드를 확인할 수 있습니다.',
+        '참조 프로젝트의 AppProviders·App·api/index.ts·configs/theme/settings.ts 구성을 기준으로 업무별 값은 줄이고 공통 연결 방법을 설명합니다. 실행 예제에서는 API 응답·권한·설정·페이지 정책의 실제 변화를 확인합니다.',
+        '공통 UI는 Components가 제공하고, Core는 그 UI에 앱 설정·인증·페이지 이탈·요청 취소 같은 정책을 연결합니다. 같은 패키지별 역할에는 이미 적용된 정책을 중복 연결하지 않습니다.',
+      ],
+      en: [
+        'Core connects the app foundation: providers, state management, APIs, and themes. Providers create a shared runtime; state hooks manage users, menus, and settings; API hooks manage requests and caches; theme settings manage shared styles.',
+        'Read Provider setup → State management → API setup → Themes and settings for each feature’s purpose, configuration, and expected behavior. Installation and the complete entry code follow below.',
+        'The guides follow the reference project’s AppProviders, App, api/index.ts, and configs/theme/settings.ts, replacing business-specific values with shared setup patterns. Executable examples demonstrate API responses, permissions, settings, and page policies.',
+        'Components provides shared UI, and Core connects app settings, authentication, page-leave protection, and request cancellation to that UI. Do not duplicate policies already applied by the package that owns them.',
+      ],
+    } as const;
     try {
-      for (const language of ['ko', 'en']) {
+      for (const language of ['ko', 'en'] as const) {
         await i18next.changeLanguage(language);
+        // When
         const html = renderToStaticMarkup(<CoreGettingStarted example={example} />);
         const responsibility = html
           .split('aria-labelledby="core-responsibility"')[1]
           ?.split('</section>')[0];
-        expect(responsibility).toContain('<strong>Components</strong>');
-        expect(responsibility).toContain('<strong>Core</strong>');
-        expect(responsibility).toContain(
-          language === 'ko'
-            ? '<strong>프로바이더·상태 관리·API·테마</strong>'
-            : '<strong>providers, state management, APIs, and themes</strong>',
+        const paragraphs = [...(responsibility?.matchAll(/<p>(.*?)<\/p>/g) ?? [])].map(
+          (match) => match[1] ?? '',
         );
+        // Then
+        expect(paragraphs.map((paragraph) => paragraph.replace(/<\/?strong>/g, ''))).toEqual(
+          copy[language],
+        );
+        expect(
+          paragraphs.map((paragraph) =>
+            [...paragraph.matchAll(/<strong>(.*?)<\/strong>/g)].map((match) => match[1]),
+          ),
+        ).toEqual([
+          [language === 'ko' ? '공유 실행 환경' : 'shared runtime'],
+          [],
+          [],
+          [language === 'ko' ? '정책을 중복 연결하지 않습니다' : 'Do not duplicate policies'],
+        ]);
         expect(responsibility).not.toContain('&lt;strong&gt;');
         if (language === 'en') expect(responsibility).not.toMatch(/[가-힣]/);
       }

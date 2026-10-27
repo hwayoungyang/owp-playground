@@ -49,28 +49,24 @@ export function CoreGettingStarted({
         <p>
           <Trans
             t={t}
-            i18nKey="Core는 <strong>프로바이더·상태 관리·API·테마</strong>를 연결하는 앱의 기반입니다. 프로바이더는 공유 실행 환경을 만들고, 상태 hook은 사용자·메뉴·설정을, API hook은 요청과 캐시를, 테마 설정은 앱의 공통 스타일을 관리합니다."
+            i18nKey="Core는 프로바이더·상태 관리·API·테마를 연결하는 앱의 기반입니다. 프로바이더는 <strong>공유 실행 환경</strong>을 만들고, 상태 hook은 사용자·메뉴·설정을, API hook은 요청과 캐시를, 테마 설정은 앱의 공통 스타일을 관리합니다."
             components={{ strong: <strong /> }}
           />
         </p>
         <p>
-          <Trans
-            t={t}
-            i18nKey="문서 메뉴의 <strong>프로바이더 구성 → 상태 관리 → API 설정 → 테마와 설정</strong> 순서로 각 기능의 역할·설정 방법·기대효과를 확인하세요. 아래에서는 설치와 전체 진입 코드를 확인할 수 있습니다."
-            components={{ strong: <strong /> }}
-          />
+          {t(
+            '문서 메뉴의 프로바이더 구성 → 상태 관리 → API 설정 → 테마와 설정 순서로 각 기능의 역할·설정 방법·기대효과를 확인하세요. 아래에서는 설치와 전체 진입 코드를 확인할 수 있습니다.',
+          )}
+        </p>
+        <p>
+          {t(
+            '참조 프로젝트의 AppProviders·App·api/index.ts·configs/theme/settings.ts 구성을 기준으로 업무별 값은 줄이고 공통 연결 방법을 설명합니다. 실행 예제에서는 API 응답·권한·설정·페이지 정책의 실제 변화를 확인합니다.',
+          )}
         </p>
         <p>
           <Trans
             t={t}
-            i18nKey="참조 프로젝트의 <strong>AppProviders·App·api/index.ts·configs/theme/settings.ts</strong> 구성을 기준으로 업무별 값은 줄이고 공통 연결 방법을 설명합니다. 실행 예제에서는 API 응답·권한·설정·페이지 정책의 실제 변화를 확인합니다."
-            components={{ strong: <strong /> }}
-          />
-        </p>
-        <p>
-          <Trans
-            t={t}
-            i18nKey="공통 UI는 <strong>Components</strong>가 제공하고, <strong>Core</strong>는 그 UI에 앱 설정·인증·페이지 이탈·요청 취소 같은 정책을 연결합니다. 같은 패키지별 역할에는 이미 적용된 정책을 중복 연결하지 않습니다."
+            i18nKey="공통 UI는 Components가 제공하고, Core는 그 UI에 앱 설정·인증·페이지 이탈·요청 취소 같은 정책을 연결합니다. 같은 패키지별 역할에는 이미 적용된 <strong>정책을 중복 연결하지 않습니다</strong>."
             components={{ strong: <strong /> }}
           />
         </p>
