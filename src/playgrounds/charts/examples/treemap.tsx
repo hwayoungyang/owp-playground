@@ -1,6 +1,7 @@
 import { getContrastRatio } from '@mui/material/styles';
 import { OwpTreemapChart, useChartPalette } from '@owp/charts';
-import type { ChartOptions, OwpTreemapChartProps } from '@owp/charts/types';
+import type { ChartOptions } from 'chart.js';
+import type { OwpTreemapChartProps } from '@owp/charts/types';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { chartMotion } from '../model/chartMotion';

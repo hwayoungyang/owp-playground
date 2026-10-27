@@ -1,6 +1,7 @@
 import { alpha } from '@mui/material/styles';
 import { OwpBoxPlotChart, useChartPalette } from '@owp/charts';
-import type { BoxPlotData, ChartOptions } from '@owp/charts/types';
+import type { BoxPlotData } from '@owp/charts/types';
+import type { ChartOptions } from 'chart.js';
 import { createBoxPlotTooltipCallbacks, summarizeBox } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';

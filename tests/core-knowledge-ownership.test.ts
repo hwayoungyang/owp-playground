@@ -5,29 +5,26 @@ import { completedPlaygroundPackages } from '../src/playgrounds/packages';
 import data from '../src/features/api/data/knowledge.generated.json';
 
 describe('Core sample ownership in generated Knowledge', () => {
-  it('links migrated UI to Components while preserving Core policy owners', () => {
+  it('links migrated UI to Components while preserving Core routing owners', () => {
     const expectedExamples = [
       ['@owp/components:OwpDialog', ['dialog']],
       ['@owp/components:OwpPageCarded', ['getting-started', 'page-carded']],
       ['@owp/components:OwpPageContent', ['page-carded', 'page-content']],
       ['@owp/components:OwpErrorBoundary', ['error-boundary', 'getting-started']],
-      ['@owp/core:useDialogPolicy', ['dialog']],
-      ['@owp/core:usePageCardedPolicy', ['getting-started', 'page-carded']],
-      ['@owp/core:errorBoundaryPolicy', ['error-boundary', 'getting-started']],
-      ['@owp/core:OwpCoreResponsiveLayoutGlobalStyles', ['page-carded', 'page-content']],
+      ['@owp/components:useOwpDialogs', ['confirm', 'dialog']],
     ] as const;
     for (const [id, examples] of expectedExamples) {
       const record = knowledge.records.find((entry) => entry.id === id);
-      expect(record?.packageVersion).toBe(id.startsWith('@owp/components:') ? '3.1.1' : '8.1.0');
+      expect(record?.packageVersion).toBe('3.1.1');
       expect(record?.examples.map((example) => example.id).sort()).toEqual(examples);
     }
     for (const name of ['OwpDialog', 'OwpPageCarded', 'OwpPageContent', 'OwpErrorBoundary']) {
-      const coreAdapter = knowledge.records.find((record) => record.id === `@owp/core:${name}`);
-      expect(coreAdapter?.examples).toEqual([]);
+      const coreOwnership = knowledge.records.find((record) => record.id === `@owp/core:${name}`);
+      expect(coreOwnership).toBeUndefined();
     }
   });
 
-  it('links supporting result tables to Components and preserves settings adapter links', () => {
+  it('links supporting result tables to Components and links settings examples to the same owners', () => {
     const componentsTable = knowledge.records.find(
       (record) => record.id === '@owp/components:OwpTable',
     );
@@ -36,6 +33,7 @@ describe('Core sample ownership in generated Knowledge', () => {
     expect(componentsTable?.packageVersion).toBe('3.1.1');
     expect(componentsTable?.examples.map((example) => example.id).sort()).toEqual([
       'api-query',
+      'app-settings',
       'excel-export',
       'getting-started',
       'page-carded',
@@ -43,17 +41,15 @@ describe('Core sample ownership in generated Knowledge', () => {
       'search-filter',
       'user-permissions',
     ]);
-    expect(coreTable?.examples.map((example) => example.id)).toEqual(['app-settings']);
+    expect(coreTable).toBeUndefined();
     expect(
       knowledge.records
         .find((record) => record.id === '@owp/components:OwpFieldTable')
         ?.examples.map((example) => example.id),
-    ).toEqual(['dialog']);
+    ).toEqual(['app-settings', 'dialog']);
     expect(
-      knowledge.records
-        .find((record) => record.id === '@owp/core:OwpFieldTable')
-        ?.examples.map((example) => example.id),
-    ).toEqual(['app-settings']);
+      knowledge.records.find((record) => record.id === '@owp/core:OwpFieldTable'),
+    ).toBeUndefined();
   });
 
   it('keeps Core APIs and qualified supporting props in the same example', () => {

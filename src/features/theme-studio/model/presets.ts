@@ -1,4 +1,4 @@
-import { defaultGridTheme } from '@owp/theme';
+import { defaultOwpGridTheme } from '@owp/theme';
 
 export const presetAccents = {
   carbon: {
@@ -259,14 +259,14 @@ export const presetAccents = {
   },
   hankum: {
     light: {
-      canvas: defaultGridTheme.body.backgroundColor,
+      canvas: defaultOwpGridTheme.body.backgroundColor,
       chrome: '#f6f7f9',
       ink: '#111827',
       secondary: '#6b7280',
       muted: '#6b7280',
-      line: defaultGridTheme.cell.borderColor,
-      hover: defaultGridTheme.state.hoverBackgroundColor,
-      subtle: defaultGridTheme.state.selectedRowBackgroundColor,
+      line: defaultOwpGridTheme.cell.borderColor,
+      hover: defaultOwpGridTheme.state.hoverBackgroundColor,
+      subtle: defaultOwpGridTheme.state.selectedRowBackgroundColor,
       success: '#2f7d31',
       warning: '#885c0d',
       danger: '#c00000',

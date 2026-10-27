@@ -1,12 +1,9 @@
+import { OwpThemeProvider } from '@owp/theme';
 import { OwpRouteErrorElement } from '@owp/core';
-import {
-  OwpCoreProvider,
-  OwpDialogsProvider,
-  OwpUiProvider,
-  type OwpAppConfigs,
-} from '@owp/core/contexts';
+import { OwpCoreProvider, OwpUiProvider, type OwpAppConfigs } from '@owp/core/contexts';
+import { OwpDialogsProvider } from '@owp/components/feedback';
 import { STORAGE_KEYS } from '@owp/core/constants';
-import { useGetCurrentLanguage, useSetDefaultSettings } from '@owp/core/hooks';
+import { useGetCurrentLanguage, useGetCurrentSettings, useSetDefaultSettings } from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { createMemoryRouter, MemoryRouter, RouterProvider } from 'react-router-dom';
@@ -72,10 +69,11 @@ function CoreSettingsBridge({
   readonly children: ReactNode;
 }) {
   const setDefaults = useSetDefaultSettings();
+  const settings = useGetCurrentSettings();
   useEffect(() => {
     if (configs.settingsConfig) setDefaults(configs.settingsConfig);
   }, [configs, setDefaults]);
-  return children;
+  return <OwpThemeProvider table={settings.theme.main.table} dataGrid={settings.theme.main.dataGrid}>{children}</OwpThemeProvider>;
 }
 
 function CoreLanguageBridge({ children }: { readonly children: ReactNode }) {

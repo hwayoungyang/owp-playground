@@ -1,9 +1,8 @@
+import { useSearchAction } from '@owp/core/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { Button, MenuItem, TextField, Typography } from '@mui/material';
-import { OwpPageCarded, OwpPageContent, OwpTable } from '@owp/components';
-// Components 페이지에 Core 이탈·스크롤·반응형 정책을 연결하고 검색 진행 adapter를 사용합니다.
-import { OwpCoreResponsiveLayoutGlobalStyles, OwpSearchFilter } from '@owp/core';
-import { usePageCardedPolicy, usePageLeaveGuard } from '@owp/core/hooks';
+import { OwpPageCarded, OwpPageContent, OwpTable, OwpSearchFilter } from '@owp/components';
+import { usePageLeaveGuard } from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
 import type { CoreExampleProps } from '../model/types';
@@ -15,6 +14,7 @@ const routeOptions = ['/list', '/detail'] as const;
 
 export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const { t, i18n } = useOwpTranslation();
+  const searchAction = useSearchAction();
   const location = useLocation();
   const navigate = useNavigate();
   const language = i18n.language;
@@ -25,13 +25,8 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const [filters, setFilters] = useState({ name: '', status: 'all' });
   const hasUnsavedFilter = name !== filters.name || status !== filters.status;
   const isDirty = dirtyDraft || hasUnsavedFilter;
-  const pagePolicy = usePageCardedPolicy({
-    isDirty,
-    scroll: 'normal',
-    fillContentHeight: false,
-    responsiveLayout: responsive,
-  });
-  const { requestDiscard } = usePageLeaveGuard();
+
+  const { requestDiscard } = usePageLeaveGuard(isDirty);
   const activeRoute: (typeof routeOptions)[number] =
     location.pathname === '/detail' ? '/detail' : '/list';
   const rows = useMemo(
@@ -84,7 +79,6 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
       }
     >
       <DemoSection>
-        {pagePolicy.styles}
         <OwpPageCarded
           sx={{ minWidth: 0, width: '100%', height: 'auto', minHeight: 0 }}
           header={
@@ -108,11 +102,16 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
                   {t('보호된 초기화')}
                 </Button>
               }
-              onSubmit={() => {
-                setFilters({ name, status });
-                setDirtyDraft(false);
-                onRecord('submit', JSON.stringify({ name, status }));
-              }}
+              isRunning={searchAction.isRunning}
+              isCanceling={searchAction.isCanceling}
+              onCancel={searchAction.cancel}
+              onSubmit={() =>
+                searchAction.run(() => {
+                  setFilters({ name, status });
+                  setDirtyDraft(false);
+                  onRecord('submit', JSON.stringify({ name, status }));
+                })
+              }
               onReset={() => {
                 setName('');
                 setStatus('all');
@@ -149,11 +148,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
             </OwpSearchFilter>
           }
           content={
-            <OwpPageContent
-              title={t('조회 결과')}
-              responsiveLayout={responsive}
-              slots={{ responsiveLayoutGlobalStyles: OwpCoreResponsiveLayoutGlobalStyles }}
-            >
+            <OwpPageContent title={t('조회 결과')} responsiveLayout={responsive}>
               <Typography variant="body2" role="status">
                 {t('현재 페이지: {{path}}', { path: activeRoute })}
               </Typography>
@@ -166,7 +161,9 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
               />
             </OwpPageContent>
           }
-          {...pagePolicy.props}
+          scroll={'normal'}
+          fillContentHeight={false}
+          responsiveLayout={responsive}
         />
       </DemoSection>
     </CoreDemo>

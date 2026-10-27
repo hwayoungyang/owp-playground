@@ -1,6 +1,7 @@
 import { alpha } from '@mui/material/styles';
 import { OwpHeatmapChart } from '@owp/charts';
-import type { ChartOptions, HeatmapPoint } from '@owp/charts/types';
+import type { ChartOptions } from 'chart.js';
+import type { HeatmapPoint } from '@owp/charts/types';
 import { createHeatmapData } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo, useState } from 'react';

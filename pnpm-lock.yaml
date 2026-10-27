@@ -171,6 +171,12 @@ importers:
 
   .:
     dependencies:
+      chartjs-plugin-datalabels:
+        specifier: ^2.2.0
+        version: 2.2.0(chart.js@4.5.1)
+      chart.js:
+        specifier: ^4.5.1
+        version: 4.5.1
       '@emotion/react':
         specifier: ^11.14.0
         version: 11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@7.2.0)
@@ -222,6 +228,9 @@ importers:
       '@owp/utils':
         specifier: 1.0.1
         version: 1.0.1
+      '@tanstack/react-query':
+        specifier: ^5.104.5
+        version: 5.104.5(@types/react@19.3.0)(react@19.3.1)
       '@phosphor-icons/react':
         specifier: ^2.1.10
         version: 2.1.10(react-dom@19.3.1(react@19.3.1))(react@19.3.1)

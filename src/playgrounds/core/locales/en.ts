@@ -1,3 +1,4 @@
+import { ownershipEnglish } from './ownership.en';
 import { basicEnglish } from './basic.en';
 import { advancedEnglish } from './advanced.en';
 import { sessionEnglish } from './session.en';
@@ -6,13 +7,14 @@ export const coreEnglish: Readonly<Record<string, string>> = {
   ...basicEnglish,
   ...advancedEnglish,
   ...sessionEnglish,
+  ...ownershipEnglish,
   'Label.검색': 'Search',
   시작하기: 'Getting started',
   문서: 'Documentation',
   'API·데이터 연결': 'API & data connection',
   '앱 상태·설정': 'App state & settings',
   '전역 상태·복구': 'Global state & recovery',
-  'UI Adapter': 'UI adapters',
+  'Package Integration': 'Package integration',
   '앱 구성': 'App setup',
   '페이지 구성': 'Page layout',
   조회·선택: 'Search & selection',
@@ -96,14 +98,8 @@ export const coreEnglish: Readonly<Record<string, string>> = {
     'OwpCoreProvider configures the app environment, settings, state and QueryClient. OwpStyleProvider applies the theme, while OwpUiProvider connects authentication, routing, page leave guards and shared feedback.',
   'API 요청은 createOwpApiHooks로 한 번 설정하고 useApiQuery·useApiMutation으로 사용합니다. 페이지·검색·다이얼로그는 같은 앱 설정과 상태를 공유합니다.':
     'Configure API requests once with createOwpApiHooks, then call useApiQuery and useApiMutation. Pages, search filters and dialogs share the same app settings and state.',
-  'Provider와 앱 초기화는 시작하기에서 확인하고, 실행 예제는 API·데이터 연결, 앱 상태·설정, 전역 상태·복구, UI Adapter 순서로 읽습니다.':
+  'Provider와 앱 초기화는 시작하기에서 확인하고, 실행 예제는 API·데이터 연결, 앱 상태·설정, 전역 상태·복구, Package Integration 순서로 읽습니다.':
     'Check providers and app initialization in Getting started, then explore the examples in order: API & data connection, App state & settings, Global state & recovery, and UI adapters.',
-  'Core가 소유하는 provider·API·hook·store·타입은 @owp/core/contexts·hooks·store·types 등 실제 공개 경로를 사용하고, 전용 컴포넌트(OwpQuerySelector·공통코드 선택·OwpLanguageSwitcherSelect·OwpExportDataToExcelButton·OwpRouteErrorElement)는 @owp/core root에서 제공합니다. OwpDialog·OwpPageCarded·OwpPageContent·OwpErrorBoundary와 보조 UI는 @owp/components에서 가져옵니다. 앱 설정 예제의 OwpTable·OwpFieldTable과 검색 예제의 OwpSearchFilter는 설정·검색 진행 정책을 연결하는 @owp/core adapter를 사용합니다.':
-    'Use public subpaths such as @owp/core/contexts, hooks, store, and types for Core-owned providers, APIs, hooks, store, and types. Dedicated components (OwpQuerySelector, common code selectors, OwpLanguageSwitcherSelect, OwpExportDataToExcelButton, and OwpRouteErrorElement) come from the @owp/core root. Import OwpDialog, OwpPageCarded, OwpPageContent, OwpErrorBoundary, and supporting UI from @owp/components. The app settings example keeps the Core OwpTable and OwpFieldTable adapters, and search examples keep the Core OwpSearchFilter adapter to connect settings and search progress policies.',
-  'DialogProps<TPayload, TResult>는 dialog manager 계약으로 @owp/core/types에서 가져옵니다. Components UI의 OwpDialogProps는 @owp/components/types를 사용하고, isDirty·discardGuard 같은 Core 정책 옵션은 useDialogPolicy에 전달합니다.':
-    'Import DialogProps<TPayload, TResult> from @owp/core/types for the dialog manager contract. Use OwpDialogProps from @owp/components/types for Components UI, and pass Core policy options such as isDirty and discardGuard to useDialogPolicy.',
-  'useDialogPolicy·usePageCardedPolicy는 @owp/core/hooks에서 가져와 policy.styles를 함께 render하고 UI props 뒤에 policy.props를 펼칩니다. OwpPageContent의 responsiveLayoutGlobalStyles slot에는 @owp/core의 OwpCoreResponsiveLayoutGlobalStyles를 연결하고, OwpErrorBoundary에는 @owp/core/utils의 errorBoundaryPolicy를 펼칩니다. 같은 Core adapter에 정책을 중복 연결하지 않습니다.':
-    'Import useDialogPolicy and usePageCardedPolicy from @owp/core/hooks, render policy.styles, and spread policy.props after UI props. Connect OwpCoreResponsiveLayoutGlobalStyles from @owp/core to the OwpPageContent responsiveLayoutGlobalStyles slot, and spread errorBoundaryPolicy from @owp/core/utils onto OwpErrorBoundary. Do not apply the same policy again to a Core adapter.',
   '레지스트리 설정': 'Registry setup',
   '프로젝트 루트의 .npmrc에 사내 OWP 레지스트리 주소를 설정합니다.':
     'Set the internal OWP registry URL in the project root’s .npmrc file.',
@@ -116,8 +112,6 @@ export const coreEnglish: Readonly<Record<string, string>> = {
   '앱 초기화': 'Initialize the app',
   '한금 소비앱의 AppProviders 구성을 줄인 예제입니다. 앱의 i18next를 먼저 초기화하고 routes·navigation·settings를 전달합니다.':
     'This simplified AppProviders example follows the Hankum app. Initialize i18next first, then provide routes, navigation and settings.',
-  'OwpUiProvider는 React Router Data Router 안에 배치하고, usePageCardedPolicy는 그 하위 페이지에서 호출합니다. Playground의 독립 예제는 서버 인증 없이 실행합니다.':
-    'Place OwpUiProvider inside a React Router Data Router and call usePageCardedPolicy in a descendant page. Standalone Playground examples run without server authentication.',
   '스타일과 정적 리소스': 'Styles & static assets',
   'Core CSS는 html 10px을 기준으로 합니다. MUI theme의 typography.htmlFontSize도 10으로 맞춥니다.':
     'Core CSS uses a 10px HTML baseline. Set typography.htmlFontSize to 10 in the MUI theme as well.',

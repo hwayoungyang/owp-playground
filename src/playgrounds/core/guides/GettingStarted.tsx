@@ -1,3 +1,8 @@
+import {
+  coreOwnershipIntroduction,
+  coreOwnershipNotes,
+  coreOwnershipUsageNote,
+} from './package-ownership';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
@@ -35,24 +40,12 @@ export function CoreGettingStarted({
           </p>
           <p>
             {t(
-              'Provider와 앱 초기화는 시작하기에서 확인하고, 실행 예제는 API·데이터 연결, 앱 상태·설정, 전역 상태·복구, UI Adapter 순서로 읽습니다.',
+              'Provider와 앱 초기화는 시작하기에서 확인하고, 실행 예제는 API·데이터 연결, 앱 상태·설정, 전역 상태·복구, Package Integration 순서로 읽습니다.',
             )}
           </p>
-          <p>
-            {t(
-              'Core가 소유하는 provider·API·hook·store·타입은 @owp/core/contexts·hooks·store·types 등 실제 공개 경로를 사용하고, 전용 컴포넌트(OwpQuerySelector·공통코드 선택·OwpLanguageSwitcherSelect·OwpExportDataToExcelButton·OwpRouteErrorElement)는 @owp/core root에서 제공합니다. OwpDialog·OwpPageCarded·OwpPageContent·OwpErrorBoundary와 보조 UI는 @owp/components에서 가져옵니다. 앱 설정 예제의 OwpTable·OwpFieldTable과 검색 예제의 OwpSearchFilter는 설정·검색 진행 정책을 연결하는 @owp/core adapter를 사용합니다.',
-            )}
-          </p>
-          <p>
-            {t(
-              'DialogProps<TPayload, TResult>는 dialog manager 계약으로 @owp/core/types에서 가져옵니다. Components UI의 OwpDialogProps는 @owp/components/types를 사용하고, isDirty·discardGuard 같은 Core 정책 옵션은 useDialogPolicy에 전달합니다.',
-            )}
-          </p>
-          <p>
-            {t(
-              'useDialogPolicy·usePageCardedPolicy는 @owp/core/hooks에서 가져와 policy.styles를 함께 render하고 UI props 뒤에 policy.props를 펼칩니다. OwpPageContent의 responsiveLayoutGlobalStyles slot에는 @owp/core의 OwpCoreResponsiveLayoutGlobalStyles를 연결하고, OwpErrorBoundary에는 @owp/core/utils의 errorBoundaryPolicy를 펼칩니다. 같은 Core adapter에 정책을 중복 연결하지 않습니다.',
-            )}
-          </p>
+          <p>{t(coreOwnershipIntroduction)}</p>
+          <p>{t(coreOwnershipNotes.dialog.body)}</p>
+          <p>{t(coreOwnershipUsageNote)}</p>
         </section>
         <section aria-labelledby="core-registry">
           <h2 id="core-registry">{t('레지스트리 설정')}</h2>
@@ -82,7 +75,7 @@ export function CoreGettingStarted({
           <CodeSnippet label="AppProviders.tsx" code={source} language="typescript" />
           <p className="guide-note">
             {t(
-              'OwpUiProvider는 React Router Data Router 안에 배치하고, usePageCardedPolicy는 그 하위 페이지에서 호출합니다. Playground의 독립 예제는 서버 인증 없이 실행합니다.',
+              'OwpUiProvider는 React Router Data Router 안에 배치하고, 페이지 이동 보호가 필요한 화면에서 usePageLeaveGuard를 호출합니다. Playground의 독립 예제는 서버 인증 없이 실행합니다.',
             )}
           </p>
         </section>
@@ -108,6 +101,19 @@ export function CoreGettingStarted({
               'Vite의 plugins에 owpCoreAssetsPlugin()을 추가하면 아이콘·폰트를 복사할 수 있습니다.',
             )}
           </p>
+        </section>
+        <section aria-labelledby="core-ownership">
+          <h2 id="core-ownership">{t('패키지별 역할과 연결')}</h2>
+          <p>{t(coreOwnershipIntroduction)}</p>
+          <dl className="core-guide-ownership">
+            {Object.entries(coreOwnershipNotes).map(([id, note]) => (
+              <div key={id} id={`core-ownership-${id}`}>
+                <dt>{note.name}</dt>
+                <dd>{t(note.body)}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="guide-note">{t(coreOwnershipUsageNote)}</p>
         </section>
       </div>
     </section>

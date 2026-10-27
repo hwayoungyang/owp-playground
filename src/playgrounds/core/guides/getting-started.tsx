@@ -1,10 +1,11 @@
+import { recoverFromDynamicImportChunkLoadError } from '@owp/utils/browser';
 import { OwpErrorBoundary, OwpLoading, OwpPageCarded, OwpTable } from '@owp/components';
 // UI는 Components에서 가져오고 앱 정책과 Data Router 오류 처리는 Core로 연결합니다.
 import { OwpRouteErrorElement } from '@owp/core';
 import { OwpCoreProvider, OwpStyleProvider, OwpUiProvider } from '@owp/core/contexts';
 import type { OwpAppConfigs, OwpAppEnv } from '@owp/core/contexts';
-import { useInitApp, usePageCardedPolicy } from '@owp/core/hooks';
-import { errorBoundaryPolicy } from '@owp/core/utils';
+import { useInitApp } from '@owp/core/hooks';
+
 import { Suspense, useState, type ReactNode } from 'react';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
@@ -31,13 +32,10 @@ export function PageRuntime({ children }: { readonly children?: ReactNode }) {
 }
 
 export function ItemsPage() {
-  const pagePolicy = usePageCardedPolicy({ isDirty: false });
   return (
     <>
-      {pagePolicy.styles}
       <OwpPageCarded
         content={<OwpTable headers={{ name: '이름' }} rows={[{ name: '항목 A' }]} size="small" />}
-        {...pagePolicy.props}
       />
     </>
   );
@@ -56,7 +54,10 @@ export function createAppRouter() {
 
 export function AppProviders({ children }: { readonly children: ReactNode }) {
   return (
-    <OwpErrorBoundary {...errorBoundaryPolicy}>
+    <OwpErrorBoundary
+      onErrorRecovery={recoverFromDynamicImportChunkLoadError}
+      onError={(error, info) => console.error('Uncaught error:', error, info)}
+    >
       <OwpCoreProvider
         configs={configs}
         env={env}

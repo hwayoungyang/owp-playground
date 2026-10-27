@@ -433,9 +433,9 @@ Slider의 이름은 ariaLabel, 날짜·백분율 등 값의 의미는 valueTextF
     [
       'ChartFrameProps.externalTooltip',
       'ChartFrameExternalTooltipOptions',
-      'ChartDataLabelsPluginOptions',
-      'ChartAnnotationPluginOptions',
-      'ChartTrendlineLinearOptions',
+      'chartjs-plugin-datalabels:Options',
+      'chartjs-plugin-annotation:AnnotationPluginOptions',
+      'ChartTrendlineOptions',
     ],
     ['external-tooltip', 'tooltip-content', 'data-labels', 'trendline'],
     `externalTooltip은 canvas 밖에도 표시할 수 있는 HTML tooltip. maxHeight·viewportPadding으로 읽기 가능한 영역을 제한하고 callbacks로 제목·본문·footer를 구성. 외부 callback은 기존 callback과 함께 실행하는 관찰 경로와 표시 대체 경로를 구분.

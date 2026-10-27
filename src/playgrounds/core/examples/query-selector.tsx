@@ -1,7 +1,7 @@
 import { useEffect, useEffectEvent, useState } from 'react';
 import { Alert, OutlinedInput } from '@mui/material';
 import { OwpQuerySelector } from '@owp/core';
-import { useQueryClient } from '@owp/core/hooks';
+import { useQueryClient } from '@tanstack/react-query';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
 import { queryFixtures, type QueryFixtureItem } from '../model/fixtures';

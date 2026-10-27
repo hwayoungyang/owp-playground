@@ -58,8 +58,7 @@ describe('Core 8.1.0 & Components 3.1.1 policy contracts', () => {
       'OwpStyleProvider',
       'OwpUiProvider',
       'useInitApp',
-      'usePageCardedPolicy',
-      'errorBoundaryPolicy',
+      '@owp/utils:recoverFromDynamicImportChunkLoadError',
       '@owp/components:OwpPageCarded',
       '@owp/components:OwpErrorBoundary',
       'OwpRouteErrorElement',
@@ -67,8 +66,8 @@ describe('Core 8.1.0 & Components 3.1.1 policy contracts', () => {
     ]);
     expect(findCoreEntry('app-settings').api).toEqual([
       'OwpCoreProvider',
-      'OwpTable',
-      'OwpFieldTable',
+      '@owp/components:OwpTable',
+      '@owp/components:OwpFieldTable',
       'useGetCurrentSettings',
       'useGetDefaultSettings',
       'useSetSettings',
@@ -77,8 +76,7 @@ describe('Core 8.1.0 & Components 3.1.1 policy contracts', () => {
       'useStorage',
     ]);
     expect(findCoreEntry('dialog').api).toEqual([
-      'useOwpDialogs',
-      'useDialogPolicy',
+      '@owp/components:useOwpDialogs',
       '@owp/components:OwpDialog',
       '@owp/components:OwpFieldTable',
     ]);
@@ -89,17 +87,15 @@ describe('Core 8.1.0 & Components 3.1.1 policy contracts', () => {
     ]);
     expect(findCoreEntry('page-carded').api).toEqual([
       '@owp/components:OwpPageCarded',
-      'usePageCardedPolicy',
       'OwpUiProvider',
       'usePageLeaveGuard',
       '@owp/components:OwpPageContent',
-      'OwpCoreResponsiveLayoutGlobalStyles',
-      'OwpSearchFilter',
+      '@owp/components:OwpSearchFilter',
       '@owp/components:OwpTable',
     ]);
     expect(findCoreEntry('error-boundary').api).toEqual([
       '@owp/components:OwpErrorBoundary',
-      'errorBoundaryPolicy',
+      '@owp/utils:recoverFromDynamicImportChunkLoadError',
       'OwpRouteErrorElement',
     ]);
   });

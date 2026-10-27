@@ -34,9 +34,9 @@ const explicit = {
     targetRowId: 'OwpDataGridRowPlacement.targetRowId', 'summaryRows.valueGetter': 'OwpDataGridSummaryCell.valueGetter',
   },
   charts: {
-    data: 'chart.js:ChartConfiguration.data', annotation: 'ChartAnnotationPluginOptions', 'plugins.annotation': 'ChartAnnotationPluginOptions', box: 'ChartAnnotationOptions',
-    datalabels: 'ChartDataLabelsPluginOptions', 'plugins.datalabels': 'ChartDataLabelsPluginOptions',
-    trendlineLinear: 'ChartTrendlineLinearOptions', line: 'ChartSeriesConfig.type', type: 'ChartSeriesConfig.type',
+    data: 'chart.js:ChartConfiguration.data', annotation: 'chartjs-plugin-annotation:AnnotationPluginOptions', 'plugins.annotation': 'chartjs-plugin-annotation:AnnotationPluginOptions', box: 'chartjs-plugin-annotation:AnnotationOptions',
+    datalabels: 'chartjs-plugin-datalabels:Options', 'plugins.datalabels': 'chartjs-plugin-datalabels:Options',
+    trendlineLinear: 'ChartTrendlineOptions', line: 'ChartSeriesConfig.type', type: 'ChartSeriesConfig.type',
     mode: 'ChartDragZoomOptions.mode', start: 'ChartZoomSliderAxisOptions.start', end: 'ChartZoomSliderAxisOptions.end',
     'detailPanel.renderDetail': '@owp/datagrid:OwpDataGridDetailPanelOptions.renderDetail', renderCell: '@owp/datagrid:OwpDataGridColumn.renderCell',
   },

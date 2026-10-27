@@ -1,100 +1,111 @@
+import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { describe, expect, it } from 'vitest';
+import { afterAll, describe, expect, it } from 'vitest';
 import { verifyOwpSourceContracts } from '../scripts/owp-import-contracts.mjs';
 
-const root = path.resolve(import.meta.dirname, '..');
+const root = await mkdtemp(path.join(tmpdir(), 'owp-import-contracts-'));
+afterAll(() => rm(root, { recursive: true, force: true }));
+await writeFile(path.join(root, 'package.json'), '{}');
+const packages = {
+  core: {
+    '.': ['OwpRouteErrorElement'],
+    './hooks': ['useSearchAction', 'usePageLeaveGuard'],
+    './contexts': ['OwpCoreProvider'],
+    './types': ['OwpSettingsConfigType'],
+    './owp-app.css': [],
+  },
+  components: {
+    '.': ['OwpDialog', 'OwpPageCarded', 'OwpErrorBoundary'],
+    './hooks': ['useOwpDialogs', 'useDiscardGuard'],
+    './feedback': ['OwpDialogsProvider'],
+    './types': ['DialogProps', 'OwpDialogProps'],
+  },
+  theme: { '.': ['defaultThemes'] },
+  utils: { './browser': ['recoverFromDynamicImportChunkLoadError'], './zip': ['saveZipFile'] },
+  excel: { '.': ['createExportDataToExcelBuffer'] },
+};
+for (const [name, entries] of Object.entries(packages)) {
+  const directory = path.join(root, 'node_modules/@owp', name);
+  await mkdir(directory, { recursive: true });
+  const exports = { './package.json': './package.json' };
+  for (const [subpath, symbols] of Object.entries(entries)) {
+    const file = subpath === '.' ? 'index' : subpath.slice(2).replaceAll('/', '-');
+    if (file.endsWith('.css')) {
+      exports[subpath] = `./${file}`;
+      await writeFile(path.join(directory, file), '');
+      continue;
+    }
+    exports[subpath] = { types: `./${file}.d.ts`, import: `./${file}.js` };
+    await writeFile(
+      path.join(directory, `${file}.d.ts`),
+      symbols
+        .map((symbol) =>
+          subpath === './types'
+            ? `export type ${symbol} = unknown;`
+            : `export declare const ${symbol}: unknown;`,
+        )
+        .join('\n'),
+    );
+    await writeFile(
+      path.join(directory, `${file}.js`),
+      subpath === './types'
+        ? ''
+        : 'throw new Error("Browser modules must remain static");\n' +
+            symbols.map((symbol) => `export const ${symbol} = undefined;`).join('\n'),
+    );
+  }
+  await writeFile(
+    path.join(directory, 'package.json'),
+    JSON.stringify({ name: `@owp/${name}`, type: 'module', exports }),
+  );
+}
 const verify = (content) => verifyOwpSourceContracts(root, [{ file: 'consumer.tsx', content }]);
 
-describe('installed OWP import ownership', () => {
-  it('accepts Components 3.1.1 UI and Core 8.1.0 public composition APIs and types', async () => {
-    const result = await verify(`
-      import { OwpDialog, OwpPageCarded, OwpPageContent, OwpErrorBoundary } from '@owp/components';
-      import { useDialogPolicy, usePageCardedPolicy } from '@owp/core/hooks';
-      import { OwpCoreResponsiveLayoutGlobalStyles, OwpRouteErrorElement } from '@owp/core';
-      import { errorBoundaryPolicy } from '@owp/core/utils';
-      import type { DialogProps, OwpDialogPolicy, OwpPageCardedPolicy, OwpErrorBoundaryPolicy } from '@owp/core/types';
-      import type { OwpDialogProps, OwpPageCardedProps, OwpPageContentProps, OwpErrorBoundaryProps } from '@owp/components/types';
-    `);
-    expect(result.errors).toEqual([]);
+describe('static public OWP contracts with independent package fixtures', () => {
+  it('accepts direct package owners and Core integrations without importing browser modules', async () => {
+    expect(
+      (
+        await verify(`
+      import { OwpDialog, OwpErrorBoundary } from '@owp/components';
+      import { useOwpDialogs } from '@owp/components/hooks';
+      import { OwpDialogsProvider } from '@owp/components/feedback';
+      import type { DialogProps } from '@owp/components/types';
+      import { defaultThemes } from '@owp/theme';
+      import { saveZipFile } from '@owp/utils/zip';
+      import { recoverFromDynamicImportChunkLoadError } from '@owp/utils/browser';
+      import { createExportDataToExcelBuffer } from '@owp/excel';
+      import { OwpRouteErrorElement } from '@owp/core';
+      import { useSearchAction, usePageLeaveGuard } from '@owp/core/hooks';
+    `)
+      ).errors,
+    ).toEqual([]);
   });
-
-  it('accepts Core policy adapters with aliases and namespace access', async () => {
-    // Given
-    const content = `import { OwpTable as Table, OwpFieldTable, OwpDialog, OwpPageCarded, OwpPageContent, OwpSearchFilter, OwpErrorBoundary, OwpRouteErrorElement } from '@owp/core';
-      import * as Core from '@owp/core';
-      import type { OwpDialogProps } from '@owp/core/types';
-      const dialog = Core.OwpDialog;`;
-    // When
-    const result = await verify(content);
-    // Then
-    expect(result.errors).toEqual([]);
-  });
-
-  it('rejects UI exports removed from Core while accepting their Components owners', async () => {
-    // Given
-    const content = `import { OwpLoading, OwpFloatingPanel, OwpHidden } from '@owp/core';
-      import type { OwpLoadingProps, OwpFloatingPanelProps, OwpHiddenProps } from '@owp/core/types';
-      import { OwpLoading as Loading, OwpFloatingPanel as Panel, OwpHidden as Hidden } from '@owp/components';
-      import type { OwpLoadingProps as LoadingProps, OwpFloatingPanelProps as PanelProps, OwpHiddenProps as HiddenProps } from '@owp/components/types';`;
-    // When
-    const result = await verify(content);
-    // Then
-    expect(new Set(result.errors.map((error) => error.name))).toEqual(
-      new Set([
-        'OwpLoading',
-        'OwpFloatingPanel',
-        'OwpHidden',
-        'OwpLoadingProps',
-        'OwpFloatingPanelProps',
-        'OwpHiddenProps',
-      ]),
+  it('prioritizes ownership errors for removed Core wrappers and hooks', async () => {
+    const result = await verify(
+      `import { OwpDialog } from '@owp/core'; export { useOwpDialogs } from '@owp/core/hooks';`,
     );
-    expect(result.errors.every((error) => error.specifier.startsWith('@owp/core'))).toBe(true);
+    expect(result.errors.map((error) => error.reason)).toEqual(['wrong-owner', 'wrong-owner']);
   });
-
   it('checks type reexports separately from runtime exports', async () => {
-    // Given
-    const content = `export type { OwpSettingsConfigType as Settings } from '@owp/core/types';
-      export { OwpSettingsConfigType as RuntimeSettings } from '@owp/core/types';`;
-    // When
-    const result = await verify(content);
-    // Then
-    expect(result.errors).toMatchObject([
-      { name: 'OwpSettingsConfigType', reason: 'missing-runtime-export', line: 2 },
-    ]);
+    expect(
+      (
+        await verify(
+          `export type { OwpSettingsConfigType } from '@owp/core/types'; export { OwpSettingsConfigType } from '@owp/core/types';`,
+        )
+      ).errors,
+    ).toMatchObject([{ name: 'OwpSettingsConfigType', reason: 'missing-runtime-export' }]);
   });
-
-  it('checks selected dynamic exports without evaluating browser modules', async () => {
-    // Given
-    const content = `const chart = import('@owp/charts').then(({ CoreChart }) => CoreChart);
-      const invalid = import('@owp/core').then(({ OwpLoading: Loading }) => Loading);`;
-    // When
-    const result = await verify(content);
-    // Then
-    expect(new Set(result.errors.map((error) => error.name))).toEqual(new Set(['OwpLoading']));
-    expect(result.errors.every((error) => error.kind === 'dynamic-selection')).toBe(true);
+  it('checks dynamic selections and namespace members without executing modules', async () => {
+    const result = await verify(
+      `const value = import('@owp/core').then(({ OwpDialog }) => OwpDialog); import * as Core from '@owp/core'; const view = <Core.OwpErrorBoundary />;`,
+    );
+    expect(result.errors.map((error) => error.reason)).toEqual(['wrong-owner', 'wrong-owner']);
   });
-
-  it('checks namespace members against the public module', async () => {
-    // Given
-    const content = `import * as Core from '@owp/core'; const loading = Core.OwpLoading;`;
-    // When
-    const result = await verify(content);
-    // Then
-    expect(result.errors).toMatchObject([
-      { name: 'OwpLoading', reason: 'missing-declaration' },
-      { name: 'OwpLoading', reason: 'missing-runtime-export' },
-    ]);
-  });
-
-  it('rejects private subpaths even when their files exist', async () => {
-    // Given
-    const content = `export * from '@owp/core/dist/index.js'; import '@owp/core/owp-app.css';`;
-    // When
-    const result = await verify(content);
-    // Then
-    expect(result.errors).toMatchObject([
-      { specifier: '@owp/core/dist/index.js', reason: 'private-path' },
-    ]);
+  it('rejects private subpaths and blanket Core reexports', async () => {
+    expect(
+      (await verify(`export * from '@owp/core/dist/index.js'; import '@owp/core/owp-app.css';`))
+        .errors,
+    ).toMatchObject([{ reason: 'private-path' }, { reason: 'core-re-export-all' }]);
   });
 });

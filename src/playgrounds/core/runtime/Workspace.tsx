@@ -12,6 +12,7 @@ import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
 import { type WorkspaceTab, WorkspaceTabs } from '../../../shared/ui/WorkspaceTabs';
 import { type CoreExample, coreCategories } from '../catalog';
 import { coreSourcePolicy } from '../model/sourceFiles';
+import { coreOwnershipNotes } from '../guides/package-ownership';
 import type { CoreExampleProps } from '../model/types';
 import { CoreProviders } from './CoreProviders';
 import '../styles.css';
@@ -51,7 +52,11 @@ export function CoreWorkspace({
   readonly initialTab?: 'preview' | 'code';
   readonly codeTarget?: CodeLocation;
 }) {
-  const { t } = useOwpTranslation();
+  const { t, i18n } = useOwpTranslation();
+  const ownership = Object.entries(coreOwnershipNotes).find(([id]) => id === example.id);
+  const ownershipGuideUrl = ownership
+    ? `?${new URLSearchParams({ package: 'core', sample: 'getting-started', lang: i18n.language })}#core-ownership-${example.id}`
+    : undefined;
   const [tab, setTab] = useState<WorkspaceTab>(initialTab);
   const [version, setVersion] = useState(0);
   const [data, setData] = useState<Readonly<Record<string, unknown>>>({});
@@ -74,6 +79,11 @@ export function CoreWorkspace({
           coreCategories.find((category) => category.id === example.category)?.label ?? ''
         }
       />
+      {ownershipGuideUrl && (
+        <a className="core-ownership-guide-link" href={ownershipGuideUrl}>
+          {t('패키지별 역할과 연결 방법 보기')}
+        </a>
+      )}
       <WorkspaceTabs idPrefix={prefix} value={tab} eventCount={events.length} onChange={setTab} />
       <div className="workspace-frame">
         <div

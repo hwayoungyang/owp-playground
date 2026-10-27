@@ -56,7 +56,7 @@ describe('Core Playground integration', () => {
       { id: 'api', label: 'API·데이터 연결' },
       { id: 'state', label: '앱 상태·설정' },
       { id: 'policy', label: '전역 상태·복구' },
-      { id: 'adapter', label: 'UI Adapter' },
+      { id: 'integration', label: 'Package Integration' },
     ]);
     expect(coreCatalog[0]).toMatchObject({ id: 'getting-started', kind: 'guide' });
     expect(
@@ -69,7 +69,7 @@ describe('Core Playground integration', () => {
       examples.filter((example) => example.category === 'policy').map((example) => example.id),
     ).toEqual(['dialog', 'confirm', 'loading', 'error-boundary']);
     expect(
-      examples.filter((example) => example.category === 'adapter').map((example) => example.id),
+      examples.filter((example) => example.category === 'integration').map((example) => example.id),
     ).toEqual(['page-carded', 'page-content', 'search-filter']);
     expect(categoryOrder).toEqual(coreCategories.map((category) => category.id));
     expect(examples.map((example) => example.category)).toEqual(

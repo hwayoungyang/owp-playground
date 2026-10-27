@@ -16,39 +16,85 @@ export function collectOwpImports(file, content) {
   const add = (node, kind, names = []) => {
     const specifier = node.source?.value;
     if (!specifier?.startsWith('@owp/')) return;
-    const entry = { file, line: content.slice(0, node.start).split('\n').length, specifier, kind, names };
+    const entry = {
+      file,
+      line: content.slice(0, node.start).split('\n').length,
+      specifier,
+      kind,
+      names,
+    };
     imports.push(entry);
     return entry;
   };
   new Visitor({
     ImportDeclaration(node) {
-      const entry = add(node, 'import', node.specifiers.flatMap((item) => {
-        if (item.type === 'ImportNamespaceSpecifier') return [];
-        return [{ name: item.type === 'ImportDefaultSpecifier' ? 'default' : nameOf(item.imported), typeOnly: node.importKind === 'type' || item.importKind === 'type' }];
-      }));
-      if (entry) for (const item of node.specifiers) {
-        if (item.type === 'ImportNamespaceSpecifier') namespaces.set(item.local.name, { entry, typeOnly: node.importKind === 'type' });
-      }
+      const entry = add(
+        node,
+        'import',
+        node.specifiers.flatMap((item) => {
+          if (item.type === 'ImportNamespaceSpecifier') return [];
+          return [
+            {
+              name: item.type === 'ImportDefaultSpecifier' ? 'default' : nameOf(item.imported),
+              typeOnly: node.importKind === 'type' || item.importKind === 'type',
+            },
+          ];
+        }),
+      );
+      if (entry)
+        for (const item of node.specifiers) {
+          if (item.type === 'ImportNamespaceSpecifier')
+            namespaces.set(item.local.name, { entry, typeOnly: node.importKind === 'type' });
+        }
     },
     ExportNamedDeclaration(node) {
-      add(node, 're-export', node.specifiers.map((item) => ({ name: nameOf(item.local), typeOnly: node.exportKind === 'type' || item.exportKind === 'type' })));
+      add(
+        node,
+        're-export',
+        node.specifiers.map((item) => ({
+          name: nameOf(item.local),
+          typeOnly: node.exportKind === 'type' || item.exportKind === 'type',
+        })),
+      );
     },
-    ExportAllDeclaration(node) { add(node, 're-export-all'); },
-    ImportExpression(node) { add(node, 'dynamic-import'); },
+    ExportAllDeclaration(node) {
+      add(node, 're-export-all');
+    },
+    ImportExpression(node) {
+      add(node, 'dynamic-import');
+    },
     CallExpression(node) {
       const callee = node.callee;
-      if (callee.type !== 'MemberExpression' || nameOf(callee.property) !== 'then' || callee.object.type !== 'ImportExpression') return;
+      if (
+        callee.type !== 'MemberExpression' ||
+        nameOf(callee.property) !== 'then' ||
+        callee.object.type !== 'ImportExpression'
+      )
+        return;
       const callback = node.arguments[0];
       const parameter = callback?.params?.[0];
       if (parameter?.type !== 'ObjectPattern') return;
-      add(callee.object, 'dynamic-selection', parameter.properties.flatMap((item) => item.type === 'Property' ? [{ name: nameOf(item.key), typeOnly: false }] : []));
+      add(
+        callee.object,
+        'dynamic-selection',
+        parameter.properties.flatMap((item) =>
+          item.type === 'Property' ? [{ name: nameOf(item.key), typeOnly: false }] : [],
+        ),
+      );
     },
   }).visit(parsed.program);
   new Visitor({
-    MemberExpression(node) {
-      if (node.object.type !== 'Identifier' || node.computed && node.property.type !== 'Literal') return;
+    JSXMemberExpression(node) {
+      if (node.object.type !== 'JSXIdentifier') return;
       const namespace = namespaces.get(node.object.name);
-      if (namespace) namespace.entry.names.push({ name: nameOf(node.property), typeOnly: namespace.typeOnly });
+      if (namespace) namespace.entry.names.push({ name: nameOf(node.property), typeOnly: false });
+    },
+    MemberExpression(node) {
+      if (node.object.type !== 'Identifier' || (node.computed && node.property.type !== 'Literal'))
+        return;
+      const namespace = namespaces.get(node.object.name);
+      if (namespace)
+        namespace.entry.names.push({ name: nameOf(node.property), typeOnly: namespace.typeOnly });
     },
     TSQualifiedName(node) {
       if (node.left.type !== 'Identifier') return;
@@ -89,16 +135,22 @@ export async function verifyOwpSourceContracts(root, sources) {
         for (const item of statement.specifiers) names.add(nameOf(item.exported));
         const declaration = statement.declaration;
         if (declaration?.id) names.add(nameOf(declaration.id));
-        for (const item of declaration?.declarations ?? []) if (item.id.type === 'Identifier') names.add(item.id.name);
+        for (const item of declaration?.declarations ?? [])
+          if (item.id.type === 'Identifier') names.add(item.id.name);
       }
       if (statement.type === 'ExportAllDeclaration') {
         if (statement.exported) names.add(nameOf(statement.exported));
         else if (statement.source.value.startsWith('.')) {
           const specifier = statement.source.value;
           const dependency = file.endsWith('.d.ts')
-            ? /\.d\.ts$/.test(specifier) ? specifier : /\.js$/.test(specifier) ? specifier.replace(/\.js$/, '.d.ts') : `${specifier}.d.ts`
+            ? /\.d\.ts$/.test(specifier)
+              ? specifier
+              : /\.js$/.test(specifier)
+                ? specifier.replace(/\.js$/, '.d.ts')
+                : `${specifier}.d.ts`
             : specifier;
-          for (const name of await exportedNames(path.resolve(path.dirname(file), dependency))) if (name !== 'default') names.add(name);
+          for (const name of await exportedNames(path.resolve(path.dirname(file), dependency)))
+            if (name !== 'default') names.add(name);
         }
       }
     }
@@ -117,34 +169,69 @@ export async function verifyOwpSourceContracts(root, sources) {
     const runtime = exportTarget(definition, 'import');
     const result = {
       types: types ? await exportedNames(path.resolve(directory, types)) : undefined,
-      runtime: runtime && !/\.(?:css|json)$/.test(runtime) ? await exportedNames(path.resolve(directory, runtime)) : undefined,
+      runtime:
+        runtime && !/\.(?:css|json)$/.test(runtime)
+          ? await exportedNames(path.resolve(directory, runtime))
+          : undefined,
     };
     if (runtime) await readFile(path.resolve(directory, runtime));
     entries.set(specifier, result);
     return result;
   }
   const imports = sources.flatMap(({ file, content }) => collectOwpImports(file, content));
+  const ownershipErrors = verifyCoreImportPolicy(imports);
   const errors = [];
   for (const entry of imports) {
     const contract = await entryFor(entry.specifier);
-    if (!contract) { errors.push({ ...entry, reason: 'private-path' }); continue; }
+    if (!contract) {
+      errors.push({ ...entry, reason: 'private-path' });
+      continue;
+    }
     for (const symbol of entry.names) {
-      if (contract.types && !contract.types.has(symbol.name)) errors.push({ ...entry, name: symbol.name, reason: 'missing-declaration' });
-      if (!symbol.typeOnly && contract.runtime && !contract.runtime.has(symbol.name)) errors.push({ ...entry, name: symbol.name, reason: 'missing-runtime-export' });
+      if (
+        ownershipErrors.some(
+          (error) =>
+            error.file === entry.file &&
+            error.line === entry.line &&
+            error.specifier === entry.specifier &&
+            error.name === symbol.name,
+        )
+      )
+        continue;
+      if (contract.types && !contract.types.has(symbol.name))
+        errors.push({ ...entry, name: symbol.name, reason: 'missing-declaration' });
+      if (!symbol.typeOnly && contract.runtime && !contract.runtime.has(symbol.name))
+        errors.push({ ...entry, name: symbol.name, reason: 'missing-runtime-export' });
     }
   }
-  return { files: sources.length, imports: imports.length, errors: [...errors, ...verifyCoreImportPolicy(imports, sources)] };
+  return {
+    files: sources.length,
+    imports: imports.length,
+    errors: [...errors, ...ownershipErrors],
+  };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const root = path.resolve(import.meta.dirname, '..');
-  const files = (await Promise.all(['src', 'mcp', 'scripts', 'tests'].map(async (directory) =>
-    (await readdir(path.join(root, directory), { recursive: true })).filter((file) => /\.(?:[cm]?[jt]sx?)$/.test(file)).map((file) => `${directory}/${file}`),
-  ))).flat();
-  const sources = await Promise.all(files.map(async (file) => ({ file, content: await readFile(path.join(root, file), 'utf8') })));
+  const files = (
+    await Promise.all(
+      ['src', 'mcp', 'scripts', 'tests'].map(async (directory) =>
+        (await readdir(path.join(root, directory), { recursive: true }))
+          .filter((file) => /\.(?:[cm]?[jt]sx?)$/.test(file))
+          .map((file) => `${directory}/${file}`),
+      ),
+    )
+  ).flat();
+  const sources = await Promise.all(
+    files.map(async (file) => ({ file, content: await readFile(path.join(root, file), 'utf8') })),
+  );
   const result = await verifyOwpSourceContracts(root, sources);
   if (result.errors.length) {
-    for (const error of result.errors) console.error(`${error.file}:${error.line} ${error.specifier} ${error.name ?? ''} (${error.reason}${error.expectedSpecifier ? ` → ${error.expectedSpecifier}` : ''})`);
+    for (const error of result.errors)
+      console.error(
+        `${error.file}:${error.line} ${error.specifier} ${error.name ?? ''} (${error.reason}${error.expectedSpecifier ? ` → ${error.expectedSpecifier}` : ''})`,
+      );
     process.exitCode = 1;
-  } else console.log(`PASS OWP public imports: ${result.imports} imports in ${result.files} sources`);
+  } else
+    console.log(`PASS OWP public imports: ${result.imports} imports in ${result.files} sources`);
 }

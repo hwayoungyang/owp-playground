@@ -1,9 +1,9 @@
 import { useEffect, useId, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { OwpDialog, OwpFieldTable } from '@owp/components';
-// Components UI에 Core의 dialog stack·포커스 복원과 미저장 변경 확인 정책을 연결합니다.
-import { useDialogPolicy, useOwpDialogs } from '@owp/core/hooks';
-import type { DialogProps } from '@owp/core/types';
+
+import { useOwpDialogs } from '@owp/components/hooks';
+import type { DialogProps } from '@owp/components/types';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
 import { CoreToggle } from '../runtime/Controls';
@@ -18,14 +18,9 @@ export function EditItemDialog({ open, onClose, payload }: DialogProps<EditItemP
   const { t } = useOwpTranslation();
   const id = useId();
   const [name, setName] = useState(payload.name);
-  const dialogPolicy = useDialogPolicy({
-    open,
-    isDirty: payload.protectChanges && name !== payload.name,
-  });
 
   return (
     <>
-      {dialogPolicy.styles}
       <OwpDialog
         title={<span id={id}>{t('항목 편집')}</span>}
         aria-labelledby={id}
@@ -39,7 +34,8 @@ export function EditItemDialog({ open, onClose, payload }: DialogProps<EditItemP
           const value = name.trim();
           if (value) void onClose(value);
         }}
-        {...dialogPolicy.props}
+        open={open}
+        isDirty={payload.protectChanges && name !== payload.name}
       >
         <div className="core-field">
           <TextField

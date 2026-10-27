@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button } from '@mui/material';
-import { useConfirm, useOwpDialogs } from '@owp/core/hooks';
+import { useConfirm, useOwpDialogs } from '@owp/components/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
 import { CoreDemo, DemoSection } from '../runtime/Demo';

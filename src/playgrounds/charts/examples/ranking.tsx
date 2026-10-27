@@ -1,5 +1,5 @@
 import { ChartFrame } from '@owp/charts';
-import type { ChartDataLabelsContext } from '@owp/charts/types';
+import type { Context } from 'chartjs-plugin-datalabels';
 import {
   createAxisDomain,
   createCategoryAxisScale,
@@ -53,7 +53,7 @@ export function ChartExample(props: ChartExampleProps) {
               display: true,
               anchor: 'end',
               align: 'left',
-              formatter: (_value: unknown, context: ChartDataLabelsContext) =>
+              formatter: (_value: unknown, context: Context) =>
                 String(records[context.dataIndex]?.actual ?? ''),
             },
           },

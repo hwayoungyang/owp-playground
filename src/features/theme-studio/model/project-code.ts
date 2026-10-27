@@ -5,8 +5,7 @@ export const themeUsage = [
 import config from './owp-theme.json';
 
 export const defaultDataGridTheme =
-  config.dataGrid satisfies OwpGridThemeConfigType;
-export { defaultDataGridTheme as defaultGridTheme };`,
+  config.dataGrid satisfies OwpGridThemeConfigType;`,
   },
   {
     file: 'src/configs/theme/overrides.ts',

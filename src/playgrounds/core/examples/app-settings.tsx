@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Button } from '@mui/material';
-// Core settings의 table·dataGrid 설정과 Date Picker 날짜 formatter를 연결하는 Core adapter를 시연합니다.
-import { OwpFieldTable, OwpTable } from '@owp/core';
+import { OwpFieldTable, OwpTable } from '@owp/components';
 import {
   useChangeOwpTheme,
   useGetCurrentSettings,

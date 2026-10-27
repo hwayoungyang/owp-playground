@@ -1,9 +1,9 @@
+import { useSearchAction } from '@owp/core/hooks';
 import { useEffect, useRef, useState } from 'react';
 import { MenuItem, OutlinedInput, TextField, Typography } from '@mui/material';
-import { OwpTable } from '@owp/components';
-// useSearchAction으로 query 진행 상태 추적과 취소 정책을 연결하는 Core adapter입니다.
-import { OwpQuerySelector, OwpSearchFilter } from '@owp/core';
-import { useQueryClient } from '@owp/core/hooks';
+import { OwpTable, OwpSearchFilter } from '@owp/components';
+import { OwpQuerySelector } from '@owp/core';
+import { useQueryClient } from '@tanstack/react-query';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
 import { queryFixture, type QueryFixtureItem } from '../model/fixtures';
@@ -16,6 +16,7 @@ const searchPath = '/playground/core/items';
 export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const { t, i18n } = useOwpTranslation();
   const queryClient = useQueryClient();
+  const searchAction = useSearchAction({ progressFilter: { paths: [searchPath] } });
   const [itemId, setItemId] = useState('');
   const [status, setStatus] = useState('all');
   const [responsive, setResponsive] = useState(true);
@@ -127,10 +128,10 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
         <OwpSearchFilter
           title={t('검색 조건')}
           responsiveLayout={responsive}
-          showSubmitLoading={showLoading}
           showSkeleton={skeleton}
-          submitProgressFilter={{ paths: [searchPath] }}
-          onSubmit={search}
+          isRunning={showLoading && searchAction.isRunning}
+          isCanceling={showLoading && searchAction.isCanceling}
+          onSubmit={() => (showLoading ? searchAction.run(search) : search())}
           onReset={() => {
             void stop();
             setItemId('');
@@ -139,6 +140,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
             onRecord('reset', t('검색 조건과 결과를 초기화했습니다.'));
           }}
           onCancel={async () => {
+            await searchAction.cancel();
             await stop();
             onRecord('cancel', t('조회 작업을 취소했습니다.'));
           }}

@@ -1,5 +1,5 @@
 import type { ThemeOptions } from '@mui/material';
-import { defaultGridTheme } from '@owp/theme';
+import { defaultOwpGridTheme } from '@owp/theme';
 import type { OwpGridThemeConfigType } from '@owp/theme/types';
 import { z } from 'zod';
 import { createGridTheme } from '../../../shared/theme/themes';
@@ -113,7 +113,7 @@ export function getPreviewPalette(preset: PreviewPreset, mode: ColorMode): Palet
 }
 
 export function getPreviewHeaderColor(preset: PreviewPreset, mode: ColorMode): string {
-  if (preset === 'hankum' && mode === 'light') return defaultGridTheme.header.backgroundColor;
+  if (preset === 'hankum' && mode === 'light') return defaultOwpGridTheme.header.backgroundColor;
   return headerColors[preset]?.[mode] ?? getPreviewPalette(preset, mode).chrome;
 }
 
@@ -139,9 +139,9 @@ export function createPreviewGridTheme(
   const base =
     settings.preset === 'hankum' && mode === 'light'
       ? {
-          ...defaultGridTheme,
+          ...defaultOwpGridTheme,
           header: {
-            ...defaultGridTheme.header,
+            ...defaultOwpGridTheme.header,
             ...(settings.headerColor === null
               ? {}
               : {
