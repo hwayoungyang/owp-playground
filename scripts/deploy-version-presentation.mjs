@@ -33,7 +33,7 @@ export async function validateVersionPresentation(content) {
     const rawPath = `/version-ui/raw/${release.releaseId}/index.html`;
     if (entry.rawPath !== rawPath || !same(entry.release, release)) throw new Error('화면용 HTML의 원본 경로 또는 릴리스가 다릅니다.');
     const raw = await readArchiveBytes(content, rawPath.slice(1));
-    if (!same(entry, versionPresentationEntry(raw, release, runtime))) throw new Error('화면용 HTML의 원본 SHA 또는 투영 SHA가 다릅니다.');
+    if (!same(entry, versionPresentationEntry(raw, release, runtime))) throw new Error('원본 HTML 또는 화면용 HTML의 SHA가 다릅니다.');
     const directory = `versions/${release.releaseId}`;
     const manifestBytes = await readArchiveBytes(content, `${directory}/knowledge-release.json`);
     if (fileFingerprint(manifestBytes).sha256 !== release.manifestSha256) throw new Error('원본 release manifest SHA가 다릅니다.');
@@ -41,13 +41,13 @@ export async function validateVersionPresentation(content) {
     if (archived.releaseId !== release.releaseId || !same(archived.packages, release.packages)) throw new Error('원본 release manifest의 릴리스 또는 패키지가 다릅니다.');
     const actual = await collectArchiveFiles(path.join(content, directory));
     const expected = [...Object.keys(archived.files), 'knowledge-release.json'].sort();
-    if (!same(Object.keys(actual).sort(), expected)) throw new Error('투영 릴리스의 파일 목록이 원본 manifest와 다릅니다.');
+    if (!same(Object.keys(actual).sort(), expected)) throw new Error('화면용 릴리스의 파일 목록이 원본 manifest와 다릅니다.');
     for (const [file, expected] of Object.entries(archived.files)) {
       const bytes = file === 'index.html' ? raw : await readArchiveBytes(content, `${directory}/${file}`);
       if (!same(fileFingerprint(bytes), expected)) throw new Error(`원본 archive 파일 SHA가 다릅니다: ${release.releaseId}/${file}`);
     }
     const projected = await readArchiveBytes(content, `${directory}/index.html`);
-    if (!projected.equals(createVersionPresentation(raw, release, runtime))) throw new Error('화면용 HTML의 결정적 투영 결과가 다릅니다.');
+    if (!projected.equals(createVersionPresentation(raw, release, runtime))) throw new Error('화면용 HTML이 원본과 현재 버전 메뉴로 생성한 결과와 다릅니다.');
   }
   return index;
 }

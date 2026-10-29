@@ -16,7 +16,7 @@ const reviewSchema = z.discriminatedUnion('action', [
 ]);
 const reviewKey = (exampleId, label) => `${exampleId}/${label}`;
 
-/** 수동 검토 결론과 실제 소스 지문을 함께 검사함. */
+/** 수동 검토 결과와 실제 소스의 hash를 함께 검사합니다. */
 export function createExampleCodeReviews(input, fingerprints) {
   const sources = z.record(sourcePath, z.string().regex(/^[a-f0-9]{64}$/)).parse(fingerprints);
   const reviews = new Map();

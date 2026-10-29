@@ -88,7 +88,7 @@ const captureGate = String.raw`(function(config){
 })(`;
 
 export function createVersionPresentation(raw: Buffer, release: ReleaseIndexEntry, runtime: VersionUiRuntime) {
-  if (/data-version-ui\s*=/.test(raw.toString('utf8'))) throw new TypeError('이미 투영한 HTML을 다시 투영할 수 없습니다.');
+  if (/data-version-ui\s*=/.test(raw.toString('utf8'))) throw new TypeError('버전 메뉴가 이미 연결된 HTML에는 다시 연결할 수 없습니다.');
   const config = JSON.stringify({ release, runtimeFingerprint: runtime.fingerprint, module: `${runtime.basePath}${runtime.descriptor.entry.path}`,
     messages: versionMenuMessages,
   }).replaceAll('<', '\\u003c');
