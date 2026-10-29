@@ -34,6 +34,7 @@ const own = await Promise.all(packageIds.map((id) => {
   const adapter = knowledgePackageAdapters.find((entry) => entry.id === id);
   return readDeclarations(path.join(root, `node_modules/@owp/${id}`), {
     externalPackages: [...adapter.referencePackages, ...(adapter.referenceOnlyPackages ?? [])],
+    externalReexportPackages: adapter.externalReexportPackages,
   });
 }));
 const dependencies = await Promise.all(externalPackages.map(async (name) => {
@@ -74,12 +75,18 @@ const allRecords = describeApiTypes(
   inheritApiMembers([...own, ...dependencies, ...referenceOnly].flatMap((result) => result.records)),
   [...own, ...dependencies, ...referenceOnly].flatMap((result) => result.augmentations),
 );
+const byId = new Map(allRecords.map((entry) => [entry.id, entry]));
+for (const binding of own.flatMap((result) => result.reexports)) {
+  const record = byId.get(binding.id);
+  const original = `${binding.package}:${binding.importedName}`;
+  if (byId.has(original)) record.related.push(original);
+  record.usageNote = `원본 API는 ${binding.package}에서 제공합니다. 여기서는 ${binding.importedName}의 import 경로와 re-export 선언을 확인할 수 있습니다. 상세 사용법과 타입은 원본 API 문서를 참고하세요.${binding.typeOnly ? '' : ' 값으로 export하는 API는 함수·class를 포함해 Constants로 표시합니다.'}`;
+}
 const examples = [];
 for (const packageId of packageIds) {
   const sourceText = new Map(await Promise.all(catalogs[packageId].map(async (entry) => [entry.id, await readFile(path.join(root, `src/playgrounds/${packageId}/${entry.source}`), 'utf8')])));
   examples.push(...resolveExampleReferences({ packageId, examples: catalogs[packageId], records: allRecords, sourceText }).map((entry) => ({ ...entry, url: `/?${new URLSearchParams({ package: packageId, sample: entry.id })}`, entrypoint: `/snippets/playgrounds/${packageId}/${entry.source}`, sha256: hash(sourceText.get(entry.id)) })));
 }
-const byId = new Map(allRecords.map((entry) => [entry.id, entry]));
 const resources = await readSourceResources(root);
 const importContracts = await verifyOwpSourceContracts(root, [...resources.values()].filter((resource) => /\.tsx?$/.test(resource.path)).map((resource) => ({ file: resource.path, content: resource.content })));
 if (importContracts.errors.length) throw new TypeError(`예제 공개 API·import 소유권을 확인하세요: ${JSON.stringify(importContracts.errors)}`);
@@ -182,7 +189,7 @@ const records = allRecords.filter((record) => !isScopedExternal(record) || usedS
     documentation: normalizeAppTerminology(documentation.documentation),
     description: toReferenceStyle(documentation.description),
     docTags: documentation.docTags.map((tag) => ['default', 'defaultValue'].includes(tag.name) ? tag : { ...tag, text: toReferenceStyle(tag.text) }),
-    usageNote: record.package === 'chart.js' ? 'Chart.js 원본 타입. OWP 설정·callback·배열 지원은 관련 타입·예제 참고.' : null,
+    usageNote: record.usageNote ?? (record.package === 'chart.js' ? 'Chart.js 원본 타입. OWP 설정·callback·배열 지원은 관련 타입·예제 참고.' : null),
     locale: /[가-힣]/.test(record.description) ? 'ko' : 'en',
     related: record.related.filter((id) => !isScopedExternal(id) || usedScopedExternal.has(id)),
     guideIds: relatedGuides.map((guide) => guide.id),

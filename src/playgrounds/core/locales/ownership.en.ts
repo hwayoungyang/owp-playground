@@ -3,7 +3,7 @@ export const ownershipEnglish: Readonly<Record<string, string>> = {
   '패키지별 역할과 연결': 'Package responsibilities and integration',
   'Core는 앱 설정·인증·라우팅·OWP API를, Components는 공통 UI와 Dialog 상태를 소유합니다. 공통 UI는 Components에서 직접 가져오며 Theme·Excel·Utils도 해당 패키지의 공개 API를 사용합니다.':
     'Core owns app settings, authentication, routing and OWP APIs. Components owns shared UI and dialog state. Import shared UI directly from Components, and use the public APIs of Theme, Excel and Utils for their respective responsibilities.',
-  '검색·페이지 UI는 Components에서, 페이지 이탈과 OWP query 진행은 Core에서 가져와 필요한 위치에 직접 연결합니다. 래퍼나 policy 재노출을 거치지 않습니다.':
+  '검색·페이지 UI는 Components에서, 페이지 이탈과 OWP query 진행은 Core에서 가져와 필요한 위치에 직접 연결합니다. wrapper나 policy re-export를 거치지 않습니다.':
     'Import search and page UI from Components, and page leave protection and OWP query progress from Core. Connect them directly where needed without wrapper or policy re-exports.',
   'OwpUiProvider는 React Router Data Router 안에 배치하고, 페이지 이동 보호가 필요한 화면에서 usePageLeaveGuard를 호출합니다. Playground의 독립 예제는 서버 인증 없이 실행합니다.':
     'Place OwpUiProvider inside a React Router Data Router and call usePageLeaveGuard in pages requiring navigation protection. Standalone Playground examples run without server authentication.',

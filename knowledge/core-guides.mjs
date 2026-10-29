@@ -8,6 +8,30 @@ import {
 
 export const coreGuides = [
   {
+    id: '@owp/core:guide.public-exports',
+    packageId: 'core',
+    title: 'Query·i18n re-export',
+    description: 'Core 10.3.0에서 제공하는 Query·i18n import 경로와 원본 API 안내.',
+    api: [
+      'useQuery',
+      'QueryClient',
+      'query/QueryKey',
+      'i18next',
+      'useTranslation',
+      'initOwpI18n',
+      'OwpI18nOptions',
+      'OwpI18nResourceOptions',
+    ],
+    examples: [],
+    body: `@owp/core/query는 설치된 @tanstack/react-query의 공개 API를 re-export하는 경로. QueryClient·queryOptions·useQuery·useMutation과 관련 타입을 이 경로에서 import. OWP 응답 정책을 적용하는 createOwpApiHooks와 TanStack 원본 hook의 사용법은 구분.
+
+@owp/core/i18n은 initOwpI18n과 OwpI18nOptions·OwpI18nResourceOptions를 제공하며, i18next·react-i18next의 값과 타입도 re-export하는 경로. 공유 i18next instance는 i18next라는 이름으로 import하며 createInstance·useTranslation·Trans도 같은 경로에서 사용 가능. 각 API의 동작과 타입은 원본 패키지의 정의를 따름.
+
+re-export 항목에서는 OWP의 import 경로와 원본 module·symbol을 확인. 함수·class·타입의 상세 선언은 원본 API 문서를 참고하며, 원본 선언이 제공되는 항목은 관련 API로 연결. 값으로 export하는 API는 함수·class를 포함해 Constants로 표시.
+
+@owp/core/hooks의 QueryKey는 OWP 요청의 method·path·init을 표현하는 generic 타입. @owp/core/query의 QueryKey는 TanStack 원본 타입이며 API ID @owp/core:query/QueryKey로 조회. 이름이 같아도 import 경로와 타입 정의가 다르므로 구분해서 사용.`,
+  },
+  {
     id: '@owp/core:guide.features',
     packageId: 'core',
     title: 'Core 기능별 API 안내',
@@ -34,7 +58,7 @@ export const coreGuides = [
     id: '@owp/core:guide.setup',
     packageId: 'core',
     title: 'Core 연결과 실행 조건',
-    description: 'Core 10.2.0의 앱 초기화·인증·라우팅·테마·설정 저장과 provider 연결 조건.',
+    description: 'Core 10.3.0의 앱 초기화·인증·라우팅·테마·설정 저장과 provider 연결 조건.',
     api: [
       'OwpCoreProvider',
       '@owp/components:OwpDialogsProvider',
@@ -58,7 +82,7 @@ export const coreGuides = [
       'user-permissions',
       'language-switcher',
     ],
-    body: `Core는 앱 초기화·인증·라우팅·설정·API와 공통 UI를 연결하는 앱 정책을 소유한다. 공통 UI의 시각 구현은 Components, 테마 기본값과 해석은 Theme, 날짜 처리는 Date Picker의 공개 API를 사용한다. 설치본은 @owp/core 10.2.0, @owp/components 4.0.0, @owp/theme 3.0.0, @owp/date-picker 2.0.4이다. React·MUI·Emotion·i18next, react-router-dom, react-hook-form, notistack, @owp/excel의 peer 범위는 설치본 package.json을 따른다.
+    body: `Core는 앱 초기화·인증·라우팅·설정·API와 공통 UI를 연결하는 앱 정책을 소유한다. 공통 UI의 시각 구현은 Components, 테마 기본값과 해석은 Theme, 날짜 처리는 Date Picker의 공개 API를 사용한다. 설치본은 @owp/core 10.3.0, @owp/components 4.0.1, @owp/theme 3.0.0, @owp/date-picker 2.1.1이다. React·MUI·Emotion·i18next, react-router-dom, react-hook-form, notistack, @owp/excel의 peer 범위는 설치본 package.json을 따른다.
 
 OwpCoreProvider는 app config, 독립 Jotai store, React Query와 MUI StyledEngineProvider를 조합한다. configs에는 routesConfig와 navigationConfig를 지정한다. QueryClient 설정과 storePreloadedState는 선택 사항. OwpStyleProvider는 Core settings의 테마 또는 명시한 MUI theme를 적용한다. useInitApp은 앱 진입 시 로고·title·navigation·page loading을 초기화. 시작 코드에 제시한 앱 초기화와 예제별 실행 환경을 구분한다.
 
@@ -66,15 +90,15 @@ createOwpApiHooks로 API base URL·성공 resultCode·오류 표시 정책을 �
 
 공통 alert/confirm hook은 OwpDialogsProvider 아래에서 사용한다. OwpUiProvider는 Data Router 안에서 dialog manager·snackbar·페이지 이탈 보호·query 취소·전역 loading lock을 연결한다. 기본 예제는 기존 MemoryRouter 환경을 사용하며, api-query·page-carded·loading·error-boundary의 정책 예제만 독립 Data Router와 OwpUiProvider를 사용한다. 이 runtime은 apiBaseUrl을 비워 공통코드 자동 요청을 막고 실제 인증·backend 초기화를 수행하지 않는다. 내부 경로를 전환할 때 Playground의 예제 URL은 유지한다.
 
-useSetSettings는 현재 settings를 기본 설정과 병합하고, Core 10.2.0의 useChangeOwpTheme는 main·navbar·toolbar·footer theme set을 기본·현재 설정에 반영하며, 그 시점의 layout·customScrollbars 등 현재 비테마 설정도 기본값에 반영한다. useResetSettings는 현재 설정을 기본 설정으로 되돌린다. 이 동작은 settings의 영속 저장을 보장하지 않는다. useStorage의 getEnv·setEnv는 앱 환경 저장 API이며 설정 저장 API가 아니다. resetStorage는 보존 대상 key를 제외한 storage를 초기화하므로 예제에서 호출하지 않는다. 앱에서 설정을 저장하려면 저장 위치·복원 시점·사용자별 범위를 별도로 지정한다.
+useSetSettings는 현재 settings를 기본 설정과 병합하고, Core 10.3.0의 useChangeOwpTheme는 main·navbar·toolbar·footer theme set을 기본·현재 설정에 반영하며, 그 시점의 layout·customScrollbars 등 현재 비테마 설정도 기본값에 반영한다. useResetSettings는 현재 설정을 기본 설정으로 되돌린다. 이 동작은 settings의 영속 저장을 보장하지 않는다. useStorage의 getEnv·setEnv는 앱 환경 저장 API이며 설정 저장 API가 아니다. resetStorage는 보존 대상 key를 제외한 storage를 초기화하므로 예제에서 호출하지 않는다. 앱에서 설정을 저장하려면 저장 위치·복원 시점·사용자별 범위를 별도로 지정한다.
 
 @owp/core/owp-app.css의 utility class는 html 10px rem 기준. MUI의 typography.htmlFontSize를 10으로 맞춰 pxToRem 계산을 일치시킨다. 앱의 기존 root 레이아웃과 충돌 여부를 확인한다. 정적 아이콘·폰트는 @owp/core/vite/owpCoreAssetsPlugin의 owpCoreAssetsPlugin으로 복사할 수 있다. MUI theme와 Core settings의 theme.main.table·dataGrid는 별도 공개 설정이며 예제 provider에서 같은 light/dark palette를 연결한다. 현재 DataGrid와 앱은 Theme 3.0.0을 사용한다. Playground의 Vite resolve.dedupe는 @owp/theme을 앱 설치본으로 연결해 같은 Theme Context를 공유. 직접 설치본과 각 패키지가 실제로 해석한 의존 버전은 별도로 검증. 테이블 설정은 Theme의 OwpTable* 타입을 직접 사용한다. 설정 값과 저장 파일 형식은 유지한다.
 
 언어 선택은 Core의 kr/en/lc와 앱의 ko/en을 구분한다. 예제는 reloadOnChange=false이며 kr/lc를 ko로 연결한다. Core 언어 store와 앱 header 선택을 동기화하는 bridge는 Playground의 앱 코드다.
 
-Provider와 앱 초기화는 시작하기에서 확인한다. Hooks·Utils·Package Integration 분류에서 Core 앱 기능과 소유 패키지의 직접 연결을 확인한다. 공통 Dialog·미저장 변경 UI·Table·PageCarded·PageContent·SearchFilter·ErrorBoundary는 Components, ZIP은 Utils, Excel workbook 생성은 Excel의 공개 API를 사용한다. Core는 공통 UI의 래퍼·policy·호환 재노출을 제공하지 않는다. OwpQuerySelector·공통코드 선택·언어 전환·OwpRouteErrorElement는 앱 통합 기능으로 Core에 남는다.
+Provider와 앱 초기화는 시작하기에서 확인한다. Hooks·Utils·Package Integration 분류에서 Core 앱 기능과 각 패키지의 연결 방법을 확인한다. 공통 Dialog·미저장 변경 UI·Table·PageCarded·PageContent·SearchFilter·ErrorBoundary는 Components, ZIP은 Utils, Excel workbook 생성은 Excel의 공개 API를 사용한다. Core는 공통 UI의 wrapper나 policy, 호환용 re-export를 제공하지 않는다. OwpQuerySelector·공통코드 선택·언어 전환·OwpRouteErrorElement는 앱 통합 기능으로 Core에 남는다.
 
-MCP는 공유 서버 <OWP_MCP_URL>/mcp에 Streamable HTTP로 연결해 Core의 API·가이드·실행 예제를 조회. version=10.2.0으로 요청한 뒤 응답의 packageVersion이 10.2.0과 정확히 일치하는지 확인. 이후 조회에도 version과 응답의 releaseId를 함께 지정해 같은 snapshot을 유지.`,
+MCP는 공유 서버 <OWP_MCP_URL>/mcp에 Streamable HTTP로 연결해 Core의 API·가이드·실행 예제를 조회. version=10.3.0으로 요청한 뒤 응답의 packageVersion이 10.3.0과 정확히 일치하는지 확인. 이후 조회에도 version과 응답의 releaseId를 함께 지정해 같은 snapshot을 유지.`,
   },
   ...coreFoundationGuides,
   {

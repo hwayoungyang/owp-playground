@@ -39,6 +39,13 @@ describe('real API contracts through the MCP SDK', () => {
     ['core', '@owp/components:OwpDialogProps.isDirty'],
     ['core', '@owp/core:OwpCoreProviderProps'],
     ['core', '@owp/core:OwpApiMutationBehaviorOptions.allowMissingResultCode'],
+    ['core', '@owp/core:useQuery'],
+    ['core', '@owp/core:i18next'],
+    ['core', '@owp/core:QueryKey'],
+    ['core', '@owp/core:query/QueryKey'],
+    ['charts', '@owp/charts:ChartData'],
+    ['charts', '@owp/charts:getDatasetAtEvent'],
+    ['charts', '@owp/charts:ChartExternalTooltipContext'],
   ] as const) {
     it(`preserves the complete declaration contract when the SDK requests ${symbol}`, async () => {
       // Given
@@ -63,6 +70,9 @@ describe('real API contracts through the MCP SDK', () => {
       // Then
       const response = apiOutput.parse(result.structuredContent);
       expect(response.record).toEqual(projected);
+      if (symbol === '@owp/core:QueryKey' || symbol === '@owp/core:query/QueryKey') {
+        expect(response.members).toEqual([]);
+      }
       expect(result.content).toEqual([
         { type: 'text', text: JSON.stringify(result.structuredContent) },
       ]);

@@ -7,15 +7,17 @@ const digest = (content) => createHash('sha256').update(content).digest('hex');
 const nameOf = (node) => node?.name ?? node?.value;
 
 /** 공개 declaration의 export/import 관계를 따라 실제 선언과 JSDoc을 읽습니다. */
-export async function readDeclarations(directory, { externalPackages = [], additionalEntries = {} } = {}) {
+export async function readDeclarations(directory, { externalPackages = [], externalReexportPackages = [], additionalEntries = {} } = {}) {
   const allowedExternals = new Set(externalPackages);
+  const allowedReexports = new Set(externalReexportPackages);
+  const packageOf = (specifier) => specifier.split('/').slice(0, specifier.startsWith('@') ? 2 : 1).join('/');
   const modules = new Map();
   async function load(file) {
     if (modules.has(file)) return modules.get(file);
     const content = await readFile(file, 'utf8');
     const parsed = parseSync(file, content);
     if (parsed.errors.length) throw new SyntaxError(`API declaration: ${file}`);
-    const module = { file, content, program: parsed.program, comments: parsed.comments, declarations: new Map(), statements: new Map(), imports: new Map(), externals: new Map(), exports: new Map(), stars: [] };
+    const module = { file, content, program: parsed.program, comments: parsed.comments, declarations: new Map(), statements: new Map(), imports: new Map(), externals: new Map(), externalBindings: new Map(), exports: new Map(), stars: [] };
     modules.set(file, module);
     const target = (specifier) => path.resolve(path.dirname(file), /\.d\.ts$/.test(specifier) ? specifier : /\.js$/.test(specifier) ? specifier.replace(/\.js$/, '.d.ts') : `${specifier}.d.ts`);
     for (const statement of parsed.program.body) {
@@ -25,11 +27,16 @@ export async function readDeclarations(directory, { externalPackages = [], addit
       if (statement.type === 'ImportDeclaration' && statement.source.value.startsWith('.')) {
         const dependency = target(statement.source.value);
         await load(dependency);
-        for (const specifier of statement.specifiers) module.imports.set(nameOf(specifier.local), { file: dependency, name: nameOf(specifier.imported) });
+        for (const specifier of statement.specifiers) module.imports.set(nameOf(specifier.local), { file: dependency, name: nameOf(specifier.imported), typeOnly: statement.importKind === 'type' || specifier.importKind === 'type' });
       }
       if (statement.type === 'ImportDeclaration' && !statement.source.value.startsWith('.')) {
-        const packageName = statement.source.value.split('/').slice(0, statement.source.value.startsWith('@') ? 2 : 1).join('/');
-        for (const specifier of statement.specifiers) if (specifier.imported) module.externals.set(nameOf(specifier.local), `${packageName}:${nameOf(specifier.imported)}`);
+        const packageName = packageOf(statement.source.value);
+        for (const specifier of statement.specifiers) {
+          const importedName = specifier.type === 'ImportDefaultSpecifier' ? 'default' : nameOf(specifier.imported);
+          if (!importedName) continue;
+          module.externals.set(nameOf(specifier.local), `${packageName}:${importedName}`);
+          module.externalBindings.set(nameOf(specifier.local), { module: statement.source.value, package: packageName, importedName, typeOnly: statement.importKind === 'type' || specifier.importKind === 'type', sourceModule: module, node: statement });
+        }
       }
       if (statement.type === 'ExportAllDeclaration' && statement.source.value.startsWith('.')) {
         const dependency = target(statement.source.value);
@@ -39,7 +46,7 @@ export async function readDeclarations(directory, { externalPackages = [], addit
       if (statement.type === 'ExportNamedDeclaration') {
         const dependency = statement.source?.value.startsWith('.') ? target(statement.source.value) : file;
         if (dependency !== file) await load(dependency);
-        for (const specifier of statement.specifiers) module.exports.set(nameOf(specifier.exported), { file: dependency, name: nameOf(specifier.local) });
+        for (const specifier of statement.specifiers) module.exports.set(nameOf(specifier.exported), { file: dependency, name: nameOf(specifier.local), typeOnly: statement.exportKind === 'type' || specifier.exportKind === 'type', external: statement.source && !statement.source.value.startsWith('.') ? statement.source.value : undefined, node: statement });
         if (node.id?.name) module.exports.set(node.id.name, { file, name: node.id.name });
         for (const declaration of node.declarations ?? []) module.exports.set(declaration.id.name, { file, name: declaration.id.name });
       }
@@ -70,8 +77,30 @@ export async function readDeclarations(directory, { externalPackages = [], addit
     const module = modules.get(file);
     return [...module.exports.keys(), ...module.stars.flatMap((star) => exportsOf(star, visited))];
   }
+  function resolveExternal(file, name, visited = new Set()) {
+    const key = `${file}:${name}`;
+    if (visited.has(key)) return undefined;
+    visited.add(key);
+    const module = modules.get(file);
+    const exported = module.exports.get(name);
+    if (exported?.external) return { module: exported.external, package: packageOf(exported.external), importedName: exported.name, typeOnly: exported.typeOnly, sourceModule: module, node: exported.node };
+    if (module.declarations.has(name)) return undefined;
+    const reference = module.imports.get(name) ?? exported;
+    if (reference && (reference.file !== file || reference.name !== name)) {
+      const resolved = resolveExternal(reference.file, reference.name, visited);
+      if (resolved) return { ...resolved, typeOnly: exported?.typeOnly || reference.typeOnly || resolved.typeOnly };
+    }
+    const external = module.externalBindings.get(name);
+    if (external) return { ...external, typeOnly: exported?.typeOnly || external.typeOnly };
+    for (const star of module.stars) {
+      const resolved = resolveExternal(star, name, visited);
+      if (resolved) return resolved;
+    }
+    return undefined;
+  }
   const manifest = JSON.parse(await readFile(path.join(directory, 'package.json'), 'utf8'));
   const publicSymbols = new Map();
+  const externalSymbols = new Map();
   function exportedTypes(definition) {
     if (!definition || typeof definition !== 'object') return undefined;
     if (typeof definition.types === 'string') return definition.types;
@@ -89,7 +118,16 @@ export async function readDeclarations(directory, { externalPackages = [], addit
     await load(file);
     for (const name of exportsOf(file)) {
       const resolved = resolve(file, name);
-      if (!resolved) continue;
+      if (!resolved) {
+        const external = resolveExternal(file, name);
+        if (!external || !allowedReexports.has(external.package)) continue;
+        const key = JSON.stringify([name, external.module, external.importedName]);
+        const previous = externalSymbols.get(key);
+        const publicImport = entry === '.' ? manifest.name : `${manifest.name}/${entry.slice(2)}`;
+        if (previous) { previous.imports.push(publicImport); previous.typeOnly &&= external.typeOnly; }
+        else externalSymbols.set(key, { ...external, name, imports: [publicImport] });
+        continue;
+      }
       const key = `${resolved.module.file}:${resolved.node.start}`;
       const previous = publicSymbols.get(key);
       if (previous) previous.imports.push(entry === '.' ? manifest.name : `${manifest.name}/${entry.slice(2)}`);
@@ -147,6 +185,20 @@ export async function readDeclarations(directory, { externalPackages = [], addit
   }
   const references = (module, node, scope) => [...new Set(Object.values(referenceNames(module, node, scope)))].sort();
   const records = [];
+  const reexports = [];
+  for (const external of externalSymbols.values()) {
+    const { name, importedName, typeOnly, sourceModule, node } = external;
+    const imports = [...new Set(external.imports)].sort();
+    const localNamesake = [...publicSymbols.values()].find((symbol) => symbol.name === name);
+    const otherTargets = [...externalSymbols.values()].filter((symbol) => symbol !== external && symbol.name === name);
+    if (otherTargets.some((symbol) => symbol.imports.some((entry) => imports.includes(entry))) || localNamesake?.imports.some((entry) => imports.includes(entry))) throw new TypeError(`같은 import 경로에서 export 이름이 중복됩니다: ${manifest.name}:${name}`);
+    const qualified = localNamesake || otherTargets.length > 0;
+    const owner = qualified ? `${imports[0] === manifest.name ? 'index' : imports[0].slice(manifest.name.length + 1)}/${name}` : name;
+    const id = `${manifest.name}:${owner}`;
+    const binding = `${typeOnly ? 'type ' : ''}${importedName}${importedName === name ? '' : ` as ${name}`}`;
+    records.push({ id, package: manifest.name, packageVersion: manifest.version, owner, name, path: '', kind: typeOnly ? 'type' : 'constant', imports, description: `외부 API re-export: ${external.module}의 ${importedName}.`, signature: `export { ${binding} } from ${JSON.stringify(external.module)};`, typeParameters: [], typeReferences: {}, optional: false, bases: [], related: [], source: { path: `${manifest.name}/${path.relative(directory, sourceModule.file).split(path.sep).join('/')}`, line: sourceModule.content.slice(0, node.start).split('\n').length, sha256: digest(sourceModule.content) } });
+    reexports.push({ id, package: external.package, module: external.module, importedName, typeOnly });
+  }
   function bases(module, node, scope = new Set()) {
     if (!node) return [];
     if (node.type === 'TSParenthesizedType') return bases(module, node.typeAnnotation, scope);
@@ -233,5 +285,5 @@ export async function readDeclarations(directory, { externalPackages = [], addit
       return [{ id: `${statement.id.value}:${node.id.name}`, open: node.body.body.some((member) => member.type !== 'TSPropertySignature' || member.computed), keys: node.body.body.filter((member) => member.type === 'TSPropertySignature' && !member.computed).map((member) => String(nameOf(member.key))), source: { path: `${manifest.name}/${path.relative(directory, module.file).split(path.sep).join('/')}`, line: module.content.slice(0, node.start).split('\n').length, sha256: digest(module.content) } }];
     });
   }));
-  return { version: manifest.version, records: [...unique.values()].sort((a, b) => a.id.localeCompare(b.id)), augmentations, declarationHash: digest([...modules.values()].map((module) => module.content).sort().join('\n')), runtimeHash };
+  return { version: manifest.version, records: [...unique.values()].sort((a, b) => a.id.localeCompare(b.id)), reexports, augmentations, declarationHash: digest([...modules.values()].map((module) => module.content).sort().join('\n')), runtimeHash };
 }

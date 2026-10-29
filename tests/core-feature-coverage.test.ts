@@ -10,6 +10,7 @@ describe('Core public feature coverage', () => {
       .filter(
         (record) =>
           record.package === '@owp/core' &&
+          !record.signature.startsWith('export {') &&
           ['function', 'component', 'constant'].includes(record.kind) &&
           !record.id.split(':').at(-1)?.includes('.') &&
           record.imports.length > 0,

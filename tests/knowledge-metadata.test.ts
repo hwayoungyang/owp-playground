@@ -129,10 +129,10 @@ describe('standalone guide metadata', () => {
     expect(JSON.parse(assets.get('knowledge/index.json') ?? 'null')).toEqual(expectedIndex);
     expect(
       expectedIndex.resolvedDependencies['@owp/core'].dependencies['@owp/components'].version,
-    ).toBe('4.0.0');
+    ).toBe('4.0.1');
     expect(
       expectedIndex.resolvedDependencies['@owp/datagrid'].dependencies['@owp/components'].version,
-    ).toBe('4.0.0');
+    ).toBe('4.0.1');
     const lines = assets.get('knowledge/records.jsonl')?.trim().split('\n') ?? [];
     expect(lines.map((line) => JSON.parse(line))).toEqual(data.records);
   });

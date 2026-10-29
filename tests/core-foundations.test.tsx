@@ -135,7 +135,7 @@ describe('Core foundation guides', () => {
     ]) {
       const guide = knowledge.records.find((record) => record.id === id);
       expect(guide?.kind).toBe('guide');
-      expect(guide?.packageVersion).toBe('10.2.0');
+      expect(guide?.packageVersion).toBe('10.3.0');
       expect(guide?.sections?.map((section) => section.title)).toContain('설정 방법');
       expect(guide?.sections?.map((section) => section.title)).toContain('설정 후 기대효과');
       expect(guide?.examples.some((example) => example.id === exampleId)).toBe(true);

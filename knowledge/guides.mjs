@@ -17,6 +17,31 @@ export const guides = [
     body: toReferenceStyle(entry.body),
   })),
   guide(
+    'charts',
+    'public-exports',
+    '차트 타입·event helper 공개 경로',
+    'Charts 6.1.0의 공개 타입과 외부 API re-export 경로.',
+    [
+      'ChartData',
+      'ChartOptions',
+      'ChartEvent',
+      'ChartType',
+      'TooltipItem',
+      'ChartDataLabelsPluginOptions',
+      'ChartZoomPluginOptions',
+      'ChartExternalTooltipContext',
+      'getDatasetAtEvent',
+      'getElementAtEvent',
+      'getElementsAtEvent',
+    ],
+    [],
+    `@owp/charts/chartjs/types는 Chart.js·react-chartjs-2와 지원 플러그인의 공개 타입을 re-export하는 경로. ChartData·ChartOptions·ChartEvent·TooltipItem의 원본 타입은 각 패키지에서 관리. re-export 항목에서 OWP import 경로와 원본 symbol을 확인하고, 원본 선언이 제공되는 항목은 관련 API로 조회.
+
+ChartDataLabelsPluginOptions·ChartZoomPluginOptions는 플러그인 설정에 사용하는 공개 타입. ChartExternalTooltipContext는 외부 tooltip callback의 chart·tooltip을 표현하는 타입이며, import 경로는 해당 API 항목에서 확인.
+
+@owp/charts/chartjs/utils는 react-chartjs-2의 getDatasetAtEvent·getElementAtEvent·getElementsAtEvent를 re-export하는 경로. 이들 항목은 Constants로 표시하며, 상세 호출 방법은 원본 API를 참고. Time/TimeSeries Scale의 adapter 설치·registerChartTime 초기화 조건은 기존 가이드를 따름.`,
+  ),
+  guide(
     'datagrid',
     'states',
     '조회 상태와 앱의 책임',
@@ -492,7 +517,7 @@ semiCircle·rotation·cutout과 outsideLabels는 전용 props. 좁은 화면에�
     ['box-plot', 'treemap', 'heatmap'],
     `Box plot은 요약 통계와 원자료의 입력 계약을 구분. summarizeBox·resolveBoxStatistics의 사분위수·수염·이상치 정책을 사용하고 빈 입력·null·비유한수 처리는 공개 옵션을 확인.
 
-설치된 @owp/charts 6.0.0의 native 타입명은 boxPlot·treemap·heatmap. CoreChart·ChartFrame의 type으로 직접 지정할 수 있으며 필요한 controller는 자동 등록. Chart.js instance를 직접 생성할 때는 @owp/charts/chartjs/register의 registerChartCore()를 먼저 호출.
+설치된 @owp/charts 6.1.0의 native 타입명은 boxPlot·treemap·heatmap. CoreChart·ChartFrame의 type으로 직접 지정할 수 있으며 필요한 controller는 자동 등록. Chart.js instance를 직접 생성할 때는 @owp/charts/chartjs/register의 registerChartCore()를 먼저 호출.
 
 전용 OwpBoxPlotChart·OwpTreemapChart·OwpHeatmapChart도 같은 native 타입을 사용. 5.0.0에서는 이전 owpBoxPlot·owpTreemap·owpHeatmap 타입명이 제거됨. ChartData·ChartOptions·ChartDataset·ScriptableContext·TooltipItem·chartRef와 options.datasets key를 해당 native 타입으로 맞춤.
 

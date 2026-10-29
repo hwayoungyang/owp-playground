@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "owners": {
     "@owp/datagrid": {
-      "version": "3.5.3",
+      "version": "3.5.4",
       "dependencies": {
         "@owp/components": {
-          "version": "4.0.0",
+          "version": "4.0.1",
           "declarationHash": "0b520571aff4f276c558de9dc5ff1585d053830faadf8a6c992f48d6e4bc9446",
           "runtimeHash": "9c834fbbb332fe979a7838603caf40eebd39efeb719fc5234f8b68c9bc88a59d"
         },
@@ -15,9 +15,9 @@
           "runtimeHash": "4d253b5c8472703f25ec5cb58852caa5ea7de7072a8b192a610d2fcedcb5c919"
         },
         "@owp/date-picker": {
-          "version": "2.0.4",
-          "declarationHash": "4a719900b7733c54f6dc71bafb752ea0a2c328ba6c7dd737c0cc614beb6fd381",
-          "runtimeHash": "67a7aaefa005ca2582a7842808eb26298fa5dfd8c35cfe5833fe888f53ed1843"
+          "version": "2.1.1",
+          "declarationHash": "a24ac464e99279a05a69e6f8f1b4af0c3d31a45e82cc19de65cfb3a9ec5a2650",
+          "runtimeHash": "179ad35bd35b3d6ba56f6d7c2c5b6c95d9484225ec9ee564fee5cb43bb3ee2af"
         },
         "@owp/utils": {
           "version": "1.1.0",
@@ -32,10 +32,10 @@
       }
     },
     "@owp/charts": {
-      "version": "6.0.0",
+      "version": "6.1.0",
       "dependencies": {
         "@owp/components": {
-          "version": "4.0.0",
+          "version": "4.0.1",
           "declarationHash": "0b520571aff4f276c558de9dc5ff1585d053830faadf8a6c992f48d6e4bc9446",
           "runtimeHash": "9c834fbbb332fe979a7838603caf40eebd39efeb719fc5234f8b68c9bc88a59d"
         },
@@ -47,10 +47,10 @@
       }
     },
     "@owp/core": {
-      "version": "10.2.0",
+      "version": "10.3.0",
       "dependencies": {
         "@owp/components": {
-          "version": "4.0.0",
+          "version": "4.0.1",
           "declarationHash": "0b520571aff4f276c558de9dc5ff1585d053830faadf8a6c992f48d6e4bc9446",
           "runtimeHash": "9c834fbbb332fe979a7838603caf40eebd39efeb719fc5234f8b68c9bc88a59d"
         },
@@ -70,9 +70,9 @@
           "runtimeHash": "585ea1d81605a00470f63659d1ac4fee4dcba4fcd1f3af7ba8d2c59ac6f2fe95"
         },
         "@owp/date-picker": {
-          "version": "2.0.4",
-          "declarationHash": "4a719900b7733c54f6dc71bafb752ea0a2c328ba6c7dd737c0cc614beb6fd381",
-          "runtimeHash": "67a7aaefa005ca2582a7842808eb26298fa5dfd8c35cfe5833fe888f53ed1843"
+          "version": "2.1.1",
+          "declarationHash": "a24ac464e99279a05a69e6f8f1b4af0c3d31a45e82cc19de65cfb3a9ec5a2650",
+          "runtimeHash": "179ad35bd35b3d6ba56f6d7c2c5b6c95d9484225ec9ee564fee5cb43bb3ee2af"
         }
       }
     }

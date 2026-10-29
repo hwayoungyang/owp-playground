@@ -159,7 +159,7 @@ describe('한국어 API 참조 문체', () => {
   });
 
   it('모든 가이드의 description·body 문체와 API·예제 참조를 유지한다', () => {
-    expect(guides).toHaveLength(30);
+    expect(guides).toHaveLength(32);
     for (const guide of guides) {
       expect(proseEnding.test(guide.description), guide.id).toBe(false);
       expect(proseEnding.test(guide.body), guide.id).toBe(false);

@@ -9,10 +9,15 @@ const source = (root, file, packageId, topics, scope = 'usage') => ({
 });
 
 export const sourceMap = [
-  source('framework', 'docs/core/10.2.0/README.md', 'core', ['setup', 'composition', 'api']),
-  source('framework', 'docs/components/4.0.0/README.md', 'core', ['composition']),
-  source('framework', 'docs/charts/6.0.0/README.md', 'charts', ['composition']),
-  source('framework', 'docs/datagrid/3.5.3/README.md', 'datagrid', ['connection']),
+  source('framework', 'docs/core/10.3.0/README.md', 'core', [
+    'setup',
+    'composition',
+    'api',
+    'public-exports',
+  ]),
+  source('framework', 'docs/components/4.0.1/README.md', 'core', ['composition']),
+  source('framework', 'docs/charts/6.1.0/README.md', 'charts', ['composition', 'public-exports']),
+  source('framework', 'docs/datagrid/3.5.4/README.md', 'datagrid', ['connection']),
   source('framework', 'docs/theme/3.0.0/README.md', 'core', ['setup', 'composition']),
   source('agents', `${framework}/SKILL.md`, 'shared', [], 'workflow'),
   {

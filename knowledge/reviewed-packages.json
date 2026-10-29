@@ -1,18 +1,18 @@
 {
   "@owp/core": {
-    "version": "10.2.0",
-    "declarationHash": "440c60275680a345f46dd9ceebec1be7ad7581d781502e119ecc206872397366",
-    "runtimeHash": "a45dcc5a1b9f78f639fd62c003cb5a5ced957cb9ccdac7379b589f07dd31d0fd"
+    "version": "10.3.0",
+    "declarationHash": "81b3a519501fdc189c125c67b28351052a006214c73a392cd87ea76c68cf8598",
+    "runtimeHash": "9d1fb3e73929fd0d195e05367099ba7e5501042bbcb799987042f817222d48bb"
   },
   "@owp/datagrid": {
-    "version": "3.5.3",
+    "version": "3.5.4",
     "declarationHash": "7bcc60733fff2bd34d9af4cd79687e4f87ef6ef9e720b84a98b0af455a5ea695",
     "runtimeHash": "ef8409fa2288c76e497981a775ef076492cd4f8f5a66cafa8d8aac19dff4858a"
   },
   "@owp/charts": {
-    "version": "6.0.0",
-    "declarationHash": "9dfbbc5c0a71769a82047184792858ea4029457443b0b5f99c885e86e5d26ce6",
-    "runtimeHash": "ab523a27e7a60464fd7c4b3d5e012a6f352d39b98e6216ed8349b180991fb387"
+    "version": "6.1.0",
+    "declarationHash": "f1194fc56c9fdef6083608709eefb39279f5ea34c8ab53f5b0332835a53bc52e",
+    "runtimeHash": "a115ce11b5c79049cb39bba79f0b1b5f3dedaba727e2a135cc0032a7696abc96"
   },
   "chart.js": {
     "version": "4.5.1",
@@ -35,7 +35,7 @@
     "runtimeHash": "f966db5709e2e6281931b8119f15ebbe942e2cc2a4f2bc49d15bfe5739f2437d"
   },
   "@owp/components": {
-    "version": "4.0.0",
+    "version": "4.0.1",
     "declarationHash": "0b520571aff4f276c558de9dc5ff1585d053830faadf8a6c992f48d6e4bc9446",
     "runtimeHash": "9c834fbbb332fe979a7838603caf40eebd39efeb719fc5234f8b68c9bc88a59d"
   },
@@ -45,9 +45,9 @@
     "runtimeHash": "4d253b5c8472703f25ec5cb58852caa5ea7de7072a8b192a610d2fcedcb5c919"
   },
   "@owp/date-picker": {
-    "version": "2.0.4",
-    "declarationHash": "4a719900b7733c54f6dc71bafb752ea0a2c328ba6c7dd737c0cc614beb6fd381",
-    "runtimeHash": "67a7aaefa005ca2582a7842808eb26298fa5dfd8c35cfe5833fe888f53ed1843"
+    "version": "2.1.1",
+    "declarationHash": "a24ac464e99279a05a69e6f8f1b4af0c3d31a45e82cc19de65cfb3a9ec5a2650",
+    "runtimeHash": "179ad35bd35b3d6ba56f6d7c2c5b6c95d9484225ec9ee564fee5cb43bb3ee2af"
   },
   "@owp/utils": {
     "version": "1.1.0",

@@ -8,6 +8,132 @@ import { inheritApiMembers } from '../scripts/api-inheritance.mjs';
 import { resolveExampleReferences } from '../scripts/api-references.mjs';
 
 describe('API declaration contracts', () => {
+  it('collects opted-in external reexports through local aliases without loading foreign declarations', async () => {
+    // Given
+    const directory = await mkdtemp(path.join(os.tmpdir(), 'owp-reexports-'));
+    try {
+      await mkdir(path.join(directory, 'dist'));
+      await writeFile(
+        path.join(directory, 'package.json'),
+        JSON.stringify({
+          name: '@example/facade',
+          version: '1.0.0',
+          exports: { '.': { types: './index.d.ts' }, './types': { types: './types.d.ts' } },
+        }),
+      );
+      await writeFile(
+        path.join(directory, 'index.d.ts'),
+        `
+import client, { type Options, useQuery as query } from 'foreign-query';
+export { client, type Options, query as useQuery };
+export { type Result as QueryResult } from 'foreign-query';
+export { Hidden } from 'unapproved';
+export { q as nestedQuery } from './chunk';
+export interface Local { enabled: boolean; }
+`,
+      );
+      await writeFile(
+        path.join(directory, 'types.d.ts'),
+        "export { type Options } from './index';\n",
+      );
+      await writeFile(
+        path.join(directory, 'chunk.d.ts'),
+        "import { useQuery as internalQuery } from 'foreign-query';\nexport { internalQuery as q };\n",
+      );
+      // When
+      const baseline = await readDeclarations(directory);
+      const result = await readDeclarations(directory, {
+        externalReexportPackages: ['foreign-query'],
+      });
+      const records = new Map(result.records.map((record) => [record.id, record]));
+      // Then
+      expect(baseline.records.some((record) => record.id === '@example/facade:useQuery')).toBe(
+        false,
+      );
+      expect(records.get('@example/facade:useQuery')).toMatchObject({
+        kind: 'constant',
+        imports: ['@example/facade'],
+        signature: 'export { useQuery } from "foreign-query";',
+        source: { path: '@example/facade/index.d.ts', line: 2 },
+      });
+      expect(records.get('@example/facade:Options')).toMatchObject({
+        kind: 'type',
+        imports: ['@example/facade', '@example/facade/types'],
+        signature: 'export { type Options } from "foreign-query";',
+      });
+      expect(records.get('@example/facade:QueryResult')?.signature).toBe(
+        'export { type Result as QueryResult } from "foreign-query";',
+      );
+      expect(records.get('@example/facade:client')?.signature).toBe(
+        'export { default as client } from "foreign-query";',
+      );
+      expect(records.get('@example/facade:nestedQuery')?.signature).toBe(
+        'export { useQuery as nestedQuery } from "foreign-query";',
+      );
+      expect(records.has('@example/facade:Hidden')).toBe(false);
+      expect(records.has('@example/facade:Local.enabled')).toBe(true);
+      for (const binding of result.reexports)
+        expect(parseSync('reexport.d.ts', records.get(binding.id).signature).errors).toEqual([]);
+      expect(
+        result.reexports.find((entry) => entry.id === '@example/facade:nestedQuery'),
+      ).toMatchObject({
+        package: 'foreign-query',
+        importedName: 'useQuery',
+        module: 'foreign-query',
+        typeOnly: false,
+      });
+      expect(result.declarationHash).toBe(baseline.declarationHash);
+      expect(result.runtimeHash).toBe(baseline.runtimeHash);
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
+  });
+
+  it.each(['external', 'local'])(
+    'separates a public reexport from another %s target in a different subpath',
+    async (target) => {
+      // Given
+      const directory = await mkdtemp(path.join(os.tmpdir(), 'owp-reexport-conflict-'));
+      try {
+        await mkdir(path.join(directory, 'dist'));
+        await writeFile(
+          path.join(directory, 'package.json'),
+          JSON.stringify({
+            name: '@example/conflict',
+            version: '1.0.0',
+            exports: { '.': { types: './index.d.ts' }, './other': { types: './other.d.ts' } },
+          }),
+        );
+        await writeFile(path.join(directory, 'index.d.ts'), "export { Value } from 'first';\n");
+        await writeFile(
+          path.join(directory, 'other.d.ts'),
+          target === 'external'
+            ? "export { Value } from 'second';\n"
+            : 'export interface Value { local: true; }\n',
+        );
+        // When
+        const result = await readDeclarations(directory, {
+          externalReexportPackages: ['first', 'second'],
+        });
+        const records = new Map(result.records.map((record) => [record.id, record]));
+        // Then
+        expect(records.get('@example/conflict:index/Value')).toMatchObject({
+          name: 'Value',
+          owner: 'index/Value',
+          imports: ['@example/conflict'],
+        });
+        expect(
+          records.get(
+            target === 'external' ? '@example/conflict:other/Value' : '@example/conflict:Value',
+          ),
+        ).toMatchObject({ name: 'Value', imports: ['@example/conflict/other'] });
+        expect(new Set(records.keys()).size).toBe(result.records.length);
+      } finally {
+        await rm(directory, { recursive: true, force: true });
+      }
+    },
+  );
+
   it('follows exports, preserves conditional members and respects generic scope', async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), 'owp-api-'));
     try {

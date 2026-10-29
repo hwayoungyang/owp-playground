@@ -29,4 +29,4 @@ export const coreOwnershipNotes = {
 } as const;
 
 export const coreOwnershipUsageNote =
-  '검색·페이지 UI는 Components에서, 페이지 이탈과 OWP query 진행은 Core에서 가져와 필요한 위치에 직접 연결합니다. 래퍼나 policy 재노출을 거치지 않습니다.';
+  '검색·페이지 UI는 Components에서, 페이지 이탈과 OWP query 진행은 Core에서 가져와 필요한 위치에 직접 연결합니다. wrapper나 policy re-export를 거치지 않습니다.';
