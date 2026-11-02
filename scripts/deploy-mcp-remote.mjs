@@ -24,10 +24,10 @@ async function serviceStartupError(run, unit, cause) {
 export async function installMcpDependencies(appDirectory, selection) {
   const packageManager = selection ?? await selectMcpPackageManager();
   const installed = packageManager.command === 'pnpm' && Array.isArray(packageManager.prefix) && packageManager.prefix.length === 0;
-  const cached = packageManager.command === 'corepack' && Array.isArray(packageManager.prefix) && packageManager.prefix.length === 1 && packageManager.prefix[0] === 'pnpm@12.15.0';
-  if (packageManager.version !== '12.15.0' || (!installed && !cached)) throw new Error('검증된 pnpm 12.15.0 실행 정보가 필요합니다.');
+  const cached = packageManager.command === 'corepack' && Array.isArray(packageManager.prefix) && packageManager.prefix.length === 1 && packageManager.prefix[0] === 'pnpm@12.16.1';
+  if (packageManager.version !== '12.16.1' || (!installed && !cached)) throw new Error('검증된 pnpm 12.16.1 실행 정보가 필요합니다.');
   try {
-    await execute(installed ? 'pnpm' : 'corepack', [...(cached ? ['pnpm@12.15.0'] : []), 'install', '--prod', '--frozen-lockfile', '--ignore-scripts', '--config.manage-package-manager-versions=false'], {
+    await execute(installed ? 'pnpm' : 'corepack', [...(cached ? ['pnpm@12.16.1'] : []), 'install', '--prod', '--frozen-lockfile', '--ignore-scripts', '--config.manage-package-manager-versions=false'], {
       cwd: appDirectory, env: { ...mcpPackageManagerEnvironment(), NODE_ENV: 'production' }, timeout: 10 * 60 * 1000, maxBuffer: 4 * 1024 * 1024,
     });
   } catch (cause) { throw new Error('prod frozen dependency 설치에 실패했습니다. 준비된 pnpm·registry·lockfile을 확인해 주세요.', { cause }); }

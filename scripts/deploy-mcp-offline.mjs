@@ -21,9 +21,9 @@ export const MCP_OFFLINE_RUNTIMES = Object.freeze({
     compressedLimit: 128 * 1024 * 1024,
   }),
   'runtime-pnpm': Object.freeze({
-    url: 'https://registry.npmjs.org/@pnpm/exe.linux-x64/-/exe.linux-x64-12.15.0.tgz',
-    cacheName: 'pnpm-exe-linux-x64-12.15.0.tgz', member: 'package/pnpm',
-    integrity: 'sha512-yc+QlZR+9+nr29J4fRzhMoapgxTBDndq/+peyoq1XUufnQFnfbXUMFudDIKzHi545linGqmOmXfn0NoufNgcOg==',
+    url: 'https://registry.npmjs.org/@pnpm/exe.linux-x64/-/exe.linux-x64-12.16.1.tgz',
+    cacheName: 'pnpm-exe-linux-x64-12.16.1.tgz', member: 'package/pnpm',
+    integrity: 'sha512-RK//8ZLcXGW8A2k8bQOXZDBN1Qu92zN4dYnG1bzj1zoQ1fkZ6jNzZ1AvXtsfGVma795CJtvoaF5bLXf4l/FIUw==',
     compressedLimit: 256 * 1024 * 1024,
   }),
 });
@@ -176,12 +176,12 @@ async function sourceFingerprints(directory) {
 }
 
 async function choosePnpm(run, options) {
-  for (const candidate of [{ command: 'pnpm', prefix: [] }, { command: 'corepack', prefix: ['pnpm@12.15.0'] }]) {
+  for (const candidate of [{ command: 'pnpm', prefix: [] }, { command: 'corepack', prefix: ['pnpm@12.16.1'] }]) {
     try {
-      if ((await run(candidate.command, [...candidate.prefix, '--version'], { ...options, cwd: path.parse(path.resolve(options.cwd)).root, env: { ...options.env, COREPACK_ENABLE_NETWORK: '0', COREPACK_ENABLE_PROJECT_SPEC: '0', npm_config_manage_package_manager_versions: 'false' } })).trim() === '12.15.0') return candidate;
+      if ((await run(candidate.command, [...candidate.prefix, '--version'], { ...options, cwd: path.parse(path.resolve(options.cwd)).root, env: { ...options.env, COREPACK_ENABLE_NETWORK: '0', COREPACK_ENABLE_PROJECT_SPEC: '0', npm_config_manage_package_manager_versions: 'false' } })).trim() === '12.16.1') return candidate;
     } catch { /* 다음 로컬 후보를 검사합니다. */ }
   }
-  throw new Error('로컬에서 pnpm 12.15.0을 실행할 수 없습니다. pnpm 또는 Corepack cache를 준비해 주세요.');
+  throw new Error('로컬에서 pnpm 12.16.1을 실행할 수 없습니다. pnpm 또는 Corepack cache를 준비해 주세요.');
 }
 
 export async function prepareMcpOffline(bundle, { log = () => {}, run = runCommand, prepareRuntime = prepareMcpRuntimes, cacheDirectory = defaultMcpOfflineCache, download = downloadBounded } = {}) {
@@ -219,7 +219,7 @@ export async function prepareMcpOffline(bundle, { log = () => {}, run = runComma
       schemaVersion: 1, target: 'linux-x64-glibc', head: bundle.metadata.head, releaseId: bundle.metadata.releaseId,
       sourceSha256: bundle.metadata.files['app.tar.gz'].sha256, lockSha256: original['pnpm-lock.yaml'], packageSha256: original['package.json'],
       ...(original['pnpm-workspace.yaml'] ? { workspaceSha256: original['pnpm-workspace.yaml'] } : {}),
-      nodeVersion: '24.22.1', pnpmVersion: '12.15.0', nodeLinker: 'hoisted',
+      nodeVersion: '24.22.1', pnpmVersion: '12.16.1', nodeLinker: 'hoisted',
       files: Object.fromEntries(Object.entries(files).map(([name, bytes]) => [name, fingerprint(bytes)])),
     });
     files['offline.json'] = Buffer.from(`${JSON.stringify(manifest, null, 2)}\n`);

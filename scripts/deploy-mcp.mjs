@@ -28,7 +28,7 @@ export const help = `OWP versioned Playground + MCP 배포 (port 30011)
   --assume-vpn       회사 VPN 연결을 명시적으로 확인합니다.
   -h, --help         네트워크나 파일 변경 없이 도움말을 표시합니다.
 
-로컬에서 Node 24.22.1·pnpm 12.15.0의 Linux x64 파일과 고정된 앱 의존성을 준비합니다. 로컬의 다운로드·registry 접근이 필요합니다.
+로컬에서 Node 24.22.1·pnpm 12.16.1의 Linux x64 파일과 고정된 앱 의존성을 준비합니다. 로컬의 다운로드·registry 접근이 필요합니다.
 서버는 Linux x64 glibc 환경과 systemd·ss·기본 shell 명령이 필요하며, 외부 접속·전역 Node·pnpm·Corepack은 필요하지 않습니다.
 런타임은 배포 전용 경로에 설치합니다. OS 패키지·전역 실행 파일·방화벽은 변경하지 않습니다.
 최초 SSH 인증 후 StrictHostKeyChecking=yes를 유지하는 공유 연결을 재사용합니다.
@@ -66,7 +66,7 @@ export async function runMcpDeployment(options, dependencies = {}) {
     log(`선택한 배포 묶음: ${plan.bundle} (${plan.releaseId})`);
     log(`묶음 검증: OK (${plan.releaseId}, ${plan.head})`);
     if (options.dryRun) {
-      log(JSON.stringify({ stage: 'dry-run', bundle: plan.bundle, root: config.remoteRoot, url: config.url, releaseId: plan.releaseId, head: plan.head, files: plan.files, offline: { stage: 'pending-preparation', target: 'linux-x64-glibc', nodeVersion: '24.22.1', pnpmVersion: '12.15.0' } }, null, 2));
+      log(JSON.stringify({ stage: 'dry-run', bundle: plan.bundle, root: config.remoteRoot, url: config.url, releaseId: plan.releaseId, head: plan.head, files: plan.files, offline: { stage: 'pending-preparation', target: 'linux-x64-glibc', nodeVersion: '24.22.1', pnpmVersion: '12.16.1' } }, null, 2));
       return { stage: 'dry-run', plan };
     }
     await (dependencies.confirm ?? confirmMcpVpn)({ interactive, assumeVpn: options.assumeVpn });

@@ -9,8 +9,8 @@ import { promisify } from 'node:util';
 const execute = promisify(execFile);
 const preflightUrl = new URL('../deploy-mcp-preflight.mjs', import.meta.url).href;
 const remoteUrl = new URL('../deploy-mcp-remote.mjs', import.meta.url).href;
-const installed = { command: 'pnpm', prefix: [], version: '12.15.0' };
-const cached = { command: 'corepack', prefix: ['pnpm@12.15.0'], version: '12.15.0' };
+const installed = { command: 'pnpm', prefix: [], version: '12.16.1' };
+const cached = { command: 'corepack', prefix: ['pnpm@12.16.1'], version: '12.16.1' };
 const installArgs = ['install', '--prod', '--frozen-lockfile', '--ignore-scripts', '--config.manage-package-manager-versions=false'];
 
 async function runtimeFixture(t, candidates) {
@@ -32,7 +32,7 @@ import { appendFileSync } from 'node:fs';
 const args = process.argv.slice(2);
 appendFileSync(${JSON.stringify(log)}, JSON.stringify({ command: ${JSON.stringify(command)}, args, cwd: process.cwd(), env: { NODE_ENV: process.env.NODE_ENV, COREPACK_ENABLE_NETWORK: process.env.COREPACK_ENABLE_NETWORK, COREPACK_ENABLE_PROJECT_SPEC: process.env.COREPACK_ENABLE_PROJECT_SPEC, npm_config_manage_package_manager_versions: process.env.npm_config_manage_package_manager_versions } }) + '\\n');
 if (${JSON.stringify(candidate.fail ?? false)}) process.exit(2);
-if (args.at(-1) === '--version') process.stdout.write(${JSON.stringify(candidate.version ?? '12.15.0')});
+if (args.at(-1) === '--version') process.stdout.write(${JSON.stringify(candidate.version ?? '12.16.1')});
 else if (!args.includes('install')) process.exit(3);
 `);
     await chmod(file, 0o755);
@@ -56,14 +56,14 @@ for (const [name, candidates, expected, commands] of [
   ['wrong installed pnpm and cached Corepack', { pnpm: { version: '12.14.0' }, corepack: {} }, cached, ['pnpm', 'corepack']],
   ['unusable installed pnpm and cached Corepack', { pnpm: { fail: true }, corepack: {} }, cached, ['pnpm', 'corepack']],
   ['missing installed pnpm and cached Corepack', { corepack: {} }, cached, ['corepack']],
-]) test(`Given ${name}, When read-only runtime selection runs, Then only exact pnpm 12.15.0 is selected without project switching`, async (t) => {
+]) test(`Given ${name}, When read-only runtime selection runs, Then only exact pnpm 12.16.1 is selected without project switching`, async (t) => {
   const fixture = await runtimeFixture(t, candidates);
   const result = await fixture.run('select');
   assert.deepEqual(JSON.parse(result.stdout), expected);
   const calls = await fixture.calls();
   assert.deepEqual(calls.map((call) => call.command), commands);
   for (const call of calls) {
-    assert.deepEqual(call.args, call.command === 'pnpm' ? ['--version'] : ['pnpm@12.15.0', '--version']);
+    assert.deepEqual(call.args, call.command === 'pnpm' ? ['--version'] : ['pnpm@12.16.1', '--version']);
     assert.equal(call.cwd, '/');
     assert.equal(call.env.COREPACK_ENABLE_NETWORK, '0');
     assert.equal(call.env.COREPACK_ENABLE_PROJECT_SPEC, '0');
@@ -79,7 +79,7 @@ for (const [name, candidates] of [
 ]) test(`Given ${name}, When runtime selection runs, Then it explains exact preparation options without preparing or downloading tools`, async (t) => {
   const fixture = await runtimeFixture(t, candidates);
   await assert.rejects(fixture.run('select'), (error) => {
-    assert.match(error.stderr, /pnpm 12\.15\.0/);
+    assert.match(error.stderr, /pnpm 12\.16\.1/);
     assert.match(error.stderr, /PATH/);
     assert.match(error.stderr, /Corepack/);
     assert.match(error.stderr, /다운로드하거나 설치하지 않습니다/);
@@ -118,14 +118,14 @@ test('Given an approved runtime from locked preflight, When installation runs, T
 });
 
 for (const selection of [
-  { command: '/untrusted/pnpm', prefix: [], version: '12.15.0' },
-  { command: 'corepack', prefix: ['pnpm@99.0.0'], version: '12.15.0' },
-  { command: 'pnpm', prefix: ['--dir=/untrusted'], version: '12.15.0' },
+  { command: '/untrusted/pnpm', prefix: [], version: '12.16.1' },
+  { command: 'corepack', prefix: ['pnpm@99.0.0'], version: '12.16.1' },
+  { command: 'pnpm', prefix: ['--dir=/untrusted'], version: '12.16.1' },
   { command: 'pnpm', prefix: [], version: '99.0.0' },
 ]) test(`Given untrusted runtime ${JSON.stringify(selection)}, When installation runs, Then no executable is called`, async (t) => {
   const fixture = await runtimeFixture(t, { pnpm: {}, corepack: {} });
   await assert.rejects(fixture.run('install', selection), (error) => {
-    assert.match(error.stderr, /검증된 pnpm 12\.15\.0 실행 정보/);
+    assert.match(error.stderr, /검증된 pnpm 12\.16\.1 실행 정보/);
     return true;
   });
   assert.deepEqual(await fixture.calls(), []);

@@ -161,7 +161,7 @@ export async function prepareMcpBundle(bundleDirectory, options = {}) {
     for (const file of ['mcp/cli.ts', 'package.json', 'pnpm-lock.yaml', 'scripts/version-archive.ts', 'src/features/releases/model/schema.ts']) if (!sourceFiles.has(file)) throw new Error(`source tar 필수 파일이 없습니다: ${file}`);
     await extractMcpTar(appTar, path.join(directory, 'app'));
     const project = JSON.parse(await readFile(path.join(directory, 'app/package.json'), 'utf8'));
-    if (project.packageManager !== 'pnpm@12.15.0' || project.devEngines?.runtime?.version !== '24.22.1') throw new Error('source의 Node 24.22.1·pnpm 12.15.0 계약이 다릅니다.');
+    if (project.packageManager !== 'pnpm@12.16.1' || project.devEngines?.runtime?.version !== '24.22.1') throw new Error('source의 Node 24.22.1·pnpm 12.16.1 계약이 다릅니다.');
     await extractMcpTar(inspectMcpTar(frozen['archive.tar.gz']), path.join(directory, 'archive'));
     const archive = await validateMcpArchive(path.join(directory, 'archive'), metadata);
     return { source, directory, metadata, ...archive, transferFiles: names.map((name) => ({ name, bytes: frozen[name].length, sha256: sha256(frozen[name]) })), cleanup };

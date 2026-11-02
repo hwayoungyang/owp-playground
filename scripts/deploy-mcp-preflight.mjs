@@ -27,25 +27,25 @@ export async function capture(command, args, options = {}) {
   catch (error) { throw new Error(`${command} 준비 상태를 확인하지 못했습니다. 필요한 런타임을 서버에 먼저 준비해 주세요.`, { cause: error }); }
 }
 export async function selectMcpPackageManager(run = capture) {
-  for (const candidate of [{ command: 'pnpm', prefix: [], version: '12.15.0' }, { command: 'corepack', prefix: ['pnpm@12.15.0'], version: '12.15.0' }]) {
+  for (const candidate of [{ command: 'pnpm', prefix: [], version: '12.16.1' }, { command: 'corepack', prefix: ['pnpm@12.16.1'], version: '12.16.1' }]) {
     try {
       if (await run(candidate.command, [...candidate.prefix, '--version'], { cwd: '/', env: mcpPackageManagerEnvironment() }) === candidate.version) return candidate;
     } catch { /* 설치된 실행 파일 또는 캐시를 사용할 수 없으면 다음 후보를 확인한다. */ }
   }
-  throw new Error('서버 pnpm 12.15.0이 필요합니다. PATH에 pnpm 12.15.0을 설치하거나, 선택적으로 Corepack에 pnpm@12.15.0을 미리 캐시해 주세요. 사전 점검은 도구를 다운로드하거나 설치하지 않습니다.');
+  throw new Error('서버 pnpm 12.16.1이 필요합니다. PATH에 pnpm 12.16.1을 설치하거나, 선택적으로 Corepack에 pnpm@12.16.1을 미리 캐시해 주세요. 사전 점검은 도구를 다운로드하거나 설치하지 않습니다.');
 }
 
 export async function inspectMcpRuntime(config, runtime, run = capture) {
-  const pattern = new RegExp(`^${config.remoteRoot.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/runtime/node24\\.22\\.1-pnpm12\\.15\\.0-([a-f0-9]{64})-([a-f0-9]{64})$`);
+  const pattern = new RegExp(`^${config.remoteRoot.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/runtime/node24\\.22\\.1-pnpm12\\.16\\.1-([a-f0-9]{64})-([a-f0-9]{64})$`);
   const match = typeof runtime?.directory === 'string' ? pattern.exec(runtime.directory) : undefined;
-  if (!match || runtime.nodeSha256 !== match[1] || runtime.pnpmSha256 !== match[2] || runtime.node !== `${runtime.directory}/bin/node` || runtime.packageManager?.command !== `${runtime.directory}/bin/pnpm` || runtime.packageManager.version !== '12.15.0' || !Array.isArray(runtime.packageManager.prefix) || runtime.packageManager.prefix.length) throw new Error('배포 전용 런타임 경로 또는 버전이 올바르지 않습니다.');
+  if (!match || runtime.nodeSha256 !== match[1] || runtime.pnpmSha256 !== match[2] || runtime.node !== `${runtime.directory}/bin/node` || runtime.packageManager?.command !== `${runtime.directory}/bin/pnpm` || runtime.packageManager.version !== '12.16.1' || !Array.isArray(runtime.packageManager.prefix) || runtime.packageManager.prefix.length) throw new Error('배포 전용 런타임 경로 또는 버전이 올바르지 않습니다.');
   await assertRealAncestors(path.join(runtime.directory, 'bin'));
   for (const [name, expected] of [['node', match[1]], ['pnpm', match[2]]]) {
     const file = path.join(runtime.directory, 'bin', name);
     const info = await optionalStat(file);
     if (!info?.isFile() || info.isSymbolicLink() || info.size > 256 * 1024 * 1024 || hashContent(await readFile(file)) !== expected) throw new Error(`배포 전용 런타임 파일이 변경됐습니다: ${name}`);
   }
-  if (await run(runtime.packageManager.command, ['--version'], { cwd: '/', env: { PATH: `${runtime.directory}/bin:/usr/sbin:/usr/bin:/sbin:/bin` } }) !== '12.15.0') throw new Error('배포 전용 pnpm 12.15.0 실행 검증에 실패했습니다.');
+  if (await run(runtime.packageManager.command, ['--version'], { cwd: '/', env: { PATH: `${runtime.directory}/bin:/usr/sbin:/usr/bin:/sbin:/bin` } }) !== '12.16.1') throw new Error('배포 전용 pnpm 12.16.1 실행 검증에 실패했습니다.');
   return runtime.packageManager;
 }
 

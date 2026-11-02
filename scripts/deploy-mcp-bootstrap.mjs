@@ -16,15 +16,15 @@ export function mcpRuntimeForPlan(plan) {
   const manifest = validateMcpOfflineManifest(plan.offline, { head: plan.metadata.head, releaseId: plan.metadata.releaseId, sourceSha256: plan.metadata.files['app.tar.gz'].sha256 });
   const nodeSha256 = manifest.files['runtime-node'].sha256;
   const pnpmSha256 = manifest.files['runtime-pnpm'].sha256;
-  const directory = `${config.remoteRoot}/runtime/node24.22.1-pnpm12.15.0-${nodeSha256}-${pnpmSha256}`;
-  return { directory, node: `${directory}/bin/node`, packageManager: { command: `${directory}/bin/pnpm`, prefix: [], version: '12.15.0' }, nodeSha256, pnpmSha256 };
+  const directory = `${config.remoteRoot}/runtime/node24.22.1-pnpm12.16.1-${nodeSha256}-${pnpmSha256}`;
+  return { directory, node: `${directory}/bin/node`, packageManager: { command: `${directory}/bin/pnpm`, prefix: [], version: '12.16.1' }, nodeSha256, pnpmSha256 };
 }
 
 function shellContext(plan) {
   const config = validateMcpConfig(plan.config);
   if (!/^[0-9a-f-]{36}$/.test(plan.owner)) throw new Error('배포 owner가 올바르지 않습니다.');
   const runtime = mcpRuntimeForPlan(plan);
-  const receipt = `OWP-MCP-RUNTIME v1\nnode 24.22.1 ${runtime.nodeSha256}\npnpm 12.15.0 ${runtime.pnpmSha256}`;
+  const receipt = `OWP-MCP-RUNTIME v1\nnode 24.22.1 ${runtime.nodeSha256}\npnpm 12.16.1 ${runtime.pnpmSha256}`;
   return { config, runtime, receipt };
 }
 
@@ -128,7 +128,7 @@ check_runtime() {
   if [ "$1" = install ]; then restore_context "$runtime"; fi
   cd /
   [ "$("$runtime/bin/node" --version)" = 'v24.22.1' ] || fail 'Node 24.22.1이 필요합니다.'
-  [ "$(env PATH="$runtime/bin:/usr/sbin:/usr/bin:/sbin:/bin" COREPACK_ENABLE_NETWORK=0 COREPACK_ENABLE_PROJECT_SPEC=0 npm_config_manage_package_manager_versions=false "$runtime/bin/pnpm" --version)" = '12.15.0' ] || fail 'pnpm 12.15.0이 필요합니다.'
+  [ "$(env PATH="$runtime/bin:/usr/sbin:/usr/bin:/sbin:/bin" COREPACK_ENABLE_NETWORK=0 COREPACK_ENABLE_PROJECT_SPEC=0 npm_config_manage_package_manager_versions=false "$runtime/bin/pnpm" --version)" = '12.16.1' ] || fail 'pnpm 12.16.1이 필요합니다.'
 }
 [ "$(id -u)" -eq 0 ] || fail 'root SSH가 필요합니다.'
 for command in sh uname getconf sha256sum mkdir chmod mv rm rmdir cat wc env systemctl ss; do command -v "$command" >/dev/null 2>&1 || fail "서버 기본 명령이 필요합니다: $command"; done
@@ -174,7 +174,7 @@ else
   restore_owned_context "$stage"
   cd /
   [ "$("$stage/bin/node" --version)" = 'v24.22.1' ] || fail 'Node 24.22.1 실행 검증에 실패했습니다.'
-  [ "$(env PATH="$stage/bin:/usr/sbin:/usr/bin:/sbin:/bin" COREPACK_ENABLE_NETWORK=0 COREPACK_ENABLE_PROJECT_SPEC=0 npm_config_manage_package_manager_versions=false "$stage/bin/pnpm" --version)" = '12.15.0' ] || fail 'pnpm 12.15.0 실행 검증에 실패했습니다.'
+  [ "$(env PATH="$stage/bin:/usr/sbin:/usr/bin:/sbin:/bin" COREPACK_ENABLE_NETWORK=0 COREPACK_ENABLE_PROJECT_SPEC=0 npm_config_manage_package_manager_versions=false "$stage/bin/pnpm" --version)" = '12.16.1' ] || fail 'pnpm 12.16.1 실행 검증에 실패했습니다.'
   mv -Tn -- "$stage" "$runtime"
   [ ! -d "$stage" ] || fail '런타임 경로 충돌로 기존 자료를 보존합니다.'
   check_runtime verify

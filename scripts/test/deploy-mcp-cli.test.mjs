@@ -16,11 +16,11 @@ function scenario() {
   const calls = [];
   const run = async () => {};
   const signals = new EventEmitter();
-  const runtime = { node: '/managed/runtime/node', packageManager: { command: '/managed/runtime/pnpm', prefix: [], version: '12.15.0' } };
+  const runtime = { node: '/managed/runtime/node', packageManager: { command: '/managed/runtime/pnpm', prefix: [], version: '12.16.1' } };
   const dependencies = {
     signals, interactive: false, log() {}, owner: () => '11111111-1111-4111-8111-111111111111',
     confirm: async () => calls.push('confirm'), checkPort: async () => calls.push('port'),
-    prepareOffline: async () => { calls.push('prepare-offline'); return { manifest: { target: 'linux-x64-glibc', nodeVersion: '24.22.1', pnpmVersion: '12.15.0' }, transferFiles: [] }; },
+    prepareOffline: async () => { calls.push('prepare-offline'); return { manifest: { target: 'linux-x64-glibc', nodeVersion: '24.22.1', pnpmVersion: '12.16.1' }, transferFiles: [] }; },
     connect: async () => { calls.push('connect'); return { run, close: async () => calls.push('close') }; },
     probe: async () => { calls.push('probe'); return { runtimePending: false, runtime }; },
     bootstrap: async (plan) => { calls.push('bootstrap'); plan.runtime = runtime; },
@@ -52,7 +52,7 @@ test('Given --help, When the real CLI runs, Then no bundle or VPN is needed', as
   assert.match(stdout, /\[--bundle DIR\]/);
   assert.match(stdout, /최신 clean stable/);
   assert.match(stdout, /24\.22\.1/);
-  assert.match(stdout, /12\.15\.0/);
+  assert.match(stdout, /12\.16\.1/);
 });
 test('Given a prepared bundle, When dry-run is requested, Then no network dependency is called', async (t) => {
   const fixture = await mcpFixture(t);

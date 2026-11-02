@@ -177,7 +177,7 @@ pnpm deploy:mcp --help
 
 ### 로컬 준비와 최초 설치
 
-Mac에서는 pnpm `12.15.0`을 실행할 수 있어야 하며 공식 Node.js 다운로드 사이트, npm registry와 사내 OWP registry에 접근할 수 있어야 합니다. 사내 registry 접근에는 회사 VPN과 기존 로컬 인증 설정을 사용합니다. 로컬 pnpm을 직접 실행할 수 있으면 Corepack은 필요하지 않습니다. Corepack으로 관리하는 환경은 캐시된 pnpm `12.15.0`을 사용할 수도 있습니다.
+Mac에서는 pnpm `12.16.1`을 실행할 수 있어야 하며 공식 Node.js 다운로드 사이트, npm registry와 사내 OWP registry에 접근할 수 있어야 합니다. 사내 registry 접근에는 회사 VPN과 기존 로컬 인증 설정을 사용합니다. 로컬 pnpm을 직접 실행할 수 있으면 Corepack은 필요하지 않습니다. Corepack으로 관리하는 환경은 캐시된 pnpm `12.16.1`을 사용할 수도 있습니다.
 
 ```sh
 # 서버에 접속하거나 파일을 다운로드하지 않고 묶음과 준비 계획만 확인합니다.
@@ -192,9 +192,9 @@ pnpm deploy:mcp
 
 `--dry-run`의 오프라인 자료는 `pending-preparation`으로 표시됩니다. `--preflight-only`는 로컬 다운로드·의존성 준비를 수행할 수 있지만 서버에 파일을 전송하거나 설치하지 않습니다. 서버에 전용 런타임이 아직 없으면 `preflight-bootstrap-required` 상태와 설치 필요 안내를 반환합니다. 이 상태는 기본 환경만 확인한 결과이며 Node·앱·서비스 상세 검사 완료를 뜻하지 않습니다. 실제 배포에서는 런타임 설치 후 배포 잠금 안에서 전체 검사를 이어 갑니다.
 
-Node.js `24.22.1`의 [공식 Linux x64 배포 파일](https://nodejs.org/en/blog/release/v24.22.1)과 pnpm `12.15.0`의 공식 Linux x64 배포 파일을 로컬에서 내려받아 고정된 SHA-256·integrity로 검사합니다. 압축 파일은 `.omo/evidence/mcp-offline/cache/`에 보관하며 재사용할 때도 검증합니다. 서버에서는 이 파일에서 추출한 실행 바이너리만 설치하므로 `tar`·`xz`·npm을 이용한 런타임 설치가 필요하지 않습니다.
+Node.js `24.22.1`의 [공식 Linux x64 배포 파일](https://nodejs.org/en/blog/release/v24.22.1)과 pnpm `12.16.1`의 공식 Linux x64 배포 파일을 로컬에서 내려받아 고정된 SHA-256·integrity로 검사합니다. 압축 파일은 `.omo/evidence/mcp-offline/cache/`에 보관하며 재사용할 때도 검증합니다. 서버에서는 이 파일에서 추출한 실행 바이너리만 설치하므로 `tar`·`xz`·npm을 이용한 런타임 설치가 필요하지 않습니다.
 
-런타임 경로는 `/opt/owp-playground-mcp/runtime/node24.22.1-pnpm12.15.0-<node SHA-256>-<pnpm SHA-256>/bin/`이며 이 안에 `node`와 `pnpm`을 설치합니다. `/usr/local/bin`이나 전역 PATH를 변경하지 않습니다. 동일 경로의 파일이 검증값과 다르면 덮어쓰지 않고 중단합니다. 설치한 런타임은 앱 배포의 실패·복구 이후에도 재사용할 수 있도록 보존합니다.
+런타임 경로는 `/opt/owp-playground-mcp/runtime/node24.22.1-pnpm12.16.1-<node SHA-256>-<pnpm SHA-256>/bin/`이며 이 안에 `node`와 `pnpm`을 설치합니다. `/usr/local/bin`이나 전역 PATH를 변경하지 않습니다. 동일 경로의 파일이 검증값과 다르면 덮어쓰지 않고 중단합니다. 설치한 런타임은 앱 배포의 실패·복구 이후에도 재사용할 수 있도록 보존합니다.
 
 이 경로는 Rocky Linux의 SELinux 기본 정책에서 서비스가 실행할 수 있는 `bin_t`를 적용받도록 선택했습니다. 이전 `/home/owp-playground-mcp/runtime/`의 `user_home_t` 실행 파일은 SSH에서 실행되더라도 systemd에서 `203/EXEC`와 AVC `execute denied`로 차단될 수 있습니다. 이전 최초 설치가 실패한 경우에는 수정한 CLI로 `pnpm deploy:mcp`를 다시 실행하면 `/opt`에 설치합니다. `/home`에 남은 실패 자료는 자동으로 이동하거나 삭제하지 않습니다. 이미 다른 경로에서 운영 중인 서비스가 있으면 자동으로 인수·이전하지 않고 중단합니다.
 

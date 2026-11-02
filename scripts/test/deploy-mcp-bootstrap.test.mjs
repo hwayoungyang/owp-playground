@@ -15,7 +15,7 @@ import { mcpDeploymentConfig, shellQuote } from '../deploy-mcp-config.mjs';
 
 const execute = promisify(execFile);
 const nodeStub = '#!/bin/sh\nprintf "v24.22.1\\n"\n';
-const pnpmStub = '#!/bin/sh\nprintf "12.15.0\\n"\n';
+const pnpmStub = '#!/bin/sh\nprintf "12.16.1\\n"\n';
 const entry = (bytes) => ({ bytes: bytes.length, sha256: sha256(bytes) });
 async function scenario(t, options = {}) {
   const fixture = await mcpFixture(t);
@@ -34,7 +34,7 @@ async function scenario(t, options = {}) {
     sourceSha256: bundle.metadata.files['app.tar.gz'].sha256,
     packageSha256: sha256(await readFile(path.join(bundle.directory, 'app/package.json'))),
     lockSha256: sha256(await readFile(path.join(bundle.directory, 'app/pnpm-lock.yaml'))),
-    nodeVersion: '24.22.1', pnpmVersion: '12.15.0', nodeLinker: 'hoisted',
+    nodeVersion: '24.22.1', pnpmVersion: '12.16.1', nodeLinker: 'hoisted',
     files: Object.fromEntries(Object.entries(files).map(([name, bytes]) => [name, entry(bytes)])),
   };
   files['offline.json'] = Buffer.from(JSON.stringify(manifest));
@@ -259,7 +259,7 @@ test('Given a freshly bootstrapped private runtime, When full server inspection 
   const run = async (command, args, options) => {
     if (command !== plan.runtime.packageManager.command) return shim.run(command, args, options);
     assert.equal(options.env.PATH, `${plan.runtime.directory}/bin:/usr/sbin:/usr/bin:/sbin:/bin`);
-    return '12.15.0';
+    return '12.16.1';
   };
   const result = await inspectMcpServer(plan.config, { ...shim.preflight, run, nodePath: plan.runtime.node, runtime: plan.runtime, lockOwner: plan.owner });
   assert.equal(result.node, plan.runtime.node);
@@ -271,7 +271,7 @@ test('Given a private runtime modified after bootstrap, When full runtime inspec
   await bootstrapMcpRemote(plan, bundle, execution);
   await writeFile(plan.runtime.node, 'tampered runtime');
   let calls = 0;
-  await assert.rejects(inspectMcpRuntime(plan.config, plan.runtime, async () => { calls++; return '12.15.0'; }));
+  await assert.rejects(inspectMcpRuntime(plan.config, plan.runtime, async () => { calls++; return '12.16.1'; }));
   assert.equal(calls, 0);
 });
 for (const failOwner of ['lock', 'incoming', 'stage']) test(`Given a partial ${failOwner} owner write, When bootstrap fails, Then this call's incomplete directories are removed`, async (t) => {

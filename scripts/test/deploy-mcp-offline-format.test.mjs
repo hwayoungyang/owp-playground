@@ -19,7 +19,7 @@ function raw(entries, content = Buffer.alloc(0)) {
 }
 function manifest(bytes) {
   const fingerprint = { bytes: bytes.length, sha256: digest(bytes) };
-  return { schemaVersion: 1, target: 'linux-x64-glibc', head: 'a'.repeat(40), releaseId: '20261023-120000-aaaaaaaaaaaa', sourceSha256: 'b'.repeat(64), packageSha256: 'c'.repeat(64), lockSha256: 'd'.repeat(64), nodeVersion: '24.22.1', pnpmVersion: '12.15.0', nodeLinker: 'hoisted', files: { 'runtime-node': fingerprint, 'runtime-pnpm': fingerprint, [MCP_DEPENDENCIES_FILE]: fingerprint } };
+  return { schemaVersion: 1, target: 'linux-x64-glibc', head: 'a'.repeat(40), releaseId: '20261023-120000-aaaaaaaaaaaa', sourceSha256: 'b'.repeat(64), packageSha256: 'c'.repeat(64), lockSha256: 'd'.repeat(64), nodeVersion: '24.22.1', pnpmVersion: '12.16.1', nodeLinker: 'hoisted', files: { 'runtime-node': fingerprint, 'runtime-pnpm': fingerprint, [MCP_DEPENDENCIES_FILE]: fingerprint } };
 }
 async function fixture(t) {
   const root = await realpath(await mkdtemp(path.join(tmpdir(), 'owp-offline-format-test-')));

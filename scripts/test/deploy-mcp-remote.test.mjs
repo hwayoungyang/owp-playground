@@ -20,7 +20,7 @@ test('Given an initial server, When activated and committed, Then exact receipt 
   const { fixture, bundle, shim, plan } = await scenario(t);
   const activated = await runMcpRemoteOperation('activate', plan, shim);
   assert.equal(activated.releaseId, bundle.metadata.releaseId);
-  assert.deepEqual(activated.packageManager, { command: 'pnpm', prefix: [], version: '12.15.0' });
+  assert.deepEqual(activated.packageManager, { command: 'pnpm', prefix: [], version: '12.16.1' });
   assert.equal(await readlink(path.join(fixture.config.remoteRoot, 'current')), activated.appDirectory);
   assert.equal((await shim.state()).active, 'active');
   assert.equal((await shim.state()).enabled, 'enabled');
@@ -48,14 +48,14 @@ test('Given a cached preflight selection and changed server runtimes, When activ
   await shim.state({ pnpmPresent: false });
   const first = await inspectMcpServer(plan.config, { ...shim.preflight, lockOwner: plan.owner });
   assert.equal(first.packageManager.command, 'corepack');
-  plan.packageManager = { command: '/untrusted/command', prefix: ['install'], version: '12.15.0' };
+  plan.packageManager = { command: '/untrusted/command', prefix: ['install'], version: '12.16.1' };
   plan.metadata.packageManager = first.packageManager;
   await shim.state({ pnpmPresent: true, corepackPresent: false });
   const install = shim.install;
   let selected;
   shim.install = async (directory, selection) => { selected = selection; await install(directory); };
   const activated = await runMcpRemoteOperation('activate', plan, shim);
-  assert.deepEqual(selected, { command: 'pnpm', prefix: [], version: '12.15.0' });
+  assert.deepEqual(selected, { command: 'pnpm', prefix: [], version: '12.16.1' });
   assert.deepEqual(activated.packageManager, selected);
   await runMcpRemoteOperation('commit', plan, shim);
 });

@@ -25,7 +25,7 @@ async function fixture(t) {
   t.after(() => rm(directory, { recursive: true, force: true }));
   const app = path.join(directory, 'app');
   await mkdir(app);
-  await writeFile(path.join(app, 'package.json'), '{"name":"fixture","packageManager":"pnpm@12.15.0"}\n');
+  await writeFile(path.join(app, 'package.json'), '{"name":"fixture","packageManager":"pnpm@12.16.1"}\n');
   await writeFile(path.join(app, 'pnpm-lock.yaml'), 'lockfileVersion: 9\n---\nlockfileVersion: 9\n');
   await writeFile(path.join(app, 'pnpm-workspace.yaml'), 'packages:\n  - .\n');
   await writeFile(path.join(app, '.npmrc'), '//private.example/:_authToken=local-secret\n');
@@ -33,7 +33,7 @@ async function fixture(t) {
   return { directory, app, bundle };
 }
 async function installFixture(command, args, options) {
-  if (args.includes('--version')) return '12.15.0\n';
+  if (args.includes('--version')) return '12.16.1\n';
   await mkdir(path.join(options.cwd, 'node_modules/pkg'), { recursive: true });
   await writeFile(path.join(options.cwd, 'node_modules/pkg/package.json'), '{"name":"pkg"}');
   return '';
@@ -88,7 +88,7 @@ test('Given a frozen bundle, When offline artifacts are prepared, Then Linux pro
   assert.deepEqual(inspected.entries.map((entry) => entry.path), ['pkg', 'pkg/package.json']);
 });
 
-test('Given only cached Corepack pnpm 12.15.0, When preparing, Then its exact version is selected without network version lookup', async (t) => {
+test('Given only cached Corepack pnpm 12.16.1, When preparing, Then its exact version is selected without network version lookup', async (t) => {
   const { bundle } = await fixture(t);
   const calls = [];
   await prepareMcpOffline(bundle, { prepareRuntime: runtimes, run: async (command, args, options) => {
@@ -96,9 +96,9 @@ test('Given only cached Corepack pnpm 12.15.0, When preparing, Then its exact ve
     if (command === 'pnpm') throw new Error('unavailable');
     return installFixture(command, args, options);
   } });
-  assert.deepEqual(calls[1].args, ['pnpm@12.15.0', '--version']);
+  assert.deepEqual(calls[1].args, ['pnpm@12.16.1', '--version']);
   assert.equal(calls[1].options.env.COREPACK_ENABLE_NETWORK, '0');
-  assert.deepEqual(calls[2].args.slice(0, 2), ['pnpm@12.15.0', 'install']);
+  assert.deepEqual(calls[2].args.slice(0, 2), ['pnpm@12.16.1', 'install']);
 });
 
 for (const mutation of ['changed-lock', 'install-failure', 'wrong-version', 'invalid-runtime']) test(`Given ${mutation}, When preparing, Then no artifact is published and the private stage is removed`, async (t) => {
@@ -106,7 +106,7 @@ for (const mutation of ['changed-lock', 'install-failure', 'wrong-version', 'inv
   let stage;
   const original = await readFile(path.join(app, 'pnpm-lock.yaml'));
   const run = async (command, args, options) => {
-    if (args.includes('--version')) return mutation === 'wrong-version' ? '11.0.0' : '12.15.0';
+    if (args.includes('--version')) return mutation === 'wrong-version' ? '11.0.0' : '12.16.1';
     stage = path.dirname(options.cwd);
     if (mutation === 'install-failure') throw new Error('installation failed');
     if (mutation === 'changed-lock') await writeFile(path.join(options.cwd, 'pnpm-lock.yaml'), 'changed');

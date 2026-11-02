@@ -64,7 +64,7 @@ test('Given missing remote Node, When deployment reaches the real preflight, The
   const dependencies = {
     config: fixture.config, interactive: false, signals, log: (line) => logs.push(line),
     confirm: async () => {}, checkPort: async () => {},
-    prepareOffline: async () => ({ manifest: { target: 'linux-x64-glibc', nodeVersion: '24.22.1', pnpmVersion: '12.15.0' }, transferFiles: [] }),
+    prepareOffline: async () => ({ manifest: { target: 'linux-x64-glibc', nodeVersion: '24.22.1', pnpmVersion: '12.16.1' }, transferFiles: [] }),
     probe: async (plan, session) => preflightMcpRemote(plan.config, session),
     connect: async () => ({ run: async (...args) => { calls.push('preflight'); return execution.run(...args); }, close: async () => calls.push('close') }),
     createIncoming: async () => calls.push('incoming'), transfer: async () => calls.push('transfer'),
@@ -92,7 +92,7 @@ test('Given an SSH authentication or communication failure, When preflight runs,
   }
 });
 test('Given a successful remote inspection, When preflight receives its result, Then the existing server result is preserved', async () => {
-  const server = { node: '/usr/bin/node', packageManager: { command: 'pnpm', prefix: [], version: '12.15.0' } };
+  const server = { node: '/usr/bin/node', packageManager: { command: 'pnpm', prefix: [], version: '12.16.1' } };
   const execution = { interactive: false, run: async () => `OWP_MCP_RESULT ${JSON.stringify(server)}\n` };
   assert.deepEqual(await preflightMcpRemote({ user: 'root', host: '127.0.0.1', sshPort: 22 }, execution), server);
 });
@@ -133,14 +133,14 @@ test('Given only a cached Corepack process shim on PATH, When dependencies insta
   await mkdir(bin);
   const output = path.join(fixture.root, 'corepack-call.json');
   const corepack = path.join(bin, 'corepack');
-  await writeFile(corepack, `#!${process.execPath}\nimport{writeFileSync}from'node:fs';if(process.argv.at(-1)==='--version')process.stdout.write('12.15.0');else writeFileSync(${JSON.stringify(output)},JSON.stringify({args:process.argv.slice(2),cwd:process.cwd(),network:process.env.COREPACK_ENABLE_NETWORK}));`);
+  await writeFile(corepack, `#!${process.execPath}\nimport{writeFileSync}from'node:fs';if(process.argv.at(-1)==='--version')process.stdout.write('12.16.1');else writeFileSync(${JSON.stringify(output)},JSON.stringify({args:process.argv.slice(2),cwd:process.cwd(),network:process.env.COREPACK_ENABLE_NETWORK}));`);
   await chmod(corepack, 0o755);
   const previous = process.env.PATH;
   process.env.PATH = bin;
   try { await installMcpDependencies(fixture.bundle); }
   finally { process.env.PATH = previous; }
   const call = JSON.parse(await readFile(output, 'utf8'));
-  assert.deepEqual(call.args, ['pnpm@12.15.0', 'install', '--prod', '--frozen-lockfile', '--ignore-scripts', '--config.manage-package-manager-versions=false']);
+  assert.deepEqual(call.args, ['pnpm@12.16.1', 'install', '--prod', '--frozen-lockfile', '--ignore-scripts', '--config.manage-package-manager-versions=false']);
   assert.equal(call.cwd, fixture.bundle);
   assert.equal(call.network, '0');
 });

@@ -44,7 +44,7 @@ export function validateMcpOfflineManifest(value, expected = {}) {
   const required = ['schemaVersion', 'target', 'head', 'releaseId', 'sourceSha256', 'lockSha256', 'packageSha256', 'nodeVersion', 'pnpmVersion', 'nodeLinker', 'files'];
   if (!exactKeys(value, [...required, 'workspaceSha256'], required) || value.schemaVersion !== 1 || value.target !== 'linux-x64-glibc' ||
       typeof value.head !== 'string' || !/^[0-9a-f]{40}$/.test(value.head) || typeof value.releaseId !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(value.releaseId) ||
-      value.nodeVersion !== '24.22.1' || value.pnpmVersion !== '12.15.0' || value.nodeLinker !== 'hoisted') throw new Error('오프라인 manifest의 대상·버전·구조가 올바르지 않습니다.');
+      value.nodeVersion !== '24.22.1' || value.pnpmVersion !== '12.16.1' || value.nodeLinker !== 'hoisted') throw new Error('오프라인 manifest의 대상·버전·구조가 올바르지 않습니다.');
   for (const name of ['sourceSha256', 'lockSha256', 'packageSha256', ...(Object.hasOwn(value, 'workspaceSha256') ? ['workspaceSha256'] : [])]) {
     if (typeof value[name] !== 'string' || !hashPattern.test(value[name])) throw new Error(`오프라인 manifest SHA-256이 올바르지 않습니다: ${name}`);
   }
