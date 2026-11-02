@@ -13,6 +13,7 @@
     "mcp:stdio": "node --experimental-strip-types mcp/cli.ts --transport stdio",
     "mcp:http": "node --experimental-strip-types mcp/cli.ts --transport http",
     "deploy": "node scripts/deploy-playground.mjs",
+    "deploy:prepare": "node --experimental-strip-types scripts/prepare-deployment.mjs",
     "deploy:preflight": "node scripts/deploy-playground.mjs --preflight-only",
     "deploy:mcp": "node --experimental-strip-types scripts/deploy-mcp.mjs",
     "deploy:mcp:preflight": "node --experimental-strip-types scripts/deploy-mcp.mjs --preflight-only",

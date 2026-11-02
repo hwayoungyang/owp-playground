@@ -70,10 +70,27 @@ pnpm preview
 
 | 명령 | 대상 | 서버 경로·포트 |
 | --- | --- | --- |
+| `deploy:prepare` | stable 스냅샷·정적 artifact·MCP 묶음·Linux 의존성 사전 준비 | 로컬 자료만 생성 |
 | `deploy` | 최신 정적 Playground, 기존 Nginx | `/home/owp-playground` · `30010` |
 | `deploy:mcp` | 최신 stable 묶음의 버전별 Playground와 HTTP MCP, systemd | `/opt/owp-playground-mcp` · `30011` |
 
 두 명령은 SSH 연결 공유 방식을 재사용하며 서비스·배포 잠금·릴리스 보관 경로는 별도로 관리합니다. MCP의 버전 아카이브에는 기존 정적 배포의 최근 5개 릴리스 정리를 적용하지 않습니다. MCP 최초 설치와 이후 갱신은 아래 [MCP 배포](#mcp-배포)를 따릅니다.
+
+빠르게 배포하려면 검토·커밋을 마친 clean Git tree에서 자료를 미리 준비합니다. 준비 명령은 로컬 registry 접근이 필요할 수 있으며 운영 서버에 접속하지 않습니다.
+
+```sh
+pnpm deploy:prepare
+
+# 서버 접속 없이 준비 자료의 무결성과 재사용 여부를 확인합니다.
+pnpm deploy -- --dry-run --prepared-only
+pnpm deploy:mcp --dry-run --prepared-only
+
+# 회사 VPN 연결 후 각 서비스를 반영합니다.
+pnpm deploy -- --prepared-only
+pnpm deploy:mcp --prepared-only
+```
+
+준비 자료가 유효하면 정적 배포의 빌드·압축과 MCP 배포의 Linux 의존성 설치·압축을 생략합니다. 서버 전송·staging·서비스 전환·HTTP/MCP 검증은 계속 수행합니다. `--prepared-only`는 자료가 없을 때 무거운 준비 작업으로 넘어가지 않고 중단합니다. 소스·설치 패키지·아카이브 변경 또는 준비 파일의 무결성 오류가 있으면 자료를 다시 준비해야 합니다. [사전 준비와 재사용 조건](docs/versioned-mcp.md#두-서비스의-배포-사전-준비)을 확인하세요.
 
 다음은 기존 정적 Playground 배포 절차입니다. Mac 터미널에서 회사 VPN에 연결한 뒤 **`pnpm deploy`**를 실행합니다. 프로젝트는 pnpm 12.16.1을 사용하며 모든 배포 명령을 `run` 없이 실행합니다. pnpm 11부터 같은 이름의 프로젝트 script가 내장 명령보다 우선합니다. 관련 변경은 [pnpm 공식 마이그레이션 문서](https://pnpm.io/migration)에 설명되어 있습니다.
 
@@ -81,7 +98,7 @@ pnpm preview
 # 실제 전환 없이 네트워크·인증·서버 구성을 먼저 검사합니다.
 pnpm deploy:preflight
 
-# 새 빌드부터 전송·current 전환·HTTP 검증까지 수행합니다.
+# 일치하는 사전 준비 자료를 재사용하며, 없으면 새 빌드부터 수행합니다.
 pnpm deploy
 
 # 현재 릴리스와 실제 서비스 상태를 조회합니다. 서버 파일은 변경하지 않습니다.

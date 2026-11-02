@@ -25,6 +25,7 @@ function scenario(failure) {
     calls,
     dependencies: {
       interactive: false,
+      readPrepared: async () => undefined,
       confirm: record('vpn'),
       checkPort: record('tcp'),
       checkHealth: record('http'),
@@ -80,7 +81,7 @@ test('preflight-only performs authentication without starting the build', async 
 });
 
 test('parses explicit approvals and rejects unsupported options or targets', () => {
-  assert.deepEqual(parseDeployOptions(['--assume-vpn', '--preflight-only']), { help: false, assumeVpn: true, preflightOnly: true });
+  assert.deepEqual(parseDeployOptions(['--assume-vpn', '--preflight-only']), { help: false, assumeVpn: true, preflightOnly: true, preparedOnly: false, dryRun: false });
   assert.equal(parseDeployOptions(['-h']).help, true);
   assert.throws(() => parseDeployOptions(['--skip-build']));
   assert.throws(() => parseDeployOptions(['--host=other-server']));
@@ -93,6 +94,24 @@ test('real CLI help succeeds without networking, SSH authentication or a build',
   assert.match(stdout, /current를 원자적으로 전환/);
   assert.match(stdout, /실패하면 이전 current로 자동 복구/);
   assert.doesNotMatch(stdout, /pnpm build 실행 중/);
+});
+
+test('a prepared deployment skips build and packaging while retaining activation and cleanup', async () => {
+  const { calls, dependencies } = scenario();
+  dependencies.readPrepared = async () => ({ artifact: { release: activated.release, sha256: 'a'.repeat(64), bytes: 512, cleanup: async () => calls.push({ name: 'prepared-cleanup' }) }, build });
+  const result = await runDeployment({ assumeVpn: true, preparedOnly: true }, dependencies);
+  assert.equal(result.stage, 'deployed');
+  assert.deepEqual(calls.map((call) => call.name), ['vpn', 'tcp', 'http', 'connect', 'ssh', 'ready', 'upload', 'stage', 'activate', 'disconnect', 'prepared-cleanup']);
+});
+
+test('prepared-only misses and local dry-run never access a server or start a build', async () => {
+  const { calls, dependencies } = scenario();
+  await assert.rejects(runDeployment({ preparedOnly: true }, dependencies), /deploy:prepare/);
+  assert.deepEqual(calls, []);
+  const artifact = { release: activated.release, cleanup: async () => calls.push({ name: 'prepared-cleanup' }) };
+  dependencies.readPrepared = async () => ({ artifact, build });
+  assert.equal((await runDeployment({ preparedOnly: true, dryRun: true }, dependencies)).reused, true);
+  assert.deepEqual(calls.map((call) => call.name), ['prepared-cleanup']);
 });
 
 test('real CLI refuses noninteractive execution without VPN approval', async () => {

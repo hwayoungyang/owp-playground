@@ -1,13 +1,14 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { access, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { access, cp, mkdir, mkdtemp, readFile, realpath, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { createArtifact, createReleaseId, fileSha256, readBuildContext } from '../deploy-artifact.mjs';
+import { prepareStaticDeployment, readPreparedStaticDeployment } from '../deploy-prepared.mjs';
 
 const execute = promisify(execFile);
 const context = { commit: 'a1b2c3d4e5f6', packages: { '@owp/core': '6.1.0' }, dirty: true };
@@ -111,4 +112,47 @@ test('includes an ordinary file named __proto__ in the integrity list', async (t
   const { stdout } = await execute('tar', ['-xzOf', artifact.archive, './deploy-files.sha256']);
   assert.match(stdout, /  __proto__\n/);
   assert.equal(artifact.integrity.files, 9);
+});
+
+test('prepared static artifacts freeze bytes, skip repeat builds and reject changed inputs or tampering', async (t) => {
+  const root = await realpath(await mkdtemp(path.join(tmpdir(), 'owp-static-cache-test-')));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await cp(await fixture(t), path.join(root, 'dist'), { recursive: true });
+  const archiveRoot = path.join(root, 'archive');
+  await mkdir(path.join(archiveRoot, 'versions'), { recursive: true });
+  const index = path.join(archiveRoot, 'versions/index.json');
+  await writeFile(index, '{"schemaVersion":1,"releases":[]}');
+  let actual = { ...context, dirty: false, fingerprint: 'a'.repeat(64) };
+  let builds = 0;
+  const dependencies = { readContext: async () => actual, runBuild: async () => builds++, pack: ({ directory, context }) => createArtifact({ directory, context, builtAt }) };
+  const options = { repoRoot: root, archiveRoot };
+  const ready = await prepareStaticDeployment(options, dependencies);
+  assert.equal(ready.reused, false);
+  assert.equal((await prepareStaticDeployment(options, dependencies)).reused, true);
+  assert.equal(builds, 1);
+  const frozen = await readPreparedStaticDeployment(options, dependencies);
+  const original = await readFile(frozen.artifact.archive);
+  const cached = path.join(ready.directory, 'artifact.tar.gz');
+  await writeFile(cached, 'tampered');
+  assert.deepEqual(await readFile(frozen.artifact.archive), original);
+  await frozen.artifact.cleanup();
+  await assert.rejects(readPreparedStaticDeployment(options, dependencies), /크기|SHA/);
+  await writeFile(cached, original);
+  actual = { ...actual, fingerprint: 'b'.repeat(64) };
+  await assert.rejects(prepareStaticDeployment(options, dependencies), /clean commit|준비/);
+  assert.equal(builds, 1);
+  actual = { ...actual, fingerprint: 'a'.repeat(64) };
+  await writeFile(index, '{"schemaVersion":1,"releases":[],"changed":true}');
+  await assert.rejects(readPreparedStaticDeployment(options, dependencies), /아카이브/);
+});
+
+test('a non-regular prepared file is rejected without waiting for a FIFO writer', async (t) => {
+  const directory = await realpath(await fixture(t));
+  await execute('mkfifo', [path.join(directory, 'prepared.json')]);
+  const module = new URL('../deploy-prepared-files.mjs', import.meta.url).href;
+  await assert.rejects(execute(process.execPath, ['--input-type=module', '-e', `import {readPreparedBytes} from ${JSON.stringify(module)}; await readPreparedBytes(process.argv[1], 'prepared.json', 65536);`, directory], { timeout: 2000 }), (error) => {
+    assert.notEqual(error.killed, true);
+    assert.match(error.stderr, /종류 또는 크기/);
+    return true;
+  });
 });

@@ -63,6 +63,19 @@ test('Given a prepared bundle, When dry-run is requested, Then no network depend
   assert.equal(result.plan.bundle, fixture.bundle);
   assert.deepEqual(calls, []);
 });
+
+test('prepared-only dry-run requires cached dependencies and never calls VPN, installer or SSH', async (t) => {
+  const fixture = await mcpFixture(t);
+  const { calls, dependencies } = scenario();
+  dependencies.readPrepared = async () => undefined;
+  await assert.rejects(runMcpDeployment({ bundle: fixture.bundle, dryRun: true, preparedOnly: true }, dependencies), /deploy:prepare/);
+  assert.deepEqual(calls, []);
+  dependencies.readPrepared = async () => ({ reused: true });
+  const result = await runMcpDeployment({ bundle: fixture.bundle, dryRun: true, preparedOnly: true }, dependencies);
+  assert.equal(result.plan.offline.stage, 'prepared');
+  assert.equal(result.plan.offline.reused, true);
+  assert.deepEqual(calls, []);
+});
 test('Given no explicit VPN confirmation, When noninteractive CLI runs, Then it stops before SSH', async (t) => {
   const fixture = await mcpFixture(t);
   await assert.rejects(execute(process.execPath, ['--experimental-strip-types', cli, '--bundle', fixture.bundle], { timeout: 10000 }), (error) => {

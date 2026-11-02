@@ -8,7 +8,7 @@ import { runCommand } from './deploy-playground.mjs';
 import { openSshSession } from './deploy-ssh.mjs';
 import { mcpDeploymentConfig, parseMcpDeployOptions, validateMcpConfig } from './deploy-mcp-config.mjs';
 import { prepareMcpBundle } from './deploy-mcp-bundle.mjs';
-import { prepareMcpOffline } from './deploy-mcp-offline.mjs';
+import { prepareCachedMcpOffline, readCachedMcpOffline } from './deploy-mcp-prepared.mjs';
 import { probeMcpRemote, bootstrapMcpRemote } from './deploy-mcp-bootstrap.mjs';
 import { knowledgeReleaseSchema } from '../src/features/releases/model/schema.ts';
 import { verifyMcpDeployment } from './deploy-mcp-verify.mjs';
@@ -24,6 +24,7 @@ export const help = `OWP versioned Playground + MCP 배포 (port 30011)
 
   --bundle DIR       자동 선택 대신 배포할 묶음을 직접 지정합니다.
   --dry-run          로컬 묶음·helper SHA-256과 준비 계획만 검사합니다. 다운로드·SSH를 사용하지 않습니다.
+  --prepared-only    미리 준비한 Linux 자료만 사용합니다. 없으면 설치·다운로드 없이 중단합니다.
   --preflight-only   로컬 오프라인 자료를 준비하고 읽기 전용 서버 검사만 수행합니다. 서버 업로드·설치·서비스 변경은 없습니다.
   --assume-vpn       회사 VPN 연결을 명시적으로 확인합니다.
   -h, --help         네트워크나 파일 변경 없이 도움말을 표시합니다.
@@ -66,14 +67,18 @@ export async function runMcpDeployment(options, dependencies = {}) {
     log(`선택한 배포 묶음: ${plan.bundle} (${plan.releaseId})`);
     log(`묶음 검증: OK (${plan.releaseId}, ${plan.head})`);
     if (options.dryRun) {
-      log(JSON.stringify({ stage: 'dry-run', bundle: plan.bundle, root: config.remoteRoot, url: config.url, releaseId: plan.releaseId, head: plan.head, files: plan.files, offline: { stage: 'pending-preparation', target: 'linux-x64-glibc', nodeVersion: '24.22.1', pnpmVersion: '12.16.1' } }, null, 2));
+      const cached = await (dependencies.readPrepared ?? readCachedMcpOffline)(bundle);
+      if (options.preparedOnly && !cached) throw new Error('일치하는 MCP 준비 자료가 없습니다. pnpm deploy:prepare를 먼저 실행해 주세요.');
+      const offline = { stage: cached ? 'prepared' : 'pending-preparation', reused: Boolean(cached), target: 'linux-x64-glibc', nodeVersion: '24.22.1', pnpmVersion: '12.16.1' };
+      log(JSON.stringify({ stage: 'dry-run', bundle: plan.bundle, root: config.remoteRoot, url: config.url, releaseId: plan.releaseId, head: plan.head, offline }, null, 2));
+      plan.offline = offline;
       return { stage: 'dry-run', plan };
     }
     await (dependencies.confirm ?? confirmMcpVpn)({ interactive, assumeVpn: options.assumeVpn });
     signals.on('SIGINT', interrupt);
     signals.on('SIGTERM', interrupt);
     assertRunning();
-    const offline = await (dependencies.prepareOffline ?? prepareMcpOffline)(bundle, { log });
+    const offline = await (dependencies.prepareOffline ?? prepareCachedMcpOffline)(bundle, { log, preparedOnly: options.preparedOnly });
     plan.offline = offline.manifest;
     plan.files.push(...offline.transferFiles);
     log(`오프라인 배포 자료 준비: OK (${offline.manifest.target}, Node ${offline.manifest.nodeVersion}, pnpm ${offline.manifest.pnpmVersion})`);

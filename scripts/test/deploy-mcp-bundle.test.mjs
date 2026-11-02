@@ -1,10 +1,17 @@
 import assert from 'node:assert/strict';
-import { readFile, symlink, writeFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { mkdir, readFile, readdir, symlink, writeFile } from 'node:fs/promises';
+import { promisify } from 'node:util';
 import path from 'node:path';
 import test from 'node:test';
 import { prepareMcpBundle } from '../deploy-mcp-bundle.mjs';
 import { inspectMcpTar, sha256 } from '../deploy-mcp-tar.mjs';
 import { mcpFixture, tarBytes, writeFixtureMetadata } from './deploy-mcp-fixture.mjs';
+import { createMcpDeploymentBundle } from '../prepare-mcp-bundle.mjs';
+import { writeBuild } from './version-archive-fixture.mjs';
+import { archivePlaygroundBuild } from '../version-archive-write.ts';
+
+const execute = promisify(execFile);
 
 test('Given a clean stable bundle, When prepared, Then private copies and every archive fingerprint are verified', async (t) => {
   const fixture = await mcpFixture(t);
@@ -51,4 +58,40 @@ test('Given a symlink bundle directory, When preparing, Then the link is rejecte
   const target = path.join(fixture.root, 'linked-bundle');
   await symlink(fixture.bundle, target);
   await assert.rejects(prepareMcpBundle(target), /디렉터리/);
+});
+
+test('creates and reuses a bundle from the exact clean Git commit and preserves tampered prior material', async (t) => {
+  const fixture = await mcpFixture(t);
+  const repoRoot = path.join(fixture.root, 'source');
+  await mkdir(repoRoot);
+  for (const entry of fixture.sourceEntries) {
+    const file = path.join(repoRoot, entry.name);
+    await mkdir(path.dirname(file), { recursive: true });
+    await writeFile(file, entry.content);
+  }
+  for (const args of [['init', '-q'], ['add', '.'], ['-c', 'user.name=Deployment Test', '-c', 'user.email=deployment@example.test', 'commit', '-qm', 'fixture']]) {
+    await execute('git', args, { cwd: repoRoot });
+  }
+  const { stdout } = await execute('git', ['rev-parse', 'HEAD'], { cwd: repoRoot });
+  const commit = stdout.trim();
+  const releaseId = `20261103-030000-${commit.slice(0, 12)}`;
+  const release = { schemaVersion: 1, releaseId, createdAt: '2026-11-02T18:00:00.000Z', appVersion: '0.1.0', commit: commit.slice(0, 12), channel: 'stable', dirty: false, basePath: `/versions/${releaseId}/` };
+  const build = path.join(fixture.root, 'new-build');
+  const archiveRoot = path.join(fixture.root, 'new-archive');
+  await writeBuild(build, release);
+  await archivePlaygroundBuild({ archiveRoot, directory: build, release });
+  const options = { repoRoot, archiveRoot, releaseId, outputRoot: path.join(fixture.root, 'output') };
+  const directory = await createMcpDeploymentBundle(options);
+  assert.deepEqual((await readdir(directory)).sort(), ['SHA256SUMS', 'app.tar.gz', 'archive.tar.gz', 'release.json']);
+  assert.equal(await createMcpDeploymentBundle(options), directory);
+  const verified = await prepareMcpBundle(directory);
+  t.after(verified.cleanup);
+  assert.equal(verified.metadata.head, commit);
+  assert.equal(verified.metadata.releaseId, releaseId);
+  assert.deepEqual(verified.metadata.stableReleaseIds, [releaseId]);
+  await writeFile(path.join(directory, 'app.tar.gz'), 'tampered');
+  await assert.rejects(createMcpDeploymentBundle(options), /SHA|크기/);
+  assert.equal(await readFile(path.join(directory, 'app.tar.gz'), 'utf8'), 'tampered');
+  await writeFile(path.join(repoRoot, 'uncommitted.txt'), 'dirty');
+  await assert.rejects(createMcpDeploymentBundle(options), /clean commit/);
 });

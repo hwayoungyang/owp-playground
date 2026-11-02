@@ -7,6 +7,7 @@ import test from 'node:test';
 import { gzipSync } from 'node:zlib';
 import { assertMcpLinuxExecutable, extractMcpRuntimeMember, MCP_OFFLINE_RUNTIMES, prepareMcpOffline, prepareMcpRuntimes } from '../deploy-mcp-offline.mjs';
 import { inspectMcpDependencies } from '../deploy-mcp-offline-format.mjs';
+import { prepareCachedMcpOffline, readCachedMcpOffline } from '../deploy-mcp-prepared.mjs';
 
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex');
 function elf() {
@@ -164,4 +165,30 @@ test('Given invalid downloaded runtime bytes, When preparing, Then the unverifie
   await assert.rejects(prepareMcpRuntimes({ cacheDirectory, download: async (url) => { urls.push(url); return Buffer.from('forged'); } }), /SHA-256/);
   assert.deepEqual(urls, [MCP_OFFLINE_RUNTIMES['runtime-node'].url]);
   await assert.rejects(lstat(path.join(cacheDirectory, MCP_OFFLINE_RUNTIMES['runtime-node'].cacheName)), { code: 'ENOENT' });
+});
+
+test('prepared MCP dependencies reuse exact frozen inputs without installation and reject tampered cache', async (t) => {
+  const first = await fixture(t);
+  const preparedRoot = path.join(first.directory, 'prepared');
+  first.bundle.metadata.files['archive.tar.gz'] = { sha256: 'c'.repeat(64) };
+  let installs = 0;
+  const cold = await prepareCachedMcpOffline(first.bundle, { preparedRoot, prepareOffline: async (bundle) => {
+    installs++;
+    return prepareMcpOffline(bundle, { run: installFixture, prepareRuntime: runtimes });
+  } });
+  assert.equal(cold.reused, false);
+  const second = await fixture(t);
+  second.bundle.metadata.files['archive.tar.gz'] = { sha256: 'c'.repeat(64) };
+  const warm = await prepareCachedMcpOffline(second.bundle, { preparedRoot, preparedOnly: true, prepareOffline: () => assert.fail('warm cache must never install') });
+  assert.equal(warm.reused, true);
+  assert.equal(installs, 1);
+  assert.deepEqual(warm.transferFiles, cold.transferFiles);
+  const copied = await readFile(path.join(second.directory, 'dependencies.bin.gz'));
+  await writeFile(path.join(cold.directory, 'dependencies.bin.gz'), 'tampered');
+  assert.deepEqual(await readFile(path.join(second.directory, 'dependencies.bin.gz')), copied);
+  const third = await fixture(t);
+  third.bundle.metadata.files['archive.tar.gz'] = { sha256: 'c'.repeat(64) };
+  await assert.rejects(readCachedMcpOffline(third.bundle, { preparedRoot }), /SHA|크기|형식/);
+  third.bundle.metadata.files['archive.tar.gz'].sha256 = 'd'.repeat(64);
+  await assert.rejects(prepareCachedMcpOffline(third.bundle, { preparedRoot, preparedOnly: true, prepareOffline: () => assert.fail('missing prepared-only must never install') }), /deploy:prepare/);
 });

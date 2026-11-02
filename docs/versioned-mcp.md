@@ -114,6 +114,31 @@ AI 클라이언트에는 `http://owp.internal:30011/mcp`를 Streamable HTTP 서�
 
 SSH 연결 공유 방식을 재사용하며 서비스·잠금·릴리스 보관 경로를 분리합니다. 기존 `deploy:status`·`deploy:rollback`·`deploy:cleanup`은 30010 정적 서비스 전용입니다.
 
+### 두 서비스의 배포 사전 준비
+
+검토와 커밋을 마친 clean Git tree에서 다음 명령을 실행합니다. 앞선 소스 변경으로 Knowledge가 바뀌었다면 검토 기록과 생성 자료를 갱신·커밋해야 합니다. 준비 명령은 자동 commit이나 운영 서버 배포를 하지 않습니다.
+
+```sh
+pnpm deploy:prepare
+pnpm deploy -- --dry-run --prepared-only
+pnpm deploy:mcp --dry-run --prepared-only
+```
+
+`deploy:prepare`는 현재 commit의 stable 스냅샷을 확인하고 없으면 생성합니다. 이어 정적 Playground의 빌드·stable 버전 목록을 포함한 artifact, 같은 commit의 MCP 배포 묶음, Linux x64 glibc용 production 의존성과 런타임을 준비합니다. 자료는 Git에서 제외한 `.omo/evidence/`에 보관하며, 같은 입력의 검증된 준비 자료는 재사용합니다. MCP 묶음에는 선택한 신규 stable 하나를 담으며, 서버의 기존 stable은 기존 병합 절차로 보존합니다.
+
+준비 후 회사 VPN에 연결해 각 서비스를 배포합니다.
+
+```sh
+pnpm deploy -- --prepared-only
+pnpm deploy:mcp --prepared-only
+```
+
+정적 배포는 현재 clean commit·소스/설치 패키지 지문·아카이브 index와 준비 자료를 대조한 뒤 빌드와 artifact 생성을 생략합니다. MCP는 선택한 불변 묶음의 commit·스냅샷·소스/lockfile hash·대상 플랫폼과 준비 자료를 대조한 뒤 의존성 설치와 압축을 생략합니다. 각 준비 파일의 크기와 SHA-256을 확인하고 실행별 비공개 사본으로 전송하며, 기존 SSH 검사·서버 무결성 검사·서비스 전환·HTTP/MCP 검증·실패 복구는 유지합니다.
+
+`--prepared-only`는 준비 자료가 없으면 빌드·설치로 넘어가지 않고 실패합니다. 옵션 없이 실행하면 일치하는 준비 자료를 우선 사용하고, 자료가 없으면 기존 빌드/의존성 준비 절차를 수행합니다. 존재하는 자료가 오래됐거나 손상됐으면 자동으로 덮어쓰거나 이전 자료로 대체하지 않습니다. 준비 결과는 같은 릴리스 ID를 유지하므로 이미 성공적으로 배포한 정적 릴리스를 새로운 릴리스로 다시 발행하지 않습니다.
+
+`--dry-run`은 로컬 검증만 하며 SSH·다운로드·의존성 설치·서비스 변경을 실행하지 않습니다. 두 명령에서 준비 완료 여부를 확인한 뒤 실제 배포를 실행하세요. `deploy:mcp:preflight`도 준비된 MCP 의존성을 재사용하지만 서버에 접속하는 읽기 전용 검사이므로 로컬 dry-run과 구분합니다.
+
 ### 기존 30010 정적 사이트
 
 회사 VPN에 연결한 Mac의 프로젝트 루트에서 실행합니다.
@@ -124,13 +149,13 @@ corepack pnpm deploy
 corepack pnpm deploy:status
 ```
 
-이 경로는 최신 정적 사이트를 새로 빌드하고, `.playground-versions`에서 검증한 stable 아카이브 전체를 `versions/`에 포함해 기존 Nginx의 `current`를 전환합니다. 배포 전에 clean commit의 `snapshot:create --stable`을 실행하세요. stable이 없거나 아카이브가 손상되면 배포를 중단합니다. draft는 정적 사이트에 포함하지 않습니다.
+이 경로는 현재 입력과 일치하는 준비 artifact를 우선 사용하며, 준비 자료가 없으면 최신 정적 사이트를 새로 빌드합니다. `.playground-versions`에서 검증한 stable 아카이브 전체를 `versions/`에 포함해 기존 Nginx의 `current`를 전환합니다. 배포 전에 `deploy:prepare` 또는 clean commit의 `snapshot:create --stable`을 실행하세요. stable이 없거나 아카이브가 손상되면 배포를 중단합니다. draft는 정적 사이트에 포함하지 않습니다.
 
 버전 목록과 버전별 API·catalog·asset·snippet을 같은 origin에서 제공하므로 `/versions/index.json` 요청이 메인 HTML로 대체되는 오류를 방지합니다. 일반 `dist/`와 아카이브 원본은 유지하고 배포용 임시 산출물에만 복사합니다. Nginx·Docker 설정 변경이나 MCP 프로세스 설치는 포함하지 않습니다. 실패 복구는 기존 `deploy:rollback`을 사용합니다. 자세한 서버 조건은 [README의 배포 CLI](../README.md#배포-cli)를 따릅니다.
 
 ### MCP 최초 설치와 이후 갱신
 
-아래 [서버 준비 조건](#서버-준비-조건)을 확인한 뒤, 회사 VPN에 연결한 Mac의 프로젝트 루트에서 실행합니다. 다음 한 명령이 최신 stable 묶음 선택·검증, Linux x64용 Node.js·pnpm·production 의존성의 로컬 준비, 전송, 최초 런타임 설치, 서비스 시작과 검증을 수행합니다. 서버에서 외부 사이트나 registry에 접속하지 않습니다.
+아래 [서버 준비 조건](#서버-준비-조건)을 확인한 뒤, 회사 VPN에 연결한 Mac의 프로젝트 루트에서 실행합니다. 다음 한 명령이 최신 stable 묶음 선택·검증, 준비된 Linux 자료의 재사용 또는 로컬 준비, 전송, 최초 런타임 설치, 서비스 시작과 검증을 수행합니다. 서버에서 외부 사이트나 registry에 접속하지 않습니다.
 
 ```sh
 pnpm deploy:mcp

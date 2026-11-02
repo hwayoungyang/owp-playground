@@ -11,10 +11,12 @@ const root = fileURLToPath(new URL('../../', import.meta.url));
 
 for (const [args, usage] of [
   [['deploy', '--', '--help'], '사용법: pnpm deploy [-- 옵션]'],
+  [['deploy', '--', '--help', '--prepared-only', '--dry-run'], '사용법: pnpm deploy [-- 옵션]'],
   [['deploy:preflight', '--help'], '사전 검사만 실행: pnpm deploy:preflight'],
   [['deploy:status', '--help'], '사용법: pnpm deploy:status'],
   [['deploy:rollback', '--help'], '사용법: pnpm deploy:rollback'],
   [['deploy:cleanup', '--help'], '사용법: pnpm deploy:cleanup'],
+  [['deploy:prepare', '--help'], '사용법: pnpm deploy:prepare'],
 ]) {
   test(`pnpm ${args.join(' ')} reaches the project CLI without modifying dependencies`, async () => {
     const lockfile = await readFile(path.join(root, 'pnpm-lock.yaml'));
