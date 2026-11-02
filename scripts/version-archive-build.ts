@@ -14,8 +14,8 @@ const packageIdentitySchema = z.object({ id: releasePackageIdSchema, name: z.str
 const catalogSchema = z.object({
   version: z.literal(1),
   packages: z.array(z.discriminatedUnion('status', [
-    packageIdentitySchema.extend({ status: z.literal('ready') }),
-    packageIdentitySchema.extend({ status: z.literal('available') }),
+    packageIdentitySchema.extend({ status: z.literal('ready'), knowledge: z.boolean().optional() }),
+    packageIdentitySchema.extend({ status: z.literal('available'), knowledge: z.boolean().optional() }),
     z.object({ id: releasePackageIdSchema, name: z.string(), version: z.null(), status: z.literal('planned') }),
   ])).min(1),
 });
@@ -29,7 +29,7 @@ const sourceFileSchema = z.object({
 });
 const sourceCatalogSchema = z.object({
   version: z.literal(1), package: z.string(), packageVersion: exactPackageVersionSchema,
-  samples: z.array(z.object({ id: z.string(), entrypoint: z.string(), files: z.array(sourceFileSchema).min(1) })).min(1),
+  samples: z.array(z.object({ id: z.string(), entrypoint: z.string(), files: z.array(sourceFileSchema).min(1) })),
 });
 
 export function archiveResourcePath(reference: string, basePath: string): string {
@@ -74,12 +74,12 @@ export async function validateArchivedBuild(directory: string, basePath: string)
   }
   const catalog = parseArchiveJson(catalogSchema, await readArchiveBytes(directory, 'packages.json'), 'packages.json');
   const knowledge = parseArchiveJson(knowledgeIndexSchema, await readArchiveBytes(directory, 'knowledge/index.json'), 'knowledge/index.json');
-  const ready = catalog.packages.flatMap((entry) => entry.status === 'ready'
+  const ready = catalog.packages.flatMap((entry) => entry.status === 'ready' || (entry.status === 'available' && entry.knowledge === true)
     ? [parseArchiveData(releasePackageSchema, { id: entry.id, name: entry.name, version: entry.version }, entry.id)] : []);
   const published = knowledge.packages.map((entry) => parseArchiveData(releasePackageSchema, entry, entry.id));
   if (ready.length === 0 || new Set(catalog.packages.map((entry) => entry.id)).size !== catalog.packages.length ||
       ready.length !== published.length || ready.some((entry) => !published.some((candidate) => JSON.stringify(candidate) === JSON.stringify(entry)))) {
-    throw new VersionArchiveError('INVALID_DATA', 'ready 패키지 목록과 knowledge 패키지 목록이 다릅니다.');
+    throw new VersionArchiveError('INVALID_DATA', 'Knowledge 지원 패키지 목록과 knowledge 패키지 목록이 다릅니다.');
   }
   for (const reference of knowledge.resources) {
     if (!(files[archiveResourcePath(reference, basePath)]?.bytes)) throw new VersionArchiveError('INVALID_DATA', `knowledge 자산이 없습니다: ${reference}`);
@@ -96,6 +96,10 @@ export async function validateArchivedBuild(directory: string, basePath: string)
       await readArchiveBytes(directory, `catalogs/${entry.id}.sources.json`), `${entry.id} source catalog`);
     if (sourceCatalog.package !== entry.name || sourceCatalog.packageVersion !== entry.version) {
       throw new VersionArchiveError('INVALID_DATA', `소스 catalog의 패키지 정보가 다릅니다: ${entry.id}`);
+    }
+    if (sourceCatalog.samples.length === 0 && (catalog.packages.some((candidate) => candidate.id === entry.id && candidate.status === 'ready') ||
+        dataset.examples.some((example) => example.packageId === entry.id))) {
+      throw new VersionArchiveError('INVALID_DATA', `실행 예제의 소스 catalog가 비어 있습니다: ${entry.id}`);
     }
     for (const sample of sourceCatalog.samples) {
       const paths = new Set(sample.files.map((file) => file.path));

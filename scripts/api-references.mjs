@@ -1,4 +1,4 @@
-import { completedPlaygroundPackages } from '../src/playgrounds/packages.ts';
+import { knowledgePackages } from '../src/playgrounds/packages.ts';
 
 const native = {
   borderRadius: 'BarOptions.borderRadius', borderSkipped: 'BarOptions.borderSkipped',
@@ -90,7 +90,7 @@ const exampleTargets = {
     'programmatic-events': { chartRef: '@owp/charts:ChartFrameProps.chartRef' },
   },
 };
-const ownPackages = new Set(completedPlaygroundPackages.map((entry) => entry.name));
+const ownPackages = new Set(knowledgePackages.map((entry) => entry.name));
 
 /** 예제의 컴포넌트와 선언의 참조 관계로 API 설명 대상을 확인합니다. */
 export function resolveExampleReferences({ packageId, examples, records, sourceText }) {

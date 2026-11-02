@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { completedPlaygroundPackages } from '../src/playgrounds/packages.ts';
+import { knowledgePackages } from '../src/playgrounds/packages.ts';
 import type { ReleaseIndex, ReleaseIndexEntry } from '../src/features/releases/model/schema.ts';
 import { archivedPackageKnowledgeSchema } from '../scripts/version-archive-build.ts';
 import { filesystemErrorCode, readArchiveBytes } from '../scripts/version-archive-files.ts';
@@ -90,7 +90,7 @@ export function createKnowledgeArchive(options: KnowledgeOptions) {
       .map((entry) => ({
         ...entry,
         packages: entry.packages.filter((pkg) =>
-          completedPlaygroundPackages.some((ready) => ready.id === pkg.id),
+          knowledgePackages.some((ready) => ready.id === pkg.id),
         ),
       }));
     return { index, releases };

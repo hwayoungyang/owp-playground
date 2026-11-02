@@ -120,7 +120,7 @@ const view = <>
       '@owp/core:OwpDialogProps.isDirty',
       '@owp/core:OwpDialogProps.open',
     ]);
-    expect(result.references.every((entry) => entry.packageId === 'core')).toBe(true);
+    expect(result.references.map((entry) => entry.packageId)).toEqual(['components', 'components', 'core', 'core']);
   });
   it('binds aliases and namespaces while excluding same-name DOM props, strings and comments', () => {
     const file = source(
@@ -386,12 +386,18 @@ const view = <><ChartShared shared={1} chartOnly={true} gridOnly={true} aria-lab
     expect(ids(result)).toEqual([
       '@owp/charts:SharedProps.chartOnly',
       '@owp/charts:SharedProps.shared',
+      '@owp/components:SharedProps.chartOnly',
+      '@owp/components:SharedProps.gridOnly',
+      '@owp/components:SharedProps.shared',
       '@owp/datagrid:SharedProps.gridOnly',
       '@owp/datagrid:SharedProps.shared',
     ]);
     expect(result.references.map((reference) => reference.packageId)).toEqual([
       'charts',
       'charts',
+      'components',
+      'components',
+      'components',
       'datagrid',
       'datagrid',
     ]);

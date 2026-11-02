@@ -149,77 +149,99 @@
           "heading": "@owp/components",
           "line": 1,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Package Size",
           "line": 5,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Changes (2026-10-30)",
           "line": 11,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Usage",
           "line": 15,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Requirements",
           "line": 32,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Tech Stack",
           "line": 39,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Runtime Dependencies",
           "line": 43,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Peer Dependencies",
           "line": 61,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Public Subpaths",
           "line": 76,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "API Documentation",
           "line": 91,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "라이선스 및 사용 정책 / License and Usage Policy",
           "line": 118,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         }
       ]
@@ -233,77 +255,110 @@
           "heading": "@owp/charts",
           "line": 1,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.public-exports"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Package Size",
           "line": 5,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.public-exports"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Changes (2026-10-30)",
           "line": 11,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.public-exports"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Usage",
           "line": 15,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.public-exports"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Requirements",
           "line": 43,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.public-exports"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Tech Stack",
           "line": 50,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.public-exports"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Runtime Dependencies",
           "line": 55,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.public-exports"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Peer Dependencies",
           "line": 73,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.public-exports"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Public Subpaths",
           "line": 88,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.public-exports"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "API Documentation",
           "line": 106,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.public-exports"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "라이선스 및 사용 정책 / License and Usage Policy",
           "line": 119,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.public-exports"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         }
       ]
@@ -317,77 +372,99 @@
           "heading": "@owp/datagrid",
           "line": 1,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
+          "guideIds": [
+            "@owp/datagrid:guide.connection"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Package Size",
           "line": 5,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
+          "guideIds": [
+            "@owp/datagrid:guide.connection"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Changes (2026-10-30)",
           "line": 11,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
+          "guideIds": [
+            "@owp/datagrid:guide.connection"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Usage",
           "line": 15,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
+          "guideIds": [
+            "@owp/datagrid:guide.connection"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Requirements",
           "line": 37,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
+          "guideIds": [
+            "@owp/datagrid:guide.connection"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Tech Stack",
           "line": 44,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
+          "guideIds": [
+            "@owp/datagrid:guide.connection"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Runtime Dependencies",
           "line": 49,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
+          "guideIds": [
+            "@owp/datagrid:guide.connection"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Peer Dependencies",
           "line": 65,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
+          "guideIds": [
+            "@owp/datagrid:guide.connection"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Public Subpaths",
           "line": 77,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
+          "guideIds": [
+            "@owp/datagrid:guide.connection"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "API Documentation",
           "line": 87,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
+          "guideIds": [
+            "@owp/datagrid:guide.connection"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "라이선스 및 사용 정책 / License and Usage Policy",
           "line": 106,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
+          "guideIds": [
+            "@owp/datagrid:guide.connection"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         }
       ]
@@ -401,77 +478,110 @@
           "heading": "@owp/theme",
           "line": 1,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.setup",
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Package Size",
           "line": 5,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.setup",
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Changes (2026-10-27)",
           "line": 11,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.setup",
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Usage",
           "line": 15,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.setup",
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Requirements",
           "line": 26,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.setup",
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Tech Stack",
           "line": 32,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.setup",
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Runtime Dependencies",
           "line": 36,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.setup",
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Peer Dependencies",
           "line": 45,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.setup",
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Public Subpaths",
           "line": 56,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.setup",
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "API Documentation",
           "line": 65,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.setup",
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "라이선스 및 사용 정책 / License and Usage Policy",
           "line": 75,
           "disposition": "mapped",
-          "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
+          "guideIds": [
+            "@owp/core:guide.setup",
+            "@owp/core:guide.composition"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         }
       ]
@@ -479,7 +589,7 @@
     {
       "id": "agents/solutions/owp-framework/skills/owp-framework/SKILL.md",
       "packageId": "shared",
-      "sha256": "76a9d898b66c23c6eb2d6b84c0a047f734dd530731ad4645b65b79fd988341fa",
+      "sha256": "218d02acbf86c319bfa1b7cb5cffa7493615ba61d5f5d73a9d3f43767b1902a4",
       "sections": [
         {
           "heading": "OWP Framework",
@@ -514,7 +624,7 @@
     {
       "id": "agents/solutions/owp-framework/skills/owp-framework/references/datagrid.md",
       "packageId": "datagrid",
-      "sha256": "1364c2bc3bc41a5e0dc537966af6be67e0629b70cba4ade91e72d3e12157f6ac",
+      "sha256": "8454707a3a91a6399f31c2d0a7b9550924f5906bd278e927044b73ea58807c2d",
       "sections": [
         {
           "heading": "DataGrid",
@@ -562,14 +672,18 @@
           "heading": "컬럼별 검증 시점과 재입력 오류 해제",
           "line": 28,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.editing"],
+          "guideIds": [
+            "@owp/datagrid:guide.editing"
+          ],
           "note": "validationMode·clearErrorOnInput의 공개 컬럼 계약과 명시적 검증·오류 수명을 편집 가이드에 연결합니다. 회귀 검사 절차는 원본에서 관리합니다."
         },
         {
           "heading": "Text 컬럼 입력 정책",
           "line": 40,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.editing"],
+          "guideIds": [
+            "@owp/datagrid:guide.editing"
+          ],
           "note": "textOptions의 입력·IME·오류 보존과 거부 메시지·warning 계약을 편집 가이드에 연결합니다. 개발·회귀 검증 절차는 원본에서 관리합니다."
         },
         {
@@ -637,7 +751,7 @@
         },
         {
           "heading": "안정적인 선택자와 전용 높이 설정",
-          "line": 88,
+          "line": 86,
           "disposition": "mapped",
           "guideIds": [
             "@owp/datagrid:guide.connection",
@@ -651,7 +765,7 @@
         },
         {
           "heading": "단일 자동완성 편집",
-          "line": 98,
+          "line": 91,
           "disposition": "mapped",
           "guideIds": [
             "@owp/datagrid:guide.connection",
@@ -665,7 +779,7 @@
         },
         {
           "heading": "멀티 자동완성의 편집 표시",
-          "line": 102,
+          "line": 95,
           "disposition": "mapped",
           "guideIds": [
             "@owp/datagrid:guide.connection",
@@ -679,7 +793,7 @@
         },
         {
           "heading": "두 멀티 유형의 조회 표시와 긴 텍스트 힌트",
-          "line": 106,
+          "line": 99,
           "disposition": "mapped",
           "guideIds": [
             "@owp/datagrid:guide.connection",
@@ -693,7 +807,7 @@
         },
         {
           "heading": "일반 select 멀티 설정과 편집",
-          "line": 110,
+          "line": 104,
           "disposition": "mapped",
           "guideIds": [
             "@owp/datagrid:guide.connection",
@@ -707,21 +821,21 @@
         },
         {
           "heading": "값·후보·검증 계약",
-          "line": 116,
+          "line": 109,
           "disposition": "development",
           "guideIds": [],
           "note": "개발·승인·테스트 절차는 원본에서 관리합니다."
         },
         {
           "heading": "관련 회귀 검증",
-          "line": 124,
+          "line": 116,
           "disposition": "development",
           "guideIds": [],
           "note": "개발·승인·테스트 절차는 원본에서 관리합니다."
         },
         {
           "heading": "Master-detail",
-          "line": 130,
+          "line": 122,
           "disposition": "mapped",
           "guideIds": [
             "@owp/datagrid:guide.connection",
@@ -735,7 +849,7 @@
         },
         {
           "heading": "날짜와 시간 컬럼",
-          "line": 140,
+          "line": 132,
           "disposition": "mapped",
           "guideIds": [
             "@owp/datagrid:guide.connection",
@@ -901,7 +1015,7 @@
     {
       "id": "agents/consumer/datagrid/SKILL.md",
       "packageId": "datagrid",
-      "sha256": "7c2c7024e98cea9bdf4db4f9ef2f48bc44384b2904986dea36269ba450ca3696",
+      "sha256": "4309f645aaa3b941fc45db993a080811bd369132009ac1b1a44bbee49df5be96",
       "sections": [
         {
           "heading": "Reference app MES OwpDataGrid",
@@ -950,7 +1064,7 @@
     {
       "id": "agents/consumer/datagrid/references/usage.md",
       "packageId": "datagrid",
-      "sha256": "25d21ff5e547ce8f6da1196c1321a0e47c9ccaad5a5e9d302c6bd87186020798",
+      "sha256": "aa669126732e9569f636787c4783187743033bc371f59deb37ee6d7e2f1f5193",
       "sections": [
         {
           "heading": "OwpDataGrid 기본 연결",
@@ -1045,7 +1159,7 @@
     {
       "id": "agents/consumer/datagrid/references/columns-layout.md",
       "packageId": "datagrid",
-      "sha256": "3b45f5e8e639b5daa3da9873471e9ff6b5a286b8f9e5e59541f9d0e87da2fc5b",
+      "sha256": "79e3fd6c7cbb5d225dbd47425755e730d296fcfc83e1a5ebc311250c2d1e3a36",
       "sections": [
         {
           "heading": "DataGrid 컬럼·레이아웃",
@@ -1054,6 +1168,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1066,6 +1181,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1078,6 +1194,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1090,6 +1207,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1102,6 +1220,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1114,6 +1233,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1126,6 +1246,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1138,6 +1259,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1150,6 +1272,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1162,6 +1285,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1181,6 +1305,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1193,6 +1318,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1205,6 +1331,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1217,6 +1344,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1229,6 +1357,7 @@
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1236,11 +1365,12 @@
         },
         {
           "heading": "Boolean 업무값과 checkbox 필터",
-          "line": 130,
+          "line": 132,
           "disposition": "mapped",
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1248,11 +1378,12 @@
         },
         {
           "heading": "헤더 전체 선택만 제한",
-          "line": 144,
+          "line": 146,
           "disposition": "mapped",
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
@@ -1260,85 +1391,16 @@
         },
         {
           "heading": "고정 합계행",
-          "line": 149,
+          "line": 151,
           "disposition": "mapped",
           "guideIds": [
             "@owp/datagrid:guide.columns",
             "@owp/datagrid:guide.layout-data",
+            "@owp/datagrid:guide.styling",
             "@owp/datagrid:guide.select",
             "@owp/datagrid:guide.formatting"
           ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
-        }
-      ]
-    },
-    {
-      "id": "agents/consumer/datagrid/references/styling-select.md",
-      "packageId": "datagrid",
-      "sha256": "e9b4089ea5952724a6cdc41e4698d3fa4e2a415b107ee878afd7f85d4c6a5426",
-      "sections": [
-        {
-          "heading": "DataGrid sx와 select·자동완성",
-          "line": 1,
-          "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.styling", "@owp/datagrid:guide.select"],
-          "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
-        },
-        {
-          "heading": "MUI sx와 자동완성·일반 select",
-          "line": 5,
-          "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.styling", "@owp/datagrid:guide.select"],
-          "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
-        },
-        {
-          "heading": "스타일 API의 적용 범위와 우선순위",
-          "line": 9,
-          "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.styling", "@owp/datagrid:guide.select"],
-          "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
-        },
-        {
-          "heading": "안정적인 선택자와 전용 높이 설정",
-          "line": 15,
-          "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.styling", "@owp/datagrid:guide.select"],
-          "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
-        },
-        {
-          "heading": "단일 자동완성 편집",
-          "line": 25,
-          "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.styling", "@owp/datagrid:guide.select"],
-          "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
-        },
-        {
-          "heading": "멀티 자동완성의 편집 표시",
-          "line": 29,
-          "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.styling", "@owp/datagrid:guide.select"],
-          "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
-        },
-        {
-          "heading": "두 멀티 유형의 조회 표시와 긴 텍스트 힌트",
-          "line": 33,
-          "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.styling", "@owp/datagrid:guide.select"],
-          "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
-        },
-        {
-          "heading": "일반 select 멀티 설정과 편집",
-          "line": 37,
-          "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.styling", "@owp/datagrid:guide.select"],
-          "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
-        },
-        {
-          "heading": "값·후보·검증 계약",
-          "line": 41,
-          "disposition": "development",
-          "guideIds": [],
-          "note": "개발·승인·테스트 절차는 원본에서 관리합니다."
         }
       ]
     },
@@ -1351,28 +1413,40 @@
           "heading": "DataGrid 선택과 화면 상태",
           "line": 1,
           "disposition": "consumer-pattern",
-          "guideIds": ["@owp/datagrid:guide.selection", "@owp/datagrid:guide.states"],
+          "guideIds": [
+            "@owp/datagrid:guide.selection",
+            "@owp/datagrid:guide.states"
+          ],
           "note": "업무별 코드·경로·조회 정책을 일반 패키지 계약으로 확장하지 않습니다."
         },
         {
           "heading": "Selection과 row panel",
           "line": 3,
           "disposition": "consumer-pattern",
-          "guideIds": ["@owp/datagrid:guide.selection", "@owp/datagrid:guide.states"],
+          "guideIds": [
+            "@owp/datagrid:guide.selection",
+            "@owp/datagrid:guide.states"
+          ],
           "note": "업무별 코드·경로·조회 정책을 일반 패키지 계약으로 확장하지 않습니다."
         },
         {
           "heading": "연관 그리드 선택 안내",
           "line": 14,
           "disposition": "consumer-pattern",
-          "guideIds": ["@owp/datagrid:guide.selection", "@owp/datagrid:guide.states"],
+          "guideIds": [
+            "@owp/datagrid:guide.selection",
+            "@owp/datagrid:guide.states"
+          ],
           "note": "업무별 코드·경로·조회 정책을 일반 패키지 계약으로 확장하지 않습니다."
         },
         {
           "heading": "초기화 이후 화면 상태 동기화",
           "line": 22,
           "disposition": "consumer-pattern",
-          "guideIds": ["@owp/datagrid:guide.selection", "@owp/datagrid:guide.states"],
+          "guideIds": [
+            "@owp/datagrid:guide.selection",
+            "@owp/datagrid:guide.states"
+          ],
           "note": "업무별 코드·경로·조회 정책을 일반 패키지 계약으로 확장하지 않습니다."
         }
       ]
@@ -1380,34 +1454,44 @@
     {
       "id": "agents/consumer/datagrid/references/editing.md",
       "packageId": "datagrid",
-      "sha256": "9f803282e9af4030dcc5a19c12c357baca5b2d20b34d68df7628d6826d9d2253",
+      "sha256": "ddbba06e7b562dfdbd45aed4330c43f6bb1cac60649ee46b4973da684b3b7730",
       "sections": [
         {
           "heading": "DataGrid 편집·행 변경과 이동",
           "line": 1,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.editing", "@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.editing",
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Cell edit와 row lifecycle",
           "line": 3,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.editing", "@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.editing",
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Text 컬럼 입력 정책",
           "line": 31,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.editing"],
+          "guideIds": [
+            "@owp/datagrid:guide.editing"
+          ],
           "note": "공개 textOptions와 검증·오류 수명 계약만 편집 가이드에 연결합니다. 앱의 업무별 컬럼·저장 정책과 검증 절차는 일반 패키지 계약으로 확장하지 않습니다."
         },
         {
           "heading": "Row reordering",
           "line": 47,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "행 이동과 순서 변경의 공개 계약을 행 관리 가이드에 연결합니다. 서버 저장·실패 복구 정책은 프로젝트에서 구성합니다."
         }
       ]
@@ -1421,63 +1505,90 @@
           "heading": "편집 확정, 일괄 변경과 저장 결과 반영",
           "line": 1,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.saving", "@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.saving",
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "적용 전 확인",
           "line": 3,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.saving", "@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.saving",
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "API 선택과 결과 처리",
           "line": 10,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.saving", "@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.saving",
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "일괄 변경",
           "line": 26,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.saving", "@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.saving",
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "특정 신규행만 취소",
           "line": 36,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.saving", "@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.saving",
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "저장 처리 순서",
           "line": 47,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.saving", "@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.saving",
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "서버 row 반영과 부분 승인",
           "line": 59,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.saving", "@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.saving",
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "DnD 순서 저장 완료",
           "line": 72,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.saving", "@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.saving",
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Data cell과 row 클릭 callback",
           "line": 79,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.saving", "@owp/datagrid:guide.rows"],
+          "guideIds": [
+            "@owp/datagrid:guide.saving",
+            "@owp/datagrid:guide.rows"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         }
       ]
@@ -1491,21 +1602,27 @@
           "heading": "OwpDataGrid master-detail",
           "line": 1,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.tree-detail"],
+          "guideIds": [
+            "@owp/datagrid:guide.tree-detail"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "적용 범위",
           "line": 3,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.tree-detail"],
+          "guideIds": [
+            "@owp/datagrid:guide.tree-detail"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "상세 콘텐츠와 조회",
           "line": 11,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.tree-detail"],
+          "guideIds": [
+            "@owp/datagrid:guide.tree-detail"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
@@ -1520,41 +1637,51 @@
     {
       "id": "agents/consumer/datagrid/references/number-formatting.md",
       "packageId": "datagrid",
-      "sha256": "57181b85d500a61a9b797fdbd5c8406698095b11724ff73b8b590495565bc625",
+      "sha256": "82b1bc1e34435db51646a0582debcba98c584c75c3d61e87db63691d27a9062d",
       "sections": [
         {
           "heading": "OwpDataGrid 숫자 표시와 Excel 규칙",
           "line": 1,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "`formatNumber`와 `numberOptions`의 경계",
           "line": 3,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "`OwpDataGrid.numberOptions`",
           "line": 12,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "숫자 범위와 음수 제한",
-          "line": 26,
+          "line": 25,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Excel export",
-          "line": 35,
+          "line": 32,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         }
       ]
@@ -1562,167 +1689,213 @@
     {
       "id": "agents/consumer/datagrid/references/temporal-cells.md",
       "packageId": "datagrid",
-      "sha256": "91f9bf443df02af53e146483343de4f81ad8528b51e5b3b945677132578019d1",
+      "sha256": "6cba05c1efd1ab0a6342430450b27b4f7f0bc1994aae6b6e7b26bcbce1681b1c",
       "sections": [
         {
           "heading": "날짜·시간 셀",
           "line": 1,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "날짜·시간 표시 우선순위",
           "line": 8,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "날짜",
-          "line": 15,
+          "line": 13,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Public API와 선택 기준",
-          "line": 17,
+          "line": 15,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "strict 모드",
-          "line": 24,
+          "line": 20,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "common 모드",
-          "line": 28,
+          "line": 24,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "format 정밀도",
-          "line": 37,
+          "line": 28,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "표시, 편집, 정렬과 필터",
-          "line": 44,
+          "line": 32,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "원본 row와 조회 API 계약",
-          "line": 52,
+          "line": 37,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Excel export",
-          "line": 60,
+          "line": 42,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "시간",
-          "line": 66,
+          "line": 46,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Public API와 값 계약",
-          "line": 68,
+          "line": 48,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "표시와 편집",
-          "line": 74,
+          "line": 53,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Sort, filter와 폭",
-          "line": 82,
+          "line": 58,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Excel export",
-          "line": 87,
+          "line": 62,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "일시",
-          "line": 92,
+          "line": 66,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "OwpDatePicker 통합 날짜·시간 선택",
-          "line": 94,
+          "line": 68,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "변경과 명시적 확정 callback",
-          "line": 106,
+          "line": 80,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Public API와 컬럼 선택",
-          "line": 112,
+          "line": 86,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "기존 valueFormatter 전환",
-          "line": 119,
+          "line": 91,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "입력값과 시간대",
-          "line": 125,
+          "line": 96,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "정렬·필터·저장과 Excel",
-          "line": 132,
+          "line": 101,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "편집·필터 UI",
-          "line": 139,
+          "line": 106,
           "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.formatting"],
+          "guideIds": [
+            "@owp/datagrid:guide.formatting"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         }
       ]
@@ -1847,21 +2020,30 @@
           "heading": "시간축 (`time`·`timeseries`)",
           "line": 107,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.zoom"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.zoom"
+          ],
           "note": "/chartjs/time의 registerChartTime과 ChartTime* 공개 타입, 앱의 adapter 준비 및 millisecond 단위의 zoom·slider 계약을 연결합니다."
         },
         {
           "heading": "로그축 (`logarithmic`)",
           "line": 179,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.zoom"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.zoom"
+          ],
           "note": "LogarithmicScale 자동 등록과 양수 입력, native zoom·reset 지원 및 로그축의 OWP zoomSlider 제한을 연결합니다."
         },
         {
           "heading": "Subtitle",
           "line": 223,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.export-layout"],
+          "guideIds": [
+            "@owp/charts:guide.composition",
+            "@owp/charts:guide.export-layout"
+          ],
           "note": "Subtitle 자동 등록과 native 옵션, canvas PNG export 및 별도 aria-label 계약을 연결합니다."
         },
         {
@@ -2046,35 +2228,45 @@
           "heading": "Area·Radar·Radial chart",
           "line": 1,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.area-radial"],
+          "guideIds": [
+            "@owp/charts:guide.area-radial"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Area",
           "line": 7,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.area-radial"],
+          "guideIds": [
+            "@owp/charts:guide.area-radial"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Radar",
           "line": 38,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.area-radial"],
+          "guideIds": [
+            "@owp/charts:guide.area-radial"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Radial",
           "line": 48,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.area-radial"],
+          "guideIds": [
+            "@owp/charts:guide.area-radial"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "바깥 라벨과 빈 상태",
           "line": 89,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.area-radial"],
+          "guideIds": [
+            "@owp/charts:guide.area-radial"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         }
       ]
@@ -2088,28 +2280,36 @@
           "heading": "Box plot·Treemap·Heatmap",
           "line": 1,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.geometry"],
+          "guideIds": [
+            "@owp/charts:guide.geometry"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Box plot",
           "line": 55,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.geometry"],
+          "guideIds": [
+            "@owp/charts:guide.geometry"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Treemap",
           "line": 107,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.geometry"],
+          "guideIds": [
+            "@owp/charts:guide.geometry"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Heatmap",
           "line": 137,
           "disposition": "mapped",
-          "guideIds": ["@owp/charts:guide.geometry"],
+          "guideIds": [
+            "@owp/charts:guide.geometry"
+          ],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         }
       ]
@@ -2209,7 +2409,10 @@
       "original": "Treemap 예제 API 목록 accessors",
       "current": "실행 예제가 사용하는 data·style·formatter로 연결. accessors는 커스텀 입력 타입의 조건부 계약으로 API 문서에 유지",
       "apiId": "@owp/charts:OwpTreemapChartProps.accessors",
-      "evidence": ["src/playgrounds/charts/examples/treemap.tsx", "@owp/charts/types"]
+      "evidence": [
+        "src/playgrounds/charts/examples/treemap.tsx",
+        "@owp/charts/types"
+      ]
     },
     {
       "source": "playground/src/playgrounds/charts/catalog.ts",
@@ -2217,7 +2420,10 @@
       "original": "Box plot 예제의 datasetOptions가 일반 ChartSeriesConfig 설정에 연결",
       "current": "실제 Box plot dataset의 공개 타입 BoxPlotDatasetOptions로 라벨과 연결 대상을 변경",
       "apiId": "@owp/charts:BoxPlotDatasetOptions",
-      "evidence": ["src/playgrounds/charts/examples/box-plot.tsx", "@owp/charts/types"]
+      "evidence": [
+        "src/playgrounds/charts/examples/box-plot.tsx",
+        "@owp/charts/types"
+      ]
     }
   ]
 }

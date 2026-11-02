@@ -63,10 +63,10 @@ export const sourceMap = [
   source('agents', `${consumer}/references/columns-layout.md`, 'datagrid', [
     'columns',
     'layout-data',
+    'styling',
     'select',
     'formatting',
   ]),
-  source('agents', `${consumer}/references/styling-select.md`, 'datagrid', ['styling', 'select']),
   source(
     'agents',
     `${consumer}/references/selection.md`,

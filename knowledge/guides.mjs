@@ -1,4 +1,5 @@
 import { coreGuides } from './core-guides.mjs';
+import { packageGuides } from './package-guides.mjs';
 const guide = (packageId, id, title, description, api, examples, body) => ({
   id: `@owp/${packageId}:guide.${id}`,
   packageId,
@@ -10,6 +11,7 @@ const guide = (packageId, id, title, description, api, examples, body) => ({
 });
 
 export const guides = [
+  ...packageGuides,
   ...coreGuides.map((entry) => ({
     ...entry,
     sourcePath: entry.sourcePath ?? 'knowledge/core-guides.mjs',

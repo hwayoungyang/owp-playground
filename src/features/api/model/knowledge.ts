@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { completedPlaygroundPackages } from '../../../playgrounds/packages';
+import { knowledgePackages } from '../../../playgrounds/packages';
 import { apiExampleKey } from './package-data.ts';
 import { compareApiMembers } from './presentation.ts';
 import {
@@ -131,7 +131,7 @@ export function createApiKnowledgeLoader(fetchResource: typeof fetch = fetch) {
   const requests = new Map<ApiPackageId, Promise<ApiDataset>>();
   return (value: string): Promise<ApiDataset> => {
     const parsed = apiPackageIdSchema.safeParse(value);
-    if (!parsed.success || !completedPlaygroundPackages.some((entry) => entry.id === parsed.data))
+    if (!parsed.success || !knowledgePackages.some((entry) => entry.id === parsed.data))
       return Promise.reject(new ApiKnowledgeLoadError(value, 'package'));
     const packageId = parsed.data;
     const cached = datasets.get(packageId);

@@ -58,5 +58,10 @@
     "version": "3.0.0",
     "declarationHash": "2139acb83ae50cb6758e7796608c6d46c4f616fe2e3ce1371c3a3cf864343160",
     "runtimeHash": "585ea1d81605a00470f63659d1ac4fee4dcba4fcd1f3af7ba8d2c59ac6f2fe95"
+  },
+  "@owp/pdf": {
+    "version": "3.1.0",
+    "declarationHash": "08be08ec4fe152ccfe9337fc48723c030fd8fa79f685b032face3072b9297a47",
+    "runtimeHash": "49390b933dde3887d224005096f4c6ea386f3a7374d2a9d2e211c280956ff2ae"
   }
 }

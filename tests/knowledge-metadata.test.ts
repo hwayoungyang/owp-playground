@@ -6,6 +6,17 @@ import { knowledge } from './fixtures/api-knowledge';
 const guides = knowledge.records.filter((record) => record.kind === 'guide');
 
 describe('standalone guide metadata', () => {
+  it('routes every supported package API and guide through its canonical owner', () => {
+    expect(data.packages.map((entry) => entry.id)).toEqual([
+      'datagrid', 'charts', 'core', 'components', 'date-picker', 'excel', 'pdf', 'theme', 'utils',
+    ]);
+    for (const entry of data.packages) {
+      const records = data.records.filter((record) => record.package === entry.name);
+      expect(records.length).toBeGreaterThan(0);
+      for (const record of records)
+        expect(new URL(record.url, 'https://example.test').searchParams.get('package'), record.id).toBe(entry.id);
+    }
+  });
   it('retains each guide identity, content hash and authoring source in its Markdown export', () => {
     // Given
     expect(guides.length).toBeGreaterThan(0);
@@ -103,12 +114,8 @@ describe('standalone guide metadata', () => {
       reviewed: data.reviewed,
       resolvedDependencies: data.resolvedDependencies,
       resources: [
-        '/api/datagrid.json',
-        '/api/charts.json',
-        '/api/core.json',
-        '/catalogs/datagrid.sources.json',
-        '/catalogs/charts.sources.json',
-        '/catalogs/core.sources.json',
+        ...data.packages.map((entry) => `/api/${entry.id}.json`),
+        ...data.packages.map((entry) => `/catalogs/${entry.id}.sources.json`),
         '/knowledge/records.jsonl',
         '/knowledge/example-links.json',
       ],
@@ -182,7 +189,7 @@ describe('Charts dependency exports', () => {
         ),
       ).toBe(false);
       const exampleKeys = new Set(
-        expectedRecords.flatMap((record) =>
+        [...expectedRecords, ...payload.referenceRecords].flatMap((record) =>
           record.examples.map(
             (example: { readonly packageId: string; readonly id: string }) =>
               `${example.packageId}/${example.id}`,

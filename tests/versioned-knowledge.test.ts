@@ -39,7 +39,8 @@ describe('versioned knowledge assets', () => {
     // Then
     expect(discovery).toContain(`](${basePath}api/datagrid.json)`);
     expect(discovery).toContain(`](${basePath}api/charts.json)`);
-    expect(discovery).not.toContain('api/components.json');
+    expect(discovery).toContain(`](${basePath}api/components.json)`);
+    expect(discovery).not.toContain('api/tailwind-config.json');
     expect(guides.length).toBeGreaterThan(0);
     for (const [, markdown] of guides) {
       expect(markdown).toContain(`Canonical URL: ${basePath}`);

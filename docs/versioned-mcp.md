@@ -1,6 +1,6 @@
 # 버전별 Playground와 MCP
 
-DataGrid·Charts·Core의 실행 화면, 공개 API, 가이드와 실제 예제 소스를 같은 불변 스냅샷으로 제공합니다. 팀 공용 HTTP와 개인 로컬 stdio는 같은 MCP 조회 로직과 아카이브를 사용합니다. 다른 OWP 패키지는 해당 Playground 구현과 Knowledge 검증을 마친 뒤 등록합니다. 설치된 의존 패키지나 `planned` 목록은 MCP 지원 목록으로 취급하지 않습니다.
+DataGrid·Charts·Core·Components의 실행 화면, 공개 API, 가이드와 실제 예제 소스를 같은 불변 스냅샷으로 제공합니다. Date Picker·Excel·PDF·Theme·Utils는 공개 API와 시작 가이드를 제공하며 독립 실행 예제의 소스 목록은 비어 있습니다. Tailwind Config는 제외합니다. 팀 공용 HTTP와 개인 로컬 stdio는 같은 MCP 조회 로직과 아카이브를 사용합니다. 지원 여부는 `knowledgePackages`와 검증한 adapter를 기준으로 판단하며 설치된 의존 패키지나 `planned` 목록만으로 등록하지 않습니다.
 
 Core의 앱 정책 adapter와 Components의 공통 UI는 소유 패키지를 구분합니다. Provider·API·상태 관리와 Core 고유 API는 Core 공개 경로를 유지하고, 보조 결과 UI는 Components에서 직접 가져옵니다. 앱 설정의 Table·FieldTable처럼 Core adapter를 시연하는 구간은 메뉴 분류와 관계없이 Core import를 유지합니다. Dialog·PageCarded는 Components UI에 Core policy hook의 props와 styles를 함께 연결할 수 있으며, ErrorBoundary callback 정책과 PageContent 반응형 스타일 slot도 Core 공개 API를 사용합니다. 기존 Core adapter에는 같은 정책을 중복 적용하지 않습니다. 코드 표시·API 연결·MCP 조회도 이 symbol별 기준을 따릅니다. Core 예제에 필요한 Components 선언은 Core API 자료의 `referenceRecords`로 연결하며 Components 전체 Playground의 지원 완료를 뜻하지 않습니다. 예를 들어 Core snapshot에서 `get_api`의 `symbol`에 `@owp/components:OwpLoading`을 지정하면 Components의 공개 import와 정확한 패키지 버전을 확인할 수 있습니다. 새 snapshot에는 제거된 `@owp/core:OwpLoading` 호환 API를 만들지 않으며 과거 snapshot은 당시 계약을 유지합니다.
 
@@ -303,9 +303,9 @@ AI 클라이언트가 실행할 명령에는 Node.js와 CLI의 절대 경로, �
 ## 다음 패키지 등록 조건
 
 1. 해당 패키지의 Playground 화면·코드·가이드와 URL을 완성합니다.
-2. `src/playgrounds/packages.ts`의 완료 목록과 `knowledge/package-adapters.mjs`에 등록합니다. 외부 참조 패키지는 `referencePackages`로 구분합니다.
+2. `src/playgrounds/packages.ts`의 `knowledgePackages`와 `knowledge/package-adapters.mjs`에 등록합니다. 실행 예제 완료 목록과 API·가이드 지원 목록은 구분하며, 외부 참조 패키지는 `referencePackages`로 구분합니다.
 3. 공개 선언·실행 계약·예제 연결을 검토하고 `knowledge/reviewed-packages.json`과 예제 검토 자료를 갱신합니다.
 4. API JSON과 예제 sources manifest를 빌드에서 생성하고 Knowledge·타입·실행·소스 검증을 통과시킵니다.
-5. 새 스냅샷을 등록합니다. MCP 공통 도구는 스냅샷의 지원 목록과 완료된 패키지 등록부를 확인해 이를 제공합니다.
+5. 새 스냅샷을 등록합니다. MCP 공통 도구는 스냅샷의 지원 목록과 Knowledge 등록부를 확인해 이를 제공합니다. `packages.json`의 `knowledge` 표시로 API·가이드 제공 여부를 구분하며 과거 스냅샷의 `ready` 계약도 유지합니다.
 
-의존성 설치나 메뉴의 `planned` 항목 추가만으로 MCP 지원을 활성화하지 않습니다. 현재 제공 대상은 DataGrid·Charts·Core입니다.
+의존성 설치나 메뉴의 `planned` 항목 추가만으로 MCP 지원을 활성화하지 않습니다. 실제 제공 패키지와 정확한 버전은 `list_packages`로 확인합니다. 독립 실행 예제가 없는 패키지도 API dataset·가이드·빈 sources manifest의 버전과 해시를 검증하며, 실행 예제가 있는 패키지는 필수 소스를 계속 검증합니다.

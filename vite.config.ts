@@ -18,6 +18,8 @@ import { chartCatalog } from './src/playgrounds/charts/catalog.ts';
 import { chartEnglish } from './src/playgrounds/charts/locales/en.ts';
 import { gridCatalog } from './src/playgrounds/datagrid/catalog.ts';
 import { coreCatalog } from './src/playgrounds/core/catalog.ts';
+import { componentsCatalog } from './src/playgrounds/components/catalog.ts';
+import knowledgeData from './src/features/api/data/knowledge.generated.json';
 import { coreEnglish } from './src/playgrounds/core/locales/en.ts';
 import { catalogEnglish } from './src/playgrounds/datagrid/locales/catalog.en.ts';
 import { packageCatalog } from './src/playgrounds/registry.ts';
@@ -218,8 +220,25 @@ export default defineConfig({
         this.emitFile({
           type: 'asset',
           fileName: 'packages.json',
-          source: JSON.stringify({ version: 1, packages: packageCatalog }, null, 2),
+          source: JSON.stringify({ version: 1, packages: packageCatalog.map((entry) => ({
+            ...entry,
+            knowledge: knowledgeData.packages.some((supported) => supported.id === entry.id),
+          })) }, null, 2),
         });
+        for (const entry of knowledgeData.packages) {
+          if (['core', 'datagrid', 'charts'].includes(entry.id)) continue;
+          this.emitFile({
+            type: 'asset',
+            fileName: `catalogs/${entry.id}.sources.json`,
+            source: JSON.stringify(await createPackageSourceManifest({
+              root,
+              catalog: entry.id === 'components' ? reviewedApiCatalog(componentsCatalog, entry.id) : [],
+              resources: sources,
+              packageName: entry.name,
+              basePath: publicBase,
+            }), null, 2),
+          });
+        }
         this.emitFile({
           type: 'asset',
           fileName: 'catalogs/charts.sources.json',

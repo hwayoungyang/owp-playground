@@ -4,15 +4,15 @@ import type { ApiDataset, ApiRecord } from './model/knowledge';
 import { useApiKnowledge } from './ApiKnowledgeContext';
 import { apiHref } from './model/links';
 import { descriptionOrigins } from './model/presentation';
-import { apiPackageIdFor, completedPlaygroundPackages } from '../../playgrounds/packages';
+import { apiPackageIdFor, knowledgePackages } from '../../playgrounds/packages';
 
 function recordPackageId(record: ApiRecord, dataset: ApiDataset): string {
-  const own = completedPlaygroundPackages.find((entry) => entry.name === record.package);
-  if (own) return own.id;
   if (dataset.recordsById.has(record.id)) return dataset.knowledge.id;
+  const own = knowledgePackages.find((entry) => entry.name === record.package);
+  if (own) return own.id;
   const query = record.url.split('?')[1];
   const urlPackage = query ? new URLSearchParams(query).get('package') : null;
-  if (urlPackage && completedPlaygroundPackages.some((entry) => entry.id === urlPackage)) {
+  if (urlPackage && knowledgePackages.some((entry) => entry.id === urlPackage)) {
     return urlPackage;
   }
   return apiPackageIdFor(record.package);

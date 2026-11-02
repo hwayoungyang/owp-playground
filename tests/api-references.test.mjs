@@ -97,7 +97,7 @@ test('예제별 대상이 누락되면 같은 이름의 다른 선언으로 대�
   );
 });
 
-test('명시적 qualified ID는 label 의미를 유지하고 예정된 패키지 대신 현재 조회 문맥을 보존한다', () => {
+test('명시적 qualified ID는 label 의미와 Knowledge 소유 패키지를 보존한다', () => {
   assert.deepEqual(
     resolve(
       [
@@ -114,7 +114,7 @@ test('명시적 qualified ID는 label 의미를 유지하고 예정된 패키지
     {
       label: 'OwpLoading',
       id: '@owp/components:OwpLoading',
-      packageId: 'core',
+      packageId: 'components',
     },
   );
 });

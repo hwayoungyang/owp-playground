@@ -1,9 +1,9 @@
-import { completedPlaygroundPackages } from '../src/playgrounds/packages.ts';
+import { knowledgePackages } from '../src/playgrounds/packages.ts';
 import { createPropBindings, propKey, walkPropNodes } from './api-example-prop-bindings.mjs';
 
 const sourcePath = (file) => file.replace(/^\/src\//, '');
 const member = (node, name) => node?.type === 'MemberExpression' && !node.computed && propKey(node.property) === name;
-const ownPackages = new Set(completedPlaygroundPackages.map((entry) => entry.name));
+const ownPackages = new Set(knowledgePackages.map((entry) => entry.name));
 
 /** 공개 컴포넌트에 실제 전달된 최상위 prop과 그 AST 위치만 수집합니다. */
 export function discoverExamplePropReferences({ packageId, files, records, referenceOnlyPackages = packageId === 'core' ? ['@owp/components'] : [] }) {

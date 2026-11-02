@@ -30,10 +30,11 @@ const packageIds = knowledgePackageAdapters.map((entry) => entry.id);
 const catalogs = Object.fromEntries(knowledgePackageAdapters.map((entry) => [entry.id, entry.catalog]));
 const externalPackages = [...new Set(knowledgePackageAdapters.flatMap((entry) => entry.referencePackages))];
 const referenceOnlyPackages = [...new Set(knowledgePackageAdapters.flatMap((entry) => entry.referenceOnlyPackages ?? []))];
+const ownPackageNames = new Set(knowledgePackageAdapters.map((entry) => entry.name));
 const own = await Promise.all(packageIds.map((id) => {
   const adapter = knowledgePackageAdapters.find((entry) => entry.id === id);
   return readDeclarations(path.join(root, `node_modules/@owp/${id}`), {
-    externalPackages: [...adapter.referencePackages, ...(adapter.referenceOnlyPackages ?? [])],
+    externalPackages: [...adapter.referencePackages, ...(adapter.referenceOnlyPackages ?? []), ...(adapter.contractPackages ?? [])],
     externalReexportPackages: adapter.externalReexportPackages,
   });
 }));
@@ -58,6 +59,12 @@ for (const [index, name] of externalPackages.entries()) {
   if (!previous || previous.version !== current.version || previous.declarationHash !== current.declarationHash || previous.runtimeHash !== current.runtimeHash) throw new Error(`외부 API 계약을 다시 검토하세요: ${name}`);
 }
 const { referenceOnly, dependencyVersions: workspaceDependencyVersions, resolvedDependencies } = await readOwnerPackageContracts(root, knowledgePackageAdapters, reviewed);
+for (const reference of referenceOnly) {
+  const name = reference.records[0]?.package;
+  const owner = own.find((entry) => entry.records[0]?.package === name);
+  if (owner && ['version', 'declarationHash', 'runtimeHash'].some((key) => owner[key] !== reference[key]))
+    throw new TypeError(`소유 패키지와 참조 설치본의 계약이 다릅니다: ${name}`);
+}
 const sourceAudit = JSON.parse(await readFile(path.join(root, 'knowledge/source-audit.json'), 'utf8'));
 const sourceRoots = {
   agents: process.env.OWP_KNOWLEDGE_AGENTS_ROOT ?? path.resolve(root, '../../agents'),
@@ -72,8 +79,8 @@ try {
 }
 if (sourcesAvailable && !isDeepStrictEqual(await auditKnowledgeSources(sourceRoots), sourceAudit)) throw new Error('스킬·문서 원본이 검토본과 다릅니다. 삭제·이름·계약을 대조하고 source-audit.json을 갱신하세요.');
 const allRecords = describeApiTypes(
-  inheritApiMembers([...own, ...dependencies, ...referenceOnly].flatMap((result) => result.records)),
-  [...own, ...dependencies, ...referenceOnly].flatMap((result) => result.augmentations),
+  inheritApiMembers([...new Map([...referenceOnly, ...dependencies, ...own].flatMap((result) => result.records).map((record) => [record.id, record])).values()]),
+  [...new Map([...referenceOnly, ...dependencies, ...own].flatMap((result) => result.augmentations).map((entry) => [`${entry.id}/${entry.source.path}/${entry.source.line}`, entry])).values()],
 );
 const byId = new Map(allRecords.map((entry) => [entry.id, entry]));
 for (const binding of own.flatMap((result) => result.reexports)) {
@@ -92,7 +99,7 @@ const importContracts = await verifyOwpSourceContracts(root, [...resources.value
 if (importContracts.errors.length) throw new TypeError(`예제 공개 API·import 소유권을 확인하세요: ${JSON.stringify(importContracts.errors)}`);
 const graph = sourceDependencyGraph(resources);
 const codeReviews = createExampleCodeReviews(
-  Object.fromEntries(await Promise.all(packageIds.map(async (id) => [id, JSON.parse(await readFile(path.join(root, `knowledge/example-code-reviews/${id}.json`), 'utf8'))]))),
+  Object.fromEntries(await Promise.all(knowledgePackageAdapters.map(async (adapter) => [adapter.id, adapter.manualCodeReviews === false ? [] : JSON.parse(await readFile(path.join(root, `knowledge/example-code-reviews/${adapter.id}.json`), 'utf8'))]))),
   JSON.parse(await readFile(path.join(root, 'knowledge/example-code-reviews/sources.json'), 'utf8')),
 );
 for (const example of examples) {
@@ -149,7 +156,7 @@ for (const source of sourceAudit.sources) for (const section of source.sections)
 }
 const isScopedExternal = (recordOrId) => {
   const id = typeof recordOrId === 'string' ? recordOrId : recordOrId.id;
-  return id.startsWith('chart.js:') || referenceOnlyPackages.some((pkg) => id.startsWith(`${pkg}:`));
+  return id.startsWith('chart.js:') || referenceOnlyPackages.some((pkg) => !ownPackageNames.has(pkg) && id.startsWith(`${pkg}:`));
 };
 const membersByOwner = new Map();
 for (const record of allRecords) {
@@ -214,7 +221,8 @@ if (ids.size !== records.length) throw new Error('중복 API ID가 있습니다.
 for (const record of records) for (const id of [...record.related, ...record.guideIds]) if (!ids.has(id)) throw new ReferenceError(`관련 API 누락: ${record.id}/${id}`);
 for (const record of records) for (const id of apiRecordReferenceIds(record)) if (!ids.has(id)) throw new ReferenceError(`API 참조 누락: ${record.id}/${id}`);
 for (const record of records) {
-  const packageId = knowledgePackageAdapters.find((entry) => entry.name === record.package || entry.referencePackages.includes(record.package) || entry.referenceOnlyPackages?.includes(record.package))?.id;
+  const packageId = knowledgePackageAdapters.find((entry) => entry.name === record.package)?.id ??
+    knowledgePackageAdapters.find((entry) => entry.referencePackages.includes(record.package) || entry.referenceOnlyPackages?.includes(record.package))?.id;
   if (!packageId) throw new ReferenceError(`API의 Playground 소속이 없습니다: ${record.id}`);
   record.url = `/?${new URLSearchParams({ package: packageId, view: 'api', symbol: record.id })}`;
   record.examples = record.examples.map((reference) => {

@@ -1,4 +1,5 @@
-import { completedPlaygroundPackages } from '../src/playgrounds/packages.ts';
+import { knowledgePackages } from '../src/playgrounds/packages.ts';
+import { componentsCatalog } from '../src/playgrounds/components/catalog.ts';
 import { gridCatalog } from '../src/playgrounds/datagrid/catalog.ts';
 import { getGridSourcePolicy } from '../src/playgrounds/datagrid/model/sourceFiles.ts';
 import { chartExecutionCatalog } from '../src/playgrounds/charts/catalog.ts';
@@ -56,7 +57,28 @@ const adapters = new Map([
   ],
 ]);
 
-export const knowledgePackageAdapters = completedPlaygroundPackages.map((entry) => {
+adapters.set('components', {
+  manualCodeReviews: false,
+  catalog: componentsCatalog,
+  sourcePolicy: () => ({ core: [] }),
+  runtimeFiles: [],
+  referenceOnlyPackages: [],
+  contractPackages: ['@owp/theme', '@owp/utils'],
+  externalReexportPackages: ['@owp/theme'],
+});
+for (const id of ['date-picker', 'excel', 'pdf', 'theme', 'utils']) {
+  adapters.set(id, {
+    manualCodeReviews: false,
+    catalog: [],
+    sourcePolicy: () => ({ core: [] }),
+    runtimeFiles: [],
+    referenceOnlyPackages: [],
+    contractPackages: id === 'date-picker' ? ['@owp/theme', '@owp/components'] : [],
+    externalReexportPackages: id === 'pdf' ? ['@react-pdf/renderer'] : id === 'date-picker' ? ['dayjs'] : [],
+  });
+}
+
+export const knowledgePackageAdapters = knowledgePackages.map((entry) => {
   const adapter = adapters.get(entry.id);
   if (!adapter)
     throw new TypeError(`완료된 Playground의 Knowledge adapter가 없습니다: ${entry.id}`);

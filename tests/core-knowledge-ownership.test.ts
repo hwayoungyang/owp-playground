@@ -16,7 +16,7 @@ describe('Core sample ownership in generated Knowledge', () => {
     for (const [id, examples] of expectedExamples) {
       const record = knowledge.records.find((entry) => entry.id === id);
       expect(record?.packageVersion).toBe('4.0.1');
-      expect(record?.examples.map((example) => example.id).sort()).toEqual(examples);
+      expect(record?.examples.filter((example) => example.packageId === 'core').map((example) => example.id).sort()).toEqual(examples);
     }
     for (const name of ['OwpDialog', 'OwpPageCarded', 'OwpPageContent', 'OwpErrorBoundary']) {
       const coreOwnership = knowledge.records.find((record) => record.id === `@owp/core:${name}`);
@@ -31,8 +31,7 @@ describe('Core sample ownership in generated Knowledge', () => {
     const coreTable = knowledge.records.find((record) => record.id === '@owp/core:OwpTable');
     expect(componentsTable?.imports).toEqual(['@owp/components']);
     expect(componentsTable?.packageVersion).toBe('4.0.1');
-    expect(componentsTable?.examples.map((example) => example.id).sort()).toEqual([
-      'api-query',
+    expect(componentsTable?.examples.filter((example) => example.packageId === 'core').map((example) => example.id).sort()).toEqual([
       'app-settings',
       'excel-export',
       'getting-started',
@@ -45,7 +44,7 @@ describe('Core sample ownership in generated Knowledge', () => {
     expect(
       knowledge.records
         .find((record) => record.id === '@owp/components:OwpFieldTable')
-        ?.examples.map((example) => example.id),
+        ?.examples.filter((example) => example.packageId === 'core').map((example) => example.id),
     ).toEqual(['app-settings', 'dialog']);
     expect(
       knowledge.records.find((record) => record.id === '@owp/core:OwpFieldTable'),
@@ -53,11 +52,11 @@ describe('Core sample ownership in generated Knowledge', () => {
   });
 
   it('keeps Core APIs and qualified supporting props in the same example', () => {
-    const query = data.examples.find(
-      (example) => example.packageId === 'core' && example.id === 'api-query',
+    const settings = data.examples.find(
+      (example) => example.packageId === 'core' && example.id === 'app-settings',
     );
-    const ids = query?.references.map((reference) => reference.id) ?? [];
-    expect(ids).toContain('@owp/core:createOwpApiHooks');
+    const ids = settings?.references.map((reference) => reference.id) ?? [];
+    expect(ids).toContain('@owp/core:useSetSettings');
     expect(ids).toContain('@owp/components:OwpTable');
     expect(ids.some((id) => id.startsWith('@owp/components:OwpTableProps.'))).toBe(true);
     expect(ids.some((id) => id.startsWith('@owp/core:OwpTable'))).toBe(false);

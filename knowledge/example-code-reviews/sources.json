@@ -105,9 +105,9 @@
   "playgrounds/datagrid/examples/worksheet.tsx": "ab154399b4c15ae78af5a0e603f8009a52d1c67a49efb7268f817818bf4433ab",
   "playgrounds/datagrid/model/gridRegistry.ts": "064a8ad2f2f9c3f4d1f1883e38aeca16c5df7547d40d280d205b32fe2afb0e87",
   "playgrounds/datagrid/runtime/GridPreview.tsx": "ff002aee660dd421fc596f315644abdadfc7a93daa77daa404f9f78053420f8f",
-  "playgrounds/datagrid/runtime/GridToolbar.tsx": "2c74ea5404369328cfa3548c68c1b0d8f33d7b3c693a5f77b27a6e4f0d1c4e89",
-  "playgrounds/datagrid/runtime/taskGridPreview.tsx": "25797f8956e1b432bdb4176afa983714d1ca34d3fc91b6c6c45422e1ac358358",
+  "playgrounds/datagrid/runtime/GridToolbar.tsx": "d10344bd8637e8abd228e19928362c322341dafcaf02c83f794683c54ca6267c",
+  "playgrounds/datagrid/runtime/taskGridPreview.tsx": "b2212a43b4d0375f54cfbf13109db572f844bd6f8bff80f0e0821401c58b5af7",
   "playgrounds/datagrid/runtime/useGridController.ts": "89d8d71bc0199517ee25d18fb9c77c537b9d993ae25c923a96157f0dc0af4a33",
-  "playgrounds/core/examples/api-query.tsx": "9935fbf4a12d157aa2b5d108a46b6c6db416314b1425a84e86ac6bbd051abe7e",
+  "playgrounds/core/examples/api-query.tsx": "0debff1ce2f2489eacf029f2bdef7f6d336c8c5797b11cc0ab080c2081717f21",
   "playgrounds/core/guides/api-setup.tsx": "1ed80120551fb72c016d840f9539363b7a34f8753d04e9983d7f5dc311805827"
 }
