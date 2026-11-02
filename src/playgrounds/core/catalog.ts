@@ -142,9 +142,9 @@ export const coreCatalog = [
   ),
   entry(
     'file-transfer',
-    '파일 업로드 데이터',
+    '파일 업로드',
     'hooks',
-    '파일 업로드 hook의 FormData 구성과 요청 변수 연결을 확인합니다.',
+    '로컬 파일을 선택하고 업로드 요청의 FormData를 확인합니다.',
     ['useFormDataUploadMutation', 'normalizeFormDataUploadParams'],
   ),
   entry(

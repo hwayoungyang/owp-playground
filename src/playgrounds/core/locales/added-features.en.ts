@@ -16,22 +16,35 @@ export const addedFeaturesEnglish: Readonly<Record<string, string>> = {
   입력: 'Input',
   출력: 'Output',
   '변환 버튼을 눌러 주세요.': 'Select Transform.',
-  '파일 업로드 데이터': 'File upload data',
-  '파일 업로드 hook의 FormData 구성과 요청 변수 연결을 확인합니다.':
-    'Inspect how the file upload hook prepares FormData and maps request variables.',
+  '파일 업로드': 'File upload',
+  '로컬 파일을 선택하고 업로드 요청의 FormData를 확인합니다.':
+    'Select a local file and inspect the FormData for an upload request.',
   '파일명 필드': 'Filename field',
   기본값: 'Default',
   '페이지와 테이블': 'Page and table',
   '직접 지정': 'Custom field',
-  '업로드 데이터 준비': 'Prepare an upload payload',
-  '샘플 File과 추가 필드를 정규화한 뒤, useFormDataUploadMutation이 만든 FormData를 표에 표시합니다. 이 예제의 mutation은 미리보기만 수행하며 서버에 파일을 전송하지 않습니다.':
-    'Normalize a sample File and extra fields, then display the FormData created by useFormDataUploadMutation. The mutation in this example only previews the payload and does not send files to a server.',
+  '파일 선택과 요청 미리보기': 'Select a file and preview the request',
+  '로컬 파일 하나를 선택하고 추가하면 업로드 요청의 FormData를 확인할 수 있습니다. 요청은 로컬에서만 미리 보며 서버에 전송하지 않습니다.':
+    'Select one local file and choose Add to inspect the upload request’s FormData. The request is previewed locally and is not sent to a server.',
+  '파일 선택': 'Select file',
+  '파일 추가': 'Add file',
+  '파일 선택을 취소했습니다.': 'File selection was canceled.',
+  '선택한 파일: {{name}} · {{size}}바이트 · MIME: {{type}}':
+    'Selected file: {{name}} · {{size}} bytes · MIME: {{type}}',
+  '알 수 없음': 'Unknown',
+  '선택한 파일이 없습니다. 파일 선택 버튼으로 로컬 파일을 선택해 주세요.':
+    'No file selected. Choose Select file to pick a local file.',
+  '파일을 추가했습니다. 아래 표에서 FormData에 담긴 필드를 확인하세요.':
+    'File added. Inspect the FormData fields in the table below.',
+  'file에는 선택한 파일의 바이너리가 담깁니다. 표에는 파일 내용 대신 이름·크기·MIME을 표시하며, 나머지 행은 함께 전달되는 파일명과 추가 필드입니다.':
+    'file contains the selected file’s binary data. The table shows its name, size, and MIME type instead of its contents; the other rows are the filename and additional fields sent with it.',
   '실제 업로드는 mutation을 앱의 API mutation으로 교체하고, createVariables에서 formData를 해당 API의 요청 변수에 연결합니다.':
     'For an actual upload, replace mutation with the app’s API mutation and map formData to its request variables in createVariables.',
-  'payload 미리보기': 'Preview payload',
   필드: 'Field',
   값: 'Value',
-  'payload 미리보기 버튼을 눌러 주세요.': 'Select Preview payload.',
+  '추가 버튼을 눌러 선택한 파일의 FormData를 확인하세요.':
+    'Choose Add to inspect the selected file’s FormData.',
+  '파일을 선택한 뒤 추가 버튼을 눌러 주세요.': 'Select a file, then choose Add.',
   '기본 파일명 필드는 FILE_NAME입니다. PAGEID·TABLENAME을 함께 전달하면 ITEM_ATTACHMENT가 되고, 직접 지정하면 ORIGINAL_NAME을 사용합니다.':
     'The default filename field is FILE_NAME. Passing PAGEID and TABLENAME together produces ITEM_ATTACHMENT in this example; choosing a custom field uses ORIGINAL_NAME.',
   '로컬 Blob 파일을 ZIP으로 묶어 다운로드합니다.':

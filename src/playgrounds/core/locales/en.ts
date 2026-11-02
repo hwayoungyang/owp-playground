@@ -9,6 +9,13 @@ import { addedFeaturesEnglish } from './added-features.en';
 import { extensionsEnglish } from './extensions.en';
 
 export const coreEnglish: Readonly<Record<string, string>> = {
+  '앱 기본 테마': 'App default theme',
+  '사용자 지정': 'Custom',
+  '밝은 테마': 'Light themes',
+  '어두운 테마': 'Dark themes',
+  '기본 색상': 'Primary color',
+  'ThemePreview와 같은 공개 프리셋을 사용하며, toolbar 전용 프리셋은 제외합니다. 현재 설정 초기화는 마지막으로 적용한 테마의 기본값으로 되돌립니다.':
+    'Uses the public ThemePreview presets, excluding toolbar-only presets. Reset current settings restores the defaults of the last applied theme.',
   ...basicEnglish,
   ...advancedEnglish,
   ...sessionEnglish,
