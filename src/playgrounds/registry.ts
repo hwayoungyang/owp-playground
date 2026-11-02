@@ -23,6 +23,7 @@ import { type CodeLocation, readCodeLocation } from '../features/code/code-locat
 import { inferChartVariantFromCode } from './charts/model/variants';
 import { isPublicApiPackage, publicApiSymbol } from '../features/public-api/types';
 import type { PublicApiPackageId } from '../features/public-api/types';
+import { hasStandaloneGuide, packageGuideEntry } from './introductions';
 
 type CodeRouteState = {
   readonly tab?: 'code' | 'props' | 'params' | 'returns' | 'type';
@@ -48,6 +49,11 @@ export function apiEntry(playground: ApiPackage) {
   } as const;
 }
 export type PlaygroundRoute =
+  | {
+      readonly status: 'package-guide';
+      readonly playground: ApiPackage;
+      readonly example: ReturnType<typeof packageGuideEntry>;
+    }
   | {
       readonly status: 'exports';
       readonly playground: PlaygroundPackage;
@@ -103,6 +109,12 @@ export function getPlaygroundRoute(
   playground: PlaygroundPackage,
   exampleId: string | null = null,
 ): PlaygroundRoute {
+  if (
+    supportsApiReference(playground) &&
+    hasStandaloneGuide(playground.id) &&
+    (!exampleId || exampleId === 'getting-started')
+  )
+    return { status: 'package-guide', playground, example: packageGuideEntry(playground) };
   const symbol = exampleId && publicApiSymbol(exampleId);
   if (
     isPublicApiPackage(playground.id) &&

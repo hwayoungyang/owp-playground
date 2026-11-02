@@ -3,13 +3,13 @@ import { apiEntry } from '../../playgrounds/registry';
 import { supportsApiReference } from '../../playgrounds/packages';
 import type { ExampleMetadata, NavigationCategory } from '../../shared/types/playground';
 import { exampleApiLinks } from '../../features/api/model/links';
-import {
-  isPublicApiListEntry,
-  publicApiGroups,
-  publicApiSampleId,
-} from '../../features/public-api/types';
+import { isPublicApiListEntry, publicApiSampleId } from '../../features/public-api/types';
 import type { PublicApiSummary } from '../../features/public-api/types';
 import { publicApiSearchText } from '../../features/public-api/roles';
+import {
+  publicApiNavigationGroup,
+  publicApiNavigationGroups,
+} from '../../features/public-api/grouping';
 
 export type NavigationExample = ExampleMetadata & {
   readonly kind?: string;
@@ -142,9 +142,9 @@ export function buildNavigationModel({
   const usageCategories = exampleCategories.filter((category) => !referenceIds.has(category.id));
   const referenceCategories =
     publicEntries.length > 0
-      ? publicApiGroups.flatMap((group) => {
+      ? publicApiNavigationGroups(playground.id).flatMap((group) => {
           const items = listedPublicEntries
-            .filter((entry) => entry.group === group.id)
+            .filter((entry) => publicApiNavigationGroup(entry) === group.id)
             .map((entry) => ({
               id: publicApiSampleId(entry.id),
               title: entry.label ?? entry.name,

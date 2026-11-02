@@ -34,6 +34,7 @@ import { ChartCodeViewer } from './ChartCodeViewer';
 import { Choice } from './Controls';
 import '../styles.css';
 import '../guides/chart-layout.css';
+import { WorkspaceLoading } from '../../../shared/ui/WorkspaceLoading';
 
 const modules = import.meta.glob<{ ChartExample: ComponentType<ChartExampleProps> }>(
   '../examples/*.tsx',
@@ -55,13 +56,7 @@ const ChartPreview = memo(function ChartPreview({
   useAvailableChartHeight(active, host);
   return (
     <section ref={host} className="chart-preview owp-chart-surface" aria-label={t(example.title)}>
-      <Suspense
-        fallback={
-          <div className="chart-loading" role="status">
-            {t('차트를 불러오는 중…')}
-          </div>
-        }
-      >
+      <Suspense fallback={<WorkspaceLoading label="차트를 불러오는 중…" />}>
         <Example {...props} />
       </Suspense>
     </section>

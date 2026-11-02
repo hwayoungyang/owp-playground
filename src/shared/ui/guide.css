@@ -5,6 +5,26 @@
   margin-top: 32px;
   max-width: 960px;
 }
+.getting-started-header {
+  max-width: 1120px;
+}
+.getting-started-header .workspace-heading h1 {
+  font-size: 28px;
+  font-weight: 600;
+}
+.getting-started-header .guide-introduction {
+  margin: 32px 0 0;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--pg-line);
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--pg-ink);
+}
+@media (max-width: 599px) {
+  .getting-started-header .workspace-heading h1 {
+    font-size: 24px;
+  }
+}
 .guide-sections h2 {
   margin: 0 0 12px;
   font-size: 16px;

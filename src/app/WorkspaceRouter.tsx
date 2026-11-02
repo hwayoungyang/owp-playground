@@ -10,6 +10,7 @@ import {
   GridWorkspace,
   GuideCodeWorkspace,
   PublicApiWorkspace,
+  PackageGettingStarted,
 } from './workspaces';
 import type { PlaygroundRoute } from '../playgrounds/registry';
 import { selectedChartExample } from '../playgrounds/charts/model/variants';
@@ -52,6 +53,8 @@ export function WorkspaceRouter({
     );
   }
   switch (route.status) {
+    case 'package-guide':
+      return <PackageGettingStarted key={route.playground.id} playground={route.playground} />;
     case 'exports':
       return (
         <PublicApiWorkspace

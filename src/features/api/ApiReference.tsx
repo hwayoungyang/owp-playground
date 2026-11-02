@@ -14,6 +14,7 @@ import {
 import { apiHref } from './model/links';
 import { matchesApiQueryWords, normalizeApiQuery } from './model/search';
 import './styles.css';
+import { WorkspaceLoading } from '../../shared/ui/WorkspaceLoading';
 
 const kinds = [
   ['property', 'Props'],
@@ -118,7 +119,7 @@ export function ApiReference({
             {t('API 데이터를 불러오지 못했습니다. 다시 시도해 주세요.')}
           </Alert>
         ) : (
-          <p role="status">{t('API 데이터를 불러오는 중입니다.')}</p>
+          <WorkspaceLoading label="API 데이터를 불러오는 중입니다." />
         )
       ) : (
         <ApiKnowledgeContext value={dataset}>

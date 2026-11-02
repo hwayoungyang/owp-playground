@@ -48,8 +48,8 @@ if (!/^\/(?:[A-Za-z0-9_.-]+\/)*$/.test(publicBase))
 export default defineConfig({
   base: publicBase,
   resolve: {
-    // DataGrid의 중첩 설치본과 앱이 같은 Theme Context를 사용하도록 연결합니다.
-    dedupe: ['@owp/theme'],
+    // 중첩 설치된 OWP 패키지도 앱과 같은 테마·번역 인스턴스를 사용합니다.
+    dedupe: ['@owp/theme', 'i18next', 'react-i18next'],
   },
   define: {
     __OWP_VERSION_UI__: JSON.stringify(versionUiFingerprint.digest('hex')),

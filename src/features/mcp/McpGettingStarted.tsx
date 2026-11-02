@@ -17,7 +17,7 @@ export function McpGettingStarted({
   const generatedHeadingId = useId();
   const sectionHeadingId = headingId ?? generatedHeadingId;
   const requestExample = t(
-    '{{packageName}} {{version}} 기준으로 MCP에서 공개 API·가이드·사용 예제를 찾아 구현해 주세요. 응답의 packageVersion을 확인하고, 후속 조회에는 그 값을 version으로 지정하고 같은 releaseId를 사용해 주세요.',
+    '대상: {{packageName}} {{version}}\n- list_packages로 대상 패키지와 버전 제공 여부 확인.\n- 해당 버전의 공개 API·가이드·사용 예제를 조회해 구현.\n- 응답의 packageVersion 대조. 후속 조회에 같은 version과 releaseId 사용.\n- 요청한 버전·자료가 없으면 다른 버전으로 대체하지 않고 설치본의 공개 타입·README 확인.',
     { packageName, version },
   );
 
@@ -27,6 +27,11 @@ export function McpGettingStarted({
       <p>
         {t(
           'MCP는 지원이 완료된 패키지의 공개 API·가이드·실행 예제를 제공합니다. AI가 설치 버전에 맞는 설정과 사용 방법을 같은 스냅샷에서 확인할 수 있습니다.',
+        )}
+      </p>
+      <p className="guide-note">
+        {t(
+          '연결 후 list_packages로 제공되는 패키지와 버전을 먼저 확인하세요. Playground의 API 목록과 MCP 서버에 등록된 자료는 다를 수 있습니다. 요청한 자료가 없으면 설치본의 공개 타입과 README를 기준으로 확인합니다.',
         )}
       </p>
       <p>

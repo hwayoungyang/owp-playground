@@ -23,14 +23,14 @@ export const publicApiEnglish = {
     '{{name}} defines a default grid scrollbar style value. See Type for its value and type.',
   '{{name}}은 Grid 드래그 상태의 기본 스타일 값입니다. 값과 타입은 Type 탭에서 확인할 수 있습니다.':
     '{{name}} defines a default grid drag style value. See Type for its value and type.',
-  '공개 API': 'Public API',
+  '공개 API': 'API',
   '다른 import 경로': 'Other import paths',
   '다른 공개 진입점': 'Other import paths',
-  '공개 API {{count}}개': '{{count}} public APIs',
-  '공개 API 검색': 'Search public APIs',
+  '공개 API {{count}}개': '{{count}} APIs',
+  '공개 API 검색': 'Search APIs',
   'API 상세 보기': 'API detail views',
-  '공개 API를 불러오는 중…': 'Loading public APIs…',
-  '공개 API 항목을 찾을 수 없습니다.': 'The public API entry could not be found.',
+  '공개 API를 불러오는 중…': 'Loading APIs…',
+  '공개 API 항목을 찾을 수 없습니다.': 'The API entry could not be found.',
   '{{module}}에서 공개하는 API입니다.': 'An API exported from {{module}}.',
   '선언 출처: {{name}}': 'Declared by {{name}}',
   '{{name}}의 API를 re-export합니다.': 'Re-exports an API from {{name}}.',
@@ -51,6 +51,11 @@ export const publicApiEnglish = {
 } as const;
 
 export const publicApiKorean = {
+  '공개 API': 'API',
+  '공개 API {{count}}개': 'API {{count}}개',
+  '공개 API 검색': 'API 검색',
+  '공개 API를 불러오는 중…': 'API를 불러오는 중…',
+  '공개 API 항목을 찾을 수 없습니다.': 'API 항목을 찾을 수 없습니다.',
   '선언 출처: {{name}}': '타입 정의 출처: {{name}}',
   '다른 공개 진입점': '다른 import 경로',
   '공개 설정값': '패키지에서 export한 값',

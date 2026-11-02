@@ -1,0 +1,116 @@
+.components-icon-gallery {
+  min-width: 0;
+}
+.components-icon-info {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--pg-line);
+  color: var(--pg-secondary);
+  font-size: 13px;
+  line-height: 1.8;
+}
+.components-icon-info p {
+  margin: 12px 0 0;
+}
+.components-icon-library {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+}
+.components-icon-library strong {
+  color: var(--pg-ink);
+  font-size: 16px;
+  font-weight: 600;
+}
+.components-icon-info summary {
+  margin-top: 12px;
+  cursor: pointer;
+  color: var(--pg-ink);
+}
+.components-icon-info dl {
+  margin: 16px 0;
+}
+.components-icon-info dl > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.components-icon-info dt {
+  flex-basis: 140px;
+}
+.components-icon-info dd {
+  margin: 0;
+  color: var(--pg-ink);
+}
+.components-icon-info a {
+  color: var(--pg-blue);
+  text-underline-offset: 3px;
+}
+.components-icon-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.components-icon-search > .MuiTextField-root {
+  max-width: 360px;
+}
+.components-icon-search > p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--pg-secondary);
+}
+.components-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.components-icon-grid li {
+  min-width: 0;
+}
+.components-icon-link {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  color: var(--pg-ink);
+  text-decoration: none;
+  border-radius: 8px;
+}
+.components-icon-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border: 1px solid var(--pg-line);
+  border-radius: 8px;
+  background: var(--pg-canvas);
+}
+.components-icon-name {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--pg-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.components-icon-link:hover .components-icon-tile {
+  background: var(--pg-hover);
+}
+.components-icon-link:focus-visible {
+  outline: 2px solid var(--pg-blue);
+  outline-offset: 4px;
+}
+@media (max-width: 599px) {
+  .components-icon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+  }
+}

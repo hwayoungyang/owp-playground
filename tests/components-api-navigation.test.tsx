@@ -35,7 +35,7 @@ it('keeps API navigation independent of completed Knowledge package registration
   const url = new URL(api?.url ?? 'https://playground.example/');
   expect(url.searchParams.get('lang')).toBe('en');
   expect(readPlaygroundRoute(url.search)).toMatchObject({ status: 'api', symbol: null });
-  expect(model.exampleCount).toBe(53);
+  expect(model.exampleCount).toBe(56);
   expect(componentsPackage.status).toBe('available');
   expect(completedPlaygroundPackages.some((entry) => String(entry.id) === 'components')).toBe(
     false,

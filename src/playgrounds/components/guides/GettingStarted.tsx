@@ -3,9 +3,10 @@ import componentsManifest from '@owp/components/package.json' with { type: 'json
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { ApiLinks } from '../../../features/api/ApiLinks';
 import { PlaygroundLink } from '../../../shared/ui/PlaygroundLink';
-import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
+import { GettingStartedHeader } from '../../../shared/ui/GettingStartedHeader';
 import type { ComponentsGuide } from '../model/types';
 import source from './getting-started.tsx?raw';
+import { McpGettingStarted } from '../../../features/mcp/McpGettingStarted';
 
 const peers = componentsManifest.peerDependencies;
 const installCommand = `pnpm add @owp/components@${componentsManifest.version} react@${peers.react} react-dom@${peers['react-dom']} @mui/material@${peers['@mui/material']} @mui/system@${peers['@mui/system']} @emotion/react@${peers['@emotion/react']} @emotion/styled@${peers['@emotion/styled']}`;
@@ -22,7 +23,7 @@ export function ComponentsGettingStarted({ example }: { readonly example: Compon
   const { t, i18n } = useOwpTranslation();
   return (
     <section className="workspace getting-started" aria-label={t('설치 및 사용 안내')}>
-      <WorkspaceHeading example={example} packageTitle="owp/components" categoryLabel="문서" />
+      <GettingStartedHeader example={example} packageId="components" />
       <div className="guide-sections">
         <section aria-labelledby="components-purpose">
           <h2 id="components-purpose">{t('Components의 역할')}</h2>
@@ -32,6 +33,11 @@ export function ComponentsGettingStarted({ example }: { readonly example: Compon
             )}
           </p>
         </section>
+        <McpGettingStarted
+          packageName={componentsManifest.name}
+          version={componentsManifest.version}
+          headingId="components-mcp"
+        />
         <section aria-labelledby="components-registry">
           <h2 id="components-registry">{t('레지스트리 설정')}</h2>
           <p>{t('프로젝트 루트의 .npmrc에 사내 OWP 레지스트리 주소를 설정합니다.')}</p>

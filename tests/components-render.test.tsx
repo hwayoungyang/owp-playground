@@ -39,7 +39,10 @@ describe('Components executable sources', () => {
             </Provider>,
           );
           expect(html.length, `${example.id}/${language}/${mode}`).toBeGreaterThan(0);
-          if (['components', 'hooks', 'utils'].includes(example.category)) {
+          if (
+            example.category.startsWith('component-') ||
+            ['components', 'hooks', 'utils'].includes(example.category)
+          ) {
             const sections = html.match(/class="components-example-section"/g) ?? [];
             expect(
               sections.length,

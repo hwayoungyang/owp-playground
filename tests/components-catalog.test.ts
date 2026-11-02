@@ -34,15 +34,22 @@ describe('Components playground', () => {
       'data-examples',
       'workflow-examples',
       'layout-examples',
+      'icon-examples',
     ]);
     expect(reference?.categories.map((group) => group.id)).toEqual([
-      'components',
+      'component-inputs',
+      'component-actions',
+      'component-tables',
+      'component-sections',
+      'component-feedback',
+      'component-icons',
+      'component-responsive',
       'hooks',
       'utils',
     ]);
     expect(reference?.categories.flatMap((group) => group.items)).toHaveLength(47);
     expect(examples?.categories.every((group) => group.items.length > 0)).toBe(true);
-    expect(model.exampleCount).toBe(53);
+    expect(model.exampleCount).toBe(56);
     expect(model.exampleCount).toBe(
       componentsCatalog.filter((entry) => entry.kind === 'component').length,
     );

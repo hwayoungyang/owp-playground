@@ -3,7 +3,7 @@ declare module 'virtual:public-api/index' {
   const data: import('./types').PublicApiIndex;
   export default data;
 }
-declare module 'virtual:public-api/*' {
-  const data: import('./types').PublicApiPackageData;
-  export default data;
+declare module 'virtual:public-api/*/entries' {
+  const loaders: import('./types').PublicApiEntryLoaders;
+  export default loaders;
 }

@@ -4,7 +4,7 @@ import { publicApiSampleId } from '../features/public-api/types';
 import { WorkspaceRouter } from './WorkspaceRouter';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Drawer } from '@mui/material';
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   defaultPreviewTheme,
   type PreviewThemeSettings,
@@ -34,12 +34,18 @@ import { buildNavigationModel } from './layout/navigation';
 import { PackageSidebar } from './layout/PackageNotice';
 import { Sidebar } from './layout/Sidebar';
 import { Provider } from './providers/Provider';
+import { WorkspaceLoading } from '../shared/ui/WorkspaceLoading';
+import { hasStandaloneGuide, packageGuideEntry } from '../playgrounds/introductions';
 
 const emptyNavigation = [] as const;
 
 export function App() {
   const { t, i18n } = useOwpTranslation();
   const [route, setRoute] = useState(() => readPlaygroundRoute(location.search));
+  const mainContent = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    mainContent.current?.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [route]);
   const [mode, setMode] = useState<ColorMode>(() =>
     new URLSearchParams(location.search).get('colorMode') === 'dark' ? 'dark' : 'light',
   );
@@ -66,24 +72,31 @@ export function App() {
   const [themeOpen, setThemeOpen] = useState(false);
   const desktopSearch = useRef<HTMLInputElement>(null);
   const mobileSearch = useRef<HTMLInputElement>(null);
-  const navigate = (next: PlaygroundRoute) => {
+  const navigate = (next: PlaygroundRoute, hash = '') => {
     const url = createPlaygroundUrl(location.href, next);
+    url.hash = hash;
     if (url.href !== location.href) history.pushState(null, '', url);
+    mainContent.current?.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     setRoute(next);
     setMenuOpen(false);
     setThemeOpen(false);
   };
   const navigateExample = (id: string) => navigate(getPlaygroundRoute(route.playground, id));
-  const examples =
-    route.playground.id === 'components'
-      ? componentsCatalog
-      : route.playground.id === 'core'
-        ? coreCatalog
-        : route.playground.id === 'charts'
-          ? chartCatalog
-          : route.playground.id === 'datagrid'
-            ? gridCatalog
-            : emptyNavigation;
+  const examples = useMemo(
+    () =>
+      route.playground.id === 'components'
+        ? componentsCatalog
+        : route.playground.id === 'core'
+          ? coreCatalog
+          : route.playground.id === 'charts'
+            ? chartCatalog
+            : route.playground.id === 'datagrid'
+              ? gridCatalog
+              : hasStandaloneGuide(route.playground.id)
+                ? [packageGuideEntry(route.playground)]
+                : emptyNavigation,
+    [route.playground],
+  );
   const categories =
     route.playground.id === 'components'
       ? componentsCategories
@@ -121,6 +134,7 @@ export function App() {
         publicEntries: publicApiIndex.find((entry) => entry.id === route.playground.id)?.entries,
         getExampleUrl: (id: string) => {
           const url = createPlaygroundUrl(location.href, getPlaygroundRoute(route.playground, id));
+          url.hash = '';
           url.searchParams.set('lang', i18n.language === 'en' ? 'en' : 'ko');
           return url.href;
         },
@@ -179,7 +193,10 @@ export function App() {
   return (
     <Provider mode={mode}>
       <PlaygroundNavigation
-        onNavigate={(href) => navigate(readPlaygroundRoute(new URL(href, location.href).search))}
+        onNavigate={(href) => {
+          const target = new URL(href, location.href);
+          navigate(readPlaygroundRoute(target.search), target.hash);
+        }}
       >
         <a className="skip-link" href="#main-content">
           {t('본문으로 이동')}
@@ -216,7 +233,7 @@ export function App() {
               <PackageSidebar playground={route.playground} />
             )}
           </Drawer>
-          <main id="main-content" className="main-content" tabIndex={-1}>
+          <main ref={mainContent} id="main-content" className="main-content" tabIndex={-1}>
             {!route.example && (
               <div className="package-heading">
                 <div>
@@ -231,13 +248,7 @@ export function App() {
                 {!route.example && <div className="package-note">{route.playground.title}</div>}
               </div>
             )}
-            <Suspense
-              fallback={
-                <div className="workspace-loading" role="status">
-                  {t('예제를 불러오는 중…')}
-                </div>
-              }
-            >
+            <Suspense fallback={<WorkspaceLoading scope="page" />}>
               <WorkspaceRouter
                 route={route}
                 theme={previewTheme}

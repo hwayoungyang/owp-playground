@@ -26,7 +26,7 @@ describe('shared playground URLs', () => {
   it('accepts a scoped package name as a shared URL value', () => {
     const route = readPlaygroundRoute('?package=%40owp%2Fpdf');
     expect(route.playground.id).toBe('pdf');
-    expect(route).toMatchObject({ status: 'exports', example: { id: 'exports' } });
+    expect(route).toMatchObject({ status: 'package-guide', example: { id: 'getting-started' } });
   });
 
   it('shows the installed package API without an unrelated sample', () => {

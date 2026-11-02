@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
+import { GettingStartedHeader } from '../../../shared/ui/GettingStartedHeader';
 import type { CoreCatalogEntry } from '../catalog';
 import './guide.css';
 
@@ -44,7 +45,11 @@ export function CoreGuideLayout({
       data-guide={example.id}
       aria-label={t(example.title)}
     >
-      <WorkspaceHeading example={example} packageTitle="owp/core" categoryLabel="문서" />
+      {example.id === 'getting-started' ? (
+        <GettingStartedHeader example={example} packageId="core" />
+      ) : (
+        <WorkspaceHeading example={example} packageTitle="owp/core" categoryLabel="문서" />
+      )}
       <div className="core-guide-layout">
         <details className="core-guide-outline-mobile">
           <summary>{t('목차')}</summary>
@@ -54,7 +59,9 @@ export function CoreGuideLayout({
         </details>
         <article className="core-guide-body">
           <div className="guide-sections">
-            {introduction && <p className="guide-introduction">{t(introduction)}</p>}
+            {introduction && example.id !== 'getting-started' && (
+              <p className="guide-introduction">{t(introduction)}</p>
+            )}
             {children}
           </div>
           {related}

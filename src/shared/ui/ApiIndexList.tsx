@@ -1,7 +1,7 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, IconButton, InputAdornment, TextField } from '@mui/material';
 import { XIcon } from '@phosphor-icons/react';
-import { useId, useRef, useState } from 'react';
+import { useId, useRef, useState, type ReactNode } from 'react';
 import { PlaygroundLink } from './PlaygroundLink';
 import './api-index-list.css';
 
@@ -13,6 +13,7 @@ export type ApiIndexItem = {
   readonly group: string;
   readonly href: string;
   readonly searchTerms: readonly string[];
+  readonly leading?: ReactNode;
 };
 type ApiIndexGroup = { readonly id: string; readonly label: string };
 
@@ -44,8 +45,8 @@ export function ApiIndexList({
   const id = useId();
   const input = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState('');
-  const [group, setGroup] = useState('all');
   const available = groups.filter((entry) => items.some((item) => item.group === entry.id));
+  const [group, setGroup] = useState(available[0]?.id ?? 'all');
   const filtered = filterApiIndex({ items, query, group });
   const clearQuery = () => {
     setQuery('');
@@ -100,7 +101,14 @@ export function ApiIndexList({
         {filtered.map((item) => (
           <li key={item.id}>
             <PlaygroundLink className="api-index-row" href={item.href}>
-              <code className="api-index-name">{item.name}</code>
+              <span className="api-index-name">
+                {item.leading && (
+                  <span className="api-index-symbol" aria-hidden="true">
+                    {item.leading}
+                  </span>
+                )}
+                <code>{item.name}</code>
+              </span>
               <span className="api-index-description">{item.description || '—'}</span>
               <span className="api-index-kind">{item.kind}</span>
             </PlaygroundLink>

@@ -3,6 +3,13 @@ import type { ComponentsExample } from './types';
 export const scenarioCatalog = (
   [
     {
+      id: 'icons',
+      title: 'Icons',
+      category: 'icon-examples',
+      description: '아이콘을 확인하고 선택하면 API 상세로 이동합니다.',
+      api: [],
+    },
+    {
       id: 'scenario-order-entry',
       title: '주문 수량과 금액 입력',
       category: 'input-examples',
@@ -29,6 +36,20 @@ export const scenarioCatalog = (
       category: 'data-examples',
       description: '항목을 선택하면 기본 정보와 수량 내역을 표로 표시합니다.',
       api: ['OwpOptionSelector', 'OwpFieldTable', 'OwpTable', 'OwpSection'],
+    },
+    {
+      id: 'scenario-query-feedback',
+      title: '조회 중·빈 결과·목록 표시',
+      category: 'data-examples',
+      description: '조회 상태에 따라 로딩 표시와 빈 결과 안내, 데이터 표를 전환합니다.',
+      api: ['OwpSection', 'OwpLoading', 'OwpTable'],
+    },
+    {
+      id: 'scenario-file-actions',
+      title: '파일 선택과 작업 메뉴',
+      category: 'workflow-examples',
+      description: '선택한 파일 정보를 표로 표시하고 작업 메뉴에서 목록을 지웁니다.',
+      api: ['OwpFilePickerButton', 'OwpMoreActionsButton', 'OwpSection', 'OwpTable'],
     },
     {
       id: 'scenario-edit-dialog',

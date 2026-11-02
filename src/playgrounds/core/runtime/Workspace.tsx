@@ -22,6 +22,7 @@ import { coreOwnershipNotes } from '../guides/package-ownership';
 import type { CoreExampleProps } from '../model/types';
 import { CoreProviders } from './CoreProviders';
 import '../styles.css';
+import { WorkspaceLoading } from '../../../shared/ui/WorkspaceLoading';
 
 const modules = import.meta.glob<{ CoreExample: ComponentType<CoreExampleProps> }>(
   '../examples/*.tsx',
@@ -35,15 +36,8 @@ function CorePreview({ example, ...props }: CoreExampleProps & { readonly exampl
       return { default: (await load()).CoreExample };
     }),
   );
-  const { t } = useOwpTranslation();
   return (
-    <Suspense
-      fallback={
-        <div className="workspace-loading" role="status">
-          {t('예제를 불러오는 중…')}
-        </div>
-      }
-    >
+    <Suspense fallback={<WorkspaceLoading />}>
       <Example {...props} />
     </Suspense>
   );

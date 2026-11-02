@@ -4,6 +4,25 @@ import { chartKorean } from '../../playgrounds/charts/locales/clarity.ko';
 export const koreanOverrides: Readonly<Record<string, string>> = {
   ...interfaceKorean,
   ...chartKorean,
+  '아이콘을 확인하고 선택하면 API 상세로 이동합니다.': '아이콘 선택 시 API 상세로 이동합니다.',
+  'API 목록에서 사용할 항목을 선택하면 공개 import 경로, 타입과 사용 코드를 확인할 수 있습니다.':
+    'API 목록에서 항목 선택 시 공개 import 경로, 타입과 사용 코드를 확인할 수 있습니다.',
+  '항목을 선택하면 기본 정보와 수량 내역을 표로 표시합니다.':
+    '항목 선택 시 기본 정보와 수량 내역을 표로 표시합니다.',
+  '사용자를 선택하면 샘플 인증 정보와 메뉴가 바로 바뀝니다. Core는 메뉴의 C/R/U/D 플래그로 권한을 판단합니다.':
+    '사용자 선택 시 샘플 인증 정보와 메뉴가 바로 바뀝니다. Core는 메뉴의 C/R/U/D 플래그로 권한을 판단합니다.',
+  'Super admin·Admin·PM 샘플 사용자를 선택하면 페이지별 생성·조회·수정·삭제 권한이 O/X로 바로 바뀝니다.':
+    'Super admin·Admin·PM 샘플 사용자 선택 시 페이지별 생성·조회·수정·삭제 권한이 O/X로 바로 바뀝니다.',
+  '이 창의 버튼을 누르면 응답을 Data에 기록합니다.':
+    '버튼을 누른 결과는 데이터 탭에서 확인할 수 있습니다.',
+  '정적 option의 단일·다중·전체 선택을 비교합니다.':
+    '미리 정의한 선택 항목으로 단일·다중·전체 선택을 비교합니다.',
+  '로컬 Mock API의 저장 응답과 저장 중 추가 편집의 보존을 확인할 수 있습니다.':
+    '로컬 Mock API의 저장 응답을 확인하고, 저장 중에 추가로 편집한 내용이 유지되는지도 확인합니다.',
+  'field·getRowId로 API 필드와 행 ID를 연결합니다. 문자열의 숫자·boolean 변환과 트리 행 연결은 model/apiData.ts를 참고해 주세요.':
+    'field·getRowId로 API 필드와 행 ID를 연결합니다. 문자열을 숫자·boolean으로 변환하는 방법과 트리 행을 연결하는 방법은 model/apiData.ts를 참고해 주세요.',
+  'responseMode: "raw"는 HTTP 2xx의 파싱한 JSON body를 false·0·빈 문자열·null·배열·객체 그대로 반환하며 빈 HTTP 200·204 body는 null로 정규화합니다. JSON 문자열을 담은 원본 text를 반환하는 옵션이 아닙니다. init의 parseAs는 생략하거나 json만 지정하며 text·blob·stream·arrayBuffer와 함께 사용하지 않습니다. 업무 코드·인증 오류 검사와 mutation 성공 snackbar는 생략합니다. raw에서는 allowMissingResultCode 값도 무시합니다. HTTP·network 오류 안내와 취소 시 무알림, 원본 fetch 오류 전달, Inspector 기록은 기존 정책을 따릅니다.':
+    'responseMode: "raw"는 HTTP 2xx 응답의 JSON body를 파싱해 false·0·빈 문자열·null·배열·객체 그대로 반환하며 빈 HTTP 200·204 body는 null로 정규화합니다. JSON 문자열을 담은 원본 text를 반환하는 옵션이 아닙니다. init의 parseAs는 생략하거나 json만 지정하며 text·blob·stream·arrayBuffer와 함께 사용하지 않습니다. 업무 코드·인증 오류 검사와 mutation 성공 snackbar는 생략합니다. raw에서는 allowMissingResultCode 값도 무시합니다. HTTP·network 오류 안내와 취소 시 무알림, 원본 fetch 오류 전달, Inspector 기록은 기존 정책을 따릅니다.',
   '공용 MCP 주소': 'MCP 서버 주소',
   '설정 후 기대효과': '적용 결과',
   '앱에서 연결할 부분': '앱 연동 방법',
@@ -147,7 +166,7 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
   'env에는 apiBaseUrl·accessTokenTransport·언어 사용 여부를, configs에는 routesConfig·navigationConfig·settingsConfig를 전달합니다. 이 범위에 독립 Jotai store와 QueryClient가 만들어집니다. queryClientConfig로 재시도·재조회 기본값을 정하거나 이미 생성한 queryClient를 전달할 수 있습니다. storePreloadedState는 지원하는 settings·navbar 초기 상태를 넣는 옵션입니다.':
     'env에는 apiBaseUrl·accessTokenTransport·언어 사용 여부를, configs에는 routesConfig·navigationConfig·settingsConfig를 전달합니다. OwpCoreProvider는 기본적으로 독립된 Jotai store와 QueryClient를 생성합니다. queryClientConfig로 재시도·재조회 기본값을 정하거나 이미 생성한 queryClient를 전달할 수 있습니다. storePreloadedState에는 settings·navbar의 초기값을 지정합니다.',
   'OwpCoreProvider 안에 OwpStyleProvider를 두면 현재 settings의 main 테마를 MUI에 제공합니다. 앱 최상위에는 root를 지정해 body class와 전역 스타일을 적용합니다. theme을 직접 전달하면 그 MUI theme이 우선하므로 Core 테마 변경과 동기화하려면 별도 처리가 필요합니다. Emotion cache는 cacheProviderProps.value를 전달한 경우에 연결합니다.':
-    'OwpStyleProvider를 OwpCoreProvider의 child로 배치하면 현재 settings의 main 테마를 MUI에 제공합니다. 앱 전체에 적용하는 OwpStyleProvider에는 root를 지정해 body class와 전역 스타일을 적용합니다. theme prop을 직접 지정하면 해당 MUI theme이 우선하므로 Core 테마 변경도 반영하려면 앱에서 동기화해야 합니다. Emotion cache는 cacheProviderProps.value를 전달한 경우에 사용합니다.',
+    'OwpStyleProvider를 React 트리에서 OwpCoreProvider 하위에 배치하면 현재 settings의 main 테마를 MUI에 제공합니다. 앱 전체에 적용하는 OwpStyleProvider에는 root를 지정해 body class와 전역 스타일을 적용합니다. theme prop을 직접 지정하면 해당 MUI theme이 우선하므로 Core 테마 변경도 반영하려면 앱에서 동기화해야 합니다. Emotion cache는 cacheProviderProps.value를 전달한 경우에 사용합니다.',
   'RouterProvider가 렌더하는 루트 route element 안에 OwpUiProvider를 배치합니다. 다이얼로그·snackbar·페이지 이탈 가드·화면 잠금과 query 취소 정책을 연결하며, queryCancellation.routeChange·pageExit는 기본 true입니다. useInitApp은 이 루트에서 로고·제목·navigation·페이지 로딩을 초기화합니다. Data Router가 필요한 정책을 사용하므로 OwpUiProvider를 RouterProvider 바깥이나 일반 MemoryRouter 아래에 두지 않습니다.':
     'RouterProvider가 렌더링하는 루트 route element에 OwpUiProvider를 배치합니다. 다이얼로그·snackbar·페이지 이동 확인·화면 잠금·query 취소를 처리하며, queryCancellation.routeChange·pageExit는 기본 true입니다. useInitApp은 루트 route 컴포넌트에서 호출해 로고·제목·navigation·페이지 로딩을 초기화합니다. OwpUiProvider에는 Data Router context가 필요합니다. RouterProvider의 상위나 일반 MemoryRouter의 child로 배치하면 이 context를 사용할 수 없습니다.',
   '아래 코드는 앱 구성 예시의 AppProviders → RouterProvider → App 내부 OwpUiProvider 순서를 최소 구성으로 옮긴 예제입니다. 빈 routesConfig·navigationConfig는 Core 메뉴를 만들지 않습니다. 예제의 실제 화면 경로는 createBrowserRouter에 직접 등록하며, 업무 앱에서는 자신의 route·navigation 설정과 페이지를 연결합니다.':
@@ -165,7 +184,7 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
   'OwpUiProvider는 React Router Data Router 안에 배치하고, 페이지 이동 보호가 필요한 화면에서 usePageLeaveGuard를 호출합니다. Playground의 독립 예제는 서버 인증 없이 실행합니다.':
     'OwpUiProvider는 RouterProvider가 렌더링하는 route element에 배치합니다. 저장하지 않은 변경 내용이 있을 때 페이지 이동을 확인하려면 해당 페이지에서 usePageLeaveGuard를 호출합니다. Playground의 독립 예제는 서버 인증 없이 실행합니다.',
   '예제에는 MUI ThemeProvider와 CssBaseline이 포함되어 있습니다. 프로젝트에 같은 설정이 있다면 기존 Provider 아래에 OwpNumberField를 배치합니다.':
-    '예제에는 MUI ThemeProvider와 CssBaseline이 포함되어 있습니다. 프로젝트에서 이미 같은 설정을 사용한다면 해당 ThemeProvider의 child 컴포넌트로 OwpNumberField를 렌더링합니다.',
+    '예제에는 MUI ThemeProvider와 CssBaseline이 포함되어 있습니다. 프로젝트에서 이미 같은 설정을 사용한다면 기존 ThemeProvider 하위에서 OwpNumberField를 사용합니다.',
   '필수 peer dependency는 React·React DOM 19, Material UI·MUI System 9, Emotion React·Styled 11입니다. 아래 명령은 Components {{version}}의 지원 범위를 사용합니다.':
     '필수 peer dependency는 React·React DOM 19, Material UI·MUI System 9, Emotion React·Styled 11입니다. 아래 설치 명령에는 Components {{version}}과 호환되는 버전 범위를 지정했습니다.',
   '검색과 페이지': '검색 페이지',

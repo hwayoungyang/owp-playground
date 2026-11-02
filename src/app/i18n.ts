@@ -14,6 +14,7 @@ import { owpEnglish } from '../playgrounds/datagrid/locales/owp.en';
 import { appEnglish } from '../shared/i18n/app.en';
 import { koreanOverrides } from '../shared/i18n/korean-overrides';
 import { normalizeAppTerminology } from '../shared/i18n/reference-copy';
+import { formatKoreanGuidance } from '../shared/i18n/guidance-copy';
 import { publicApiEnglish, publicApiKorean } from '../features/public-api/locales';
 
 const english = {
@@ -34,7 +35,7 @@ const korean = Object.fromEntries(
     ),
     ...koreanOverrides,
     ...publicApiKorean,
-  }).map(([key, value]) => [key, normalizeAppTerminology(value)]),
+  }).map(([key, value]) => [key, formatKoreanGuidance(normalizeAppTerminology(value))]),
 );
 const coreKorean = {
   ...apiInspectorKorean,

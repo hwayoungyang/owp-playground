@@ -1,10 +1,10 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { McpGettingStarted } from '../../../features/mcp/McpGettingStarted';
 import { type CoreCatalogEntry } from '../catalog';
 import { corePackage } from '../../packages';
+import { packageIntroductions } from '../../introductions';
 import { CoreFoundationGuide } from './FoundationGuide';
 import { CoreGuideLayout } from './CoreGuideLayout';
 import { CoreFeaturesGuide } from './core-features';
@@ -32,18 +32,10 @@ export function CoreGettingStarted({
   readonly example: Extract<CoreCatalogEntry, { readonly kind: 'guide' }>;
 }) {
   const { t } = useOwpTranslation();
-  useEffect(() => {
-    if (example.id !== 'getting-started' || !window.location.hash.startsWith('#core-')) return;
-    document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ block: 'start' });
-  }, [example.id]);
   if (example.id === 'core-features') return <CoreFeaturesGuide example={example} />;
   if (example.id !== 'getting-started') return <CoreFoundationGuide example={example} />;
   return (
-    <CoreGuideLayout
-      example={example}
-      sections={sections}
-      introduction="앱 초기화부터 API 요청, 인증·라우팅, 설정과 공통 UI까지 연결하는 React 기반 패키지입니다."
-    >
+    <CoreGuideLayout example={example} sections={sections} introduction={packageIntroductions.core}>
       <section aria-labelledby="core-responsibility">
         <h2 id="core-responsibility">{t('Core의 역할')}</h2>
         <p>

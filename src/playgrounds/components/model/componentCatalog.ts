@@ -1,6 +1,7 @@
 import type { ComponentsExample } from './types';
+import { componentGroupId } from './componentGroups.ts';
 
-export const componentCatalog: readonly ComponentsExample[] = [
+const entries = [
   {
     id: 'number-field',
     layout: 'fields',
@@ -278,4 +279,9 @@ export const componentCatalog: readonly ComponentsExample[] = [
     description: '공통 반응형 스타일을 켠 페이지와 끈 페이지를 비교합니다.',
     api: ['OwpResponsiveLayoutGlobalStyles'],
   },
-];
+] as const satisfies readonly ComponentsExample[];
+
+export const componentCatalog: readonly ComponentsExample[] = entries.map((entry) => ({
+  ...entry,
+  category: componentGroupId(entry.api[0]),
+}));

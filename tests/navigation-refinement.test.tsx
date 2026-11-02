@@ -29,7 +29,7 @@ const items: readonly ApiIndexItem[] = [
 ];
 
 describe('aligned API navigation', () => {
-  it('keeps complete names, descriptions and original symbol links in one list', () => {
+  it('starts with components while keeping complete names, descriptions and symbol links', () => {
     // Given / When
     const html = renderToStaticMarkup(
       <ApiIndexList
@@ -41,12 +41,43 @@ describe('aligned API navigation', () => {
       />,
     );
     // Then
-    expect(html.match(/class="api-index-row"/g)).toHaveLength(2);
+    expect(html.match(/class="api-index-row"/g)).toHaveLength(1);
+    expect(html).toContain('aria-pressed="true">컴포넌트</button>');
+    expect(html).toContain('aria-pressed="false">전체</button>');
     expect(html).toContain('OwpDatePickerCalendarHeader');
     expect(html).toContain('달력 헤더');
     expect(html).toContain('href="?symbol=one"');
-    expect(html).toContain('전체 2개 중 2개 API');
+    expect(html).not.toContain('href="?symbol=two"');
+    expect(html).toContain('전체 2개 중 1개 API');
     expect(html).not.toContain('components-api-index-list');
+  });
+
+  it.each([
+    ['hooks', 'Hooks'],
+    ['utils', 'Utils'],
+  ])('starts with %s when there are no components', (group, label) => {
+    const html = renderToStaticMarkup(
+      <ApiIndexList
+        items={items.map((item) => ({ ...item, group }))}
+        groups={[
+          { id: 'components', label: '컴포넌트' },
+          { id: 'hooks', label: 'Hooks' },
+          { id: 'utils', label: 'Utils' },
+        ]}
+      />,
+    );
+    expect(html).toContain(`aria-pressed="true">${label}</button>`);
+    expect(html).not.toContain('>컴포넌트</button>');
+    expect(html.match(/class="api-index-row"/g)).toHaveLength(2);
+  });
+
+  it('keeps the empty index usable when no API categories are available', () => {
+    const html = renderToStaticMarkup(
+      <ApiIndexList items={[]} groups={[{ id: 'components', label: '컴포넌트' }]} />,
+    );
+    expect(html).toContain('aria-pressed="true">전체</button>');
+    expect(html).toContain('전체 0개 중 0개 API');
+    expect(html).toContain('검색 결과가 없습니다.');
   });
 
   it('combines category selection with trimmed, case-insensitive metadata search', () => {

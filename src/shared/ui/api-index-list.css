@@ -2,6 +2,18 @@
   container-type: inline-size;
   min-width: 0;
 }
+.api-index-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.api-index-symbol {
+  display: inline-flex;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
+  color: var(--pg-shell-ink);
+}
 .api-index-controls {
   display: flex;
   align-items: center;

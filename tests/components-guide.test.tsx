@@ -63,7 +63,7 @@ describe('Components getting started', () => {
           componentsCatalog.some((entry) => entry.kind === 'component' && entry.id === sample),
         ).toBe(true);
       }
-      expect(html).not.toContain('MCP');
+      expect(html).toContain('id="components-mcp"');
     }
     for (const key of Object.keys(guidesEnglish)) expect(i18next.exists(key)).toBe(true);
   });

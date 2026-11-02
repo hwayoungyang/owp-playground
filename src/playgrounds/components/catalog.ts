@@ -1,7 +1,8 @@
-import { componentCatalog } from './model/componentCatalog';
-import { hookCatalog } from './model/hookCatalog';
-import { utilCatalog } from './model/utilCatalog';
-import { scenarioCatalog } from './model/scenarioCatalog';
+import { componentCatalog } from './model/componentCatalog.ts';
+import { hookCatalog } from './model/hookCatalog.ts';
+import { utilCatalog } from './model/utilCatalog.ts';
+import { scenarioCatalog } from './model/scenarioCatalog.ts';
+import { componentGroups } from './model/componentGroups.ts';
 import type { NavigationCategory } from '../../shared/types/playground';
 import type { ComponentsCatalogEntry } from './model/types';
 
@@ -12,7 +13,8 @@ export const componentsCategories = [
   { id: 'data-examples', label: '검색과 데이터 표시' },
   { id: 'workflow-examples', label: '편집과 확인' },
   { id: 'layout-examples', label: '페이지 구성' },
-  { id: 'components', label: '컴포넌트', section: 'reference' },
+  { id: 'icon-examples', label: 'Icons' },
+  ...componentGroups.map(({ id, label }) => ({ id, label, section: 'reference' as const })),
   { id: 'hooks', label: 'Hooks', section: 'reference' },
   { id: 'utils', label: 'Utils', section: 'reference' },
 ] as const satisfies readonly NavigationCategory[];

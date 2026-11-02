@@ -30,11 +30,11 @@ export function RecentVisitsMenu({
   });
   return (
     <>
-      <Tooltip title={t('최근 방문')}>
+      <Tooltip title={t('최근 본 항목')}>
         <IconButton
           id={`${id}-trigger`}
           className="recent-visits-trigger"
-          aria-label={t('최근 방문')}
+          aria-label={t('최근 본 항목')}
           aria-haspopup="menu"
           aria-controls={anchor ? `${id}-menu` : undefined}
           aria-expanded={Boolean(anchor)}
@@ -53,10 +53,10 @@ export function RecentVisitsMenu({
         }}
       >
         <ListSubheader className="recent-visits-heading" role="presentation" disableSticky>
-          {t('최근 방문')}
+          {t('최근 본 항목')}
         </ListSubheader>
         {entries.length === 0 && (
-          <MenuItem disabled>{t('최근 방문한 페이지가 없습니다.')}</MenuItem>
+          <MenuItem disabled>{t('최근 본 항목이 없습니다.')}</MenuItem>
         )}
         {entries.map((entry) => {
           const active =
@@ -93,7 +93,7 @@ export function RecentVisitsMenu({
         })}
         {temporary && (
           <ListSubheader className="recent-visits-note" role="presentation" disableSticky>
-            {t('최근 방문은 현재 탭에서만 유지됩니다.')}
+            {t('최근 본 항목은 현재 탭에서만 유지됩니다.')}
           </ListSubheader>
         )}
       </Menu>

@@ -110,11 +110,20 @@ describe('공개 API의 표시 문구', () => {
     );
   });
 
-  it('설명 문장의 조건·조사·인용을 유지하고 종류 이름을 덧붙이지 않는다', () => {
-    const description =
-      'Provider가 없으면 콜백을 등록하지 않습니다. "원본입니다. Next" 문구와 `callback()`은 유지합니다.';
-    const expected =
-      'Provider가 없으면 callback을 등록하지 않습니다. "원본입니다. Next" 문구와 `callback()`은 유지합니다.';
+  it.each([
+    [
+      'Provider가 없으면 콜백을 등록하지 않습니다. "원본입니다. Next" 문구와 `callback()`은 유지합니다.',
+      'Provider가 없으면 callback을 등록하지 않습니다. "원본입니다. Next" 문구와 `callback()`은 유지합니다.',
+    ],
+    [
+      '알림 내용을 다이얼로그에 표시하고 사용자가 확인할 수 있게 합니다.',
+      '알림 내용을 다이얼로그에 표시하고 사용자가 확인할 수 있게 합니다.',
+    ],
+    [
+      '차트 시리즈 표시 요소의 형태를 구분하는 상수입니다.',
+      '차트 시리즈 표시 요소의 형태를 구분하는 상수입니다.',
+    ],
+  ])('설명 문장의 종결·조건·인용을 유지한다: %s', (description, expected) => {
     expect(formatApiDescription(description)).toBe(expected);
     expect(
       displayPublicDescription(

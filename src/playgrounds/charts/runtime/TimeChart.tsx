@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import { registerChartTime } from '@owp/charts/chartjs/time';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { type ReactNode, useEffect, useState } from 'react';
+import { WorkspaceLoading } from '../../../shared/ui/WorkspaceLoading';
 
 /** Luxon adapter 등록이 끝난 뒤에만 시간축 차트를 mount합니다. */
 export function TimeChart({ children }: { readonly children: ReactNode }) {
@@ -42,9 +43,5 @@ export function TimeChart({ children }: { readonly children: ReactNode }) {
       </div>
     );
   }
-  return (
-    <div className="chart-canvas" role="status">
-      {t('시간축을 불러오는 중입니다.')}
-    </div>
-  );
+  return <WorkspaceLoading label="시간축을 불러오는 중입니다." />;
 }

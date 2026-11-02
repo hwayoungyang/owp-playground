@@ -1,4 +1,30 @@
 export const scenarioEnglish = {
+  '조회 중·빈 결과·목록 표시': 'Loading, empty results and lists',
+  '조회 상태에 따라 로딩 표시와 빈 결과 안내, 데이터 표를 전환합니다.':
+    'Switch between loading feedback, an empty-state message and a data table.',
+  '파일 선택과 작업 메뉴': 'File selection and actions',
+  '선택한 파일 정보를 표로 표시하고 작업 메뉴에서 목록을 지웁니다.':
+    'Display selected file metadata in a table and clear the list from the actions menu.',
+  '파일 선택과 목록 작업': 'File selection and list actions',
+  '선택한 파일의 이름·크기·형식을 표시하고 작업 메뉴에서 목록을 비웁니다. 파일 내용은 읽거나 전송하지 않습니다.':
+    'Display selected file names, sizes and types, then clear the list from the actions menu. File contents are neither read nor sent.',
+  '선택한 파일': 'Selected files',
+  '선택 목록 지우기': 'Clear selected files',
+  '파일 이름': 'File name',
+  '파일 크기 (bytes)': 'File size (bytes)',
+  '파일 형식': 'File type',
+  '알 수 없음': 'Unknown',
+  '선택한 파일이 없습니다.': 'No files selected.',
+  '조회 상태에 따른 결과 영역': 'Results by query state',
+  '버튼으로 조회 중·결과 없음·결과 표시를 비교합니다. 실제 요청이나 자동 완료는 수행하지 않습니다.':
+    'Use the buttons to compare loading, empty results and populated results. No request or automatic completion is performed.',
+  '조회 상태': 'Query state',
+  '결과 표시': 'Show results',
+  '조회 중': 'Loading',
+  '결과 없음': 'No results',
+  '조회 중입니다.': 'Loading results.',
+  '검색 결과가 없습니다. 조건을 변경해 다시 조회해 주세요.':
+    'No results. Change the criteria and search again.',
   '사용 예제': 'Usage examples',
   컴포넌트·Hooks·Utils: 'Components, Hooks & Utils',
   '입력 폼': 'Input forms',

@@ -2,8 +2,7 @@ import { useOwpTranslation } from '@owp/components/hooks';
 import excelManifest from '@owp/excel/package.json' with { type: 'json' };
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { McpGettingStarted } from '../../../features/mcp/McpGettingStarted';
-import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
-import { FrameworkIntroduction } from '../../../shared/ui/FrameworkIntroduction';
+import { GettingStartedHeader } from '../../../shared/ui/GettingStartedHeader';
 import { dataGridPackage } from '../../registry';
 import type { GridCatalogEntry } from '../catalog';
 import source from './getting-started.tsx?raw';
@@ -19,9 +18,8 @@ export function GridGettingStarted({
   const { t } = useOwpTranslation();
   return (
     <section className="workspace getting-started" aria-label={t('설치 및 사용 안내')}>
-      <WorkspaceHeading example={example} packageTitle="owp/datagrid" categoryLabel="문서" />
+      <GettingStartedHeader example={example} packageId="datagrid" />
       <div className="guide-sections">
-        <FrameworkIntroduction packageId="datagrid" />
         <McpGettingStarted packageName={dataGridPackage.name} version={dataGridPackage.version} />
         <section aria-labelledby="registry-heading">
           <h2 id="registry-heading">{t('레지스트리 설정')}</h2>

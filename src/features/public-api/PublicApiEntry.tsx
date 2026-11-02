@@ -1,7 +1,7 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Button, Tab, Tabs, TextField } from '@mui/material';
 import { ArrowUpRightIcon } from '@phosphor-icons/react';
-import { useId, useState } from 'react';
+import { lazy, Suspense, useId, useState } from 'react';
 import { PlaygroundLink } from '../../shared/ui/PlaygroundLink';
 import { ReferenceWorkbench, type WorkbenchMode } from '../../shared/ui/ReferenceWorkbench';
 import { CodeSnippet } from '../code/CodeSnippet';
@@ -9,6 +9,11 @@ import { ContractContent, contractTabs, type ContractTab } from './ContractConte
 import { displayPublicDescription } from './descriptions';
 import { PublicApiCode } from './PublicApiCode';
 import type { PublicApiEntry as EntryData } from './types';
+import { publicApiNavigationGroup } from './grouping';
+
+const IconPreview = lazy(() =>
+  import('./PublicApiIcon').then((module) => ({ default: module.PublicApiIconPreview })),
+);
 
 export function PublicApiEntry({ entry }: { readonly entry: EntryData }) {
   const { t, i18n } = useOwpTranslation();
@@ -80,6 +85,11 @@ export function PublicApiEntry({ entry }: { readonly entry: EntryData }) {
       <p className="components-api-description components-api-original">
         {displayPublicDescription(entry, (key, values) => t(key, values))}
       </p>
+      {publicApiNavigationGroup(entry) === 'component-icons' && (
+        <Suspense fallback={null}>
+          <IconPreview name={entry.name} />
+        </Suspense>
+      )}
       <div className="public-api-entry-actions">
         {entry.owner !== `@owp/${entry.packageId}` && (
           <p className="components-api-meta">

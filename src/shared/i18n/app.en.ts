@@ -1,7 +1,9 @@
-import { workbenchEnglish } from './workbench.en';
+import { workbenchEnglish } from './workbench.en.ts';
+import { packageGuidesEnglish } from './package-guides.en.ts';
 
 export const appEnglish: Readonly<Record<string, string>> = {
   ...workbenchEnglish,
+  ...packageGuidesEnglish,
   'MCP 서버 연결': 'Connect to the MCP server',
   'MCP는 지원이 완료된 패키지의 공개 API·가이드·실행 예제를 제공합니다. AI가 설치 버전에 맞는 설정과 사용 방법을 같은 스냅샷에서 확인할 수 있습니다.':
     'MCP provides public APIs, guides, and executable examples for supported packages. AI can use the same snapshot to check setup and usage for the installed version.',

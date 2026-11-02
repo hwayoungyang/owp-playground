@@ -9,6 +9,7 @@ import type { PreviewThemeSettings } from '../../../features/theme-studio/model/
 import { PreviewProvider } from '../../../features/theme-studio/PreviewProvider';
 import { EventsPanel } from '../../../shared/ui/EventsPanel';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
+import { WorkspaceLoading } from '../../../shared/ui/WorkspaceLoading';
 import {
   type WorkspaceTab,
   WorkspaceTabs,
@@ -98,9 +99,7 @@ export function GridWorkspace({
             aria-labelledby={`${prefix}-tab-code`}
             aria-label={t('코드')}
           >
-            <Suspense
-              fallback={<div className="workspace-loading">{t('소스를 불러오는 중…')}</div>}
-            >
+            <Suspense fallback={<WorkspaceLoading label="소스를 불러오는 중…" />}>
               <CodeViewer
                 example={example}
                 sourcePolicy={getGridSourcePolicy(example.id)}
@@ -149,9 +148,7 @@ export function GridWorkspace({
             aria-labelledby={`${prefix}-tab-data`}
             aria-label={t('데이터')}
           >
-            <Suspense
-              fallback={<div className="workspace-loading">{t('데이터를 준비하는 중…')}</div>}
-            >
+            <Suspense fallback={<WorkspaceLoading label="데이터를 준비하는 중…" />}>
               <ApiDataViewer example={example} document={apiDocument} />
             </Suspense>
           </div>

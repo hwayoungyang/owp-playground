@@ -1,47 +1,55 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import { lazy, Suspense } from 'react';
+import { Suspense, use } from 'react';
+import publicApiIndex from 'virtual:public-api/index';
 import { Tab, Tabs } from '@mui/material';
 import type { ExampleMetadata } from '../../shared/types/playground';
 import { updateWorkspaceTabUrl, workspaceApiTabs } from '../../shared/ui/WorkspaceTabs';
 import { ContractContent, contractTabs } from './ContractContent';
 import type { ContractTab } from './ContractContent';
-import { loadPublicApi } from './loader';
-import { isPublicApiPackage, publicApiPackageIds } from './types';
-import type { PublicApiPackageData } from './types';
+import { loadPublicApiEntry } from './loader';
+import { isPublicApiPackage } from './types';
+import type { PublicApiEntry, PublicApiPackageId } from './types';
+import { WorkspaceLoading } from '../../shared/ui/WorkspaceLoading';
 import '../../playgrounds/components/api/styles.css';
 import './styles.css';
 
 type Props = { readonly example: ExampleMetadata; readonly tab: ContractTab };
 
-function Panels({ data, example, tab }: Props & { readonly data: PublicApiPackageData }) {
-  const entries = data.entries.filter(
-    (entry) =>
-      (example.api.includes(entry.name) ||
-        example.api.includes(entry.id) ||
-        entry.exampleIds?.includes(example.id)) &&
-      contractTabs([entry]).includes(tab),
-  );
+function Panels({ id, example, tab }: Props & { readonly id: PublicApiPackageId }) {
+  const entries = use(exampleEntries(id, example));
   return (
     <>
-      {entries.map((entry) => (
-        <section key={entry.id}>
-          <h2>{entry.name}</h2>
-          <ContractContent entry={entry} tab={tab} />
-        </section>
-      ))}
+      {entries
+        .filter((entry) => contractTabs([entry]).includes(tab))
+        .map((entry) => (
+          <section key={entry.id}>
+            <h2>{entry.name}</h2>
+            <ContractContent entry={entry} tab={tab} />
+          </section>
+        ))}
     </>
   );
 }
 
-const packages = Object.fromEntries(
-  publicApiPackageIds.map((id) => [
-    id,
-    lazy(async () => {
-      const data = await loadPublicApi(id);
-      return { default: (props: Props) => <Panels data={data} {...props} /> };
-    }),
-  ]),
-);
+const panels = new Map<string, Promise<readonly PublicApiEntry[]>>();
+
+function exampleEntries(id: PublicApiPackageId, example: ExampleMetadata) {
+  const key = `${id}/${example.id}`;
+  const existing = panels.get(key);
+  if (existing) return existing;
+  const summaries = publicApiIndex.find((entry) => entry.id === id)?.entries ?? [];
+  const selected = summaries.filter(
+    (entry) =>
+      example.api.includes(entry.name) ||
+      example.api.includes(entry.id) ||
+      entry.exampleIds?.includes(example.id),
+  );
+  const request = Promise.all(selected.map((entry) => loadPublicApiEntry(id, entry.id))).then(
+    (loaded) => loaded.filter((entry): entry is PublicApiEntry => entry !== undefined),
+  );
+  panels.set(key, request);
+  return request;
+}
 
 export function WorkspaceApiPanels({
   example,
@@ -58,8 +66,6 @@ export function WorkspaceApiPanels({
   if (tab !== 'props' && tab !== 'params' && tab !== 'returns' && tab !== 'type') return null;
   const id = example.package.replace('@owp/', '');
   if (!isPublicApiPackage(id)) return null;
-  const Package = packages[id];
-  if (!Package) return null;
   const contracts = workspaceApiTabs(example);
   return (
     <div role="tabpanel" id={`${prefix}-panel-api`} aria-labelledby={`${prefix}-tab-api`}>
@@ -96,8 +102,8 @@ export function WorkspaceApiPanels({
         id={`${prefix}-panel-${tab}`}
         aria-labelledby={`${prefix}-tab-${tab}`}
       >
-        <Suspense fallback={<p role="status">{t('공개 API를 불러오는 중…')}</p>}>
-          <Package example={example} tab={tab} />
+        <Suspense fallback={<WorkspaceLoading label="공개 API를 불러오는 중…" />}>
+          <Panels id={id} example={example} tab={tab} />
         </Suspense>
       </div>
     </div>

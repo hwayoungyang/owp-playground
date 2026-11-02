@@ -114,33 +114,6 @@ export function Sidebar({
         />
         <kbd>⌘ K</kbd>
       </label>
-      <div className="navigation-scope">
-        <span>{t('{{package}}에서 검색', { package: playground.title })}</span>
-        {current && (
-          <Tooltip
-            title={t(
-              favoritesFull
-                ? '즐겨찾기는 최대 12개까지 저장할 수 있습니다.'
-                : isFavorite
-                  ? '즐겨찾기에서 제거'
-                  : '현재 페이지를 즐겨찾기에 추가',
-            )}
-          >
-            <button
-              type="button"
-              className="navigation-favorite"
-              aria-label={t('{{name}} 즐겨찾기', { name: t(current.title) })}
-              aria-pressed={isFavorite}
-              aria-disabled={favoritesFull}
-              onClick={() => {
-                if (!favoritesFull) saved.toggleFavorite();
-              }}
-            >
-              <StarIcon size={15} weight={isFavorite ? 'fill' : 'regular'} aria-hidden />
-            </button>
-          </Tooltip>
-        )}
-      </div>
       {saved.temporary && (
         <p className="navigation-storage-note">{t('즐겨찾기는 현재 탭에서만 유지됩니다.')}</p>
       )}
@@ -196,6 +169,30 @@ export function Sidebar({
         <span>{t('예제 {{count}}개', { count: model.exampleCount })}</span>
         {model.publicApiCount !== undefined && (
           <span>{t('공개 API {{count}}개', { count: model.publicApiCount })}</span>
+        )}
+        {current && (
+          <Tooltip
+            title={t(
+              favoritesFull
+                ? '즐겨찾기는 최대 12개까지 저장할 수 있습니다.'
+                : isFavorite
+                  ? '즐겨찾기에서 제거'
+                  : '현재 페이지를 즐겨찾기에 추가',
+            )}
+          >
+            <button
+              type="button"
+              className="navigation-favorite"
+              aria-label={t('{{name}} 즐겨찾기', { name: t(current.title) })}
+              aria-pressed={isFavorite}
+              aria-disabled={favoritesFull}
+              onClick={() => {
+                if (!favoritesFull) saved.toggleFavorite();
+              }}
+            >
+              <StarIcon size={15} weight={isFavorite ? 'fill' : 'regular'} aria-hidden />
+            </button>
+          </Tooltip>
         )}
       </div>
     </nav>

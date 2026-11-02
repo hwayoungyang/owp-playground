@@ -11,6 +11,8 @@ import {
 import { useState } from 'react';
 import {
   createPlaygroundUrl,
+  corePackage,
+  componentsPackage,
   dataGridPackage,
   getPlaygroundRoute,
   type PlaygroundPackage,
@@ -21,6 +23,12 @@ import type { ColorMode } from '../../shared/theme/tokens';
 import type { ExampleMetadata } from '../../shared/types/playground';
 import { VersionSelector } from '../../features/releases/VersionSelector';
 import { RecentVisitsMenu } from './RecentVisitsMenu';
+
+const packageMenuEntries = [
+  corePackage,
+  componentsPackage,
+  ...packageCatalog.filter((entry) => entry.id !== 'core' && entry.id !== 'components'),
+];
 
 export function Header({
   playground,
@@ -111,7 +119,7 @@ export function Header({
           onClose={() => setAnchor(null)}
           slotProps={{ paper: { role: 'navigation', 'aria-label': t('패키지 선택') } }}
         >
-          {packageCatalog.map((entry) => (
+          {packageMenuEntries.map((entry) => (
             <MenuItem
               key={entry.id}
               data-package={entry.id}

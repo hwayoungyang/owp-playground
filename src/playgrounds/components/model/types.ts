@@ -1,4 +1,5 @@
 import type { ExampleMetadata } from '../../../shared/types/playground';
+import type { ComponentGroupId } from './componentGroups';
 
 export type ComponentsExampleProps = {
   readonly onRecord: (name: string, detail: string) => void;
@@ -13,7 +14,8 @@ export type ComponentsExample = ExampleMetadata & {
     | 'data-examples'
     | 'workflow-examples'
     | 'layout-examples'
-    | 'components'
+    | 'icon-examples'
+    | ComponentGroupId
     | 'hooks'
     | 'utils';
 };

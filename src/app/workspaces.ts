@@ -1,5 +1,11 @@
 import { lazy } from 'react';
 
+export const PackageGettingStarted = lazy(() =>
+  import('../playgrounds/PackageGettingStarted').then((module) => ({
+    default: module.PackageGettingStarted,
+  })),
+);
+
 export const PublicApiWorkspace = lazy(() =>
   import('../features/public-api/PublicApiWorkspace').then((module) => ({
     default: module.PublicApiWorkspace,

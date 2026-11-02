@@ -78,6 +78,7 @@ export type PublicApiPackageData = {
   readonly entries: readonly PublicApiEntry[];
   readonly entrypoints: readonly { readonly name: string; readonly symbols: readonly string[] }[];
 };
+export type PublicApiEntryLoaders = Readonly<Record<string, () => Promise<PublicApiEntry>>>;
 export type PublicApiIndex = readonly {
   readonly id: PublicApiPackageId;
   readonly version: string;

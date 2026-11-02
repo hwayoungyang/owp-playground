@@ -20,6 +20,7 @@ import {
 import { type ComponentsExample, componentsCategories } from '../catalog';
 import type { ComponentsExampleProps } from '../model/types';
 import '../styles.css';
+import { WorkspaceLoading } from '../../../shared/ui/WorkspaceLoading';
 
 const modules = import.meta.glob<{ ComponentsExample: ComponentType<ComponentsExampleProps> }>(
   '../examples/*.tsx',
@@ -98,7 +99,7 @@ export function ComponentsWorkspace({
                 }}
               />
               <div className="components-preview">
-                <Suspense fallback={<div role="status">{t('예제를 불러오는 중…')}</div>}>
+                <Suspense fallback={<WorkspaceLoading />}>
                   <Example key={`${example.id}-${version}`} onData={onData} onRecord={onRecord} />
                 </Suspense>
               </div>

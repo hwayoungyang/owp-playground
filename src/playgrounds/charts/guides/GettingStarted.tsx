@@ -2,8 +2,7 @@ import { useOwpTranslation } from '@owp/components/hooks';
 import coreManifest from '@owp/core/package.json' with { type: 'json' };
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { McpGettingStarted } from '../../../features/mcp/McpGettingStarted';
-import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
-import { FrameworkIntroduction } from '../../../shared/ui/FrameworkIntroduction';
+import { GettingStartedHeader } from '../../../shared/ui/GettingStartedHeader';
 import { chartsPackage } from '../../registry';
 import { type ChartCatalogEntry, chartCatalog, chartExecutionCatalog } from '../catalog';
 import layoutSource from './chart-layout.css?raw';
@@ -19,9 +18,8 @@ export function ChartsGettingStarted({
   const exampleCount = chartCatalog.filter((entry) => entry.kind === 'chart').length;
   return (
     <section className="workspace getting-started" aria-label={t('설치 및 사용 안내')}>
-      <WorkspaceHeading example={example} packageTitle="owp/charts" categoryLabel="문서" />
+      <GettingStartedHeader example={example} packageId="charts" />
       <div className="guide-sections">
-        <FrameworkIntroduction packageId="charts" />
         <McpGettingStarted packageName={chartsPackage.name} version={chartsPackage.version} />
         <section aria-labelledby="charts-registry">
           <h2 id="charts-registry">{t('레지스트리 설정')}</h2>

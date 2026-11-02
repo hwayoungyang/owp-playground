@@ -5,10 +5,11 @@ import { readPublicApiPackage } from '../scripts/public-api-data';
 import { createComponentsApiCompiler } from '../scripts/components-api-compiler';
 import { createRequire } from 'node:module';
 import { publicApiPackageIds } from '../src/features/public-api/types';
-import { toReferenceStyle } from '../src/shared/i18n/reference-copy';
+import { formatApiDescription } from '../src/shared/i18n/reference-copy';
 import { protectedText } from '../src/shared/i18n/reference-copy-patterns';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
+const sentenceEndings = /(?:니다|세요|한다|된다|는다|이다|하다|운다)(?=[.!?](?:\s|$)|$)/g;
 
 describe('설치본의 모든 공개 export', () => {
   it.each(publicApiPackageIds)(
@@ -138,10 +139,11 @@ describe('설치본의 모든 공개 export', () => {
           ]),
         ];
         for (const description of descriptions) {
-          const result = toReferenceStyle(description);
-          expect(result.replace(protectedText, ''), entry.id).not.toMatch(
-            /(?:니다|세요|한다|된다|는다|이다|하다|운다)(?=[.!?](?:\s|$)|$)/,
+          const result = formatApiDescription(description);
+          expect(result.match(sentenceEndings), entry.id).toEqual(
+            description.match(sentenceEndings),
           );
+          expect(result.match(protectedText), entry.id).toEqual(description.match(protectedText));
           expect(result.match(/[A-Za-z_$][\w$]*(?:[.-][A-Za-z_$][\w$]*)*/g), entry.id).toEqual(
             description.match(/[A-Za-z_$][\w$]*(?:[.-][A-Za-z_$][\w$]*)*/g),
           );
