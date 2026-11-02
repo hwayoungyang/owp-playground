@@ -533,7 +533,10 @@ kbd {
     flex: 0 0 auto;
   }
   .header-separator {
-    margin: 0 2px;
+    display: none;
+  }
+  .header-actions {
+    gap: 0;
   }
   .header-actions .package-selector,
   .header-actions .version-selector {

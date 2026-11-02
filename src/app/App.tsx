@@ -189,6 +189,8 @@ export function App() {
             playground={route.playground}
             example={effectiveExample}
             categoryLabel={navigationModel.currentCategoryLabel}
+            currentId={publicEntry ? publicApiSampleId(publicEntry.id) : effectiveExample?.id}
+            onNavigate={navigate}
             onPackageChange={navigatePackage}
             mode={mode}
             onModeChange={() => setMode((previous) => (previous === 'light' ? 'dark' : 'light'))}

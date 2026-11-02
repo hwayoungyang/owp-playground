@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useSyncExternalStore } from 'react';
+import { useCallback, useMemo, useSyncExternalStore } from 'react';
 import {
   navigationUsesSessionStorage,
   parseNavigationPreferences,
@@ -24,9 +24,6 @@ export function useNavigationPreferences(
     () => parseNavigationPreferences(snapshot, availableIds),
     [snapshot, availableIds],
   );
-  useEffect(() => {
-    if (currentId) updateNavigationPreferences({ packageId, id: currentId, action: 'visit' });
-  }, [packageId, currentId]);
   return {
     ...preferences,
     temporary: navigationUsesSessionStorage(packageId),

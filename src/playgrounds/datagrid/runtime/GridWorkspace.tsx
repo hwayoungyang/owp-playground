@@ -171,7 +171,7 @@ export function GridWorkspace({
             />
           </div>
         )}
-        <WorkspaceApiPanels example={example} tab={tab} prefix={prefix} />
+        <WorkspaceApiPanels example={example} tab={tab} prefix={prefix} onTabChange={setTab} />
       </ExampleWorkbench>
       <ApiLinks example={example} />
       <GridSettingsDrawer

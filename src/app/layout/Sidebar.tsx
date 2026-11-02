@@ -142,9 +142,7 @@ export function Sidebar({
         )}
       </div>
       {saved.temporary && (
-        <p className="navigation-storage-note">
-          {t('최근 방문·즐겨찾기는 현재 탭에서만 유지됩니다.')}
-        </p>
+        <p className="navigation-storage-note">{t('즐겨찾기는 현재 탭에서만 유지됩니다.')}</p>
       )}
       <div className="nav-list" ref={listRef}>
         {normalizedQuery ? (
@@ -174,7 +172,6 @@ export function Sidebar({
           <>
             <NavigationSaved
               entries={entries}
-              recent={saved.recent}
               favorites={saved.favorites}
               onNavigate={onNavigate}
             />

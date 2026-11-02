@@ -23,9 +23,11 @@ afterEach(async () => {
 });
 
 describe('Components API index', () => {
-  it('opens the complete grouped index with real symbol links and no arbitrary detail', () => {
+  it('opens the complete aligned index with category filters and real symbol links', () => {
     const html = renderToStaticMarkup(<ComponentsApiReference symbol={null} />);
-    for (const group of ['Components', 'Hooks', 'Utils']) expect(html).toContain(`>${group} `);
+    for (const group of ['컴포넌트', 'Hooks', 'Utils'])
+      expect(html).toContain(`>${group}</button>`);
+    expect(html).toContain('class="api-index-list"');
     for (const entry of componentsApiUiFixture.entries) {
       expect(html).toContain(`symbol=${entry.id}&amp;lang=ko`);
       expect(html).toContain(entry.name);
@@ -187,7 +189,7 @@ describe('Components API detail', () => {
       }
       const html = renderToStaticMarkup(<ComponentsApiReference symbol={null} />);
       expect(html).toContain(`symbol=useExample&amp;lang=${language}`);
-      expect(html).toContain(language === 'en' ? 'Search APIs' : 'API 검색');
+      expect(html).toContain(language === 'en' ? 'Search public APIs' : 'API 검색');
       const hook = renderToStaticMarkup(<ComponentsApiReference symbol="useExample" />);
       expect(hook).toContain('Signature');
       expect(hook).toContain(language === 'en' ? 'Parameters' : '매개변수');

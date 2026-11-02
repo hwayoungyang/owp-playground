@@ -1,0 +1,56 @@
+.recent-visits-menu.MuiPaper-root {
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  max-height: min(560px, calc(100dvh - 96px));
+  border: 1px solid var(--pg-shell-line);
+  border-radius: 8px;
+  background: var(--pg-shell-surface);
+  color: var(--pg-shell-ink);
+  box-shadow: var(--pg-shell-shadow);
+}
+.recent-visits-menu .MuiList-root {
+  padding: 6px;
+}
+.recent-visits-menu .recent-visits-heading,
+.recent-visits-menu .recent-visits-note {
+  padding: 8px 10px;
+  color: var(--pg-shell-secondary);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  background: transparent;
+  list-style: none;
+  word-break: keep-all;
+}
+.recent-visits-menu .MuiMenuItem-root {
+  gap: 12px;
+  justify-content: space-between;
+  min-height: 54px;
+  padding: 8px 10px;
+  border-radius: var(--pg-shell-control-radius);
+  color: var(--pg-shell-ink);
+  text-decoration: none;
+}
+.recent-visits-menu .MuiMenuItem-root:hover,
+.recent-visits-menu .MuiMenuItem-root.Mui-focusVisible {
+  background: var(--pg-shell-hover);
+}
+.recent-visits-menu .MuiMenuItem-root[aria-current="page"] {
+  background: var(--pg-shell-selected);
+}
+.recent-visits-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.recent-visits-title {
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.recent-visits-context {
+  color: var(--pg-shell-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}

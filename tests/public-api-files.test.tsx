@@ -67,7 +67,8 @@ it('keeps metadata out of the API index while listing usable CSS', () => {
   // Given / When
   const html = renderToStaticMarkup(<PublicApiPackageView data={data} symbol={null} />);
   // Then
-  expect(html).toContain('<h2>Styles</h2>');
+  expect(html).toContain('>Styles</button>');
+  expect(html).toContain('class="api-index-row"');
   expect(html).toContain('@owp/core/owp-app.css');
   expect(html).toContain('CSS 파일');
   expect(html).not.toContain('@owp/core/package.json');
@@ -79,7 +80,7 @@ it('omits the Styles group when the package has no stylesheet', () => {
   // When
   const html = renderToStaticMarkup(<PublicApiPackageView data={metadataOnly} symbol={null} />);
   // Then
-  expect(html).not.toContain('<h2>Styles</h2>');
+  expect(html).not.toContain('>Styles</button>');
   expect(html).not.toContain('@owp/core/package.json');
 });
 

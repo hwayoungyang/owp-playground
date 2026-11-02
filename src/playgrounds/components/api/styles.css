@@ -8,14 +8,14 @@
   min-width: 0;
   max-width: 100%;
 }
-.components-api a {
+.components-api a:not(.api-index-row) {
   color: var(--pg-blue);
   text-underline-offset: 3px;
 }
-.components-api a:hover {
+.components-api a:not(.api-index-row):hover {
   text-decoration-thickness: 2px;
 }
-.components-api :is(a, summary, .components-api-table-scroll):focus-visible {
+.components-api :is(a, summary, .components-api-table-scroll):not(.api-index-row):focus-visible {
   outline: 2px solid var(--pg-blue);
   outline-offset: 4px;
 }
@@ -56,7 +56,6 @@
   flex: 1 1 240px;
   min-width: 0;
 }
-.components-api-index > section + section,
 .components-api-article > section + section {
   margin-top: 32px;
   padding-top: 24px;
@@ -77,30 +76,6 @@
   margin: 24px 0 12px;
   font-size: 14px;
   font-weight: 600;
-}
-.components-api-index-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-  gap: 0 32px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.components-api-index-list > li {
-  min-width: 0;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--pg-line);
-}
-.components-api-index-list a {
-  font-size: 14px;
-  font-weight: 600;
-}
-.components-api-index-list p {
-  margin: 8px 0 0;
-  color: var(--pg-secondary);
-  font-size: 13px;
-  line-height: 1.7;
-  white-space: pre-wrap;
 }
 .components-api code {
   font-family: var(--font-mono);

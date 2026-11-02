@@ -10,17 +10,6 @@ import { displayPublicDescription } from './descriptions';
 import { PublicApiCode } from './PublicApiCode';
 import type { PublicApiEntry as EntryData } from './types';
 
-export const publicApiKindLabels = {
-  component: 'Component',
-  hook: 'Hook',
-  function: 'Function',
-  class: 'Class',
-  context: 'Context',
-  value: 'Value',
-  type: 'Type',
-  asset: 'File',
-} as const;
-
 export function PublicApiEntry({ entry }: { readonly entry: EntryData }) {
   const { t, i18n } = useOwpTranslation();
   const prefix = useId();

@@ -14,16 +14,20 @@ import {
   dataGridPackage,
   getPlaygroundRoute,
   type PlaygroundPackage,
+  type PlaygroundRoute,
   packageCatalog,
 } from '../../playgrounds/registry';
 import type { ColorMode } from '../../shared/theme/tokens';
 import type { ExampleMetadata } from '../../shared/types/playground';
 import { VersionSelector } from '../../features/releases/VersionSelector';
+import { RecentVisitsMenu } from './RecentVisitsMenu';
 
 export function Header({
   playground,
   example,
   categoryLabel,
+  currentId,
+  onNavigate,
   onPackageChange,
   mode,
   onModeChange,
@@ -33,6 +37,8 @@ export function Header({
   readonly playground: PlaygroundPackage;
   readonly example: ExampleMetadata | null;
   readonly categoryLabel: string;
+  readonly currentId: string | undefined;
+  readonly onNavigate: (route: PlaygroundRoute) => void;
   readonly onPackageChange: (playground: PlaygroundPackage) => void;
   readonly mode: ColorMode;
   readonly onModeChange: () => void;
@@ -137,6 +143,10 @@ export function Header({
           />
         )}
         <span className="header-separator" />
+        <RecentVisitsMenu
+          current={currentId ? { packageId: playground.id, id: currentId } : undefined}
+          onNavigate={onNavigate}
+        />
         <Button
           className="language-switch"
           aria-label={t(i18n.language === 'en' ? '한국어로 전환' : '영어로 전환')}

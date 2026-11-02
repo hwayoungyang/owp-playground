@@ -434,27 +434,58 @@
   z-index: 10;
 }
 
-.workspace-navigation .workspace-tab-copy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
+.workspace-navigation--example .MuiTabs-root {
+  min-height: 44px;
 }
-.workspace-navigation .workspace-tab-group-label {
-  color: var(--pg-shell-muted);
-  font-size: 11px;
+.workspace-navigation--example .MuiTab-root {
+  flex-direction: row;
+  align-items: center;
+  min-height: 44px;
+  padding-block: 10px;
+  gap: 6px;
+  white-space: nowrap;
+}
+.workspace-navigation--example .MuiTab-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+.workspace-tab-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   line-height: 1.5;
+}
+.workspace-tab-count {
+  padding-inline: 5px;
+  border-radius: 4px;
+  background: var(--pg-shell-selected);
+  color: var(--pg-shell-secondary);
+  font-size: 11px;
   font-weight: 400;
+  font-variant-numeric: tabular-nums;
 }
-.workspace-navigation .MuiTab-root.workspace-tab-group-start {
-  margin-left: 16px;
+.workspace-api-navigation {
+  padding: 8px 12px 0;
+  border-bottom: 1px solid var(--pg-shell-line);
 }
-.workspace-navigation:has(.workspace-tab-copy) .MuiTab-root {
-  min-height: 60px;
-  align-items: flex-end;
+.workspace-api-navigation .MuiTabs-root {
+  min-height: 36px;
 }
-.workspace-navigation:has(.workspace-tab-copy) .MuiTab-icon {
-  margin-bottom: 4px;
+.workspace-api-navigation .MuiTab-root {
+  min-height: 36px;
+  min-width: 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  text-transform: none;
+  color: var(--pg-shell-secondary);
+}
+.workspace-api-navigation .MuiTab-root.Mui-selected {
+  color: var(--pg-shell-ink);
+}
+.workspace-api-navigation .MuiTabs-indicator {
+  background: var(--pg-shell-ink);
 }
 .example-workbench .reference-workbench-content > .workspace-frame {
   border: 0;
@@ -488,7 +519,14 @@
   margin-right: auto;
 }
 @media (max-width: 600px) {
-  .workspace-navigation .MuiTab-root.workspace-tab-group-start {
-    margin-left: 8px;
+  .workspace-navigation--example .MuiTab-root {
+    padding-inline: 8px;
+    font-size: 12px;
+  }
+  .workspace-navigation--example .MuiTab-root:first-child {
+    padding-right: 8px;
+  }
+  .workspace-navigation--example .MuiTab-icon {
+    display: none;
   }
 }

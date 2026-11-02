@@ -140,7 +140,7 @@ export function ComponentsWorkspace({
             />
           </div>
         )}
-        <WorkspaceApiPanels example={example} tab={tab} prefix={prefix} />
+        <WorkspaceApiPanels example={example} tab={tab} prefix={prefix} onTabChange={setTab} />
       </div>
       <ApiLinks example={example} />
     </section>

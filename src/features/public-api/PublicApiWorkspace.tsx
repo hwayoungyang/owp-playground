@@ -1,7 +1,6 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import { TextField } from '@mui/material';
-import { lazy, Suspense, useState } from 'react';
-import { PlaygroundLink } from '../../shared/ui/PlaygroundLink';
+import { lazy, Suspense } from 'react';
+import { ApiIndexList } from '../../shared/ui/ApiIndexList';
 import { WorkspaceHeading } from '../../shared/ui/WorkspaceHeading';
 import { loadPublicApi } from './loader';
 import { displayPublicDescription } from './descriptions';
@@ -13,7 +12,8 @@ import {
   publicApiSampleId,
 } from './types';
 import type { PublicApiPackageData, PublicApiPackageId } from './types';
-import { PublicApiEntry, publicApiKindLabels } from './PublicApiEntry';
+import { PublicApiEntry } from './PublicApiEntry';
+import { publicApiKindLabels } from './kind-labels';
 import '../../playgrounds/components/api/styles.css';
 import './styles.css';
 
@@ -25,15 +25,10 @@ export function PublicApiPackageView({
   readonly symbol: string | null;
 }) {
   const { t, i18n } = useOwpTranslation();
-  const [search, setSearch] = useState('');
   const entry = data.entries.find((entry) => entry.id === symbol);
   const title = symbol
     ? (entry?.label ?? entry?.name ?? t('API를 찾을 수 없습니다.'))
     : t('공개 API');
-  const query = search.trim().toLocaleLowerCase();
-  const filtered = data.entries
-    .filter(isPublicApiListEntry)
-    .filter((entry) => publicApiSearchText(entry).toLocaleLowerCase().includes(query));
   return (
     <section className="workspace components-api public-api-workspace" aria-label={t('공개 API')}>
       <WorkspaceHeading
@@ -64,38 +59,18 @@ export function PublicApiPackageView({
           <p role="status">{t('공개 API 항목을 찾을 수 없습니다.')}</p>
         )
       ) : (
-        <>
-          <TextField
-            fullWidth
-            size="small"
-            label={t('공개 API 검색')}
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
-          <div className="components-api-index">
-            {publicApiGroups.map((group) => {
-              const entries = filtered.filter((entry) => entry.group === group.id);
-              return entries.length > 0 ? (
-                <section key={group.id}>
-                  <h2>{t(group.label)}</h2>
-                  <ul className="components-api-index-list">
-                    {entries.map((entry) => (
-                      <li key={entry.id}>
-                        <PlaygroundLink
-                          href={`?${new URLSearchParams({ package: data.id, sample: publicApiSampleId(entry.id), lang: i18n.language })}`}
-                        >
-                          {entry.label ?? entry.name}
-                        </PlaygroundLink>
-                        <p>{displayPublicDescription(entry, (key, values) => t(key, values))}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              ) : null;
-            })}
-          </div>
-          {!filtered.length && <p role="status">{t('검색 결과가 없습니다.')}</p>}
-        </>
+        <ApiIndexList
+          groups={publicApiGroups}
+          items={data.entries.filter(isPublicApiListEntry).map((item) => ({
+            id: item.id,
+            name: item.label ?? item.name,
+            description: displayPublicDescription(item, (key, values) => t(key, values)),
+            kind: publicApiKindLabels[item.kind],
+            group: item.group,
+            href: `?${new URLSearchParams({ package: data.id, sample: publicApiSampleId(item.id), lang: i18n.language })}`,
+            searchTerms: [publicApiSearchText(item)],
+          }))}
+        />
       )}
     </section>
   );

@@ -6,6 +6,12 @@ export const workbenchEnglish: Readonly<Record<string, string>> = {
   '즐겨찾기는 최대 12개까지 저장할 수 있습니다.': 'You can save up to 12 favorites.',
   즐겨찾기: 'Favorites',
   '최근 방문': 'Recently visited',
+  '최근 방문한 페이지가 없습니다.': 'No recently visited pages.',
+  '최근 방문은 현재 탭에서만 유지됩니다.': 'Recent pages are kept only in this tab.',
+  '즐겨찾기는 현재 탭에서만 유지됩니다.': 'Favorites are kept only in this tab.',
+  'API 종류': 'API category',
+  'API 상세 보기': 'API details',
+  '공개 API 검색': 'Search public APIs',
   '최근 방문·즐겨찾기는 현재 탭에서만 유지됩니다.':
     'Recent pages and favorites are kept only in this tab.',
   '사이트 화면 테마 전환': 'Switch site appearance',
