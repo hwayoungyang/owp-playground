@@ -4,7 +4,7 @@
   "playgrounds/charts/examples/axis-stacks.tsx": "639c98d52ee6a4655e5d5134da17b203fb58e7a713624f972666b0f92ec0f290",
   "playgrounds/charts/examples/bar-radius.tsx": "66d113b8626cd49addc7993df99cb60cb51fdc65589d8c1d4afe3b70698defd9",
   "playgrounds/charts/examples/bar.tsx": "770dc442c1a4fa1d419f1bf3de4443f313ca9f036007a1883e66889af0121dff",
-  "playgrounds/charts/examples/box-plot.tsx": "9c0c6436722906c58932042f6b6b2f5f5b1c612a67850fdbf073e303ebf4935b",
+  "playgrounds/charts/examples/box-plot.tsx": "ad85f53b79e91beb4ca730cd7ff53d0aca802b78b2ae823ddbbfb437e827c3ec",
   "playgrounds/charts/examples/bubble.tsx": "01325ae20aecfc08305013a8596750ce51aed5d09a07765abb73cb64e819f05f",
   "playgrounds/charts/examples/chart-area-border.tsx": "236fae86877325b447222d2c03f630b1061b5de621c44c260eb8613590981dbe",
   "playgrounds/charts/examples/daily-combo.tsx": "96b1de4a2467b5244c2541beb4b77f158a801def928ea24edf854f868518759a",
@@ -42,7 +42,7 @@
   "playgrounds/charts/examples/quadrants.tsx": "47a79dfe6212d349e194e650e1a7b9ca82ee5bcd597d27f4f5cc838720a06402",
   "playgrounds/charts/examples/radar.tsx": "474efcba4131ef66da58d5dd2c1d13c0a7786f2056719ef5562840c9ddfd7d32",
   "playgrounds/charts/examples/range-band.tsx": "0ded0308a595eed04708d3b2490dd7fd7cdf15dec95d35c36f02eabd2dc379f9",
-  "playgrounds/charts/examples/ranking.tsx": "dbb780080f650b60b30f506576ca30e93a1c05ddcbf4d71fa30e898e1a72d965",
+  "playgrounds/charts/examples/ranking.tsx": "34ff79e424d07b6fd697543a5aebf2eb461b1d128773a413a1a934502cc3e14a",
   "playgrounds/charts/examples/scatter-multi-axis.tsx": "4e1adc4196a9d3f71ed88fa54036fbacda59936dcf473430d1d9cfe33c98db65",
   "playgrounds/charts/examples/scatter.tsx": "6d32a59f9870460c1c8e56bfed7ada06ab0f84abd3a072d08729c20dc9302a0c",
   "playgrounds/charts/examples/scriptable-bar.tsx": "13bdab799fd7f4b6b586fc2d75c2a99f5e60f8245c36c665521ff4bc071d8705",
@@ -108,6 +108,6 @@
   "playgrounds/datagrid/runtime/GridToolbar.tsx": "d10344bd8637e8abd228e19928362c322341dafcaf02c83f794683c54ca6267c",
   "playgrounds/datagrid/runtime/taskGridPreview.tsx": "b2212a43b4d0375f54cfbf13109db572f844bd6f8bff80f0e0821401c58b5af7",
   "playgrounds/datagrid/runtime/useGridController.ts": "89d8d71bc0199517ee25d18fb9c77c537b9d993ae25c923a96157f0dc0af4a33",
-  "playgrounds/core/examples/api-query.tsx": "0debff1ce2f2489eacf029f2bdef7f6d336c8c5797b11cc0ab080c2081717f21",
-  "playgrounds/core/guides/api-setup.tsx": "1ed80120551fb72c016d840f9539363b7a34f8753d04e9983d7f5dc311805827"
+  "playgrounds/core/examples/api-query.tsx": "43bc990a3998a2e75b1e5355cffc4968d6cca708bfb25c41188b91c87df2916f",
+  "playgrounds/core/guides/api-setup.tsx": "0fa39b35fdfd54e151de7d509cf91eb89b4d22109cc60b7ed96645807d90a657"
 }

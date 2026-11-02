@@ -3,6 +3,8 @@
 Core·Charts·DataGrid의 예제 진입 파일, 공용 설정, JSX spread와 실제 수신 API를 대조한 검토본.
 패키지 버전과 declaration/runtime hash는 `reviewed-packages.json`에 기록한 실제 설치본을 기준으로 한다. 코드 위치 검토는 공개 API와 소스의 연결 근거이며 브라우저 실행 검증을 대신하지 않는다.
 
+2026-11-03 외부 의존성 정리: Core Query와 Charts 타입 import를 설치된 공개 re-export 경로로 전환한 4개 검토 소스를 다시 대조했습니다. QueryClient·useQueryClient의 모듈 동일성과 차트 타입 검사를 확인했고, 기존 API 전달 구간과 고유 anchor는 유지됩니다. 관련 예제 hash만 갱신하며 기존 검토 결론과 제외 항목은 보존합니다.
+
 2026-10-30 Core 10.3.0·Charts 6.1.0·DataGrid 3.5.4 연동: Core의 Query·i18n re-export와 Charts의 공개 타입·event helper를 설치된 declaration과 대조합니다. API를 제공하는 원본 패키지와 re-export 경로를 기록하며, Core의 동명 QueryKey는 import 경로별로 구분합니다. DataGrid는 공개 선언·runtime 변경 없이 의존성이 갱신됐습니다. Components 4.0.1은 기존 참조 범위와 같은 declaration/runtime hash를 유지하며 버전만 반영합니다. Date Picker 2.1.1은 직접 설치본과 각 패키지가 참조하는 설치본을 함께 확인합니다. Components의 Playground·Knowledge 지원 확장은 포함하지 않습니다.
 
 2026-10-27 Core 10.2.0 응답 정책: query·suspense·queryOptions의 resultCode 누락 허용과 요청별 owp/raw 반환, falsy·null·빈 성공 응답, 정책별 캐시 분리를 설치 선언·runtime 및 실제 HTTP 테스트로 대조합니다. API 요청은 모드별 응답 유형을 나누고 raw 원문을 표시합니다. 관련 패키지의 설치 버전·의존 해석·공개 소유권을 함께 확인하고 예제 hash·API 줄 링크·로컬 MCP draft를 갱신합니다.
