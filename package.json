@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm knowledge:generate && vp dev --host 127.0.0.1 --open",
+    "dev": "vp dev --host 127.0.0.1 --open",
     "build": "pnpm knowledge:generate && tsc --noEmit && vp build",
     "knowledge:generate": "node --experimental-strip-types scripts/generate-knowledge.mjs",
     "knowledge:check": "node --experimental-strip-types scripts/generate-knowledge.mjs --check",
@@ -85,6 +85,7 @@
     "playwright-lighthouse": "^4.0.0",
     "react-grab": "^0.2.0",
     "typescript": "7.0.2",
+    "typescript-compiler-api": "npm:@typescript/typescript6@6.0.2",
     "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0",
     "vite-plus": "1.4.0",
     "vitest": "5.0.5"

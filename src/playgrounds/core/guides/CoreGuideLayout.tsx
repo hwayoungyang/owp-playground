@@ -11,7 +11,7 @@ interface CoreGuideSection {
 
 interface CoreGuideLayoutProps {
   readonly example: Extract<CoreCatalogEntry, { readonly kind: 'guide' }>;
-  readonly introduction: string;
+  readonly introduction?: string;
   readonly sections: readonly CoreGuideSection[];
   readonly children: ReactNode;
   readonly related?: ReactNode;
@@ -54,7 +54,7 @@ export function CoreGuideLayout({
         </details>
         <article className="core-guide-body">
           <div className="guide-sections">
-            <p className="guide-introduction">{t(introduction)}</p>
+            {introduction && <p className="guide-introduction">{t(introduction)}</p>}
             {children}
           </div>
           {related}

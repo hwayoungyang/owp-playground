@@ -2,6 +2,17 @@ import { useOwpTranslation } from '@owp/components/hooks';
 import { Button } from '@mui/material';
 import { BracketsCurlyIcon, CaretRightIcon } from '@phosphor-icons/react';
 import type { EventLogEntry } from '../types/events';
+import { CodeSnippet } from '../../features/code/CodeSnippet';
+
+function EventValue({ value }: { readonly value: string }) {
+  try {
+    JSON.parse(value);
+  } catch (error) {
+    if (!(error instanceof SyntaxError)) throw error;
+    return <CodeSnippet label="event.txt" code={value} />;
+  }
+  return <CodeSnippet label="event.json" code={value} language="json" />;
+}
 
 export function EventsPanel({
   events,
@@ -41,7 +52,7 @@ export function EventsPanel({
                 <span className="event-name">{event.name}</span>
                 <span className="event-id">#{event.id}</span>
               </summary>
-              <pre>{event.value}</pre>
+              <EventValue value={event.value} />
             </details>
           ))}
         </div>

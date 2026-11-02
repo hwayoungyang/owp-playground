@@ -66,7 +66,7 @@ export function CoreGettingStarted({
         <p>
           <Trans
             t={t}
-            i18nKey="공통 UI는 Components가 제공하고, Core는 그 UI에 앱 설정·인증·페이지 이탈·요청 취소 같은 정책을 연결합니다. 같은 패키지별 역할에는 이미 적용된 <strong>정책을 중복 연결하지 않습니다</strong>."
+            i18nKey="공통 UI는 Components가 제공하고, Core는 그 UI에 앱 설정·인증·페이지 이탈·요청 취소 같은 정책을 연결합니다. 각 기능을 연결할 때는 이미 적용된 <strong>정책을 중복 연결하지 않습니다</strong>."
             components={{ strong: <strong /> }}
           />
         </p>

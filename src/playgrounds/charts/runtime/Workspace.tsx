@@ -1,3 +1,5 @@
+import { ExampleWorkbench } from '../../../shared/ui/ExampleWorkbench';
+import { WorkspaceApiPanels } from '../../../features/public-api/WorkspaceApiPanels';
 import { ApiLinks } from '../../../features/api/ApiLinks';
 import { PreviewActions, PreviewActionsProvider } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
@@ -18,7 +20,11 @@ import type { EventLogEntry } from '../../../shared/types/events';
 import { EventsPanel } from '../../../shared/ui/EventsPanel';
 import { PreviewToolbar } from '../../../shared/ui/PreviewToolbar';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
-import { type WorkspaceTab, WorkspaceTabs } from '../../../shared/ui/WorkspaceTabs';
+import {
+  type WorkspaceTab,
+  WorkspaceTabs,
+  resolveWorkspaceTab,
+} from '../../../shared/ui/WorkspaceTabs';
 import { type ChartExample, chartCategories } from '../catalog';
 import { chartApiDocument } from '../model/apiData';
 import type { ChartExampleProps, ChartSnapshot } from '../model/types';
@@ -70,14 +76,15 @@ export function ChartsWorkspace({
   onSelectVariant,
 }: {
   readonly example: ChartExample;
-  readonly initialTab?: 'preview' | 'code';
+  readonly initialTab?: 'preview' | 'code' | 'props' | 'params' | 'returns' | 'type';
   readonly codeTarget?: CodeLocation;
   readonly canonicalId?: string;
   readonly onSelectVariant?: (id: string) => void;
 }) {
   const { t } = useOwpTranslation();
-  const [tab, setTab] = useState<WorkspaceTab>(initialTab);
-  useEffect(() => setTab(initialTab), [initialTab, codeTarget]);
+  const supportedTab = resolveWorkspaceTab(example, initialTab);
+  const [tab, setTab] = useState<WorkspaceTab>(supportedTab);
+  useEffect(() => setTab(supportedTab), [supportedTab, codeTarget]);
   const [version, setVersion] = useState(0);
   const [snapshot, setSnapshot] = useState<ChartSnapshot>({ labels: [], series: [] });
   const apiDocument = useMemo(
@@ -113,8 +120,27 @@ export function ChartsWorkspace({
           chartCategories.find((category) => category.id === example.category)?.label ?? ''
         }
       />
-      <WorkspaceTabs idPrefix={prefix} value={tab} eventCount={events.length} onChange={setTab} />
-      <div className="workspace-frame">
+      <WorkspaceTabs
+        api={example}
+        idPrefix={prefix}
+        value={tab}
+        eventCount={events.length}
+        onChange={setTab}
+      />
+      <ExampleWorkbench
+        idPrefix={prefix}
+        tab={tab}
+        onTabChange={setTab}
+        code={
+          <div role="tabpanel" id={`${prefix}-panel-code`} aria-labelledby={`${prefix}-tab-code`}>
+            <ChartCodeViewer
+              example={example}
+              codeTarget={codeTarget}
+              requestedCode={initialTab === 'code'}
+            />
+          </div>
+        }
+      >
         <div
           hidden={tab !== 'preview'}
           role="tabpanel"
@@ -161,15 +187,6 @@ export function ChartsWorkspace({
             <span>{t('series {{count}}개', { count: snapshot.series.length })}</span>
           </div>
         </div>
-        {tab === 'code' && (
-          <div role="tabpanel" id={`${prefix}-panel-code`} aria-labelledby={`${prefix}-tab-code`}>
-            <ChartCodeViewer
-              example={example}
-              codeTarget={codeTarget}
-              requestedCode={initialTab === 'code'}
-            />
-          </div>
-        )}
         {tab === 'data' && (
           <div
             aria-label={t('데이터')}
@@ -194,7 +211,8 @@ export function ChartsWorkspace({
             />
           </div>
         )}
-      </div>
+        <WorkspaceApiPanels example={example} tab={tab} prefix={prefix} />
+      </ExampleWorkbench>
       <ApiLinks example={example} />
     </section>
   );

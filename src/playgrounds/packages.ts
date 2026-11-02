@@ -1,6 +1,12 @@
 import chartsManifest from '@owp/charts/package.json' with { type: 'json' };
 import dataGridManifest from '@owp/datagrid/package.json' with { type: 'json' };
 import coreManifest from '@owp/core/package.json' with { type: 'json' };
+import componentsManifest from '@owp/components/package.json' with { type: 'json' };
+import datePickerManifest from '@owp/date-picker/package.json' with { type: 'json' };
+import excelManifest from '@owp/excel/package.json' with { type: 'json' };
+import pdfManifest from '@owp/pdf/package.json' with { type: 'json' };
+import themeManifest from '@owp/theme/package.json' with { type: 'json' };
+import utilsManifest from '@owp/utils/package.json' with { type: 'json' };
 import { z } from 'zod';
 
 export const playgroundPackageIdSchema = z.string().regex(/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/);
@@ -40,19 +46,40 @@ export const corePackage = {
 /** Playground와 Knowledge 검증을 마친 패키지만 이 목록에 등록합니다. */
 export const completedPlaygroundPackages = [dataGridPackage, chartsPackage, corePackage] as const;
 
+export const componentsPackage = {
+  id: 'components',
+  title: 'owp/components',
+  name: '@owp/components',
+  version: componentsManifest.version,
+  status: 'available',
+  referencePackages: [],
+} as const;
+
 const planned = <T extends string>(id: T) =>
   ({ id, title: `owp/${id}`, name: `@owp/${id}`, version: null, status: 'planned' }) as const;
 
+const available = <T extends string>(id: T, version: string) =>
+  ({ id, title: `owp/${id}`, name: `@owp/${id}`, version, status: 'available' }) as const;
+
 export const packageCatalog = [
   ...completedPlaygroundPackages,
-  planned('components'),
-  planned('date-picker'),
-  planned('excel'),
-  planned('pdf'),
-  planned('theme'),
-  planned('utils'),
+  componentsPackage,
+  available('date-picker', datePickerManifest.version),
+  available('excel', excelManifest.version),
+  available('pdf', pdfManifest.version),
+  available('theme', themeManifest.version),
+  available('utils', utilsManifest.version),
   planned('tailwind-config'),
 ] as const;
+
+export function supportsApiReference(
+  playground: (typeof packageCatalog)[number],
+): playground is Extract<
+  (typeof packageCatalog)[number],
+  { readonly status: 'ready' } | { readonly status: 'available' }
+> {
+  return playground.status === 'ready' || playground.status === 'available';
+}
 
 export function referencePackagesFor(packageId: string): readonly string[] {
   return (

@@ -45,7 +45,7 @@ export const coreCatalog = [
     id: 'core-features',
     title: '기능별 API 안내',
     category: 'start',
-    description: 'Core가 직접 구현한 hooks·utils·진단 기능과 문서·실행 예제를 역할별로 찾습니다.',
+    description: '',
     api: [],
     kind: 'guide',
     package: '@owp/core',
@@ -55,7 +55,8 @@ export const coreCatalog = [
     id: 'providers',
     title: '프로바이더 구성',
     category: 'start',
-    description: 'Core·스타일·UI 프로바이더의 역할과 중첩 순서를 설정해 앱 전역 기능을 연결합니다.',
+    description:
+      'Core·스타일·UI 프로바이더의 역할을 알아보고, 중첩 순서를 맞춰 앱 전역 기능을 연결합니다.',
     api: ['OwpCoreProvider', 'OwpStyleProvider', 'OwpUiProvider', 'useInitApp'],
     kind: 'guide',
     package: '@owp/core',
@@ -101,7 +102,7 @@ export const coreCatalog = [
     title: '테마와 설정',
     category: 'start',
     description:
-      '기본 설정과 테마 변경·초기화 방법을 연결해 일관된 화면 스타일과 사용자 설정을 적용합니다.',
+      '기본 설정을 지정하고 테마를 변경·초기화해 화면 스타일과 사용자 설정을 적용합니다.',
     api: [
       'useChangeOwpTheme',
       'useGetCurrentSettings',
@@ -125,7 +126,6 @@ export const coreCatalog = [
       'OwpApiMutationBehaviorOptions.allowMissingResultCode',
       'OwpApiMutationBehaviorOptions.isServerErrorMessageEnabled',
       'CreateOwpApiHooksOptions.isErrorMessageEnabled',
-      '@owp/components:OwpTable',
     ],
   ),
   entry(
@@ -166,7 +166,7 @@ export const coreCatalog = [
   ),
   entry(
     'user-permissions',
-    '사용자와 페이지 권한',
+    '사용자별 페이지 권한',
     'hooks',
     'Super admin·Admin·PM 샘플 사용자를 선택하면 페이지별 생성·조회·수정·삭제 권한이 O/X로 바로 바뀝니다.',
     [
@@ -187,7 +187,7 @@ export const coreCatalog = [
     'dialog',
     '다이얼로그 상태 관리',
     'hooks',
-    '다이얼로그를 열고 결과를 받아 저장하며 미저장 변경을 보호합니다.',
+    '다이얼로그를 열어 입력값을 저장하고, 저장하지 않은 변경 내용을 확인합니다.',
     ['@owp/components:useOwpDialogs', '@owp/components:OwpDialog', '@owp/components:OwpFieldTable'],
   ),
   entry(
@@ -208,7 +208,7 @@ export const coreCatalog = [
     'loading',
     '로딩 표시',
     'hooks',
-    '로딩 indicator 옵션과 화면 잠금 로딩 정책을 비교합니다.',
+    '로딩 표시 옵션과 작업 완료·실패 시 화면 잠금 해제 동작을 비교합니다.',
     ['@owp/components:OwpLoading', 'usePageLockLoading', 'useGetPageLockLoading'],
   ),
   entry(
@@ -253,7 +253,7 @@ export const coreCatalog = [
     'error-boundary',
     '오류와 복구',
     'integration',
-    '렌더 오류 경계와 Data Router 라우트 오류를 처리하고 복구합니다.',
+    '렌더링 오류와 Data Router의 라우트 오류를 처리하고 복구합니다.',
     [
       '@owp/components:OwpErrorBoundary',
       '@owp/utils:recoverFromDynamicImportChunkLoadError',
@@ -264,7 +264,7 @@ export const coreCatalog = [
     'page-carded',
     '검색과 페이지',
     'integration',
-    '검색 조건과 결과를 페이지의 header·content로 구성하고 페이지 이탈을 보호합니다.',
+    '검색 조건과 결과를 페이지의 header·content에 배치하고, 저장하지 않은 변경 내용이 있을 때 페이지 이동을 확인합니다.',
     [
       '@owp/components:OwpPageCarded',
       'OwpUiProvider',
@@ -278,7 +278,7 @@ export const coreCatalog = [
     'page-content',
     '페이지 콘텐츠',
     'integration',
-    '제목·보조 영역·액션을 조합하고 로딩 상태와 반응형 배치를 확인합니다.',
+    '제목·보조 영역·작업 버튼을 배치하고 로딩 상태와 반응형 배치를 확인합니다.',
     ['@owp/components:OwpPageContent', '@owp/components:OwpTable'],
   ),
   entry(

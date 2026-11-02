@@ -2,7 +2,7 @@ export const chartjsCatalog = [
   {
     id: 'time-line',
     title: '시간 axis 간격',
-    description: '불규칙한 관측 시각을 실제 시간 간격과 동일 관측 간격으로 비교 가능.',
+    description: '불규칙한 관측 시각을 실제 시간 간격과 동일 관측 간격으로 비교할 수 있습니다.',
     category: 'axes',
     kind: 'chart',
     package: '@owp/charts',
@@ -12,7 +12,7 @@ export const chartjsCatalog = [
   {
     id: 'time-combo',
     title: '시간 axis · Column & Line',
-    description: '같은 UTC 시간축에서 시간당 생산 실적과 계획 비교 가능.',
+    description: '같은 UTC 시간축에서 시간당 생산 실적과 계획을 비교할 수 있습니다.',
     category: 'axes',
     kind: 'chart',
     package: '@owp/charts',
@@ -22,7 +22,7 @@ export const chartjsCatalog = [
   {
     id: 'time-max-span',
     title: '시간 axis 누락 구간',
-    description: '관측 사이의 최대 연결 시간 조절로 누락 구간 선 연결 비교 가능.',
+    description: '관측 사이의 최대 연결 시간을 조절해 누락 구간의 선 연결을 비교할 수 있습니다.',
     category: 'axes',
     kind: 'chart',
     package: '@owp/charts',
@@ -32,7 +32,7 @@ export const chartjsCatalog = [
   {
     id: 'log-scale',
     title: '로그 scale',
-    description: '크기 차이가 큰 양수 측정값을 선형축과 로그축으로 비교 가능.',
+    description: '크기 차이가 큰 양수 측정값을 선형축과 로그축으로 비교할 수 있습니다.',
     category: 'axes',
     kind: 'chart',
     package: '@owp/charts',
@@ -42,7 +42,7 @@ export const chartjsCatalog = [
   {
     id: 'bar-radius',
     title: 'Column 스타일',
-    description: '막대의 radius와 기준값별 색상 설정 비교 가능.',
+    description: '막대의 radius와 기준값별 색상 설정을 비교할 수 있습니다.',
     category: 'styling',
     kind: 'chart',
     package: '@owp/charts',
@@ -52,7 +52,7 @@ export const chartjsCatalog = [
   {
     id: 'floating-bar',
     title: 'Floating bars',
-    description: '시작값과 종료값 사이의 구간을 Column으로 표시 가능.',
+    description: '시작값과 종료값 사이의 구간을 Column으로 표시할 수 있습니다.',
     category: 'types',
     kind: 'chart',
     package: '@owp/charts',
@@ -62,7 +62,7 @@ export const chartjsCatalog = [
   {
     id: 'stacked-groups',
     title: '그룹별 누적 Column',
-    description: 'series를 여러 stack으로 나누어 나란히 누적하고 그룹별 범례 표시 가능.',
+    description: 'series를 여러 stack으로 나누어 나란히 누적하고 그룹별 범례를 표시할 수 있습니다.',
     category: 'types',
     kind: 'chart',
     package: '@owp/charts',
@@ -72,7 +72,7 @@ export const chartjsCatalog = [
   {
     id: 'stepped-line',
     title: '계단형 Line',
-    description: '값이 바뀌는 위치에 따른 계단형 선 표시 가능.',
+    description: '값이 바뀌는 위치에 따른 계단형 선을 표시할 수 있습니다.',
     category: 'styling',
     kind: 'chart',
     package: '@owp/charts',
@@ -82,7 +82,7 @@ export const chartjsCatalog = [
   {
     id: 'line-style',
     title: 'Line·Point 스타일',
-    description: '선 모양·보간·Point 모양과 기준값별 스타일 비교 가능.',
+    description: '선 모양·보간·Point 모양과 기준값별 스타일을 비교할 수 있습니다.',
     category: 'styling',
     kind: 'chart',
     package: '@owp/charts',
@@ -99,7 +99,7 @@ export const chartjsCatalog = [
   {
     id: 'line-segments',
     title: 'Line 구간 스타일',
-    description: '하락 구간과 누락 데이터 구간의 선 스타일 구분 가능.',
+    description: '하락 구간과 누락 데이터 구간의 선 스타일을 구분할 수 있습니다.',
     category: 'styling',
     kind: 'chart',
     package: '@owp/charts',
@@ -109,7 +109,7 @@ export const chartjsCatalog = [
   {
     id: 'line-multi-axis',
     title: 'Line · 이중 axis',
-    description: '두 Line을 좌우 Y축에 연결하고 오른쪽 축 표시·숨김 가능.',
+    description: '두 Line을 좌우 Y축에 연결하고 오른쪽 축을 표시하거나 숨길 수 있습니다.',
     category: 'axes',
     kind: 'chart',
     package: '@owp/charts',
@@ -119,7 +119,7 @@ export const chartjsCatalog = [
   {
     id: 'stacked-combo',
     title: '누적 Column·Line',
-    description: '누적 Column과 Line series를 같은 차트에 표시 가능.',
+    description: '누적 Column과 Line series를 같은 차트에 표시할 수 있습니다.',
     category: 'types',
     kind: 'chart',
     package: '@owp/charts',
@@ -129,7 +129,7 @@ export const chartjsCatalog = [
   {
     id: 'axis-range',
     title: 'Axis 범위·서식',
-    description: '축 범위·눈금·격자·제목 설정 비교 가능.',
+    description: '축 범위·눈금·격자·제목 설정을 비교할 수 있습니다.',
     category: 'axes',
     kind: 'chart',
     package: '@owp/charts',
@@ -151,7 +151,7 @@ export const chartjsCatalog = [
   {
     id: 'axis-stacks',
     title: 'Axis 영역 분할',
-    description: '한쪽 Y축 영역을 위아래로 분할 가능.',
+    description: '한쪽 Y축 영역을 위아래로 분할할 수 있습니다.',
     category: 'axes',
     kind: 'chart',
     package: '@owp/charts',
@@ -161,7 +161,7 @@ export const chartjsCatalog = [
   {
     id: 'axis-center',
     title: 'Axis 중앙 배치',
-    description: '양수와 음수를 원점 기준으로 비교 가능.',
+    description: '양수와 음수를 원점 기준으로 비교할 수 있습니다.',
     category: 'axes',
     kind: 'chart',
     package: '@owp/charts',
@@ -171,7 +171,7 @@ export const chartjsCatalog = [
   {
     id: 'tooltip-content',
     title: 'Tooltip',
-    description: 'Tooltip 내용·탐색 방식·위치·Point 표시 비교 가능.',
+    description: 'Tooltip 내용·탐색 방식·위치·Point 표시를 비교할 수 있습니다.',
     category: 'display',
     kind: 'chart',
     package: '@owp/charts',
@@ -189,7 +189,7 @@ export const chartjsCatalog = [
   {
     id: 'chart-title',
     title: 'Title & subtitle',
-    description: '제목·부제목의 표시·정렬·여러 줄 구성과 PNG 내보내기 실행.',
+    description: '제목·부제목의 표시·정렬·여러 줄 구성을 설정하고 PNG를 내보낼 수 있습니다.',
     category: 'styling',
     kind: 'chart',
     package: '@owp/charts',
@@ -204,7 +204,7 @@ export const chartjsCatalog = [
   {
     id: 'programmatic-events',
     title: '외부 버튼 이벤트',
-    description: '외부 버튼으로 지정한 point 강조 및 Tooltip 표시 실행.',
+    description: '외부 버튼으로 지정한 point를 강조하고 Tooltip을 표시할 수 있습니다.',
     category: 'display',
     kind: 'chart',
     package: '@owp/charts',
@@ -214,7 +214,7 @@ export const chartjsCatalog = [
   {
     id: 'chart-area-border',
     title: '차트 영역 테두리',
-    description: 'Plugin으로 plot 영역 테두리 표시 가능.',
+    description: 'Plugin으로 plot 영역 테두리를 표시할 수 있습니다.',
     category: 'plugins',
     kind: 'chart',
     package: '@owp/charts',
@@ -224,7 +224,7 @@ export const chartjsCatalog = [
   {
     id: 'quadrants',
     title: '사분면',
-    description: '원점을 기준으로 네 사분면 배경색 구분 가능.',
+    description: '원점을 기준으로 네 사분면의 배경색을 구분할 수 있습니다.',
     category: 'plugins',
     kind: 'chart',
     package: '@owp/charts',
@@ -234,7 +234,7 @@ export const chartjsCatalog = [
   {
     id: 'scatter',
     title: 'Scatter',
-    description: 'X·Y 좌표의 데이터 분포를 point로 표시 가능.',
+    description: 'X·Y 좌표의 데이터 분포를 point로 표시할 수 있습니다.',
     category: 'types',
     kind: 'chart',
     package: '@owp/charts',
@@ -244,7 +244,7 @@ export const chartjsCatalog = [
   {
     id: 'scatter-multi-axis',
     title: 'Scatter · 이중 axis',
-    description: '두 Scatter를 서로 다른 Y축 범위에 연결하고 Point 크기 조절 가능.',
+    description: '두 Scatter를 서로 다른 Y축 범위에 연결하고 Point 크기를 조절할 수 있습니다.',
     category: 'axes',
     kind: 'chart',
     package: '@owp/charts',
@@ -254,7 +254,7 @@ export const chartjsCatalog = [
   {
     id: 'bubble',
     title: 'Bubble',
-    description: 'X·Y 좌표와 크기로 세 가지 측정값 비교 가능.',
+    description: 'X·Y 좌표와 크기로 세 가지 측정값을 비교할 수 있습니다.',
     category: 'types',
     kind: 'chart',
     package: '@owp/charts',

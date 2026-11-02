@@ -1,17 +1,19 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Alert, IconButton, Snackbar, Tooltip } from '@mui/material';
 import { LinkIcon } from '@phosphor-icons/react';
-import { useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import type { ExampleMetadata } from '../types/playground';
 
 export function WorkspaceHeading({
   example,
   packageTitle,
   categoryLabel,
+  metadata,
 }: {
   readonly example: ExampleMetadata;
   readonly packageTitle: string;
   readonly categoryLabel: string;
+  readonly metadata?: ReactNode;
 }) {
   const { t } = useOwpTranslation();
   const [notice, setNotice] = useState('');
@@ -40,6 +42,7 @@ export function WorkspaceHeading({
               <LinkIcon size={20} />
             </IconButton>
           </Tooltip>
+          {metadata}
         </div>
         {example.description && <p>{t(example.description)}</p>}
       </div>

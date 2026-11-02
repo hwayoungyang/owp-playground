@@ -3,7 +3,8 @@ import { Button, Typography } from '@mui/material';
 import { createOwpApiHooks } from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useQueryClient } from '@tanstack/react-query';
-import { CodeSnippet } from '../../../features/code/CodeSnippet';
+import { ApiRequestResult } from './components/api-request-result';
+import { createApiResponseObserver } from '../model/api-response-observation';
 import type { CoreExampleProps } from '../model/types';
 import {
   mutationPolicies,
@@ -16,13 +17,12 @@ import {
   requestModes,
   responseGuidance,
   responseModes,
-  resultSchema,
 } from '../model/api-response';
 import type { ApiJsonBody, ApiOutcome, ApiPaths, ApiRequestOptions } from '../model/api-response';
 import { CoreDemo, DemoSection } from '../runtime/Demo';
 import { CoreChoice, CoreToggle } from '../runtime/Controls';
-import { CoreResultTable } from '../runtime/CoreResultTable';
 export function CoreExample(props: CoreExampleProps) {
+  const [observer] = useState(createApiResponseObserver);
   const [owpScenario, setOwpScenario] = useState<keyof typeof owpEndpoints>('조회 결과 있음');
   const [rawScenario, setRawScenario] = useState<keyof typeof rawEndpoints>('JSON 객체');
   const [responseMode, setResponseMode] = useState<(typeof responseModes)[number]>('owp');
@@ -72,6 +72,7 @@ export function CoreExample(props: CoreExampleProps) {
       <ApiRequest
         key={`${endpoint}:${responseMode}:${mode}:${activePolicy}:${guidance}`}
         {...props}
+        observer={observer}
         endpoint={endpoint}
         mode={mode}
         responseMode={responseMode}
@@ -90,11 +91,19 @@ function ApiRequest({
   guidance,
   onRecord,
   onData,
-}: CoreExampleProps & ApiRequestOptions) {
-  const { t, i18n } = useOwpTranslation();
+  observer,
+}: CoreExampleProps &
+  ApiRequestOptions & {
+    readonly observer: ReturnType<typeof createApiResponseObserver>;
+  }) {
+  const { t } = useOwpTranslation();
   const queryClient = useQueryClient();
   const mutationAbortController = useRef<AbortController | null>(null);
   const [outcome, setOutcome] = useState<ApiOutcome>({ kind: 'idle' });
+  const observedInit = useMemo(
+    () => ({ ...requestInit, middleware: observer.middleware }),
+    [observer],
+  );
   const api = useMemo(
     () =>
       createOwpApiHooks<ApiPaths>({
@@ -120,11 +129,11 @@ function ApiRequest({
     [responseMode, policy],
   );
   const queryKey = useMemo(
-    () => api.queryOptions('get', path, requestInit, responseOptions).queryKey,
-    [api, path, responseOptions],
+    () => api.queryOptions('get', path, observedInit, responseOptions).queryKey,
+    [api, path, observedInit, responseOptions],
   );
   // Accept를 지정해 존재하지 않는 JSON 경로가 SPA 문서로 대체되지 않도록 합니다.
-  const query = api.useApiQuery('get', path, requestInit, responseOptions);
+  const query = api.useApiQuery('get', path, observedInit, responseOptions);
   const mutation = api.useApiMutation('get', path, {
     responseMode,
     retry: false,
@@ -133,11 +142,6 @@ function ApiRequest({
     allowMissingResultCode: responseOptions.allowMissingResultCode,
   });
   const pending = query.isFetching || mutation.isPending;
-  const result = resultSchema.safeParse(
-    responseMode === 'owp' && outcome.kind === 'success' ? outcome.data : undefined,
-  );
-  const rows = result.success ? result.data.resultData : [];
-
   useEffect(() => {
     const pendingRequest = new AbortController();
     mutationAbortController.current = pendingRequest;
@@ -162,6 +166,7 @@ function ApiRequest({
   async function request() {
     const activeController = mutationAbortController.current;
     if (!activeController) return;
+    observer.reset();
     onRecord('request', `${mode} ${path}`);
     try {
       let data: ApiJsonBody;
@@ -170,15 +175,15 @@ function ApiRequest({
         if (!response.isSuccess) return;
         data = response.data;
       } else {
-        data = await mutation.mutateAsync({ ...requestInit, signal: activeController.signal });
+        data = await mutation.mutateAsync({ ...observedInit, signal: activeController.signal });
       }
       if (activeController.signal.aborted) return;
-      setOutcome({ kind: 'success', data });
+      setOutcome({ kind: 'success', data, response: observer.read() });
       onRecord('request.success', JSON.stringify(data));
     } catch (error) {
       if (!(error instanceof Error)) throw error;
       if (activeController.signal.aborted) return;
-      setOutcome({ kind: 'error', message: error.message });
+      setOutcome({ kind: 'error', message: error.message, response: observer.read() });
       onRecord('request.error', error.message);
     }
   }
@@ -188,47 +193,10 @@ function ApiRequest({
       <Button variant="outlined" loading={pending} onClick={request}>
         {t('조회')}
       </Button>
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        role="status"
-        sx={{ whiteSpace: 'pre-wrap' }}
-      >
-        {outcome.kind === 'success'
-          ? t('요청이 완료되었습니다. 데이터 탭에서 원본 응답을 확인하세요.')
-          : outcome.kind === 'error'
-            ? outcome.message
-            : t('조회 버튼을 눌러 주세요.')}
-      </Typography>
       <Typography variant="body2" color="text.secondary">
         {t(responseGuidance[responseMode === 'raw' ? 'raw' : policy])}
       </Typography>
-      {responseMode === 'raw' ? (
-        outcome.kind === 'success' && (
-          <CodeSnippet
-            label="response.json"
-            language="json"
-            code={JSON.stringify(outcome.data, null, 2)}
-          />
-        )
-      ) : (
-        <CoreResultTable
-          headers={{ id: 'ID', name: t('항목명') }}
-          rows={rows.map((row) => ({
-            id: row.id,
-            name: i18n.language === 'en' ? row.nameEn : row.nameKo,
-          }))}
-          state={
-            pending
-              ? { kind: 'loading', message: t('조회 중') }
-              : outcome.kind === 'error'
-                ? { kind: 'error', message: t('조회에 실패했습니다. 다시 시도해 주세요.') }
-                : outcome.kind === 'idle'
-                  ? { kind: 'idle', message: t('조회 버튼을 눌러 주세요.') }
-                  : undefined
-          }
-        />
-      )}
+      <ApiRequestResult outcome={outcome} pending={pending} responseMode={responseMode} />
     </DemoSection>
   );
 }

@@ -151,7 +151,7 @@ export function Header({
             </IconButton>
           </Tooltip>
         )}
-        <Tooltip title={t(mode === 'light' ? '어두운 화면' : '밝은 화면')}>
+        <Tooltip title={t('사이트 화면 테마 전환')}>
           <IconButton
             onClick={onModeChange}
             aria-label={t(mode === 'light' ? '다크 모드로 전환' : '라이트 모드로 전환')}

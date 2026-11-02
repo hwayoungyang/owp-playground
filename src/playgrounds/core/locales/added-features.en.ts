@@ -8,7 +8,7 @@ export const addedFeaturesEnglish: Readonly<Record<string, string>> = {
   없음: 'None',
   'STATUS에도 접두사 적용': 'Prefix STATUS too',
   'null 유지': 'Preserve null',
-  'query는 DT를 FR_DATE·TO_DATE로 나누고, form은 두 날짜를 DT로 합칩니다. JSON 변환은 숫자·boolean을 문자열로 바꾸며, 이 예제는 요청 로그 필드를 제외합니다.':
+  'query 모드에서는 DT를 FR_DATE·TO_DATE로 나누고, form 모드에서는 두 날짜를 DT로 합칩니다. JSON 변환은 숫자·boolean을 문자열로 바꾸며, 이 예제에서는 요청 로그 필드를 제외합니다.':
     'query splits DT into FR_DATE and TO_DATE; form combines the two dates into DT. JSON conversion turns numbers and booleans into strings. This example excludes request log fields.',
   '날짜 범위를 선택하고 변환 버튼을 눌러 입력과 각 함수의 출력을 비교합니다.':
     'Select a date range and choose Transform to compare each function’s input and output.',
@@ -23,7 +23,7 @@ export const addedFeaturesEnglish: Readonly<Record<string, string>> = {
   기본값: 'Default',
   '페이지와 테이블': 'Page and table',
   '직접 지정': 'Custom field',
-  '업로드 payload 준비': 'Prepare an upload payload',
+  '업로드 데이터 준비': 'Prepare an upload payload',
   '샘플 File과 추가 필드를 정규화한 뒤, useFormDataUploadMutation이 만든 FormData를 표에 표시합니다. 이 예제의 mutation은 미리보기만 수행하며 서버에 파일을 전송하지 않습니다.':
     'Normalize a sample File and extra fields, then display the FormData created by useFormDataUploadMutation. The mutation in this example only previews the payload and does not send files to a server.',
   '실제 업로드는 mutation을 앱의 API mutation으로 교체하고, createVariables에서 formData를 해당 API의 요청 변수에 연결합니다.':

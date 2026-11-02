@@ -1,0 +1,155 @@
+.reference-workbench {
+  min-width: 0;
+}
+.reference-workbench-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0 0 12px;
+}
+.reference-workbench-toolbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--pg-shell-secondary);
+  background: transparent;
+  font: 500 11px/1.5 var(--font-ui);
+  cursor: pointer;
+}
+.reference-workbench-toolbar button:hover {
+  background: var(--pg-shell-hover);
+  color: var(--pg-shell-ink);
+}
+.reference-workbench-toolbar button[aria-pressed="true"] {
+  color: var(--pg-shell-ink);
+  background: var(--pg-shell-selected);
+}
+.reference-workbench-toolbar button:focus-visible,
+.reference-workbench-separator:focus-visible {
+  outline: 2px solid var(--pg-shell-focus);
+  outline-offset: 2px;
+}
+.reference-workbench-grid {
+  display: grid;
+  align-items: start;
+  min-width: 0;
+}
+.reference-workbench-content,
+.reference-workbench-source {
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid var(--pg-shell-line);
+  border-radius: 12px;
+  background: var(--pg-shell-surface);
+  overflow: clip;
+  box-shadow: var(--pg-shell-shadow);
+}
+.reference-pane-heading {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--pg-shell-line);
+  color: var(--pg-shell-secondary);
+  font: 500 12px/1.5 var(--font-ui);
+}
+.reference-workbench-source {
+  background: var(--code-background);
+}
+.reference-workbench-source > .reference-pane-heading {
+  background: var(--pg-shell-surface);
+}
+.reference-workbench-source .code-viewer {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.reference-workbench-source .code-scroll {
+  max-height: 640px;
+}
+.reference-workbench-separator {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8px;
+  padding: 0;
+  margin: 0;
+  min-height: 160px;
+  border: 0;
+  background: transparent;
+  cursor: col-resize;
+  touch-action: none;
+}
+.reference-workbench-separator span {
+  width: 2px;
+  height: 32px;
+  border-radius: 2px;
+  background: var(--pg-shell-line);
+}
+.reference-workbench-separator:hover span {
+  background: var(--pg-shell-secondary);
+}
+@media (min-width: 1100px) {
+  .reference-workbench[data-mode="content"] .reference-workbench-grid,
+  .reference-workbench[data-mode="code"] .reference-workbench-grid {
+    display: block;
+  }
+  .reference-workbench[data-mode="content"]
+    :is(.reference-workbench-separator, .reference-workbench-source),
+  .reference-workbench[data-mode="code"]
+    :is(.reference-workbench-separator, .reference-workbench-content) {
+    display: none;
+  }
+}
+@media (max-width: 1099px) {
+  .reference-workbench-toolbar,
+  .reference-workbench-separator {
+    display: none;
+  }
+  .reference-workbench-grid {
+    display: block;
+  }
+  .reference-workbench[data-active="content"] .reference-workbench-source,
+  .reference-workbench[data-active="code"] .reference-workbench-content {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .reference-pane-heading {
+    padding-inline: 16px;
+  }
+}
+.reference-workbench-controls {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.reference-workbench-navigation {
+  flex: 1;
+  min-width: 0;
+}
+.reference-workbench-navigation .workspace-navigation {
+  margin: 0;
+  border-bottom: 0;
+}
+.reference-workbench-toolbar:has(.reference-workbench-navigation) {
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid var(--pg-shell-line);
+  margin: 16px 0 20px;
+  padding-bottom: 8px;
+}
+@media (max-width: 1099px) {
+  .reference-workbench-controls {
+    display: none;
+  }
+  .reference-workbench-toolbar:has(.reference-workbench-navigation) {
+    display: flex;
+  }
+}

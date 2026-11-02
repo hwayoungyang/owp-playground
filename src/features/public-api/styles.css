@@ -1,0 +1,192 @@
+.public-api-panel {
+  min-width: 0;
+  padding: 20px;
+}
+.public-api-panel > section + section {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--pg-shell-line);
+}
+.public-api-workspace > .components-api-index {
+  margin-top: 24px;
+}
+.public-api-workspace .workspace-heading h1 {
+  font-size: 28px;
+  word-break: normal;
+  text-wrap: balance;
+}
+.public-api-context {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  color: var(--pg-shell-muted);
+  font-size: 12px;
+}
+.public-api-context > span {
+  border-radius: 6px;
+  background: var(--pg-shell-selected);
+  padding: 4px 8px;
+  color: var(--pg-shell-ink);
+  font: 500 11px/1.5 var(--font-mono);
+}
+.public-api-context code {
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.public-api-workspace > .components-api-description {
+  margin: 12px 0;
+  font-size: 13px;
+  color: var(--pg-shell-secondary);
+}
+.public-api-entry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 16px;
+}
+.public-api-entry-actions .components-api-meta {
+  margin: 0;
+  font-size: 12px;
+}
+.public-api-entry-actions .MuiButton-root {
+  font-size: 12px;
+  color: var(--pg-shell-ink);
+  border-color: var(--pg-shell-line);
+  border-radius: 6px;
+}
+.public-api-workspace .public-api-example-select {
+  width: min(100%, 420px);
+  margin-bottom: 16px;
+}
+.public-api-import .guide-code {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "label code copy";
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+.public-api-import .code-toolbar {
+  display: contents;
+}
+.public-api-import .code-file {
+  grid-area: label;
+  font-size: 11px;
+  color: var(--code-muted);
+}
+.public-api-import .code-toolbar .MuiButton-root {
+  grid-area: copy;
+}
+.public-api-import .code-scroll {
+  grid-area: code;
+  padding: 0;
+  min-width: 0;
+}
+.public-api-import pre {
+  padding: 0;
+  margin: 0;
+}
+.public-api-alternate-imports {
+  margin-top: 12px;
+}
+.public-api-panel details {
+  margin-top: 16px;
+}
+.public-api-panel h3 {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.public-api-panel .guide-code {
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.public-api-panel .code-toolbar {
+  min-height: 36px;
+  padding: 4px 12px;
+}
+.public-api-panel .code-scroll pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 12px;
+  font-size: 12px;
+}
+.public-api-panel .code-scroll {
+  padding: 0;
+}
+.public-api-workspace table.api-contract-table {
+  min-width: 0;
+  table-layout: auto;
+}
+.public-api-workspace .api-contract-table :is(th, td) {
+  min-width: 0;
+  padding: 12px 8px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.public-api-workspace .api-contract-table :is(th, td):first-child {
+  padding-left: 0;
+}
+.public-api-workspace .api-contract-table :is(th, td):last-child {
+  padding-right: 0;
+}
+.public-api-workspace .api-contract-table thead th {
+  white-space: nowrap;
+  background: transparent;
+  color: var(--pg-shell-muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+.public-api-workspace .api-contract-table:has(thead th:nth-child(4)) {
+  min-width: 720px;
+}
+.public-api-workspace .api-contract-table:has(thead th:nth-child(4)) tbody th {
+  min-width: 140px;
+}
+.public-api-workspace .api-contract-table:has(thead th:nth-child(4)) td:nth-child(2) {
+  min-width: 200px;
+}
+.public-api-workspace .api-contract-table:has(thead th:nth-child(4)) :is(th, td):nth-child(3) {
+  min-width: 104px;
+}
+.public-api-workspace .api-contract-table:has(thead th:nth-child(4)) td:last-child {
+  min-width: 200px;
+}
+.public-api-workspace .api-contract-table tbody th {
+  font-weight: 500;
+}
+.public-api-workspace .api-contract-table code {
+  font-size: 11px;
+}
+.public-api-code-only {
+  border-radius: 12px;
+  overflow: clip;
+}
+@media (max-width: 600px) {
+  .public-api-panel {
+    padding: 16px;
+  }
+  .public-api-workspace .workspace-heading h1 {
+    font-size: 22px;
+  }
+  .public-api-import .guide-code {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "label copy" "code code";
+    gap: 8px;
+  }
+  .public-api-import .code-scroll pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
+.public-api-workspace .workspace-title-row {
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+.public-api-workspace .public-api-context {
+  margin-top: 0;
+}

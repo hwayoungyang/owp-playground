@@ -3,7 +3,14 @@ import { CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material';
 import { OwpThemeProvider } from '@owp/theme';
 import { type ReactNode, useEffect, useMemo } from 'react';
 import { createGridTheme, createMuiTheme } from '../../shared/theme/themes';
-import { type ColorMode, codeColors, colors, fonts } from '../../shared/theme/tokens';
+import {
+  type ColorMode,
+  codeColors,
+  colors,
+  fonts,
+  shellShape,
+  shellTokens,
+} from '../../shared/theme/tokens';
 
 export function Provider({
   mode,
@@ -34,6 +41,12 @@ export function Provider({
             ),
             ...Object.fromEntries(
               Object.entries(codeColors).map(([key, value]) => [`--code-${key}`, value]),
+            ),
+            ...Object.fromEntries(
+              Object.entries({ ...shellShape, ...shellTokens[mode] }).map(([key, value]) => [
+                `--pg-shell-${key}`,
+                value,
+              ]),
             ),
             '--font-ui': fonts.ui,
             '--font-mono': fonts.mono,

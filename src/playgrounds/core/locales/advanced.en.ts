@@ -69,8 +69,8 @@ export const advancedEnglish: Readonly<Record<string, string>> = {
   '오류 경계 복구': 'Recover error boundary',
   '라우트 오류 발생': 'Trigger route error',
   '라우트 오류 복구': 'Recover route error',
-  '렌더 오류 경계와 수동 복구': 'Render error boundary and manual recovery',
-  '동적 import(청크) 실패는 sessionStorage 키 기준으로 1회 자동 새로고침을 시도하며, 일반 렌더 오류는 원인을 해결한 뒤 key 재마운트로 복구합니다.':
+  '오류 경계와 수동 복구': 'Render error boundary and manual recovery',
+  '동적 import(청크)에 실패하면 sessionStorage 키를 기준으로 자동 새로고침을 한 번 시도합니다. 일반 렌더링 오류는 원인을 해결한 뒤 key를 바꿔 컴포넌트를 다시 마운트해 복구합니다.':
     'Dynamic import (chunk) failures attempt a one-time reload tracked in sessionStorage, while ordinary render errors recover by remounting with a new key.',
   'Data Router 라우트 오류 처리': 'Data Router route error handling',
   '라우트 loader·action 오류는 Data Router의 errorElement에 연결한 OwpRouteErrorElement가 처리합니다.':

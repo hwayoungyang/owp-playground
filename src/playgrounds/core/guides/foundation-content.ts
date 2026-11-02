@@ -59,7 +59,7 @@ export const coreFoundations = [
       },
       {
         title: '앱 구성과 동작 확인',
-        body: '앱 구성 예시의 LoginForm은 인증 응답을 적용한 뒤 시작 페이지로 이동합니다. 공통코드 초기화가 필요한 앱은 실제 API 환경을 준비하고, 서버를 쓰지 않는 샘플만 skipCommonCodeInit을 사용합니다. 실행 예제의 사용자와 페이지 권한에서 사용자 선택·메뉴 권한·경로 변경을, 앱 설정에서 현재 설정과 기본 설정의 차이를 확인할 수 있습니다.',
+        body: '앱 구성 예시의 LoginForm은 인증 응답을 적용한 뒤 시작 페이지로 이동합니다. 공통코드 초기화가 필요한 앱은 실제 API 환경을 준비하고, 서버를 쓰지 않는 샘플만 skipCommonCodeInit을 사용합니다. 실행 예제의 사용자별 페이지 권한에서 사용자 선택·메뉴 권한·경로 변경을, 앱 설정에서 현재 설정과 기본 설정의 차이를 확인할 수 있습니다.',
       },
     ],
   },
@@ -71,7 +71,7 @@ export const coreFoundations = [
       'createOwpApiHooks는 API 접속 정보와 응답·인증 오류 정책을 한 번 설정해 조회와 저장 hook을 만듭니다. OwpCoreProvider의 QueryClient는 이 hook들이 사용하는 요청 캐시와 재시도 기본값을 제공합니다.',
     sections: [
       {
-        title: '서버 계약에 맞출 설정',
+        title: '서버에 맞춰 지정할 설정',
         body: 'baseUrl과 accessTokenTransport를 Provider의 env와 맞춥니다. bearer는 Authorization 헤더로 token을 전달합니다. successResultCode는 OWP 모드에서 서버가 성공으로 반환하는 문자열이며, 지정하면 HTTP 성공과 resultCode의 정확한 일치를 함께 확인합니다. isI18nEnabled를 켜면 언어 query parameter를 전달합니다. authErrors는 resultMessage의 포함 문자열 목록이고, onAuthError는 해당 인증 오류에서 로그인 이동 등을 처리하는 callback입니다. responseMode와 allowMissingResultCode는 factory 설정이 아니라 각 요청의 options에 지정합니다.',
       },
       {
@@ -85,7 +85,7 @@ export const coreFoundations = [
       },
       {
         title: '오류 표시와 성공 판정',
-        body: 'responseMode의 기본값은 owp입니다. successResultCode를 지정하면 기본 query·Suspense query·queryOptions와 자동 mutation은 HTTP 성공과 resultCode의 정확한 문자열 일치를 함께 요구합니다. STATUS_0의 유효한 resultMessage는 공백과 줄바꿈을 포함한 원문을 오류로 전달하고, 그 외 알 수 없는 코드는 결과를 다시 확인하라는 안내로 실패합니다. isErrorMessageEnabled=false는 공통 안내만 끄며 실패 전파와 자동 인증 오류 처리는 유지합니다. isServerMessageEnabled=false는 mutation의 성공 안내만 끕니다.',
+        body: 'responseMode의 기본값은 owp입니다. successResultCode를 지정하면 기본 query·Suspense query·queryOptions와 자동 mutation은 HTTP 성공과 resultCode의 정확한 문자열 일치를 함께 요구합니다. STATUS_0의 유효한 resultMessage는 공백과 줄바꿈을 포함한 원문을 오류로 전달하고, 그 외 알 수 없는 코드이면 결과를 다시 확인하라는 오류를 발생시킵니다. isErrorMessageEnabled=false는 공통 안내만 끄며 실패 전파와 자동 인증 오류 처리는 유지합니다. isServerMessageEnabled=false는 mutation의 성공 안내만 끕니다.',
       },
       {
         title: 'resultCode가 없는 객체 허용',

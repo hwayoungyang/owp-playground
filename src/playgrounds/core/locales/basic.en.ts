@@ -24,7 +24,7 @@ export const basicEnglish: Readonly<Record<string, string>> = {
   '화면 잠금 실행 중': 'Page lock active',
   '작업 완료 후 잠금 해제': 'Unlocked after completion',
   '오류 발생 후 finally에서 잠금 해제': 'Unlocked in finally after error',
-  '화면 잠금 로딩 정책': 'Page lock loading policy',
+  '로딩 중 화면 잠금': 'Page lock loading policy',
   'OwpLoading은 @owp/components의 순수 UI 컴포넌트이고, usePageLockLoading은 OwpUiProvider의 화면 잠금 Backdrop을 제어합니다. 완료·실패·unmount 시 잠금을 해제합니다.':
     'OwpLoading is a UI primitive in @owp/components, while usePageLockLoading controls the OwpUiProvider page lock Backdrop. Always unlock on completion, failure, and unmount.',
   '화면 잠금 실행': 'Run page lock',

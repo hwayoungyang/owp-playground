@@ -1,13 +1,15 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import {
-  CaretDownIcon,
-  CheckIcon,
-  MagnifyingGlassIcon,
-  SquaresFourIcon,
-} from '@phosphor-icons/react';
+import { Tooltip } from '@mui/material';
+import { MagnifyingGlassIcon, SquaresFourIcon, StarIcon } from '@phosphor-icons/react';
 import { type RefObject, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { PlaygroundPackage } from '../../playgrounds/registry';
 import type { NavigationViewModel } from './navigation';
+import { NavigationGroups } from './NavigationGroups';
+import { NavigationLink } from './NavigationLink';
+import { NavigationSaved } from './NavigationSaved';
+import { navigationResults, searchNavigation } from './navigation-search';
+import { useNavigationPreferences } from './useNavigationPreferences';
+import { favoriteLimit } from './navigation-preferences';
 
 export function Sidebar({
   model,
@@ -20,34 +22,38 @@ export function Sidebar({
   readonly searchRef: RefObject<HTMLInputElement | null>;
   readonly onNavigate: (id: string) => void;
 }) {
-  const { t, i18n } = useOwpTranslation();
+  const { t } = useOwpTranslation();
   const [query, setQuery] = useState('');
   const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(() => new Set());
   const listRef = useRef<HTMLDivElement>(null);
-
-  const activeSubcategoryId = useMemo(() => {
-    for (const group of model.groups) {
-      if (group.type === 'examples') {
-        for (const category of group.categories) {
-          if (category.items.some((item) => item.active)) {
-            return category.id;
-          }
-        }
-      }
-    }
-    return null;
-  }, [model]);
+  const entries = useMemo(() => navigationResults(model), [model]);
+  const availableIds = useMemo(() => new Set(entries.map(({ item }) => item.id)), [entries]);
+  const current = entries.find(({ item }) => item.active)?.item;
+  const saved = useNavigationPreferences(playground.id, availableIds, current?.id);
+  const isFavorite = current !== undefined && saved.favorites.includes(current.id);
+  const favoritesFull = saved.favorites.length >= favoriteLimit && !isFavorite;
+  const normalizedQuery = query.trim();
+  const results = useMemo(
+    () => searchNavigation({ entries, query, translate: (value) => t(value) }),
+    [entries, query, t],
+  );
+  const activeCategory = useMemo(
+    () =>
+      model.groups
+        .flatMap((group) => (group.type === 'examples' ? group.categories : []))
+        .find((category) => category.items.some((item) => item.active))?.id,
+    [model],
+  );
 
   useLayoutEffect(() => {
-    if (activeSubcategoryId) {
-      setCollapsed((previous) => {
-        if (!previous.has(activeSubcategoryId)) return previous;
-        const next = new Set(previous);
-        next.delete(activeSubcategoryId);
-        return next;
-      });
-    }
-  }, [activeSubcategoryId]);
+    if (!activeCategory) return;
+    setCollapsed((previous) => {
+      if (!previous.has(activeCategory)) return previous;
+      const next = new Set(previous);
+      next.delete(activeCategory);
+      return next;
+    });
+  }, [activeCategory]);
 
   useLayoutEffect(() => {
     const list = listRef.current;
@@ -80,182 +86,120 @@ export function Sidebar({
     };
   }, [model]);
 
-  const normalizedQuery = query.trim().toLocaleLowerCase();
-
-  const filteredGroups = useMemo(() => {
-    if (!normalizedQuery) return model.groups;
-    const matches = (item: {
-      readonly title: string;
-      readonly description?: string;
-      readonly api?: readonly string[];
-    }) =>
-      String(
-        t(item.title) +
-          ' ' +
-          t(item.description ?? '') +
-          ' ' +
-          item.title +
-          ' ' +
-          (item.api ?? []).join(' '),
-      )
-        .toLocaleLowerCase()
-        .includes(normalizedQuery);
-
-    return model.groups
-      .map((group) => {
-        if (group.type === 'docs') {
-          const items = group.items.filter(matches);
-          return items.length > 0 ? { ...group, items } : null;
-        }
-        const categories = group.categories
-          .map((cat) => {
-            const items = cat.items.filter(matches);
-            return items.length > 0 ? { ...cat, items } : null;
-          })
-          .filter((cat): cat is NonNullable<typeof cat> => cat !== null);
-        return categories.length > 0 ? { ...group, categories } : null;
-      })
-      .filter((group): group is NonNullable<typeof group> => group !== null);
-  }, [model.groups, normalizedQuery, t]);
-
-  const hasResults = filteredGroups.length > 0;
-
   return (
     <nav className="sidebar" aria-label={t('문서·예제 탐색')}>
       <div className="sidebar-package">
-        <SquaresFourIcon size={18} weight="bold" />
+        <SquaresFourIcon size={18} weight="bold" aria-hidden />
         <span>{playground.title}</span>
-        <span className="version">{playground.version}</span>
       </div>
       <label className="navigation-search">
-        <MagnifyingGlassIcon size={16} />
+        <MagnifyingGlassIcon size={16} aria-hidden />
         <input
           ref={searchRef}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'ArrowDown' && normalizedQuery) {
+              event.preventDefault();
+              listRef.current?.querySelector<HTMLAnchorElement>('.nav-item')?.focus();
+            }
+            if (event.key === 'Escape' && normalizedQuery) {
+              event.preventDefault();
+              event.stopPropagation();
+              setQuery('');
+            }
+          }}
           placeholder={t('검색 …')}
           aria-label={t('문서·예제 검색')}
         />
         <kbd>⌘ K</kbd>
       </label>
-      <div className="nav-list" ref={listRef}>
-        {filteredGroups.map((group) => {
-          if (group.type === 'docs') {
-            return (
-              <section className="nav-category" key={group.id}>
-                <div className="nav-group-heading">
-                  <span>{t(group.label)}</span>
-                </div>
-                {group.items.map((item) => (
-                  <a
-                    key={item.id}
-                    href={item.url}
-                    aria-current={item.active ? 'page' : undefined}
-                    className={'nav-item' + (item.active ? ' active' : '')}
-                    onClick={(event) => {
-                      if (
-                        event.button !== 0 ||
-                        event.metaKey ||
-                        event.ctrlKey ||
-                        event.shiftKey ||
-                        event.altKey
-                      )
-                        return;
-                      event.preventDefault();
-                      onNavigate(item.id);
-                    }}
-                  >
-                    <span>{t(item.title)}</span>
-                    {item.active && <CheckIcon size={13} />}
-                  </a>
-                ))}
-              </section>
-            );
-          }
-
-          return (
-            <div className="nav-section-group" key={group.id}>
-              <div className="nav-group-heading">
-                <span>{t(group.label)}</span>
-              </div>
-              {group.categories.map((category) => {
-                const expanded = normalizedQuery.length > 0 || !collapsed.has(category.id);
-                const label = t(category.label);
-                const bilingual = i18n.language.startsWith('ko')
-                  ? label.match(/^(.+) \(([^)]+)\)$/u)
-                  : null;
-                return (
-                  <section className="nav-category" key={category.id}>
-                    <button
-                      type="button"
-                      className="category-label"
-                      aria-label={label}
-                      aria-expanded={expanded}
-                      onClick={() =>
-                        setCollapsed((previous) => {
-                          const next = new Set(previous);
-                          if (next.has(category.id)) next.delete(category.id);
-                          else next.add(category.id);
-                          return next;
-                        })
-                      }
-                    >
-                      <span className="category-copy">
-                        <span>{bilingual?.[1] ?? label}</span>
-                        {bilingual?.[2] && (
-                          <span className="category-subtitle" lang="en">
-                            {bilingual[2]}
-                          </span>
-                        )}
-                      </span>
-                      <CaretDownIcon size={12} className={expanded ? '' : 'collapsed'} />
-                    </button>
-                    {expanded &&
-                      category.items.map((item) => (
-                        <a
-                          key={item.id}
-                          href={item.url}
-                          aria-current={item.active ? 'page' : undefined}
-                          className={'nav-item' + (item.active ? ' active' : '')}
-                          onClick={(event) => {
-                            if (
-                              event.button !== 0 ||
-                              event.metaKey ||
-                              event.ctrlKey ||
-                              event.shiftKey ||
-                              event.altKey
-                            )
-                              return;
-                            event.preventDefault();
-                            onNavigate(item.id);
-                          }}
-                        >
-                          <span>{t(item.title)}</span>
-                          {item.active && <CheckIcon size={13} />}
-                        </a>
-                      ))}
-                  </section>
-                );
-              })}
-            </div>
-          );
-        })}
-        {!hasResults && (
-          <div className="search-empty">
-            {t('검색 결과가 없습니다.')}
-            <button type="button" onClick={() => setQuery('')}>
-              {t('검색 지우기')}
+      <div className="navigation-scope">
+        <span>{t('{{package}}에서 검색', { package: playground.title })}</span>
+        {current && (
+          <Tooltip
+            title={t(
+              favoritesFull
+                ? '즐겨찾기는 최대 12개까지 저장할 수 있습니다.'
+                : isFavorite
+                  ? '즐겨찾기에서 제거'
+                  : '현재 페이지를 즐겨찾기에 추가',
+            )}
+          >
+            <button
+              type="button"
+              className="navigation-favorite"
+              aria-label={t('{{name}} 즐겨찾기', { name: t(current.title) })}
+              aria-pressed={isFavorite}
+              aria-disabled={favoritesFull}
+              onClick={() => {
+                if (!favoritesFull) saved.toggleFavorite();
+              }}
+            >
+              <StarIcon size={15} weight={isFavorite ? 'fill' : 'regular'} aria-hidden />
             </button>
-          </div>
+          </Tooltip>
+        )}
+      </div>
+      {saved.temporary && (
+        <p className="navigation-storage-note">
+          {t('최근 방문·즐겨찾기는 현재 탭에서만 유지됩니다.')}
+        </p>
+      )}
+      <div className="nav-list" ref={listRef}>
+        {normalizedQuery ? (
+          <>
+            <div className="nav-group-heading" role="status">
+              {t('검색 결과 {{count}}개', { count: results.length })}
+            </div>
+            {results.map(({ item, kind, category }) => (
+              <NavigationLink
+                key={item.id}
+                item={item}
+                onNavigate={onNavigate}
+                query={normalizedQuery}
+                context={`${t(kind)} · ${t(category)}`}
+              />
+            ))}
+            {results.length === 0 && (
+              <div className="search-empty">
+                {t('검색 결과가 없습니다.')}
+                <button type="button" onClick={() => setQuery('')}>
+                  {t('검색 지우기')}
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <NavigationSaved
+              entries={entries}
+              recent={saved.recent}
+              favorites={saved.favorites}
+              onNavigate={onNavigate}
+            />
+            <NavigationGroups
+              model={model}
+              collapsed={collapsed}
+              onNavigate={onNavigate}
+              onToggle={(id) =>
+                setCollapsed((previous) => {
+                  const next = new Set(previous);
+                  if (next.has(id)) next.delete(id);
+                  else next.add(id);
+                  return next;
+                })
+              }
+            />
+          </>
         )}
       </div>
       <div className="sidebar-footer">
         <span className="availability-dot" />
-        <span>
-          {t('예제 {{count}}개', {
-            count: model.exampleCount,
-          })}
-        </span>
+        <span>{t('예제 {{count}}개', { count: model.exampleCount })}</span>
+        {model.publicApiCount !== undefined && (
+          <span>{t('공개 API {{count}}개', { count: model.publicApiCount })}</span>
+        )}
       </div>
     </nav>
   );

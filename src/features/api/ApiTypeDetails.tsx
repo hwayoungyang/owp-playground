@@ -48,12 +48,14 @@ export function ApiTypeDetails({ record }: { readonly record: ApiRecord }) {
             language="typescript"
           />
           {record.typeDetails?.valueKind === 'constraint' && (
-            <p className="api-description">{t('타입 인자에 따라 허용 범위가 좁아질 수 있음.')}</p>
+            <p className="api-description">
+              {t('타입 인자에 따라 허용 범위가 좁아질 수 있습니다.')}
+            </p>
           )}
           {record.typeDetails?.extensible && (
             <p className="api-description">
               {t(
-                '설치된 registry의 타입 목록. module augmentation으로 확장 가능. 사용 전 controller·plugin 등록 확인 필요.',
+                '설치된 registry의 타입을 표시합니다. module augmentation으로 확장할 수 있습니다. 사용하려는 controller와 plugin이 등록되어 있는지 확인해 주세요.',
               )}
             </p>
           )}
@@ -62,7 +64,9 @@ export function ApiTypeDetails({ record }: { readonly record: ApiRecord }) {
       {parameters.length > 0 && (
         <section aria-labelledby="api-generics-heading">
           <h3 id="api-generics-heading">{t('Type parameters')}</h3>
-          <p className="api-description">{t('타입 인자 생략 시 적용할 기본 타입.')}</p>
+          <p className="api-description">
+            {t('타입 인자를 생략했을 때 적용되는 기본 타입입니다.')}
+          </p>
           <div className="api-parameters">
             {parameters.map((parameter) => (
               <div key={parameter.name}>

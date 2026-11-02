@@ -11,6 +11,7 @@
   padding: 12px 16px;
   border-bottom: 1px solid #ffffff18;
   gap: 12px;
+  background: color-mix(in srgb, var(--code-ink) 3%, var(--code-background));
 }
 .code-toolbar > div:last-child {
   display: flex;
@@ -21,11 +22,19 @@
   font-size: 11px;
   height: 30px;
   min-height: 30px;
+  border-radius: var(--pg-shell-control-radius);
+}
+.code-toolbar .MuiButton-root:focus-visible,
+.code-file .MuiInputBase-root:focus-within {
+  outline: 2px solid var(--code-blue);
+  outline-offset: 2px;
+  border-radius: var(--pg-shell-control-radius);
 }
 .code-file {
   flex: 1;
   min-width: 0;
   font: 12px var(--font-mono);
+  overflow-wrap: anywhere;
 }
 .code-file small {
   font: 10px var(--font-mono);
@@ -44,6 +53,7 @@
   color: var(--code-muted);
   font: 11px / 1.6 var(--font-mono);
   overflow-wrap: anywhere;
+  background: color-mix(in srgb, var(--code-ink) 2%, var(--code-background));
 }
 .code-file .MuiSelect-select {
   padding-block: 0;
@@ -66,6 +76,10 @@
   scrollbar-color: var(--code-muted) transparent;
   padding: 24px;
 }
+.code-scroll:focus-visible {
+  outline: 2px solid var(--code-blue);
+  outline-offset: -4px;
+}
 .code-scroll pre {
   margin: 0;
   font: 12px / 1.8 var(--font-mono);
@@ -85,7 +99,7 @@
   color: var(--code-muted);
 }
 .guide-code {
-  border-radius: 6px;
+  border-radius: var(--pg-shell-item-radius);
   overflow: hidden;
 }
 .guide-code .code-toolbar {
@@ -120,13 +134,10 @@
   color: var(--code-purple);
 }
 .code-api-symbol {
-  color: var(--code-ink);
-  font-weight: 600;
-  background: color-mix(in srgb, var(--code-blue) 14%, transparent);
+  color: var(--code-background);
+  font-weight: 700;
+  background: var(--code-api-highlight);
   border-radius: 2px;
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--code-blue) 55%, transparent);
-  text-underline-offset: 3px;
 }
 @media (max-width: 599px) {
   .code-toolbar {
@@ -182,5 +193,17 @@
   user-select: none;
 }
 .code-line[data-highlighted="true"] {
-  background: color-mix(in srgb, var(--code-blue) 18%, transparent);
+  background: color-mix(in srgb, var(--code-blue) 26%, transparent);
+}
+.code-line[data-highlighted="true"]::before {
+  color: var(--code-api-highlight);
+  font-weight: 700;
+}
+.code-line[data-highlighted="true"]::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 3px;
+  background: var(--code-api-highlight);
 }

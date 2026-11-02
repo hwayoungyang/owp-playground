@@ -1,7 +1,15 @@
 import type { PlaygroundPackage } from '../../playgrounds/registry';
 import { apiEntry } from '../../playgrounds/registry';
+import { supportsApiReference } from '../../playgrounds/packages';
 import type { ExampleMetadata, NavigationCategory } from '../../shared/types/playground';
 import { exampleApiLinks } from '../../features/api/model/links';
+import {
+  isPublicApiListEntry,
+  publicApiGroups,
+  publicApiSampleId,
+} from '../../features/public-api/types';
+import type { PublicApiSummary } from '../../features/public-api/types';
+import { publicApiSearchText } from '../../features/public-api/roles';
 
 export type NavigationExample = ExampleMetadata & {
   readonly kind?: string;
@@ -32,7 +40,7 @@ export type NavigationGroup =
     }
   | {
       readonly type: 'examples';
-      readonly id: 'examples';
+      readonly id: 'examples' | 'reference';
       readonly label: string;
       readonly categories: readonly NavigationSubcategory[];
     };
@@ -41,6 +49,7 @@ export type NavigationViewModel = {
   readonly groups: readonly NavigationGroup[];
   readonly exampleCount: number;
   readonly currentCategoryLabel: string;
+  readonly publicApiCount?: number;
 };
 
 export function buildNavigationModel({
@@ -50,6 +59,7 @@ export function buildNavigationModel({
   currentId,
   isApi,
   getExampleUrl,
+  publicEntries = [],
 }: {
   readonly playground: PlaygroundPackage;
   readonly examples: readonly NavigationExample[];
@@ -57,8 +67,10 @@ export function buildNavigationModel({
   readonly currentId: string;
   readonly isApi: boolean;
   readonly getExampleUrl: (id: string) => string;
+  readonly publicEntries?: readonly PublicApiSummary[];
 }): NavigationViewModel {
   const guideEntries = examples.filter((entry) => entry.kind === 'guide');
+  const listedPublicEntries = publicEntries.filter(isPublicApiListEntry);
 
   const docItems: NavigationItem[] = guideEntries.map((entry) => ({
     id: entry.id,
@@ -69,7 +81,7 @@ export function buildNavigationModel({
     api: entry.api,
     description: entry.description,
   }));
-  if (playground.status === 'ready') {
+  if (supportsApiReference(playground) && publicEntries.length === 0) {
     const apiItem = apiEntry(playground);
     docItems.push({
       id: apiItem.id,
@@ -81,6 +93,14 @@ export function buildNavigationModel({
       description: apiItem.description,
     });
   }
+  if (publicEntries.length)
+    docItems.push({
+      id: 'exports',
+      title: 'API',
+      url: getExampleUrl('exports'),
+      active: currentId === 'exports' || (isApi && currentId === 'api'),
+      kind: 'reference',
+    });
 
   const exampleCategories: NavigationSubcategory[] = categories
     .map((category) => {
@@ -92,7 +112,10 @@ export function buildNavigationModel({
           url: getExampleUrl(entry.id),
           active: !isApi && currentId === entry.id,
           kind: entry.kind,
-          api: exampleApiLinks(playground.id, entry.id).map((reference) => reference.label),
+          api:
+            playground.id === 'components'
+              ? entry.api
+              : exampleApiLinks(playground.id, entry.id).map((reference) => reference.label),
           description: entry.description,
         }));
       return {
@@ -103,25 +126,57 @@ export function buildNavigationModel({
     })
     .filter((cat) => cat.items.length > 0);
 
-  const groups: NavigationGroup[] = [
-    {
+  const groups: NavigationGroup[] = [];
+  if (docItems.length > 0)
+    groups.push({
       type: 'docs',
       id: 'docs',
       label: '문서',
       items: docItems,
-    },
-    {
+    });
+  const referenceIds = new Set(
+    categories
+      .filter((category) => category.section === 'reference')
+      .map((category) => category.id),
+  );
+  const usageCategories = exampleCategories.filter((category) => !referenceIds.has(category.id));
+  const referenceCategories =
+    publicEntries.length > 0
+      ? publicApiGroups.flatMap((group) => {
+          const items = listedPublicEntries
+            .filter((entry) => entry.group === group.id)
+            .map((entry) => ({
+              id: publicApiSampleId(entry.id),
+              title: entry.label ?? entry.name,
+              url: getExampleUrl(publicApiSampleId(entry.id)),
+              active: currentId === publicApiSampleId(entry.id),
+              description: publicApiSearchText(entry),
+              api: entry.modules,
+            }));
+          return items.length ? [{ id: `public-${group.id}`, label: group.label, items }] : [];
+        })
+      : exampleCategories.filter((category) => referenceIds.has(category.id));
+  if (usageCategories.length > 0)
+    groups.push({
       type: 'examples',
       id: 'examples',
-      label: '예제',
-      categories: exampleCategories,
-    },
-  ];
+      label: referenceCategories.length > 0 ? '사용 예제' : '예제',
+      categories: usageCategories,
+    });
+  if (referenceCategories.length > 0)
+    groups.push({
+      type: 'examples',
+      id: 'reference',
+      label: publicEntries.length ? '공개 API' : '컴포넌트·Hooks·Utils',
+      categories: referenceCategories,
+    });
 
   const exampleCount = examples.filter((entry) => entry.kind !== 'guide').length;
 
   let currentCategoryLabel = '';
-  if (isApi || guideEntries.some((entry) => currentId === entry.id)) {
+  if (currentId.startsWith('export:') || currentId === 'exports') {
+    currentCategoryLabel = '공개 API';
+  } else if (isApi || guideEntries.some((entry) => currentId === entry.id)) {
     currentCategoryLabel = '문서';
   } else {
     const currentExample = examples.find((entry) => entry.id === currentId);
@@ -135,5 +190,6 @@ export function buildNavigationModel({
     groups,
     exampleCount,
     currentCategoryLabel,
+    ...(publicEntries.length ? { publicApiCount: listedPublicEntries.length } : {}),
   };
 }

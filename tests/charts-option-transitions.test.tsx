@@ -2,6 +2,7 @@ import { Children, isValidElement, type ReactElement, type ReactNode, useState }
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { App } from '../src/app/App';
+import { WorkspaceRouter } from '../src/app/WorkspaceRouter';
 import { Header } from '../src/app/layout/Header';
 import { ChartsWorkspace as LazyChartsWorkspace } from '../src/app/workspaces';
 import { ApiLinks } from '../src/features/api/ApiLinks';
@@ -34,11 +35,14 @@ vi.mock('../src/playgrounds/charts/runtime/ChartCodeViewer', () => ({
 
 afterEach(() => vi.unstubAllGlobals());
 
-function elements(tree: ReactNode): readonly ReactElement<{ readonly children?: ReactNode }>[] {
-  const found: ReactElement<{ readonly children?: ReactNode }>[] = [];
+function elements(
+  tree: ReactNode,
+): readonly ReactElement<{ readonly children?: ReactNode; readonly code?: ReactNode }>[] {
+  const found: ReactElement<{ readonly children?: ReactNode; readonly code?: ReactNode }>[] = [];
   Children.forEach(tree, (child) => {
-    if (!isValidElement<{ readonly children?: ReactNode }>(child)) return;
-    found.push(child, ...elements(child.props.children));
+    if (!isValidElement<{ readonly children?: ReactNode; readonly code?: ReactNode }>(child))
+      return;
+    found.push(child, ...elements(child.props.children), ...elements(child.props.code));
   });
   return found;
 }
@@ -285,7 +289,11 @@ describe('route selected standalone chart configurations', () => {
     function Probe() {
       const [step, setStep] = useState(0);
       const tree = App();
-      const workspace = element<Parameters<typeof ChartsWorkspace>[0]>(tree, LazyChartsWorkspace);
+      const router = element<Parameters<typeof WorkspaceRouter>[0]>(tree, WorkspaceRouter);
+      const workspace = element<Parameters<typeof ChartsWorkspace>[0]>(
+        WorkspaceRouter(router.props),
+        LazyChartsWorkspace,
+      );
       const header = element<Parameters<typeof Header>[0]>(tree, Header);
       frames.push({ key: workspace.key, header: header.props.example?.id });
       if (step === 0) {

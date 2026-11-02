@@ -68,7 +68,7 @@ export function ApiDetail({
       {record.description ? (
         <ApiDescription record={record} />
       ) : (
-        <p className="api-description">{t('타입 정의·관련 예제 참고.')}</p>
+        <p className="api-description">{t('타입 정의와 관련 예제를 참고해 주세요.')}</p>
       )}
       {inherited && variants.length < 2 && (
         <p className="api-inherited">
@@ -85,8 +85,8 @@ export function ApiDetail({
           <p className="api-description">
             {t(
               record.inheritanceKind === 'union'
-                ? '타입별 허용 값·필수 여부·기본값은 각 분기 참고.'
-                : '각 타입의 조건을 모두 충족해야 함. 세부 제약은 원본 정의 참고.',
+                ? '타입별로 허용되는 값과 필수 여부, 기본값은 각 타입 분기를 확인해 주세요.'
+                : '각 타입의 조건을 모두 충족해야 합니다. 자세한 제약은 원본 정의를 확인해 주세요.',
             )}
           </p>
           <ApiMemberList records={variants} qualified />

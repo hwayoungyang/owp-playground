@@ -96,7 +96,7 @@ export function ApiReference({
     <section className="workspace api-workspace" aria-label="API" aria-busy={!dataset && !failed}>
       <div className="workspace-heading">
         <h1>API</h1>
-        <p>{t('공개 API 타입·동작·사용 예제 확인 가능.')}</p>
+        <p>{t('공개 API의 타입과 동작을 살펴보고 사용 예제를 확인합니다.')}</p>
       </div>
       {!dataset ? (
         failed ? (
@@ -210,7 +210,7 @@ export function ApiReference({
                 focus={Boolean(symbol) || (loading.status === 'ready' && loading.focus)}
               />
             ) : (
-              <Alert severity="info">{t('API를 찾을 수 없음. 이름으로 검색 가능.')}</Alert>
+              <Alert severity="info">{t('API를 찾을 수 없습니다. 이름으로 검색해 주세요.')}</Alert>
             )}
           </div>
         </ApiKnowledgeContext>

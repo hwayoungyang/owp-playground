@@ -9,6 +9,7 @@ import { requestJsonInput } from '../model/request-parameters';
 import { CoreDemo, DemoSection } from '../runtime/Demo';
 import { CoreChoice, CoreToggle } from '../runtime/Controls';
 import { CoreResultTable } from '../runtime/CoreResultTable';
+import { JsonResult } from '../../../features/code/JsonResult';
 
 type RequestPreview = {
   readonly dates: ReturnType<typeof createDateRangeSearchParams>;
@@ -53,11 +54,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
     onData,
   ]);
 
-  const formatValue = (value: unknown) => (
-    <pre className="core-json-value">
-      <code>{JSON.stringify(value, null, 2)}</code>
-    </pre>
-  );
+  const formatValue = (value: unknown) => <JsonResult value={value} />;
 
   return (
     <CoreDemo

@@ -1,5 +1,29 @@
 import { lazy } from 'react';
 
+export const PublicApiWorkspace = lazy(() =>
+  import('../features/public-api/PublicApiWorkspace').then((module) => ({
+    default: module.PublicApiWorkspace,
+  })),
+);
+
+export const ComponentsApiReference = lazy(() =>
+  import('../playgrounds/components/api/ComponentsApiReference').then((module) => ({
+    default: module.ComponentsApiReference,
+  })),
+);
+
+export const ComponentsWorkspace = lazy(() =>
+  import('../playgrounds/components/runtime/Workspace').then((module) => ({
+    default: module.ComponentsWorkspace,
+  })),
+);
+
+export const ComponentsGettingStarted = lazy(() =>
+  import('../playgrounds/components/guides/GettingStarted').then((module) => ({
+    default: module.ComponentsGettingStarted,
+  })),
+);
+
 export const CoreWorkspace = lazy(() =>
   import('../playgrounds/core/runtime/Workspace').then((module) => ({
     default: module.CoreWorkspace,

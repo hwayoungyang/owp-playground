@@ -1,19 +1,41 @@
 import { z } from 'zod';
-import { type chartsPackage, type corePackage, dataGridPackage, packageCatalog } from './packages';
-export { chartsPackage, corePackage, dataGridPackage, packageCatalog } from './packages';
+import {
+  type chartsPackage,
+  type corePackage,
+  type componentsPackage,
+  dataGridPackage,
+  packageCatalog,
+  supportsApiReference,
+} from './packages';
+export {
+  chartsPackage,
+  corePackage,
+  componentsPackage,
+  dataGridPackage,
+  packageCatalog,
+} from './packages';
+import { type ComponentsCatalogEntry, findComponentsEntry } from './components/catalog';
 import { type CoreCatalogEntry, findCoreEntry } from './core/catalog';
 import { type ChartCatalogEntry, findChartEntry } from './charts/catalog.ts';
 import { chartConsolidations } from './charts/model/consolidations.ts';
 import { findGridEntry, type GridCatalogEntry } from './datagrid/catalog.ts';
 import { type CodeLocation, readCodeLocation } from '../features/code/code-location';
 import { inferChartVariantFromCode } from './charts/model/variants';
+import { isPublicApiPackage, publicApiSymbol } from '../features/public-api/types';
+import type { PublicApiPackageId } from '../features/public-api/types';
 
-type CodeRouteState = { readonly tab?: 'code'; readonly codeTarget?: CodeLocation };
+type CodeRouteState = {
+  readonly tab?: 'code' | 'props' | 'params' | 'returns' | 'type';
+  readonly codeTarget?: CodeLocation;
+};
 
 export type PlaygroundPackage = (typeof packageCatalog)[number];
-type ReadyPackage = Extract<PlaygroundPackage, { readonly status: 'ready' }>;
-type PlannedPackage = Exclude<PlaygroundPackage, ReadyPackage>;
-export function apiEntry(playground: ReadyPackage) {
+type ApiPackage = Extract<
+  PlaygroundPackage,
+  { readonly status: 'ready' } | { readonly status: 'available' }
+>;
+type PlannedPackage = Extract<PlaygroundPackage, { readonly status: 'planned' }>;
+export function apiEntry(playground: ApiPackage) {
   return {
     id: 'api',
     kind: 'reference',
@@ -27,8 +49,29 @@ export function apiEntry(playground: ReadyPackage) {
 }
 export type PlaygroundRoute =
   | {
+      readonly status: 'exports';
+      readonly playground: PlaygroundPackage;
+      readonly packageId: PublicApiPackageId;
+      readonly symbol: string | null;
+      readonly tab?: 'example' | 'code' | 'props' | 'params' | 'returns' | 'type';
+      readonly example: {
+        readonly id: string;
+        readonly title: string;
+        readonly package: string;
+        readonly category: string;
+        readonly description: string;
+        readonly api: readonly string[];
+        readonly source: string;
+      };
+    }
+  | ({
+      readonly status: 'components';
+      readonly playground: typeof componentsPackage;
+      readonly example: ComponentsCatalogEntry;
+    } & CodeRouteState)
+  | {
       readonly status: 'api';
-      readonly playground: ReadyPackage;
+      readonly playground: ApiPackage;
       readonly example: ReturnType<typeof apiEntry>;
       readonly symbol: string | null;
     }
@@ -60,8 +103,33 @@ export function getPlaygroundRoute(
   playground: PlaygroundPackage,
   exampleId: string | null = null,
 ): PlaygroundRoute {
-  if (exampleId === 'api' && playground.status === 'ready')
+  const symbol = exampleId && publicApiSymbol(exampleId);
+  if (
+    isPublicApiPackage(playground.id) &&
+    (symbol ||
+      exampleId === 'exports' ||
+      (playground.status === 'available' && playground.id !== 'components'))
+  ) {
+    return {
+      status: 'exports',
+      playground,
+      packageId: playground.id,
+      symbol: symbol || null,
+      example: {
+        id: symbol ? `export:${symbol}` : 'exports',
+        title: symbol ? (symbol.split(':').at(-1) ?? symbol) : '공개 API',
+        package: playground.name,
+        category: 'reference',
+        description: '',
+        api: [],
+        source: '',
+      },
+    };
+  }
+  if (exampleId === 'api' && supportsApiReference(playground))
     return { status: 'api', playground, example: apiEntry(playground), symbol: null };
+  if (playground.id === 'components')
+    return { status: 'components', playground, example: findComponentsEntry(exampleId) };
   if (playground.id === 'core')
     return { status: 'core', playground, example: findCoreEntry(exampleId) };
   if (playground.id === 'charts') {
@@ -79,6 +147,8 @@ export function getPlaygroundRoute(
       return { status: 'ready', playground, example: findGridEntry(exampleId) };
     case 'planned':
       return { status: 'planned', playground, example: null };
+    case 'available':
+      throw new RangeError(`Unsupported available package: ${playground.id}`);
     default:
       return playground;
   }
@@ -90,7 +160,7 @@ export function readPlaygroundRoute(search: string): PlaygroundRoute {
   const playground = packageId.success
     ? (packageCatalog.find((entry) => entry.id === packageId.data) ?? dataGridPackage)
     : dataGridPackage;
-  if (parameters.get('view') === 'api' && playground.status === 'ready')
+  if (parameters.get('view') === 'api' && supportsApiReference(playground))
     return {
       status: 'api',
       playground,
@@ -98,8 +168,31 @@ export function readPlaygroundRoute(search: string): PlaygroundRoute {
       symbol: parameters.get('symbol'),
     };
   const route = getPlaygroundRoute(playground, parameters.get('sample'));
+  const tab = parameters.get('tab');
   if (
-    (route.status === 'ready' || route.status === 'charts' || route.status === 'core') &&
+    route.status === 'exports' &&
+    (tab === 'example' ||
+      tab === 'code' ||
+      tab === 'props' ||
+      tab === 'params' ||
+      tab === 'returns' ||
+      tab === 'type')
+  )
+    return { ...route, tab };
+  if (
+    (route.status === 'ready' ||
+      route.status === 'charts' ||
+      route.status === 'core' ||
+      route.status === 'components') &&
+    route.example.kind !== 'guide' &&
+    (tab === 'props' || tab === 'params' || tab === 'returns' || tab === 'type')
+  )
+    return { ...route, tab };
+  if (
+    (route.status === 'ready' ||
+      route.status === 'charts' ||
+      route.status === 'core' ||
+      route.status === 'components') &&
     parameters.get('tab') === 'code'
   ) {
     const codeTarget = readCodeLocation(parameters, playground.id);
@@ -133,6 +226,7 @@ export function createPlaygroundUrl(currentUrl: string, route: PlaygroundRoute):
   }
   url.searchParams.delete('view');
   url.searchParams.delete('symbol');
+  if (route.status === 'exports' && route.tab) url.searchParams.set('tab', route.tab);
   if (route.example)
     url.searchParams.set(
       'sample',
@@ -145,10 +239,13 @@ export function createPlaygroundUrl(currentUrl: string, route: PlaygroundRoute):
     );
   else url.searchParams.delete('sample');
   if (
-    (route.status === 'ready' || route.status === 'charts' || route.status === 'core') &&
-    route.tab === 'code'
+    (route.status === 'ready' ||
+      route.status === 'charts' ||
+      route.status === 'core' ||
+      route.status === 'components') &&
+    route.tab
   ) {
-    url.searchParams.set('tab', 'code');
+    url.searchParams.set('tab', route.tab);
     if (route.codeTarget) {
       url.searchParams.set('file', route.codeTarget.file);
       url.searchParams.set('line', String(route.codeTarget.line));

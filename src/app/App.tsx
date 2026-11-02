@@ -1,14 +1,7 @@
-import {
-  ApiReference,
-  ChartsGettingStarted,
-  ChartsWorkspace,
-  CoreWorkspace,
-  CoreGettingStarted,
-  GridGettingStarted,
-  GridWorkspace,
-  GuideCodeWorkspace,
-  ThemeStudio,
-} from './workspaces';
+import { ThemeStudio } from './workspaces';
+import publicApiIndex from 'virtual:public-api/index';
+import { publicApiSampleId } from '../features/public-api/types';
+import { WorkspaceRouter } from './WorkspaceRouter';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Drawer } from '@mui/material';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
@@ -19,7 +12,7 @@ import {
 import { supportsThemeStudio } from '../features/theme-studio/model/studio';
 import { chartCatalog, chartCategories } from '../playgrounds/charts/catalog';
 import { coreCatalog, coreCategories } from '../playgrounds/core/catalog';
-import { CoreEnvironmentScope } from '../playgrounds/core/runtime/CoreEnvironmentScope';
+import { componentsCatalog, componentsCategories } from '../playgrounds/components/catalog';
 import { selectedChartExample } from '../playgrounds/charts/model/variants';
 import {
   gridAliases,
@@ -38,9 +31,11 @@ import type { ColorMode } from '../shared/theme/tokens';
 import { PlaygroundNavigation } from '../shared/ui/PlaygroundLink';
 import { Header } from './layout/Header';
 import { buildNavigationModel } from './layout/navigation';
-import { PackageNotice, PackageSidebar } from './layout/PackageNotice';
+import { PackageSidebar } from './layout/PackageNotice';
 import { Sidebar } from './layout/Sidebar';
 import { Provider } from './providers/Provider';
+
+const emptyNavigation = [] as const;
 
 export function App() {
   const { t, i18n } = useOwpTranslation();
@@ -80,21 +75,40 @@ export function App() {
   };
   const navigateExample = (id: string) => navigate(getPlaygroundRoute(route.playground, id));
   const examples =
-    route.playground.id === 'core'
-      ? coreCatalog
-      : route.playground.id === 'charts'
-        ? chartCatalog
-        : gridCatalog;
+    route.playground.id === 'components'
+      ? componentsCatalog
+      : route.playground.id === 'core'
+        ? coreCatalog
+        : route.playground.id === 'charts'
+          ? chartCatalog
+          : route.playground.id === 'datagrid'
+            ? gridCatalog
+            : emptyNavigation;
   const categories =
-    route.playground.id === 'core'
-      ? coreCategories
-      : route.playground.id === 'charts'
-        ? chartCategories
-        : gridCategories;
+    route.playground.id === 'components'
+      ? componentsCategories
+      : route.playground.id === 'core'
+        ? coreCategories
+        : route.playground.id === 'charts'
+          ? chartCategories
+          : route.playground.id === 'datagrid'
+            ? gridCategories
+            : emptyNavigation;
+  const publicEntry =
+    (route.status === 'api' || route.status === 'exports') && route.symbol
+      ? publicApiIndex
+          .find((entry) => entry.id === route.playground.id)
+          ?.entries.find((entry) => entry.id === route.symbol)
+      : undefined;
+  const currentNavigationId = publicEntry
+    ? publicApiSampleId(publicEntry.id)
+    : (route.example?.id ?? '');
   const effectiveExample =
     route.status === 'charts' && route.example.kind === 'chart'
       ? selectedChartExample(route.example, route.initialPreset)
-      : route.example;
+      : publicEntry && route.example
+        ? { ...route.example, title: publicEntry.label ?? publicEntry.name }
+        : route.example;
 
   const navigationModel = useMemo(
     () =>
@@ -102,15 +116,16 @@ export function App() {
         playground: route.playground,
         examples,
         categories,
-        currentId: route.example?.id ?? '',
+        currentId: currentNavigationId,
         isApi: route.status === 'api',
+        publicEntries: publicApiIndex.find((entry) => entry.id === route.playground.id)?.entries,
         getExampleUrl: (id: string) => {
           const url = createPlaygroundUrl(location.href, getPlaygroundRoute(route.playground, id));
           url.searchParams.set('lang', i18n.language === 'en' ? 'en' : 'ko');
           return url.href;
         },
       }),
-    [route.playground, examples, categories, route.example?.id, route.status, i18n.language],
+    [route.playground, examples, categories, currentNavigationId, route.status, i18n.language],
   );
 
   const navigatePackage = (next: PlaygroundPackage) => {
@@ -221,70 +236,14 @@ export function App() {
                 </div>
               }
             >
-              {route.status === 'api' ? (
-                <ApiReference
-                  key={route.playground.id}
-                  packageId={route.playground.id}
-                  symbol={route.symbol}
-                />
-              ) : (route.status === 'ready' ||
-                  route.status === 'charts' ||
-                  route.status === 'core') &&
-                route.example.kind === 'guide' &&
-                route.tab === 'code' ? (
-                <GuideCodeWorkspace
-                  key={`${route.playground.id}-${route.example.id}`}
-                  example={route.example}
-                  codeTarget={route.codeTarget}
-                />
-              ) : route.status === 'core' ? (
-                route.example.kind === 'guide' ? (
-                  <CoreGettingStarted key={`core-${route.example.id}`} example={route.example} />
-                ) : (
-                  <CoreEnvironmentScope>
-                    <CoreWorkspace
-                      key={`core-${route.example.id}`}
-                      example={route.example}
-                      initialTab={route.tab}
-                      codeTarget={route.codeTarget}
-                    />
-                  </CoreEnvironmentScope>
-                )
-              ) : route.status === 'charts' ? (
-                route.example.kind === 'guide' ? (
-                  <ChartsGettingStarted
-                    key={`charts-${route.example.id}`}
-                    example={route.example}
-                  />
-                ) : (
-                  <ChartsWorkspace
-                    key={`charts-${effectiveExample?.id}`}
-                    example={selectedChartExample(route.example, route.initialPreset)}
-                    canonicalId={route.example.id}
-                    onSelectVariant={(id) => {
-                      if (id !== effectiveExample?.id) navigateExample(id);
-                    }}
-                    initialTab={route.tab}
-                    codeTarget={route.codeTarget}
-                  />
-                )
-              ) : route.example ? (
-                route.example.kind === 'guide' ? (
-                  <GridGettingStarted key={route.example.id} example={route.example} />
-                ) : (
-                  <GridWorkspace
-                    key={route.example.id}
-                    example={route.example}
-                    initialTab={route.tab}
-                    codeTarget={route.codeTarget}
-                    theme={previewTheme}
-                    onThemeChange={setPreviewTheme}
-                    onThemeOpen={() => setThemeOpen(true)}
-                  />
-                )
-              ) : (
-                <PackageNotice onDataGrid={() => navigatePackage(dataGridPackage)} />
-              )}
+              <WorkspaceRouter
+                route={route}
+                theme={previewTheme}
+                onThemeChange={setPreviewTheme}
+                onThemeOpen={() => setThemeOpen(true)}
+                onNavigateExample={navigateExample}
+                onDataGrid={() => navigatePackage(dataGridPackage)}
+              />
             </Suspense>
           </main>
         </div>

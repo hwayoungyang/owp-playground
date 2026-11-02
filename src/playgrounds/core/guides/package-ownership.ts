@@ -1,22 +1,22 @@
 export const coreOwnershipIntroduction =
-  'Core는 앱 설정·인증·라우팅·OWP API를, Components는 공통 UI와 Dialog 상태를 소유합니다. 공통 UI는 Components에서 직접 가져오며 Theme·Excel·Utils도 해당 패키지의 공개 API를 사용합니다.';
+  'Core는 앱 설정·인증·라우팅·API 요청을 담당합니다. 입력·표·다이얼로그 같은 공통 UI는 Components에서 가져옵니다. 테마·Excel·유틸은 각각 Theme·Excel·Utils의 공개 API를 사용합니다.';
 
 export const coreOwnershipNotes = {
   'search-filter': {
     name: 'OwpSearchFilter · useSearchAction',
-    body: '검색 폼은 @owp/components에서 가져옵니다. Core useSearchAction의 run·cancel·isRunning·isCanceling을 페이지에서 직접 연결하고 progressFilter로 추적할 query를 지정합니다.',
+    body: '검색 폼은 Components, 조회 실행과 취소는 Core의 useSearchAction을 사용합니다. run·cancel·isRunning·isCanceling을 화면에 연결하고, progressFilter로 진행 상태를 추적할 query를 지정합니다.',
   },
   'page-carded': {
     name: 'OwpPageCarded · usePageLeaveGuard',
-    body: 'header·content·sidebar·스크롤·반응형 배치는 @owp/components가 처리합니다. 페이지 이동의 미저장 변경 확인은 Core usePageLeaveGuard에 dirty 상태를 전달합니다.',
+    body: '페이지의 header·content·sidebar 배치는 Components가 처리합니다. 저장하지 않은 내용이 있을 때 페이지 이동을 확인하려면 Core의 usePageLeaveGuard에 dirty 상태를 전달합니다.',
   },
   dialog: {
     name: 'OwpDialog · useOwpDialogs',
-    body: 'Dialog UI·미저장 변경 확인·stack·lifecycle·포커스 복원은 @owp/components가 처리합니다. DialogProps는 @owp/components/types, useOwpDialogs·useConfirm·useDiscardGuard는 @owp/components/hooks에서 가져옵니다.',
+    body: '다이얼로그 표시·중첩·닫기와 포커스 복원은 Components가 처리합니다. 저장하지 않은 내용 확인도 같은 패키지를 사용합니다. DialogProps는 @owp/components/types, useOwpDialogs·useConfirm·useDiscardGuard는 @owp/components/hooks에서 가져옵니다.',
   },
   'page-content': {
     name: 'OwpPageContent',
-    body: '제목·보조 영역·본문·반응형 스타일은 @owp/components가 처리합니다. Core 스타일 slot이나 별도 policy를 연결하지 않습니다.',
+    body: '페이지 제목·보조 영역·본문과 반응형 배치는 Components가 처리합니다. Core의 별도 연결 설정은 필요하지 않습니다.',
   },
   'app-settings': {
     name: 'OwpTable · OwpFieldTable',
@@ -29,4 +29,4 @@ export const coreOwnershipNotes = {
 } as const;
 
 export const coreOwnershipUsageNote =
-  '검색·페이지 UI는 Components에서, 페이지 이탈과 OWP query 진행은 Core에서 가져와 필요한 위치에 직접 연결합니다. wrapper나 policy re-export를 거치지 않습니다.';
+  '검색·페이지 UI는 Components에서 가져옵니다. 페이지 이동 확인과 조회 진행 상태는 Core에서 가져와 필요한 화면에 직접 연결합니다.';

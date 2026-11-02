@@ -20,24 +20,29 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 12px;
+  color: var(--pg-shell-ink);
 }
 .workspace-title-row {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
+  max-width: 100%;
 }
 .workspace-heading h1 {
-  font-size: 22px;
-  line-height: 1.4;
-  font-weight: 550;
+  font-size: 26px;
+  line-height: 1.35;
+  font-weight: 600;
   letter-spacing: -0.025em;
   margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .workspace-heading p {
-  font-size: 12px;
-  line-height: 1.75;
-  color: var(--pg-secondary);
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--pg-shell-secondary);
   margin: 0;
   max-width: 740px;
 }
@@ -46,13 +51,15 @@
   color: var(--pg-blue);
   width: 32px;
   height: 32px;
+  border-radius: var(--pg-shell-control-radius);
 }
 .workspace-navigation {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 24px 0 16px;
-  border-bottom: 1px solid var(--pg-line);
+  border-bottom: 1px solid var(--pg-shell-line);
+  min-width: 0;
 }
 .workspace-navigation .MuiTabs-root {
   min-height: 40px;
@@ -61,22 +68,32 @@
   min-height: 40px;
   min-width: 0;
   padding: 8px 16px 12px;
-  font-size: 12px;
+  font-size: 13px;
   text-transform: none;
   gap: 7px;
-  color: var(--pg-secondary);
+  color: var(--pg-shell-secondary);
+  border-radius: var(--pg-shell-control-radius) var(--pg-shell-control-radius) 0 0;
+}
+.workspace-navigation .MuiTab-root:hover {
+  color: var(--pg-shell-ink);
+  background: var(--pg-shell-hover);
 }
 .workspace-navigation .MuiTab-root:first-child {
   padding-left: 4px;
   padding-right: 20px;
 }
-.workspace-navigation .Mui-selected {
-  color: var(--pg-ink);
-  font-weight: 550;
+.workspace-navigation .MuiTab-root.Mui-selected {
+  color: var(--pg-shell-ink);
+  font-weight: 600;
+}
+.workspace-navigation .MuiTab-root:focus-visible {
+  outline: 2px solid var(--pg-shell-focus);
+  outline-offset: -4px;
 }
 .workspace-navigation .MuiTabs-indicator {
-  background: var(--pg-ink);
+  background: var(--pg-shell-ink);
   height: 2px;
+  border-radius: 2px;
 }
 .workspace-navigation .MuiTab-icon {
   margin: 0;
@@ -100,6 +117,7 @@
   padding: 16px;
   gap: 16px;
   flex-wrap: wrap;
+  background: var(--pg-chrome);
 }
 .preview-toolbar[data-divider="true"] {
   border-bottom: 1px solid var(--pg-line);
@@ -252,6 +270,7 @@
   border-bottom: 1px solid var(--pg-line);
   font-size: 11px;
   color: var(--pg-muted);
+  background: var(--pg-chrome);
 }
 .events-empty {
   min-height: 420px;
@@ -307,20 +326,18 @@
   min-width: 0;
   overflow-wrap: anywhere;
 }
-.event-list pre {
-  font: 11px / 1.7 var(--font-mono);
-  color: var(--pg-secondary);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+.event-list .guide-code {
+  margin-top: 12px;
 }
 .workspace-frame {
   position: relative;
   border: 1px solid var(--pg-line);
   border-inline-width: 0;
-  border-radius: 6px;
+  border-radius: var(--pg-shell-panel-radius);
   overflow: hidden;
   background: var(--pg-canvas);
   min-width: 0;
+  box-shadow: var(--pg-shell-shadow);
 }
 .workspace-api-reference {
   display: flex;
@@ -361,10 +378,10 @@
 }
 @media (max-width: 599px) {
   .workspace-heading h1 {
-    font-size: 20px;
+    font-size: 22px;
   }
   .workspace-heading p {
-    font-size: 12px;
+    font-size: 13px;
   }
   .workspace-navigation {
     margin-top: 20px;
@@ -415,4 +432,63 @@
   border-inline: 1px solid var(--pg-line);
   pointer-events: none;
   z-index: 10;
+}
+
+.workspace-navigation .workspace-tab-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.workspace-navigation .workspace-tab-group-label {
+  color: var(--pg-shell-muted);
+  font-size: 11px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+.workspace-navigation .MuiTab-root.workspace-tab-group-start {
+  margin-left: 16px;
+}
+.workspace-navigation:has(.workspace-tab-copy) .MuiTab-root {
+  min-height: 60px;
+  align-items: flex-end;
+}
+.workspace-navigation:has(.workspace-tab-copy) .MuiTab-icon {
+  margin-bottom: 4px;
+}
+.example-workbench .reference-workbench-content > .workspace-frame {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.example-workbench .reference-pane-heading {
+  min-height: 40px;
+  padding-block: 8px;
+}
+.preview-toolbar-status > .grid-status-bar {
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--pg-secondary);
+  font-size: 11px;
+}
+@container example-settings (min-width: 761px) {
+  .example-workbench
+    .preview-toolbar--datagrid:has(.example-settings-toolbar):not(
+      :has(.example-settings-actions:not(:empty))
+    )
+    > .preview-toolbar-status {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: center;
+  }
+}
+.preview-toolbar-status {
+  margin-right: auto;
+}
+@media (max-width: 600px) {
+  .workspace-navigation .MuiTab-root.workspace-tab-group-start {
+    margin-left: 8px;
+  }
 }

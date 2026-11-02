@@ -47,7 +47,7 @@ export const extensionsEnglish: Readonly<Record<string, string>> = {
   '독립 실행 범위가 필요할 때 공개 store·atom을 사용합니다. 테마 기본값과 상수는 설정 구성에 사용하며 페이지마다 store를 새로 만들 필요는 없습니다.':
     'Use public stores and atoms for an isolated scope. Theme defaults and constants support configuration; pages normally share their existing store.',
   '기능별 API 안내': 'Feature API guide',
-  'Core가 직접 구현한 hooks·utils·진단 기능과 문서·실행 예제를 역할별로 찾습니다.':
+  'Core가 직접 구현한 Hooks·Utils·진단 기능을 살펴보고 관련 문서와 실행 예제를 찾습니다.':
     'Find Core-owned hooks, utilities and diagnostics with related guides and runnable examples.',
   'Core가 직접 구현한 기능을 역할별로 정리했습니다. 각 기능의 설정 방법과 기대효과를 확인하고 문서·실행 예제·공개 API로 이동할 수 있습니다.':
     'Explore Core-owned features by responsibility, their setup and benefits, and links to guides, runnable examples and public APIs.',

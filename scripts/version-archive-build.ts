@@ -15,6 +15,7 @@ const catalogSchema = z.object({
   version: z.literal(1),
   packages: z.array(z.discriminatedUnion('status', [
     packageIdentitySchema.extend({ status: z.literal('ready') }),
+    packageIdentitySchema.extend({ status: z.literal('available') }),
     z.object({ id: releasePackageIdSchema, name: z.string(), version: z.null(), status: z.literal('planned') }),
   ])).min(1),
 });

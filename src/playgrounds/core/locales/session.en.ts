@@ -4,7 +4,8 @@ export const sessionEnglish: Readonly<Record<string, string>> = {
   '조회 결과가 없습니다.': 'No results found.',
   'Super admin·Admin·PM 샘플 사용자를 선택하면 페이지별 생성·조회·수정·삭제 권한이 O/X로 바로 바뀝니다.':
     'Select Super admin, Admin, or PM to immediately update the O/X table of create, read, update, and delete permissions for each page.',
-  '사용자와 페이지 권한': 'User and page permissions',
+  '사용자별 페이지 권한': 'Page permissions by user',
+  '사용자와 페이지 권한': 'Page permissions by user',
   '샘플 인증 응답과 메뉴 정보를 적용하고 페이지별 권한을 확인합니다.':
     'Apply a sample authentication response and navigation, then check permissions for each page.',
   '읽기 전용': 'Read only',

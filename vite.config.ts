@@ -4,6 +4,8 @@ import { readFileSync } from 'node:fs';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite-plus';
 import { sourceGraphPlugin } from './scripts/source-graph.ts';
+import { componentsApiPlugin } from './scripts/components-api-plugin.ts';
+import { publicApiPlugin } from './scripts/public-api-plugin.ts';
 import { knowledgeResourcesPlugin, reviewedApiCatalog } from './scripts/knowledge-resources.ts';
 import {
   createDataGridSourceManifest,
@@ -108,6 +110,8 @@ export default defineConfig({
     overrides: [{ files: ['**/*.css'], options: { singleQuote: false } }],
   },
   plugins: [
+    publicApiPlugin(),
+    componentsApiPlugin(),
     react(),
     sourceGraphPlugin(),
     knowledgeResourcesPlugin(),

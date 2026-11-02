@@ -34,7 +34,7 @@ OWP 패키지나 lockfile을 갱신한 뒤에는 실행 중인 개발 서버를 
 
 `devEngines.runtime`에 따라 pnpm이 프로젝트용 Node.js `24.22.1`을 자동으로 내려받아 사용합니다. `pnpm node -v`가 `v24.22.1`인지 확인하고, 프로젝트 명령은 `pnpm run`, `pnpm exec` 또는 `pnpm node`로 실행합니다. 전역 Node.js 버전은 다를 수 있습니다.
 
-`pnpm dev`는 개발 서버를 실행하고 브라우저를 자동으로 엽니다. TypeScript 7로 타입을 검사하고, Vite+로 개발·빌드·테스트를 실행합니다. 설치와 스크립트 실행에는 프로젝트에 고정한 pnpm CLI를 사용합니다. `packageManager`에 고정된 pnpm 12.15.0을 자동으로 선택하며 `pnpm-workspace.yaml`의 `pmOnFail: download`로 이를 유지합니다. `verifyDepsBeforeRun: false`로 명령 실행 전 자동 의존성 설치를 방지합니다. `.npmrc`는 사내 OWP 레지스트리 설정을 유지합니다.
+`pnpm dev`는 개발 서버를 실행하고 브라우저를 자동으로 엽니다. 기존에 생성된 Knowledge 자료를 사용하며 Knowledge·스냅샷·MCP를 자동으로 갱신하지 않습니다. 패키지 계약 검토와 Knowledge 갱신은 별도로 요청한 작업에서 진행합니다. TypeScript 7로 타입을 검사하고, Vite+로 개발·빌드·테스트를 실행합니다. 설치와 스크립트 실행에는 프로젝트에 고정한 pnpm CLI를 사용합니다. `packageManager`에 고정된 pnpm 12.15.0을 자동으로 선택하며 `pnpm-workspace.yaml`의 `pmOnFail: download`로 이를 유지합니다. `verifyDepsBeforeRun: false`로 명령 실행 전 자동 의존성 설치를 방지합니다. `.npmrc`는 사내 OWP 레지스트리 설정을 유지합니다.
 
 macOS에서는 기본 브라우저가 Chrome 계열 또는 Safari이면 같은 개발 서버 주소의 기존 탭을 찾아 활성화하고 새로고침합니다. 선택한 예제의 경로·query·hash는 유지하며, 같은 포트의 `localhost`·`127.0.0.1`·`[::1]`은 같은 서버로 취급합니다. 해당 탭이 없거나 탭을 확인할 수 없으면 기본 브라우저로 새로 엽니다. 다른 운영체제나 브라우저에서는 기존 자동 열기 동작을 사용합니다. `BROWSER` 또는 `BROWSER_ARGS`를 직접 지정하면 해당 설정이 우선합니다.
 
@@ -53,11 +53,11 @@ pnpm preview
 | `/?package=datagrid&sample=auto-span` | OwpDataGrid 자동 행 병합 |
 | `/?package=charts` | OwpCharts 시작 안내 |
 | `/?package=charts&sample=plan-actual` | OwpCharts Column & Line |
-| `/?package=components` | OwpComponents 준비 상태 |
+| `/?package=components` | OwpComponents 컴포넌트·Hooks·Utils 실행 예제 |
 | `/?package=date-picker` | OwpDatePicker 준비 상태 |
 | `/?package=pdf` | OwpPdf 준비 상태 |
 
-패키지 값은 `datagrid`, `components`, `date-picker`, `core`, `charts`, `excel`, `pdf`, `theme`, `utils`, `tailwind-config`입니다. `@owp/datagrid` 같은 전체 패키지 이름도 받으며 주소는 짧은 값으로 정리합니다. 현재 OwpDataGrid, OwpCharts, OwpCore 예제를 실행할 수 있고 나머지는 해당 패키지의 준비 화면을 표시합니다. TreeGrid는 포함하지 않습니다.
+패키지 값은 `datagrid`, `components`, `date-picker`, `core`, `charts`, `excel`, `pdf`, `theme`, `utils`, `tailwind-config`입니다. `@owp/datagrid` 같은 전체 패키지 이름도 받으며 주소는 짧은 값으로 정리합니다. 현재 OwpDataGrid, OwpCharts, OwpCore, OwpComponents 예제를 실행할 수 있고 나머지는 해당 패키지의 준비 화면을 표시합니다. Components는 상단에 주문 입력·검색·상세 조회·편집 등 사용 예제 6개를, 하단에 컴포넌트·Hooks·Utils의 API별 페이지 47개를 제공합니다. API별 페이지에서는 지원 옵션을 여러 독립 예제로 비교할 수 있습니다. `@owp/utils`는 별도 패키지로 유지합니다. Components의 Knowledge·API 문서와 스냅샷은 아직 갱신하지 않았습니다. TreeGrid는 포함하지 않습니다.
 
 기존 `?sample=auto-span` 링크도 OwpDataGrid 예제로 열립니다. 패키지를 생략하거나 알 수 없는 값을 넣으면 OwpDataGrid로, 알 수 없는 샘플은 시작 안내로 열립니다. 메뉴와 샘플 링크는 URL에 선택을 반영하며 새로고침·브라우저 앞/뒤 이동도 지원합니다. 패키지를 바꾸면 이전 패키지의 샘플 값은 지우고, 다른 GET 파라미터와 URL 해시는 유지합니다. Cmd/Ctrl+K로 샘플을 검색할 수 있습니다.
 

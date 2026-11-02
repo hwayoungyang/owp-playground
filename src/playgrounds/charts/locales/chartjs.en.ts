@@ -13,7 +13,7 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   '크기 차이가 큰 양수 측정값을 선형축과 로그축으로 비교.':
     'Compare positive measurements spanning several orders of magnitude on linear and logarithmic scales.',
   '차트 부제목': 'Chart subtitle',
-  'Canvas 부제목의 표시·줄 수·정렬을 변경하고 PNG 내보내기 실행.':
+  'Canvas 부제목의 표시·줄 수·정렬을 변경하고 PNG를 내보낼 수 있습니다.':
     'Change canvas subtitle display, lines and alignment, and export as PNG.',
   '시간축을 불러오지 못했습니다. 다시 시도해 주세요.':
     'Unable to load the time axis. Please try again.',
@@ -134,10 +134,11 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   '조건별 Line point': 'Scriptable line points',
   '조건별 Pie 색상': 'Scriptable pie colors',
   '외부 버튼으로 Hover·Tooltip 제어': 'Button-controlled hover and tooltip',
-  '외부 버튼으로 지정한 point 강조 및 Tooltip 표시 실행.':
+  '외부 버튼으로 지정한 point를 강조하고 Tooltip을 표시할 수 있습니다.':
     'Highlight a specific point and display its tooltip using external buttons.',
   '차트 영역 테두리': 'Chart area border',
-  'Plugin으로 plot 영역 테두리 표시 가능.': 'Display a border around the plot area using a plugin.',
+  'Plugin으로 plot 영역 테두리를 표시할 수 있습니다.':
+    'Display a border around the plot area using a plugin.',
   '사분면 배경': 'Quadrant backgrounds',
   '원점을 기준으로 네 영역의 배경색을 구분.': 'Color the four quadrants around the origin.',
   '빈 Doughnut 표시': 'Empty doughnut',
@@ -210,77 +211,81 @@ export const chartjsEnglish: Readonly<Record<string, string>> = {
   '조각의 크기는 생산 비중을, 색상은 기준값 이상인지 여부를 나타냅니다. 같은 색의 조각도 툴팁에서 공정을 구분할 수 있습니다.':
     'Slice size shows production share, while color indicates whether the threshold is met. Each process retains its slice and tooltip even when colors match.',
   '서로 다른 stack 그룹을 나란히 비교 가능.': 'Compare separate stack groups side by side.',
-  '시작값과 종료값 사이의 구간을 Column으로 표시 가능.':
+  '시작값과 종료값 사이의 구간을 Column으로 표시할 수 있습니다.':
     'Display intervals between start and end values using columns.',
-  '누적 Column과 Line series를 같은 차트에 표시 가능.':
+  '누적 Column과 Line series를 같은 차트에 표시할 수 있습니다.':
     'Display stacked column and line series together on the same chart.',
-  'Pie의 회전 각도 조절과 기준값에 따른 색상 구분 가능.':
+  'Pie의 회전 각도를 조절하고 기준값에 따라 색상을 구분할 수 있습니다.':
     'Adjust pie rotation angle and distinguish colors based on reference values.',
-  '두 고리에 생산 비중을 표시하고 간격과 색상 밝기 구분 가능.':
+  '두 고리에 생산 비중을 표시하고 간격과 색상 밝기를 구분할 수 있습니다.':
     'Display production shares in two concentric rings with custom spacing and brightness.',
-  'X·Y 좌표의 데이터 분포를 point로 표시 가능.':
+  'X·Y 좌표의 데이터 분포를 point로 표시할 수 있습니다.':
     'Display data distribution of X and Y coordinates with points.',
-  'X·Y 좌표와 크기로 세 가지 측정값 비교 가능.':
+  'X·Y 좌표와 크기로 세 가지 측정값을 비교할 수 있습니다.':
     'Compare three measurement values using X, Y coordinates and bubble sizes.',
-  '축 범위 고정 방식과 권장 범위 지정 방식 비교 가능.':
+  '축 범위 고정 방식과 권장 범위 지정 방식을 비교할 수 있습니다.':
     'Compare fixed axis domains against suggested domain boundaries.',
-  '크기 차이가 큰 양수 측정값을 선형축과 로그축으로 비교 가능.':
+  '크기 차이가 큰 양수 측정값을 선형축과 로그축으로 비교할 수 있습니다.':
     'Compare positive measurements spanning several orders of magnitude on linear and logarithmic scales.',
-  'X축과 Y축의 제목 표시와 정렬 변경 가능.':
+  'X축과 Y축의 제목 표시와 정렬을 변경할 수 있습니다.':
     'Display titles on X and Y axes and adjust their alignment.',
-  '양수와 음수를 원점 기준으로 비교 가능.':
+  '양수와 음수를 원점 기준으로 비교할 수 있습니다.':
     'Compare positive and negative values centered at the origin.',
-  '한쪽 Y축 영역을 위아래로 분할 가능.':
+  '한쪽 Y축 영역을 위아래로 분할할 수 있습니다.':
     'Divide a shared Y-axis side into stacked vertical regions.',
   '두 Line series를 서로 다른 Y축에 연결해 비교 가능.':
     'Connect two line series to independent Y axes for comparison.',
   '두 Y축에 서로 다른 범위를 적용해 point 분포 비교 가능.':
     'Apply different ranges to two Y axes to compare point distributions.',
-  '불규칙한 관측 시각을 실제 시간 간격과 동일 관측 간격으로 비교 가능.':
+  '불규칙한 관측 시각을 실제 시간 간격과 동일 관측 간격으로 비교할 수 있습니다.':
     'Compare irregular observations using elapsed time spacing and equal observation spacing.',
-  '같은 UTC 시간축에서 시간당 생산 실적과 계획 비교 가능.':
+  '같은 UTC 시간축에서 시간당 생산 실적과 계획을 비교할 수 있습니다.':
     'Compare hourly production actuals and plans on the same UTC time axis.',
-  '관측 사이의 최대 연결 시간 조절로 누락 구간 선 연결 비교 가능.':
+  '관측 사이의 최대 연결 시간을 조절해 누락 구간의 선 연결을 비교할 수 있습니다.':
     'Adjust maximum connection interval to compare line bridging across missing data points.',
-  'Y축 눈금 간격 설정 및 변경 가능.': 'Configure and adjust step size for Y-axis ticks.',
-  '눈금의 표시 간격과 값 서식 조절 가능.':
+  'Y축 눈금 간격을 설정하고 변경할 수 있습니다.':
+    'Configure and adjust step size for Y-axis ticks.',
+  '눈금의 표시 간격과 값 서식을 조절할 수 있습니다.':
     'Adjust tick display intervals and numeric label formats.',
-  '격자의 표시 여부와 색상 설정 가능.': 'Configure grid line visibility and colors.',
+  '격자의 표시 여부와 색상을 설정할 수 있습니다.': 'Configure grid line visibility and colors.',
   '범례 위에 제목 표시 여부 설정 가능.': 'Configure whether to display a title above the legend.',
-  'Point 표시 설정을 차트와 범례에 함께 적용 가능.':
+  'Point 표시 설정을 차트와 범례에 함께 적용할 수 있습니다.':
     'Apply point visibility settings consistently across both chart and legend.',
   '범례 마우스 호버와 클릭 이벤트 기록 확인 가능.':
     'Inspect recorded events when hovering or clicking legend items.',
-  'Tooltip 제목·본문·footer 변경 가능.': 'Customize title, body, and footer content in tooltips.',
-  '포인터 위치에 따른 Tooltip 탐색 모드 비교 가능.':
+  'Tooltip 제목·본문·footer를 변경할 수 있습니다.':
+    'Customize title, body, and footer content in tooltips.',
+  '포인터 위치에 따른 Tooltip 탐색 모드를 비교할 수 있습니다.':
     'Compare tooltip interaction and detection modes based on pointer position.',
-  'Tooltip 위치 계산 방식 비교 가능.':
+  'Tooltip 위치 계산 방식을 비교할 수 있습니다.':
     'Compare different positioning calculation modes for tooltips.',
-  'Tooltip 색상 상자를 point 모양으로 변경 가능.':
+  'Tooltip 색상 상자를 point 모양으로 변경할 수 있습니다.':
     'Change tooltip color boxes to match dataset point styles.',
-  '원점을 기준으로 네 사분면 배경색 구분 가능.':
+  '원점을 기준으로 네 사분면의 배경색을 구분할 수 있습니다.':
     'Distinguish background colors across four quadrants centered at the origin.',
-  '차트 제목 정렬 변경과 여러 줄 표시 가능.':
+  '차트 제목 정렬을 변경하고 여러 줄로 표시할 수 있습니다.':
     'Adjust chart title alignment and display multiple title lines.',
-  'Column 모서리의 radius 크기 조절 가능.': 'Adjust the border radius of column corners.',
-  '생산량 기준값 충족 여부에 따른 Column 색상 구분 가능.':
+  'Column 모서리의 radius 크기를 조절할 수 있습니다.':
+    'Adjust the border radius of column corners.',
+  '생산량 기준값 충족 여부에 따른 Column 색상을 구분할 수 있습니다.':
     'Differentiate column colors dynamically based on threshold criteria.',
-  '선의 dash 패턴 변경 가능.': 'Change border dash patterns and point display styles on lines.',
-  '직선·곡선·monotone 보간 알고리즘 비교 가능.':
+  '선의 dash 패턴을 변경할 수 있습니다.':
+    'Change border dash patterns and point display styles on lines.',
+  '직선·곡선·monotone 보간 알고리즘을 비교할 수 있습니다.':
     'Compare linear, bezier curve, and monotone interpolation modes.',
-  '값이 바뀌는 위치에 따른 계단형 선 표시 가능.':
+  '값이 바뀌는 위치에 따른 계단형 선을 표시할 수 있습니다.':
     'Display stepped lines with step transitions at varied positions.',
-  '하락 구간과 누락 데이터 구간의 선 스타일 구분 가능.':
+  '하락 구간과 누락 데이터 구간의 선 스타일을 구분할 수 있습니다.':
     'Segment line styles dynamically for downward trends and missing intervals.',
-  '데이터 point의 모양 변경 가능.': 'Change shapes and radius sizes of data points.',
-  '월별 생산량 기준값에 따른 Point 색상과 크기 변경 가능.':
+  '데이터 point의 모양을 변경할 수 있습니다.': 'Change shapes and radius sizes of data points.',
+  '월별 생산량 기준값에 따른 Point 색상과 크기를 변경할 수 있습니다.':
     'Customize point colors and radius dynamically based on monthly criteria.',
   'Line 좌우 축·표시': 'Line dual axes and visibility',
-  '두 Line을 좌우 Y축에 연결하고 오른쪽 축 표시·숨김 가능.':
+  '두 Line을 좌우 Y축에 연결하고 오른쪽 축을 표시하거나 숨길 수 있습니다.':
     'Connect two lines to left and right Y axes and toggle the right axis visibility.',
   'Scatter 좌우 축': 'Scatter on dual axes',
-  '두 Scatter를 서로 다른 Y축 범위에 연결하고 Point 크기 조절 가능.':
+  '두 Scatter를 서로 다른 Y축 범위에 연결하고 Point 크기를 조절할 수 있습니다.':
     'Connect two scatter series to different Y-axis ranges and adjust point size.',
-  'series를 여러 stack으로 나누어 나란히 누적하고 그룹별 범례 표시 가능.':
+  'series를 여러 stack으로 나누어 나란히 누적하고 그룹별 범례를 표시할 수 있습니다.':
     'Split series into multiple stacks, display the stacks side by side, and show a legend for each group.',
 };

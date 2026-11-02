@@ -8,6 +8,7 @@ import { DataStateButtons } from '../../../shared/ui/DataStateButtons';
 import { PreviewToolbar } from '../../../shared/ui/PreviewToolbar';
 import type { GridExample } from '../catalog';
 import type { GridController } from './useGridController';
+import { GridStatusBar } from './GridStatusBar';
 
 const counts = [10000, 50000, 100000, 300000, 500000, 1000000] as const;
 const countSchema = z.coerce.number().refine((value) => counts.some((count) => count === value));
@@ -36,25 +37,28 @@ export function GridToolbar({
         setCount(10000);
       }}
       status={
-        (generating || (example.id === 'large-data' && controller.bindingTime)) && (
-          <>
-            {generating && (
-              <span className="grid-busy-label" role="status">
-                {t('처리 중')}
-              </span>
-            )}
-            {example.id === 'large-data' && controller.bindingTime && (
-              <output className="grid-binding-time" aria-live="polite">
-                <span>
-                  {t('데이터 반영 시간: {{ms}} ms', {
-                    ms: controller.bindingTime.milliseconds,
-                  })}
+        <>
+          <GridStatusBar controller={controller} />
+          {(generating || (example.id === 'large-data' && controller.bindingTime)) && (
+            <>
+              {generating && (
+                <span className="grid-busy-label" role="status">
+                  {t('처리 중')}
                 </span>
-                <span>{t('측정 시간은 테스트 환경에 따라 달라질 수 있습니다.')}</span>
-              </output>
-            )}
-          </>
-        )
+              )}
+              {example.id === 'large-data' && controller.bindingTime && (
+                <output className="grid-binding-time" aria-live="polite">
+                  <span>
+                    {t('데이터 반영 시간: {{ms}} ms', {
+                      ms: controller.bindingTime.milliseconds,
+                    })}
+                  </span>
+                  <span>{t('측정 시간은 테스트 환경에 따라 달라질 수 있습니다.')}</span>
+                </output>
+              )}
+            </>
+          )}
+        </>
       }
       startActions={
         <>

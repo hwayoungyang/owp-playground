@@ -1,3 +1,5 @@
+import { ExampleWorkbench } from '../../../shared/ui/ExampleWorkbench';
+import { WorkspaceApiPanels } from '../../../features/public-api/WorkspaceApiPanels';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { type ComponentType, lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { ApiLinks } from '../../../features/api/ApiLinks';
@@ -9,7 +11,11 @@ import { EventsPanel } from '../../../shared/ui/EventsPanel';
 import { PreviewActionsProvider } from '../../../shared/ui/PreviewActions';
 import { PreviewToolbar } from '../../../shared/ui/PreviewToolbar';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
-import { type WorkspaceTab, WorkspaceTabs } from '../../../shared/ui/WorkspaceTabs';
+import {
+  type WorkspaceTab,
+  WorkspaceTabs,
+  resolveWorkspaceTab,
+} from '../../../shared/ui/WorkspaceTabs';
 import { type CoreExample, coreCategories } from '../catalog';
 import { coreSourcePolicy } from '../model/sourceFiles';
 import { coreOwnershipNotes } from '../guides/package-ownership';
@@ -49,7 +55,7 @@ export function CoreWorkspace({
   codeTarget,
 }: {
   readonly example: CoreExample;
-  readonly initialTab?: 'preview' | 'code';
+  readonly initialTab?: 'preview' | 'code' | 'props' | 'params' | 'returns' | 'type';
   readonly codeTarget?: CodeLocation;
 }) {
   const { t, i18n } = useOwpTranslation();
@@ -57,11 +63,12 @@ export function CoreWorkspace({
   const ownershipGuideUrl = ownership
     ? `?${new URLSearchParams({ package: 'core', sample: 'getting-started', lang: i18n.language })}#core-ownership-${example.id}`
     : undefined;
-  const [tab, setTab] = useState<WorkspaceTab>(initialTab);
+  const supportedTab = resolveWorkspaceTab(example, initialTab);
+  const [tab, setTab] = useState<WorkspaceTab>(supportedTab);
   const [version, setVersion] = useState(0);
   const [data, setData] = useState<Readonly<Record<string, unknown>>>({});
   const [events, setEvents] = useState<readonly EventLogEntry[]>([]);
-  useEffect(() => setTab(initialTab), [initialTab, codeTarget]);
+  useEffect(() => setTab(supportedTab), [supportedTab, codeTarget]);
   const onData = useCallback((next: Readonly<Record<string, unknown>>) => setData(next), []);
   const onRecord = useCallback((name: string, detail: string) => {
     const time = new Date().toLocaleTimeString('ko-KR', { hour12: false });
@@ -84,8 +91,28 @@ export function CoreWorkspace({
           {t('패키지별 역할과 연결 방법 보기')}
         </a>
       )}
-      <WorkspaceTabs idPrefix={prefix} value={tab} eventCount={events.length} onChange={setTab} />
-      <div className="workspace-frame">
+      <WorkspaceTabs
+        api={example}
+        idPrefix={prefix}
+        value={tab}
+        eventCount={events.length}
+        onChange={setTab}
+      />
+      <ExampleWorkbench
+        idPrefix={prefix}
+        tab={tab}
+        onTabChange={setTab}
+        code={
+          <div role="tabpanel" id={`${prefix}-panel-code`} aria-labelledby={`${prefix}-tab-code`}>
+            <CodeViewer
+              example={example}
+              sourcePolicy={coreSourcePolicy}
+              codeTarget={codeTarget}
+              requestedCode={initialTab === 'code'}
+            />
+          </div>
+        }
+      >
         <div
           hidden={tab !== 'preview'}
           role="tabpanel"
@@ -107,16 +134,6 @@ export function CoreWorkspace({
             </CoreProviders>
           </PreviewActionsProvider>
         </div>
-        {tab === 'code' && (
-          <div role="tabpanel" id={`${prefix}-panel-code`} aria-labelledby={`${prefix}-tab-code`}>
-            <CodeViewer
-              example={example}
-              sourcePolicy={coreSourcePolicy}
-              codeTarget={codeTarget}
-              requestedCode={initialTab === 'code'}
-            />
-          </div>
-        )}
         {tab === 'data' && (
           <div
             className="core-data"
@@ -142,7 +159,8 @@ export function CoreWorkspace({
             />
           </div>
         )}
-      </div>
+        <WorkspaceApiPanels example={example} tab={tab} prefix={prefix} />
+      </ExampleWorkbench>
       <ApiLinks example={example} />
     </section>
   );

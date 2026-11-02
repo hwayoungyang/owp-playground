@@ -56,15 +56,16 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   'Hook 연결': 'Hook connection',
   'Ref 연결': 'Ref connection',
   '행 이동': 'Move rows',
-  'hook으로 Grid API를 연결해 행 조회·셀 포커스 실행.':
+  'hook으로 Grid API를 연결해 행을 조회하고 셀에 포커스를 맞춥니다.':
     'Connect the Grid API with a hook to read rows and focus a cell.',
-  'ref로 같은 Grid API를 연결해 행 조회·셀 포커스 실행.':
+  'ref로 같은 Grid API를 연결해 행을 조회하고 셀에 포커스를 맞춥니다.':
     'Connect the same Grid API with a ref to read rows and focus a cell.',
-  '전체·필터링·선택 행 조회와 일괄 변경 가능.':
+  '전체·필터링·선택 행을 조회하고 일괄 변경할 수 있습니다.':
     'Read all, filtered or selected rows and apply batch updates.',
-  '셀 값 변경·포커스·스크롤 제어 가능.': 'Change cell values and control focus and scrolling.',
-  '선택한 행을 맨 위나 맨 아래로 이동 실행.': 'Move selected rows to the top or bottom.',
-  '미확정 입력·working-copy 변경 조회와 확정·초기화 실행.':
+  '셀 값을 변경하고 포커스·스크롤을 제어할 수 있습니다.':
+    'Change cell values and control focus and scrolling.',
+  '선택한 행을 맨 위나 맨 아래로 이동합니다.': 'Move selected rows to the top or bottom.',
+  '미확정 입력·working-copy 변경을 조회하고 확정·초기화합니다.':
     'Inspect uncommitted input and working-copy changes, then commit or reset them.',
   '행 조회': 'Read rows',
   '조회 결과: {{count}}건_one': 'Query result: {{count}} item',
@@ -85,11 +86,11 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
     'The server saved the data, but the Grid could not apply it. Finish editing and save again.',
   '셀·행 클릭 결과는 이벤트 탭에서 확인할 수 있습니다.':
     'View cell and row click results in the Events tab.',
-  '안정적인 API 객체로 연결된 Grid 제어 가능. 연결 전·해제 후 호출 시 ReferenceError 발생.':
+  '안정적인 API 객체로 연결된 Grid를 제어할 수 있습니다. 연결 전·해제 후 호출하면 ReferenceError가 발생합니다.':
     'Control the connected Grid through a stable API object. Calls before connection or after disconnection throw ReferenceError.',
-  'ref.current로 연결된 Grid 제어 가능. 연결 전·해제 후 current는 null.':
+  'ref.current로 연결된 Grid를 제어할 수 있습니다. 연결 전·해제 후 current는 null입니다.':
     'Control the connected Grid through ref.current. The current value is null before connection and after disconnection.',
-  'Hook과 Ref는 같은 Grid API를 제공하며 연결 방식만 다름.':
+  'Hook과 Ref는 같은 Grid API를 제공하며 연결 방식이 다릅니다.':
     'Hook and Ref expose the same Grid API through different connections.',
   'hook API를 직접 호출해 선택한 행을 맨 위나 맨 아래로 이동.':
     'Call the hook API directly to move selected rows to the top or bottom.',
@@ -105,9 +106,9 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
     'View, edit or delete rows from the context menu and query the main Grid from a dialog.',
   '현재 변경 상태 조회': 'Inspect current changes',
   'Working-copy 변경 {{count}}건': 'Working-copy changes: {{count}}',
-  'hasUnsavedChanges()로 미확정 입력까지 감지 가능. getChanges()는 working-copy 변경만 반환. 현재 변경 상태 조회 버튼은 편집을 확정하지 않으며, 결과는 조회 시점 기준.':
+  'hasUnsavedChanges()로 미확정 입력까지 감지할 수 있습니다. getChanges()는 working-copy 변경만 반환합니다. 현재 변경 상태 조회 버튼은 편집을 확정하지 않으며, 결과는 조회 시점을 기준으로 합니다.':
     'hasUnsavedChanges() includes uncommitted input; getChanges() returns working-copy changes. The Inspect current changes button keeps the editor open and shows values at the time of the query.',
-  '입력값은 다이얼로그를 연 시점의 행. 전달받은 API로 버튼을 누른 시점의 메인 Grid 조회 가능.':
+  '입력값은 다이얼로그를 연 시점의 행을 기준으로 합니다. 전달받은 API로 버튼을 누른 시점의 메인 Grid를 조회할 수 있습니다.':
     'The fields use the row captured when the dialog opened. Query the passed API to read main Grid values when the button is pressed.',
   '메인 Grid 현재 값 조회': 'Read current main Grid values',
   'useDataGridApi() 객체를 Grid의 api에 연결. 이벤트·Effect에서 최신 Grid 값 조회 가능. 객체·메서드 reference 유지. React 상태 자동 구독은 미지원.':
@@ -151,7 +152,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '모서리 크기를 선택합니다. 기본 크기는 4px입니다.':
     'Choose a corner size. The initial size is 4px.',
   '셀 타입': 'Cell types',
-  '텍스트·숫자·셀렉트·날짜 등 셀 타입에 맞는 편집기 사용 가능.':
+  '텍스트·숫자·셀렉트·날짜 등 셀 타입에 맞는 편집기를 사용할 수 있습니다.':
     'Edit values with different cell types.',
   '숫자·날짜 서식': 'Number & date formats',
   '숫자와 날짜·시간 서식을 설정.': 'Set number, date and time formats.',
@@ -194,7 +195,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '1만 행의 데이터에서도 셀 병합과 가상 스크롤을 함께 사용합니다.':
     'Combine cell spanning and virtual scrolling across 10,000 rows.',
   병합·Excel: 'Spans & Excel',
-  '헤더와 셀 병합, 고정 합계 행을 그대로 내보내기 실행.':
+  '헤더와 셀 병합, 고정 합계 행을 그대로 내보냅니다.':
     'Export header and cell spans with pinned summary rows intact.',
   '행 선택': 'Row selection',
   '단일 선택과 다중 선택의 동작을 비교 가능.': 'Switch between single and multiple row selection.',
@@ -211,7 +212,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '행 편집 툴바': 'Row editing toolbar',
   '툴바에서 행을 추가·삭제.': 'Add and delete rows from the toolbar.',
   '행 이동 · 드래그': 'Move rows · drag',
-  '행을 하나씩 드래그하거나 선택한 여러 행을 함께 이동 가능.':
+  '행을 하나씩 드래그하거나 선택한 여러 행을 함께 이동할 수 있습니다.':
     'Drag rows individually or move selected rows together.',
   '컨텍스트 메뉴': 'Context menu',
   '셀을 우클릭하면 아이콘이 있는 상세 보기·수정·삭제 메뉴가 열립니다.':
@@ -236,7 +237,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '1만~100만 행을 만들고 가상 스크롤을 확인.':
     'Generate 10,000 to 1,000,000 rows and explore virtualization.',
   'Excel 내보내기': 'Excel export',
-  '표시·전체·선택 행의 Excel 내보내기 실행.': 'Export visible, all or selected rows.',
+  '표시·전체·선택 행을 Excel로 내보냅니다.': 'Export visible, all or selected rows.',
   '서버 조회': 'Server-side query',
   '행 추가 위치': 'Row insertion',
   '맨 위나 맨 아래, 또는 선택한 행 다음에 새 행을 추가.':
@@ -256,7 +257,7 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '변경 내역을 확인한 뒤 확정하거나 원래 값으로 되돌릴 수 있음.':
     'Review changed values, then confirm or reset changes.',
   '검증 메시지': 'Validation messages',
-  '외부 검증 결과를 셀에 표시하며, 필요할 때 메시지 삭제 가능.':
+  '외부 검증 결과를 셀에 표시하며, 필요할 때 메시지를 삭제할 수 있습니다.':
     'Display external validation results in cells and clear messages as needed.',
   '저장 응답 반영': 'Apply saved rows',
   '저장 중 편집한 값은 유지합니다.': 'Keep edits made while a save is in progress.',
@@ -266,10 +267,10 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   'children 배열에 하위 행을 담습니다. 이 예제는 4단계 구성을 보여줍니다.':
     'Store child rows in children arrays. This example demonstrates four levels.',
   '새 행 선택': 'New row selection',
-  '맨 위에 새 행을 추가한 뒤, 새 행의 선택 허용 여부 설정 가능.':
+  '맨 위에 새 행을 추가한 뒤, 새 행의 선택 허용 여부를 설정할 수 있습니다.':
     'Add rows at the top and configure whether new rows can be selected.',
   '긴 내용 보기': 'View full content',
-  '내용이 잘린 셀에 마우스를 올리면 전체 내용 확인 가능.':
+  '내용이 잘린 셀에 마우스를 올리면 전체 내용을 확인할 수 있습니다.':
     'Hover a truncated cell to see its full content.',
   '하위 헤더 정렬': 'Child header sorting',
   '다단 헤더의 하위 컬럼에서도 정렬을 사용합니다.':
@@ -299,15 +300,16 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '표시 행 수 고정': 'Fixed row count',
   '화면에 표시할 행 수를 고정한 상태에서 행 선택과 합계를 확인 가능.':
     'Set a fixed row count and explore row selection and totals.',
-  '외부 버튼으로 행 선택·해제·삭제 실행.':
+  '외부 버튼으로 행을 선택·해제·삭제합니다.':
     'Select, deselect and delete rows using external buttons.',
   '데이터가 없는 상태에서 로딩 표시를 켜고 끕니다.': 'Start and stop loading on an empty grid.',
   '조회 오류를 표시하고 다시 시도합니다.': 'Show a query error and retry.',
   '셀렉트와 자동완성의 단일 선택·다중 선택 동작을 비교 가능.':
     'Choose single or multiple values with select or autocomplete.',
-  '조건에 따라 셀·행의 색상과 편집 가능 여부를 다르게 설정 가능.':
+  '조건에 따라 셀·행의 색상과 편집 가능 여부를 다르게 설정할 수 있습니다.':
     'Set cell and row colors and editing restrictions.',
-  '헤더와 셀의 스타일, 글자 크기 변경 가능.': 'Customize header and cell styles and font sizes.',
+  '헤더와 셀의 스타일, 글자 크기를 변경할 수 있습니다.':
+    'Customize header and cell styles and font sizes.',
   '여러 컬럼을 다단 헤더로 묶음. 하위 컬럼의 정렬 버튼 표시 여부 설정 가능.':
     'Group columns and configure child header sorting buttons.',
   '1만 행에서 병합과 가상 스크롤을 확인.':
@@ -320,76 +322,79 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   '같은 프로젝트의 셀과 다른 프로젝트의 셀을 연동해 비용을 계산.':
     'An example of cost calculations and linked cells within and across projects.',
   트리: 'Tree',
-  '하위 행의 완료율과 추세를 트리로 확인하며, 조회 방식 변경 가능.':
+  '하위 행의 완료율과 추세를 트리로 확인하며, 조회 방식을 변경할 수 있습니다.':
     'Inspect child-row completion rates and trends in a tree and switch query modes.',
   '다단계 트리': 'Nested tree',
   '여러 단계로 구성된 하위 행을 펼치거나 접기 가능.': 'Expand and collapse multi-level child rows.',
   'field·getRowId로 API 필드와 행 ID 연결. 문자열의 숫자·boolean 변환과 트리 행 연결은 model/apiData.ts 참고.':
     'Map API fields and row IDs with field and getRowId. See model/apiData.ts for numeric and boolean conversion and tree row mapping.',
-  '같은 컬럼에서 행마다 다른 편집기 사용 가능.': 'Use different editors within a column.',
-  '셀렉트와 자동완성의 단일 선택·다중 선택 동작 비교 가능.':
+  '같은 컬럼에서 행마다 다른 편집기를 사용할 수 있습니다.':
+    'Use different editors within a column.',
+  '셀렉트와 자동완성의 단일 선택·다중 선택 동작을 비교할 수 있습니다.':
     'Choose single or multiple values using a select menu or searchable autocomplete.',
-  '숫자와 날짜·시간 서식 설정 가능.': 'Configure number, date and time formats.',
-  '버튼, 칩, 스위치와 진행률을 셀에 추가 가능.':
+  '숫자와 날짜·시간 서식을 설정할 수 있습니다.': 'Configure number, date and time formats.',
+  '버튼, 칩, 스위치와 진행률을 셀에 추가할 수 있습니다.':
     'Add buttons, chips, switches and progress bars to cells.',
-  '고정 컬럼과 가로 스크롤 동작 비교 가능.':
+  '고정 컬럼과 가로 스크롤 동작을 비교할 수 있습니다.':
     'Compare pinned columns and horizontal scrolling behavior.',
-  '다단 헤더 구성과 하위 컬럼 정렬 버튼 표시 여부 설정 가능.':
+  '다단 헤더 구성과 하위 컬럼 정렬 버튼 표시 여부를 설정할 수 있습니다.':
     'Group columns into multiple header rows and configure child header sorting buttons.',
-  '셀 값과 관계없이 지정한 행 수만큼 세로로 병합 가능.':
+  '셀 값과 관계없이 지정한 행 수만큼 세로로 병합할 수 있습니다.':
     'Merge a fixed number of rows vertically regardless of values.',
-  '프로젝트 컬럼에서 같은 값이 연속된 셀을 세로로 자동 병합 가능.':
+  '프로젝트 컬럼에서 같은 값이 연속된 셀을 세로로 자동 병합할 수 있습니다.':
     'Automatically merge consecutive cells with matching values vertically.',
-  '작업 요약 셀 가로 병합 가능.': 'Merge summary cells horizontally across columns.',
-  '프로젝트 셀 세로 병합과 작업 요약 셀 가로 병합 동시 적용 가능.':
+  '작업 요약 셀을 가로로 병합할 수 있습니다.': 'Merge summary cells horizontally across columns.',
+  '프로젝트 셀의 세로 병합과 작업 요약 셀의 가로 병합을 동시에 적용할 수 있습니다.':
     'Apply vertical project spans and horizontal summary spans together.',
-  '1만 행 데이터에서 셀 병합과 가상 스크롤 동작 확인 가능.':
+  '1만 행 데이터에서 셀 병합과 가상 스크롤 동작을 확인할 수 있습니다.':
     'Verify cell spanning and virtual scrolling across 10,000 rows.',
-  '단일 선택과 다중 선택의 동작 비교 가능.': 'Compare single and multiple row selection behavior.',
-  '셀이나 행을 클릭했을 때 전달되는 이벤트 값 확인 가능.':
+  '단일 선택과 다중 선택의 동작을 비교할 수 있습니다.':
+    'Compare single and multiple row selection behavior.',
+  '셀이나 행을 클릭했을 때 전달되는 이벤트 값을 확인할 수 있습니다.':
     'Inspect event values received from cell or row clicks.',
-  '우클릭 메뉴에서 상세 보기·수정·삭제를 실행하고 다이얼로그에서 메인 Grid 조회 가능.':
+  '우클릭 메뉴에서 상세 보기·수정·삭제를 실행하고 다이얼로그에서 메인 Grid를 조회할 수 있습니다.':
     'Execute view, edit and delete from context menu and query the main Grid in a dialog.',
-  '헤더 클릭으로 정렬 순서와 다중 정렬 우선순위 변경 가능.':
+  '헤더 클릭으로 정렬 순서와 다중 정렬 우선순위를 변경할 수 있습니다.':
     'Change sort order and multiple column priority by clicking headers.',
-  '컬럼별 조건으로 데이터 필터링 가능.': 'Filter data using conditions per column.',
-  '셀 편집 후 Enter로 확정하거나 Esc로 취소 가능.':
+  '컬럼별 조건으로 데이터를 필터링할 수 있습니다.': 'Filter data using conditions per column.',
+  '셀 편집 후 Enter로 확정하거나 Esc로 취소할 수 있습니다.':
     'Edit cells and commit with Enter or cancel with Esc.',
   '같은 Grid에 hook API와 ref를 연결해 셀 값·포커스 제어 가능.':
     'Control cell values and focus by connecting both hook API and ref to the same Grid.',
-  '값 확정 시 검사와 직접 검사, 셀 수정 시 오류 처리 비교 가능.':
+  '값 확정 시 검사와 직접 검사, 셀 수정 시 오류 처리를 비교할 수 있습니다.':
     'Compare validation on commit with manual checks and error handling when cells are edited.',
   '필수값, 숫자 범위와 완료 수량 검사 가능.':
     'Validate required fields, numeric ranges and completed quantities.',
-  '행 편집 툴바에서 행 추가·삭제 실행.': 'Add and delete rows using the row editing toolbar.',
-  '맨 위·맨 아래 또는 선택 행 다음에 새 행 추가 실행.':
+  '행 편집 툴바에서 행을 추가·삭제합니다.': 'Add and delete rows using the row editing toolbar.',
+  '맨 위·맨 아래 또는 선택 행 다음에 새 행을 추가합니다.':
     'Insert a new row at the top, bottom, or after the selected row.',
-  '기존 행 삭제·복구와 새 행 취소 동작 비교 가능.':
+  '기존 행 삭제·복구와 새 행 취소 동작을 비교할 수 있습니다.':
     'Compare deleting or restoring existing rows and discarding newly added rows.',
-  'hook API 직접 호출로 선택한 행을 맨 위나 맨 아래로 이동 실행.':
+  'hook API 직접 호출로 선택한 행을 맨 위나 맨 아래로 이동합니다.':
     'Call the hook API directly to move selected rows to the top or bottom.',
-  'hook API로 전체·필터링·선택 행 조회와 일괄 변경 가능.':
+  'hook API로 전체·필터링·선택 행을 조회하고 일괄 변경할 수 있습니다.':
     'Query all, filtered, or selected rows and apply batch updates using the hook API.',
-  'hook API로 미확정 입력·working-copy 변경 조회와 확정·초기화 실행.':
+  'hook API로 미확정 입력·working-copy 변경을 조회하고 확정·초기화합니다.':
     'Inspect uncommitted input and working-copy changes, then commit or reset them using the hook API.',
-  '합계·평균 계산과 하단 안내 행 고정 가능.':
+  '합계·평균을 계산하고 하단 안내 행을 고정할 수 있습니다.':
     'Calculate sums and averages while keeping informational summary rows pinned at the bottom.',
-  '프로젝트 내·프로젝트 간 셀 연동과 비용 계산 가능.':
+  '프로젝트 내·프로젝트 간 셀을 연동하고 비용을 계산할 수 있습니다.':
     'Link cells within and across projects to calculate costs and totals.',
-  '여러 단계의 하위 행 펼치기·접기 가능.': 'Expand and collapse multi-level child rows.',
-  '트리 구조 안에서 같은 프로젝트 작업 셀 병합 가능.':
+  '여러 단계의 하위 행을 펼치거나 접을 수 있습니다.': 'Expand and collapse multi-level child rows.',
+  '트리 구조 안에서 같은 프로젝트 작업 셀을 병합할 수 있습니다.':
     'Merge task cells for the same project within a tree structure.',
-  '상세 패널에 프로젝트 요약과 주간 실적 표시 가능.':
+  '상세 패널에 프로젝트 요약과 주간 실적을 표시할 수 있습니다.':
     'Display project summaries and weekly progress in a custom detail panel.',
-  '행을 펼쳐 하위 작업과 합계 그리드 표시 가능.':
+  '행을 펼쳐 하위 작업과 합계 그리드를 표시할 수 있습니다.':
     'Expand rows to display child tasks and summary grids.',
-  '화면에 표시할 행 수를 고정한 상태에서 행 선택과 합계 확인 가능.':
+  '화면에 표시할 행 수를 고정한 상태에서 행 선택과 합계를 확인할 수 있습니다.':
     'Set a fixed visible row count while verifying row selection and totals.',
-  '로딩 중·데이터 없음·오류 화면 확인과 재조회 실행 가능.':
+  '로딩 중·데이터 없음·오류 화면을 확인하고 다시 조회할 수 있습니다.':
     'Verify loading, empty, and error states, and retry queries on error.',
-  '1만~100만 행 데이터 생성과 가상 스크롤 동작 확인 가능.':
+  '1만~100만 행 데이터를 생성하고 가상 스크롤 동작을 확인할 수 있습니다.':
     'Generate 10,000 to 1,000,000 rows and verify virtual scrolling performance.',
-  '내보낼 데이터 구조와 제외 항목 확인 가능.': 'Inspect export data structure and excluded items.',
+  '내보낼 데이터 구조와 제외 항목을 확인할 수 있습니다.':
+    'Inspect export data structure and excluded items.',
   'field·getRowId로 API 필드와 행 ID를 연결합니다. 문자열의 숫자·boolean 변환과 트리 행 연결은 model/apiData.ts를 참고해 주세요.':
     'Map API fields and row IDs with field and getRowId. See model/apiData.ts for numeric and boolean conversion and tree row mapping.',
   'Hook과 Ref는 같은 Grid API를 제공하며 연결 방식만 다릅니다.':
@@ -411,8 +416,8 @@ export const catalogEnglish: Readonly<Record<string, string>> = {
   내보내기: 'Export',
   'Mock API 저장': 'Mock API save',
   'Mock API 조회': 'Mock API query',
-  '로컬 Mock API의 저장 응답과 저장 중 추가 편집 보존 확인 가능.':
+  '로컬 Mock API의 저장 응답과 저장 중 추가 편집의 보존을 확인할 수 있습니다.':
     'Inspect local Mock API save responses and preserve edits made while saving.',
-  '로컬 Mock API에 정렬·필터 조건 전달과 조회 결과 표시 가능.':
+  '로컬 Mock API에 정렬·필터 조건을 전달하고 조회 결과를 표시할 수 있습니다.':
     'Pass sorting and filter parameters to a local Mock API and display the results.',
 };

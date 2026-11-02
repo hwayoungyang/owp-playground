@@ -12,20 +12,26 @@ export function GuideCodeWorkspace({
   readonly example: ExampleMetadata;
   readonly codeTarget?: CodeLocation;
 }) {
-  const { t } = useOwpTranslation();
+  const { t, i18n } = useOwpTranslation();
   const packageId = example.package.replace('@owp/', '');
   return (
     <section className="workspace" aria-label={t('가이드 코드')}>
       <WorkspaceHeading
         example={example}
         packageTitle={
-          packageId === 'core' ? 'owp/core' : packageId === 'datagrid' ? 'OwpDataGrid' : 'OwpCharts'
+          packageId === 'components'
+            ? 'owp/components'
+            : packageId === 'core'
+              ? 'owp/core'
+              : packageId === 'datagrid'
+                ? 'OwpDataGrid'
+                : 'OwpCharts'
         }
         categoryLabel="문서"
       />
       <p>
         <PlaygroundLink
-          href={`?${new URLSearchParams({ package: packageId, sample: example.id })}`}
+          href={`?${new URLSearchParams({ package: packageId, sample: example.id, lang: i18n.language })}`}
         >
           {t('가이드 보기')}
         </PlaygroundLink>

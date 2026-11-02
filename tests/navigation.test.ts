@@ -26,14 +26,14 @@ describe('shared playground URLs', () => {
   it('accepts a scoped package name as a shared URL value', () => {
     const route = readPlaygroundRoute('?package=%40owp%2Fpdf');
     expect(route.playground.id).toBe('pdf');
-    expect(route.example).toBeNull();
+    expect(route).toMatchObject({ status: 'exports', example: { id: 'exports' } });
   });
 
-  it('shows the selected planned package without an unrelated sample', () => {
+  it('shows the installed package API without an unrelated sample', () => {
     const route = readPlaygroundRoute('?package=pdf&sample=editing');
     expect(route.playground.id).toBe('pdf');
-    expect(route.example).toBeNull();
-    expect(route.status).toBe('planned');
+    expect(route.example?.id).toBe('exports');
+    expect(route.status).toBe('exports');
   });
 
   it('preserves other query values and the fragment when choosing a sample', () => {
@@ -51,9 +51,9 @@ describe('shared playground URLs', () => {
   it('clears the previous sample when choosing a planned package', () => {
     const url = createPlaygroundUrl(
       'https://playground.example/?package=datagrid&sample=editing',
-      readPlaygroundRoute('?package=components'),
+      readPlaygroundRoute('?package=tailwind-config'),
     );
-    expect(url.searchParams.get('package')).toBe('components');
+    expect(url.searchParams.get('package')).toBe('tailwind-config');
     expect(url.searchParams.has('sample')).toBe(false);
   });
 });

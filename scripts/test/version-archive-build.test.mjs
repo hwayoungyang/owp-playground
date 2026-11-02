@@ -21,6 +21,33 @@ test('accepts version-prefixed asset URLs without weakening the root deployment 
   await assert.rejects(validateBuild(data.directory));
 });
 
+test('accepts an available Playground without advertising it as completed knowledge', async (t) => {
+  const data = await fixture(t);
+  const catalogFile = path.join(data.directory, 'packages.json');
+  const catalog = JSON.parse(await readFile(catalogFile, 'utf8'));
+  const components = { id: 'components', name: '@owp/components', version: '4.0.0', status: 'available' };
+  catalog.packages.push(components);
+  await writeFile(catalogFile, JSON.stringify(catalog));
+  assert.deepEqual(await validateArchivedBuild(data.directory, data.release.basePath), [
+    { id: 'datagrid', name: '@owp/datagrid', version: '3.5.0' },
+  ]);
+
+  const indexFile = path.join(data.directory, 'knowledge/index.json');
+  const index = JSON.parse(await readFile(indexFile, 'utf8'));
+  index.packages.push({ id: components.id, name: components.name, version: components.version });
+  await writeFile(indexFile, JSON.stringify(index));
+  await assert.rejects(validateArchivedBuild(data.directory, data.release.basePath), code('INVALID_DATA'));
+});
+
+test('rejects an available Playground with a missing installed version', async (t) => {
+  const data = await fixture(t);
+  const catalogFile = path.join(data.directory, 'packages.json');
+  const catalog = JSON.parse(await readFile(catalogFile, 'utf8'));
+  catalog.packages.push({ id: 'components', name: '@owp/components', version: null, status: 'available' });
+  await writeFile(catalogFile, JSON.stringify(catalog));
+  await assert.rejects(validateArchivedBuild(data.directory, data.release.basePath), code('INVALID_DATA'));
+});
+
 test('rejects root asset URLs that would escape the immutable release', async (t) => {
   const data = await fixture(t);
   await writeFile(path.join(data.directory, 'index.html'), '<script src="/assets/app.js"></script>');

@@ -39,9 +39,9 @@ export const referenceEnglish = {
     'Distinguish production variance above and below target with separate fill colors.',
   '세 생산 라인의 생산량을 누적 영역으로 표시하고 주요 시점에 기준선을 추가.':
     'Show output across three production lines as stacked areas with reference lines for key events.',
-  '요일과 시간대별 생산량을 색상으로 구분해 비교 가능.':
+  '요일과 시간대별 생산량을 색상으로 구분해 비교할 수 있습니다.':
     'Compare output by day and time using color encoding.',
-  '라인·설비별 생산량을 사각형의 넓이와 색상으로 비교 가능.':
+  '라인·설비별 생산량을 사각형의 넓이와 색상으로 비교할 수 있습니다.':
     'Compare production across lines and equipment using rectangle areas and colors.',
   '값 표시': 'Show values',
   'Column 겹치기': 'Overlay columns',
@@ -85,26 +85,26 @@ export const referenceEnglish = {
   금: 'Fri',
   토: 'Sat',
   일: 'Sun',
-  '폭이 다른 Column을 겹쳐 두 기간의 라인별 생산량 비교 가능.':
+  '폭이 다른 Column을 겹쳐 두 기간의 라인별 생산량을 비교할 수 있습니다.':
     'Overlay columns of different widths to compare line output across two periods.',
   '라인별 연도 묶음과 주간·야간 생산량 누적 표시 가능.':
     'Group yearly columns by line and stack output for day and night shifts.',
-  '연도별 계획과 실적을 가로 Bar로 나란히 비교 가능.':
+  '연도별 계획과 실적을 가로 Bar로 나란히 비교할 수 있습니다.':
     'Compare yearly production plans and actual output with grouped horizontal bars.',
-  '공정별 생산량을 가로로 누적하고 연도별 합계 비교 가능.':
+  '공정별 생산량을 가로로 누적하고 연도별 합계를 비교할 수 있습니다.':
     'Stack process output horizontally to compare yearly totals.',
-  '주간조·야간조의 공정별 불량률을 좌우 대칭 Bar로 비교 가능.':
+  '주간조·야간조의 공정별 불량률을 좌우 대칭 Bar로 비교할 수 있습니다.':
     'Compare process defect rates for day and night shifts with mirrored bars.',
-  '관측된 누적 생산량을 기준으로 세 가지 운영 시나리오 예측 비교 가능.':
+  '관측된 누적 생산량을 기준으로 세 가지 운영 시나리오 예측을 비교할 수 있습니다.':
     'Compare three operating scenarios branching from observed cumulative production.',
-  '목표 대비 생산량 차이를 기준선 위와 아래 색상으로 구분 가능.':
+  '목표 대비 생산량 차이를 기준선 위와 아래 색상으로 구분할 수 있습니다.':
     'Distinguish production variance above and below target with separate fill colors.',
-  '세 생산 라인의 누적 영역 표시와 주요 시점 기준선 추가 가능.':
+  '세 생산 라인의 누적 영역을 표시하고 주요 시점 기준선을 추가할 수 있습니다.':
     'Show output across three production lines as stacked areas with reference lines.',
-  'Column과 Line 2개를 조합해 생산량·온도·가동시간을 각 축에 표시 가능.':
+  'Column과 Line 2개를 조합해 생산량·온도·가동시간을 각 축에 표시할 수 있습니다.':
     'Combine columns and two lines with separate axes for output, temperature, and operating time.',
-  '일별 평균 Column과 시간별 진동 Line을 겹쳐 표시 가능.':
+  '일별 평균 Column과 시간별 진동 Line을 겹쳐 표시할 수 있습니다.':
     'Overlay hourly vibration line readings on columns of daily averages.',
-  '라인·연도별 다단 축에 주간·야간 생산량 누적 표시 가능.':
+  '라인·연도별 다단 축에 주간·야간 생산량을 누적 표시할 수 있습니다.':
     'Stack day and night shift output on a multilevel axis grouped by line and year.',
 };

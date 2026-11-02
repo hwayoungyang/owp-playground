@@ -44,11 +44,11 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   'Box plot': 'Box plot',
   Pareto: 'Pareto',
   'Scatter clusters': 'Scatter clusters',
-  '사분위수·중앙값·수염·이상치로 측정값 분포 비교 가능.':
+  '사분위수·중앙값·수염·이상치로 측정값 분포를 비교할 수 있습니다.':
     'Compare measurement distributions using quartiles, medians, whiskers and outliers.',
   '발생 건수와 누적 비율로 우선 개선할 항목을 확인.':
     'Prioritize improvements using counts and cumulative percentages.',
-  '네 군집의 데이터 분포를 비교하며, X·Y축 범위를 확대해 상세 확인 가능.':
+  '네 군집의 데이터 분포를 비교하며, X·Y축 범위를 확대해 자세히 확인할 수 있습니다.':
     'Compare four dense point clusters and zoom X and Y axes to inspect details.',
   '게이지 값이 실시간으로 바뀌며 바늘로 현재 값 표시.':
     'Update gauge values live and indicate the current value with a needle.',
@@ -139,7 +139,8 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '표시 확장': 'Display extensions',
   조합·상태·내보내기: 'Integration and export',
   '기본 막대': 'Bar chart',
-  '월별 생산량 비교와 데이터 변경 가능.': 'Compare monthly output and update the data.',
+  '월별 생산량을 비교하고 데이터를 변경할 수 있습니다.':
+    'Compare monthly output and update the data.',
   '그룹 막대': 'Grouped bars',
   '월별 계획과 실적을 나란히 비교.': 'Compare monthly plans and actual results side by side.',
   '누적 막대': 'Stacked bars',
@@ -193,7 +194,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '축 라벨과 tooltip의 날짜·시간 서식을 변경.':
     'Adjust date and time formatting for category labels and tooltips.',
   '범례로 표시·숨김': 'Interactive legend',
-  '범례에서 series 표시·숨김과 범례 위치 변경 가능.':
+  '범례에서 series를 표시하거나 숨기고 범례 위치를 변경할 수 있습니다.':
     'Toggle series using the legend and change its position.',
   'HTML tooltip': 'HTML tooltip',
   '차트 가장자리에서도 읽을 수 있는 HTML tooltip을 표시.':
@@ -202,7 +203,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '포인터를 따라 이동하는 강조 영역과 기준선의 표시 여부를 설정 가능.':
     'Toggle the hover area and reference line at the pointer.',
   '드래그 zoom': 'Drag zoom',
-  'Drag 동작으로 차트 영역을 확대하고 초기화 버튼으로 원래 범위 복귀 가능.':
+  'Drag 동작으로 차트 영역을 확대하고 초기화 버튼으로 원래 범위로 복귀할 수 있습니다.':
     'Drag a chart area to zoom in and use the reset button to return to the original range.',
   '휠·pinch zoom': 'Wheel and pinch zoom',
   '마우스 휠이나 두 손가락 제스처로 차트를 확대 가능.':
@@ -242,10 +243,10 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '로딩 중·데이터 없음·오류 화면을 확인하고, 오류 화면에서 다시 조회 가능.':
     'Switch loading states and retry after an error.',
   'PNG 다운로드': 'PNG download',
-  '차트 메뉴에서 범례를 포함한 PNG 다운로드 실행.':
+  '차트 메뉴에서 범례를 포함한 PNG를 다운로드할 수 있습니다.':
     'Download a PNG including the legend from the chart menu.',
   '외부 버튼으로 내보내기': 'Export from an external button',
-  '외부 버튼으로 PNG 저장 및 미리보기 실행.':
+  '외부 버튼으로 PNG를 저장하고 미리 볼 수 있습니다.':
     'Save a PNG or open a preview using external controls.',
   '{{month}}월': 'Month {{month}}',
   '표시할 월 수': 'Visible months',
@@ -354,79 +355,83 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   항목: 'Category',
   'OWP API의 문자열을 숫자로 변환해 ChartFrame에 전달. 데이터 탭에서 같은 값을 OWP_DATA 필드로 확인 가능.':
     'Convert OWP API strings to numbers before passing them to ChartFrame. The Data tab shows the same values as OWP_DATA fields.',
-  '월별 계획과 실적을 나란히 비교 가능.': 'Compare monthly plans and actual results side by side.',
-  '라인별 생산량을 누적하고 합계 비교 가능.': 'Stack production by line and compare totals.',
-  '월별 생산 비중을 백분율로 비교 가능.': 'Normalize monthly output to compare percentage shares.',
-  '라인별 생산량을 가로 방향으로 비교 가능.': 'Compare production lines with horizontal bars.',
+  '월별 계획과 실적을 나란히 비교할 수 있습니다.':
+    'Compare monthly plans and actual results side by side.',
+  '라인별 생산량을 누적하고 합계를 비교할 수 있습니다.':
+    'Stack production by line and compare totals.',
+  '월별 생산 비중을 백분율로 비교할 수 있습니다.':
+    'Normalize monthly output to compare percentage shares.',
+  '라인별 생산량을 가로 방향으로 비교할 수 있습니다.':
+    'Compare production lines with horizontal bars.',
   '월별 생산 추이를 선으로 표시하며, 선의 곡률 조절 가능.':
     'Show monthly trends and adjust line tension.',
-  '여러 라인의 생산 추이를 같은 축에서 비교 가능.':
+  '여러 라인의 생산 추이를 같은 축에서 비교할 수 있습니다.':
     'Compare production trends for several lines on one axis.',
-  '공정별 생산 비중 비교와 Doughnut 두께 조절·빈 상태 확인 가능.':
+  '공정별 생산 비중을 비교하고 Doughnut 두께를 조절하거나 빈 상태를 확인할 수 있습니다.':
     'Compare production shares by process, adjust cutout thickness, and inspect the empty state.',
-  '공정별 처리 수량의 비중을 Semi-circle로 비교 가능.':
+  '공정별 처리 수량의 비중을 Semi-circle로 비교할 수 있습니다.':
     'Compare each process share of completed operations in a semicircle.',
-  '실시간 Gauge 값과 바늘 움직임 확인 가능.':
+  '실시간 Gauge 값과 바늘 움직임을 확인할 수 있습니다.':
     'Update gauge values live and verify needle movement.',
-  '두 생산 라인의 6개 지표를 같은 척도로 비교 가능.':
+  '두 생산 라인의 6개 지표를 같은 척도로 비교할 수 있습니다.':
     'Compare six core capabilities of two production lines on the same scale.',
   '수량과 비율을 서로 다른 좌우 Y축으로 비교 가능.':
     'Compare quantities and percentages on separate left and right Y axes.',
-  '단위와 범위가 다른 3개 지표를 각 Y축에 표시 가능.':
+  '단위와 범위가 다른 3개 지표를 각 Y축에 표시할 수 있습니다.':
     'Display MTTF, MTBF and achievement across three separate Y axes.',
-  '100%를 초과하는 달성률 수치를 잘림 없이 표시 가능.':
+  '100%를 초과하는 달성률 수치를 잘림 없이 표시할 수 있습니다.':
     'Display achievement rates exceeding 100% without clipping.',
   '축 라벨과 tooltip의 날짜·시간 서식 변경 가능.':
     'Adjust date and time formats for axis labels and tooltips.',
   '범례에서 series 선택 표시·숨김 및 범례 위치 변경 가능.':
     'Toggle series visibility and reposition the chart legend.',
-  '차트 가장자리에서도 읽기 쉬운 HTML tooltip 표시 가능.':
+  '차트 가장자리에서도 읽기 쉬운 HTML tooltip을 표시할 수 있습니다.':
     'Display an HTML tooltip that stays fully readable near chart edges.',
-  '포인터를 따라 이동하는 강조 영역과 기준선 표시 설정 가능.':
+  '포인터를 따라 이동하는 강조 영역과 기준선 표시를 설정할 수 있습니다.':
     'Configure hover highlight areas and reference line display.',
-  '하단 slider로 표시할 월 범위 조절 가능.':
+  '하단 slider로 표시할 월 범위를 조절할 수 있습니다.':
     'Adjust the visible month range using the bottom slider.',
-  '좌우 slider로 수량과 달성률 범위 독립 조절 가능.':
+  '좌우 slider로 수량과 달성률 범위를 독립적으로 조절할 수 있습니다.':
     'Adjust quantity and achievement domains independently using side sliders.',
-  '마우스 Wheel이나 터치 Pinch로 차트 확대·축소 가능.':
+  '마우스 Wheel이나 터치 Pinch로 차트를 확대·축소할 수 있습니다.':
     'Zoom in and out using mouse wheel or touch pinch gestures.',
-  '표시 기간이 다른 두 차트의 Crosshair·Tooltip·확대 범위 동기화 가능.':
+  '표시 기간이 다른 두 차트의 Crosshair·Tooltip·확대 범위를 동기화할 수 있습니다.':
     'Synchronize crosshair, tooltip and zoom independently between charts with different periods.',
-  'Column·Bar의 데이터 라벨 표시 위치와 방향 변경 가능.':
+  'Column·Bar의 데이터 라벨 표시 위치와 방향을 변경할 수 있습니다.':
     'Configure data label placement and orientation for columns and bars.',
-  '목표값에 따른 수평 기준선 위치 변경 가능.':
+  '목표값에 따른 수평 기준선 위치를 변경할 수 있습니다.':
     'Move horizontal reference line positions dynamically based on target values.',
-  '정상 범위를 음영으로 표시하며 범위 폭 조절 가능.':
+  '정상 범위를 음영으로 표시하며 범위 폭을 조절할 수 있습니다.':
     'Display normal operating ranges with shaded bands and adjust their width.',
-  '실적 변화 방향을 선형 추세선으로 확인 가능.':
+  '실적 변화 방향을 선형 추세선으로 확인할 수 있습니다.':
     'Inspect performance trend direction using a linear trendline.',
-  '실시간 추가 데이터 확인과 자동 갱신 일시정지·재개 가능.':
+  '실시간으로 추가되는 데이터를 확인하고 자동 갱신을 일시정지·재개할 수 있습니다.':
     'Verify real-time streaming data and pause or resume live updates.',
   'min/max 다운샘플링 적용 대량 시계열 추이 확인 가능.':
     'Inspect long-span time series trends with min/max downsampling.',
-  '셀의 추세 표시와 데이터 갱신에 따른 차트 변경 확인 가능.':
+  '셀의 추세 표시와 데이터 갱신에 따른 차트 변경을 확인할 수 있습니다.':
     'Display in-cell sparklines and observe chart updates when data changes.',
-  '그리드 행을 펼쳐 요일별 생산량 차트 확인 가능.':
+  '그리드 행을 펼쳐 요일별 생산량 차트를 확인할 수 있습니다.':
     'Expand grid rows to display detailed daily production charts.',
-  '로딩 중·데이터 없음·오류 화면 확인과 재조회 실행 가능.':
+  '로딩 중·데이터 없음·오류 화면을 확인하고 재조회를 실행할 수 있습니다.':
     'Verify loading, empty, and error states, and retry queries on error.',
   'Column과 Line 조합으로 계획·실적·달성률 비교 가능.':
     'Combine columns and lines to compare plans, actual output, and achievement rates.',
-  '자재별 월간 입고량을 그룹 Column으로 비교 가능.':
+  '자재별 월간 입고량을 그룹 Column으로 비교할 수 있습니다.':
     'Compare monthly material receipts using grouped columns.',
-  '생산 라인별 이행률을 오른쪽 백분율 축으로 비교 가능.':
+  '생산 라인별 이행률을 오른쪽 백분율 축으로 비교할 수 있습니다.':
     'Compare fulfillment by line on a right-side percentage axis.',
-  '가동률·성능·품질·종합설비효율(OEE) 지표 표시 가능.':
+  '가동률·성능·품질·종합설비효율(OEE) 지표를 표시할 수 있습니다.':
     'Display availability, performance, quality, and Overall Equipment Effectiveness (OEE).',
   '생산량 순위 정렬과 최댓값까지 남은 구간 표시 가능.':
     'Sort output rankings and display remaining distance to targets.',
   '생산량 순위 목록에서 표시할 상위 항목 수 조절 가능.':
     'Adjust the number of top-ranked items displayed from production lists.',
-  '발생 건수와 누적 비율로 우선 개선 항목 확인 가능.':
+  '발생 건수와 누적 비율로 우선 개선 항목을 확인할 수 있습니다.':
     'Identify priority improvement items using incident counts and cumulative percentages.',
-  '측정값 분포를 구간별로 비교하며 구간 수 조절 가능.':
+  '측정값 분포를 구간별로 비교하며 구간 수를 조절할 수 있습니다.':
     'Compare measurement distributions across bins and adjust bin counts.',
-  '여러 설비의 통계를 같은 축 범위에서 나란히 비교 가능.':
+  '여러 설비의 통계를 같은 축 범위에서 나란히 비교할 수 있습니다.':
     'Compare statistics across multiple equipment units with shared scale ranges.',
   '막대 (Column·Bar)': 'Column and Bar',
   '선·영역 (Line·Area)': 'Line and Area',
@@ -438,19 +443,19 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '라벨·주석 (Labels·Annotations)': 'Labels and Annotations',
   '데이터·상태·연동 (Data·State)': 'Data, State and Integration',
   'Column·Line 좌우 축': 'Column and Line on dual axes',
-  '실적 Column과 달성률 Line을 수량·백분율 축에 각각 연결 가능.':
+  '실적 Column과 달성률 Line을 수량·백분율 축에 각각 연결할 수 있습니다.':
     'Connect actual-output columns and an achievement-rate line to quantity and percentage axes respectively.',
   '날짜·시간 서식': 'Date and time formatting',
-  'category 축 라벨과 Tooltip의 날짜·시간 서식 변경 가능.':
+  'category 축 라벨과 Tooltip의 날짜·시간 서식을 변경할 수 있습니다.':
     'Change date and time formats for category axis labels and tooltips.',
   '계획·실적 Column·Line': 'Plan and actual Column and Line',
-  '계획·실적·달성률 비교와 추세선·확대 범위 확인 가능.':
+  '계획·실적·달성률을 비교하고 추세선·확대 범위를 확인할 수 있습니다.':
     'Compare plans, actual output and achievement rates, inspect trendlines, and adjust the zoom range.',
-  '생산량 순위를 가로 Bar로 정렬하고 기준값까지 남은 구간 표시 가능.':
+  '생산량 순위를 가로 Bar로 정렬하고 기준값까지 남은 구간을 표시할 수 있습니다.':
     'Rank production output using horizontal bars and show the remaining distance to a reference value.',
-  '생산량 상위 N개 항목을 Column으로 표시하고 항목 수 조절 가능.':
+  '생산량 상위 N개 항목을 Column으로 표시하고 항목 수를 조절할 수 있습니다.':
     'Display the top N production items as columns and adjust the number of items.',
-  '대량 시계열을 min/max로 줄여 표시하고 원본·표시 데이터 수 비교 가능.':
+  '대량 시계열을 min/max로 줄여 표시하고 원본·표시 데이터 수를 비교할 수 있습니다.':
     'Reduce a large time series with min/max downsampling and compare original and displayed point counts.',
   '차트 종류별 기본 구성과 기능별 설정 예제 제공. 활용 예제에서 여러 기능을 조합한 구성 확인 가능.':
     'Explore chart types and individual settings, then combine features in the use-case examples.',
@@ -469,29 +474,31 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   '막대 스타일': 'Bar styles',
   'PNG 내보내기': 'PNG export',
   '생산량 순위': 'Production ranking',
-  '단일·그룹 막대를 세로·가로 방향으로 비교 가능.':
+  '단일·그룹 막대를 세로·가로 방향으로 비교할 수 있습니다.':
     'Compare single and grouped bars in vertical and horizontal layouts.',
-  '누적·100% 막대를 세로·가로 방향으로 비교 가능.':
+  '누적·100% 막대를 세로·가로 방향으로 비교할 수 있습니다.':
     'Compare stacked and 100% bars in vertical and horizontal layouts.',
-  '단일·다중 Line 비교와 Tension 조절 가능.':
+  '단일·다중 Line을 비교하고 Tension을 조절할 수 있습니다.':
     'Compare single and multiple lines and adjust their curvature.',
-  '목표 대비 차이와 여러 series의 누적 영역 비교 가능.':
+  '목표 대비 차이와 여러 series의 누적 영역을 비교할 수 있습니다.':
     'Compare differences from the target and stacked areas for multiple series.',
-  'Pie·Doughnut·반원·다중 고리 비교와 값·색상·범례 설정 가능.':
+  'Pie·Doughnut·반원·다중 고리를 비교하고 값·색상·범례를 설정할 수 있습니다.':
     'Compare pie, doughnut, semicircle and multiple rings, and configure values, colors and legends.',
-  '범례 위치·제목·Point 표시와 표시 전환·이벤트 확인 가능.':
+  '범례 위치·제목·Point 표시를 설정하고 표시 전환·이벤트를 확인할 수 있습니다.':
     'Configure legend position, title and points, and inspect visibility changes and events.',
-  'Tooltip 내용·탐색 방식·위치·Point 표시 비교 가능.':
+  'Tooltip 내용·탐색 방식·위치·Point 표시를 비교할 수 있습니다.':
     'Compare tooltip content, interaction modes, positions and point markers.',
-  '축 범위·눈금·격자·제목 설정 비교 가능.': 'Compare axis ranges, ticks, grids and titles.',
-  '선 모양·보간·Point 모양과 기준값별 스타일 비교 가능.':
+  '축 범위·눈금·격자·제목 설정을 비교할 수 있습니다.':
+    'Compare axis ranges, ticks, grids and titles.',
+  '선 모양·보간·Point 모양과 기준값별 스타일을 비교할 수 있습니다.':
     'Compare line patterns, interpolation, point shapes and threshold styles.',
-  '제목·부제목의 표시·정렬·여러 줄 구성과 PNG 내보내기 실행.':
+  '제목·부제목의 표시·정렬·여러 줄 구성을 설정하고 PNG를 내보낼 수 있습니다.':
     'Configure title and subtitle display, alignment and multiple lines, and export PNG.',
-  '막대의 radius와 기준값별 색상 설정 비교 가능.': 'Compare bar radius and threshold-based colors.',
-  '차트 메뉴·외부 버튼으로 PNG 저장과 미리보기 실행.':
+  '막대의 radius와 기준값별 색상 설정을 비교할 수 있습니다.':
+    'Compare bar radius and threshold-based colors.',
+  '차트 메뉴 또는 외부 버튼으로 PNG를 저장하고 외부 버튼으로 미리 볼 수 있습니다.':
     'Save and preview PNG images using the chart menu or external buttons.',
-  '가로 순위 Bar와 상위 N개 Column 비교 및 항목 수 조절 가능.':
+  '가로 순위 Bar와 상위 N개 Column을 비교하고 항목 수를 조절할 수 있습니다.':
     'Compare horizontal ranking bars and top-N columns, and adjust the item count.',
   '구성 방식': 'Configuration',
   '전용 컴포넌트': 'Dedicated component',
@@ -622,7 +629,7 @@ export const chartEnglish: Readonly<Record<string, string>> = {
   'Bar border radius': 'Bar border radius',
   'Conditional bar colors': 'Conditional bar colors',
   'External PNG export': 'External PNG export',
-  '월별 생산 추이를 선으로 표시하며, Tension 조절 가능.':
+  '월별 생산 추이를 선으로 표시하며, Tension을 조절할 수 있습니다.':
     'Display monthly production trends with adjustable Tension.',
   '차트 유형': 'Chart types',
   axis·시간: 'Axes and time',

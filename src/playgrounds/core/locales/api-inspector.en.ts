@@ -91,6 +91,12 @@ export const apiInspectorEnglish: Readonly<Record<string, string>> = {
   'Message.API 요청은 최대 30건만 표시됩니다.': 'Up to 30 API requests are shown.',
 };
 
-export const apiInspectorKorean: Readonly<Record<string, string>> = Object.fromEntries(
-  Object.keys(apiInspectorEnglish).map((key) => [key, key.replace(/^(?:Label|Message)\./, '')]),
-);
+export const apiInspectorKorean: Readonly<Record<string, string>> = {
+  ...Object.fromEntries(
+    Object.keys(apiInspectorEnglish).map((key) => [key, key.replace(/^(?:Label|Message)\./, '')]),
+  ),
+  'Message.성능을 위해 일부 숨겨져 있습니다.': '성능을 위해 일부 항목을 숨겼습니다.',
+  'Message.대용량 데이터는 압축된 미리보기로 표시됩니다. 전체 보기에서는 필요한 항목만 펼쳐서 확인할 수 있습니다.':
+    '대용량 데이터는 요약해서 표시합니다. 전체 보기에서 필요한 항목을 펼쳐 확인할 수 있습니다.',
+  'Message.대용량 데이터는 압축된 미리보기로 표시됩니다.': '대용량 데이터는 요약해서 표시합니다.',
+};

@@ -2,18 +2,39 @@ import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { chartEnglish } from '../playgrounds/charts/locales/en';
 import { coreEnglish } from '../playgrounds/core/locales/en';
+import { componentsEnglish } from '../playgrounds/components/locales/en';
+import {
+  componentsOwpEnglish,
+  componentsOwpKorean,
+} from '../playgrounds/components/locales/owp.en';
 import { apiInspectorKorean } from '../playgrounds/core/locales/api-inspector.en';
 import { chartOwpEnglish } from '../playgrounds/charts/locales/owp.en';
 import { catalogEnglish } from '../playgrounds/datagrid/locales/catalog.en';
 import { owpEnglish } from '../playgrounds/datagrid/locales/owp.en';
 import { appEnglish } from '../shared/i18n/app.en';
+import { koreanOverrides } from '../shared/i18n/korean-overrides';
+import { normalizeAppTerminology } from '../shared/i18n/reference-copy';
+import { publicApiEnglish, publicApiKorean } from '../features/public-api/locales';
 
-const english = { ...appEnglish, ...catalogEnglish, ...chartEnglish, ...coreEnglish };
+const english = {
+  ...publicApiEnglish,
+  ...appEnglish,
+  ...catalogEnglish,
+  ...chartEnglish,
+  ...coreEnglish,
+  ...componentsEnglish,
+};
 const korean = Object.fromEntries(
-  Object.keys(english).map((key) => [
-    key,
-    key.replace(/_(?:zero|one|two|few|many|other|theme)$/, ''),
-  ]),
+  Object.entries({
+    ...Object.fromEntries(
+      Object.keys(english).map((key) => [
+        key,
+        key.replace(/_(?:zero|one|two|few|many|other|theme)$/, ''),
+      ]),
+    ),
+    ...koreanOverrides,
+    ...publicApiKorean,
+  }).map(([key, value]) => [key, normalizeAppTerminology(value)]),
 );
 const coreKorean = {
   ...apiInspectorKorean,
@@ -53,9 +74,12 @@ await i18next.use(initReactI18next).init({
   keySeparator: false,
   nsSeparator: false,
   resources: {
-    ko: { app: korean, owp: { ...korean, ...coreKorean } },
-    kr: { app: korean, owp: { ...korean, ...coreKorean } },
-    en: { app: english, owp: { ...english, ...owpEnglish, ...chartOwpEnglish } },
+    ko: { app: korean, owp: { ...componentsOwpKorean, ...korean, ...coreKorean } },
+    kr: { app: korean, owp: { ...componentsOwpKorean, ...korean, ...coreKorean } },
+    en: {
+      app: english,
+      owp: { ...componentsOwpEnglish, ...english, ...owpEnglish, ...chartOwpEnglish },
+    },
   },
   interpolation: { escapeValue: false },
   initAsync: false,

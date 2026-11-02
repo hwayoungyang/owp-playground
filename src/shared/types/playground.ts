@@ -11,4 +11,5 @@ export type ExampleMetadata = {
 export type NavigationCategory = {
   readonly id: string;
   readonly label: string;
+  readonly section?: 'reference';
 };

@@ -1,0 +1,21 @@
+export const workbenchEnglish: Readonly<Record<string, string>> = {
+  '{{package}}에서 검색': 'Search in {{package}}',
+  '{{name}} 즐겨찾기': 'Favorite {{name}}',
+  '즐겨찾기에서 제거': 'Remove from favorites',
+  '현재 페이지를 즐겨찾기에 추가': 'Add current page to favorites',
+  '즐겨찾기는 최대 12개까지 저장할 수 있습니다.': 'You can save up to 12 favorites.',
+  즐겨찾기: 'Favorites',
+  '최근 방문': 'Recently visited',
+  '최근 방문·즐겨찾기는 현재 탭에서만 유지됩니다.':
+    'Recent pages and favorites are kept only in this tab.',
+  '사이트 화면 테마 전환': 'Switch site appearance',
+  'API 참조': 'API reference',
+  '나란히 보기': 'Side by side',
+  '본문만 보기': 'Content only',
+  '코드만 보기': 'Code only',
+  '본문과 코드 너비 조절': 'Resize content and code',
+  '관련 예제로 이동': 'Open related example',
+  '현재 예제의 초기 상태로 되돌립니다.': 'Restore the current example to its initial state.',
+  작업: 'Workspace',
+  '실행 결과': 'Inspect',
+};

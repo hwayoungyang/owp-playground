@@ -1,0 +1,207 @@
+.components-api {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.components-api > *,
+.components-api-article > *,
+.components-api .code-viewer {
+  min-width: 0;
+  max-width: 100%;
+}
+.components-api a {
+  color: var(--pg-blue);
+  text-underline-offset: 3px;
+}
+.components-api a:hover {
+  text-decoration-thickness: 2px;
+}
+.components-api :is(a, summary, .components-api-table-scroll):focus-visible {
+  outline: 2px solid var(--pg-blue);
+  outline-offset: 4px;
+}
+.components-api .components-api-back {
+  display: inline-block;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+.components-api .workspace-title-row,
+.components-api .workspace-title-row h1 {
+  min-width: 0;
+  max-width: 100%;
+}
+.components-api .components-api-description {
+  margin: 16px 0 24px;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.components-api-article {
+  margin-top: 24px;
+}
+.components-api-article > .components-api-description {
+  margin-top: 0;
+}
+.components-api .components-api-meta {
+  color: var(--pg-muted);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+.components-api-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.components-api-search > .MuiTextField-root {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+.components-api-index > section + section,
+.components-api-article > section + section {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--pg-line);
+}
+.components-api h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.components-api h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.components-api h4 {
+  margin: 24px 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.components-api-index-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 0 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.components-api-index-list > li {
+  min-width: 0;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--pg-line);
+}
+.components-api-index-list a {
+  font-size: 14px;
+  font-weight: 600;
+}
+.components-api-index-list p {
+  margin: 8px 0 0;
+  color: var(--pg-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+.components-api code {
+  font-family: var(--font-mono);
+}
+.components-api-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.components-api table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: left;
+}
+.components-api th,
+.components-api td {
+  padding: 16px;
+  border-bottom: 1px solid var(--pg-line);
+  vertical-align: top;
+}
+.components-api thead th {
+  color: var(--pg-secondary);
+  background: var(--pg-hover);
+  font-weight: 600;
+}
+.components-api tbody th {
+  min-width: 140px;
+  font-weight: 500;
+}
+.components-api td:nth-child(2) {
+  min-width: 200px;
+}
+.components-api td:last-child {
+  min-width: 200px;
+}
+.components-api table code {
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+.components-api-original {
+  white-space: pre-wrap;
+}
+.components-api-source,
+.components-api-tag {
+  display: block;
+  margin-top: 8px;
+  color: var(--pg-muted);
+  font: 11px / 1.7 var(--font-ui);
+}
+.components-api summary {
+  cursor: pointer;
+  padding: 12px 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+.components-api .components-api-variant > summary {
+  font: 13px / 1.7 var(--font-mono);
+}
+.components-api .components-api-declaration {
+  margin-bottom: 16px;
+}
+.components-api .guide-code .code-scroll {
+  max-height: 480px;
+}
+.components-api-inherited {
+  margin-top: 16px;
+}
+.components-api-signature + .components-api-signature {
+  margin-top: 32px;
+}
+.components-api-related {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.components-api-related li + li {
+  margin-top: 8px;
+}
+.components-api-related li a + a {
+  display: inline-block;
+  margin-left: 16px;
+  font-size: 13px;
+}
+
+.api-contract-table .api-requirement {
+  font-size: 11px;
+}
+.api-contract-table .api-requirement span {
+  display: inline-block;
+  border-radius: 4px;
+  padding: 2px 6px;
+  background: var(--pg-shell-hover);
+  color: var(--pg-shell-secondary);
+  white-space: nowrap;
+  font: 400 11px/1.7 var(--font-ui);
+}
+.api-contract-table .api-requirement [data-required="true"] {
+  background: var(--pg-shell-selected);
+  color: var(--pg-shell-ink);
+  font-weight: 500;
+}

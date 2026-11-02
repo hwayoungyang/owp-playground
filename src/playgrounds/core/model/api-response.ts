@@ -1,4 +1,3 @@
-import { z } from 'zod';
 import rowsUrl from '../data/processes.json?url&no-inline';
 import emptyUrl from '../data/processes-empty.json?url&no-inline';
 import errorUrl from '../data/processes-error.json?url&no-inline';
@@ -13,11 +12,12 @@ import rawFalseUrl from '../data/api-raw-false.json?url&no-inline';
 import rawZeroUrl from '../data/api-raw-zero.json?url&no-inline';
 import rawEmptyStringUrl from '../data/api-raw-empty-string.json?url&no-inline';
 import rawNullUrl from '../data/api-raw-null.json?url&no-inline';
+import type { ApiResponseObservation } from './api-response-observation';
 
 export const owpEndpoints = {
   '조회 결과 있음': rowsUrl,
   '조회 결과 없음': emptyUrl,
-  '오류 응답': errorUrl,
+  '업무 오류 (STATUS_0)': errorUrl,
   'resultCode 없음': missingCodeUrl,
   'resultCode가 null': nullCodeUrl,
   '배열 응답': arrayUrl,
@@ -37,7 +37,7 @@ export const rawEndpoints = {
 export const owpResponseTypes = [
   '조회 결과 있음',
   '조회 결과 없음',
-  '오류 응답',
+  '업무 오류 (STATUS_0)',
   'resultCode 없음',
   'resultCode가 null',
   '배열 응답',
@@ -59,9 +59,6 @@ export const mutationPolicies = [...queryPolicies, '호출부 직접 판정'] as
 export const requestModes = ['Query', 'Mutation (GET)'] as const;
 export const responseModes = ['owp', 'raw'] as const;
 export const requestInit = { headers: { Accept: 'application/json' }, parseAs: 'json' } as const;
-export const resultSchema = z.object({
-  resultData: z.array(z.object({ id: z.string(), nameKo: z.string(), nameEn: z.string() })),
-});
 
 export type ApiJsonBody =
   | string
@@ -89,8 +86,16 @@ export type ApiRequestOptions = {
 };
 export type ApiOutcome =
   | { readonly kind: 'idle' }
-  | { readonly kind: 'success'; readonly data: ApiJsonBody }
-  | { readonly kind: 'error'; readonly message: string };
+  | {
+      readonly kind: 'success';
+      readonly data: ApiJsonBody;
+      readonly response?: ApiResponseObservation;
+    }
+  | {
+      readonly kind: 'error';
+      readonly message: string;
+      readonly response?: ApiResponseObservation;
+    };
 
 export const responseGuidance = {
   raw: 'raw는 HTTP 성공 시 JSON body 전체를 반환합니다. 업무 코드·인증 응답 판정과 성공 알림은 생략하고 HTTP·네트워크 오류와 오류 알림 설정은 유지합니다.',

@@ -1,4 +1,7 @@
+import { workbenchEnglish } from './workbench.en';
+
 export const appEnglish: Readonly<Record<string, string>> = {
+  ...workbenchEnglish,
   'MCP 서버 연결': 'Connect to the MCP server',
   'MCP는 지원이 완료된 패키지의 공개 API·가이드·실행 예제를 제공합니다. AI가 설치 버전에 맞는 설정과 사용 방법을 같은 스냅샷에서 확인할 수 있습니다.':
     'MCP provides public APIs, guides, and executable examples for supported packages. AI can use the same snapshot to check setup and usage for the installed version.',
@@ -6,7 +9,7 @@ export const appEnglish: Readonly<Record<string, string>> = {
     'Add the server details below in your app’s MCP settings. The settings location and format vary by app.',
   '서버 이름: owp': 'Server name: owp',
   '전송 방식: Streamable HTTP': 'Transport: Streamable HTTP',
-  '공용 MCP 주소': 'Shared MCP URL',
+  '공용 MCP 주소': 'MCP server URL',
   '<OWP_MCP_URL>에 팀 공용 서버의 기본 주소를 입력합니다. /mcp는 MCP 연결 경로입니다. 주소·인증·접근 권한은 Impix SmartBiz 팀에 확인해 주세요.':
     'Replace <OWP_MCP_URL> with the team’s shared server base URL. /mcp is the MCP connection path. Confirm the URL, authentication, and access permissions with the Impix SmartBiz team.',
   '연결 정보를 등록한 뒤 아래 예시로 요청합니다. 예시는 Playground에 설치된 정확한 패키지 버전을 사용하므로, 프로젝트의 설치 버전이 다르면 해당 버전으로 바꾸어 요청하세요.':
@@ -121,6 +124,41 @@ export const appEnglish: Readonly<Record<string, string>> = {
   'API를 찾을 수 없음. 이름으로 검색 가능.':
     'The requested API was not found. Search for its current name.',
   '타입 정의·관련 예제 참고.': 'See type definitions and examples.',
+  '공개 API의 타입과 동작을 살펴보고 사용 예제를 확인합니다.':
+    'View public API types, behavior and examples.',
+  'API를 찾을 수 없습니다. 이름으로 검색해 주세요.':
+    'The requested API was not found. Search for its current name.',
+  '타입 정의와 관련 예제를 참고해 주세요.': 'See type definitions and examples.',
+  '타입별로 허용되는 값과 필수 여부, 기본값은 각 타입 분기를 확인해 주세요.':
+    'See each variant for allowed values, requirements and defaults.',
+  '각 타입의 조건을 모두 충족해야 합니다. 자세한 제약은 원본 정의를 확인해 주세요.':
+    'All type conditions must be met. See the source definitions for constraints.',
+  '타입 인자에 따라 허용 범위가 좁아질 수 있습니다.':
+    'The type argument may narrow the allowed values.',
+  '설치된 registry의 타입을 표시합니다. module augmentation으로 확장할 수 있습니다. 사용하려는 controller와 plugin이 등록되어 있는지 확인해 주세요.':
+    'Types from the installed registry; extensible through module augmentation. Check controller and plugin registration before use.',
+  '타입 인자를 생략했을 때 적용되는 기본 타입입니다.':
+    'The default type used when a type argument is omitted.',
+  'Chart.js의 원본 타입입니다. OWP 설정·callback·배열 지원은 관련 타입과 예제를 확인해 주세요.':
+    'Chart.js type definition. See related types and examples for OWP configuration, callbacks and arrays.',
+  '입력값은 다이얼로그를 연 시점의 행. 전달받은 API로 버튼을 누른 시점의 메인 Grid 조회 가능.':
+    'The fields use the row captured when the dialog opened. Query the passed API to read main Grid values when the button is pressed.',
+  'Hook과 Ref는 같은 Grid API를 제공하며 연결 방식만 다름.':
+    'Hook and Ref expose the same Grid API through different connections.',
+  '안정적인 API 객체로 연결된 Grid 제어 가능. 연결 전·해제 후 호출 시 ReferenceError 발생.':
+    'Control the connected Grid through a stable API object. Calls before connection or after disconnection throw ReferenceError.',
+  'ref.current로 연결된 Grid 제어 가능. 연결 전·해제 후 current는 null.':
+    'Control the connected Grid through ref.current. The current value is null before connection and after disconnection.',
+  'hasUnsavedChanges()로 미확정 입력까지 감지 가능. getChanges()는 working-copy 변경만 반환. 현재 변경 상태 조회 버튼은 편집을 확정하지 않으며, 결과는 조회 시점 기준.':
+    'hasUnsavedChanges() includes uncommitted input; getChanges() returns working-copy changes. The Inspect current changes button keeps the editor open and shows values at the time of the query.',
+  '업로드 payload 준비': 'Prepare an upload payload',
+  '저장소 경계': 'Storage boundary',
+  '화면 잠금 로딩 정책': 'Page lock loading policy',
+  'query는 DT를 FR_DATE·TO_DATE로 나누고, form은 두 날짜를 DT로 합칩니다. JSON 변환은 숫자·boolean을 문자열로 바꾸며, 이 예제는 요청 로그 필드를 제외합니다.':
+    'query splits DT into FR_DATE and TO_DATE; form combines the two dates into DT. JSON conversion turns numbers and booleans into strings. This example excludes request log fields.',
+  '동적 import(청크) 실패는 sessionStorage 키 기준으로 1회 자동 새로고침을 시도하며, 일반 렌더 오류는 원인을 해결한 뒤 key 재마운트로 복구합니다.':
+    'Dynamic import (chunk) failures attempt a one-time reload tracked in sessionStorage, while ordinary render errors recover by remounting with a new key.',
+  '렌더 오류 경계와 수동 복구': 'Render error boundary and manual recovery',
   Requirement: 'Requirement',
   Required: 'Required',
   Optional: 'Optional',

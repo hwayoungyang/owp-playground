@@ -1,3 +1,4 @@
+import { coreClarityEnglish } from './clarity.en';
 import { basicEnglish } from './basic.en';
 import { advancedEnglish } from './advanced.en';
 import { sessionEnglish } from './session.en';
@@ -16,6 +17,7 @@ export const coreEnglish: Readonly<Record<string, string>> = {
   ...apiInspectorEnglish,
   ...addedFeaturesEnglish,
   ...extensionsEnglish,
+  ...coreClarityEnglish,
   'Label.검색': 'Search',
   시작하기: 'Getting started',
   문서: 'Documentation',
@@ -53,9 +55,9 @@ export const coreEnglish: Readonly<Record<string, string>> = {
     'Query a list with API hooks and handle no results and errors.',
   '검색 조건과 결과를 페이지의 header와 content로 구성합니다.':
     'Arrange search filters and results in the page header and content.',
-  '검색 조건과 결과를 페이지의 header·content로 구성하고 페이지 이탈을 보호합니다.':
+  '검색 조건과 결과를 페이지의 header·content에 배치하고, 저장하지 않은 변경 내용이 있을 때 페이지 이동을 확인합니다.':
     'Arrange search filters and results in the page header and content, and guard against leaving with unsaved changes.',
-  '제목·보조 영역·액션을 조합하고 로딩 상태와 반응형 배치를 확인합니다.':
+  '제목·보조 영역·작업 버튼을 배치하고 로딩 상태와 반응형 배치를 확인합니다.':
     'Compose titles, slots and actions, then compare loading and responsive layouts.',
   '검색 조건을 입력해 조회하고 조건 초기화와 비동기 진행 상태를 확인합니다.':
     'Submit search criteria and try reset and asynchronous progress.',
@@ -65,16 +67,16 @@ export const coreEnglish: Readonly<Record<string, string>> = {
     'Load a local response with the API selector and inspect the selected value.',
   '같은 공통코드 데이터를 Select와 Radio group으로 선택합니다.':
     'Select from the same common code data with Select and Radio group.',
-  '다이얼로그를 열고 결과를 받아 저장하며 미저장 변경을 보호합니다.':
+  '다이얼로그를 열어 입력값을 저장하고, 저장하지 않은 변경 내용을 확인합니다.':
     'Open a dialog, save its returned value and protect unsaved changes.',
   '공통 dialog hook으로 확인·취소에 따른 상태 변화를 확인합니다.':
     'Use the shared dialog hook to compare confirm and cancel outcomes.',
   '로딩 indicator의 종류와 크기를 비교합니다.': 'Compare loading indicator styles and sizes.',
-  '로딩 indicator 옵션과 화면 잠금 로딩 정책을 비교합니다.':
+  '로딩 표시 옵션과 작업 완료·실패 시 화면 잠금 해제 동작을 비교합니다.':
     'Compare loading indicator options and the page lock loading policy.',
   '오류 경계에서 렌더 오류를 처리하고 복구합니다.':
     'Catch a render error with an error boundary and restore the content.',
-  '렌더 오류 경계와 Data Router 라우트 오류를 처리하고 복구합니다.':
+  '렌더링 오류와 Data Router의 라우트 오류를 처리하고 복구합니다.':
     'Handle and recover from render error boundaries and Data Router route errors.',
   'Core 언어 선택으로 한국어·영어 표시를 전환합니다.':
     'Switch between Korean and English with the Core language selector.',
@@ -91,7 +93,7 @@ export const coreEnglish: Readonly<Record<string, string>> = {
     'useSetSettings updates current settings, and useChangeOwpTheme updates default and current themes in memory. The app owns settings persistence; useStorage provides app environment access and storage reset.',
   '현재 글자 크기': 'Current font size',
   '기본 헤더 크기': 'Default header size',
-  '저장소 경계': 'Storage boundary',
+  '설정 상태의 저장 위치': 'Storage boundary',
   '메모리 Jotai 상태 (자동 저장 없음)': 'In-memory Jotai state (no auto-persistence)',
   '설정 미리보기': 'Settings preview',
   개수: 'Count',

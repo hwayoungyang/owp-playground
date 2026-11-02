@@ -13,7 +13,6 @@ export function CoreFeaturesGuide({
   return (
     <CoreGuideLayout
       example={example}
-      introduction="Core가 직접 구현한 기능을 역할별로 정리했습니다. 각 기능의 설정 방법과 기대효과를 확인하고 문서·실행 예제·공개 API로 이동할 수 있습니다."
       sections={coreFeatureCoverage.map((group) => ({
         id: `core-feature-${group.id}`,
         title: group.title,
@@ -39,7 +38,7 @@ export function CoreFeaturesGuide({
             })}
           </ul>
           <details className="core-feature-details">
-            <summary>{t('공개 API 목록')}</summary>
+            <summary>{t('관련 API')}</summary>
             <ul className="core-feature-apis">
               {group.api.map((name) => (
                 <li key={name}>

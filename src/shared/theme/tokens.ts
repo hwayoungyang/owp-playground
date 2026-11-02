@@ -48,7 +48,44 @@ export const codeColors = {
   mint: '#a8d4b8',
   purple: '#c2adeb',
   muted: '#9da5b4',
+  'api-highlight': '#f2cf66',
 } as const;
+
+export const shellTokens = {
+  light: {
+    page: '#f8f9fb',
+    surface: '#ffffff',
+    navigation: '#f4f5f7',
+    ink: '#20232a',
+    secondary: '#5f6774',
+    muted: '#5f6877',
+    line: '#e0e4eb',
+    hover: '#e9ecf1',
+    selected: '#e3e7ee',
+    focus: '#635bba',
+    shadow: '0 1px 2px #20232a06, 0 8px 24px #20232a05',
+  },
+  dark: {
+    page: '#101114',
+    surface: '#1a1c21',
+    navigation: '#15171b',
+    ink: '#edeef2',
+    secondary: '#acb2be',
+    muted: '#9da5b4',
+    line: '#2c3038',
+    hover: '#22252c',
+    selected: '#2b2f38',
+    focus: '#a6a0ff',
+    shadow: '0 1px 0 #ffffff04, 0 8px 24px #0000001f',
+  },
+} as const;
+
+export const shellShape = {
+  'control-radius': '6px',
+  'item-radius': '8px',
+  'panel-radius': '12px',
+} as const;
+
 export const fonts = {
   ui: '"Geist Variable", Pretendard, -apple-system, BlinkMacSystemFont, sans-serif',
   mono: '"Geist Mono Variable", ui-monospace, SFMono-Regular, monospace',

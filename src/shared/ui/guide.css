@@ -6,17 +6,37 @@
   max-width: 960px;
 }
 .guide-sections h2 {
-  margin: 0 0 8px;
+  margin: 0 0 12px;
   font-size: 16px;
-  font-weight: 550;
+  font-weight: 600;
+  line-height: 1.6;
 }
 .guide-sections p {
-  margin: 0 0 12px;
-  font-size: 12px;
-  line-height: 1.75;
+  margin: 0 0 16px;
+  font-size: 13px;
+  line-height: 1.85;
   color: var(--pg-secondary);
 }
 .guide-sections .guide-note {
-  margin: 8px 0 0;
+  margin: 16px 0;
   color: var(--pg-muted);
+}
+.guide-sections h3 {
+  margin: 24px 0 12px;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 600;
+}
+.guide-sections > section > :last-child {
+  margin-bottom: 0;
+}
+.guide-sections ul:not([class]),
+.guide-sections ol:not([class]) {
+  padding-inline-start: 24px;
+  margin-block: 16px;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.guide-sections :is(ul, ol):not([class]) > li + li {
+  margin-top: 8px;
 }

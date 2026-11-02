@@ -1,3 +1,5 @@
+import { ExampleWorkbench } from '../../../shared/ui/ExampleWorkbench';
+import { WorkspaceApiPanels } from '../../../features/public-api/WorkspaceApiPanels';
 import { ApiLinks } from '../../../features/api/ApiLinks';
 import { PreviewActionsProvider } from '../../../shared/ui/PreviewActions';
 import { useOwpTranslation } from '@owp/components/hooks';
@@ -7,14 +9,17 @@ import type { PreviewThemeSettings } from '../../../features/theme-studio/model/
 import { PreviewProvider } from '../../../features/theme-studio/PreviewProvider';
 import { EventsPanel } from '../../../shared/ui/EventsPanel';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
-import { type WorkspaceTab, WorkspaceTabs } from '../../../shared/ui/WorkspaceTabs';
+import {
+  type WorkspaceTab,
+  WorkspaceTabs,
+  resolveWorkspaceTab,
+} from '../../../shared/ui/WorkspaceTabs';
 import { categories, type GridExample } from '../catalog';
 import { gridApiDocument } from '../model/apiData';
 import type { Task } from '../model/data';
 import { getGridSourcePolicy } from '../model/sourceFiles';
 import { GridPreview } from './GridPreview';
 import { GridSettingsDrawer, type GridViewSettings } from './GridSettingsDrawer';
-import { GridStatusBar } from './GridStatusBar';
 import { GridToolbar } from './GridToolbar';
 import { useGridController } from './useGridController';
 
@@ -39,7 +44,7 @@ export function GridWorkspace({
   readonly theme: PreviewThemeSettings;
   readonly onThemeChange: (next: PreviewThemeSettings) => void;
   readonly onThemeOpen: () => void;
-  readonly initialTab?: 'preview' | 'code';
+  readonly initialTab?: 'preview' | 'code' | 'props' | 'params' | 'returns' | 'type';
   readonly codeTarget?: CodeLocation;
 }) {
   const { t } = useOwpTranslation();
@@ -54,8 +59,9 @@ export function GridWorkspace({
   };
   const [settings, setSettings] = useState(defaultSettings);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [tab, setTab] = useState<WorkspaceTab>(initialTab);
-  useEffect(() => setTab(initialTab), [initialTab, codeTarget]);
+  const supportedTab = resolveWorkspaceTab(example, initialTab);
+  const [tab, setTab] = useState<WorkspaceTab>(supportedTab);
+  useEffect(() => setTab(supportedTab), [supportedTab, codeTarget]);
   const [data, setData] = useState<readonly Task[]>([]);
   const apiDocument = useMemo(() => gridApiDocument(data, t), [data, t]);
   return (
@@ -66,6 +72,7 @@ export function GridWorkspace({
         categoryLabel={categories.find((entry) => entry.id === example.category)?.label ?? ''}
       />
       <WorkspaceTabs
+        api={example}
         idPrefix={prefix}
         value={tab}
         eventCount={controller.events.length}
@@ -79,7 +86,31 @@ export function GridWorkspace({
           }
         }}
       />
-      <div className="workspace-frame" data-rounded={Boolean(theme.radius ?? settings.radius)}>
+      <ExampleWorkbench
+        idPrefix={prefix}
+        rounded={Boolean(theme.radius ?? settings.radius)}
+        tab={tab}
+        onTabChange={setTab}
+        code={
+          <div
+            role="tabpanel"
+            id={`${prefix}-panel-code`}
+            aria-labelledby={`${prefix}-tab-code`}
+            aria-label={t('코드')}
+          >
+            <Suspense
+              fallback={<div className="workspace-loading">{t('소스를 불러오는 중…')}</div>}
+            >
+              <CodeViewer
+                example={example}
+                sourcePolicy={getGridSourcePolicy(example.id)}
+                codeTarget={codeTarget}
+                requestedCode={initialTab === 'code'}
+              />
+            </Suspense>
+          </div>
+        }
+      >
         <div
           hidden={tab !== 'preview'}
           role="tabpanel"
@@ -110,27 +141,7 @@ export function GridWorkspace({
               />
             </PreviewProvider>
           </PreviewActionsProvider>
-          <GridStatusBar controller={controller} />
         </div>
-        {tab === 'code' && (
-          <div
-            role="tabpanel"
-            id={`${prefix}-panel-code`}
-            aria-labelledby={`${prefix}-tab-code`}
-            aria-label={t('코드')}
-          >
-            <Suspense
-              fallback={<div className="workspace-loading">{t('소스를 불러오는 중…')}</div>}
-            >
-              <CodeViewer
-                example={example}
-                sourcePolicy={getGridSourcePolicy(example.id)}
-                codeTarget={codeTarget}
-                requestedCode={initialTab === 'code'}
-              />
-            </Suspense>
-          </div>
-        )}
         {tab === 'data' && (
           <div
             role="tabpanel"
@@ -160,7 +171,8 @@ export function GridWorkspace({
             />
           </div>
         )}
-      </div>
+        <WorkspaceApiPanels example={example} tab={tab} prefix={prefix} />
+      </ExampleWorkbench>
       <ApiLinks example={example} />
       <GridSettingsDrawer
         open={settingsOpen}
