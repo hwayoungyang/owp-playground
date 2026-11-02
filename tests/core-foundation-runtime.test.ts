@@ -1,5 +1,5 @@
 import { createRequire } from 'node:module';
-import type { QueryClient as OwpQueryClient } from '@tanstack/react-query';
+import type { QueryClient as OwpQueryClient } from '@owp/core/query';
 import { afterAll, expect, it, vi } from 'vitest';
 
 const coreRequire = createRequire(import.meta.resolve('@owp/core'));

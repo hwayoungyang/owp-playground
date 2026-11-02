@@ -1,6 +1,6 @@
 import { getContrastRatio } from '@mui/material/styles';
 import { ChartFrame, useChartPalette } from '@owp/charts';
-import type { ChartData, ChartOptions } from 'chart.js';
+import type { ChartData, ChartOptions } from '@owp/charts/chartjs/types';
 import type { OwpTreemapChartProps, TreemapNode } from '@owp/charts/types';
 import { createTreemapData } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';

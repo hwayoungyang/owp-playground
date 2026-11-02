@@ -1,5 +1,5 @@
 import { createOwpApiHooks } from '@owp/core/hooks';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@owp/core/query';
 
 type Item = { readonly id: string; readonly name: string };
 type ItemResponse = {

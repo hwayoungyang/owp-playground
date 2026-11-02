@@ -1,6 +1,6 @@
-import { createInstance } from 'i18next';
+import { createInstance } from '@owp/core/i18n';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider } from '@owp/core/i18n';
 import { describe, expect, it } from 'vitest';
 import { TaskStatusCell } from '../src/playgrounds/datagrid/examples/components/TaskStatusCell';
 import { createTaskRendererColumns } from '../src/playgrounds/datagrid/examples/configs/taskRenderer';

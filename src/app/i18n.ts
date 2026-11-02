@@ -1,5 +1,4 @@
-import i18next from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import { i18next, initReactI18next } from '@owp/core/i18n';
 import { chartEnglish } from '../playgrounds/charts/locales/en';
 import { coreEnglish } from '../playgrounds/core/locales/en';
 import { componentsEnglish } from '../playgrounds/components/locales/en';

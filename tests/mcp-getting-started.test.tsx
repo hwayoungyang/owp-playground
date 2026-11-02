@@ -1,5 +1,5 @@
 import { renderToStaticMarkup } from 'react-dom/server';
-import i18next from 'i18next';
+import { i18next } from '@owp/core/i18n';
 import { expect, it, vi } from 'vitest';
 import '../src/app/i18n';
 import { McpGettingStarted } from '../src/features/mcp/McpGettingStarted';

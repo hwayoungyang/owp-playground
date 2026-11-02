@@ -1,5 +1,5 @@
 import '../src/app/i18n';
-import i18next from 'i18next';
+import { i18next } from '@owp/core/i18n';
 import { describe, expect, it } from 'vitest';
 import { componentsOwpEnglish } from '../src/playgrounds/components/locales/owp.en';
 

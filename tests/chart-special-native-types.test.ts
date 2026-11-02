@@ -12,7 +12,7 @@ import type {
   TreemapDatasetOptions,
   TreemapNode,
 } from '@owp/charts/types';
-import type { ChartData, ChartOptions } from 'chart.js';
+import type { ChartData, ChartOptions } from '@owp/charts/chartjs/types';
 import {
   createBoxPlotTooltipCallbacks,
   createHeatmapData,

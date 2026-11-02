@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@mui/material';
 import { createOwpApiHooks, useOwpApiInspectorDialog } from '@owp/core/hooks';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@owp/core/query';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
 import type { QueryFixtureItem } from '../model/fixtures';

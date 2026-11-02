@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Typography } from '@mui/material';
 import { createOwpApiHooks } from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@owp/core/query';
 import { ApiRequestResult } from './components/api-request-result';
 import { createApiResponseObserver } from '../model/api-response-observation';
 import type { CoreExampleProps } from '../model/types';

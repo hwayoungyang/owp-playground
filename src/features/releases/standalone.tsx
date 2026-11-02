@@ -1,8 +1,7 @@
 import { createTheme, ThemeProvider } from '@mui/material';
-import { createInstance } from 'i18next';
+import { createInstance, I18nextProvider } from '@owp/core/i18n';
 import { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { I18nextProvider } from 'react-i18next';
 import { z } from 'zod';
 import { appEnglish } from '../../shared/i18n/app.en';
 import { colors, fonts } from '../../shared/theme/tokens';

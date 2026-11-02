@@ -1,5 +1,5 @@
 import '../src/app/i18n';
-import i18next from 'i18next';
+import { i18next } from '@owp/core/i18n';
 import { PassThrough } from 'node:stream';
 import { renderToPipeableStream, renderToStaticMarkup } from 'react-dom/server';
 import type { ReactNode } from 'react';

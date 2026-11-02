@@ -8,7 +8,7 @@ const verify = (content, file = 'src/playgrounds/core/examples/example.tsx') =>
   verifyCoreImportPolicy(collectOwpImports(file, content));
 
 describe('strict Core import ownership', () => {
-  it('accepts direct Components, Theme, Utils, Excel and TanStack owners alongside Core integrations', () => {
+  it('accepts direct Components, Theme, Utils, Excel and the public Core query entry alongside Core integrations', () => {
     expect(
       verify(`
       import { OwpDialog, OwpPageCarded, OwpPageContent, OwpSearchFilter, OwpErrorBoundary, OwpTable } from '@owp/components';
@@ -19,7 +19,7 @@ describe('strict Core import ownership', () => {
       import { recoverFromDynamicImportChunkLoadError } from '@owp/utils/browser';
       import { saveZipFile } from '@owp/utils/zip';
       import { createExportDataToExcelBuffer } from '@owp/excel';
-      import { useQueryClient } from '@tanstack/react-query';
+      import { useQueryClient, QueryClientProvider, isCancelledError } from '@owp/core/query';
       import { OwpRouteErrorElement, OwpQuerySelector } from '@owp/core';
       import { useSearchAction, usePageLeaveGuard } from '@owp/core/hooks';
       const view = <><OwpDialog open /><OwpPageCarded /><OwpPageContent /><OwpErrorBoundary /></>;
@@ -65,7 +65,7 @@ describe('strict Core import ownership', () => {
       '@owp/theme/types',
       '@owp/utils',
       '@owp/excel',
-      '@tanstack/react-query',
+      '@owp/core/query',
       '@owp/components/hooks',
     ]);
   });

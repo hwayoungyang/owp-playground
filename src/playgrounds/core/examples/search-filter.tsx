@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { MenuItem, OutlinedInput, TextField } from '@mui/material';
 import { OwpQuerySelector } from '@owp/core';
 import { OwpSearchFilter } from '@owp/components';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@owp/core/query';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
 import { queryFixture, type QueryFixtureItem } from '../model/fixtures';

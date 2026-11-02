@@ -4,7 +4,7 @@ import { createRequire } from 'node:module';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterAll, beforeAll, beforeEach, vi } from 'vitest';
 import type { CreateOwpApiHooksOptions, OwpApiMutationBehaviorOptions } from '@owp/core/hooks';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@owp/core/query';
 
 const coreRequire = createRequire(import.meta.resolve('@owp/core'));
 export const snackbars: string[] = [];

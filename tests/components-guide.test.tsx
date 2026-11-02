@@ -1,6 +1,6 @@
 import '../src/app/i18n';
 import { readFile } from 'node:fs/promises';
-import i18next from 'i18next';
+import { i18next } from '@owp/core/i18n';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import componentsManifest from '@owp/components/package.json' with { type: 'json' };

@@ -1,5 +1,5 @@
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
-import i18next, { type TFunction } from 'i18next';
+import { i18next, type TFunction } from '@owp/core/i18n';
 import type { Task } from './data';
 import type { GridConfiguration } from './gridTypes';
 

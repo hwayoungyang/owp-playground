@@ -70,8 +70,8 @@ export const clarityEnglish = {
   '현재 화면 크기 확인': 'Inspect the current device category',
   '작업 버튼 가로 스크롤': 'Horizontal scrolling for action buttons',
   '먼저 i18next 설정하기': 'Set up i18next first',
-  '앱에서 i18next를 초기화하고 initReactI18next로 연결합니다. 번역 문구는 owp namespace에 등록합니다.':
-    'Initialize i18next in the app, connect it through initReactI18next, and register translations in the owp namespace.',
+  'Core를 사용하는 앱 설정 예시입니다. @owp/core/i18n의 i18next를 초기화하고 initReactI18next로 연결하며, 번역 문구는 owp namespace에 등록합니다.':
+    'Setup for an app that uses Core. Initialize i18next from @owp/core/i18n, connect it through initReactI18next, and register translations in the owp namespace.',
   '이미 번역을 설정한 앱에서는 기존 i18next를 사용합니다. 이 Hook이 번역 설정을 초기화하지는 않습니다.':
     'Use the existing i18next instance if the app already has translations. This Hook does not initialize it.',
   '문장에 이름 넣기': 'Insert a name into a message',

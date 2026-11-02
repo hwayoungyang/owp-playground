@@ -1,5 +1,5 @@
 import '../src/app/i18n';
-import i18next from 'i18next';
+import { i18next } from '@owp/core/i18n';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, expect, it, vi } from 'vitest';
 import { PackageGettingStarted } from '../src/playgrounds/PackageGettingStarted';

@@ -1,5 +1,5 @@
 import '../src/app/i18n';
-import i18next from 'i18next';
+import { i18next } from '@owp/core/i18n';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, expect, it } from 'vitest';
 import { buildNavigationModel } from '../src/app/layout/navigation';

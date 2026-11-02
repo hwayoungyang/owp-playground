@@ -6,8 +6,7 @@ import type { ComponentsExampleProps } from '../model/types';
 import { ExampleSection } from '../runtime/ExampleSection';
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 
-const setup = `import i18next from 'i18next';
-import { initReactI18next } from 'react-i18next';
+const setup = `import { i18next, initReactI18next } from '@owp/core/i18n';
 
 await i18next.use(initReactI18next).init({
   lng: 'ko',
@@ -34,7 +33,7 @@ export function ComponentsExample({ onData }: ComponentsExampleProps) {
     <>
       <ExampleSection
         title="먼저 i18next 설정하기"
-        description="앱에서 i18next를 초기화하고 initReactI18next로 연결합니다. 번역 문구는 owp namespace에 등록합니다."
+        description="Core를 사용하는 앱 설정 예시입니다. @owp/core/i18n의 i18next를 초기화하고 initReactI18next로 연결하며, 번역 문구는 owp namespace에 등록합니다."
       >
         <Typography variant="body2">
           {t(

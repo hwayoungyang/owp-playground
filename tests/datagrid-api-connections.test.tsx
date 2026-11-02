@@ -1,8 +1,8 @@
 import { useDataGridApi } from '@owp/datagrid/hooks';
-import { createInstance } from 'i18next';
+import { createInstance } from '@owp/core/i18n';
 import type { ComponentType } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider } from '@owp/core/i18n';
 import { describe, expect, it } from 'vitest';
 import { HookConnectionGrid } from '../src/playgrounds/datagrid/examples/hook-connection';
 import { RefConnectionGrid } from '../src/playgrounds/datagrid/examples/ref-connection';

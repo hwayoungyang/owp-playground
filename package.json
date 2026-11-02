@@ -57,19 +57,14 @@
     "@owp/theme": "3.0.0",
     "@owp/utils": "1.1.0",
     "@phosphor-icons/react": "^2.1.10",
-    "@tanstack/react-query": "^5.104.5",
     "chartjs-adapter-luxon": "^1.3.1",
     "highlight.js": "^11.12.0",
-    "i18next": "^26.5.11",
     "luxon": "^3.7.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-hook-form": "^7.91.0",
-    "react-i18next": "^17.1.9",
     "react-router-dom": "^7.18.4",
-    "zod": "^4.6.7",
-    "chart.js": "^4.5.1",
-    "chartjs-plugin-datalabels": "^2.2.0"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

@@ -1,5 +1,5 @@
 import '../src/app/i18n';
-import i18next from 'i18next';
+import { i18next } from '@owp/core/i18n';
 import { parse } from 'jsonc-parser';
 import { describe, expect, it } from 'vitest';
 import { type ApiField, formatApiData } from '../src/features/code/api-data';

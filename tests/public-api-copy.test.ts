@@ -1,5 +1,5 @@
 import '../src/app/i18n';
-import i18next from 'i18next';
+import { i18next } from '@owp/core/i18n';
 import { afterEach, describe, expect, it } from 'vitest';
 import { displayPublicDescription } from '../src/features/public-api/descriptions';
 import { apiRoles, publicApiSearchText } from '../src/features/public-api/roles';

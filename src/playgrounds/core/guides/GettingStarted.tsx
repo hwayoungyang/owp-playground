@@ -1,5 +1,5 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import { Trans } from 'react-i18next';
+import { Trans } from '@owp/core/i18n';
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { McpGettingStarted } from '../../../features/mcp/McpGettingStarted';
 import { type CoreCatalogEntry } from '../catalog';

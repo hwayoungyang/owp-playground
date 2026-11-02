@@ -67,8 +67,8 @@ register(
   'loadExcelJSBrowser createExportDataToExcelBuffer exportExcelByBuffer ExcelDataMapper ExcelHeader OwpExcelJSBrowserModule',
 );
 register(
-  '@tanstack/react-query',
-  'useQueryClient QueryClient QueryClientConfig QueryObserverResult RefetchOptions',
+  '@owp/core/query',
+  'useQueryClient QueryClient QueryClientProvider QueryClientConfig QueryObserverResult RefetchOptions isCancelledError',
 );
 
 const removedPolicies = new Set([
@@ -104,7 +104,7 @@ export function verifyCoreImportPolicy(imports) {
         continue;
       }
       const expectedSpecifier = owners.get(symbol.name);
-      if (expectedSpecifier)
+      if (expectedSpecifier && expectedSpecifier !== entry.specifier)
         errors.push({ ...entry, name: symbol.name, reason: 'wrong-owner', expectedSpecifier });
     }
   }

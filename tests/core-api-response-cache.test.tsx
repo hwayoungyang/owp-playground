@@ -1,4 +1,4 @@
-import { isCancelledError } from '@tanstack/react-query';
+import { isCancelledError } from '@owp/core/query';
 import { describe, expect, it } from 'vitest';
 import {
   fetchFailureMessage,

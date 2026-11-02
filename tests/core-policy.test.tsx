@@ -1,6 +1,6 @@
 import type { PageLockLoadingProps } from '@owp/core/types';
 import { STORAGE_KEYS } from '@owp/core/constants';
-import i18next from 'i18next';
+import { i18next } from '@owp/core/i18n';
 import { createMemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 import '../src/app/i18n';

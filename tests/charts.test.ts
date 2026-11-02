@@ -1,6 +1,6 @@
 import '../src/app/i18n';
 import { access } from 'node:fs/promises';
-import i18next from 'i18next';
+import { i18next } from '@owp/core/i18n';
 import { createHistogram, downsampleMinMax } from '@owp/charts/utils';
 import { describe, expect, it } from 'vitest';
 import { chartCatalog, chartCategories, findChartEntry } from '../src/playgrounds/charts/catalog';
