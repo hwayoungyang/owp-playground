@@ -26,7 +26,7 @@ export type PublicApiKind =
   | 'type'
   | 'asset';
 export const publicApiGroups = [
-  { id: 'components', label: '컴포넌트' },
+  { id: 'components', label: 'Components' },
   { id: 'hooks', label: 'Hooks' },
   { id: 'utils', label: 'Utils' },
   { id: 'contexts', label: 'Context' },

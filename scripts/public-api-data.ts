@@ -9,6 +9,7 @@ import { readMember, readPropsVariants, readSignatures } from './components-api-
 import { declarationText, documentation, memberSource, readableType } from './components-api-text.ts';
 import { readCoreNodeFunctions } from './public-api-node.ts';
 import { publicDescription } from '../src/features/public-api/descriptions.ts';
+import { publicApiWrapper } from '../src/features/public-api/wrapper-policy.ts';
 import { componentsCatalog } from '../src/playgrounds/components/catalog.ts';
 import { coreCatalog } from '../src/playgrounds/core/catalog.ts';
 import { chartCatalog } from '../src/playgrounds/charts/catalog.ts';
@@ -135,6 +136,7 @@ export function readPublicApiPackage(root: string, id: PublicApiPackageId): Publ
   const nodeFunctions = id === 'core' ? readCoreNodeFunctions(root) : new Map<string, PublicApiSignature>();
   const entries: PublicApiEntry[] = [];
   for (const [name, records] of compiler.exports) {
+    if (publicApiWrapper(id, name)) continue;
     for (const exported of records) {
       const nodeFunction = exported.imports.some((module) => module.includes('/vite/')) ? nodeFunctions.get(name) : undefined;
       const kind = nodeFunction ? 'function' : kindOf(checker, exported);

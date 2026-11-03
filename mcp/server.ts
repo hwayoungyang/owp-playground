@@ -67,7 +67,7 @@ export function createKnowledgeServer(
     { name: mcpManifest.name, version: mcpManifest.version },
     {
       instructions:
-        '읽기 전용 OWP Knowledge입니다. 응답의 releaseId와 packageVersion을 다음 호출에 지정하면 같은 snapshot을 조회합니다. 예제와 API의 sourceUrls는 검증된 archive를 가리킵니다.',
+        '읽기 전용 OWP Knowledge입니다. 응답의 releaseId와 packageVersion을 다음 호출에 지정하면 같은 snapshot을 조회합니다. 예제와 API의 sourceUrls는 검증된 archive를 가리킵니다. OWP wrapper 컴포넌트·Hook·함수가 있으면 원본 API나 re-export보다 항상 먼저 조회하고 사용합니다. 번역은 @owp/components/hooks의 useOwpTranslation, API 요청은 @owp/core/hooks의 createOwpApiHooks, Query Provider 구성은 @owp/core/contexts의 OwpCoreProvider를 우선합니다. wrapper의 소유 패키지와 설치 버전을 확인하고 같은 releaseId에서 조회합니다. wrapper가 요청한 버전에 없으면 다른 버전의 API로 대체하지 않습니다.',
     },
   );
   const annotations = {

@@ -43,7 +43,7 @@ describe('aligned API navigation', () => {
     // Then
     expect(html.match(/class="api-index-row"/g)).toHaveLength(1);
     expect(html).toContain('aria-pressed="true">컴포넌트</button>');
-    expect(html).toContain('aria-pressed="false">전체</button>');
+    expect(html).toContain('aria-pressed="false">All</button>');
     expect(html).toContain('OwpDatePickerCalendarHeader');
     expect(html).toContain('달력 헤더');
     expect(html).toContain('href="?symbol=one"');
@@ -75,7 +75,7 @@ describe('aligned API navigation', () => {
     const html = renderToStaticMarkup(
       <ApiIndexList items={[]} groups={[{ id: 'components', label: '컴포넌트' }]} />,
     );
-    expect(html).toContain('aria-pressed="true">전체</button>');
+    expect(html).toContain('aria-pressed="true">All</button>');
     expect(html).toContain('전체 0개 중 0개 API');
     expect(html).toContain('검색 결과가 없습니다.');
   });

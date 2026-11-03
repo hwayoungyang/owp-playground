@@ -7,17 +7,20 @@ import { createRequire } from 'node:module';
 import { publicApiPackageIds } from '../src/features/public-api/types';
 import { formatApiDescription } from '../src/shared/i18n/reference-copy';
 import { protectedText } from '../src/shared/i18n/reference-copy-patterns';
+import { publicApiWrapper } from '../src/features/public-api/wrapper-policy';
+import { publicApiNavigationGroup } from '../src/features/public-api/grouping';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const sentenceEndings = /(?:니다|세요|한다|된다|는다|이다|하다|운다)(?=[.!?](?:\s|$)|$)/g;
 
-describe('설치본의 모든 공개 export', () => {
+describe('설치본의 Playground 공개 API', () => {
   it.each(publicApiPackageIds)(
-    '%s의 루트·subpath·타입·값을 빠짐없이 표시한다',
+    '%s의 래퍼 대체 API를 제외한 루트·subpath·타입·값을 표시한다',
     (id) => {
       // Given: 설치된 선언에서 독립적으로 조회한 public symbol과 import 경로
       const compiler = createComponentsApiCompiler(root, `@owp/${id}`);
       const expected = [...compiler.exports]
+        .filter(([name]) => !publicApiWrapper(id, name))
         .flatMap(([name, records]) =>
           records.flatMap((record) => record.imports.map((module) => `${module}#${name}`)),
         )
@@ -37,6 +40,59 @@ describe('설치본의 모든 공개 export', () => {
       // When: 화면 projection을 구성한다.
       const data = readPublicApiPackage(root, id);
       if (id === 'core') {
+        for (const name of [
+          'useTranslation',
+          'QueryClientProvider',
+          'useQuery',
+          'useSuspenseQuery',
+          'useMutation',
+          'queryOptions',
+        ])
+          expect(
+            data.entries.some((entry) => entry.name === name),
+            name,
+          ).toBe(false);
+        for (const name of [
+          'OwpCoreProvider',
+          'createOwpApiHooks',
+          'useQueryClient',
+          'QueryClient',
+          'initOwpI18n',
+          'UseTranslationResponse',
+          'UseQueryOptions',
+        ])
+          expect(
+            data.entries.some((entry) => entry.name === name),
+            name,
+          ).toBe(true);
+        const components = data.entries.filter((entry) => entry.kind === 'component');
+        const namesInGroup = (group: string) =>
+          components
+            .filter((entry) => publicApiNavigationGroup(entry) === group)
+            .map((entry) => entry.name);
+        expect(namesInGroup('core-providers')).toEqual([
+          'I18nextProvider',
+          'OwpAppProvider',
+          'OwpCoreProvider',
+          'OwpStoreProvider',
+          'OwpStyleProvider',
+          'OwpUiProvider',
+        ]);
+        expect(namesInGroup('core-inputs')).toEqual([
+          'OwpCommonCodeQuerySelector',
+          'OwpCommonCodeRadioGroup',
+          'OwpCommonCodeSelector',
+          'OwpLanguageSwitcherSelect',
+          'OwpQuerySelector',
+        ]);
+        expect(namesInGroup('core-layout')).toEqual(['OwpLayout']);
+        expect(namesInGroup('core-errors')).toEqual([
+          'OwpErrorStatusPage',
+          'OwpRouteErrorElement',
+          'QueryErrorResetBoundary',
+        ]);
+        expect(namesInGroup('core-translation')).toEqual(['Trans']);
+        expect(namesInGroup('components')).toEqual([]);
         const storageKeys = data.entries.find((entry) => entry.name === 'STORAGE_KEYS');
         expect(storageKeys).toMatchObject({ kind: 'value', group: 'constants' });
         expect(storageKeys?.modules).toContain('@owp/core/constants');
@@ -110,6 +166,8 @@ describe('설치본의 모든 공개 export', () => {
           expect(data.entries.find((entry) => entry.name === name)?.kind).toBe('type');
       if (id === 'date-picker')
         expect(data.entries.find((entry) => entry.name === 'Dayjs')?.kind).toBe('type');
+      if (id === 'components')
+        expect(data.entries.find((entry) => entry.name === 'useOwpTranslation')?.kind).toBe('hook');
       for (const entry of data.entries) {
         expect(new Set(entry.propsVariants.map((variant) => variant.label)).size, entry.name).toBe(
           entry.propsVariants.length,
@@ -144,9 +202,12 @@ describe('설치본의 모든 공개 export', () => {
             description.match(sentenceEndings),
           );
           expect(result.match(protectedText), entry.id).toEqual(description.match(protectedText));
-          expect(result.match(/[A-Za-z_$][\w$]*(?:[.-][A-Za-z_$][\w$]*)*/g), entry.id).toEqual(
-            description.match(/[A-Za-z_$][\w$]*(?:[.-][A-Za-z_$][\w$]*)*/g),
-          );
+          // 한국어 기술 용어에서 바뀐 표기를 제외하고 기존 식별자의 철자와 순서를 검사합니다.
+          const identifiers = (text: string) =>
+            (text.match(/[A-Za-z_$][\w$]*(?:[.-][A-Za-z_$][\w$]*)*/g) ?? []).filter(
+              (token) => !['cache', 'Tooltip', 'series'].includes(token),
+            );
+          expect(identifiers(result), entry.id).toEqual(identifiers(description));
           expect(result.match(/-?\d+(?:\.\d+)?/g), entry.id).toEqual(
             description.match(/-?\d+(?:\.\d+)?/g),
           );

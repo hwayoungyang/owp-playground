@@ -25,7 +25,7 @@ afterEach(async () => {
 describe('Components API index', () => {
   it('opens components first with category filters and real symbol links', () => {
     const html = renderToStaticMarkup(<ComponentsApiReference symbol={null} />);
-    for (const group of ['입력·선택', 'Hooks', 'Utils'])
+    for (const group of ['Input, Select', 'Hooks', 'Utils'])
       expect(html).toContain(`>${group}</button>`);
     expect(html).toContain('class="api-index-list"');
     for (const entry of componentsApiUiFixture.entries.filter(
@@ -34,7 +34,7 @@ describe('Components API index', () => {
       expect(html).toContain(`symbol=${entry.id}&amp;lang=ko`);
       expect(html).toContain(entry.name);
     }
-    expect(html).toContain('aria-pressed="true">입력·선택</button>');
+    expect(html).toContain('aria-pressed="true">Input, Select</button>');
     expect(html).toContain('전체 4개 중 1개 API');
     expect(html).toContain('API 검색');
     expect(html).not.toContain('Props 표');

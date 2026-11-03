@@ -1,7 +1,7 @@
 export const componentGroups = [
   {
     id: 'component-inputs',
-    label: '입력·선택',
+    label: 'Input, Select',
     names: [
       'OwpNumberField',
       'OwpTextMaskField',
@@ -15,7 +15,7 @@ export const componentGroups = [
   },
   {
     id: 'component-actions',
-    label: '버튼·작업',
+    label: 'Button, Action',
     names: ['OwpFilePickerButton', 'OwpMoreActionsButton'],
   },
   {
@@ -25,7 +25,7 @@ export const componentGroups = [
   },
   {
     id: 'component-sections',
-    label: 'Section·페이지',
+    label: 'Section, Page',
     names: [
       'OwpSection',
       'OwpPageContent',
@@ -37,7 +37,7 @@ export const componentGroups = [
   },
   {
     id: 'component-feedback',
-    label: 'Dialog·피드백',
+    label: 'Dialog, Feedback',
     names: [
       'OwpDialog',
       'OwpAlertDialog',
@@ -56,7 +56,7 @@ export const componentGroups = [
   { id: 'component-icons', label: 'Icon', names: ['OwpSvgIcon'] },
   {
     id: 'component-responsive',
-    label: '반응형·스크롤',
+    label: 'Responsive, Scroll',
     names: [
       'OwpHidden',
       'OwpScrollbars',
@@ -64,7 +64,7 @@ export const componentGroups = [
       'OwpResponsiveLayoutGlobalStyles',
     ],
   },
-  { id: 'components', label: '기타 컴포넌트', names: [] },
+  { id: 'components', label: 'Other Components', names: [] },
 ] as const;
 
 export type ComponentGroupId = (typeof componentGroups)[number]['id'];

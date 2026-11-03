@@ -77,7 +77,7 @@ export function ApiIndexList({
           }}
         />
         <div className="api-index-filters" role="group" aria-label={t('API 종류')}>
-          {[{ id: 'all', label: '전체' }, ...available].map((entry) => (
+          {[{ id: 'all', label: 'All' }, ...available].map((entry) => (
             <button
               type="button"
               key={entry.id}

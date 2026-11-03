@@ -48,6 +48,20 @@ export const publicApiEnglish = {
   Context: 'Context',
   Types: 'Types',
   Values: 'Values',
+  Provider: 'Provider',
+  All: 'All',
+  'Input, Select': 'Input, Select',
+  'Button, Action': 'Button, Action',
+  'Section, Page': 'Section, Page',
+  'Dialog, Feedback': 'Dialog, Feedback',
+  'Responsive, Scroll': 'Responsive, Scroll',
+  'Other Components': 'Other Components',
+  Layout: 'Layout',
+  'Error Handling': 'Error Handling',
+  Translation: 'Translation',
+  레이아웃: 'Layout',
+  '오류 처리': 'Error handling',
+  번역: 'Translation',
 } as const;
 
 export const publicApiKorean = {
