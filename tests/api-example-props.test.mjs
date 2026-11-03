@@ -120,7 +120,12 @@ const view = <>
       '@owp/core:OwpDialogProps.isDirty',
       '@owp/core:OwpDialogProps.open',
     ]);
-    expect(result.references.map((entry) => entry.packageId)).toEqual(['components', 'components', 'core', 'core']);
+    expect(result.references.map((entry) => entry.packageId)).toEqual([
+      'components',
+      'components',
+      'core',
+      'core',
+    ]);
   });
   it('binds aliases and namespaces while excluding same-name DOM props, strings and comments', () => {
     const file = source(

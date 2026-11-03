@@ -67,6 +67,9 @@
   "playgrounds/charts/model/useRadialData.ts": "5ce4e27bd029fd0cc926d16ee4e78ad64c23006664e14e7e7cf8290d2ae47c84",
   "playgrounds/charts/runtime/ChartCanvas.tsx": "a465c1908699834ff75532c7b674d179b0ed4be333370a85fbd0ee25be7e36d8",
   "playgrounds/charts/runtime/LegendPreview.tsx": "c1773ac25587fe385d18b1e399b4331588cc70a470866c2c3fb4bc16a547b401",
+  "playgrounds/core/examples/api-query.tsx": "43bc990a3998a2e75b1e5355cffc4968d6cca708bfb25c41188b91c87df2916f",
+  "playgrounds/core/examples/page-skeleton.tsx": "7b62936ed7b82b4dd87948889b9ec6e9716e86c052d51b813ef4acae9e814501",
+  "playgrounds/core/guides/api-setup.tsx": "0fa39b35fdfd54e151de7d509cf91eb89b4d22109cc60b7ed96645807d90a657",
   "playgrounds/datagrid/examples/cell-types.tsx": "4dff55467247aa00147c88e5c727c047200def1bbc0168ac29ce6004f0e37118",
   "playgrounds/datagrid/examples/column-layout.tsx": "746e862c3ee5057197c776f3a30e557d708a1550a2fd44f7b4669b1f6a62db6a",
   "playgrounds/datagrid/examples/components/DetailGrid.tsx": "ef6bd42b34f3ffdfbe34d8ad964cec6beaa6a0896e7d23e5a87d6d19205edfde",
@@ -107,7 +110,5 @@
   "playgrounds/datagrid/runtime/GridPreview.tsx": "ff002aee660dd421fc596f315644abdadfc7a93daa77daa404f9f78053420f8f",
   "playgrounds/datagrid/runtime/GridToolbar.tsx": "d10344bd8637e8abd228e19928362c322341dafcaf02c83f794683c54ca6267c",
   "playgrounds/datagrid/runtime/taskGridPreview.tsx": "b2212a43b4d0375f54cfbf13109db572f844bd6f8bff80f0e0821401c58b5af7",
-  "playgrounds/datagrid/runtime/useGridController.ts": "89d8d71bc0199517ee25d18fb9c77c537b9d993ae25c923a96157f0dc0af4a33",
-  "playgrounds/core/examples/api-query.tsx": "43bc990a3998a2e75b1e5355cffc4968d6cca708bfb25c41188b91c87df2916f",
-  "playgrounds/core/guides/api-setup.tsx": "0fa39b35fdfd54e151de7d509cf91eb89b4d22109cc60b7ed96645807d90a657"
+  "playgrounds/datagrid/runtime/useGridController.ts": "89d8d71bc0199517ee25d18fb9c77c537b9d993ae25c923a96157f0dc0af4a33"
 }

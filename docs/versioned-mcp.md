@@ -1,5 +1,7 @@
 # 버전별 Playground와 MCP
 
+OWP wrapper 컴포넌트·Hook·함수가 있으면 원본 API나 re-export보다 항상 먼저 조회하고 사용합니다. 번역은 `@owp/components/hooks`의 `useOwpTranslation`, API 요청은 `@owp/core/hooks`의 `createOwpApiHooks`, Query Provider 구성은 `@owp/core/contexts`의 `OwpCoreProvider`를 우선합니다. wrapper의 소유 패키지와 실제 설치 버전을 확인하고 후속 조회에도 같은 `releaseId`를 사용합니다. 요청한 버전에 wrapper 자료가 없으면 다른 버전으로 대체하지 않고 설치본의 공개 선언과 README를 확인합니다. Playground는 wrapper로 대체되는 원본 API를 노출 목록에서 제외하지만, 기존 MCP 스냅샷에는 생성 당시의 원본 API가 남아 있을 수 있습니다. 이 지침을 수정해도 Knowledge·스냅샷·서버는 자동 갱신되지 않습니다.
+
 DataGrid·Charts·Core·Components의 실행 화면, 공개 API, 가이드와 실제 예제 소스를 같은 불변 스냅샷으로 제공합니다. Date Picker·Excel·PDF·Theme·Utils는 공개 API와 시작 가이드를 제공하며 독립 실행 예제의 소스 목록은 비어 있습니다. Tailwind Config는 제외합니다. 팀 공용 HTTP와 개인 로컬 stdio는 같은 MCP 조회 로직과 아카이브를 사용합니다. 지원 여부는 `knowledgePackages`와 검증한 adapter를 기준으로 판단하며 설치된 의존 패키지나 `planned` 목록만으로 등록하지 않습니다.
 
 Core의 앱 정책 adapter와 Components의 공통 UI는 소유 패키지를 구분합니다. Provider·API·상태 관리와 Core 고유 API는 Core 공개 경로를 유지하고, 보조 결과 UI는 Components에서 직접 가져옵니다. 앱 설정의 Table·FieldTable처럼 Core adapter를 시연하는 구간은 메뉴 분류와 관계없이 Core import를 유지합니다. Dialog·PageCarded는 Components UI에 Core policy hook의 props와 styles를 함께 연결할 수 있으며, ErrorBoundary callback 정책과 PageContent 반응형 스타일 slot도 Core 공개 API를 사용합니다. 기존 Core adapter에는 같은 정책을 중복 적용하지 않습니다. 코드 표시·API 연결·MCP 조회도 이 symbol별 기준을 따릅니다. Core 예제에 필요한 Components 선언은 Core API 자료의 `referenceRecords`로 연결하며 Components 전체 Playground의 지원 완료를 뜻하지 않습니다. 예를 들어 Core snapshot에서 `get_api`의 `symbol`에 `@owp/components:OwpLoading`을 지정하면 Components의 공개 import와 정확한 패키지 버전을 확인할 수 있습니다. 새 snapshot에는 제거된 `@owp/core:OwpLoading` 호환 API를 만들지 않으며 과거 snapshot은 당시 계약을 유지합니다.
@@ -115,6 +117,8 @@ AI 클라이언트에는 `http://owp.internal:30011/mcp`를 Streamable HTTP 서�
 SSH 연결 공유 방식을 재사용하며 서비스·잠금·릴리스 보관 경로를 분리합니다. 기존 `deploy:status`·`deploy:rollback`·`deploy:cleanup`은 30010 정적 서비스 전용입니다.
 
 ### 두 서비스의 배포 사전 준비
+
+예제나 관련 API 타입을 추가했다면 `pnpm knowledge:generate` 후 `tests/api-link-audit.test.ts`로 코드 연결을 확인합니다. 직접 import하지 않고 다른 타입이나 JSX에서 추론되는 타입은 임의의 사용 줄에 연결하지 않습니다. `knowledge/example-code-reviews/<package>.json`에 `unlocated` 판단과 실제 코드 근거를 남기고 `sources.json`의 해당 소스 SHA-256을 갱신합니다. Knowledge를 다시 생성한 뒤 검토 기록과 생성 자료를 함께 커밋합니다.
 
 검토와 커밋을 마친 clean Git tree에서 다음 명령을 실행합니다. 앞선 소스 변경으로 Knowledge가 바뀌었다면 검토 기록과 생성 자료를 갱신·커밋해야 합니다. 준비 명령은 자동 commit이나 운영 서버 배포를 하지 않습니다.
 

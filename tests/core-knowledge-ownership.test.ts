@@ -16,7 +16,12 @@ describe('Core sample ownership in generated Knowledge', () => {
     for (const [id, examples] of expectedExamples) {
       const record = knowledge.records.find((entry) => entry.id === id);
       expect(record?.packageVersion).toBe('4.0.1');
-      expect(record?.examples.filter((example) => example.packageId === 'core').map((example) => example.id).sort()).toEqual(examples);
+      expect(
+        record?.examples
+          .filter((example) => example.packageId === 'core')
+          .map((example) => example.id)
+          .sort(),
+      ).toEqual(examples);
     }
     for (const name of ['OwpDialog', 'OwpPageCarded', 'OwpPageContent', 'OwpErrorBoundary']) {
       const coreOwnership = knowledge.records.find((record) => record.id === `@owp/core:${name}`);
@@ -31,7 +36,12 @@ describe('Core sample ownership in generated Knowledge', () => {
     const coreTable = knowledge.records.find((record) => record.id === '@owp/core:OwpTable');
     expect(componentsTable?.imports).toEqual(['@owp/components']);
     expect(componentsTable?.packageVersion).toBe('4.0.1');
-    expect(componentsTable?.examples.filter((example) => example.packageId === 'core').map((example) => example.id).sort()).toEqual([
+    expect(
+      componentsTable?.examples
+        .filter((example) => example.packageId === 'core')
+        .map((example) => example.id)
+        .sort(),
+    ).toEqual([
       'app-settings',
       'excel-export',
       'getting-started',
@@ -44,7 +54,8 @@ describe('Core sample ownership in generated Knowledge', () => {
     expect(
       knowledge.records
         .find((record) => record.id === '@owp/components:OwpFieldTable')
-        ?.examples.filter((example) => example.packageId === 'core').map((example) => example.id),
+        ?.examples.filter((example) => example.packageId === 'core')
+        .map((example) => example.id),
     ).toEqual(['app-settings', 'dialog']);
     expect(
       knowledge.records.find((record) => record.id === '@owp/core:OwpFieldTable'),

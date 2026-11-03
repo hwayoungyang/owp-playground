@@ -1,1 +1,5 @@
-{ "resultCode": "STATUS_0", "resultMessage": "요청한 작업을 처리하지 못했습니다.", "resultData": [] }
+{
+  "resultCode": "STATUS_0",
+  "resultMessage": "요청한 작업을 처리하지 못했습니다.",
+  "resultData": []
+}

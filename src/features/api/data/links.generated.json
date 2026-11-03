@@ -15037,6 +15037,63 @@
       "packageId": "components"
     }
   ],
+  "core/page-skeleton": [
+    {
+      "label": "configs",
+      "id": "@owp/core:OwpCoreProviderProps.configs",
+      "packageId": "core"
+    },
+    {
+      "label": "env",
+      "id": "@owp/core:OwpCoreProviderProps.env",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpCoreProvider",
+      "id": "@owp/core:OwpCoreProvider",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpLayout",
+      "id": "@owp/core:OwpLayout",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpPageSkeletonSpec",
+      "id": "@owp/core:OwpPageSkeletonSpec",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpRouteLoadingConfig",
+      "id": "@owp/core:OwpRouteLoadingConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "queryCancellation",
+      "id": "@owp/core:OwpUiProviderProps.queryCancellation",
+      "packageId": "core"
+    },
+    {
+      "label": "queryClientConfig",
+      "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "slotProps",
+      "id": "@owp/core:OwpCoreProviderProps.slotProps",
+      "packageId": "core"
+    },
+    {
+      "label": "styledEngineProviderProps",
+      "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "theme",
+      "id": "@owp/core:OwpStyleProviderProps.theme",
+      "packageId": "core"
+    }
+  ],
   "core/query-selector": [
     {
       "label": "fullWidth",

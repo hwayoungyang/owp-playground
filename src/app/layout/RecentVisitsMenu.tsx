@@ -55,9 +55,7 @@ export function RecentVisitsMenu({
         <ListSubheader className="recent-visits-heading" role="presentation" disableSticky>
           {t('최근 본 항목')}
         </ListSubheader>
-        {entries.length === 0 && (
-          <MenuItem disabled>{t('최근 본 항목이 없습니다.')}</MenuItem>
-        )}
+        {entries.length === 0 && <MenuItem disabled>{t('최근 본 항목이 없습니다.')}</MenuItem>}
         {entries.map((entry) => {
           const active =
             current !== undefined && recentVisitKey(entry.visit) === recentVisitKey(current);

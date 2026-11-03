@@ -158,5 +158,31 @@
     "mode": "direct",
     "file": "playgrounds/core/guides/api-setup.tsx",
     "snippet": "return useApiQuery('get', '/connection', {}, { allowMissingResultCode: true });"
+  },
+  {
+    "exampleId": "page-skeleton",
+    "apiId": "@owp/core:OwpPageSkeletonSpec",
+    "label": "OwpPageSkeletonSpec",
+    "action": "unlocated",
+    "reason": "OwpPageSkeletonSpecMap의 경로별 값으로 사용하는 타입입니다. 예제에서는 Map 타입을 직접 import하므로 단일 Spec 타입의 사용 줄을 만들지 않고 관련 타입 링크를 유지합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/examples/page-skeleton.tsx",
+        "snippet": "const pageSkeletonSpecs: OwpPageSkeletonSpecMap = {"
+      }
+    ]
+  },
+  {
+    "exampleId": "page-skeleton",
+    "apiId": "@owp/core:OwpRouteLoadingConfig",
+    "label": "OwpRouteLoadingConfig",
+    "action": "unlocated",
+    "reason": "OwpCoreProvider의 slotProps.routeLoading에 전달하는 설정 타입입니다. JSX에서 추론되는 타입이므로 직접 import한 코드 위치 대신 Provider 설정 근거와 관련 타입 링크를 유지합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/examples/page-skeleton.tsx",
+        "snippet": "getSkeletonSpec: (path) => pageSkeletonSpecs[path],"
+      }
+    ]
   }
 ]

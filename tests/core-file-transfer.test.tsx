@@ -33,46 +33,45 @@ describe('Core upload public payload contract', () => {
       fileNameFieldName: undefined,
     },
     { field: 'ORIGINAL_NAME', fields: {}, fileNameFieldName: 'ORIGINAL_NAME' },
-  ])('passes the selected binary file and $field through the real upload hook', ({
-    field,
-    fields,
-    fileNameFieldName,
-  }) => {
-    const captured: { readonly body: FormData; readonly fileName: string }[] = [];
-    const file = new File([new Uint8Array([0, 255, 42])], 'selected-archive.bin');
-    function PayloadPreview() {
-      const upload = useFormDataUploadMutation({
-        fileNameFieldName,
-        mutation: {
-          mutate: (variables: { readonly body: FormData; readonly fileName: string }) => {
-            captured.push(variables);
+  ])(
+    'passes the selected binary file and $field through the real upload hook',
+    ({ field, fields, fileNameFieldName }) => {
+      const captured: { readonly body: FormData; readonly fileName: string }[] = [];
+      const file = new File([new Uint8Array([0, 255, 42])], 'selected-archive.bin');
+      function PayloadPreview() {
+        const upload = useFormDataUploadMutation({
+          fileNameFieldName,
+          mutation: {
+            mutate: (variables: { readonly body: FormData; readonly fileName: string }) => {
+              captured.push(variables);
+            },
           },
+          createVariables: ({ formData, body }) => ({
+            body: formData,
+            fileName: String(body[field]),
+          }),
+        });
+        upload.uploadFile({ file, category: 'DEMO', ...fields });
+        return null;
+      }
+      renderToStaticMarkup(<PayloadPreview />);
+      expect(captured).toHaveLength(1);
+      expect(captured[0]?.fileName).toBe(file.name);
+      expect(captured[0]?.body).toBeInstanceOf(FormData);
+      const formData = captured[0]?.body;
+      if (!formData) throw new TypeError('Missing upload payload');
+      expect(formData.get('file')).toBe(file);
+      expect(describeFormData(formData)).toEqual([
+        {
+          field: 'file',
+          value: JSON.stringify({ name: file.name, size: 3, type: '' }),
         },
-        createVariables: ({ formData, body }) => ({
-          body: formData,
-          fileName: String(body[field]),
-        }),
-      });
-      upload.uploadFile({ file, category: 'DEMO', ...fields });
-      return null;
-    }
-    renderToStaticMarkup(<PayloadPreview />);
-    expect(captured).toHaveLength(1);
-    expect(captured[0]?.fileName).toBe(file.name);
-    expect(captured[0]?.body).toBeInstanceOf(FormData);
-    const formData = captured[0]?.body;
-    if (!formData) throw new TypeError('Missing upload payload');
-    expect(formData.get('file')).toBe(file);
-    expect(describeFormData(formData)).toEqual([
-      {
-        field: 'file',
-        value: JSON.stringify({ name: file.name, size: 3, type: '' }),
-      },
-      { field: 'category', value: 'DEMO' },
-      ...Object.entries(fields).map(([field, value]) => ({ field, value })),
-      { field, value: file.name },
-    ]);
-  });
+        { field: 'category', value: 'DEMO' },
+        ...Object.entries(fields).map(([field, value]) => ({ field, value })),
+        { field, value: file.name },
+      ]);
+    },
+  );
 
   it('normalizes the filename field to NFC without changing the original file', () => {
     const file = new File([sampleUploadText], 'cafe\u0301.txt', { type: 'text/plain' });

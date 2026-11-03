@@ -74,8 +74,20 @@ export const packageCatalog = [
 
 /** 설치본의 공개 API와 가이드를 검증해 Knowledge로 제공하는 패키지입니다. */
 export const knowledgePackages = packageCatalog.flatMap((entry) =>
-  entry.status === 'planned' || !['datagrid', 'charts', 'core', 'components', 'date-picker', 'excel', 'pdf', 'theme', 'utils'].includes(entry.id)
-    ? [] : [{ ...entry, referencePackages: referencePackagesFor(entry.id) }],
+  entry.status === 'planned' ||
+  ![
+    'datagrid',
+    'charts',
+    'core',
+    'components',
+    'date-picker',
+    'excel',
+    'pdf',
+    'theme',
+    'utils',
+  ].includes(entry.id)
+    ? []
+    : [{ ...entry, referencePackages: referencePackagesFor(entry.id) }],
 );
 
 export function supportsApiReference(

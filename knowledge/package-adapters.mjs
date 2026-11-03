@@ -74,7 +74,8 @@ for (const id of ['date-picker', 'excel', 'pdf', 'theme', 'utils']) {
     runtimeFiles: [],
     referenceOnlyPackages: [],
     contractPackages: id === 'date-picker' ? ['@owp/theme', '@owp/components'] : [],
-    externalReexportPackages: id === 'pdf' ? ['@react-pdf/renderer'] : id === 'date-picker' ? ['dayjs'] : [],
+    externalReexportPackages:
+      id === 'pdf' ? ['@react-pdf/renderer'] : id === 'date-picker' ? ['dayjs'] : [],
   });
 }
 

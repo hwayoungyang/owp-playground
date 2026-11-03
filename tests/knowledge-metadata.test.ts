@@ -8,13 +8,24 @@ const guides = knowledge.records.filter((record) => record.kind === 'guide');
 describe('standalone guide metadata', () => {
   it('routes every supported package API and guide through its canonical owner', () => {
     expect(data.packages.map((entry) => entry.id)).toEqual([
-      'datagrid', 'charts', 'core', 'components', 'date-picker', 'excel', 'pdf', 'theme', 'utils',
+      'datagrid',
+      'charts',
+      'core',
+      'components',
+      'date-picker',
+      'excel',
+      'pdf',
+      'theme',
+      'utils',
     ]);
     for (const entry of data.packages) {
       const records = data.records.filter((record) => record.package === entry.name);
       expect(records.length).toBeGreaterThan(0);
       for (const record of records)
-        expect(new URL(record.url, 'https://example.test').searchParams.get('package'), record.id).toBe(entry.id);
+        expect(
+          new URL(record.url, 'https://example.test').searchParams.get('package'),
+          record.id,
+        ).toBe(entry.id);
     }
   });
   it('retains each guide identity, content hash and authoring source in its Markdown export', () => {

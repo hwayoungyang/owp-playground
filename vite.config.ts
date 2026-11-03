@@ -220,23 +220,35 @@ export default defineConfig({
         this.emitFile({
           type: 'asset',
           fileName: 'packages.json',
-          source: JSON.stringify({ version: 1, packages: packageCatalog.map((entry) => ({
-            ...entry,
-            knowledge: knowledgeData.packages.some((supported) => supported.id === entry.id),
-          })) }, null, 2),
+          source: JSON.stringify(
+            {
+              version: 1,
+              packages: packageCatalog.map((entry) => ({
+                ...entry,
+                knowledge: knowledgeData.packages.some((supported) => supported.id === entry.id),
+              })),
+            },
+            null,
+            2,
+          ),
         });
         for (const entry of knowledgeData.packages) {
           if (['core', 'datagrid', 'charts'].includes(entry.id)) continue;
           this.emitFile({
             type: 'asset',
             fileName: `catalogs/${entry.id}.sources.json`,
-            source: JSON.stringify(await createPackageSourceManifest({
-              root,
-              catalog: entry.id === 'components' ? reviewedApiCatalog(componentsCatalog, entry.id) : [],
-              resources: sources,
-              packageName: entry.name,
-              basePath: publicBase,
-            }), null, 2),
+            source: JSON.stringify(
+              await createPackageSourceManifest({
+                root,
+                catalog:
+                  entry.id === 'components' ? reviewedApiCatalog(componentsCatalog, entry.id) : [],
+                resources: sources,
+                packageName: entry.name,
+                basePath: publicBase,
+              }),
+              null,
+              2,
+            ),
           });
         }
         this.emitFile({
