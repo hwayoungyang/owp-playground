@@ -22,7 +22,10 @@ export function normalizeAppTerminology(text: string): string {
       .replaceAll('프로바이더', 'Provider')
       .replaceAll('재수출', 're-export')
       .replaceAll('콜백', 'callback')
-      .replaceAll('래퍼', 'wrapper');
+      .replaceAll('래퍼', 'wrapper')
+      .replaceAll('캐시', 'cache')
+      .replaceAll('툴팁', 'Tooltip')
+      .replaceAll('시리즈', 'series');
   let result = '';
   let offset = 0;
   for (const match of text.matchAll(protectedAppText)) {

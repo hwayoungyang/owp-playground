@@ -9,12 +9,7 @@ import {
 import type { resolveOwpGridTheme } from '@owp/theme';
 import { CaretDownIcon } from '@phosphor-icons/react';
 import type { editableMuiTheme } from './model/studio';
-import {
-  muiColorLabels,
-  muiPaletteLabels,
-  themeFieldLabels,
-  themeGroupLabels,
-} from './model/studioLabels';
+import { themeFieldLabels, themeGroupLabels } from './model/studioLabels';
 import type { ThemeFieldCommitResult } from './model/validation';
 import { ThemeField } from './ThemeField';
 
@@ -41,26 +36,20 @@ export function ComponentColors({
       <AccordionSummary expandIcon={<CaretDownIcon />}>
         <span>{t('컴포넌트 색상')}</span>
       </AccordionSummary>
-      <AccordionDetails className="theme-field-grid">
-        {paletteFields(palette).map(({ path, value }) => (
-          <ThemeField
-            key={path.join('.')}
-            label={
-              path[0] === 'divider'
-                ? t('구분선 색상')
-                : path
-                    .map((field, index) =>
-                      t(
-                        (index === path.length - 1 ? muiColorLabels : muiPaletteLabels)[field] ??
-                          '색상',
-                      ),
-                    )
-                    .join(' · ')
-            }
-            value={value}
-            onCommit={(next) => onCommit(path, next)}
-          />
-        ))}
+      <AccordionDetails>
+        <p className="theme-usage-note">
+          {t('색상 항목은 테마 코드와 같은 palette 속성 이름으로 표시합니다.')}
+        </p>
+        <div className="theme-field-grid">
+          {paletteFields(palette).map(({ path, value }) => (
+            <ThemeField
+              key={path.join('.')}
+              label={path.join('.')}
+              value={value}
+              onCommit={(next) => onCommit(path, next)}
+            />
+          ))}
+        </div>
       </AccordionDetails>
     </Accordion>
   );

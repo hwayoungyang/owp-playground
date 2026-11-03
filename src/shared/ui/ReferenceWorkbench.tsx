@@ -27,6 +27,7 @@ export function ReferenceWorkbench({
 }: ReferenceWorkbenchProps) {
   const { t } = useOwpTranslation();
   const [share, setShare] = useState(56);
+  const [hasViewTransition, setHasViewTransition] = useState(false);
   const grid = useRef<HTMLDivElement>(null);
   const clampShare = (value: number) => Math.min(70, Math.max(35, value));
   const controls = [
@@ -35,7 +36,12 @@ export function ReferenceWorkbench({
     { value: 'code', label: '코드만 보기', icon: <CodeIcon size={15} aria-hidden /> },
   ] as const;
   return (
-    <div className="reference-workbench" data-mode={mode} data-active={activePanel}>
+    <div
+      className="reference-workbench"
+      data-mode={mode}
+      data-active={activePanel}
+      data-view-transition={hasViewTransition || undefined}
+    >
       <div className="reference-workbench-toolbar">
         {navigation && <div className="reference-workbench-navigation">{navigation}</div>}
         <div className="reference-workbench-controls" role="group" aria-label={t('예제 보기 방식')}>
@@ -44,7 +50,11 @@ export function ReferenceWorkbench({
               type="button"
               key={control.value}
               aria-pressed={mode === control.value}
-              onClick={() => onModeChange(control.value)}
+              onClick={() => {
+                if (control.value === mode) return;
+                setHasViewTransition(true);
+                onModeChange(control.value);
+              }}
             >
               {control.icon}
               <span>{t(control.label)}</span>

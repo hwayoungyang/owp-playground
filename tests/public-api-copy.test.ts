@@ -8,6 +8,7 @@ import { describeApiKind } from '../src/features/public-api/description-kind';
 import { publicApiGroups } from '../src/features/public-api/types';
 import { formatApiDescription, normalizeAppTerminology } from '../src/shared/i18n/reference-copy';
 import { coreCatalog } from '../src/playgrounds/core/catalog';
+import { formatKoreanGuidance } from '../src/shared/i18n/guidance-copy';
 
 const translate = (key: string, values?: Readonly<Record<string, string>>) =>
   i18next.t(key, values);
@@ -17,6 +18,22 @@ afterEach(async () => {
 });
 
 describe('공개 API의 표시 문구', () => {
+  it.each([
+    ['Enter를 누르세요. 변경을 확정하세요.', 'Enter를 눌러 주세요. 변경을 확정해 주세요.'],
+    ['조회하세요. 전달하세요.', '조회해 주세요. 전달해 주세요.'],
+    [
+      '`전달하세요`와 {{확정하세요}}, "조회하세요"는 유지하고 결과를 확인하세요.',
+      '`전달하세요`와 {{확정하세요}}, "조회하세요"는 유지하고 결과를 확인해 주세요.',
+    ],
+    [
+      '안녕하세요, {{name}}님. isDirty는 true여야 합니다. 3초 후 false를 반환합니다.',
+      '안녕하세요, {{name}}님. isDirty는 true여야 합니다. 3초 후 false를 반환합니다.',
+    ],
+  ])('안내 어미를 다듬고 코드·인용·조건을 보존한다: %s', (source, expected) => {
+    expect(formatKoreanGuidance(source)).toBe(expected);
+    expect(formatKoreanGuidance(expected)).toBe(expected);
+  });
+
   it('역할을 짧게 설명하고 원본 API 설명을 보존한다', () => {
     const entry = {
       name: 'OwpDataGridExportExcelButton',
@@ -86,6 +103,12 @@ describe('공개 API의 표시 문구', () => {
     expect(formatApiDescription('프로바이더에서 콜백을 등록합니다.')).toBe(
       'Provider에서 callback을 등록합니다.',
     );
+    expect(normalizeAppTerminology('캐시를 공유하고 툴팁에 시리즈를 표시합니다.')).toBe(
+      'cache를 공유하고 Tooltip에 series를 표시합니다.',
+    );
+    expect(normalizeAppTerminology('데이터 계열입니다.')).toBe('데이터 계열입니다.');
+    const identifiers = '`cache`와 `options.tooltip`, "캐시", {{툴팁}}';
+    expect(normalizeAppTerminology(identifiers)).toBe(identifiers);
   });
 
   it('제목·출처·상수 분류를 한국어와 영어에서 일관되게 표시한다', async () => {
@@ -121,7 +144,7 @@ describe('공개 API의 표시 문구', () => {
     ],
     [
       '차트 시리즈 표시 요소의 형태를 구분하는 상수입니다.',
-      '차트 시리즈 표시 요소의 형태를 구분하는 상수입니다.',
+      '차트 series 표시 요소의 형태를 구분하는 상수입니다.',
     ],
   ])('설명 문장의 종결·조건·인용을 유지한다: %s', (description, expected) => {
     expect(formatApiDescription(description)).toBe(expected);

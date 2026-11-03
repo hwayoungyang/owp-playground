@@ -7,6 +7,25 @@ export const interfaceKorean: Readonly<Record<string, string>> = {
   '그리드와 조작 영역': 'Grid와 조작 패널',
   '그리드 세부 설정': 'DataGrid 설정',
   '상세 테마 편집': '테마 편집기 열기',
+  '모서리 둥글기': 'radius',
+  '기존 settingsConfig에 themeOverrides를 병합하고 OwpCoreProvider에 전달합니다. 모서리 둥글기는 DataGrid의 radius 속성에 적용합니다.':
+    '기존 settingsConfig에 themeOverrides를 병합하고 OwpCoreProvider에 전달합니다. DataGrid의 radius 값으로 모서리가 둥근 정도를 설정합니다.',
+  '파일 하나·이미지 여러 개 선택과 비활성 버튼을 비교합니다.':
+    '파일 한 개 선택, 이미지 여러 개 선택, 버튼 비활성화 상태를 비교합니다.',
+  '하위 화면을 늦게 표시하거나 바로 표시하고, resetKey로 초기화합니다.':
+    '하위 컴포넌트의 mount를 지연하거나 즉시 실행하고, resetKey로 초기화합니다.',
+  '입력란 늦게 표시하기': '입력 컴포넌트의 mount 지연',
+  '입력란 바로 표시하기': '입력 컴포넌트 즉시 mount',
+  'defer를 켜면 입력란을 바로 만들지 않고 공통 대기열에서 나누어 준비합니다.':
+    'defer를 켜면 입력 컴포넌트의 mount를 공통 batch queue에서 처리합니다.',
+  'defer를 끄면 대기열을 거치지 않고 입력란을 바로 만듭니다.':
+    'defer를 끄면 batch queue를 거치지 않고 입력 컴포넌트를 즉시 mount합니다.',
+  '아래 Paths는 설명용 최소 OpenAPI 타입입니다. 실제 앱에서는 생성한 paths와 서버의 endpoint·응답 구조·인증 오류 메시지로 교체합니다. useApiQuery·useApiSuspenseQuery는 조회하고, queryOptions는 QueryClient의 fetchQuery·prefetchQuery에 전달할 설정을 만듭니다. useApiMutation은 호출 시 요청을 실행합니다. 저장 성공 후 생성된 queryKey를 재사용해 관련 조회를 무효화합니다. Suspense hook을 사용하는 화면에는 Suspense와 오류 경계를 연결합니다. 이 코드는 실제 서버를 호출하는 앱 코드이며 문서 화면에서 실행하지 않습니다.':
+    '예제의 Paths는 설명에 필요한 최소 OpenAPI 타입입니다. 실제 앱에서는 생성한 paths와 서버의 endpoint·응답 구조·인증 오류 메시지를 사용합니다. useApiQuery·useApiSuspenseQuery는 데이터를 조회하고, queryOptions는 QueryClient의 fetchQuery·prefetchQuery에 전달할 설정을 만듭니다. useApiMutation은 호출할 때 요청을 실행합니다. 저장 성공 후에는 생성된 queryKey를 재사용해 관련 조회를 무효화합니다. Suspense Hook을 사용하는 화면에는 Suspense와 Error Boundary를 함께 사용합니다. 이 코드는 실제 서버를 호출하는 앱 코드이며 문서 화면에서 실행하지 않습니다.',
+  'responseMode의 기본값은 owp입니다. successResultCode를 지정하면 기본 query·Suspense query·queryOptions와 자동 mutation은 HTTP 성공과 resultCode의 정확한 문자열 일치를 함께 요구합니다. STATUS_0의 유효한 resultMessage는 공백과 줄바꿈을 포함한 원문을 오류로 전달하고, 그 외 알 수 없는 코드이면 결과를 다시 확인하라는 오류를 발생시킵니다. isErrorMessageEnabled=false는 공통 안내만 끄며 실패 전파와 자동 인증 오류 처리는 유지합니다. isServerMessageEnabled=false는 mutation의 성공 안내만 끕니다.':
+    'responseMode의 기본값은 owp입니다. successResultCode를 지정하면 기본 query·Suspense query·queryOptions와 자동 mutation은 HTTP 요청이 성공하고 resultCode 문자열도 정확히 일치해야 성공으로 처리합니다. STATUS_0의 유효한 resultMessage는 공백과 줄바꿈을 포함한 원문을 오류로 전달합니다. 그 외 알 수 없는 코드이면 결과를 다시 확인하라는 오류를 발생시킵니다. isErrorMessageEnabled=false는 공통 오류 안내만 끕니다. 오류를 호출부에 전달하는 동작과 자동 인증 오류 처리는 유지합니다. isServerMessageEnabled=false는 mutation의 성공 안내만 끕니다.',
+  'createOwpApiHooks는 API 접속 정보와 응답·인증 오류 정책을 한 번 설정해 조회와 저장 hook을 만듭니다. OwpCoreProvider의 QueryClient는 이 hook들이 사용하는 요청 캐시와 재시도 기본값을 제공합니다.':
+    'createOwpApiHooks로 API 접속 정보와 응답·인증 오류 처리 방식을 설정해 조회·저장용 Hook을 만듭니다. OwpCoreProvider의 QueryClient는 이 Hook들이 사용하는 요청 cache와 재시도 기본값을 제공합니다.',
   '일반 글자 굵기': '글자 굵기 (regular)',
   '중간 글자 굵기': '글자 굵기 (medium)',
   'Bold 글자 굵기': '글자 굵기 (bold)',

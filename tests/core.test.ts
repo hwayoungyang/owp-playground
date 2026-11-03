@@ -26,8 +26,8 @@ describe('Core Playground integration', () => {
 
   it('connects every example to its actual source and translated category', async () => {
     const examples = coreCatalog.filter((entry) => entry.kind === 'core');
-    expect(coreCatalog).toHaveLength(26);
-    expect(examples).toHaveLength(20);
+    expect(coreCatalog).toHaveLength(27);
+    expect(examples).toHaveLength(21);
     expect(coreCatalog.filter((entry) => entry.kind === 'guide')).toHaveLength(6);
     expect(new Set(coreCatalog.map((entry) => entry.id)).size).toBe(coreCatalog.length);
     for (const example of coreCatalog) {
@@ -109,6 +109,7 @@ describe('Core Playground integration', () => {
     expect(
       examples.filter((example) => example.category === 'integration').map((example) => example.id),
     ).toEqual([
+      'page-skeleton',
       'query-selector',
       'common-code',
       'excel-export',

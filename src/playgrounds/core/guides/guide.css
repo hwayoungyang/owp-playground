@@ -24,7 +24,7 @@
 .core-guide .guide-sections {
   margin-top: 0;
   max-width: none;
-  gap: 32px;
+  gap: var(--guide-section-gap);
 }
 
 .core-guide .guide-sections > section {
@@ -33,11 +33,11 @@
 
 .core-guide .guide-sections > section + section {
   border-top: 1px solid var(--pg-line);
-  padding-top: 28px;
+  padding-top: 32px;
 }
 
 .core-guide .guide-sections h2 {
-  margin-bottom: 12px;
+  margin-bottom: var(--guide-heading-gap);
   font-size: 18px;
   line-height: 1.55;
   font-weight: 600;
@@ -55,7 +55,7 @@
 }
 
 .core-guide .guide-sections p {
-  margin-bottom: 16px;
+  margin-bottom: var(--guide-text-gap);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.85;
@@ -67,7 +67,7 @@
 }
 
 .core-guide[data-guide="getting-started"] .guide-sections p {
-  margin-bottom: 20px;
+  margin-bottom: var(--guide-text-gap);
   font-size: 13px;
   line-height: 1.9;
 }
@@ -85,9 +85,12 @@
   margin: 0;
   padding-bottom: 28px;
   border-bottom: 1px solid var(--pg-line);
-  font-size: 16px;
   line-height: 1.85;
-  color: var(--pg-ink);
+  color: var(--pg-secondary);
+}
+
+.core-guide .guide-sections .guide-introduction strong {
+  font-weight: 600;
 }
 
 .core-guide[data-guide="getting-started"] .guide-sections .guide-introduction {
@@ -95,7 +98,7 @@
 }
 
 .core-guide .guide-sections .guide-note {
-  margin-top: 12px;
+  margin-top: var(--guide-text-gap);
   font-size: 13px;
   color: var(--pg-secondary);
 }

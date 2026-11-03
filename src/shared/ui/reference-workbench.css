@@ -95,6 +95,20 @@
   background: var(--pg-shell-secondary);
 }
 @media (min-width: 1100px) {
+  .reference-workbench[data-view-transition] .reference-workbench-content {
+    --workbench-enter-x: calc(-1 * var(--pg-motion-distance));
+  }
+  .reference-workbench[data-view-transition] .reference-workbench-source {
+    --workbench-enter-x: var(--pg-motion-distance);
+  }
+  .reference-workbench[data-view-transition][data-mode="split"]
+    :is(.reference-workbench-content, .reference-workbench-source) {
+    animation: workbench-split-enter var(--pg-view-motion-duration) var(--pg-motion-easing);
+  }
+  .reference-workbench[data-view-transition][data-mode="content"] .reference-workbench-content,
+  .reference-workbench[data-view-transition][data-mode="code"] .reference-workbench-source {
+    animation: workbench-focus-enter var(--pg-view-motion-duration) var(--pg-motion-easing);
+  }
   .reference-workbench[data-mode="content"] .reference-workbench-grid,
   .reference-workbench[data-mode="code"] .reference-workbench-grid {
     display: block;
@@ -104,6 +118,35 @@
   .reference-workbench[data-mode="code"]
     :is(.reference-workbench-separator, .reference-workbench-content) {
     display: none;
+  }
+}
+/* 이름을 나눠 모드 변경 시 DOM을 유지한 채 진입 모션을 다시 시작합니다. */
+@keyframes workbench-split-enter {
+  from {
+    opacity: 0.72;
+    transform: translateX(var(--workbench-enter-x));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes workbench-focus-enter {
+  from {
+    opacity: 0.72;
+    transform: translateX(var(--workbench-enter-x));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@media (min-width: 1100px) and (prefers-reduced-motion: reduce) {
+  .reference-workbench[data-view-transition][data-mode="split"]
+    :is(.reference-workbench-content, .reference-workbench-source),
+  .reference-workbench[data-view-transition][data-mode="content"] .reference-workbench-content,
+  .reference-workbench[data-view-transition][data-mode="code"] .reference-workbench-source {
+    animation: workspace-fade 80ms ease-out;
   }
 }
 @media (max-width: 1099px) {

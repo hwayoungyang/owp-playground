@@ -1,4 +1,5 @@
 import { interfaceKorean } from './interface.ko';
+import { guidanceKorean } from './guidance.ko';
 import { chartKorean } from '../../playgrounds/charts/locales/clarity.ko';
 
 export const koreanOverrides: Readonly<Record<string, string>> = {
@@ -12,7 +13,7 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
   '사용자를 선택하면 샘플 인증 정보와 메뉴가 바로 바뀝니다. Core는 메뉴의 C/R/U/D 플래그로 권한을 판단합니다.':
     '사용자 선택 시 샘플 인증 정보와 메뉴가 바로 바뀝니다. Core는 메뉴의 C/R/U/D 플래그로 권한을 판단합니다.',
   'Super admin·Admin·PM 샘플 사용자를 선택하면 페이지별 생성·조회·수정·삭제 권한이 O/X로 바로 바뀝니다.':
-    'Super admin·Admin·PM 샘플 사용자 선택 시 페이지별 생성·조회·수정·삭제 권한이 O/X로 바로 바뀝니다.',
+    '샘플 사용자를 선택하면 페이지별 생성·조회·수정·삭제 권한이 O/X로 표시됩니다.',
   '이 창의 버튼을 누르면 응답을 Data에 기록합니다.':
     '버튼을 누른 결과는 데이터 탭에서 확인할 수 있습니다.',
   '정적 option의 단일·다중·전체 선택을 비교합니다.':
@@ -143,14 +144,16 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
   '공유 상태를 읽고 변경하는 방법': '사용자·메뉴·설정 조회와 변경',
   '메모리와 저장 상태의 수명': '새로고침 후 데이터 유지',
   '확인과 알림': '확인창과 알림창',
+  'API 선택': 'API 연동 선택 필드',
+  '공통코드 선택': '공통코드 Select·Radio',
   '다이얼로그 상태 관리': '다이얼로그 열기와 저장',
   '미저장 변경 확인': '저장하지 않은 변경 내용 확인',
   '공통코드 hook으로 그룹 목록을 읽고 설정하며 필터링합니다. selector는 이 상태와 조회를 연결합니다.':
-    '공통코드 hook으로 코드 목록을 읽거나 갱신하고 조건에 맞는 코드를 필터링합니다. OwpCommonCodeSelector·OwpCommonCodeRadioGroup·OwpCommonCodeQuerySelector로 공통코드 선택 UI를 구성합니다.',
+    '공통코드 Hook으로 코드 목록을 읽거나 갱신하고 조건에 맞는 코드를 필터링합니다. OwpCommonCodeSelector·OwpCommonCodeRadioGroup·OwpCommonCodeQuerySelector로 공통코드 선택 UI를 구성합니다.',
   '현재·기본 설정, 레이아웃, 영역별 테마와 스크롤 설정을 구독합니다. 설정 hook으로 변경·초기화하면 관련 화면이 함께 갱신됩니다.':
-    '설정 hook으로 현재 설정과 기본값을 읽고, 레이아웃·영역별 테마·스크롤 설정을 변경하거나 초기화합니다. 같은 설정을 사용하는 화면에도 변경 내용이 반영됩니다.',
+    '설정 Hook으로 현재 설정과 기본값을 읽고, 레이아웃·영역별 테마·스크롤 설정을 변경하거나 초기화합니다. 같은 설정을 사용하는 화면에도 변경 내용이 반영됩니다.',
   'Components useDiscardGuard는 영역별 변경을, Core usePageLeaveGuard는 페이지 이동을 보호합니다. 공통 UI와 페이지 이동의 역할을 직접 연결합니다.':
-    'Components의 useDiscardGuard로 편집 영역에서 저장하지 않은 변경 내용을 버릴지 확인합니다. 페이지를 이동할 때 확인하려면 Core의 usePageLeaveGuard를 사용합니다. 필요한 화면에 각 hook을 직접 연결합니다.',
+    'Components의 useDiscardGuard로 편집 영역에서 저장하지 않은 변경 내용을 버릴지 확인합니다. 페이지를 이동할 때 확인하려면 Core의 usePageLeaveGuard를 사용합니다. 필요한 화면에 각 Hook을 직접 연결합니다.',
   'useSearchAction으로 검색 진행·취소를 추적하고 usePageLockLoading으로 공통 화면 잠금을 제어합니다. UI 프로바이더에서 요청 취소와 잠금 표시를 연결합니다.':
     'useSearchAction의 run·cancel로 조회를 실행하거나 취소하고, isRunning·isCanceling으로 진행 상태를 확인합니다. usePageLockLoading은 OwpUiProvider의 Backdrop을 통해 로딩 중 화면 조작을 막습니다.',
   '날짜 범위를 검색 키로 옮기고 값을 JSON body·문자열로 변환합니다. query·form 모드와 빈 값 처리 결과를 비교합니다.':
@@ -158,11 +161,11 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
   '파일·추가 필드를 FormData 업로드 변수로 구성하고 Blob을 ZIP으로 저장합니다. fetchFile·openFileBySeq는 프로젝트의 파일 API·인증 설정이 필요합니다.':
     '파일과 추가 필드로 업로드할 FormData를 구성하고, Blob 파일을 ZIP으로 묶어 다운로드합니다. fetchFile·openFileBySeq를 사용하려면 앱의 파일 API와 인증 정보를 설정해야 합니다.',
   'initOwpI18n과 언어 상태를 연결하고 API용 대문자 코드와 i18next용 소문자 코드를 확인합니다. useStorage의 환경 설정은 사용자 설정 저장과 별도로 관리합니다.':
-    'initOwpI18n으로 언어를 초기화하고 언어 hook으로 현재 언어를 읽거나 변경합니다. API에 전달하는 대문자 언어 코드와 i18next에 전달하는 소문자 언어 코드를 확인합니다. useStorage의 환경 설정은 사용자 설정 저장과 별도로 관리합니다.',
+    'initOwpI18n으로 언어를 초기화하고 언어 Hook으로 현재 언어를 읽거나 변경합니다. API에 전달하는 대문자 언어 코드와 i18next에 전달하는 소문자 언어 코드를 확인합니다. useStorage의 환경 설정은 사용자 설정 저장과 별도로 관리합니다.',
   '독립 실행 범위가 필요할 때 공개 store·atom을 사용합니다. 테마 기본값과 상수는 설정 구성에 사용하며 페이지마다 store를 새로 만들 필요는 없습니다.':
     '별도 store가 필요한 경우 createOwpStore와 공개 atom을 사용합니다. 테마 기본값과 상수는 앱의 초기 설정에 사용합니다. 같은 store를 공유하는 페이지마다 새 store를 만들 필요는 없습니다.',
   '프로바이더는 페이지들이 같은 앱 환경·상태·요청 캐시·테마와 공통 UI를 사용하도록 실행 범위를 만듭니다. 앱 구성 예시의 AppProviders와 루트 App처럼 Router 바깥의 기반 구성과 Router 안의 화면 구성을 나눕니다.':
-    'Core의 Provider는 각 페이지가 앱 환경·사용자 정보·설정·요청 cache·테마·공통 UI를 공유하도록 연결합니다. 예제에서는 AppProviders의 OwpCoreProvider·OwpStyleProvider가 RouterProvider를 감싸고, RouterProvider가 렌더링하는 루트 route element에 OwpUiProvider를 배치합니다.',
+    'Core의 Provider는 각 페이지가 앱 환경·사용자 정보·설정·요청 cache·테마·공통 UI를 공유하도록 연결합니다. 예제에서는 <strong>AppProviders</strong>의 <strong>OwpCoreProvider</strong>·<strong>OwpStyleProvider</strong>가 <strong>RouterProvider</strong>를 감싸고, RouterProvider가 렌더링하는 루트 route element에 <strong>OwpUiProvider</strong>를 배치합니다.',
   'env에는 apiBaseUrl·accessTokenTransport·언어 사용 여부를, configs에는 routesConfig·navigationConfig·settingsConfig를 전달합니다. 이 범위에 독립 Jotai store와 QueryClient가 만들어집니다. queryClientConfig로 재시도·재조회 기본값을 정하거나 이미 생성한 queryClient를 전달할 수 있습니다. storePreloadedState는 지원하는 settings·navbar 초기 상태를 넣는 옵션입니다.':
     'env에는 apiBaseUrl·accessTokenTransport·언어 사용 여부를, configs에는 routesConfig·navigationConfig·settingsConfig를 전달합니다. OwpCoreProvider는 기본적으로 독립된 Jotai store와 QueryClient를 생성합니다. queryClientConfig로 재시도·재조회 기본값을 정하거나 이미 생성한 queryClient를 전달할 수 있습니다. storePreloadedState에는 settings·navbar의 초기값을 지정합니다.',
   'OwpCoreProvider 안에 OwpStyleProvider를 두면 현재 settings의 main 테마를 MUI에 제공합니다. 앱 최상위에는 root를 지정해 body class와 전역 스타일을 적용합니다. theme을 직접 전달하면 그 MUI theme이 우선하므로 Core 테마 변경과 동기화하려면 별도 처리가 필요합니다. Emotion cache는 cacheProviderProps.value를 전달한 경우에 연결합니다.':
@@ -174,11 +177,11 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
   'Core는 앱 전체에서 공유하는 사용자·메뉴·설정 상태를 관리합니다. 페이지의 입력·선택 값은 React 로컬 상태에, 서버 조회 결과는 QueryClient 캐시에 두어 상태의 수명과 갱신 경로를 분명히 합니다.':
     'Core는 앱 전체에서 사용하는 사용자 정보·메뉴·설정을 store에 보관합니다. 페이지에서 입력하거나 선택한 값은 컴포넌트의 state로 관리하고, API 조회 결과는 QueryClient의 cache로 관리합니다.',
   'useGetCurrentUser·useGetNavigationList·useGetCurrentSettings로 필요한 상태를 구독합니다. 변경은 useApplyAuthenticatedUser·useSetNavigationList·useSetSettings 같은 공개 hook으로 수행합니다. OwpCoreProvider가 store를 제공하므로 페이지마다 새 OwpStoreProvider를 만들지 않습니다. 공개 atom이 필요한 경우에는 @owp/core/store를 사용하며 Jotai를 직접 import할 앱은 Jotai 의존성도 선언합니다.':
-    'useGetCurrentUser·useGetNavigationList·useGetCurrentSettings로 각각 사용자 정보·메뉴·현재 설정을 가져옵니다. 이 값이 변경되면 hook을 사용하는 컴포넌트에도 반영됩니다. 변경할 때는 useApplyAuthenticatedUser·useSetNavigationList·useSetSettings를 사용합니다. OwpCoreProvider가 제공하는 store를 사용하므로 페이지마다 OwpStoreProvider를 추가하지 않습니다. 공개 atom은 @owp/core/store에서 가져옵니다. 앱에서 Jotai를 직접 import한다면 Jotai 의존성도 선언합니다.',
+    'useGetCurrentUser·useGetNavigationList·useGetCurrentSettings로 각각 사용자 정보·메뉴·현재 설정을 가져옵니다. 이 값이 변경되면 Hook을 사용하는 컴포넌트에도 반영됩니다. 변경할 때는 useApplyAuthenticatedUser·useSetNavigationList·useSetSettings를 사용합니다. OwpCoreProvider가 제공하는 store를 사용하므로 페이지마다 OwpStoreProvider를 추가하지 않습니다. 공개 atom은 @owp/core/store에서 가져옵니다. 앱에서 Jotai를 직접 import한다면 Jotai 의존성도 선언합니다.',
   'settings·navbar의 일반 변경은 메모리 상태이며 새로고침 후 자동 복원을 보장하지 않습니다. 반면 인증 정보와 navigation 등은 해당 hook이 storage와 연결합니다. store를 분리해도 브라우저 storage까지 분리되는 것은 아닙니다. 사용자별 설정 저장이 필요하면 앱이 저장 key·형식 검증·로그아웃 처리·초기화 이후 복원 시점을 정해야 합니다. useStorage의 getEnv·setEnv는 환경 설정 API로, 사용자 settings 저장 함수가 아닙니다.':
-    'settings·navbar 변경은 메모리의 store에 반영되며 새로고침 후 자동 복원을 보장하지 않습니다. 인증 정보와 navigation 등은 관련 hook을 통해 storage에도 저장됩니다. store를 분리해도 같은 origin의 브라우저 storage까지 분리되지는 않습니다. 사용자별 설정을 저장하려면 앱에서 저장 key·데이터 형식 검증·로그아웃 시 처리·설정 초기화 후 복원 시점을 정해야 합니다. useStorage의 getEnv·setEnv는 환경 설정용 API이며 사용자 settings를 저장하는 함수가 아닙니다.',
+    'settings·navbar 변경은 메모리의 store에 반영되며 새로고침 후 자동 복원을 보장하지 않습니다. 인증 정보와 navigation 등은 관련 Hook을 통해 storage에도 저장됩니다. store를 분리해도 같은 origin의 브라우저 storage까지 분리되지는 않습니다. 사용자별 설정을 저장하려면 앱에서 저장 key·데이터 형식 검증·로그아웃 시 처리·설정 초기화 후 복원 시점을 정해야 합니다. useStorage의 getEnv·setEnv는 환경 설정용 API이며 사용자 settings를 저장하는 함수가 아닙니다.',
   'Core는 프로바이더·상태 관리·API·테마를 연결하는 앱의 기반입니다. 프로바이더는 <strong>공유 실행 환경</strong>을 만들고, 상태 hook은 사용자·메뉴·설정을, API hook은 요청과 캐시를, 테마 설정은 앱의 공통 스타일을 관리합니다.':
-    'Core는 프로바이더·상태 관리·API·테마를 연결하는 앱의 기반입니다. 프로바이더는 여러 화면이 같은 <strong>context와 store</strong>를 사용하도록 연결합니다. 상태 hook은 사용자·메뉴·설정을, API hook은 요청과 cache를, 테마 설정은 앱의 공통 스타일을 관리합니다.',
+    'Core는 프로바이더·상태 관리·API·테마를 연결하는 앱의 기반입니다. 프로바이더는 여러 화면이 같은 <strong>context와 store</strong>를 사용하도록 연결합니다. 상태 Hook은 사용자·메뉴·설정을, API Hook은 요청과 cache를, 테마 설정은 앱의 공통 스타일을 관리합니다.',
   '문서 메뉴의 프로바이더 구성 → 상태 관리 → API 설정 → 테마와 설정 순서로 각 기능의 역할·설정 방법·기대효과를 확인하세요. 아래에서는 설치와 전체 진입 코드를 확인할 수 있습니다.':
     '문서 메뉴에서 Provider 구성 → 사용자·메뉴·설정 관리 → API 설정 → 테마 설정 순서로 각 기능의 사용법을 확인하세요. 아래에는 설치 명령과 앱 초기화 코드가 있습니다.',
   'OwpUiProvider는 React Router Data Router 안에 배치하고, 페이지 이동 보호가 필요한 화면에서 usePageLeaveGuard를 호출합니다. Playground의 독립 예제는 서버 인증 없이 실행합니다.':
@@ -206,4 +209,5 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
     '편집한 값을 저장합니다. 저장하지 않은 변경 내용이 있으면 창을 닫기 전에 버릴지 확인합니다.',
   '저장 버튼은 입력값을 반영하고 닫기 버튼은 미저장 변경을 확인합니다.':
     '저장 버튼은 입력값을 저장합니다. 닫기 버튼은 저장하지 않은 변경 내용이 있을 때 버릴지 확인합니다.',
+  ...guidanceKorean,
 };

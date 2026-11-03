@@ -31,6 +31,10 @@ export const coreFoundations = [
         title: '앱에서 연결할 부분',
         body: '앱 구성 예시의 src/app/AppProviders.tsx는 앱별 env·routes·navigation·settings와 로고·DataGrid 테마 미리보기 slot을 전달하고, src/app/App.tsx는 useInitApp과 OwpUiProvider로 OwpLayout을 감쌉니다. 인증 API·로그인 이동·업무 화면·i18next 초기화는 앱이 구성합니다. OwpUiProvider는 OwpDialogsProvider를 포함하므로 같은 범위에 다시 중첩하지 않습니다.',
       },
+      {
+        title: '페이지별 로딩 Skeleton',
+        body: 'OwpCoreProvider의 slotProps.routeLoading.getSkeletonSpec에 경로별 OwpPageSkeletonSpec을 반환하는 함수를 전달합니다. OwpLayout은 첫 방문의 Suspense 대기 중 내부 PageSkeleton을 표시합니다. 앱에서 내부 컴포넌트를 직접 import하지 않습니다. 페이지 로딩 Skeleton 예제에서 Provider 등록·로딩 완료·재방문을 비교할 수 있습니다.',
+      },
     ],
   },
   {

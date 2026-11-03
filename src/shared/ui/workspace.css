@@ -2,6 +2,38 @@
   max-width: 1440px;
   margin-inline: auto;
 }
+.main-content {
+  --pg-page-motion-duration: 140ms;
+  --pg-view-motion-duration: 160ms;
+  --pg-motion-distance: 8px;
+  --pg-motion-easing: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.main-content > .workspace {
+  animation: workspace-enter var(--pg-page-motion-duration) var(--pg-motion-easing);
+}
+@keyframes workspace-enter {
+  from {
+    opacity: 0.72;
+    transform: translateX(var(--pg-motion-distance));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes workspace-fade {
+  from {
+    opacity: 0.72;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .main-content > .workspace {
+    animation: workspace-fade 80ms ease-out;
+  }
+}
 .package-placeholder {
   padding: 24px;
   display: flex;

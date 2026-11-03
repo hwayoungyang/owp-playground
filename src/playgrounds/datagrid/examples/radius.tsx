@@ -44,7 +44,10 @@ export function RadiusGrid(props: TaskGridProps = {}) {
               <span className="example-setting-label">{t('모서리 둥글기')}</span>
               <Select
                 value={radius}
-                inputProps={{ 'aria-label': t('모서리 둥글기') }}
+                inputProps={{
+                  'aria-label': t('모서리 둥글기'),
+                  'aria-describedby': 'radius-example-help',
+                }}
                 onChange={handleRadiusChange}
               >
                 <MenuItem value={0}>{t('기본 (각진)')}</MenuItem>
@@ -56,6 +59,9 @@ export function RadiusGrid(props: TaskGridProps = {}) {
           </div>
         </div>
       </PreviewActions>
+      <div className="example-guidance">
+        <p id="radius-example-help">{t('모서리가 둥근 정도를 설정합니다.')}</p>
+      </div>
       <div className="example-grid" style={{ padding: 12 }}>
         <OwpDataGrid
           api={gridApi}

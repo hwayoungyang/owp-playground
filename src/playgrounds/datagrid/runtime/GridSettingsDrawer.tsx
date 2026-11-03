@@ -90,7 +90,10 @@ export function GridSettingsDrawer({
           <Select
             id="radius-size"
             value={value.radius}
-            inputProps={{ 'aria-label': t('모서리 둥글기') }}
+            inputProps={{
+              'aria-label': t('모서리 둥글기'),
+              'aria-describedby': 'radius-settings-help',
+            }}
             onChange={(event) => {
               const radius = Number(event.target.value);
               if ([0, 0.25, 0.5, 0.75].includes(radius)) onChange({ ...value, radius });
@@ -104,6 +107,9 @@ export function GridSettingsDrawer({
               <MenuItem value={value.radius}>{value.radius} rem</MenuItem>
             )}
           </Select>
+          <div id="radius-settings-help" className="grid-settings-note">
+            {t('모서리가 둥근 정도를 설정합니다.')}
+          </div>
         </div>
         <ThemeSettings value={theme} onChange={onThemeChange} />
         <Button onClick={onThemeOpen}>{t('상세 테마 편집')}</Button>

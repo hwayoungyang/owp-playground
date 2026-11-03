@@ -2,7 +2,7 @@ export const foundationEnglish: Readonly<Record<string, string>> = {
   목차: 'Contents',
   '프로바이더 구성': 'Provider setup',
   '프로바이더는 페이지들이 같은 앱 환경·상태·요청 캐시·테마와 공통 UI를 사용하도록 실행 범위를 만듭니다. 앱 구성 예시의 AppProviders와 루트 App처럼 Router 바깥의 기반 구성과 Router 안의 화면 구성을 나눕니다.':
-    'Providers create a shared scope for the app environment, state, request cache, themes, and common UI. Following the app setup example’s AppProviders and root App, separate the foundation outside the router from the UI inside it.',
+    'Core providers let pages share the app environment, user information, settings, request cache, themes, and common UI. In the example, <strong>AppProviders</strong> wraps <strong>RouterProvider</strong> with <strong>OwpCoreProvider</strong> and <strong>OwpStyleProvider</strong>. The root route element rendered by RouterProvider contains <strong>OwpUiProvider</strong>.',
   'OwpCoreProvider: 앱 환경과 상태의 시작점': 'OwpCoreProvider: app environment and state',
   'env에는 apiBaseUrl·accessTokenTransport·언어 사용 여부를, configs에는 routesConfig·navigationConfig·settingsConfig를 전달합니다. 이 범위에 독립 Jotai store와 QueryClient가 만들어집니다. queryClientConfig로 재시도·재조회 기본값을 정하거나 이미 생성한 queryClient를 전달할 수 있습니다. storePreloadedState는 지원하는 settings·navbar 초기 상태를 넣는 옵션입니다.':
     'Pass apiBaseUrl, accessTokenTransport, and language options in env, and routesConfig, navigationConfig, and settingsConfig in configs. This scope creates an independent Jotai store and QueryClient. Configure retry and refetch defaults with queryClientConfig, or provide an existing queryClient. storePreloadedState overrides the supported initial settings and navbar state.',

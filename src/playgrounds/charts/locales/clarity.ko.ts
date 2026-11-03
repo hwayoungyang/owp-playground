@@ -1,4 +1,7 @@
 export const chartKorean: Readonly<Record<string, string>> = {
+  'HTML tooltip': 'HTML Tooltip',
+  '차트 가장자리에서도 읽기 쉬운 HTML tooltip을 표시할 수 있습니다.':
+    '차트 가장자리에서도 읽기 쉬운 HTML Tooltip을 표시할 수 있습니다.',
   axis·시간: '축·시간',
   '백분율 axis': '백분율 축',
   'Column & Line · 이중 axis': 'Column·Line · 이중 축',

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { useOwpTranslation } from '@owp/components/hooks';
+import { Trans } from '@owp/core/i18n';
 import { WorkspaceHeading } from '../../../shared/ui/WorkspaceHeading';
 import { GettingStartedHeader } from '../../../shared/ui/GettingStartedHeader';
 import type { CoreCatalogEntry } from '../catalog';
@@ -60,7 +61,9 @@ export function CoreGuideLayout({
         <article className="core-guide-body">
           <div className="guide-sections">
             {introduction && example.id !== 'getting-started' && (
-              <p className="guide-introduction">{t(introduction)}</p>
+              <p className="guide-introduction">
+                <Trans t={t} i18nKey={introduction} components={{ strong: <strong /> }} />
+              </p>
             )}
             {children}
           </div>

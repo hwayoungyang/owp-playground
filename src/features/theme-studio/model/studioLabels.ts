@@ -95,29 +95,3 @@ export const themeFieldLabels: Readonly<Record<string, string>> = {
   fontWeightMedium: '중간 글자 굵기',
   fontWeightBold: 'Bold 글자 굵기',
 };
-export const muiPaletteLabels: Readonly<Record<string, string>> = {
-  primary: '주 색상',
-  secondary: '보조 색상',
-  success: '성공',
-  warning: '주의',
-  error: '오류',
-  info: '정보',
-  background: '배경',
-  text: '텍스트',
-  inputFocus: '입력 포커스',
-  button: '버튼',
-  common: '공통',
-};
-export const muiColorLabels: Readonly<Record<string, string>> = {
-  main: '기본색',
-  contrastText: '대비 글자색',
-  default: '화면',
-  paper: '컴포넌트',
-  primary: '기본색',
-  secondary: '보조색',
-  light: '밝은 색',
-  dark: '어두운 색',
-  disabled: '비활성 글자색',
-  black: '검정',
-  white: '흰색',
-};

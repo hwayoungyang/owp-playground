@@ -20,20 +20,12 @@
   padding: 24px 16px;
   text-align: center;
 }
-.workspace-loading .workspace-loading-circle,
-.workspace-loading .workspace-loading-line {
+.workspace-loading .workspace-loading-circle {
   color: var(--pg-blue);
-}
-.workspace-loading .workspace-loading-line {
-  width: 160px;
-  max-width: 100%;
-  height: 3px;
-  border-radius: 2px;
 }
 @media (prefers-reduced-motion: reduce) {
   .workspace-loading .MuiCircularProgress-root,
-  .workspace-loading .MuiCircularProgress-circle,
-  .workspace-loading .MuiLinearProgress-bar {
+  .workspace-loading .MuiCircularProgress-circle {
     animation: none;
     transition: none;
   }

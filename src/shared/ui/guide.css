@@ -1,7 +1,10 @@
 .guide-sections {
+  --guide-section-gap: 40px;
+  --guide-text-gap: 24px;
+  --guide-heading-gap: 16px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: var(--guide-section-gap);
   margin-top: 32px;
   max-width: 960px;
 }
@@ -21,34 +24,40 @@
   color: var(--pg-ink);
 }
 @media (max-width: 599px) {
+  .guide-sections {
+    --guide-section-gap: 32px;
+  }
   .getting-started-header .workspace-heading h1 {
     font-size: 24px;
   }
 }
 .guide-sections h2 {
-  margin: 0 0 12px;
+  margin: 0 0 var(--guide-heading-gap);
   font-size: 16px;
   font-weight: 600;
   line-height: 1.6;
 }
 .guide-sections p {
-  margin: 0 0 16px;
+  margin: 0 0 var(--guide-text-gap);
   font-size: 13px;
   line-height: 1.85;
   color: var(--pg-secondary);
 }
 .guide-sections .guide-note {
-  margin: 16px 0;
+  margin: var(--guide-text-gap) 0;
   color: var(--pg-muted);
 }
 .guide-sections h3 {
-  margin: 24px 0 12px;
+  margin: 24px 0 var(--guide-heading-gap);
   font-size: 15px;
   line-height: 1.6;
   font-weight: 600;
 }
 .guide-sections > section > :last-child {
   margin-bottom: 0;
+}
+.guide-sections > section > .guide-code + :is(p, ul, ol, dl, details, .guide-code) {
+  margin-top: var(--guide-text-gap);
 }
 .guide-sections ul:not([class]),
 .guide-sections ol:not([class]) {

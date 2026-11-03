@@ -44,7 +44,7 @@ describe('API loading boundaries', () => {
     const html = renderToStaticMarkup(<PublicApiWorkspace packageId="components" symbol={null} />);
     expect(html).toContain('OwpNumberField');
     expect(html).toContain('API 검색');
-    expect(html).toContain('aria-pressed="true">입력·선택</button>');
+    expect(html).toContain('aria-pressed="true">Input, Select</button>');
     expect(html).not.toContain('workspace-loading');
     expect(loadEntry).not.toHaveBeenCalled();
   });
@@ -109,16 +109,22 @@ function renderReady(element: ReactNode): Promise<string> {
 
 describe('shared loading feedback', () => {
   it.each([
-    ['ko', '예제를 불러오는 중…'],
-    ['en', 'Loading example…'],
-  ])('announces one %s status without inventing a percentage', async (language, label) => {
-    await i18next.changeLanguage(language);
-    const html = renderToStaticMarkup(<WorkspaceLoading />);
-    expect(html).toContain(label);
-    expect(html.match(/role="status"/g)).toHaveLength(1);
-    expect(html).toContain('MuiCircularProgress-root');
-    expect(html).toContain('MuiLinearProgress-root');
-    expect(html.match(/aria-hidden="true"/g)).toHaveLength(2);
-    expect(html).not.toContain('aria-valuenow');
-  });
+    ['ko', '예제를 불러오는 중…', 'page'],
+    ['ko', '예제를 불러오는 중…', 'panel'],
+    ['en', 'Loading example…', 'page'],
+    ['en', 'Loading example…', 'panel'],
+  ] as const)(
+    'announces one %s %s status in %s with one indicator',
+    async (language, label, scope) => {
+      await i18next.changeLanguage(language);
+      const html = renderToStaticMarkup(<WorkspaceLoading scope={scope} />);
+      expect(html).toContain(label);
+      expect(html.match(/role="status"/g)).toHaveLength(1);
+      expect(html).toContain('MuiCircularProgress-root');
+      expect(html).not.toContain('MuiLinearProgress-root');
+      expect(html.match(/role="progressbar"/g)).toHaveLength(1);
+      expect(html.match(/aria-hidden="true"/g)).toHaveLength(1);
+      expect(html).not.toContain('aria-valuenow');
+    },
+  );
 });

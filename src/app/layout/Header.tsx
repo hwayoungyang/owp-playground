@@ -13,7 +13,6 @@ import {
   createPlaygroundUrl,
   corePackage,
   componentsPackage,
-  dataGridPackage,
   getPlaygroundRoute,
   type PlaygroundPackage,
   type PlaygroundRoute,
@@ -62,7 +61,7 @@ export function Header({
           <ListIcon size={20} />
         </IconButton>
         <a
-          href={createPlaygroundUrl(location.href, getPlaygroundRoute(dataGridPackage)).href}
+          href={createPlaygroundUrl(location.href, getPlaygroundRoute(corePackage)).href}
           aria-label={t('OWP Playground 처음으로')}
           onClick={(event) => {
             if (
@@ -74,7 +73,7 @@ export function Header({
             )
               return;
             event.preventDefault();
-            onPackageChange(dataGridPackage);
+            onNavigate(getPlaygroundRoute(corePackage));
           }}
         >
           <img

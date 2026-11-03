@@ -21,8 +21,6 @@ import {
   updateMuiTheme,
 } from '../src/features/theme-studio/model/studio';
 import {
-  muiColorLabels,
-  muiPaletteLabels,
   themeFieldLabels,
   themeGroupLabels,
 } from '../src/features/theme-studio/model/studioLabels';
@@ -414,13 +412,7 @@ describe('project theme files', () => {
     ]);
   });
   it('provides locale entries for every supported group and field label', () => {
-    for (const labels of [
-      themeGroupLabels,
-      themeFieldLabels,
-      muiPaletteLabels,
-      muiColorLabels,
-      previewPresetDescriptions,
-    ]) {
+    for (const labels of [themeGroupLabels, themeFieldLabels, previewPresetDescriptions]) {
       for (const label of Object.values(labels)) expect(appEnglish[label], label).toBeTruthy();
     }
     for (const [group, fields] of Object.entries(resolveOwpGridTheme())) {

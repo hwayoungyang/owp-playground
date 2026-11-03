@@ -3,11 +3,12 @@
   padding: 20px;
 }
 .public-api-panel > section + section {
-  margin-top: 24px;
-  padding-top: 24px;
+  margin-top: 32px;
+  padding-top: 28px;
   border-top: 1px solid var(--pg-shell-line);
 }
-.public-api-workspace > .components-api-index {
+.public-api-workspace > .components-api-index,
+.public-api-workspace > .api-index {
   margin-top: 24px;
 }
 .public-api-workspace .workspace-heading h1 {
@@ -36,7 +37,7 @@
   overflow-wrap: anywhere;
 }
 .public-api-workspace > .components-api-description {
-  margin: 12px 0;
+  margin: 20px 0 24px;
   font-size: 13px;
   color: var(--pg-shell-secondary);
 }
@@ -99,11 +100,20 @@
 }
 .public-api-panel h3 {
   font-size: 14px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+}
+.public-api-panel p {
+  margin: 0 0 20px;
+}
+.public-api-panel p:last-child {
+  margin-bottom: 0;
+}
+.public-api-panel :is(p, .components-api-table-scroll) + .components-api-table-scroll {
+  margin-top: 20px;
 }
 .public-api-panel .guide-code {
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 .public-api-panel .code-toolbar {
   min-height: 36px;
@@ -124,7 +134,7 @@
 }
 .public-api-workspace .api-contract-table :is(th, td) {
   min-width: 0;
-  padding: 12px 8px;
+  padding: 16px 12px;
   font-size: 12px;
   overflow-wrap: anywhere;
 }
@@ -141,6 +151,9 @@
   font-size: 11px;
   font-weight: 400;
 }
+.public-api-workspace .api-contract-table tbody th {
+  font-weight: 500;
+}
 .public-api-workspace .api-contract-table:has(thead th:nth-child(4)) {
   min-width: 720px;
 }
@@ -155,9 +168,6 @@
 }
 .public-api-workspace .api-contract-table:has(thead th:nth-child(4)) td:last-child {
   min-width: 200px;
-}
-.public-api-workspace .api-contract-table tbody th {
-  font-weight: 500;
 }
 .public-api-workspace .api-contract-table code {
   font-size: 11px;

@@ -1,6 +1,7 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Tooltip } from '@mui/material';
 import { CheckIcon } from '@phosphor-icons/react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import type { NavigationItem } from './navigation';
 
 export function NavigationLink({
@@ -17,12 +18,30 @@ export function NavigationLink({
   const { t } = useOwpTranslation();
   const title = t(item.title);
   const match = query ? title.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) : -1;
+  const titleRef = useRef<HTMLSpanElement>(null);
+  const [isTruncated, setIsTruncated] = useState(false);
+  const updateTruncation = useCallback(() => {
+    const element = titleRef.current;
+    setIsTruncated(element !== null && element.scrollWidth > element.clientWidth);
+  }, []);
+
+  useLayoutEffect(() => {
+    updateTruncation();
+    const element = titleRef.current;
+    if (!element) return;
+    const observer = new ResizeObserver(updateTruncation);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [updateTruncation, title, query, item.active]);
+
   return (
-    <Tooltip title={title} placement="right" describeChild>
+    <Tooltip title={isTruncated ? title : ''} placement="right" describeChild>
       <a
         href={item.url}
         aria-current={item.active ? 'page' : undefined}
         className={'nav-item' + (item.active ? ' active' : '')}
+        onMouseEnter={updateTruncation}
+        onFocus={updateTruncation}
         onClick={(event) => {
           if (
             event.button !== 0 ||
@@ -38,7 +57,7 @@ export function NavigationLink({
         }}
       >
         <span className="nav-item-copy">
-          <span className="nav-item-title">
+          <span className="nav-item-title" ref={titleRef}>
             {match < 0 ? (
               title
             ) : (

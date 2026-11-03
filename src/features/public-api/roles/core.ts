@@ -122,7 +122,10 @@ export const coreRoles: Readonly<Record<string, readonly [string, string]>> = {
   useSetLogoSrc: ['로고 경로 저장', 'Save the logo source'],
   useSetNavigationList: ['메뉴 목록 저장', 'Save navigation items'],
   useSetSettings: ['현재 앱 설정 변경', 'Update current application settings'],
-  useStorage: ['앱 저장소 조회·변경', 'Application storage access'],
+  useStorage: [
+    '환경 설정 조회·저장과 storage 초기화',
+    'Read and save environment settings and reset storage',
+  ],
   useSuspenseQuery: ['Suspense 기반 데이터 조회', 'Suspense data query'],
   useTranslation: ['번역 함수 조회', 'Read the translation function'],
 };

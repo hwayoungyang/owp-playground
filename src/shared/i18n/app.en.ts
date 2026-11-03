@@ -808,6 +808,9 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '상세 작업 목록': 'Detail tasks',
   'Props · API': 'Props · API',
   '모서리 둥글기': 'Corner radius',
+  '모서리가 둥근 정도를 설정합니다.': 'Set how rounded the corners are.',
+  '색상 항목은 테마 코드와 같은 palette 속성 이름으로 표시합니다.':
+    'Color fields use the same palette property names as the theme code.',
   '기본 (각진)': 'Default (square)',
   작게: 'Small',
   중간: 'Medium',

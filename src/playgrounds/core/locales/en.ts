@@ -7,6 +7,7 @@ import { ownershipEnglish } from './ownership.en';
 import { apiInspectorEnglish } from './api-inspector.en';
 import { addedFeaturesEnglish } from './added-features.en';
 import { extensionsEnglish } from './extensions.en';
+import { pageSkeletonEnglish } from './page-skeleton.en';
 
 export const coreEnglish: Readonly<Record<string, string>> = {
   '앱 기본 테마': 'App default theme',
@@ -24,6 +25,7 @@ export const coreEnglish: Readonly<Record<string, string>> = {
   ...apiInspectorEnglish,
   ...addedFeaturesEnglish,
   ...extensionsEnglish,
+  ...pageSkeletonEnglish,
   ...coreClarityEnglish,
   'Label.검색': 'Search',
   시작하기: 'Getting started',
@@ -43,8 +45,10 @@ export const coreEnglish: Readonly<Record<string, string>> = {
   '검색과 페이지': 'Search & page layout',
   '페이지 콘텐츠': 'Page content',
   '검색 필터': 'Search filter',
-  'API 선택': 'API selector',
-  '공통코드 선택': 'Common code selectors',
+  'API 연동 선택 필드': 'API-backed selection fields',
+  '공통코드 Select·Radio': 'Common-code Select & Radio',
+  'API 선택': 'API-backed selection fields',
+  '공통코드 선택': 'Common-code Select & Radio',
   '다이얼로그 상태 관리': 'Dialog state management',
   '확인과 알림': 'Confirm & alert',
   '로딩 표시': 'Loading indicators',
@@ -70,6 +74,10 @@ export const coreEnglish: Readonly<Record<string, string>> = {
     'Submit search criteria and try reset and asynchronous progress.',
   '검색 조건을 입력해 조회하고 조건 초기화와 비동기 진행·취소 상태를 확인합니다.':
     'Submit search criteria and verify reset, asynchronous progress, and cancellation.',
+  'OwpQuerySelector로 API 응답 목록을 Select·Autocomplete에 표시하고 선택 값을 확인합니다.':
+    'Display API response options in Select and Autocomplete with OwpQuerySelector, and inspect the selected value.',
+  'OwpCommonCodeSelector와 OwpCommonCodeRadioGroup으로 같은 그룹의 공통코드를 선택합니다.':
+    'Select common codes from the same group with OwpCommonCodeSelector and OwpCommonCodeRadioGroup.',
   '로컬 응답 데이터를 실제 API selector로 조회하고 선택 값을 확인합니다.':
     'Load a local response with the API selector and inspect the selected value.',
   '같은 공통코드 데이터를 Select와 Radio group으로 선택합니다.':

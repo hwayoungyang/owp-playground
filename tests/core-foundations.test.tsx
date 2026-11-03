@@ -90,14 +90,31 @@ describe('Core foundation guides', () => {
         expect(coreEnglish[text], text).not.toMatch(/[가-힣]/);
       }
     }
-    await i18next.changeLanguage('en');
     try {
       const example = coreCatalog.find((entry) => entry.id === 'providers');
       if (!example || example.kind !== 'guide') throw new TypeError('Missing provider guide');
-      const html = renderToStaticMarkup(<CoreGettingStarted example={example} />);
-      expect(html).toContain('Provider setup');
-      expect(html).toContain('Expected behavior');
-      expect(html).not.toContain('적용 결과');
+      for (const language of ['ko', 'en']) {
+        await i18next.changeLanguage(language);
+        const html = renderToStaticMarkup(<CoreGettingStarted example={example} />);
+        const introduction = html.split('class="guide-introduction">')[1]?.split('</p>')[0];
+        expect(introduction).toBeDefined();
+        expect(introduction).not.toContain('&lt;strong&gt;');
+        const emphasized = [...(introduction?.matchAll(/<strong>(.*?)<\/strong>/g) ?? [])].map(
+          (match) => match[1],
+        );
+        expect(emphasized.sort()).toEqual([
+          'AppProviders',
+          'OwpCoreProvider',
+          'OwpStyleProvider',
+          'OwpUiProvider',
+          'RouterProvider',
+        ]);
+        if (language === 'en') {
+          expect(html).toContain('Provider setup');
+          expect(html).toContain('Expected behavior');
+          expect(html).not.toContain('적용 결과');
+        }
+      }
     } finally {
       await i18next.changeLanguage('ko');
     }

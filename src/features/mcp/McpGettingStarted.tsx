@@ -17,7 +17,7 @@ export function McpGettingStarted({
   const generatedHeadingId = useId();
   const sectionHeadingId = headingId ?? generatedHeadingId;
   const requestExample = t(
-    '대상: {{packageName}} {{version}}\n- list_packages로 대상 패키지와 버전 제공 여부 확인.\n- 해당 버전의 공개 API·가이드·사용 예제를 조회해 구현.\n- 응답의 packageVersion 대조. 후속 조회에 같은 version과 releaseId 사용.\n- 요청한 버전·자료가 없으면 다른 버전으로 대체하지 않고 설치본의 공개 타입·README 확인.',
+    '대상: {{packageName}} {{version}}\n- list_packages로 대상 패키지와 버전 제공 여부 확인.\n- 해당 버전의 공개 API·가이드·사용 예제를 조회해 구현.\n- OWP wrapper 컴포넌트·Hook·함수가 있으면 원본 API나 re-export보다 항상 우선. wrapper의 소유 패키지와 설치 버전도 확인.\n- 응답의 packageVersion 대조. 후속 조회에 같은 version과 releaseId 사용.\n- 요청한 버전·자료가 없으면 다른 버전으로 대체하지 않고 설치본의 공개 타입·README 확인.',
     { packageName, version },
   );
 
@@ -32,6 +32,11 @@ export function McpGettingStarted({
       <p className="guide-note">
         {t(
           '연결 후 list_packages로 제공되는 패키지와 버전을 먼저 확인하세요. Playground의 API 목록과 MCP 서버에 등록된 자료는 다를 수 있습니다. 요청한 자료가 없으면 설치본의 공개 타입과 README를 기준으로 확인합니다.',
+        )}
+      </p>
+      <p className="guide-note">
+        {t(
+          'OWP에서 wrapper 컴포넌트·Hook·함수를 제공하는 경우에는 원본 API나 re-export 대신 해당 wrapper를 사용해 주세요. 번역 기능을 구현할 때는 @owp/components/hooks의 useOwpTranslation을, API 요청을 구현할 때는 @owp/core/hooks의 createOwpApiHooks를 먼저 확인해 주세요.',
         )}
       </p>
       <p>

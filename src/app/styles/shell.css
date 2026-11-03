@@ -589,10 +589,6 @@ kbd {
   border-top: 1px solid var(--pg-shell-line);
 }
 
-/* 검색과 빠른 재방문도 기존 탐색 목록의 스크롤을 사용합니다. */
-.sidebar-footer .navigation-favorite {
-  margin-left: auto;
-}
 .navigation-favorite {
   display: grid;
   place-items: center;
@@ -604,6 +600,10 @@ kbd {
   background: transparent;
   color: var(--pg-shell-secondary);
   cursor: pointer;
+}
+/* 검색과 빠른 재방문도 기존 탐색 목록의 스크롤을 사용합니다. */
+.sidebar-footer .navigation-favorite {
+  margin-left: auto;
 }
 .navigation-favorite:hover,
 .navigation-favorite[aria-pressed="true"] {

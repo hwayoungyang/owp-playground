@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import {
   type chartsPackage,
-  type corePackage,
+  corePackage,
   type componentsPackage,
   dataGridPackage,
   packageCatalog,
@@ -169,9 +169,11 @@ export function getPlaygroundRoute(
 export function readPlaygroundRoute(search: string): PlaygroundRoute {
   const parameters = new URLSearchParams(search);
   const packageId = packageIdSchema.safeParse(parameters.get('package')?.replace(/^@owp\//, ''));
+  const fallback =
+    !parameters.has('package') && parameters.has('sample') ? dataGridPackage : corePackage;
   const playground = packageId.success
-    ? (packageCatalog.find((entry) => entry.id === packageId.data) ?? dataGridPackage)
-    : dataGridPackage;
+    ? (packageCatalog.find((entry) => entry.id === packageId.data) ?? fallback)
+    : fallback;
   if (parameters.get('view') === 'api' && supportsApiReference(playground))
     return {
       status: 'api',

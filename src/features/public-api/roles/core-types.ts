@@ -52,7 +52,7 @@ const types: Readonly<Record<string, readonly [string, string]>> = {
   SettingsConfigType: ['앱 환경 설정', 'Application preferences'],
   SettingsInput: ['환경 설정 입력값', 'Preferences input'],
   SnackbarProviderConfigType: ['알림 메시지 설정', 'Snackbar settings'],
-  Store: ['앱 상태 저장소', 'Application state store'],
+  Store: ['앱 상태 store', 'Application state store'],
 };
 
 export const coreTypeRoles: Readonly<Record<string, readonly [string, string]>> = {
@@ -93,7 +93,7 @@ export const coreTypeRoles: Readonly<Record<string, readonly [string, string]>> 
   PageLockLoadingProps: ['페이지 입력 잠금 로딩 Props', 'Page lock loading props'],
   QueryCancellationConfig: ['Query 취소 정책', 'Query cancellation policy'],
   QueryCancellationMeta: ['개별 Query 취소 설정', 'Per-query cancellation settings'],
-  QueryKey: ['Query 캐시 키', 'Query cache key'],
+  QueryKey: ['Query cache key', 'Query cache key'],
   QueryOptionsFunction: ['Query 옵션 생성 함수', 'Query options function'],
   QueryOptionsResult: ['Query 옵션 생성 결과', 'Query options result'],
   ResponsePolicyQueryKey: ['응답 처리 정책을 포함한 Query 키', 'Query key with response policy'],

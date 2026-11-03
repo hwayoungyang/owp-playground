@@ -14,14 +14,16 @@ describe('shared playground URLs', () => {
     expect(route.example?.id).toBe('editing');
   });
 
-  it.each(['', '?package=unknown', '?package=datagrid&sample=unknown'])(
-    'opens a usable default when the URL is %s',
-    (search) => {
-      const route = readPlaygroundRoute(search);
-      expect(route.playground.id).toBe('datagrid');
-      expect(route.example?.id).toBe('getting-started');
-    },
-  );
+  it.each([
+    ['', 'core'],
+    ['?lang=en', 'core'],
+    ['?package=unknown', 'core'],
+    ['?package=datagrid&sample=unknown', 'datagrid'],
+  ])('opens a usable default when the URL is %s', (search, packageId) => {
+    const route = readPlaygroundRoute(search);
+    expect(route.playground.id).toBe(packageId);
+    expect(route.example?.id).toBe('getting-started');
+  });
 
   it('accepts a scoped package name as a shared URL value', () => {
     const route = readPlaygroundRoute('?package=%40owp%2Fpdf');

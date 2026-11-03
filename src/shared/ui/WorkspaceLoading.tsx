@@ -1,4 +1,4 @@
-import { CircularProgress, LinearProgress } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import './workspace-loading.css';
 
@@ -21,7 +21,6 @@ export function WorkspaceLoading({
           aria-hidden="true"
         />
         <span>{t(label)}</span>
-        <LinearProgress className="workspace-loading-line" color="inherit" aria-hidden="true" />
       </div>
     </div>
   );

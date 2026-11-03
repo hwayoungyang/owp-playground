@@ -167,6 +167,7 @@ export function CoreProviders({
       },
     } satisfies OwpAppConfigs;
   }, [theme]);
+  if (exampleId === 'page-skeleton') return children;
   return (
     <OwpCoreProvider
       configs={configs}

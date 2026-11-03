@@ -33,7 +33,7 @@ it.each(['getting-started', 'providers', 'state-management', 'api-setup', 'theme
 
     // Then
     expect(model.currentCategoryLabel).toBe('문서');
-    expect(model.exampleCount).toBe(20);
+    expect(model.exampleCount).toBe(21);
     const docs = model.groups.find((group) => group.type === 'docs');
     expect(docs?.items.map((item) => item.id)).toEqual([
       'getting-started',
@@ -59,7 +59,7 @@ it.each(['getting-started', 'providers', 'state-management', 'api-setup', 'theme
     expect(samples?.categories.map((category) => category.id)).toEqual(
       coreCategories.map((category) => category.id),
     );
-    expect(samples?.categories.flatMap((category) => category.items)).toHaveLength(20);
+    expect(samples?.categories.flatMap((category) => category.items)).toHaveLength(21);
     expect(
       samples?.categories
         .flatMap((category) => category.items)
