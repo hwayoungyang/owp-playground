@@ -85,7 +85,7 @@ export const coreEnglish: Readonly<Record<string, string>> = {
   '다이얼로그를 열어 입력값을 저장하고, 저장하지 않은 변경 내용을 확인합니다.':
     'Open a dialog, save its returned value and protect unsaved changes.',
   '공통 dialog hook으로 확인·취소에 따른 상태 변화를 확인합니다.':
-    'Use the shared dialog hook to compare confirm and cancel outcomes.',
+    'Open confirmation and alert dialogs and compare confirm and cancel results.',
   '로딩 indicator의 종류와 크기를 비교합니다.': 'Compare loading indicator styles and sizes.',
   '로딩 표시 옵션과 작업 완료·실패 시 화면 잠금 해제 동작을 비교합니다.':
     'Compare loading indicator options and the page lock loading policy.',
@@ -108,7 +108,7 @@ export const coreEnglish: Readonly<Record<string, string>> = {
     'useSetSettings updates current settings, and useChangeOwpTheme updates default and current themes in memory. The app owns settings persistence; useStorage provides app environment access and storage reset.',
   '현재 글자 크기': 'Current font size',
   '기본 헤더 크기': 'Default header size',
-  '설정 상태의 저장 위치': 'Storage boundary',
+  '저장소 경계': 'Settings storage',
   '메모리 Jotai 상태 (자동 저장 없음)': 'In-memory Jotai state (no auto-persistence)',
   '설정 미리보기': 'Settings preview',
   개수: 'Count',

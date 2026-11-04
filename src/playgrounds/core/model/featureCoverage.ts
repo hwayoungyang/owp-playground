@@ -2,7 +2,7 @@ export const coreFeatureCoverage = [
   {
     id: 'providers',
     title: '앱 초기화와 실행 범위',
-    body: 'Core·Style·UI 프로바이더와 useInitApp을 앱 진입점에 연결합니다. 페이지들이 같은 환경·테마·공통 UI를 사용합니다.',
+    body: 'Core·Style·UI·다국어 Provider로 앱 설정·state·요청 cache·테마·공통 UI를 연결합니다. 필요한 내부 Provider와 runtime을 선택할 수 있습니다.',
     samples: ['providers'],
     api: [
       'OwpStoreProvider',
@@ -11,6 +11,7 @@ export const coreFeatureCoverage = [
       'OwpCoreProvider',
       'OwpStyleProvider',
       'OwpUiProvider',
+      'OwpI18nProvider',
       'useInitApp',
       'useOwpAppContext',
     ],

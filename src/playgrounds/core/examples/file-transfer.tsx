@@ -12,13 +12,13 @@ import { CoreResultTable } from '../runtime/CoreResultTable';
 
 export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const { t } = useOwpTranslation();
-  const [fileNameMode, setFileNameMode] = useState<'기본값' | '페이지와 테이블' | '직접 지정'>(
-    '기본값',
-  );
+  const [fileNameMode, setFileNameMode] = useState<
+    '기본값' | 'PAGEID·TABLENAME 사용' | 'ORIGINAL_NAME 지정'
+  >('기본값');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [payloadRows, setPayloadRows] = useState<ReturnType<typeof describeFormData>>([]);
   const [normalizedKeys, setNormalizedKeys] = useState<string[]>([]);
-  const fileNameFieldName = fileNameMode === '직접 지정' ? 'ORIGINAL_NAME' : undefined;
+  const fileNameFieldName = fileNameMode === 'ORIGINAL_NAME 지정' ? 'ORIGINAL_NAME' : undefined;
   const upload = useFormDataUploadMutation({
     fileNameFieldName,
     mutation: {
@@ -46,9 +46,9 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
     <CoreDemo
       controls={
         <CoreChoice
-          label="파일명 필드"
+          label="파일명 필드 지정 방식"
           value={fileNameMode}
-          options={['기본값', '페이지와 테이블', '직접 지정'] as const}
+          options={['기본값', 'PAGEID·TABLENAME 사용', 'ORIGINAL_NAME 지정'] as const}
           onChange={(value) => {
             setFileNameMode(value);
             setPayloadRows([]);
@@ -89,7 +89,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
               const params = {
                 file: selectedFile,
                 category: 'DEMO',
-                ...(fileNameMode === '페이지와 테이블'
+                ...(fileNameMode === 'PAGEID·TABLENAME 사용'
                   ? { PAGEID: 'ITEM', TABLENAME: 'ATTACHMENT' }
                   : {}),
               };
@@ -136,7 +136,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
         />
         <Typography variant="body2" color="text.secondary">
           {t(
-            '기본 파일명 필드는 FILE_NAME입니다. PAGEID·TABLENAME을 함께 전달하면 ITEM_ATTACHMENT가 되고, 직접 지정하면 ORIGINAL_NAME을 사용합니다.',
+            '파일명은 기본적으로 FILE_NAME에 담깁니다. 이 예제에서는 PAGEID·TABLENAME을 함께 전달하면 ITEM_ATTACHMENT를, 파일명 필드를 지정하면 ORIGINAL_NAME을 사용합니다.',
           )}
         </Typography>
         <Typography variant="body2" color="text.secondary">

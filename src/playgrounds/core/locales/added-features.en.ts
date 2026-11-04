@@ -19,10 +19,10 @@ export const addedFeaturesEnglish: Readonly<Record<string, string>> = {
   '파일 업로드': 'File upload',
   '로컬 파일을 선택하고 업로드 요청의 FormData를 확인합니다.':
     'Select a local file and inspect the FormData for an upload request.',
-  '파일명 필드': 'Filename field',
+  '파일명 필드 지정 방식': 'Filename field selection',
   기본값: 'Default',
-  '페이지와 테이블': 'Page and table',
-  '직접 지정': 'Custom field',
+  'PAGEID·TABLENAME 사용': 'Use PAGEID and TABLENAME',
+  'ORIGINAL_NAME 지정': 'Use ORIGINAL_NAME',
   '파일 선택과 요청 미리보기': 'Select a file and preview the request',
   '로컬 파일 하나를 선택하고 추가하면 업로드 요청의 FormData를 확인할 수 있습니다. 요청은 로컬에서만 미리 보며 서버에 전송하지 않습니다.':
     'Select one local file and choose Add to inspect the upload request’s FormData. The request is previewed locally and is not sent to a server.',
@@ -45,8 +45,8 @@ export const addedFeaturesEnglish: Readonly<Record<string, string>> = {
   '추가 버튼을 눌러 선택한 파일의 FormData를 확인하세요.':
     'Choose Add to inspect the selected file’s FormData.',
   '파일을 선택한 뒤 추가 버튼을 눌러 주세요.': 'Select a file, then choose Add.',
-  '기본 파일명 필드는 FILE_NAME입니다. PAGEID·TABLENAME을 함께 전달하면 ITEM_ATTACHMENT가 되고, 직접 지정하면 ORIGINAL_NAME을 사용합니다.':
-    'The default filename field is FILE_NAME. Passing PAGEID and TABLENAME together produces ITEM_ATTACHMENT in this example; choosing a custom field uses ORIGINAL_NAME.',
+  '파일명은 기본적으로 FILE_NAME에 담깁니다. 이 예제에서는 PAGEID·TABLENAME을 함께 전달하면 ITEM_ATTACHMENT를, 파일명 필드를 지정하면 ORIGINAL_NAME을 사용합니다.':
+    'The filename is stored in FILE_NAME by default. This example uses ITEM_ATTACHMENT when PAGEID and TABLENAME are supplied together, or ORIGINAL_NAME when a filename field is specified.',
   '로컬 Blob 파일을 ZIP으로 묶어 다운로드합니다.':
     'Bundle local Blob files into a ZIP archive and download it.',
   '로컬 텍스트 두 개를 Blob으로 만들고 saveZipFile로 core-files.zip을 다운로드합니다. 파일명은 items.csv·readme.txt로 유지하며, 저장 여부는 브라우저 다운로드 목록에서 확인합니다.':

@@ -44,7 +44,7 @@ export function useThemeSettings() {
   }
 
   function applyCurrentThemeAsDefault() {
-    // Core 10.2.0은 테마와 함께 현재 layout·customScrollbars 등도 기본값에 반영합니다.
+    // 테마와 함께 현재 layout·customScrollbars 등도 기본값에 반영합니다.
     changeTheme(current.theme);
   }
 

@@ -56,8 +56,8 @@ export const coreCatalog = [
     title: '프로바이더 구성',
     category: 'start',
     description:
-      'Core·스타일·UI 프로바이더의 역할을 알아보고, 중첩 순서를 맞춰 앱 전역 기능을 연결합니다.',
-    api: ['OwpCoreProvider', 'OwpStyleProvider', 'OwpUiProvider', 'useInitApp'],
+      'Core·Style·UI·다국어 Provider의 역할과 배치 순서, 내부 Provider·runtime 선택 방법을 확인합니다.',
+    api: ['OwpCoreProvider', 'OwpStyleProvider', 'OwpUiProvider', 'OwpI18nProvider', 'useInitApp'],
     kind: 'guide',
     package: '@owp/core',
     source: 'guides/providers.tsx',

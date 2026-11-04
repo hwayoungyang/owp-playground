@@ -110,7 +110,7 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
   'hasUnsavedChanges()로 미확정 입력까지 감지 가능. getChanges()는 working-copy 변경만 반환. 현재 변경 상태 조회 버튼은 편집을 확정하지 않으며, 결과는 조회 시점 기준.':
     'hasUnsavedChanges()로 미확정 입력까지 감지할 수 있습니다. getChanges()는 working-copy 변경만 반환합니다. 현재 변경 상태 조회 버튼은 편집을 확정하지 않으며, 결과는 조회 시점을 기준으로 합니다.',
   '업로드 payload 준비': '업로드 데이터 준비',
-  '저장소 경계': '설정 상태의 저장 위치',
+  '저장소 경계': '설정 저장 위치',
   '화면 잠금 로딩 정책': '로딩 중 화면 잠금',
   'query는 DT를 FR_DATE·TO_DATE로 나누고, form은 두 날짜를 DT로 합칩니다. JSON 변환은 숫자·boolean을 문자열로 바꾸며, 이 예제는 요청 로그 필드를 제외합니다.':
     'query 모드에서는 DT를 FR_DATE·TO_DATE로 나누고, form 모드에서는 두 날짜를 DT로 합칩니다. JSON 변환은 숫자·boolean을 문자열로 바꾸며, 이 예제에서는 요청 로그 필드를 제외합니다.',
@@ -144,7 +144,18 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
   'Store와 기본 구성': 'Store 설정',
   '상태 관리': '사용자·메뉴·설정 관리',
   '공유 상태를 읽고 변경하는 방법': '사용자·메뉴·설정 조회와 변경',
-  '메모리와 저장 상태의 수명': '새로고침 후 데이터 유지',
+  '메모리와 저장 상태의 수명': '설정 저장과 복원',
+  '응답 타입과 기존 generic': '응답 타입과 generic 지정',
+  'createOwpApiHooks에 API 주소와 응답 코드를 지정합니다. 조회·변경 hook과 QueryClient가 요청 상태와 캐시를 관리합니다.':
+    'createOwpApiHooks에 API 주소와 응답 코드를 지정합니다. Query·Mutation Hook과 QueryClient로 요청 상태와 cache를 관리합니다.',
+  '인증 결과를 useApplyAuthenticatedUser로 적용하고 사용자·메뉴·페이지 권한 hook으로 읽습니다. getStartPagePath는 메뉴에서 시작 경로를 정합니다.':
+    'useApplyAuthenticatedUser로 인증 결과를 반영합니다. 사용자 정보·메뉴·페이지 권한은 각각 useGetCurrentUser·useGetNavigationList·usePagePermission으로 조회합니다. getStartPagePath로 시작 페이지의 경로를 결정합니다.',
+  '공통 dialog hook으로 확인·취소에 따른 상태 변화를 확인합니다.':
+    '확인창·알림창을 열고 확인·취소 결과를 비교합니다.',
+  '아이디·비밀번호 문자열의 정리 규칙과 변환 결과를 비교합니다.':
+    '아이디·비밀번호 입력에서 제거되는 문자와 변환 결과를 비교합니다.',
+  '메모를 수정한 뒤 닫기를 누르면 저장하지 않은 변경을 확인합니다. 계속 편집을 선택하면 입력이 유지되고, 닫기를 승인하면 예제에서 메모를 비우고 편집 영역을 닫습니다.':
+    '메모를 수정한 뒤 닫기를 누르면 저장하지 않은 변경 내용을 버릴지 확인합니다. 확인창에서 편집을 계속하면 입력을 유지하고, 저장하지 않고 닫으면 메모를 비우고 편집 영역을 닫습니다.',
   '확인과 알림': '확인창과 알림창',
   'API 선택': 'API 연동 선택 필드',
   '공통코드 선택': '공통코드 Select·Radio',

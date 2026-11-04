@@ -4,36 +4,73 @@ export const coreFoundations = [
     knowledgeId: '@owp/core:guide.providers',
     title: '프로바이더 구성',
     introduction:
-      '프로바이더는 페이지들이 같은 앱 환경·상태·요청 캐시·테마와 공통 UI를 사용하도록 실행 범위를 만듭니다. 앱 구성 예시의 AppProviders와 루트 App처럼 Router 바깥의 기반 구성과 Router 안의 화면 구성을 나눕니다.',
+      'Provider로 앱 설정·state·요청 cache·테마·공통 UI를 연결합니다. 예제에서는 <strong>AppProviders</strong>에 OwpI18nProvider·<strong>OwpCoreProvider</strong>·<strong>OwpStyleProvider</strong>를 두고 <strong>RouterProvider</strong>를 감쌉니다. <strong>OwpUiProvider</strong>는 RouterProvider가 렌더링하는 루트 route element에 배치합니다.',
     sections: [
       {
-        title: 'OwpCoreProvider: 앱 환경과 상태의 시작점',
-        body: 'env에는 apiBaseUrl·accessTokenTransport·언어 사용 여부를, configs에는 routesConfig·navigationConfig·settingsConfig를 전달합니다. 이 범위에 독립 Jotai store와 QueryClient가 만들어집니다. queryClientConfig로 재시도·재조회 기본값을 정하거나 이미 생성한 queryClient를 전달할 수 있습니다. storePreloadedState는 지원하는 settings·navbar 초기 상태를 넣는 옵션입니다.',
+        title: 'OwpCoreProvider',
+        body: 'env에 API 주소·인증 방식·다국어 사용 여부를, configs에 route·navigation·settings 설정을 전달합니다. 기본적으로 앱 context, 독립 Jotai store, QueryClient와 MUI StyledEngineProvider를 제공합니다. queryClientConfig로 요청 기본값을 정하거나 외부 queryClient를 전달할 수 있습니다. storePreloadedState에는 settings·navbar의 초기값을 지정합니다.',
       },
       {
-        title: 'OwpStyleProvider: 설정을 실제 스타일로 적용',
-        body: 'OwpCoreProvider 안에 OwpStyleProvider를 두면 현재 settings의 main 테마를 MUI에 제공합니다. 앱 최상위에는 root를 지정해 body class와 전역 스타일을 적용합니다. theme을 직접 전달하면 그 MUI theme이 우선하므로 Core 테마 변경과 동기화하려면 별도 처리가 필요합니다. Emotion cache는 cacheProviderProps.value를 전달한 경우에 연결합니다.',
+        title: '내부 Provider 선택',
+        level: 3,
+        body: 'providers의 app·store·query·styledEngine으로 내부 Provider를 선택합니다. 상위에서 제공하는 context를 재사용하려면 해당 항목을 false로 지정합니다. 제외한 Provider는 생성되지 않으므로 하위 컴포넌트에 필요한 context는 상위에서 제공해야 합니다.',
       },
       {
-        title: 'OwpUiProvider: 라우팅과 공통 UI 연결',
-        body: 'RouterProvider가 렌더하는 루트 route element 안에 OwpUiProvider를 배치합니다. 다이얼로그·snackbar·페이지 이탈 가드·화면 잠금과 query 취소 정책을 연결하며, queryCancellation.routeChange·pageExit는 기본 true입니다. useInitApp은 이 루트에서 로고·제목·navigation·페이지 로딩을 초기화합니다. Data Router가 필요한 정책을 사용하므로 OwpUiProvider를 RouterProvider 바깥이나 일반 MemoryRouter 아래에 두지 않습니다.',
+        title: '페이지별 로딩 Skeleton',
+        level: 3,
+        body: 'OwpCoreProvider의 slotProps.routeLoading.getSkeletonSpec에 경로별 OwpPageSkeletonSpec을 반환하는 함수를 전달합니다. OwpLayout은 첫 방문의 Suspense 대기 중 내부 PageSkeleton을 표시합니다. 앱에서 내부 컴포넌트를 직접 import하지 않습니다. 페이지 로딩 Skeleton 예제에서 Provider 등록·로딩 완료·재방문을 비교할 수 있습니다.',
+      },
+      {
+        title: 'OwpStyleProvider',
+        body: '기본 구성에서는 Core store의 현재 settings를 읽어 MUI·OWP 테마와 스크롤바 설정을 적용합니다. 앱 전체에 적용하는 Provider에는 root를 지정해 body class와 전역 스타일을 적용합니다. theme prop을 지정하면 해당 MUI theme을 우선 사용합니다. Emotion cache는 providers.cache가 false가 아니고 cacheProviderProps.value가 있을 때 연결합니다.',
+      },
+      {
+        title: '내부 Provider 선택',
+        level: 3,
+        body: 'providers의 cache·muiTheme·owpTheme·scrollbars로 내부 Provider를 선택합니다. false로 지정한 Provider는 생성하지 않습니다. 상위 테마·cache·스크롤바 context를 재사용할 때 해당 항목을 제외하며, 하위 컴포넌트가 요구하는 context는 유지해야 합니다.',
+      },
+      {
+        title: 'OwpUiProvider',
+        body: '기본 구성은 dialog·snackbar·페이지 이동 확인·화면 잠금·query 취소와 인증 관련 처리를 연결합니다. 페이지 이동 정책에 Data Router context가 필요하므로 RouterProvider가 렌더링하는 루트 route element에 배치합니다. queryCancellation.routeChange·pageExit의 기본값은 true입니다. useInitApp은 루트 route 컴포넌트에서 호출해 로고·제목·navigation·페이지 로딩을 초기화합니다.',
+      },
+      {
+        title: '내부 Provider 선택',
+        level: 3,
+        body: 'providers의 snackbar·dialogs·pageLeaveGuard로 내부 Provider를 선택합니다. false로 지정한 Provider는 생성하지 않고 상위 context를 그대로 사용합니다. 예를 들어 상위 dialog context를 재사용하려면 providers.dialogs를 false로 지정합니다.',
+      },
+      {
+        title: 'runtime 기능 선택',
+        level: 3,
+        body: 'features의 accessTokenGuard·commonCodes·queryCancellation·dialogRouteSync·pageLockLoading·autoLogout으로 실행할 기능을 선택합니다. 생략하면 기존 env·실행 조건을 따르고, false로 지정하면 해당 runtime을 생성하지 않습니다.',
+      },
+      {
+        title: 'OwpI18nProvider',
+        body: '@owp/core/i18n의 OwpI18nProvider가 별도 i18next 인스턴스를 초기화합니다. initOptions에 리소스·namespace·지원 언어를 지정합니다. Core의 kr을 한국어 표준 코드 ko에 연결하려면 languageMap.kr에 ko를 지정합니다. 기본 scope인 app은 앱 전체에 하나만 두며 Core 언어 선택·storage·API 언어 코드를 동기화합니다. scope="local"은 하위 컴포넌트의 다국어 처리만 제공하고 앱 언어·storage·API 언어 코드를 변경하지 않습니다.',
+      },
+      {
+        title: '다국어 리소스 로딩과 오류 처리',
+        level: 3,
+        body: 'remote를 생략하면 로컬 리소스만 사용합니다. 원격 리소스가 필요하면 remote에 API 주소·인증 방식·resource 조회 계약을 지정합니다. 초기화 중에는 fallback을 표시합니다. 초기화 실패로 사용할 리소스가 없으면 지정한 onError를 호출하고 render에서 오류를 throw하므로 상위에 오류 경계를 둡니다. 초기 설정 변경은 Provider를 remount해 적용합니다. I18nextProvider는 외부에서 초기화한 인스턴스를 전달하는 upstream API이며 OWP 초기화·언어 동기화를 대신하지 않습니다.',
+      },
+      {
+        title: '앱에 Provider 연결',
+        body: '각 Provider의 역할에 맞춰 앱 진입점과 루트 route에 배치합니다. 다음 예제는 다국어 초기화부터 공통 UI까지 함께 연결하는 앱 코드입니다.',
       },
       {
         title: '설정 방법',
-        body: '아래 코드는 앱 구성 예시의 AppProviders → RouterProvider → App 내부 OwpUiProvider 순서를 최소 구성으로 옮긴 예제입니다. 빈 routesConfig·navigationConfig는 Core 메뉴를 만들지 않습니다. 예제의 실제 화면 경로는 createBrowserRouter에 직접 등록하며, 업무 앱에서는 자신의 route·navigation 설정과 페이지를 연결합니다.',
+        level: 3,
+        body: 'AppProviders에서 다국어·Core·Style Provider로 RouterProvider를 감싸고, 루트 route의 PageRuntime에서 OwpUiProvider를 연결합니다. 예제는 로컬 리소스만 사용하며 features로 인증 guard·공통코드 조회·자동 로그아웃을 제외합니다. 실제 앱에서는 필요한 인증·API 기능을 연결합니다. 빈 routesConfig·navigationConfig는 메뉴를 생성하지 않으므로 앱의 route·navigation 설정으로 교체합니다.',
         code: true,
       },
       {
         title: '설정 후 기대효과',
+        level: 3,
         body: '하위 페이지에서 같은 사용자·설정 상태와 요청 캐시를 읽고, Core 테마와 공통 dialog·loading 정책을 사용할 수 있습니다. query 취소와 페이지 이탈 확인을 페이지마다 새로 조합할 필요가 줄어듭니다. 미저장 변경 감지는 페이지가 isDirty를 제공해야 하고, 취소는 연결된 query와 AbortSignal을 따르므로 서버 저장을 되돌리는 기능은 아닙니다.',
       },
       {
         title: '앱에서 연결할 부분',
-        body: '앱 구성 예시의 src/app/AppProviders.tsx는 앱별 env·routes·navigation·settings와 로고·DataGrid 테마 미리보기 slot을 전달하고, src/app/App.tsx는 useInitApp과 OwpUiProvider로 OwpLayout을 감쌉니다. 인증 API·로그인 이동·업무 화면·i18next 초기화는 앱이 구성합니다. OwpUiProvider는 OwpDialogsProvider를 포함하므로 같은 범위에 다시 중첩하지 않습니다.',
-      },
-      {
-        title: '페이지별 로딩 Skeleton',
-        body: 'OwpCoreProvider의 slotProps.routeLoading.getSkeletonSpec에 경로별 OwpPageSkeletonSpec을 반환하는 함수를 전달합니다. OwpLayout은 첫 방문의 Suspense 대기 중 내부 PageSkeleton을 표시합니다. 앱에서 내부 컴포넌트를 직접 import하지 않습니다. 페이지 로딩 Skeleton 예제에서 Provider 등록·로딩 완료·재방문을 비교할 수 있습니다.',
+        level: 3,
+        body: '앱의 env·routes·navigation·settings와 인증 API·로그인 이동·업무 화면을 연결합니다. 다국어 리소스는 OwpI18nProvider에 전달하고, 하위 컴포넌트에서는 useOwpTranslation으로 읽습니다. OwpUiProvider는 기본적으로 OwpDialogsProvider를 포함합니다. 상위 dialog context를 재사용하려면 providers.dialogs=false로 제외합니다.',
       },
     ],
   },
@@ -147,7 +184,7 @@ export const coreFoundations = [
       },
       {
         title: '현재 설정·기본 설정·초기화',
-        body: 'useGetCurrentSettings는 현재값을, useGetDefaultSettings는 기본값을 읽습니다. useSetSettings는 전달한 설정을 기본 설정과 병합해 현재값으로 반영하므로 기존 현재값도 유지하려면 예제처럼 펼쳐서 전달합니다. Core 10.2.0의 useChangeOwpTheme는 기본·현재 테마를 바꾸면서 layout·customScrollbars 등 현재의 비테마 설정도 기본값에 반영합니다. useResetSettings는 현재값을 그 시점의 기본값으로 돌리며, 테마 변경 전 값이나 최초 설치 상태로 돌아가는 기능은 아닙니다.',
+        body: 'useGetCurrentSettings는 현재값을, useGetDefaultSettings는 기본값을 읽습니다. useSetSettings는 전달한 설정을 기본 설정과 병합해 현재값으로 반영하므로 현재 설정을 유지하면서 일부만 바꾸려면 예제처럼 펼쳐서 전달합니다. useChangeOwpTheme는 기본·현재 테마를 바꾸면서 layout·customScrollbars 등 테마 이외의 현재 설정도 기본값에 반영합니다. useResetSettings는 현재값을 그 시점의 기본값으로 돌리며, 테마 변경 전 값이나 최초 설치 상태로 돌아가는 기능은 아닙니다.',
       },
       {
         title: '앱 구성과 설정 저장',

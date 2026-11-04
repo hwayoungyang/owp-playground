@@ -37,7 +37,8 @@ const descriptions: Readonly<Record<string, string>> = {
   getAxisScaleRange: '축의 시작값과 끝값을 min·max 범위로 변환합니다.',
   getChartTooltipNumberValue: 'Chart.js Tooltip context에서 숫자 값을 읽습니다.',
   registerChartCore: 'OWP 차트에 필요한 Chart.js 구성 요소를 등록합니다.',
-  I18nextProvider: '하위 React 컴포넌트에 i18next 인스턴스를 제공합니다.',
+  I18nextProvider: '외부에서 초기화한 i18next 인스턴스를 하위 React 컴포넌트에 제공합니다.',
+  OwpI18nProvider: 'i18next 인스턴스를 초기화하고 선택한 scope에 따라 언어를 동기화합니다.',
   Trans: '번역 문구 안에 React 요소와 보간값을 연결합니다.',
   createInstance: '앱에서 별도로 초기화할 수 있는 i18next 인스턴스를 만듭니다.',
   getI18n: 'react-i18next에 연결된 i18next 인스턴스를 읽습니다.',
@@ -91,7 +92,10 @@ const english: Readonly<Record<string, string>> = {
   getAxisScaleRange: 'Converts an axis domain to a min and max range.',
   getChartTooltipNumberValue: 'Reads a numeric value from a Chart.js tooltip context.',
   registerChartCore: 'Registers the Chart.js elements required by OWP charts.',
-  I18nextProvider: 'Provides an i18next instance to descendant React components.',
+  I18nextProvider:
+    'Provides an externally initialized i18next instance to descendant React components.',
+  OwpI18nProvider:
+    'Initializes an i18next instance and synchronizes language according to the selected scope.',
   Trans: 'Combines translated text with React elements and interpolation values.',
   createInstance: 'Creates an i18next instance that the application can initialize separately.',
   getI18n: 'Reads the i18next instance connected to react-i18next.',

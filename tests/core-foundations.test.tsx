@@ -120,6 +120,34 @@ describe('Core foundation guides', () => {
     }
   });
 
+  it('groups Provider details beneath their owner in headings and both outlines', () => {
+    const example = coreCatalog.find((entry) => entry.id === 'providers');
+    if (!example || example.kind !== 'guide') throw new TypeError('Missing provider guide');
+    const html = renderToStaticMarkup(<CoreGettingStarted example={example} />);
+    expect([...html.matchAll(/<h2 id="[^"]+">(.*?)<\/h2>/g)].map((match) => match[1])).toEqual([
+      'OwpCoreProvider',
+      'OwpStyleProvider',
+      'OwpUiProvider',
+      'OwpI18nProvider',
+      '앱에 Provider 연결',
+    ]);
+    expect([...html.matchAll(/<h3 id="[^"]+">/g)]).toHaveLength(9);
+    for (const [owner, children] of [
+      ['OwpCoreProvider', ['내부 Provider 선택', '페이지별 로딩 Skeleton']],
+      ['OwpStyleProvider', ['내부 Provider 선택']],
+      ['OwpUiProvider', ['내부 Provider 선택', 'runtime 기능 선택']],
+      ['OwpI18nProvider', ['다국어 리소스 로딩과 오류 처리']],
+      ['앱에 Provider 연결', ['설정 방법', '적용 결과', '앱 연동 방법']],
+    ] as const) {
+      const groups = [...html.matchAll(new RegExp(`>${owner}</a><ol>(.*?)</ol>`, 'g'))];
+      expect(groups, owner).toHaveLength(2);
+      for (const group of groups)
+        for (const child of children) expect(group[1], owner).toContain(`>${child}</a>`);
+    }
+    const targets = [...html.matchAll(/href="#(providers-section-\d+)"/g)].map((match) => match[1]);
+    for (const target of targets) expect(html).toContain(`id="${target}"`);
+  });
+
   it('publishes setup, effects, source links and runtime boundaries in Knowledge', () => {
     for (const [id, exampleId] of [
       ['@owp/core:guide.providers', 'providers'],

@@ -41,6 +41,7 @@ describe('설치본의 Playground 공개 API', () => {
       const data = readPublicApiPackage(root, id);
       if (id === 'core') {
         for (const name of [
+          'I18nextProvider',
           'useTranslation',
           'QueryClientProvider',
           'useQuery',
@@ -54,6 +55,7 @@ describe('설치본의 Playground 공개 API', () => {
           ).toBe(false);
         for (const name of [
           'OwpCoreProvider',
+          'OwpI18nProvider',
           'createOwpApiHooks',
           'useQueryClient',
           'QueryClient',
@@ -71,9 +73,9 @@ describe('설치본의 Playground 공개 API', () => {
             .filter((entry) => publicApiNavigationGroup(entry) === group)
             .map((entry) => entry.name);
         expect(namesInGroup('core-providers')).toEqual([
-          'I18nextProvider',
           'OwpAppProvider',
           'OwpCoreProvider',
+          'OwpI18nProvider',
           'OwpStoreProvider',
           'OwpStyleProvider',
           'OwpUiProvider',
@@ -205,7 +207,7 @@ describe('설치본의 Playground 공개 API', () => {
           // 한국어 기술 용어에서 바뀐 표기를 제외하고 기존 식별자의 철자와 순서를 검사합니다.
           const identifiers = (text: string) =>
             (text.match(/[A-Za-z_$][\w$]*(?:[.-][A-Za-z_$][\w$]*)*/g) ?? []).filter(
-              (token) => !['cache', 'Tooltip', 'series'].includes(token),
+              (token) => !['cache', 'Tooltip', 'series', 'public'].includes(token),
             );
           expect(identifiers(result), entry.id).toEqual(identifiers(description));
           expect(result.match(/-?\d+(?:\.\d+)?/g), entry.id).toEqual(

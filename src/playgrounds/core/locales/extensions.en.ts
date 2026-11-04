@@ -1,13 +1,13 @@
 export const extensionsEnglish: Readonly<Record<string, string>> = {
   '앱 초기화와 실행 범위': 'App initialization and scope',
-  'Core·Style·UI 프로바이더와 useInitApp을 앱 진입점에 연결합니다. 페이지들이 같은 환경·테마·공통 UI를 사용합니다.':
-    'Connect the Core, Style and UI providers and useInitApp at the app entry point to share the environment, theme and common UI.',
+  'Core·Style·UI·다국어 Provider로 앱 설정·state·요청 cache·테마·공통 UI를 연결합니다. 필요한 내부 Provider와 runtime을 선택할 수 있습니다.':
+    'Connect app configuration, state, request caching, themes, and shared UI through Core, Style, UI, and internationalization providers. Select the internal providers and runtime features your app needs.',
   'API 요청과 캐시': 'API requests and cache',
   'createOwpApiHooks에 API 주소와 응답 코드를 지정합니다. 조회·변경 hook과 QueryClient가 요청 상태와 캐시를 관리합니다.':
-    'Set the API URL and response code in createOwpApiHooks. Query and mutation hooks and QueryClient manage request state and cache.',
+    'Configure the API URL and response code with createOwpApiHooks. Query and mutation hooks use QueryClient to manage request state and caching.',
   '인증과 페이지 권한': 'Authentication and page permissions',
   '인증 결과를 useApplyAuthenticatedUser로 적용하고 사용자·메뉴·페이지 권한 hook으로 읽습니다. getStartPagePath는 메뉴에서 시작 경로를 정합니다.':
-    'Apply authentication with useApplyAuthenticatedUser and read user, menu and page permissions through hooks. getStartPagePath selects the start route from the menu.',
+    'Apply the authentication result with useApplyAuthenticatedUser. Read user data, navigation, and page permissions with useGetCurrentUser, useGetNavigationList, and usePagePermission, respectively. Use getStartPagePath to determine the start page route.',
   '공통코드 상태와 선택': 'Common-code state and selectors',
   '공통코드 hook으로 그룹 목록을 읽고 설정하며 필터링합니다. selector는 이 상태와 조회를 연결합니다.':
     'Read, update and filter grouped common codes with hooks. Selectors connect this state to queries.',
@@ -52,7 +52,7 @@ export const extensionsEnglish: Readonly<Record<string, string>> = {
   'Core가 직접 구현한 기능을 역할별로 정리했습니다. 각 기능의 설정 방법과 기대효과를 확인하고 문서·실행 예제·공개 API로 이동할 수 있습니다.':
     'Explore Core-owned features by responsibility, their setup and benefits, and links to guides, runnable examples and public APIs.',
   '메모를 수정한 뒤 닫기를 누르면 저장하지 않은 변경을 확인합니다. 계속 편집을 선택하면 입력이 유지되고, 닫기를 승인하면 예제에서 메모를 비우고 편집 영역을 닫습니다.':
-    'Edit the note and select Close to confirm unsaved changes. Keep editing preserves the input; confirming Close clears the sample note and closes the editor.',
+    'Edit the note and select Close to review unsaved changes. Continue editing to keep the input, or close without saving to clear the note and close the editor.',
   '저장하지 않은 변경 사항이 있습니다.': 'There are unsaved changes.',
   '변경 사항이 없습니다.': 'No changes.',
   '메모 편집을 닫았습니다.': 'The note editor is closed.',
@@ -65,7 +65,7 @@ export const extensionsEnglish: Readonly<Record<string, string>> = {
   '변경 있음': 'Yes',
   '변경 없음': 'No',
   '아이디·비밀번호 문자열의 정리 규칙과 변환 결과를 비교합니다.':
-    'Compare cleanup rules and outputs for user ID and password strings.',
+    'Compare which characters are removed from user ID and password inputs and inspect the results.',
   '아이디는 공백과 한글을 제거하고, 비밀번호는 영문·숫자·허용된 특수문자를 남깁니다. 입력값 정리와 인증·비밀번호 정책 검증은 별개입니다.':
     'User IDs remove whitespace and Korean characters; passwords retain English letters, digits and allowed punctuation. Cleanup is separate from authentication and password-policy validation.',
   '비교할 샘플 문자열': 'Sample input to compare',

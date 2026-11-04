@@ -9,6 +9,7 @@ import './guide.css';
 interface CoreGuideSection {
   readonly id: string;
   readonly title: string;
+  readonly level?: 2 | 3;
 }
 
 interface CoreGuideLayoutProps {
@@ -21,11 +22,27 @@ interface CoreGuideLayoutProps {
 
 function CoreGuideLinks({ sections }: { readonly sections: readonly CoreGuideSection[] }) {
   const { t } = useOwpTranslation();
+  const groups: { readonly section: CoreGuideSection; readonly children: CoreGuideSection[] }[] =
+    [];
+  for (const section of sections) {
+    const parent = groups.at(-1);
+    if (section.level === 3 && parent) parent.children.push(section);
+    else groups.push({ section, children: [] });
+  }
   return (
     <ol>
-      {sections.map((section) => (
+      {groups.map(({ section, children }) => (
         <li key={section.id}>
           <a href={`#${section.id}`}>{t(section.title)}</a>
+          {children.length > 0 && (
+            <ol>
+              {children.map((child) => (
+                <li key={child.id}>
+                  <a href={`#${child.id}`}>{t(child.title)}</a>
+                </li>
+              ))}
+            </ol>
+          )}
         </li>
       ))}
     </ol>

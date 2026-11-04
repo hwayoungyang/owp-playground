@@ -1,6 +1,11 @@
 export const wrappedPublicApis = [
   {
     packageId: 'core',
+    name: 'I18nextProvider',
+    wrapper: '@owp/core:OwpI18nProvider',
+  },
+  {
+    packageId: 'core',
     name: 'useTranslation',
     wrapper: '@owp/components:useOwpTranslation',
   },

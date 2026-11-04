@@ -31,18 +31,27 @@ export function CoreFoundationGuide({
       sections={guide.sections.map((section, index) => ({
         id: `${guide.id}-section-${index}`,
         title: section.title,
+        ...('level' in section ? { level: section.level } : {}),
       }))}
       related={<ApiLinks example={example} />}
     >
       {guide.sections.map((section, index) => {
         const headingId = `${guide.id}-section-${index}`;
+        const Heading = 'level' in section && section.level === 3 ? 'h3' : 'h2';
         return (
           <section
-            key={section.title}
+            key={headingId}
             aria-labelledby={headingId}
-            className={section.title === '설정 후 기대효과' ? 'core-guide-outcome' : undefined}
+            className={
+              [
+                Heading === 'h3' && 'core-guide-subsection',
+                section.title === '설정 후 기대효과' && 'core-guide-outcome',
+              ]
+                .filter(Boolean)
+                .join(' ') || undefined
+            }
           >
-            <h2 id={headingId}>{t(section.title)}</h2>
+            <Heading id={headingId}>{t(section.title)}</Heading>
             <p>{t(section.body)}</p>
             {'code' in section && (
               <CodeSnippet label={example.source} code={sources[guide.id]} language="typescript" />
