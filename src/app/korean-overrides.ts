@@ -1,6 +1,6 @@
-import { interfaceKorean } from './interface.ko';
-import { guidanceKorean } from './guidance.ko';
-import { chartKorean } from '../../playgrounds/charts/locales/clarity.ko';
+import { interfaceKorean } from '../shared/i18n/interface.ko';
+import { guidanceKorean } from '../shared/i18n/guidance.ko';
+import { chartKorean } from '../playgrounds/charts/locales/clarity.ko';
 
 export const koreanOverrides: Readonly<Record<string, string>> = {
   ...interfaceKorean,

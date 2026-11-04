@@ -64,6 +64,8 @@ pnpm preview
 
 기본 언어는 한국어입니다. 상단 `EN` / `한` 버튼으로 영어와 한국어를 전환합니다. 메뉴·설명·컬럼·OWP 기본 컨트롤의 번역은 `shared/i18n`과 각 Playground의 `locales`에 정의하고 `app/i18n.ts`에서 등록하며 외부 번역 API를 사용하지 않습니다. 언어를 바꿔도 편집한 값과 행 선택을 유지합니다. 가상의 담당자 이름과 작업 데이터, 소스 코드는 원래 값으로 표시합니다. 새로고침하면 한국어로 시작합니다.
 
+`shared`의 컴포넌트와 리소스는 `app`이나 `playgrounds`를 import하지 않습니다. 여러 화면이 사용하는 패키지 소개는 `shared/i18n/package-introductions.ts`에 두고, 패키지별 locale을 합치는 코드는 `app`에서 관리합니다. 소스 위치나 import를 바꾼 뒤에는 최신 `pnpm build` 결과에 `pnpm test:sources`를 실행해 의존 방향과 배포용 snippets의 일치를 확인합니다.
+
 ## 배포 CLI
 
 배포 명령은 서비스별로 분리합니다. 정적 Playground는 로컬 stable 아카이브의 복사본을 같은 origin의 `/versions/`에서 제공합니다. 별도 MCP 서비스도 같은 형식의 아카이브를 사용하며 자체 배포 명령으로 갱신합니다.

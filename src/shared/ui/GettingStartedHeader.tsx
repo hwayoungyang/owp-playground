@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { ExampleMetadata } from '../types/playground';
-import type { packageIntroductions } from '../../playgrounds/introductions';
+import type { packageIntroductions } from '../i18n/package-introductions';
 import { WorkspaceHeading } from './WorkspaceHeading';
 import { FrameworkIntroduction } from './FrameworkIntroduction';
 

@@ -1,5 +1,5 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import { packageIntroductions } from '../../playgrounds/introductions';
+import { packageIntroductions } from '../i18n/package-introductions';
 
 export function FrameworkIntroduction({
   packageId,
