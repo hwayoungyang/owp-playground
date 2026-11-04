@@ -20,6 +20,15 @@ test('문단 구성이 바뀌면 이전 제목을 잘못 연결하지 않는다'
   );
 });
 
+test('Provider의 같은 소제목은 해당 Provider 이름으로 구분한다', () => {
+  const guide = guides.find((entry) => entry.id === '@owp/core:guide.providers');
+  const titles = guideSections(guide).map((section) => section.title);
+  for (const provider of ['OwpCoreProvider', 'OwpStyleProvider', 'OwpUiProvider']) {
+    assert.ok(titles.includes(`${provider} · 내부 Provider 선택`));
+  }
+  assert.ok(titles.includes('OwpI18nProvider · 다국어 리소스 로딩과 오류 처리'));
+});
+
 test('별도 탐색 구성이 없는 가이드는 본문 표시로 유지한다', () => {
   assert.equal(guideSections({ id: 'other', body: '기존 본문.' }), undefined);
 });

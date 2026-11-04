@@ -157,9 +157,12 @@ describe('Core foundation guides', () => {
     ]) {
       const guide = knowledge.records.find((record) => record.id === id);
       expect(guide?.kind).toBe('guide');
-      expect(guide?.packageVersion).toBe('10.3.0');
-      expect(guide?.sections?.map((section) => section.title)).toContain('설정 방법');
-      expect(guide?.sections?.map((section) => section.title)).toContain('설정 후 기대효과');
+      expect(guide?.packageVersion).toBe('10.4.0');
+      const prefix = id === '@owp/core:guide.providers' ? '앱에 Provider 연결 · ' : '';
+      expect(guide?.sections?.map((section) => section.title)).toContain(`${prefix}설정 방법`);
+      expect(guide?.sections?.map((section) => section.title)).toContain(
+        `${prefix}설정 후 기대효과`,
+      );
       expect(guide?.examples.some((example) => example.id === exampleId)).toBe(true);
       expect(guide?.source?.path).toBe('src/playgrounds/core/guides/foundation-content.ts');
     }

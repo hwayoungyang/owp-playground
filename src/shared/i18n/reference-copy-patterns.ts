@@ -15,6 +15,7 @@ const actions = [
   '담당',
   '대체',
   '동작',
+  '동기화',
   '다운로드',
   '등록',
   '렌더링',
@@ -172,6 +173,7 @@ export const identifierEnding = new RegExp(
   'g',
 );
 const endings = [
+  ['둡니다', '둠'],
   ['엽니다', '엶'],
   ['닫는다', '닫음'],
   ['끕니다', '끔'],

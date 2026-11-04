@@ -2,10 +2,20 @@ import { coreFoundations } from '../src/playgrounds/core/guides/foundation-conte
 
 const titles = {
   ...Object.fromEntries(
-    coreFoundations.map((guide) => [
-      guide.knowledgeId,
-      ['역할과 적용 범위', ...guide.sections.map((section) => section.title)],
-    ]),
+    coreFoundations.map((guide) => {
+      let parent = '';
+      return [
+        guide.knowledgeId,
+        [
+          '역할과 적용 범위',
+          ...guide.sections.map((section) => {
+            if (section.level === 3) return `${parent} · ${section.title}`;
+            parent = section.title;
+            return section.title;
+          }),
+        ],
+      ];
+    }),
   ),
   '@owp/core:guide.setup': [
     '패키지 역할과 설치본',

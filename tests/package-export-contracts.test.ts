@@ -16,7 +16,7 @@ describe('installed package export contracts', () => {
       'Path',
     ]);
     expect(reexport).toMatchObject({
-      packageVersion: '10.3.0',
+      packageVersion: '10.4.0',
       name: 'QueryKey',
       owner: 'query/QueryKey',
       path: '',
@@ -63,7 +63,7 @@ describe('installed package export contracts', () => {
     expect(chartData).toMatchObject({
       kind: 'type',
       package: '@owp/charts',
-      packageVersion: '6.1.0',
+      packageVersion: '6.1.1',
       signature: 'export { type ChartData } from "chart.js";',
     });
     expect(chartData?.imports).toContain('@owp/charts/chartjs/types');

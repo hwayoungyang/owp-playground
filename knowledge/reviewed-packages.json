@@ -1,16 +1,16 @@
 {
   "@owp/core": {
-    "version": "10.3.0",
-    "declarationHash": "81b3a519501fdc189c125c67b28351052a006214c73a392cd87ea76c68cf8598",
-    "runtimeHash": "9d1fb3e73929fd0d195e05367099ba7e5501042bbcb799987042f817222d48bb"
+    "version": "10.4.0",
+    "declarationHash": "1321b258a1860e9208c473eb0deef02c675ac656c573f0c3dc07886842c724cc",
+    "runtimeHash": "db1e346260b2cafeb685daa61fc267b31c73835b8c322593a3fa11dd95c42c98"
   },
   "@owp/datagrid": {
-    "version": "3.5.4",
+    "version": "3.5.5",
     "declarationHash": "7bcc60733fff2bd34d9af4cd79687e4f87ef6ef9e720b84a98b0af455a5ea695",
     "runtimeHash": "ef8409fa2288c76e497981a775ef076492cd4f8f5a66cafa8d8aac19dff4858a"
   },
   "@owp/charts": {
-    "version": "6.1.0",
+    "version": "6.1.1",
     "declarationHash": "f1194fc56c9fdef6083608709eefb39279f5ea34c8ab53f5b0332835a53bc52e",
     "runtimeHash": "a115ce11b5c79049cb39bba79f0b1b5f3dedaba727e2a135cc0032a7696abc96"
   },
@@ -35,7 +35,7 @@
     "runtimeHash": "f966db5709e2e6281931b8119f15ebbe942e2cc2a4f2bc49d15bfe5739f2437d"
   },
   "@owp/components": {
-    "version": "4.0.1",
+    "version": "4.0.2",
     "declarationHash": "0b520571aff4f276c558de9dc5ff1585d053830faadf8a6c992f48d6e4bc9446",
     "runtimeHash": "9c834fbbb332fe979a7838603caf40eebd39efeb719fc5234f8b68c9bc88a59d"
   },
@@ -45,7 +45,7 @@
     "runtimeHash": "4d253b5c8472703f25ec5cb58852caa5ea7de7072a8b192a610d2fcedcb5c919"
   },
   "@owp/date-picker": {
-    "version": "2.1.1",
+    "version": "2.1.2",
     "declarationHash": "a24ac464e99279a05a69e6f8f1b4af0c3d31a45e82cc19de65cfb3a9ec5a2650",
     "runtimeHash": "179ad35bd35b3d6ba56f6d7c2c5b6c95d9484225ec9ee564fee5cb43bb3ee2af"
   },

@@ -1,6 +1,6 @@
 # 버전별 Playground와 MCP
 
-OWP wrapper 컴포넌트·Hook·함수가 있으면 원본 API나 re-export보다 항상 먼저 조회하고 사용합니다. 번역은 `@owp/components/hooks`의 `useOwpTranslation`, API 요청은 `@owp/core/hooks`의 `createOwpApiHooks`, Query Provider 구성은 `@owp/core/contexts`의 `OwpCoreProvider`를 우선합니다. wrapper의 소유 패키지와 실제 설치 버전을 확인하고 후속 조회에도 같은 `releaseId`를 사용합니다. 요청한 버전에 wrapper 자료가 없으면 다른 버전으로 대체하지 않고 설치본의 공개 선언과 README를 확인합니다. Playground는 wrapper로 대체되는 원본 API를 노출 목록에서 제외하지만, 기존 MCP 스냅샷에는 생성 당시의 원본 API가 남아 있을 수 있습니다. 이 지침을 수정해도 Knowledge·스냅샷·서버는 자동 갱신되지 않습니다.
+OWP에서 제공하는 wrapper API를 우선 조회하고 사용합니다. 다국어 초기화에는 `@owp/core/i18n`의 `OwpI18nProvider`를, 다국어 처리에는 `@owp/components/hooks`의 `useOwpTranslation`을 사용합니다. API 요청은 `@owp/core/hooks`의 `createOwpApiHooks`로 구현하고, QueryClient는 `@owp/core/contexts`의 `OwpCoreProvider`로 제공합니다. wrapper를 제공하는 패키지와 실제 설치 버전을 확인하고 후속 조회에도 같은 `releaseId`를 사용합니다. 요청한 버전에 wrapper 자료가 없으면 다른 버전으로 대체하지 않고 설치본의 공개 선언과 README를 확인합니다. Playground는 wrapper로 대체되는 원본 API를 노출 목록에서 제외하지만, 기존 MCP 스냅샷에는 생성 당시의 원본 API가 남아 있을 수 있습니다. 이 문서를 수정해도 Knowledge·스냅샷·서버는 자동 갱신되지 않습니다.
 
 DataGrid·Charts·Core·Components의 실행 화면, 공개 API, 가이드와 실제 예제 소스를 같은 불변 스냅샷으로 제공합니다. Date Picker·Excel·PDF·Theme·Utils는 공개 API와 시작 가이드를 제공하며 독립 실행 예제의 소스 목록은 비어 있습니다. Tailwind Config는 제외합니다. 팀 공용 HTTP와 개인 로컬 stdio는 같은 MCP 조회 로직과 아카이브를 사용합니다. 지원 여부는 `knowledgePackages`와 검증한 adapter를 기준으로 판단하며 설치된 의존 패키지나 `planned` 목록만으로 등록하지 않습니다.
 

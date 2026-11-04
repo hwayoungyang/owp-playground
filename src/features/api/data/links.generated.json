@@ -14050,8 +14050,33 @@
       "packageId": "core"
     },
     {
+      "label": "fallback",
+      "id": "@owp/core:OwpI18nProviderProps.fallback",
+      "packageId": "core"
+    },
+    {
+      "label": "features",
+      "id": "@owp/core:OwpUiProviderProps.features",
+      "packageId": "core"
+    },
+    {
+      "label": "initOptions",
+      "id": "@owp/core:OwpI18nProviderProps.initOptions",
+      "packageId": "core"
+    },
+    {
+      "label": "languageMap",
+      "id": "@owp/core:OwpI18nProviderProps.languageMap",
+      "packageId": "core"
+    },
+    {
       "label": "OwpCoreProvider",
       "id": "@owp/core:OwpCoreProvider",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpI18nProvider",
+      "id": "@owp/core:OwpI18nProvider",
       "packageId": "core"
     },
     {
@@ -14072,6 +14097,11 @@
     {
       "label": "queryClientConfig",
       "id": "@owp/core:OwpCoreProviderProps.queryClientConfig",
+      "packageId": "core"
+    },
+    {
+      "label": "scope",
+      "id": "@owp/core:OwpI18nProviderProps.scope",
       "packageId": "core"
     },
     {

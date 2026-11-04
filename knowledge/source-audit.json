@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "sources": [
     {
-      "id": "framework/docs/core/10.3.0/README.md",
+      "id": "framework/docs/core/10.4.0/README.md",
       "packageId": "core",
-      "sha256": "907b26dd5f9b813ecd724adacfd108468a6485c433b22b27c3f6e6244d8f7b41",
+      "sha256": "ae7a7e3c27ea4a3ac948302fe38c3c7b18cb402869bbb97533449c7fd7d52dc3",
       "sections": [
         {
           "heading": "@owp/core",
@@ -31,7 +31,7 @@
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
-          "heading": "Changes (2026-10-30)",
+          "heading": "Changes (2026-11-04)",
           "line": 11,
           "disposition": "mapped",
           "guideIds": [
@@ -141,9 +141,9 @@
       ]
     },
     {
-      "id": "framework/docs/components/4.0.1/README.md",
+      "id": "framework/docs/components/4.0.2/README.md",
       "packageId": "core",
-      "sha256": "253911961457f40ba1f28514b61928b0744a20773007f0e81bdc064ddb08a27e",
+      "sha256": "60d1bf40f60ee4499108a292f9edf69f223f64281dd7f6b4d4c07e69f690569c",
       "sections": [
         {
           "heading": "@owp/components",
@@ -160,7 +160,7 @@
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
-          "heading": "Changes (2026-10-30)",
+          "heading": "Changes (2026-11-04)",
           "line": 11,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.composition"],
@@ -225,9 +225,9 @@
       ]
     },
     {
-      "id": "framework/docs/charts/6.1.0/README.md",
+      "id": "framework/docs/charts/6.1.1/README.md",
       "packageId": "charts",
-      "sha256": "8b533495f61941b5d32a490a783a5cc09ccf540ba38c3eea1d2cd8f1d330511d",
+      "sha256": "3c875e08afa40c079286fb60580e46fa9b44ae77014b5da0c18bbf2ce3b38ebf",
       "sections": [
         {
           "heading": "@owp/charts",
@@ -244,7 +244,7 @@
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
-          "heading": "Changes (2026-10-30)",
+          "heading": "Changes (2026-11-04)",
           "line": 11,
           "disposition": "mapped",
           "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
@@ -309,9 +309,9 @@
       ]
     },
     {
-      "id": "framework/docs/datagrid/3.5.4/README.md",
+      "id": "framework/docs/datagrid/3.5.5/README.md",
       "packageId": "datagrid",
-      "sha256": "87265356f0d17d0d6ea6267b40a14b5e9624fcdef9876c0054c0c7eebadbcd89",
+      "sha256": "1ae8fcd02c14251c2b62ad839a27c07b5e22578a082c9959782fad5de79c62bd",
       "sections": [
         {
           "heading": "@owp/datagrid",
@@ -328,7 +328,7 @@
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
-          "heading": "Changes (2026-10-30)",
+          "heading": "Changes (2026-11-04)",
           "line": 11,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.connection"],
@@ -1328,7 +1328,7 @@
     {
       "id": "agents/consumer/datagrid/references/editing.md",
       "packageId": "datagrid",
-      "sha256": "ddbba06e7b562dfdbd45aed4330c43f6bb1cac60649ee46b4973da684b3b7730",
+      "sha256": "73405dc3761dac454ec66a8e8145b49df328a04140112278b07c8ae62d641d00",
       "sections": [
         {
           "heading": "DataGrid 편집·행 변경과 이동",
@@ -1346,14 +1346,14 @@
         },
         {
           "heading": "Text 컬럼 입력 정책",
-          "line": 31,
+          "line": 32,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.editing"],
           "note": "공개 textOptions와 검증·오류 수명 계약만 편집 가이드에 연결합니다. 앱의 업무별 컬럼·저장 정책과 검증 절차는 일반 패키지 계약으로 확장하지 않습니다."
         },
         {
           "heading": "Row reordering",
-          "line": 47,
+          "line": 48,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.rows"],
           "note": "행 이동과 순서 변경의 공개 계약을 행 관리 가이드에 연결합니다. 서버 저장·실패 복구 정책은 프로젝트에서 구성합니다."
@@ -2131,7 +2131,7 @@
       "source": "framework/packages/owp-charts/docs/advanced-geometry.md",
       "status": "aligned-with-installed-version",
       "original": "CoreChart·ChartFrame의 boxPlot·treemap·heatmap 타입명",
-      "current": "설치된 @owp/charts 6.1.0의 declaration과 controller 등록에서 boxPlot·treemap·heatmap을 사용. 전용 Owp 컴포넌트도 native 타입을 사용하며 이전 owp* 타입명은 제거됨",
+      "current": "설치된 @owp/charts 6.1.1의 declaration과 controller 등록에서 boxPlot·treemap·heatmap을 사용. 전용 Owp 컴포넌트도 native 타입을 사용하며 이전 owp* 타입명은 제거됨",
       "apiId": "@owp/charts:CoreChartProps",
       "evidence": [
         "@owp/charts/types",
