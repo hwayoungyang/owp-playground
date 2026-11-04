@@ -18,6 +18,7 @@ export function normalizeAppTerminology(text: string): string {
     prose
       .replaceAll('소비앱', '앱')
       .replaceAll('소비 앱', '앱')
+      .replace(/(?<![가-힣A-Za-z0-9_])공개(?=\s)/g, 'public')
       .replaceAll('훅', 'Hook')
       .replaceAll('프로바이더', 'Provider')
       .replaceAll('재수출', 're-export')

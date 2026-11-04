@@ -107,6 +107,11 @@ describe('공개 API의 표시 문구', () => {
       'cache를 공유하고 Tooltip에 series를 표시합니다.',
     );
     expect(normalizeAppTerminology('데이터 계열입니다.')).toBe('데이터 계열입니다.');
+    expect(
+      normalizeAppTerminology('공개 atom과 공개 API를 사용하고 비공개 API는 제외합니다.'),
+    ).toBe('public atom과 public API를 사용하고 비공개 API는 제외합니다.');
+    const publicIdentifiers = '`공개 atom` "공개 API" <code>공개 타입</code> {{공개 API}}';
+    expect(normalizeAppTerminology(publicIdentifiers)).toBe(publicIdentifiers);
     const identifiers = '`cache`와 `options.tooltip`, "캐시", {{툴팁}}';
     expect(normalizeAppTerminology(identifiers)).toBe(identifiers);
   });
