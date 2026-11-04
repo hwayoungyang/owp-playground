@@ -1,4 +1,5 @@
 export const interfaceKorean: Readonly<Record<string, string>> = {
+  '로그인 입력값 정리': '아이디·비밀번호 문자 필터링',
   '사이트 화면 테마 전환': '화면 테마 전환',
   '관련 실행 예제': '관련 예제',
   'API 검색·목록': 'API 목록',
@@ -55,7 +56,7 @@ export const interfaceKorean: Readonly<Record<string, string>> = {
   '<OWP_MCP_URL>에 팀 공용 서버의 기본 주소를 입력합니다. /mcp는 MCP 연결 경로입니다. 주소·인증·접근 권한은 Impix SmartBiz 팀에 확인해 주세요.':
     '<OWP_MCP_URL>에 서버의 기본 주소를 입력합니다. /mcp는 MCP 연결 경로입니다. 서버 주소와 인증·접근 권한은 Impix SmartBiz 팀에 확인해 주세요.',
   '연결 정보를 등록한 뒤 아래 예시로 요청합니다. 예시는 Playground에 설치된 정확한 패키지 버전을 사용하므로, 프로젝트의 설치 버전이 다르면 해당 버전으로 바꾸어 요청하세요.':
-    '서버를 연결한 뒤 아래 프롬프트로 요청하세요. 예시의 패키지 버전은 Playground 설치 버전입니다. 프로젝트에서 다른 버전을 사용한다면 버전을 바꿔 요청하세요.',
+    'MCP 연결 후 AI에 아래 프롬프트를 입력합니다. 예시의 패키지 버전은 프로젝트에 설치된 버전으로 바꿔 사용합니다.',
   '공개 API의 타입과 동작을 살펴보고 사용 예제를 확인합니다.':
     'API의 타입·동작·사용 예제를 확인합니다.',
   '하위 페이지에서 같은 사용자·설정 상태와 요청 캐시를 읽고, Core 테마와 공통 dialog·loading 정책을 사용할 수 있습니다. query 취소와 페이지 이탈 확인을 페이지마다 새로 조합할 필요가 줄어듭니다. 미저장 변경 감지는 페이지가 isDirty를 제공해야 하고, 취소는 연결된 query와 AbortSignal을 따르므로 서버 저장을 되돌리는 기능은 아닙니다.':
@@ -63,7 +64,7 @@ export const interfaceKorean: Readonly<Record<string, string>> = {
   'API hook과 QueryClient를 설정해 요청 정책과 조회 캐시를 앱 전체에서 공유합니다.':
     'API Hook과 QueryClient로 요청 처리 설정과 조회 cache를 앱 전체에서 공유합니다.',
   '참조 프로젝트의 AppProviders·App·api/index.ts·configs/theme/settings.ts 구성을 기준으로 업무별 값은 줄이고 공통 연결 방법을 설명합니다. 실행 예제에서는 API 응답·권한·설정·페이지 정책의 실제 변화를 확인합니다.':
-    '참조 프로젝트의 AppProviders·App·api/index.ts·configs/theme/settings.ts에서 업무별 설정을 줄여 앱 연동 방법을 설명합니다. 예제에서 API 응답·권한·앱 설정과 Core UI의 동작을 확인할 수 있습니다.',
+    '참조 프로젝트의 AppProviders·App·api/index.ts·configs/theme/settings.ts를 간소화한 앱 초기 설정 예제입니다. 실행 예제에서 API 응답·권한·앱 설정과 Core UI의 동작을 확인할 수 있습니다.',
   '공통 UI는 Components가 제공하고, Core는 그 UI에 앱 설정·인증·페이지 이탈·요청 취소 같은 정책을 연결합니다. 각 기능을 연결할 때는 이미 적용된 <strong>정책을 중복 연결하지 않습니다</strong>.':
     '공통 UI는 Components에서 가져옵니다. Core는 앱 설정·인증·페이지 이동 확인·요청 취소 기능을 공통 UI와 연동합니다. <strong>이미 적용된 처리를 중복으로 연결하지 않습니다</strong>.',
   '일반 오류 UI는 Components OwpErrorBoundary를, chunk 복구는 Utils를 사용합니다. Core OwpRouteErrorElement는 Data Router 오류를 해석합니다.':

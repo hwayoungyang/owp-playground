@@ -35,7 +35,7 @@ export const extensionsEnglish: Readonly<Record<string, string>> = {
   '파일 데이터와 ZIP 저장': 'File data and ZIP downloads',
   '파일·추가 필드를 FormData 업로드 변수로 구성하고 Blob을 ZIP으로 저장합니다. fetchFile·openFileBySeq는 프로젝트의 파일 API·인증 설정이 필요합니다.':
     'Prepare files and additional fields for FormData upload and save Blobs as ZIP. fetchFile and openFileBySeq require your project’s file API and authentication configuration.',
-  '로그인 입력값 정리': 'Login input cleanup',
+  '로그인 입력값 정리': 'User ID and password sanitization',
   '아이디·비밀번호 입력에서 제거되는 문자를 비교합니다. 입력값 정리 결과와 인증·비밀번호 정책 검증을 구분합니다.':
     'Compare which characters are removed from user ID and password inputs. Input cleanup is separate from authentication and password-policy validation.',
   '언어 초기화와 코드 변환': 'Language initialization and codes',

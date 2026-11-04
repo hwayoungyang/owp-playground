@@ -29,6 +29,8 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
   '앱에서 연결할 부분': '앱 연동 방법',
   '패키지별 역할과 연결': '패키지별 기능과 연동',
   '패키지별 역할과 연결 방법 보기': '패키지별 연동 방법 보기',
+  '검색 폼은 Components, 조회 실행과 취소는 Core의 useSearchAction을 사용합니다. run·cancel·isRunning·isCanceling을 화면에 연결하고, progressFilter로 진행 상태를 추적할 query를 지정합니다.':
+    '검색 폼은 Components의 OwpSearchFilter를 사용합니다. Core의 useSearchAction에서 반환하는 run으로 조회를 실행하고 cancel로 취소합니다. isRunning·isCanceling으로 조회·취소 진행 상태를 표시하고, progressFilter로 추적할 query를 지정합니다.',
   '실행 원본 코드': '예제 소스 코드',
   '실행에 사용한 원본 코드입니다.': '미리보기에서 실행하는 소스 코드입니다.',
   '예제 실행 영역': '예제 미리보기',
@@ -181,9 +183,7 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
   'settings·navbar의 일반 변경은 메모리 상태이며 새로고침 후 자동 복원을 보장하지 않습니다. 반면 인증 정보와 navigation 등은 해당 hook이 storage와 연결합니다. store를 분리해도 브라우저 storage까지 분리되는 것은 아닙니다. 사용자별 설정 저장이 필요하면 앱이 저장 key·형식 검증·로그아웃 처리·초기화 이후 복원 시점을 정해야 합니다. useStorage의 getEnv·setEnv는 환경 설정 API로, 사용자 settings 저장 함수가 아닙니다.':
     'settings·navbar 변경은 메모리의 store에 반영되며 새로고침 후 자동 복원을 보장하지 않습니다. 인증 정보와 navigation 등은 관련 Hook을 통해 storage에도 저장됩니다. store를 분리해도 같은 origin의 브라우저 storage까지 분리되지는 않습니다. 사용자별 설정을 저장하려면 앱에서 저장 key·데이터 형식 검증·로그아웃 시 처리·설정 초기화 후 복원 시점을 정해야 합니다. useStorage의 getEnv·setEnv는 환경 설정용 API이며 사용자 settings를 저장하는 함수가 아닙니다.',
   'Core는 프로바이더·상태 관리·API·테마를 연결하는 앱의 기반입니다. 프로바이더는 <strong>공유 실행 환경</strong>을 만들고, 상태 hook은 사용자·메뉴·설정을, API hook은 요청과 캐시를, 테마 설정은 앱의 공통 스타일을 관리합니다.':
-    'Core는 프로바이더·상태 관리·API·테마를 연결하는 앱의 기반입니다. 프로바이더는 여러 화면이 같은 <strong>context와 store</strong>를 사용하도록 연결합니다. 상태 Hook은 사용자·메뉴·설정을, API Hook은 요청과 cache를, 테마 설정은 앱의 공통 스타일을 관리합니다.',
-  '문서 메뉴의 프로바이더 구성 → 상태 관리 → API 설정 → 테마와 설정 순서로 각 기능의 역할·설정 방법·기대효과를 확인하세요. 아래에서는 설치와 전체 진입 코드를 확인할 수 있습니다.':
-    '문서 메뉴에서 Provider 구성 → 사용자·메뉴·설정 관리 → API 설정 → 테마 설정 순서로 각 기능의 사용법을 확인하세요. 아래에는 설치 명령과 앱 초기화 코드가 있습니다.',
+    'Core는 앱 초기화·state 관리·API 요청·테마 설정을 제공합니다. Provider는 하위 컴포넌트에 <strong>context와 store</strong>를 제공합니다. state Hook은 사용자 정보·메뉴·설정을, API Hook은 요청과 cache를 관리합니다. 테마 설정으로 앱의 공통 스타일을 지정합니다.',
   'OwpUiProvider는 React Router Data Router 안에 배치하고, 페이지 이동 보호가 필요한 화면에서 usePageLeaveGuard를 호출합니다. Playground의 독립 예제는 서버 인증 없이 실행합니다.':
     'OwpUiProvider는 RouterProvider가 렌더링하는 route element에 배치합니다. 저장하지 않은 변경 내용이 있을 때 페이지 이동을 확인하려면 해당 페이지에서 usePageLeaveGuard를 호출합니다. Playground의 독립 예제는 서버 인증 없이 실행합니다.',
   '예제에는 MUI ThemeProvider와 CssBaseline이 포함되어 있습니다. 프로젝트에 같은 설정이 있다면 기존 Provider 아래에 OwpNumberField를 배치합니다.':

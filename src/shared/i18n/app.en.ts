@@ -15,12 +15,12 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '<OWP_MCP_URL>에 팀 공용 서버의 기본 주소를 입력합니다. /mcp는 MCP 연결 경로입니다. 주소·인증·접근 권한은 Impix SmartBiz 팀에 확인해 주세요.':
     'Replace <OWP_MCP_URL> with the team’s shared server base URL. /mcp is the MCP connection path. Confirm the URL, authentication, and access permissions with the Impix SmartBiz team.',
   '연결 정보를 등록한 뒤 아래 예시로 요청합니다. 예시는 Playground에 설치된 정확한 패키지 버전을 사용하므로, 프로젝트의 설치 버전이 다르면 해당 버전으로 바꾸어 요청하세요.':
-    'After registering the connection details, use the example below. It uses the exact package version installed in Playground; replace it with your project’s installed version if it differs.',
+    'Once connected to MCP, send the prompt below to your AI assistant. Set the package version to the version installed in your project.',
   '프롬프트 예시': 'Example prompt',
   '{{packageName}} {{version}} 기준으로 MCP에서 공개 API·가이드·사용 예제를 찾아 구현해 주세요. 응답의 packageVersion을 확인하고, 후속 조회에는 그 값을 version으로 지정하고 같은 releaseId를 사용해 주세요.':
     'Use MCP to find public APIs, guides, and usage examples for {{packageName}} {{version}}, then implement the feature. Check packageVersion in the response, pass that value as version in subsequent lookups, and reuse the same releaseId.',
   '응답의 packageVersion이 요청한 버전과 일치하는지 확인하세요. 후속 조회에서도 같은 version과 releaseId를 사용하면 서로 다른 배포 버전의 자료가 섞이지 않습니다.':
-    'Check that packageVersion in the response matches the requested version. Reuse the same version and releaseId in subsequent lookups to avoid mixing materials from different releases.',
+    'Verify that packageVersion matches the requested version. Reuse the same version and releaseId for subsequent lookups.',
   '패키지 버전 선택': 'Select package version',
   개발본: 'Draft',
   '개발 중': 'In development',

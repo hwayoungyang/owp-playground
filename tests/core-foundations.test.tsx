@@ -34,10 +34,10 @@ describe('Core foundation guides', () => {
           (match) => match[1] ?? '',
         );
         // Then
-        expect(paragraphs).toHaveLength(4);
+        expect(paragraphs).toHaveLength(3);
         expect(
           paragraphs.map((paragraph) => [...paragraph.matchAll(/<strong>(.*?)<\/strong>/g)].length),
-        ).toEqual([1, 0, 0, 1]);
+        ).toEqual([1, 0, 1]);
         expect(responsibility).not.toContain('&lt;strong&gt;');
         if (language === 'en') expect(responsibility).not.toMatch(/[가-힣]/);
       }
