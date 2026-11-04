@@ -1,9 +1,11 @@
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { afterEach, describe, expect, it } from 'vitest';
 import { componentRuntimeDefaults } from '../scripts/components-runtime-defaults';
 import { documentedDefault } from '../scripts/components-api-default-docs';
+import { verifiedComponentDefaults } from '../scripts/components-verified-defaults';
 
 const directories: string[] = [];
 afterEach(() => {
@@ -12,6 +14,39 @@ afterEach(() => {
 });
 
 describe('공개 Props 기본값의 실제 근거', () => {
+  it('검토한 DataGrid 버전과 두 구현 파일이 일치할 때만 export 기본값을 보완한다', () => {
+    const root = mkdtempSync(join(tmpdir(), 'owp-verified-defaults-'));
+    directories.push(root);
+    const installed = fileURLToPath(new URL('../node_modules/@owp/datagrid/', import.meta.url));
+    const packageRoot = join(root, 'node_modules/@owp/datagrid');
+    const files = ['dist/index.js', 'dist/chunks/C8z2ndwY.js'];
+    for (const relative of files) {
+      const file = join(packageRoot, relative);
+      mkdirSync(dirname(file), { recursive: true });
+      writeFileSync(file, readFileSync(join(installed, relative)));
+    }
+    for (const version of ['3.5.4', '3.5.5']) {
+      expect(verifiedComponentDefaults(root, 'datagrid', version)).toEqual({
+        OwpDataGridExportExcelButton: {
+          exportName: '"sheet"',
+          useAppendCurrentDateTimeToExportName: 'false',
+          saveMode: '"auto"',
+        },
+      });
+    }
+    expect(verifiedComponentDefaults(root, 'datagrid', '3.5.6')).toEqual({});
+    expect(verifiedComponentDefaults(root, 'core', '3.5.5')).toEqual({});
+    for (const relative of files) {
+      const file = join(packageRoot, relative);
+      const original = readFileSync(file);
+      writeFileSync(file, Buffer.concat([original, Buffer.from('\n// changed\n')]));
+      expect(verifiedComponentDefaults(root, 'datagrid', '3.5.5'), relative).toEqual({});
+      writeFileSync(file, original);
+    }
+    rmSync(join(packageRoot, 'dist/chunks/C8z2ndwY.js'));
+    expect(verifiedComponentDefaults(root, 'datagrid', '3.5.5')).toEqual({});
+  });
+
   it('모듈 실행 없이 re-export·wrapper의 구조 분해 기본값을 추적한다', () => {
     // Given: 실행하면 오류가 나는 모듈과 props를 전달하는 wrapper
     const root = mkdtempSync(join(tmpdir(), 'owp-prop-defaults-'));

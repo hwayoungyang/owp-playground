@@ -10,7 +10,8 @@ const gridFiles = {
 };
 
 export function verifiedComponentDefaults(root: string, packageId: string, version: string): VerifiedDefaults {
-  if (packageId !== 'datagrid' || version !== '3.5.4') return {};
+  // 3.5.4·3.5.5의 버튼 전달 경로와 export helper는 아래 SHA-256이 모두 같습니다.
+  if (packageId !== 'datagrid' || !['3.5.4', '3.5.5'].includes(version)) return {};
   for (const [relative, expected] of Object.entries(gridFiles)) {
     const file = resolve(root, 'node_modules/@owp/datagrid', relative);
     if (!existsSync(file) || createHash('sha256').update(readFileSync(file)).digest('hex') !== expected) return {};
