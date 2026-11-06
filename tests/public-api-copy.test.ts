@@ -107,6 +107,9 @@ describe('공개 API의 표시 문구', () => {
       'cache를 공유하고 Tooltip에 series를 표시합니다.',
     );
     expect(normalizeAppTerminology('데이터 계열입니다.')).toBe('데이터 계열입니다.');
+    expect(normalizeAppTerminology('배열을 반환하며 Array 타입을 유지합니다.')).toBe(
+      '배열을 반환하며 Array 타입을 유지합니다.',
+    );
     expect(
       normalizeAppTerminology('공개 atom과 공개 API를 사용하고 비공개 API는 제외합니다.'),
     ).toBe('public atom과 public API를 사용하고 비공개 API는 제외합니다.');

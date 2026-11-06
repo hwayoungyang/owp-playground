@@ -28,8 +28,7 @@ export function normalizeAppTerminology(text: string): string {
       .replaceAll('툴팁', 'Tooltip')
       .replaceAll('시리즈', 'series')
       .replaceAll('접두사', 'prefix')
-      .replaceAll('접미사', 'suffix')
-      .replace(/(?<![가-힣A-Za-z0-9_])배열(?!\s*\(Array\))/g, '배열 (Array)');
+      .replaceAll('접미사', 'suffix');
   let result = '';
   let offset = 0;
   for (const match of text.matchAll(protectedAppText)) {

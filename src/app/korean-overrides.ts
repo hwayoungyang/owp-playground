@@ -1,17 +1,22 @@
 import { interfaceKorean } from '../shared/i18n/interface.ko';
 import { guidanceKorean } from '../shared/i18n/guidance.ko';
 import { chartKorean } from '../playgrounds/charts/locales/clarity.ko';
+import { coreKoreanClarity } from '../playgrounds/core/locales/clarity.ko';
+import { datagridKoreanClarity } from '../playgrounds/datagrid/locales/clarity.ko';
+import { componentsKoreanClarity } from '../playgrounds/components/locales/clarity.ko';
+import { integrationsKorean } from '../playgrounds/integrations/locales.ko';
 
 export const koreanOverrides: Readonly<Record<string, string>> = {
   ...interfaceKorean,
   ...chartKorean,
-  '아이콘을 확인하고 선택하면 API 상세로 이동합니다.': '아이콘 선택 시 API 상세로 이동합니다.',
+  '아이콘을 확인하고 선택하면 API 상세로 이동합니다.':
+    '아이콘을 선택하면 API 상세를 볼 수 있습니다.',
   'API 목록에서 사용할 항목을 선택하면 공개 import 경로, 타입과 사용 코드를 확인할 수 있습니다.':
-    'API 목록에서 항목 선택 시 공개 import 경로, 타입과 사용 코드를 확인할 수 있습니다.',
+    'API 목록에서 항목을 선택하면 import 경로, 타입, 사용 예제를 볼 수 있습니다.',
   '항목을 선택하면 기본 정보와 수량 내역을 표로 표시합니다.':
-    '항목 선택 시 기본 정보와 수량 내역을 표로 표시합니다.',
+    '항목을 선택하면 기본 정보와 수량 내역을 표로 표시합니다.',
   '사용자를 선택하면 샘플 인증 정보와 메뉴가 바로 바뀝니다. Core는 메뉴의 C/R/U/D 플래그로 권한을 판단합니다.':
-    '사용자 선택 시 샘플 인증 정보와 메뉴가 바로 바뀝니다. Core는 메뉴의 C/R/U/D 플래그로 권한을 판단합니다.',
+    '사용자를 선택하면 샘플 인증 정보와 메뉴가 바로 바뀝니다. Core는 메뉴의 C/R/U/D 플래그로 권한을 판단합니다.',
   'Super admin·Admin·PM 샘플 사용자를 선택하면 페이지별 생성·조회·수정·삭제 권한이 O/X로 바로 바뀝니다.':
     '샘플 사용자를 선택하면 페이지별 생성·조회·수정·삭제 권한이 O/X로 표시됩니다.',
   '이 창의 버튼을 누르면 응답을 Data에 기록합니다.':
@@ -190,7 +195,7 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
   'Core는 앱 전체에서 공유하는 사용자·메뉴·설정 상태를 관리합니다. 페이지의 입력·선택 값은 React 로컬 상태에, 서버 조회 결과는 QueryClient 캐시에 두어 상태의 수명과 갱신 경로를 분명히 합니다.':
     'Core는 앱 전체에서 사용하는 사용자 정보·메뉴·설정을 store에 보관합니다. 페이지에서 입력하거나 선택한 값은 컴포넌트의 state로 관리하고, API 조회 결과는 QueryClient의 cache로 관리합니다.',
   'useGetCurrentUser·useGetNavigationList·useGetCurrentSettings로 필요한 상태를 구독합니다. 변경은 useApplyAuthenticatedUser·useSetNavigationList·useSetSettings 같은 공개 hook으로 수행합니다. OwpCoreProvider가 store를 제공하므로 페이지마다 새 OwpStoreProvider를 만들지 않습니다. 공개 atom이 필요한 경우에는 @owp/core/store를 사용하며 Jotai를 직접 import할 앱은 Jotai 의존성도 선언합니다.':
-    'useGetCurrentUser·useGetNavigationList·useGetCurrentSettings로 각각 사용자 정보·메뉴·현재 설정을 가져옵니다. 이 값이 변경되면 Hook을 사용하는 컴포넌트에도 반영됩니다. 변경할 때는 useApplyAuthenticatedUser·useSetNavigationList·useSetSettings를 사용합니다. OwpCoreProvider가 제공하는 store를 사용하므로 페이지마다 OwpStoreProvider를 추가하지 않습니다. 공개 atom은 @owp/core/store에서 가져옵니다. 앱에서 Jotai를 직접 import한다면 Jotai 의존성도 선언합니다.',
+    'useGetCurrentUser·useGetNavigationList·useGetCurrentSettings로 각각 사용자 정보·메뉴·현재 설정을 가져옵니다. 이 값이 변경되면 Hook을 사용하는 컴포넌트에도 반영됩니다. 변경할 때는 useApplyAuthenticatedUser·useSetNavigationList·useSetSettings를 사용합니다. OwpCoreProvider가 제공하는 store를 사용하므로 페이지마다 OwpStoreProvider를 추가하지 않습니다. 공개 atom은 @owp/core/store에서 가져옵니다. 앱에서 Jotai를 직접 import한다면 Jotai도 dependencies에 추가합니다.',
   'settings·navbar의 일반 변경은 메모리 상태이며 새로고침 후 자동 복원을 보장하지 않습니다. 반면 인증 정보와 navigation 등은 해당 hook이 storage와 연결합니다. store를 분리해도 브라우저 storage까지 분리되는 것은 아닙니다. 사용자별 설정 저장이 필요하면 앱이 저장 key·형식 검증·로그아웃 처리·초기화 이후 복원 시점을 정해야 합니다. useStorage의 getEnv·setEnv는 환경 설정 API로, 사용자 settings 저장 함수가 아닙니다.':
     'settings·navbar 변경은 메모리의 store에 반영되며 새로고침 후 자동 복원을 보장하지 않습니다. 인증 정보와 navigation 등은 관련 Hook을 통해 storage에도 저장됩니다. store를 분리해도 같은 origin의 브라우저 storage까지 분리되지는 않습니다. 사용자별 설정을 저장하려면 앱에서 저장 key·데이터 형식 검증·로그아웃 시 처리·설정 초기화 후 복원 시점을 정해야 합니다. useStorage의 getEnv·setEnv는 환경 설정용 API이며 사용자 settings를 저장하는 함수가 아닙니다.',
   'Core는 프로바이더·상태 관리·API·테마를 연결하는 앱의 기반입니다. 프로바이더는 <strong>공유 실행 환경</strong>을 만들고, 상태 hook은 사용자·메뉴·설정을, API hook은 요청과 캐시를, 테마 설정은 앱의 공통 스타일을 관리합니다.':
@@ -220,5 +225,23 @@ export const koreanOverrides: Readonly<Record<string, string>> = {
     '편집한 값을 저장합니다. 저장하지 않은 변경 내용이 있으면 창을 닫기 전에 버릴지 확인합니다.',
   '저장 버튼은 입력값을 반영하고 닫기 버튼은 미저장 변경을 확인합니다.':
     '저장 버튼은 입력값을 저장합니다. 닫기 버튼은 저장하지 않은 변경 내용이 있을 때 버릴지 확인합니다.',
+  'API를 찾을 수 없음. 이름으로 검색 가능.': 'API를 찾을 수 없습니다. API 이름으로 검색해 주세요.',
+  '타입 정의·관련 예제 참고.': '타입 정의와 관련 예제를 참고해 주세요.',
+  '공개 API 타입·동작·사용 예제 확인 가능.': 'API의 타입, 동작, 사용 예제를 볼 수 있습니다.',
+  '타입별 허용 값·필수 여부·기본값은 각 분기 참고.':
+    '각 타입 분기에서 허용 값, 필수 여부, 기본값을 확인할 수 있습니다.',
+  '각 타입의 조건을 모두 충족해야 함. 세부 제약은 원본 정의 참고.':
+    '각 타입의 조건을 모두 충족해야 합니다. 자세한 제약은 원본 타입 정의를 참고해 주세요.',
+  '타입 인자에 따라 허용 범위가 좁아질 수 있음.':
+    '타입 인자에 따라 허용되는 값의 범위가 좁아질 수 있습니다.',
+  '설치된 registry의 타입 목록. module augmentation으로 확장 가능. 사용 전 controller·plugin 등록 확인 필요.':
+    '설치된 registry의 타입 목록입니다. module augmentation으로 확장할 수 있습니다. 사용하려는 controller와 plugin이 등록되어 있는지 확인해 주세요.',
+  '타입 인자 생략 시 적용할 기본 타입.': '타입 인자를 생략하면 적용되는 기본 타입입니다.',
+  'Chart.js 원본 타입. OWP 설정·callback·배열 지원은 관련 타입·예제 참고.':
+    'Chart.js의 원본 타입입니다. OWP 설정, callback, 배열 지원은 관련 타입과 예제를 참고해 주세요.',
   ...guidanceKorean,
+  ...coreKoreanClarity,
+  ...datagridKoreanClarity,
+  ...componentsKoreanClarity,
+  ...integrationsKorean,
 };

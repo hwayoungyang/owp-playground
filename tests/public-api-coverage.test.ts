@@ -211,8 +211,7 @@ describe('설치본의 Playground 공개 API', () => {
             );
           const familiarTerms = description
             .replaceAll('접두사', 'prefix')
-            .replaceAll('접미사', 'suffix')
-            .replace(/(?<![가-힣A-Za-z0-9_])배열(?!\s*\(Array\))/g, '배열 (Array)');
+            .replaceAll('접미사', 'suffix');
           expect(identifiers(result), entry.id).toEqual(identifiers(familiarTerms));
           expect(result.match(/-?\d+(?:\.\d+)?/g), entry.id).toEqual(
             description.match(/-?\d+(?:\.\d+)?/g),
