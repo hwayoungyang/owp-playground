@@ -1,0 +1,6 @@
+@import "@owp/tailwind-config/tailwind.v4.css";
+
+@config "../../../tailwind.config.cjs";
+@source "../../";
+
+@custom-variant dark (&:where([data-color-mode="dark"], [data-color-mode="dark"] *));

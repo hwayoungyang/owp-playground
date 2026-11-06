@@ -50,7 +50,6 @@ describe('Components guide workspace routing', () => {
           onThemeChange={() => {}}
           onThemeOpen={() => {}}
           onNavigateExample={() => {}}
-          onDataGrid={() => {}}
         />,
       );
       expect(html).toContain(marker);
@@ -92,7 +91,6 @@ describe('Components guide workspace routing', () => {
           onThemeChange={() => {}}
           onThemeOpen={() => {}}
           onNavigateExample={() => {}}
-          onDataGrid={() => {}}
         />,
       );
       expect(html).toContain(marker);

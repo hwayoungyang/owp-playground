@@ -2,6 +2,11 @@ import { i18next, initReactI18next } from '@owp/core/i18n';
 import { chartEnglish } from '../playgrounds/charts/locales/en';
 import { coreEnglish } from '../playgrounds/core/locales/en';
 import { componentsEnglish } from '../playgrounds/components/locales/en';
+import { integrationsEnglish } from '../playgrounds/integrations/locales.en';
+import { tailwindEnglish } from '../playgrounds/tailwind-config/locales.en';
+import { barcodeEnglish } from '../playgrounds/utils/barcode.en';
+import { focusedDateEnglish } from '../playgrounds/date-picker/focused.en';
+import { focusedUtilsEnglish } from '../playgrounds/utils/focused.en';
 import {
   componentsOwpEnglish,
   componentsOwpKorean,
@@ -23,6 +28,11 @@ const english = {
   ...chartEnglish,
   ...coreEnglish,
   ...componentsEnglish,
+  ...integrationsEnglish,
+  ...tailwindEnglish,
+  ...barcodeEnglish,
+  ...focusedDateEnglish,
+  ...focusedUtilsEnglish,
 };
 const korean = Object.fromEntries(
   Object.entries({

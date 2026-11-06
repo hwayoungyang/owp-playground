@@ -1,6 +1,7 @@
 import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
 import '@owp/core/owp-app.css';
+import './app/styles/tailwind.css';
 import './app/i18n';
 import { createRoot } from 'react-dom/client';
 import { App } from './app/App';

@@ -8,15 +8,16 @@ import {
   CoreWorkspace,
   GridGettingStarted,
   GridWorkspace,
+  IntegrationsWorkspace,
   GuideCodeWorkspace,
   PublicApiWorkspace,
   PackageGettingStarted,
+  TailwindGettingStarted,
 } from './workspaces';
 import type { PlaygroundRoute } from '../playgrounds/registry';
 import { selectedChartExample } from '../playgrounds/charts/model/variants';
 import { CoreEnvironmentScope } from '../playgrounds/core/runtime/CoreEnvironmentScope';
 import type { PreviewThemeSettings } from '../features/theme-studio/model/preview';
-import { PackageNotice } from './layout/PackageNotice';
 import publicApiIndex from 'virtual:public-api/index';
 
 type WorkspaceRouterProps = {
@@ -25,7 +26,6 @@ type WorkspaceRouterProps = {
   readonly onThemeChange: (theme: PreviewThemeSettings) => void;
   readonly onThemeOpen: () => void;
   readonly onNavigateExample: (id: string) => void;
-  readonly onDataGrid: () => void;
 };
 
 export function WorkspaceRouter({
@@ -34,7 +34,6 @@ export function WorkspaceRouter({
   onThemeChange,
   onThemeOpen,
   onNavigateExample,
-  onDataGrid,
 }: WorkspaceRouterProps) {
   if (
     (route.status === 'ready' ||
@@ -54,7 +53,11 @@ export function WorkspaceRouter({
   }
   switch (route.status) {
     case 'package-guide':
-      return <PackageGettingStarted key={route.playground.id} playground={route.playground} />;
+      return route.playground.id === 'tailwind-config' ? (
+        <TailwindGettingStarted />
+      ) : (
+        <PackageGettingStarted key={route.playground.id} playground={route.playground} />
+      );
     case 'exports':
       return (
         <PublicApiWorkspace
@@ -91,6 +94,16 @@ export function WorkspaceRouter({
           initialTab={route.tab}
           codeTarget={route.codeTarget}
           theme={theme}
+        />
+      );
+    case 'integrations':
+      return (
+        <IntegrationsWorkspace
+          key={`${route.playground.id}-${route.example.id}`}
+          playground={route.playground}
+          example={route.example}
+          initialTab={route.tab}
+          codeTarget={route.codeTarget}
         />
       );
     case 'core':
@@ -137,8 +150,6 @@ export function WorkspaceRouter({
           onThemeOpen={onThemeOpen}
         />
       );
-    case 'planned':
-      return <PackageNotice onDataGrid={onDataGrid} />;
     default:
       return assertNever(route);
   }

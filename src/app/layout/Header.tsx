@@ -124,16 +124,13 @@ export function Header({
               data-package={entry.id}
               aria-current={entry.id === playground.id ? 'true' : undefined}
               selected={entry.id === playground.id}
-              disabled={entry.status === 'planned'}
               onClick={() => {
                 if (entry.id !== playground.id) onPackageChange(entry);
                 setAnchor(null);
               }}
             >
               <span className="package-menu-name">{entry.title}</span>
-              {entry.status === 'planned' ? (
-                <span className="package-menu-state">{t('준비 중')}</span>
-              ) : entry.id === playground.id ? (
+              {entry.id === playground.id ? (
                 <span className="package-menu-state">
                   <CheckIcon size={14} />
                   {t('선택됨')}

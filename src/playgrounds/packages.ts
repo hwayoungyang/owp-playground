@@ -55,9 +55,6 @@ export const componentsPackage = {
   referencePackages: [],
 } as const;
 
-const planned = <T extends string>(id: T) =>
-  ({ id, title: `owp/${id}`, name: `@owp/${id}`, version: null, status: 'planned' }) as const;
-
 const available = <T extends string>(id: T, version: string) =>
   ({ id, title: `owp/${id}`, name: `@owp/${id}`, version, status: 'available' }) as const;
 
@@ -69,12 +66,11 @@ export const packageCatalog = [
   available('pdf', pdfManifest.version),
   available('theme', themeManifest.version),
   available('utils', utilsManifest.version),
-  planned('tailwind-config'),
+  available('tailwind-config', '4.0.0'),
 ] as const;
 
 /** 설치본의 공개 API와 가이드를 검증해 Knowledge로 제공하는 패키지입니다. */
 export const knowledgePackages = packageCatalog.flatMap((entry) =>
-  entry.status === 'planned' ||
   ![
     'datagrid',
     'charts',
@@ -92,11 +88,8 @@ export const knowledgePackages = packageCatalog.flatMap((entry) =>
 
 export function supportsApiReference(
   playground: (typeof packageCatalog)[number],
-): playground is Extract<
-  (typeof packageCatalog)[number],
-  { readonly status: 'ready' } | { readonly status: 'available' }
-> {
-  return playground.status === 'ready' || playground.status === 'available';
+): playground is Exclude<(typeof packageCatalog)[number], { readonly id: 'tailwind-config' }> {
+  return playground.id !== 'tailwind-config';
 }
 
 export function referencePackagesFor(packageId: string): readonly string[] {

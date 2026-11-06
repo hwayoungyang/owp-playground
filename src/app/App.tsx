@@ -13,6 +13,10 @@ import { supportsThemeStudio } from '../features/theme-studio/model/studio';
 import { chartCatalog, chartCategories } from '../playgrounds/charts/catalog';
 import { coreCatalog, coreCategories } from '../playgrounds/core/catalog';
 import { componentsCatalog, componentsCategories } from '../playgrounds/components/catalog';
+import {
+  integrationCategoriesFor,
+  integrationExamplesFor,
+} from '../playgrounds/integrations/catalog';
 import { selectedChartExample } from '../playgrounds/charts/model/variants';
 import {
   gridAliases,
@@ -21,7 +25,6 @@ import {
 } from '../playgrounds/datagrid/catalog';
 import {
   createPlaygroundUrl,
-  dataGridPackage,
   getPlaygroundRoute,
   type PlaygroundPackage,
   type PlaygroundRoute,
@@ -36,8 +39,6 @@ import { Sidebar } from './layout/Sidebar';
 import { Provider } from './providers/Provider';
 import { WorkspaceLoading } from '../shared/ui/WorkspaceLoading';
 import { hasStandaloneGuide, packageGuideEntry } from '../playgrounds/introductions';
-
-const emptyNavigation = [] as const;
 
 export function App() {
   const { t, i18n } = useOwpTranslation();
@@ -92,9 +93,12 @@ export function App() {
             ? chartCatalog
             : route.playground.id === 'datagrid'
               ? gridCatalog
-              : hasStandaloneGuide(route.playground.id)
-                ? [packageGuideEntry(route.playground)]
-                : emptyNavigation,
+              : hasStandaloneGuide(route.playground.id) || route.playground.id === 'tailwind-config'
+                ? [
+                    packageGuideEntry(route.playground),
+                    ...integrationExamplesFor(route.playground.id),
+                  ]
+                : integrationExamplesFor(route.playground.id),
     [route.playground],
   );
   const categories =
@@ -106,7 +110,7 @@ export function App() {
           ? chartCategories
           : route.playground.id === 'datagrid'
             ? gridCategories
-            : emptyNavigation;
+            : integrationCategoriesFor(route.playground.id);
   const publicEntry =
     (route.status === 'api' || route.status === 'exports') && route.symbol
       ? publicApiIndex
@@ -255,7 +259,6 @@ export function App() {
                 onThemeChange={setPreviewTheme}
                 onThemeOpen={() => setThemeOpen(true)}
                 onNavigateExample={navigateExample}
-                onDataGrid={() => navigatePackage(dataGridPackage)}
               />
             </Suspense>
           </main>

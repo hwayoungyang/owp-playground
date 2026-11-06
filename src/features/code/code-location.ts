@@ -5,7 +5,7 @@ export const codeLocationSchema = z
     file: z
       .string()
       .regex(
-        /^playgrounds\/(?:datagrid|charts|core|components)\/(?:[\w-]+\/)*[\w.-]+\.(?:tsx?|css)$/,
+        /^playgrounds\/(?:datagrid|charts|core|components|date-picker|excel|pdf|theme|utils|tailwind-config)\/(?:[\w-]+\/)*[\w.-]+\.(?:tsx?|css)$/,
       ),
     line: z.number().int().positive().max(100000),
     endLine: z.number().int().positive().max(100000),

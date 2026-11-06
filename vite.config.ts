@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite-plus';
 import { sourceGraphPlugin } from './scripts/source-graph.ts';
 import { componentsApiPlugin } from './scripts/components-api-plugin.ts';
@@ -112,6 +113,7 @@ export default defineConfig({
     overrides: [{ files: ['**/*.css'], options: { singleQuote: false } }],
   },
   plugins: [
+    tailwindcss(),
     publicApiPlugin(),
     componentsApiPlugin(),
     react(),

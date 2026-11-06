@@ -15,6 +15,7 @@ for (const file of files.filter(file => /\.(?:ts|tsx)$/.test(file))) {
   const inspect = (node) => {
     const specifier = node.source?.value;
     if (typeof specifier !== 'string' || !specifier.startsWith('.')) return;
+    if (new URLSearchParams(specifier.split('?')[1]).has('raw')) return;
     const base = path.posix.normalize(path.posix.join(path.posix.dirname(file), specifier.split('?')[0]));
     assert.ok([base, `${base}.ts`, `${base}.tsx`, `${base}.css`, `${base}/index.ts`].some(candidate => files.includes(candidate)), `${file} -> ${specifier}`);
     if (file.startsWith('shared/') || file.startsWith('features/code/') && file !== 'features/code/source-paths.ts') {

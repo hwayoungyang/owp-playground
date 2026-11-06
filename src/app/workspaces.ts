@@ -1,5 +1,11 @@
 import { lazy } from 'react';
 
+export const TailwindGettingStarted = lazy(() =>
+  import('../playgrounds/tailwind-config/guides/GettingStarted').then((module) => ({
+    default: module.TailwindGettingStarted,
+  })),
+);
+
 export const PackageGettingStarted = lazy(() =>
   import('../playgrounds/PackageGettingStarted').then((module) => ({
     default: module.PackageGettingStarted,
@@ -76,4 +82,9 @@ export const ChartsGettingStarted = lazy(() =>
 );
 export const ApiReference = lazy(() =>
   import('../features/api/ApiReference').then((module) => ({ default: module.ApiReference })),
+);
+export const IntegrationsWorkspace = lazy(() =>
+  import('../playgrounds/integrations/Workspace').then((module) => ({
+    default: module.IntegrationsWorkspace,
+  })),
 );

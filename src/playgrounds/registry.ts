@@ -19,6 +19,7 @@ import { type CoreCatalogEntry, findCoreEntry } from './core/catalog';
 import { type ChartCatalogEntry, findChartEntry } from './charts/catalog.ts';
 import { chartConsolidations } from './charts/model/consolidations.ts';
 import { findGridEntry, type GridCatalogEntry } from './datagrid/catalog.ts';
+import { findIntegrationExample, type IntegrationExample } from './integrations/catalog';
 import { type CodeLocation, readCodeLocation } from '../features/code/code-location';
 import { inferChartVariantFromCode } from './charts/model/variants';
 import { isPublicApiPackage, publicApiSymbol } from '../features/public-api/types';
@@ -31,11 +32,7 @@ type CodeRouteState = {
 };
 
 export type PlaygroundPackage = (typeof packageCatalog)[number];
-type ApiPackage = Extract<
-  PlaygroundPackage,
-  { readonly status: 'ready' } | { readonly status: 'available' }
->;
-type PlannedPackage = Extract<PlaygroundPackage, { readonly status: 'planned' }>;
+type ApiPackage = Exclude<PlaygroundPackage, { readonly id: 'tailwind-config' }>;
 export function apiEntry(playground: ApiPackage) {
   return {
     id: 'api',
@@ -51,7 +48,7 @@ export function apiEntry(playground: ApiPackage) {
 export type PlaygroundRoute =
   | {
       readonly status: 'package-guide';
-      readonly playground: ApiPackage;
+      readonly playground: PlaygroundPackage;
       readonly example: ReturnType<typeof packageGuideEntry>;
     }
   | {
@@ -75,6 +72,11 @@ export type PlaygroundRoute =
       readonly playground: typeof componentsPackage;
       readonly example: ComponentsCatalogEntry;
     } & CodeRouteState)
+  | ({
+      readonly status: 'integrations';
+      readonly playground: PlaygroundPackage;
+      readonly example: IntegrationExample;
+    } & CodeRouteState)
   | {
       readonly status: 'api';
       readonly playground: ApiPackage;
@@ -96,12 +98,7 @@ export type PlaygroundRoute =
       readonly status: 'ready';
       readonly playground: typeof dataGridPackage;
       readonly example: GridCatalogEntry;
-    } & CodeRouteState)
-  | {
-      readonly status: 'planned';
-      readonly playground: PlannedPackage;
-      readonly example: null;
-    };
+    } & CodeRouteState);
 
 const packageIdSchema = z.enum(packageCatalog.map((playground) => playground.id));
 
@@ -109,12 +106,20 @@ export function getPlaygroundRoute(
   playground: PlaygroundPackage,
   exampleId: string | null = null,
 ): PlaygroundRoute {
+  if (playground.id === 'tailwind-config' && (!exampleId || exampleId === 'getting-started'))
+    return { status: 'package-guide', playground, example: packageGuideEntry(playground) };
   if (
     supportsApiReference(playground) &&
     hasStandaloneGuide(playground.id) &&
     (!exampleId || exampleId === 'getting-started')
   )
     return { status: 'package-guide', playground, example: packageGuideEntry(playground) };
+  const integrationExample = findIntegrationExample(
+    playground.id,
+    playground.id === 'tailwind-config' ? 'utilities' : exampleId,
+  );
+  if (integrationExample)
+    return { status: 'integrations', playground, example: integrationExample };
   const symbol = exampleId && publicApiSymbol(exampleId);
   if (
     isPublicApiPackage(playground.id) &&
@@ -157,8 +162,6 @@ export function getPlaygroundRoute(
   switch (playground.status) {
     case 'ready':
       return { status: 'ready', playground, example: findGridEntry(exampleId) };
-    case 'planned':
-      return { status: 'planned', playground, example: null };
     case 'available':
       throw new RangeError(`Unsupported available package: ${playground.id}`);
     default:
@@ -197,7 +200,8 @@ export function readPlaygroundRoute(search: string): PlaygroundRoute {
     (route.status === 'ready' ||
       route.status === 'charts' ||
       route.status === 'core' ||
-      route.status === 'components') &&
+      route.status === 'components' ||
+      route.status === 'integrations') &&
     route.example.kind !== 'guide' &&
     (tab === 'props' || tab === 'params' || tab === 'returns' || tab === 'type')
   )
@@ -206,7 +210,8 @@ export function readPlaygroundRoute(search: string): PlaygroundRoute {
     (route.status === 'ready' ||
       route.status === 'charts' ||
       route.status === 'core' ||
-      route.status === 'components') &&
+      route.status === 'components' ||
+      route.status === 'integrations') &&
     parameters.get('tab') === 'code'
   ) {
     const codeTarget = readCodeLocation(parameters, playground.id);
@@ -256,7 +261,8 @@ export function createPlaygroundUrl(currentUrl: string, route: PlaygroundRoute):
     (route.status === 'ready' ||
       route.status === 'charts' ||
       route.status === 'core' ||
-      route.status === 'components') &&
+      route.status === 'components' ||
+      route.status === 'integrations') &&
     route.tab
   ) {
     url.searchParams.set('tab', route.tab);

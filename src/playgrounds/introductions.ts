@@ -14,7 +14,10 @@ export function packageGuideEntry(playground: { readonly id: string; readonly na
     kind: 'guide',
     category: 'docs',
     package: playground.name,
-    description: '패키지를 설치하고 MCP 연결과 공개 API 사용 방법을 확인합니다.',
+    description:
+      playground.id === 'tailwind-config'
+        ? 'Tailwind 설치·연결 방법과 기본 class·OWP 확장 class를 확인합니다.'
+        : '패키지를 설치하고 MCP 연결과 공개 API 사용 방법을 확인합니다.',
     api: [],
     source: '',
   } as const;

@@ -57,8 +57,18 @@ pnpm preview
 | `/?package=components` | OwpComponents 컴포넌트·Hooks·Utils 실행 예제 |
 | `/?package=date-picker` | OwpDatePicker 시작하기·공개 API |
 | `/?package=pdf` | OwpPdf 시작하기·공개 API |
+| `/?package=date-picker&sample=date-range-picker` | 날짜·기간·주차 선택 |
+| `/?package=excel&sample=data-export` | 배열 (Array) 데이터 Excel 내보내기 |
+| `/?package=pdf&sample=document-download` | PDF 문서 생성·다운로드 |
+| `/?package=theme&sample=theme-mode-preview` | 테마 모드·색상·radius 프리뷰 |
+| `/?package=utils&sample=qrcode-generator` | QR 코드 생성 |
+| `/?package=utils&sample=barcode-generator` | CODE128·CODE39·EAN13 바코드 생성 |
+| `/?package=tailwind-config` | Tailwind 시작하기·공식 문서·OWP class 안내 |
+| `/?package=tailwind-config&sample=utilities` | col1·col2·col3 반응형 배치 |
 
-패키지 값은 `datagrid`, `components`, `date-picker`, `core`, `charts`, `excel`, `pdf`, `theme`, `utils`, `tailwind-config`입니다. `@owp/datagrid` 같은 전체 패키지 이름도 받으며 주소는 짧은 값으로 정리합니다. DataGrid·Charts·Core·Components는 실행 예제와 공개 API를 제공합니다. Date Picker·Excel·PDF·Theme·Utils는 시작하기와 공개 API를 제공하며 독립 실행 예제는 아직 없습니다. Components는 주문 입력·검색·상세 조회·편집·파일 선택 등 사용 예제와 컴포넌트·Hooks·Utils·아이콘 API를 제공합니다. Tailwind Config와 TreeGrid는 이번 MCP 지원 대상에서 제외합니다.
+패키지 값은 `datagrid`, `components`, `date-picker`, `core`, `charts`, `excel`, `pdf`, `theme`, `utils`, `tailwind-config`입니다. `@owp/datagrid` 같은 전체 패키지 이름도 받으며 주소는 짧은 값으로 정리합니다. DataGrid·Charts·Core·Components와 Date Picker·Excel·PDF·Theme·Utils는 실행 예제와 공개 API를 제공합니다. Date Picker·Excel·PDF·Theme에는 각각 두 개, Utils에는 숫자·문자열 포맷과 QR·바코드 생성의 세 개 실행 예제가 있으며 코드·데이터·이벤트를 확인하고 초기화할 수 있습니다. Components는 주문 입력·검색·상세 조회·편집·파일 선택 등 사용 예제와 컴포넌트·Hooks·Utils·아이콘 API를 제공합니다. Tailwind Config는 설치한 `@owp/tailwind-config`의 공통 preset과 CSS, `@tailwindcss/vite`를 사용하며 Preflight 없이 기존 MUI 스타일과 함께 동작합니다. 시작하기에서 설치·MCP 설정·공식 문서·기본 class와 OWP 확장 class를 안내하고, 예제에서 col1·col2·col3의 반응형 열 배치와 간격을 조작합니다. 이번 실행 예제 추가는 Knowledge·MCP·스냅샷에 반영하지 않았으며 Tailwind Config와 TreeGrid는 기존 MCP 지원 대상에서 제외합니다.
+
+Knowledge를 갱신하지 않는 로컬 검증에는 `pnpm typecheck`와 `pnpm exec vp build`를 사용합니다. `pnpm build`는 `knowledge:generate`를 먼저 실행하므로 Knowledge 갱신을 직접 요청받은 경우에만 사용합니다.
 
 기존 `?sample=auto-span` 링크도 OwpDataGrid 예제로 열립니다. 패키지를 생략하거나 알 수 없는 값을 넣으면 OwpDataGrid로, 알 수 없는 샘플은 시작 안내로 열립니다. 메뉴와 샘플 링크는 URL에 선택을 반영하며 새로고침·브라우저 앞/뒤 이동도 지원합니다. 패키지를 바꾸면 이전 패키지의 샘플 값은 지우고, 다른 GET 파라미터와 URL 해시는 유지합니다. Cmd/Ctrl+K로 샘플을 검색할 수 있습니다.
 
@@ -529,7 +539,13 @@ Biome은 `biome.json`에 지정한 기존 JSON·HTML·CSS 범위의 lint만 담�
 
 Oxlint의 Hook 호출·의존성 검사는 유지합니다. 기존의 사용하지 않는 함수 매개변수 허용과 키보드로 코드 영역을 스크롤하기 위한 두 예외를 보존하며, React Compiler 최적화에 맞추기 위한 동작 변경은 이번 전환에 포함하지 않습니다. 두 도구의 추천 규칙은 같지 않으므로 Biome JS/TS 규칙 전체와의 일대일 대응을 보장하지 않습니다.
 
+`@owp/components` 4.0.2의 `useOwpTranslation`은 render마다 새 `t` wrapper를 반환합니다. QR 이미지처럼 Effect에서 비동기 결과를 state에 저장하는 예제에서는 이 함수 참조 때문에 생성이 반복되지 않는지 확인합니다. 생성에 필요한 입력·크기·색상은 의존성으로 유지하고, Effect callback의 오류 안내처럼 최신 번역만 읽는 부분은 `useEffectEvent`로 분리합니다. 옵션을 바꾸면 한 번 재생성되고, 언어만 바꾸면 선택값과 생성 이벤트 수가 유지되는지 실제 화면에서 검증합니다.
+
+신규 예제의 영문 번역은 공통 리소스와 같은 namespace에 병합됩니다. 기존 키를 다시 등록하면 API 문서의 표현도 바뀔 수 있으므로, 공유 키는 기존 번역을 재사용하고 예제 고유 문구만 추가합니다. 번역을 추가한 뒤 `public-api-copy`와 `components-api-ui` 검사로 기존 API 제목·설명·탭 이름이 유지되는지 확인합니다.
+
 `pnpm test:sources`는 빌드된 snippet과 원본의 일치, 기존 URL alias, Oxc를 이용한 TypeScript 구문과 상대 import 경계를 브라우저 없이 검사합니다. API 데이터 검증 스크립트의 JSONC 파싱 회귀 검사는 `pnpm test`에 포함됩니다.
+
+`?raw`로 가져오는 설정·코드 문자열은 실행 의존성이 아니므로 source graph와 정적 import 경계 검사에서 제외합니다. Tailwind 설정은 루트 파일의 실제 원문을 표시하며, 일반 상대 import는 기존 `src` 경계 검사를 유지합니다. 재시도 handler에서 기본값으로 보정한 입력은 state 갱신 직후 다시 읽지 않고 실행 함수의 인자로 전달합니다. 생성 이미지·결과 표·다운로드는 같은 설정으로 완료된 결과만 참조하며, 새 생성 중에는 이전 결과를 노출하지 않습니다. 주차의 반환 형식 전환은 선택한 ISO 주차를 보존하고 연말·연초 경계도 확인합니다.
 
 브라우저 검증은 [공통 브라우저 실행과 검증](/Users/hwayoungyang/Documents/codes/github/agents/common/browser-validation.md)에 따라 이미 연결된 브라우저나 앱이 관리하는 브라우저 제어 도구를 우선 사용합니다. 검증 스크립트는 Chrome·Chromium을 직접 실행하지 않습니다.
 

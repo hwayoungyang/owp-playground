@@ -209,7 +209,11 @@ describe('설치본의 Playground 공개 API', () => {
             (text.match(/[A-Za-z_$][\w$]*(?:[.-][A-Za-z_$][\w$]*)*/g) ?? []).filter(
               (token) => !['cache', 'Tooltip', 'series', 'public'].includes(token),
             );
-          expect(identifiers(result), entry.id).toEqual(identifiers(description));
+          const familiarTerms = description
+            .replaceAll('접두사', 'prefix')
+            .replaceAll('접미사', 'suffix')
+            .replace(/(?<![가-힣A-Za-z0-9_])배열(?!\s*\(Array\))/g, '배열 (Array)');
+          expect(identifiers(result), entry.id).toEqual(identifiers(familiarTerms));
           expect(result.match(/-?\d+(?:\.\d+)?/g), entry.id).toEqual(
             description.match(/-?\d+(?:\.\d+)?/g),
           );

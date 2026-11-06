@@ -20,7 +20,7 @@ export function resolveRecentNavigation({
   readonly language: string;
 }) {
   const playground = packageCatalog.find((entry) => entry.id === visit.packageId);
-  if (!playground || playground.status === 'planned') return null;
+  if (!playground) return null;
   const route = getPlaygroundRoute(playground, visit.id);
   const example = route.example;
   if (!example) return null;

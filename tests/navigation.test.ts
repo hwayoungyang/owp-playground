@@ -50,12 +50,12 @@ describe('shared playground URLs', () => {
     expect(url.hash).toBe('#main-content');
   });
 
-  it('clears the previous sample when choosing a planned package', () => {
+  it('opens Tailwind getting started when choosing the configured package', () => {
     const url = createPlaygroundUrl(
       'https://playground.example/?package=datagrid&sample=editing',
       readPlaygroundRoute('?package=tailwind-config'),
     );
     expect(url.searchParams.get('package')).toBe('tailwind-config');
-    expect(url.searchParams.has('sample')).toBe(false);
+    expect(url.searchParams.get('sample')).toBe('getting-started');
   });
 });

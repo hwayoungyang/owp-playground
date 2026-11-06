@@ -1,5 +1,7 @@
 /** 설치된 패키지 README의 소개를 Playground 문체에 맞춰 정리합니다. */
 export const packageIntroductions = {
+  'tailwind-config':
+    '(주)임픽스의 애플리케이션 개발과 SI 프로젝트에서 공유하는 Tailwind CSS 설정을 제공하는 패키지입니다.',
   core: '(주)임픽스의 애플리케이션 개발과 SI 프로젝트에서 사용하는 React UI 컴포넌트, 스타일과 실행 리소스를 제공하는 패키지입니다.',
   components:
     '(주)임픽스의 애플리케이션 개발과 SI 프로젝트에서 재사용하는 MUI 컴포넌트와 공통 UI 기능을 제공하는 패키지입니다.',
