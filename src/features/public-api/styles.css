@@ -130,47 +130,25 @@
 }
 .public-api-workspace table.api-contract-table {
   min-width: 0;
-  table-layout: auto;
 }
 .public-api-workspace .api-contract-table :is(th, td) {
   min-width: 0;
-  padding: 16px 12px;
-  font-size: 12px;
-  overflow-wrap: anywhere;
-}
-.public-api-workspace .api-contract-table :is(th, td):first-child {
-  padding-left: 0;
-}
-.public-api-workspace .api-contract-table :is(th, td):last-child {
-  padding-right: 0;
-}
-.public-api-workspace .api-contract-table thead th {
-  white-space: nowrap;
-  background: transparent;
-  color: var(--pg-shell-muted);
-  font-size: 11px;
-  font-weight: 400;
-}
-.public-api-workspace .api-contract-table tbody th {
-  font-weight: 500;
 }
 .public-api-workspace .api-contract-table:has(thead th:nth-child(4)) {
   min-width: 720px;
 }
-.public-api-workspace .api-contract-table:has(thead th:nth-child(4)) tbody th {
+.public-api-workspace .api-contract-table:has(thead th:nth-child(4)) :is(th, td):first-child {
   min-width: 140px;
 }
-.public-api-workspace .api-contract-table:has(thead th:nth-child(4)) td:nth-child(2) {
+.public-api-workspace .api-contract-table:has(thead th:nth-child(4)) :is(th, td):nth-child(2),
+.public-api-workspace .api-contract-table:has(thead th:nth-child(4)) :is(th, td):last-child {
   min-width: 200px;
 }
 .public-api-workspace .api-contract-table:has(thead th:nth-child(4)) :is(th, td):nth-child(3) {
   min-width: 104px;
 }
-.public-api-workspace .api-contract-table:has(thead th:nth-child(4)) td:last-child {
-  min-width: 200px;
-}
-.public-api-workspace .api-contract-table code {
-  font-size: 11px;
+.public-api-workspace .api-contract-table :is(th, td):nth-child(4):not(:last-child) {
+  min-width: 140px;
 }
 .public-api-code-only {
   border-radius: 12px;

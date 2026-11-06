@@ -1,3 +1,4 @@
+import { OwpTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
 import {
   createExcelExport,
@@ -9,11 +10,6 @@ import {
   Alert,
   Button,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -247,37 +243,24 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
         <h2>{t('내보낼 데이터')}</h2>
         <div className="components-example-content">
           <div className="integration-table-scroll">
-            <Table size="small" aria-label={t('매핑된 워크시트 행')}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>{t('라인 코드')} (A1)</TableCell>
-                  <TableCell>{t('설비명')} (B1)</TableCell>
-                  <TableCell>{t('처리 수량')} (C1)</TableCell>
-                  <TableCell>{t('가동률')} (D1)</TableCell>
-                  <TableCell>{t('예산')} (E1)</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {localizedRows.map((row) => (
-                  <TableRow key={row.code}>
-                    <TableCell>{row.code}</TableCell>
-                    <TableCell>{row.item}</TableCell>
-                    <TableCell>
-                      {row.quantity}
-                      {includeUnitSuffix ? t('건') : ''}
-                    </TableCell>
-                    <TableCell>
-                      {row.rate}
-                      {includeUnitSuffix ? '%' : ''}
-                    </TableCell>
-                    <TableCell>
-                      {currencyPrefix}
-                      {row.budget}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <OwpTable
+              sx={{ '& th, & td': { textAlign: 'left' } }}
+              size="small"
+              aria-label={t('매핑된 워크시트 행')}
+              headers={{
+                code: t('라인 코드') + ' (A1)',
+                item: t('설비명') + ' (B1)',
+                quantity: t('처리 수량') + ' (C1)',
+                rate: t('가동률') + ' (D1)',
+                budget: t('예산') + ' (E1)',
+              }}
+              rows={localizedRows.map((row) => ({
+                ...row,
+                quantity: String(row.quantity) + (includeUnitSuffix ? t('건') : ''),
+                rate: String(row.rate) + (includeUnitSuffix ? '%' : ''),
+                budget: currencyPrefix + row.budget,
+              }))}
+            />
           </div>
         </div>
       </section>

@@ -1,37 +1,27 @@
 import { useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { OwpTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
-import { getResponsiveTableMinWidthSx } from '@owp/components/utils';
+import { getResponsiveTableMinWidthSx, mergeSx } from '@owp/components/utils';
 import type { ComponentsExampleProps } from '../model/types';
 import { ExampleSection } from '../runtime/ExampleSection';
 
 function WidthTable({ minWidth }: { readonly minWidth?: number | string }) {
   const { t } = useOwpTranslation();
   return (
-    <TableContainer>
-      <Table
-        size="small"
-        aria-label={t('최소 폭 표')}
-        sx={minWidth === undefined ? undefined : getResponsiveTableMinWidthSx(minWidth)}
-      >
-        <TableHead>
-          <TableRow>
-            <TableCell>{t('이름')}</TableCell>
-            <TableCell>{t('상태')}</TableCell>
-            <TableCell>{t('설명')}</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {['Alpha', 'Beta'].map((name) => (
-            <TableRow key={name}>
-              <TableCell>{name}</TableCell>
-              <TableCell>{t('준비')}</TableCell>
-              <TableCell>{t('최소 너비를 비교하는 셀')}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <OwpTable
+      size="small"
+      aria-label={t('최소 폭 표')}
+      sx={mergeSx(
+        { '& th, & td': { textAlign: 'left' } },
+        minWidth === undefined ? undefined : getResponsiveTableMinWidthSx(minWidth),
+      )}
+      headers={{ name: t('이름'), status: t('상태'), description: t('설명') }}
+      rows={['Alpha', 'Beta'].map((name) => ({
+        name,
+        status: t('준비'),
+        description: t('최소 너비를 비교하는 셀'),
+      }))}
+    />
   );
 }
 export function ComponentsExample({ onData }: ComponentsExampleProps) {
@@ -42,7 +32,7 @@ export function ComponentsExample({ onData }: ComponentsExampleProps) {
     <>
       <ExampleSection
         title="최소 너비를 지정하지 않은 표"
-        description="기본 MUI Table입니다. 화면이 좁아지면 셀의 너비와 줄 수가 달라집니다."
+        description="기본 OwpTable입니다. 화면이 좁아지면 셀의 너비와 줄 수가 달라집니다."
       >
         <WidthTable />
       </ExampleSection>

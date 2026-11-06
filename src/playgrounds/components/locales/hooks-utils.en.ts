@@ -172,8 +172,8 @@ export const hooksUtilsEnglish = {
   준비: 'Ready',
   '최소 너비를 비교하는 셀': 'A cell for comparing minimum widths',
   '최소 너비를 지정하지 않은 표': 'A table without minimum width',
-  '기본 MUI Table입니다. 화면이 좁아지면 셀의 너비와 줄 수가 달라집니다.':
-    'The default MUI Table adapts cell width and wrapping to the screen.',
+  '기본 OwpTable입니다. 화면이 좁아지면 셀의 너비와 줄 수가 달라집니다.':
+    'The default OwpTable adapts cell width and wrapping to the screen.',
   '숫자로 720px 지정': 'Set a numeric 720px minimum',
   'lg 미만 viewport에서 minWidth 720을 적용합니다. 넘친 내용은 표 안에서 스크롤합니다.':
     'Below lg, apply minWidth 720 and scroll within the table area.',

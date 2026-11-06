@@ -1,3 +1,4 @@
+import { OwpTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useId } from 'react';
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
@@ -19,46 +20,43 @@ function Signature({
       <CodeSnippet label="TypeScript" code={signature.declaration} language="typescript" />
       <h4>{t('매개변수')}</h4>
       {signature.parameters.length > 0 ? (
-        <div
-          className="components-api-table-scroll"
-          role="region"
+        <OwpTable
+          containerProps={{
+            className: 'components-api-table-scroll',
+            role: 'region',
+            'aria-label': t('매개변수 표'),
+            tabIndex: 0,
+          }}
+          className="api-contract-table"
+          size="small"
           aria-label={t('매개변수 표')}
-          // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- 키보드로 표 영역을 가로 스크롤할 수 있어야 합니다.
-          tabIndex={0}
-        >
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">{t('Name')}</th>
-                <th scope="col">{t('Type')}</th>
-                <th scope="col">{t('Requirement')}</th>
-                <th scope="col">{t('Description')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {signature.parameters.map((parameter) => (
-                <tr key={parameter.name}>
-                  <th scope="row">
-                    <code>
-                      {parameter.rest ? '...' : ''}
-                      {parameterLabel(parameter, (key) => t(key))}
-                    </code>
-                    {parameter.rest && (
-                      <span className="components-api-tag">{t('나머지 매개변수')}</span>
-                    )}
-                  </th>
-                  <td>
-                    <code>{parameter.type}</code>
-                  </td>
-                  <td>{t(parameter.optional ? 'Optional' : 'Required')}</td>
-                  <td className="components-api-original">
-                    {formatApiDescription(parameter.description) || '—'}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+          headers={{
+            name: t('Name'),
+            type: t('Type'),
+            requirement: t('Requirement'),
+            description: t('Description'),
+          }}
+          rows={signature.parameters.map((parameter) => ({
+            name: (
+              <>
+                <code>
+                  {parameter.rest ? '...' : ''}
+                  {parameterLabel(parameter, (key) => t(key))}
+                </code>
+                {parameter.rest && (
+                  <span className="components-api-tag">{t('나머지 매개변수')}</span>
+                )}
+              </>
+            ),
+            type: <code>{parameter.type}</code>,
+            requirement: t(parameter.optional ? 'Optional' : 'Required'),
+            description: (
+              <span className="components-api-original">
+                {formatApiDescription(parameter.description) || '—'}
+              </span>
+            ),
+          }))}
+        />
       ) : (
         <p>{t('매개변수가 없습니다.')}</p>
       )}

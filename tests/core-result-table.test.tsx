@@ -7,28 +7,33 @@ import { CoreResultTable } from '../src/playgrounds/core/runtime/CoreResultTable
 
 const headers = { id: 'ID', name: '항목명' };
 
-describe('Core result table body states', () => {
+describe('Core result table states', () => {
   it.each([
     ['idle', '조회 버튼을 눌러 주세요.'],
     ['loading', '조회 중'],
     ['error', '조회에 실패했습니다. 다시 시도해 주세요.'],
-  ] as const)('renders %s inside a real full-width table body', (kind, message) => {
+  ] as const)('renders %s below the empty package table', (kind, message) => {
     const html = renderToStaticMarkup(
       <CoreResultTable headers={headers} rows={[]} state={{ kind, message }} />,
     );
     const body = html.match(/<tbody\b[^>]*>([\s\S]*?)<\/tbody>/)?.[1];
-    expect(body).toContain(message);
-    expect(body).toContain('colSpan="2"');
-    expect(body).toContain(kind === 'error' ? 'role="alert"' : 'role="status"');
+    const afterTable = html.slice(html.indexOf('</table>') + '</table>'.length);
+    expect(body).toBe('');
+    expect(afterTable).toContain(message);
+    expect(afterTable).toContain(kind === 'error' ? 'role="alert"' : 'role="status"');
+    expect(afterTable).toContain('aria-live="polite"');
+    expect(html).toContain('aria-label="조회 결과"');
     expect(html).toContain('width:100%');
-    expect(html).toContain('height:160px');
+    expect(html).toContain('min-height:160px');
     expect(html).toContain(`aria-busy="${kind === 'loading'}"`);
   });
 
-  it('centers successful zero-row results in the body', () => {
+  it('announces successful zero-row results below the package table', () => {
     const html = renderToStaticMarkup(<CoreResultTable headers={headers} rows={[]} />);
-    expect(html).toMatch(/<tbody\b[\s\S]*조회 결과가 없습니다\.[\s\S]*<\/tbody>/);
-    expect(html).toContain('MuiTableCell-alignCenter');
+    const afterTable = html.slice(html.indexOf('</table>') + '</table>'.length);
+    expect(afterTable).toContain('role="status"');
+    expect(afterTable).toContain('조회 결과가 없습니다.');
+    expect(html).toMatch(/<tbody\b[^>]*><\/tbody>/);
     expect(html).not.toContain('조회 버튼을 눌러 주세요.');
   });
 
@@ -45,6 +50,8 @@ describe('Core result table body states', () => {
     expect(ready).toContain('owp-table-cell-content');
     expect(ready).toContain('item-1');
     expect(ready).not.toContain('colSpan="2"');
+    expect(ready).not.toContain('role="status"');
+    expect(ready).not.toContain('role="alert"');
     expect(loading).toContain('조회 중');
     expect(loading).not.toContain('item-1');
   });

@@ -1,3 +1,4 @@
+import { OwpTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
 import {
   Document,
@@ -8,17 +9,7 @@ import {
   Text,
   View,
 } from '@owp/pdf';
-import {
-  Alert,
-  Button,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-} from '@mui/material';
+import { Alert, Button, Stack, TextField } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { DemoResultTable } from '../../integrations/DemoResultTable';
 import type { IntegrationExampleProps } from '../../integrations/catalog';
@@ -320,24 +311,21 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
         <h2>{t('문서 내용')}</h2>
         <div className="components-example-content">
           <div className="integration-table-scroll">
-            <Table size="small" aria-label={t('PDF 문서 항목')}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>{t('코드')}</TableCell>
-                  <TableCell>{t('내역')}</TableCell>
-                  <TableCell align="right">{t('금액')}</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {invoiceItems.map((item) => (
-                  <TableRow key={item.code}>
-                    <TableCell>{item.code}</TableCell>
-                    <TableCell>{item.description}</TableCell>
-                    <TableCell align="right">{item.amount}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <OwpTable
+              sx={{ '& th, & td': { textAlign: 'left' } }}
+              size="small"
+              aria-label={t('PDF 문서 항목')}
+              headers={{
+                code: t('코드'),
+                description: t('내역'),
+                amount: t('금액'),
+                amountSx: { '&&': { textAlign: 'right' } },
+              }}
+              rows={invoiceItems.map((item) => ({
+                ...item,
+                amountSx: { '&&': { textAlign: 'right' } },
+              }))}
+            />
           </div>
         </div>
       </section>

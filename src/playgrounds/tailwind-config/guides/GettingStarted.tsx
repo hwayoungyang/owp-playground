@@ -1,4 +1,5 @@
-import { Box, Link, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Box, Link } from '@mui/material';
+import { OwpTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { GettingStartedHeader } from '../../../shared/ui/GettingStartedHeader';
@@ -44,24 +45,16 @@ function ClassTable({ rows }: { readonly rows: readonly (readonly [string, strin
   const { t } = useOwpTranslation();
   return (
     <Box sx={{ overflowX: 'auto' }}>
-      <Table size="small" aria-label={t('class와 설정값')}>
-        <TableHead>
-          <TableRow>
-            <TableCell>class</TableCell>
-            <TableCell>{t('설명')}</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(([name, description]) => (
-            <TableRow key={name}>
-              <TableCell>
-                <code>{name}</code>
-              </TableCell>
-              <TableCell>{t(description)}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <OwpTable
+        sx={{ '& th, & td': { textAlign: 'left' } }}
+        size="small"
+        aria-label={t('class와 설정값')}
+        headers={{ name: 'class', description: t('설명') }}
+        rows={rows.map(([name, description]) => ({
+          name: <code>{name}</code>,
+          description: t(description),
+        }))}
+      />
     </Box>
   );
 }

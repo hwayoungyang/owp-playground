@@ -1,14 +1,6 @@
+import { OwpTable } from '@owp/components';
 import { useEffect, useState } from 'react';
-import {
-  MenuItem,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-} from '@mui/material';
+import { MenuItem, Stack, TextField } from '@mui/material';
 import { getResponsiveDeviceByWidthClass, useOwpTranslation } from '@owp/components/hooks';
 import { ExampleResult } from './components/hook-observation';
 import type { ComponentsExampleProps } from '../model/types';
@@ -34,22 +26,16 @@ export function ComponentsExample({ onData }: ComponentsExampleProps) {
         title="모든 width class 비교"
         description="xs는 mobile, sm·md는 tablet, lg는 laptop, xl은 desktop에 대응합니다."
       >
-        <Table size="small" aria-label={t('width class별 device')}>
-          <TableHead>
-            <TableRow>
-              <TableCell>widthClass</TableCell>
-              <TableCell>device</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {widthClasses.map((value) => (
-              <TableRow key={value}>
-                <TableCell>{value}</TableCell>
-                <TableCell>{getResponsiveDeviceByWidthClass(value)}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <OwpTable
+          sx={{ '& th, & td': { textAlign: 'left' } }}
+          size="small"
+          aria-label={t('width class별 device')}
+          headers={{ widthClass: 'widthClass', device: 'device' }}
+          rows={widthClasses.map((value) => ({
+            widthClass: value,
+            device: getResponsiveDeviceByWidthClass(value),
+          }))}
+        />
       </ExampleSection>
       <ExampleSection
         title="선택한 class만 변환"

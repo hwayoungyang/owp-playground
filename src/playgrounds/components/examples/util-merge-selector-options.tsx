@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Table, TableBody, TableCell, TableHead, TableRow, TableContainer } from '@mui/material';
+import { OwpTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { mergeSelectorOptions } from '@owp/components/utils';
 import type { OwpSelectorBaseOption } from '@owp/components/types';
@@ -18,24 +18,13 @@ const second = [
 function OptionTable({ options }: { readonly options: readonly OwpSelectorBaseOption[] }) {
   const { t } = useOwpTranslation();
   return (
-    <TableContainer>
-      <Table size="small" aria-label={t('병합한 옵션')}>
-        <TableHead>
-          <TableRow>
-            <TableCell>value</TableCell>
-            <TableCell>label</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {options.map((option) => (
-            <TableRow key={option.value}>
-              <TableCell>{option.value}</TableCell>
-              <TableCell>{option.label}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <OwpTable
+      sx={{ '& th, & td': { textAlign: 'left' } }}
+      size="small"
+      aria-label={t('병합한 옵션')}
+      headers={{ value: 'value', label: 'label' }}
+      rows={options.map((option) => ({ value: option.value, label: option.label }))}
+    />
   );
 }
 export function ComponentsExample({ onData }: ComponentsExampleProps) {

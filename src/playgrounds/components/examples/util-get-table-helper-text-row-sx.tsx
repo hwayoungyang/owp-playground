@@ -1,13 +1,6 @@
+import { OwpTable } from '@owp/components';
 import { useEffect } from 'react';
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  TextField,
-} from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { getTableHelperTextRowSx } from '@owp/components/utils';
 import type { ComponentsExampleProps } from '../model/types';
@@ -16,29 +9,35 @@ import { ExampleSection } from '../runtime/ExampleSection';
 function HelperTable({ helper, aligned }: { readonly helper: boolean; readonly aligned: boolean }) {
   const { t } = useOwpTranslation();
   return (
-    <TableContainer>
-      <Table size="small" aria-label={t('도움말 정렬 표')}>
-        <TableBody>
-          <TableRow sx={aligned ? getTableHelperTextRowSx('components-helper-content') : undefined}>
-            <TableCell>
-              <Box className="components-helper-content">
-                <TextField
-                  label={t('첫 번째 입력')}
-                  size="small"
-                  helperText={helper ? t('입력값을 확인해 주세요.') : undefined}
-                  sx={{ minWidth: 160 }}
-                />
-              </Box>
-            </TableCell>
-            <TableCell>
-              <Box className="components-helper-content">
-                <TextField label={t('두 번째 입력')} size="small" sx={{ minWidth: 160 }} />
-              </Box>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <OwpTable
+      size="small"
+      aria-label={t('도움말 정렬 표')}
+      headers={{ first: t('첫 번째 입력'), second: t('두 번째 입력') }}
+      sx={[
+        { '& th, & td': { textAlign: 'left' } },
+        { '&&& tbody tr .owp-table-cell-content::after': { display: 'none' } },
+        aligned ? { '& tbody tr': getTableHelperTextRowSx('components-helper-content') } : {},
+      ]}
+      rows={[
+        {
+          first: (
+            <Box className="components-helper-content">
+              <TextField
+                label={t('첫 번째 입력')}
+                size="small"
+                helperText={helper ? t('입력값을 확인해 주세요.') : undefined}
+                sx={{ minWidth: 160 }}
+              />
+            </Box>
+          ),
+          second: (
+            <Box className="components-helper-content">
+              <TextField label={t('두 번째 입력')} size="small" sx={{ minWidth: 160 }} />
+            </Box>
+          ),
+        },
+      ]}
+    />
   );
 }
 export function ComponentsExample({ onData }: ComponentsExampleProps) {

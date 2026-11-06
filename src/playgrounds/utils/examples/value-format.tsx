@@ -1,3 +1,4 @@
+import { OwpTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
 import {
   formatNumber,
@@ -16,11 +17,6 @@ import {
   Tabs,
   ToggleButton,
   ToggleButtonGroup,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   TextField,
 } from '@mui/material';
 import { useEffect, useId, useMemo, useState } from 'react';
@@ -236,28 +232,23 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
             </Select>
           </FormControl>
           <div className="integration-result-table">
-            <Table size="small" aria-label={t('폼 기본값 병합 결과')}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>{t('필드 키')}</TableCell>
-                  <TableCell>{t('기본값')}</TableCell>
-                  <TableCell>{t('병합된 값')}</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(Object.keys(defaultFormTarget) as Array<keyof typeof defaultFormTarget>).map(
-                  (fieldKey) => (
-                    <TableRow key={fieldKey}>
-                      <TableCell>
-                        <code>{fieldKey}</code>
-                      </TableCell>
-                      <TableCell>{String(defaultFormTarget[fieldKey])}</TableCell>
-                      <TableCell>{String(mergedFormValues[fieldKey])}</TableCell>
-                    </TableRow>
-                  ),
-                )}
-              </TableBody>
-            </Table>
+            <OwpTable
+              sx={{ '& th, & td': { textAlign: 'left' } }}
+              size="small"
+              aria-label={t('폼 기본값 병합 결과')}
+              headers={{
+                field: t('필드 키'),
+                defaultValue: t('기본값'),
+                mergedValue: t('병합된 값'),
+              }}
+              rows={(Object.keys(defaultFormTarget) as Array<keyof typeof defaultFormTarget>).map(
+                (fieldKey) => ({
+                  field: <code>{fieldKey}</code>,
+                  defaultValue: String(defaultFormTarget[fieldKey]),
+                  mergedValue: String(mergedFormValues[fieldKey]),
+                }),
+              )}
+            />
           </div>
         </div>
       )}

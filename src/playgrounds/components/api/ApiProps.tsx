@@ -1,3 +1,4 @@
+import { OwpTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useId } from 'react';
 import { formatApiDescription } from '../../../shared/i18n/reference-copy';
@@ -25,58 +26,48 @@ export function PropsTable({
   );
   const hasDescription = members.some((member) => formatApiDescription(member.description).trim());
   return (
-    <div
-      className="components-api-table-scroll"
-      role="region"
+    <OwpTable
+      containerProps={{
+        className: 'components-api-table-scroll',
+        role: 'region',
+        'aria-label': t(label),
+        tabIndex: 0,
+      }}
+      className="api-contract-table"
+      size="small"
       aria-label={t(label)}
-      // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- 키보드로 표 영역을 가로 스크롤할 수 있어야 합니다.
-      tabIndex={0}
-    >
-      <table className="api-contract-table">
-        <thead>
-          <tr>
-            <th scope="col">{t('Name')}</th>
-            <th scope="col">{t('Type')}</th>
-            <th scope="col">{t('Requirement')}</th>
-            {hasDefault && <th scope="col">{t('Default')}</th>}
-            {hasDescription && <th scope="col">{t('Description')}</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {members.map((member) => (
-            <tr key={member.name}>
-              <th scope="row">
-                <code>{member.name}</code>
-                {member.isCallback && <span className="components-api-tag">{t('Callback')}</span>}
-                {showSource && <span className="components-api-source">{member.source}</span>}
-              </th>
-              <td>
-                <code>{member.type}</code>
-              </td>
-              <td className="api-requirement">
-                <span data-required={member.requirement === 'required'}>
-                  {t(requirementLabels[member.requirement])}
-                </span>
-              </td>
-              {hasDefault && (
-                <td>
-                  {member.defaultValue === null ? (
-                    t('Not specified')
-                  ) : (
-                    <code>{member.defaultValue}</code>
-                  )}
-                </td>
-              )}
-              {hasDescription && (
-                <td className="components-api-original">
-                  {formatApiDescription(member.description) || '—'}
-                </td>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      headers={{
+        name: t('Name'),
+        type: t('Type'),
+        requirement: t('Requirement'),
+        ...(hasDefault ? { defaultValue: t('Default') } : {}),
+        ...(hasDescription ? { description: t('Description') } : {}),
+      }}
+      rows={members.map((member) => ({
+        name: (
+          <>
+            <code>{member.name}</code>
+            {member.isCallback && <span className="components-api-tag">{t('Callback')}</span>}
+            {showSource && <span className="components-api-source">{member.source}</span>}
+          </>
+        ),
+        type: <code>{member.type}</code>,
+        requirement: (
+          <span className="api-requirement">
+            <span data-required={member.requirement === 'required'}>
+              {t(requirementLabels[member.requirement])}
+            </span>
+          </span>
+        ),
+        defaultValue:
+          member.defaultValue === null ? t('Not specified') : <code>{member.defaultValue}</code>,
+        description: (
+          <span className="components-api-original">
+            {formatApiDescription(member.description) || '—'}
+          </span>
+        ),
+      }))}
+    />
   );
 }
 

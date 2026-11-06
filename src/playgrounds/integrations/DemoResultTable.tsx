@@ -1,5 +1,5 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { OwpTable } from '@owp/components';
 import type { ReactNode } from 'react';
 
 type DemoResultRow = {
@@ -25,32 +25,23 @@ export function DemoResultTable({
       data-api={showApi || undefined}
       data-display={showDisplay || undefined}
     >
-      <Table size="small" aria-label={label}>
-        <TableHead>
-          <TableRow>
-            <TableCell>{t('항목')}</TableCell>
-            {showApi && <TableCell>{t('컴포넌트 / API')}</TableCell>}
-            {showDisplay && <TableCell>{t('표시 값')}</TableCell>}
-            <TableCell>{t(showDisplay ? '반환값' : '현재 값')}</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.label}>
-              <TableCell component="th" scope="row">
-                {row.label}
-              </TableCell>
-              {showApi && (
-                <TableCell>
-                  <code>{row.api ?? '—'}</code>
-                </TableCell>
-              )}
-              {showDisplay && <TableCell>{row.display ?? '—'}</TableCell>}
-              <TableCell>{row.value}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <OwpTable
+        sx={{ '& th, & td': { textAlign: 'left' } }}
+        size="small"
+        aria-label={label}
+        headers={{
+          label: t('항목'),
+          ...(showApi ? { api: t('컴포넌트 / API') } : {}),
+          ...(showDisplay ? { display: t('표시 값') } : {}),
+          value: t(showDisplay ? '반환값' : '현재 값'),
+        }}
+        rows={rows.map((row) => ({
+          label: row.label,
+          api: <code>{row.api ?? '—'}</code>,
+          display: row.display ?? '—',
+          value: row.value,
+        }))}
+      />
     </div>
   );
 }

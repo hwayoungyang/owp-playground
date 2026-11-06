@@ -60,7 +60,7 @@ const entry: EntryData = {
   usageKind: 'documented',
 };
 function columns(html: string): number {
-  return html.match(/<thead>([\s\S]*?)<\/thead>/)?.[1]?.match(/scope="col"/g)?.length ?? 0;
+  return html.match(/<thead\b[^>]*>([\s\S]*?)<\/thead>/)?.[1]?.match(/<th\b/g)?.length ?? 0;
 }
 
 describe('API contract table density', () => {

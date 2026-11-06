@@ -29,7 +29,7 @@
   max-width: 100%;
   overflow-x: auto;
 }
-.integrations-preview .integration-table-scroll > table {
+.integrations-preview .integration-table-scroll table {
   min-width: 520px;
 }
 .integrations-preview summary {
@@ -230,20 +230,11 @@
   min-width: 560px;
 }
 .integrations-preview .integration-result-table :is(th, td) {
-  padding: 12px;
-  font-size: 13px;
-  overflow-wrap: normal;
+  overflow-wrap: anywhere;
   word-break: keep-all;
 }
-:where(.integrations-preview .integration-result-table) thead th {
-  color: var(--pg-secondary);
-  font-size: 12px;
-  font-weight: 500;
-  background: var(--pg-subtle);
-}
 .integrations-preview .integration-result-table code {
-  font-size: 12px;
-  white-space: nowrap;
+  white-space: pre-wrap;
 }
 @container integration-preview (min-width: 600px) {
   .integrations-preview .integration-demo-stage {

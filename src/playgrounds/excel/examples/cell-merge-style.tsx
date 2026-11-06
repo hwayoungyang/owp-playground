@@ -1,3 +1,4 @@
+import { OwpFieldTable, OwpTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
 import {
   DEFAULT_CELL_ALIGNMENT,
@@ -10,19 +11,7 @@ import {
   setCellValue,
   setMergeCells,
 } from '@owp/excel';
-import {
-  Alert,
-  Button,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-} from '@mui/material';
+import { Alert, Button, Stack, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { DemoResultTable } from '../../integrations/DemoResultTable';
 import type { IntegrationExampleProps } from '../../integrations/catalog';
@@ -287,50 +276,57 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
       <section className="components-example-section" aria-label={t('워크시트 미리보기')}>
         <h2>{t('워크시트 미리보기')}</h2>
         <div className="components-example-content">
-          <div className="integration-table-scroll">
-            <Table size="small" aria-label={t('워크시트 미리보기')}>
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    colSpan={4}
-                    sx={{ textAlign: 'center', bgcolor: 'var(--pg-subtle)', fontWeight: 600 }}
-                  >
-                    {sheetTitle || '-'}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell colSpan={2} align="center">
-                    {t('점검 대상')}
-                  </TableCell>
-                  <TableCell colSpan={2} align="center">
-                    {t('측정 결과')}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  {['공정 코드', '항목', '측정치', '판정'].map((label) => (
-                    <TableCell key={label}>{t(label)}</TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {qualityRows.map((row) => (
-                  <TableRow key={row[0]}>
-                    {row.map((value, index) => (
-                      <TableCell
-                        key={index}
-                        sx={
-                          index === 3
-                            ? { bgcolor: '#' + selectedHighlight.argb.slice(2), color: '#0f172a' }
-                            : undefined
-                        }
-                      >
-                        {value}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+          <div
+            className="integration-table-scroll"
+            role="region"
+            aria-label={t('워크시트 미리보기')}
+          >
+            <OwpFieldTable
+              cellSx={{ textAlign: 'left' }}
+              cellLayout={[
+                [
+                  {
+                    cellType: 'header',
+                    title: sheetTitle || '-',
+                    colSpan: 4,
+                    sx: { textAlign: 'center' },
+                  },
+                ],
+                [
+                  {
+                    cellType: 'header',
+                    title: t('점검 대상'),
+                    colSpan: 2,
+                    sx: { textAlign: 'center' },
+                  },
+                  {
+                    cellType: 'header',
+                    title: t('측정 결과'),
+                    colSpan: 2,
+                    sx: { textAlign: 'center' },
+                  },
+                ],
+                ['공정 코드', '항목', '측정치', '판정'].map((label) => ({
+                  cellType: 'header',
+                  title: t(label),
+                  sx: { textAlign: 'left' },
+                })),
+                ...qualityRows.map((row, rowIndex) =>
+                  row.map((value, index) => ({
+                    cellType: 'value' as const,
+                    key: 'quality-' + rowIndex + '-' + index,
+                    render: () => value,
+                    style:
+                      index === 3
+                        ? {
+                            backgroundColor: '#' + selectedHighlight.argb.slice(2),
+                            color: '#0f172a',
+                          }
+                        : undefined,
+                  })),
+                ),
+              ]}
+            />
           </div>
           <details>
             <summary>{t('컬럼 번호 ↔ 열 문자')}</summary>
@@ -357,22 +353,17 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
               ))}
             </Stack>
             <div className="integration-result-table">
-              <Table size="small" aria-label={t('컬럼 번호 ↔ 열 문자')}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>{t('컬럼 번호')}</TableCell>
-                    <TableCell>columnNumberToLetters</TableCell>
-                    <TableCell>columnLettersToNumber</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>{columnIndexInput}</TableCell>
-                    <TableCell>{convertedLetter}</TableCell>
-                    <TableCell>{convertedIndex}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+              <OwpTable
+                sx={{ '& th, & td': { textAlign: 'left' } }}
+                size="small"
+                aria-label={t('컬럼 번호 ↔ 열 문자')}
+                headers={{
+                  index: t('컬럼 번호'),
+                  letter: 'columnNumberToLetters',
+                  convertedIndex: 'columnLettersToNumber',
+                }}
+                rows={[{ index: columnIndexInput, letter: convertedLetter, convertedIndex }]}
+              />
             </div>
           </details>
         </div>
