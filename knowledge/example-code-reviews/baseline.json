@@ -1039,7 +1039,7 @@
     "packageId": "charts",
     "exampleId": "divergent-forecast",
     "label": "data",
-    "id": "chart.js:ChartConfiguration.data",
+    "id": "@owp/charts:ChartCanvasProps.data",
     "located": false
   },
   {
@@ -1053,7 +1053,7 @@
     "packageId": "charts",
     "exampleId": "stacked-combo",
     "label": "type",
-    "id": "@owp/charts:ChartSeriesConfig.type",
+    "id": "@owp/charts:ChartCanvasProps.type",
     "located": false
   },
   {

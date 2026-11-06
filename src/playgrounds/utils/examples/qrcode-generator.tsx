@@ -1,8 +1,5 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import {
-  generateQrCodeDataUrl,
-  type QrCodeErrorCorrectionLevel,
-} from '@owp/utils/qrcode';
+import { generateQrCodeDataUrl, type QrCodeErrorCorrectionLevel } from '@owp/utils/qrcode';
 import {
   Alert,
   Button,

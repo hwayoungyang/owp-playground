@@ -3,6 +3,7 @@ import { knowledge } from './fixtures/api-knowledge';
 import { createPackageKnowledge } from '../src/features/api/model/package-data';
 import { completedPlaygroundPackages } from '../src/playgrounds/packages';
 import data from '../src/features/api/data/knowledge.generated.json';
+import projectPackage from '../package.json' with { type: 'json' };
 
 describe('Core sample ownership in generated Knowledge', () => {
   it('links migrated UI to Components while preserving Core routing owners', () => {
@@ -15,7 +16,7 @@ describe('Core sample ownership in generated Knowledge', () => {
     ] as const;
     for (const [id, examples] of expectedExamples) {
       const record = knowledge.records.find((entry) => entry.id === id);
-      expect(record?.packageVersion).toBe('4.0.2');
+      expect(record?.packageVersion).toBe(projectPackage.dependencies['@owp/components']);
       expect(
         record?.examples
           .filter((example) => example.packageId === 'core')
@@ -35,7 +36,7 @@ describe('Core sample ownership in generated Knowledge', () => {
     );
     const coreTable = knowledge.records.find((record) => record.id === '@owp/core:OwpTable');
     expect(componentsTable?.imports).toEqual(['@owp/components']);
-    expect(componentsTable?.packageVersion).toBe('4.0.2');
+    expect(componentsTable?.packageVersion).toBe(projectPackage.dependencies['@owp/components']);
     expect(
       componentsTable?.examples
         .filter((example) => example.packageId === 'core')

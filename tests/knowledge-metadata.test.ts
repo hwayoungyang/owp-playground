@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { knowledgeAssets } from '../scripts/knowledge-resources';
 import data from '../src/features/api/data/knowledge.generated.json';
 import { knowledge } from './fixtures/api-knowledge';
+import projectPackage from '../package.json' with { type: 'json' };
 
 const guides = knowledge.records.filter((record) => record.kind === 'guide');
 
@@ -147,10 +148,10 @@ describe('standalone guide metadata', () => {
     expect(JSON.parse(assets.get('knowledge/index.json') ?? 'null')).toEqual(expectedIndex);
     expect(
       expectedIndex.resolvedDependencies['@owp/core'].dependencies['@owp/components'].version,
-    ).toBe('4.0.2');
+    ).toBe(projectPackage.dependencies['@owp/components']);
     expect(
       expectedIndex.resolvedDependencies['@owp/datagrid'].dependencies['@owp/components'].version,
-    ).toBe('4.0.2');
+    ).toBe(projectPackage.dependencies['@owp/components']);
     const lines = assets.get('knowledge/records.jsonl')?.trim().split('\n') ?? [];
     expect(lines.map((line) => JSON.parse(line))).toEqual(data.records);
   });

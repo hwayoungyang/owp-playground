@@ -52,8 +52,14 @@ export const integrationRoles: Readonly<Record<string, readonly [string, string]
   useOwpPickerPopperTransition: ['Picker 팝업 전환 상태', 'Picker popup transition state'],
   createExcelExport: ['Excel 파일 버퍼 생성', 'Create an Excel buffer'],
   downloadExcelBuffer: ['Excel 파일 내려받기', 'Download an Excel buffer'],
-  columnLettersToNumber: ['Excel 열 문자를 번호로 변환', 'Convert Excel column letters to an index'],
-  columnNumberToLetters: ['Excel 열 번호를 문자로 변환', 'Convert an Excel column index to letters'],
+  columnLettersToNumber: [
+    'Excel 열 문자를 번호로 변환',
+    'Convert Excel column letters to an index',
+  ],
+  columnNumberToLetters: [
+    'Excel 열 번호를 문자로 변환',
+    'Convert an Excel column index to letters',
+  ],
   loadExcelJSBrowser: ['브라우저용 ExcelJS 로드', 'Load browser ExcelJS'],
   setCellValue: ['Excel 셀 값·스타일 설정', 'Set Excel cell values and styles'],
   setMergeCells: ['Excel 병합 셀 값·스타일 설정', 'Set merged Excel cell values and styles'],

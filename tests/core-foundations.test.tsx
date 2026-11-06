@@ -12,6 +12,7 @@ import {
 } from '../src/playgrounds/core/guides/package-ownership';
 import { coreEnglish } from '../src/playgrounds/core/locales/en';
 import { knowledge } from './fixtures/api-knowledge';
+import projectPackage from '../package.json' with { type: 'json' };
 
 // 문서 선택과 번역을 검증하며 DOMParser가 필요한 구문 강조는 브라우저에서 확인합니다.
 vi.mock('../src/features/code/HighlightedCode', () => ({
@@ -157,7 +158,7 @@ describe('Core foundation guides', () => {
     ]) {
       const guide = knowledge.records.find((record) => record.id === id);
       expect(guide?.kind).toBe('guide');
-      expect(guide?.packageVersion).toBe('10.4.0');
+      expect(guide?.packageVersion).toBe(projectPackage.dependencies['@owp/core']);
       const prefix = id === '@owp/core:guide.providers' ? '앱에 Provider 연결 · ' : '';
       expect(guide?.sections?.map((section) => section.title)).toContain(`${prefix}설정 방법`);
       expect(guide?.sections?.map((section) => section.title)).toContain(

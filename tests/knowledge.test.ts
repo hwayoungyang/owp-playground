@@ -387,12 +387,13 @@ describe('shared knowledge resources', () => {
         'type',
         'createTreemapData',
         'data',
-        'style',
+        'tileStyle',
         'formatter',
       ]),
     );
     expect(exampleApiLinks('charts', 'treemap').map((reference) => reference.id)).toEqual(
       expect.arrayContaining([
+        '@owp/charts:OwpTreemapChartProps.tileStyle',
         '@owp/charts:OwpTreemapChartProps.height',
         '@owp/charts:OwpTreemapChartProps.options',
         '@owp/charts:OwpTreemapChartProps.showExportButton',

@@ -8979,8 +8979,8 @@
       "packageId": "charts"
     },
     {
-      "label": "style",
-      "id": "@owp/charts:OwpTreemapChartProps.style",
+      "label": "tileStyle",
+      "id": "@owp/charts:OwpTreemapChartProps.tileStyle",
       "packageId": "charts"
     },
     {
@@ -11384,7 +11384,7 @@
     },
     {
       "label": "data",
-      "id": "@owp/charts:CoreChartProps.data",
+      "id": "@owp/charts:ChartCanvasProps.data",
       "packageId": "charts"
     },
     {
@@ -11394,12 +11394,12 @@
     },
     {
       "label": "height",
-      "id": "@owp/charts:CoreChartProps.height",
+      "id": "@owp/charts:ChartCanvasProps.height",
       "packageId": "charts"
     },
     {
       "label": "options",
-      "id": "@owp/charts:CoreChartProps.options",
+      "id": "@owp/charts:ChartCanvasProps.options",
       "packageId": "charts"
     },
     {
@@ -11419,7 +11419,7 @@
     },
     {
       "label": "type",
-      "id": "@owp/charts:CoreChartProps.type",
+      "id": "@owp/charts:ChartCanvasProps.type",
       "packageId": "charts"
     },
     {
@@ -14879,12 +14879,12 @@
   "core/request-parameters": [
     {
       "label": "clearable",
-      "id": "@owp/date-picker:OwpDatePickerProps.clearable",
+      "id": "@owp/date-picker:OwpDateRangePickerProps.clearable",
       "packageId": "date-picker"
     },
     {
       "label": "fullWidth",
-      "id": "@owp/date-picker:OwpDatePickerProps.fullWidth",
+      "id": "@owp/date-picker:OwpDateRangePickerProps.fullWidth",
       "packageId": "date-picker"
     },
     {
@@ -14919,7 +14919,7 @@
     },
     {
       "label": "label",
-      "id": "@owp/date-picker:OwpDatePickerProps.label",
+      "id": "@owp/date-picker:OwpDateRangePickerProps.label",
       "packageId": "date-picker"
     },
     {
@@ -14944,12 +14944,12 @@
     },
     {
       "label": "textFieldProps",
-      "id": "@owp/date-picker:OwpDatePickerProps.textFieldProps",
+      "id": "@owp/date-picker:OwpDateRangePickerProps.textFieldProps",
       "packageId": "date-picker"
     },
     {
       "label": "value",
-      "id": "@owp/date-picker:OwpDatePickerProps.value",
+      "id": "@owp/date-picker:OwpDateRangePickerProps.value",
       "packageId": "date-picker"
     },
     {
@@ -14958,13 +14958,13 @@
       "packageId": "components"
     },
     {
-      "label": "OwpDatePickerProps.variant",
-      "id": "@owp/date-picker:OwpDatePickerProps.variant",
+      "label": "OwpDateRangePickerProps.variant",
+      "id": "@owp/date-picker:OwpDateRangePickerProps.variant",
       "packageId": "date-picker"
     },
     {
       "label": "onChange",
-      "id": "@owp/date-picker:OwpDatePickerProps.onChange",
+      "id": "@owp/date-picker:OwpDateRangePickerProps.onChange",
       "packageId": "date-picker"
     }
   ],
@@ -15310,8 +15310,8 @@
       "packageId": "core"
     },
     {
-      "label": "createExportDataToExcelBuffer",
-      "id": "@owp/excel:createExportDataToExcelBuffer",
+      "label": "createExcelExport",
+      "id": "@owp/excel:createExcelExport",
       "packageId": "excel"
     },
     {
@@ -16500,6 +16500,16 @@
       "packageId": "components"
     },
     {
+      "label": "buttonSx",
+      "id": "@owp/components:OwpMoreActionsButtonProps.buttonSx",
+      "packageId": "components"
+    },
+    {
+      "label": "menuSx",
+      "id": "@owp/components:OwpMoreActionsButtonProps.menuSx",
+      "packageId": "components"
+    },
+    {
       "label": "OwpMoreActionsButton",
       "id": "@owp/components:OwpMoreActionsButton",
       "packageId": "components"
@@ -17131,8 +17141,18 @@
   ],
   "components/util-merge-selector-options": [
     {
+      "label": "headers",
+      "id": "@owp/components:OwpTableProps.headers",
+      "packageId": "components"
+    },
+    {
       "label": "mergeSelectorOptions",
       "id": "@owp/components:mergeSelectorOptions",
+      "packageId": "components"
+    },
+    {
+      "label": "rows",
+      "id": "@owp/components:OwpTableProps.rows",
       "packageId": "components"
     }
   ],
@@ -17148,12 +17168,32 @@
       "label": "getResponsiveTableMinWidthSx",
       "id": "@owp/components:getResponsiveTableMinWidthSx",
       "packageId": "components"
+    },
+    {
+      "label": "headers",
+      "id": "@owp/components:OwpTableProps.headers",
+      "packageId": "components"
+    },
+    {
+      "label": "rows",
+      "id": "@owp/components:OwpTableProps.rows",
+      "packageId": "components"
     }
   ],
   "components/util-get-table-helper-text-row-sx": [
     {
       "label": "getTableHelperTextRowSx",
       "id": "@owp/components:getTableHelperTextRowSx",
+      "packageId": "components"
+    },
+    {
+      "label": "headers",
+      "id": "@owp/components:OwpTableProps.headers",
+      "packageId": "components"
+    },
+    {
+      "label": "rows",
+      "id": "@owp/components:OwpTableProps.rows",
       "packageId": "components"
     }
   ],
@@ -17207,12 +17247,32 @@
       "label": "getResponsiveDeviceByWidthClass",
       "id": "@owp/components:getResponsiveDeviceByWidthClass",
       "packageId": "components"
+    },
+    {
+      "label": "headers",
+      "id": "@owp/components:OwpTableProps.headers",
+      "packageId": "components"
+    },
+    {
+      "label": "rows",
+      "id": "@owp/components:OwpTableProps.rows",
+      "packageId": "components"
     }
   ],
   "components/util-get-responsive-device-media-query": [
     {
       "label": "getResponsiveDeviceMediaQuery",
       "id": "@owp/components:getResponsiveDeviceMediaQuery",
+      "packageId": "components"
+    },
+    {
+      "label": "headers",
+      "id": "@owp/components:OwpTableProps.headers",
+      "packageId": "components"
+    },
+    {
+      "label": "rows",
+      "id": "@owp/components:OwpTableProps.rows",
       "packageId": "components"
     }
   ]

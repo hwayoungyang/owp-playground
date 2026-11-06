@@ -1,4 +1,5 @@
 import { useOwpTranslation } from '@owp/components/hooks';
+import coreManifest from '@owp/core/package.json' with { type: 'json' };
 import { Trans } from '@owp/core/i18n';
 import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { McpGettingStarted } from '../../../features/mcp/McpGettingStarted';
@@ -73,7 +74,7 @@ export function CoreGettingStarted({
         <p>{t('Dependencies: React 19 · Material UI 9 · Emotion 11 · i18next')}</p>
         <CodeSnippet
           label={t('터미널')}
-          code={`pnpm add @owp/core@${corePackage.version} @owp/excel@^3.0.0`}
+          code={`pnpm add @owp/core@${corePackage.version} @owp/excel@${coreManifest.peerDependencies['@owp/excel']}`}
         />
         <p className="guide-note">
           {t(

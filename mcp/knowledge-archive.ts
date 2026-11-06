@@ -93,7 +93,7 @@ export function createKnowledgeArchive(options: KnowledgeOptions) {
         validations.set(sha256, validation);
       }
       try {
-        current = { sha256, ...await validation };
+        current = { sha256, ...(await validation) };
       } finally {
         if (validations.get(sha256) === validation) validations.delete(sha256);
       }

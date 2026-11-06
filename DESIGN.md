@@ -423,3 +423,5 @@ Native chart sample expansion (2026-10-21, before consolidation): provided97 exe
 메뉴 예제의 서버 렌더링 (2026-11-07): 현재 설치된 OwpMoreActionsButton의 anchor callback은 닫힌 메뉴의 SSR에서도 MUI Popover의 document 접근을 유발한다. 해당 두 예제의 메뉴에만 MUI NoSsr 경계를 적용하며, 설명·일반 버튼·파일 목록은 기존 서버 렌더링 검사를 유지한다. client에서는 기본·외부 제어 메뉴의 선택 결과와 닫힘을 실제 조작으로 확인한다.
 
 Excel 버튼 기본값 검증 (2026-11-07): DataGrid 4.0.0·4.0.1은 검토한 버튼·내보내기 helper·파일명 helper 세 파일의 SHA-256이 모두 일치할 때만 sheet·false·auto 기본값을 보완한다. patch 버전이 바뀌어도 실제 구현과 해시를 확인한 뒤 지원 버전을 명시적으로 추가하며, 미검토 버전이나 파일 변경·누락에는 보완값을 적용하지 않는다. 버전 표시와 소스 manifest 테스트는 package.json에 고정한 버전과 비교한다.
+
+Knowledge 동기화 검증 (2026-11-07): 설치된 패키지의 공개 선언·runtime·소유자별 의존성을 검토한 뒤 reviewed 지문과 버전별 원본 문서 경로를 갱신한다. 예제의 컴포넌트 이름·전달 대상이 바뀌면 수동 검토 근거와 소스 지문도 함께 맞추며, 기존 검토 항목이나 검증 gate를 삭제하지 않는다. 생성 자료를 검사하는 테스트는 프로젝트에 고정한 버전과 실제 소유 API를 대조한다. 한국어 참조 문체의 새 동사·명사는 좁은 허용 목록과 식별자·조건·인용 보존 회귀 사례로 검증한다. 소스 포맷 변경도 생성 자료의 SHA-256에 반영한 뒤 Knowledge·전체 테스트·빌드·snippets를 검사하며, 배포 prepare는 검증된 clean commit에서 생성한다.

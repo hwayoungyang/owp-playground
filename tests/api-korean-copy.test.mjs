@@ -62,6 +62,22 @@ describe('한국어 API 참조 문체', () => {
     ['변경된 설정은 이후 reset의 기준이 된다.', '변경된 설정은 이후 reset의 기준이 됨.'],
     ['현재 row를 반환합니다.', '현재 row 반환.'],
     ['기본값을 사용한다. 설정을 유지한다.', '기본값 사용. 설정 유지.'],
+    [
+      '그룹 합계 기준 정렬입니다. 기본값은 descending이며 options.groupSort가 우선합니다.',
+      '그룹 합계 기준 정렬. 기본값은 descending이며 options.groupSort가 우선.',
+    ],
+    [
+      '기본값 객체의 own field에만 초기값을 병합한다. dotted key는 마지막 field 이름으로 비교한다.',
+      '기본값 객체의 own field에만 초기값 병합. dotted key는 마지막 field 이름으로 비교.',
+    ],
+    [
+      '값이 0이면 own field에만 병합합니다. dotted key는 병합하지 않습니다. options.groupSort로 정렬할 수 있습니다.',
+      '값이 0이면 own field에만 병합. dotted key는 병합하지 않음. options.groupSort로 정렬 가능.',
+    ],
+    [
+      '“정렬입니다.”와 "병합한다."는 인용입니다. `options.groupSort`는 정렬입니다. {{count}}개 초기값을 병합한다.',
+      '“정렬입니다.”와 "병합한다."는 인용입니다. `options.groupSort`는 정렬. {{count}}개 초기값 병합.',
+    ],
     ['ID는 고유해야 합니다.', 'ID는 고유해야 함.'],
     ['서버 검증이 필요합니다. id는 필수입니다.', '서버 검증이 필요. id는 필수.'],
     ['같은 dataset에서 사용할 수 있습니다.', '같은 dataset에서 사용 가능.'],
@@ -78,7 +94,11 @@ describe('한국어 API 참조 문체', () => {
       '이 항목은 Chart.js의 원본 선언. 실행 예제 확인.',
     ],
   ])('설명 종결 변환: %s', (input, expected) => {
-    expect(toReferenceStyle(input)).toBe(expected);
+    const result = toReferenceStyle(input);
+    expect(result).toBe(expected);
+    expect(identifiers(result)).toEqual(identifiers(input));
+    expect(numbers(result)).toEqual(numbers(input));
+    expect(toReferenceStyle(result)).toBe(result);
   });
 
   it('마침표 없는 설명과 식별자 종결을 통일하고 조건을 보존한다', () => {

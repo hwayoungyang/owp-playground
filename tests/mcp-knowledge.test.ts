@@ -18,7 +18,9 @@ afterEach(async () => {
 
 function signal() {
   let resolve: () => void = () => undefined;
-  const promise = new Promise<void>((done) => { resolve = done; });
+  const promise = new Promise<void>((done) => {
+    resolve = done;
+  });
   return { promise, resolve };
 }
 
@@ -68,7 +70,11 @@ describe('MCP Knowledge core', () => {
       await store.getGuide({ package: 'datagrid' }),
     ];
     // Then
-    expect(responses.map(({ packageVersion }) => packageVersion)).toEqual(['2.0.0', '2.0.0', '2.0.0']);
+    expect(responses.map(({ packageVersion }) => packageVersion)).toEqual([
+      '2.0.0',
+      '2.0.0',
+      '2.0.0',
+    ]);
     expect(scans).toHaveBeenCalledTimes(3);
   });
   it('retries the same index after a shared verification fails and archive bytes are repaired', async () => {
@@ -113,7 +119,12 @@ describe('MCP Knowledge core', () => {
       Array.from({ length: 4 }, () => archive.resolve({ package: 'datagrid' })),
     );
     // Then
-    expect(selections.map(({ selected }) => selected?.version)).toEqual(['1.0.0', '1.0.0', '1.0.0', '1.0.0']);
+    expect(selections.map(({ selected }) => selected?.version)).toEqual([
+      '1.0.0',
+      '1.0.0',
+      '1.0.0',
+      '1.0.0',
+    ]);
     expect(scans).toHaveBeenCalledTimes(3);
   });
   it('keeps each index tied to its verified releases when validations finish in reverse order', async () => {
@@ -124,13 +135,15 @@ describe('MCP Knowledge core', () => {
     const started = signal();
     const resume = signal();
     const collect = archiveFiles.collectArchiveFiles;
-    const scans = vi.spyOn(archiveFiles, 'collectArchiveFiles').mockImplementation(async (directory) => {
-      if (scans.mock.calls.length === 1) {
-        started.resolve();
-        await resume.promise;
-      }
-      return collect(directory);
-    });
+    const scans = vi
+      .spyOn(archiveFiles, 'collectArchiveFiles')
+      .mockImplementation(async (directory) => {
+        if (scans.mock.calls.length === 1) {
+          started.resolve();
+          await resume.promise;
+        }
+        return collect(directory);
+      });
     const archive = createKnowledgeArchive({ archiveRoot: root });
     const older = archive.resolve({ package: 'datagrid' });
     await started.promise;
@@ -149,11 +162,13 @@ describe('MCP Knowledge core', () => {
     const completedScans = scans.mock.calls.length;
     const current = await archive.resolve({ package: 'datagrid' });
     // Then
-    expect([previous, newer, current].map(({ entry, release, selected }) => ({
-      releaseId: entry.releaseId,
-      manifestReleaseId: release.manifest.releaseId,
-      version: selected?.version,
-    }))).toEqual([
+    expect(
+      [previous, newer, current].map(({ entry, release, selected }) => ({
+        releaseId: entry.releaseId,
+        manifestReleaseId: release.manifest.releaseId,
+        version: selected?.version,
+      })),
+    ).toEqual([
       { releaseId: 'release-old', manifestReleaseId: 'release-old', version: '1.0.0' },
       { releaseId: 'release-new', manifestReleaseId: 'release-new', version: '2.0.0' },
       { releaseId: 'release-new', manifestReleaseId: 'release-new', version: '2.0.0' },
@@ -183,7 +198,12 @@ describe('MCP Knowledge core', () => {
     const captured = await archive.resolve({ package: 'datagrid' });
     const current = await archive.resolve({ package: 'datagrid' });
     // Then
-    expect([captured, current].map(({ entry, release }) => [entry.releaseId, release.manifest.releaseId])).toEqual([
+    expect(
+      [captured, current].map(({ entry, release }) => [
+        entry.releaseId,
+        release.manifest.releaseId,
+      ]),
+    ).toEqual([
       ['release-old', 'release-old'],
       ['release-new', 'release-new'],
     ]);

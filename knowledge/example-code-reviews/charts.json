@@ -213,10 +213,10 @@
   },
   {
     "exampleId": "divergent-forecast",
-    "apiId": "chart.js:ChartConfiguration.data",
+    "apiId": "@owp/charts:ChartCanvasProps.data",
     "label": "data",
     "action": "replace",
-    "reason": "예제는 ChartConfiguration 객체를 만들지 않으며 ChartCanvas.data가 ChartFrameProps.data로 전달됩니다.",
+    "reason": "예제의 로컬 ChartCanvas가 data를 패키지 ChartFrame에 전달하므로 ChartFrameProps.data로 연결합니다.",
     "evidence": [
       {
         "file": "playgrounds/charts/examples/divergent-forecast.tsx",
@@ -265,10 +265,10 @@
   },
   {
     "exampleId": "stacked-combo",
-    "apiId": "@owp/charts:ChartSeriesConfig.type",
+    "apiId": "@owp/charts:ChartCanvasProps.type",
     "label": "type",
     "action": "replace",
-    "reason": "ChartSeriesConfig가 아닌 native mixed dataset의 type을 지정하므로 ChartDatasetProperties.type으로 연결합니다.",
+    "reason": "로컬 ChartCanvas의 최상위 type이 아니라 native mixed dataset의 type을 설명하므로 ChartDatasetProperties.type으로 연결합니다.",
     "evidence": [
       {
         "file": "playgrounds/charts/examples/stacked-combo.tsx",
@@ -1173,7 +1173,7 @@
     "apiId": "chart.js:CoreChartOptions.animation",
     "label": "animation",
     "action": "locate",
-    "reason": "Sparkline의 CoreChart.options에서 animation을 직접 비활성화합니다.",
+    "reason": "Sparkline의 ChartCanvas.options에서 animation을 직접 비활성화합니다.",
     "evidence": [
       {
         "file": "playgrounds/charts/examples/sparkline.tsx",
@@ -1181,7 +1181,7 @@
       },
       {
         "file": "playgrounds/charts/examples/sparkline.tsx",
-        "snippet": "<CoreChart"
+        "snippet": "<ChartCanvas"
       }
     ],
     "mode": "direct",

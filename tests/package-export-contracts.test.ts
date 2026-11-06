@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { knowledge, packageDataset, recordsById } from './fixtures/api-knowledge';
 import { completedPlaygroundPackages } from '../src/playgrounds/packages';
+import projectPackage from '../package.json' with { type: 'json' };
 
 describe('installed package export contracts', () => {
   it('keeps the OWP QueryKey and the TanStack reexport distinct', () => {
@@ -16,7 +17,7 @@ describe('installed package export contracts', () => {
       'Path',
     ]);
     expect(reexport).toMatchObject({
-      packageVersion: '10.4.0',
+      packageVersion: projectPackage.dependencies['@owp/core'],
       name: 'QueryKey',
       owner: 'query/QueryKey',
       path: '',
@@ -63,7 +64,7 @@ describe('installed package export contracts', () => {
     expect(chartData).toMatchObject({
       kind: 'type',
       package: '@owp/charts',
-      packageVersion: '6.1.1',
+      packageVersion: projectPackage.dependencies['@owp/charts'],
       signature: 'export { type ChartData } from "chart.js";',
     });
     expect(chartData?.imports).toContain('@owp/charts/chartjs/types');

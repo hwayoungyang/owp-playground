@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "sources": [
     {
-      "id": "framework/docs/core/10.4.0/README.md",
+      "id": "framework/docs/core/11.0.1/README.md",
       "packageId": "core",
-      "sha256": "ae7a7e3c27ea4a3ac948302fe38c3c7b18cb402869bbb97533449c7fd7d52dc3",
+      "sha256": "c6d1379b08902ba2cb1838eb47223a520d3d9d00dee7b78344b7d72f2ec39ee7",
       "sections": [
         {
           "heading": "@owp/core",
@@ -31,7 +31,7 @@
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
-          "heading": "Changes (2026-11-04)",
+          "heading": "Changes (2026-11-07)",
           "line": 11,
           "disposition": "mapped",
           "guideIds": [
@@ -128,7 +128,7 @@
         },
         {
           "heading": "라이선스 및 사용 정책 / License and Usage Policy",
-          "line": 122,
+          "line": 123,
           "disposition": "mapped",
           "guideIds": [
             "@owp/core:guide.setup",
@@ -141,9 +141,9 @@
       ]
     },
     {
-      "id": "framework/docs/components/4.0.2/README.md",
+      "id": "framework/docs/components/5.0.1/README.md",
       "packageId": "core",
-      "sha256": "60d1bf40f60ee4499108a292f9edf69f223f64281dd7f6b4d4c07e69f690569c",
+      "sha256": "27504edefea4917dded4c9f305dbe4807f8c360fa2c538afa6b7fa2bbd15066d",
       "sections": [
         {
           "heading": "@owp/components",
@@ -160,7 +160,7 @@
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
-          "heading": "Changes (2026-11-04)",
+          "heading": "Changes (2026-11-07)",
           "line": 11,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.composition"],
@@ -175,49 +175,49 @@
         },
         {
           "heading": "Requirements",
-          "line": 32,
+          "line": 34,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Tech Stack",
-          "line": 39,
+          "line": 41,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Runtime Dependencies",
-          "line": 43,
+          "line": 45,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Peer Dependencies",
-          "line": 61,
+          "line": 63,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Public Subpaths",
-          "line": 76,
+          "line": 78,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "API Documentation",
-          "line": 91,
+          "line": 93,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "라이선스 및 사용 정책 / License and Usage Policy",
-          "line": 118,
+          "line": 121,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
@@ -225,9 +225,9 @@
       ]
     },
     {
-      "id": "framework/docs/charts/6.1.1/README.md",
+      "id": "framework/docs/charts/7.0.1/README.md",
       "packageId": "charts",
-      "sha256": "3c875e08afa40c079286fb60580e46fa9b44ae77014b5da0c18bbf2ce3b38ebf",
+      "sha256": "d0cb9124d8cd4c810bc003f435ce74ce8d9f31c08751efe585988a1e02f865a3",
       "sections": [
         {
           "heading": "@owp/charts",
@@ -244,7 +244,7 @@
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
-          "heading": "Changes (2026-11-04)",
+          "heading": "Changes (2026-11-07)",
           "line": 11,
           "disposition": "mapped",
           "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
@@ -301,7 +301,7 @@
         },
         {
           "heading": "라이선스 및 사용 정책 / License and Usage Policy",
-          "line": 119,
+          "line": 120,
           "disposition": "mapped",
           "guideIds": ["@owp/charts:guide.composition", "@owp/charts:guide.public-exports"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
@@ -309,9 +309,9 @@
       ]
     },
     {
-      "id": "framework/docs/datagrid/3.5.5/README.md",
+      "id": "framework/docs/datagrid/4.0.1/README.md",
       "packageId": "datagrid",
-      "sha256": "1ae8fcd02c14251c2b62ad839a27c07b5e22578a082c9959782fad5de79c62bd",
+      "sha256": "e7387cefd265a2fe90f9871e22f8e865907454e44e6f709dbe3a9760dc7d95e3",
       "sections": [
         {
           "heading": "@owp/datagrid",
@@ -328,7 +328,7 @@
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
-          "heading": "Changes (2026-11-04)",
+          "heading": "Changes (2026-11-07)",
           "line": 11,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.connection"],
@@ -343,49 +343,49 @@
         },
         {
           "heading": "Requirements",
-          "line": 37,
-          "disposition": "mapped",
-          "guideIds": ["@owp/datagrid:guide.connection"],
-          "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
-        },
-        {
-          "heading": "Tech Stack",
           "line": 44,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.connection"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
+          "heading": "Tech Stack",
+          "line": 51,
+          "disposition": "mapped",
+          "guideIds": ["@owp/datagrid:guide.connection"],
+          "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
+        },
+        {
           "heading": "Runtime Dependencies",
-          "line": 49,
+          "line": 56,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.connection"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Peer Dependencies",
-          "line": 65,
+          "line": 72,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.connection"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Public Subpaths",
-          "line": 77,
+          "line": 84,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.connection"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "API Documentation",
-          "line": 87,
+          "line": 94,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.connection"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "라이선스 및 사용 정책 / License and Usage Policy",
-          "line": 106,
+          "line": 113,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.connection"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
@@ -393,9 +393,9 @@
       ]
     },
     {
-      "id": "framework/docs/theme/3.0.0/README.md",
+      "id": "framework/docs/theme/4.0.0/README.md",
       "packageId": "core",
-      "sha256": "599641a9b4cc999f81019b18fe53f5312b19a01378e581c5bf6cb0fd97831cc2",
+      "sha256": "5c735b8ccf8ee35762bb13985bc4ea0d36bf1fb0aa12eca4eaf011e19254237d",
       "sections": [
         {
           "heading": "@owp/theme",
@@ -412,7 +412,7 @@
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
-          "heading": "Changes (2026-10-27)",
+          "heading": "Changes (2026-11-06)",
           "line": 11,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
@@ -427,49 +427,49 @@
         },
         {
           "heading": "Requirements",
-          "line": 26,
+          "line": 28,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Tech Stack",
-          "line": 32,
+          "line": 34,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Runtime Dependencies",
-          "line": 36,
+          "line": 38,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Peer Dependencies",
-          "line": 45,
+          "line": 47,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Public Subpaths",
-          "line": 56,
+          "line": 58,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "API Documentation",
-          "line": 65,
+          "line": 67,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "라이선스 및 사용 정책 / License and Usage Policy",
-          "line": 75,
+          "line": 78,
           "disposition": "mapped",
           "guideIds": ["@owp/core:guide.setup", "@owp/core:guide.composition"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
@@ -1737,7 +1737,7 @@
     {
       "id": "framework/packages/owp-charts/docs/chart-api.md",
       "packageId": "charts",
-      "sha256": "abf7bd214e887e0fc32a7c1d033b15b1b009375fbb9972e6c7eddd3f347d5e80",
+      "sha256": "ca82eafd94823cfb019e280008197e21dff22fb2818c9297ff88eb3010f9c09a",
       "sections": [
         {
           "heading": "차트 구성과 확장 계약",
@@ -1882,7 +1882,7 @@
     {
       "id": "framework/packages/owp-charts/docs/common-utilities.md",
       "packageId": "charts",
-      "sha256": "6fe4ad674ea21967b990a3e848d81877f2b6e722f4452d08576e95323f2f323c",
+      "sha256": "69424883318f42fd6f9214d04e7aba0926d27f8032f11ef0c4c2bec7fe9cdde5",
       "sections": [
         {
           "heading": "공통 데이터·라벨·palette와 줌 상태",
@@ -2030,7 +2030,7 @@
     {
       "id": "framework/packages/owp-charts/docs/advanced-geometry.md",
       "packageId": "charts",
-      "sha256": "e2c72f106078be9e7d1ed9e7b259039ead1e488609eea036a785af782d87ba83",
+      "sha256": "05d718fd5173502ac0ac3f1c58768391a2cb8dba6a44f16465f8381759c2c24f",
       "sections": [
         {
           "heading": "Box plot·Treemap·Heatmap",
@@ -2055,7 +2055,7 @@
         },
         {
           "heading": "Heatmap",
-          "line": 137,
+          "line": 138,
           "disposition": "mapped",
           "guideIds": ["@owp/charts:guide.geometry"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
@@ -2131,8 +2131,8 @@
       "source": "framework/packages/owp-charts/docs/advanced-geometry.md",
       "status": "aligned-with-installed-version",
       "original": "CoreChart·ChartFrame의 boxPlot·treemap·heatmap 타입명",
-      "current": "설치된 @owp/charts 6.1.1의 declaration과 controller 등록에서 boxPlot·treemap·heatmap을 사용. 전용 Owp 컴포넌트도 native 타입을 사용하며 이전 owp* 타입명은 제거됨",
-      "apiId": "@owp/charts:CoreChartProps",
+      "current": "설치된 @owp/charts 7.0.1의 declaration과 controller 등록에서 boxPlot·treemap·heatmap을 사용. 전용 Owp 컴포넌트도 native 타입을 사용하며 이전 owp* 타입명은 제거됨",
+      "apiId": "@owp/charts:ChartCanvasProps",
       "evidence": [
         "@owp/charts/types",
         "@owp/charts/chartjs/register",
@@ -2155,7 +2155,7 @@
       "source": "playground/src/playgrounds/charts/model/referenceCatalog.ts",
       "status": "corrected",
       "original": "Treemap 예제 API 목록 accessors",
-      "current": "실행 예제가 사용하는 data·style·formatter로 연결. accessors는 커스텀 입력 타입의 조건부 계약으로 API 문서에 유지",
+      "current": "실행 예제가 사용하는 data·tileStyle·formatter로 연결. accessors는 커스텀 입력 타입의 조건부 계약으로 API 문서에 유지",
       "apiId": "@owp/charts:OwpTreemapChartProps.accessors",
       "evidence": ["src/playgrounds/charts/examples/treemap.tsx", "@owp/charts/types"]
     },
