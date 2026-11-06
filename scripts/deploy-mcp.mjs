@@ -113,7 +113,7 @@ export async function runMcpDeployment(options, dependencies = {}) {
     activationStarted = true;
     await operate('activate', plan, execution);
     assertRunning();
-    const verification = await verify(config, bundle);
+    const verification = await verify(config, bundle, { log });
     assertRunning();
     const receipt = await operate('commit', plan, execution);
     if (receipt.releaseId !== plan.releaseId || receipt.head !== plan.head || receipt.root !== config.remoteRoot || receipt.url !== config.url || receipt.owner !== plan.owner) throw new Error('성공 receipt의 release·head·root·url·owner가 배포 계획과 다릅니다.');
@@ -130,7 +130,7 @@ export async function runMcpDeployment(options, dependencies = {}) {
           if (restored.changed && !baseline) throw new Error('transaction의 실제 복구 baseline을 확인하지 못했습니다.');
           if (baseline?.receipt && baseline.active === 'active') {
             const manifest = knowledgeReleaseSchema.parse(baseline.manifest);
-            await verify(config, { manifest });
+            await verify(config, { manifest }, { log });
           }
           await operate('rollback-finalize', plan, execution);
           log('이전 service 상태 복구와 검증을 완료했습니다.');

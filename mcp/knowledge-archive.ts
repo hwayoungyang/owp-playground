@@ -1,13 +1,13 @@
 import { createHash } from 'node:crypto';
 import { knowledgePackages } from '../src/playgrounds/packages.ts';
-import type { ReleaseIndex, ReleaseIndexEntry } from '../src/features/releases/model/schema.ts';
+import type { ReleaseIndexEntry } from '../src/features/releases/model/schema.ts';
 import { archivedPackageKnowledgeSchema } from '../scripts/version-archive-build.ts';
 import { filesystemErrorCode, readArchiveBytes } from '../scripts/version-archive-files.ts';
 import {
   readArchivedFile,
-  readReleaseEntry,
-  readVersionArchive,
+  readVersionArchiveSnapshot,
   type ArchivedRelease,
+  type VersionArchiveSnapshot,
 } from '../scripts/version-archive.ts';
 import { sourceManifestSchema } from './schema.ts';
 
@@ -30,8 +30,10 @@ export type KnowledgeOptions = {
 
 export function createKnowledgeArchive(options: KnowledgeOptions) {
   // index가 바뀔 때 전체 archive를 재검증하고, 파일 조회는 각 manifest hash를 검증합니다.
-  let snapshot: { readonly sha256: string; readonly index: ReleaseIndex } | undefined;
-  const verifiedReleases = new Map<string, ArchivedRelease>();
+  let snapshot: (VersionArchiveSnapshot & { readonly sha256: string }) | undefined;
+  let latestSha256: string | undefined;
+  const validations = new Map<string, Promise<VersionArchiveSnapshot>>();
+  const verifiedReleases = new WeakMap<ReleaseIndexEntry, ArchivedRelease>();
   const publicUrl = options.publicUrl ? new URL(options.publicUrl) : undefined;
   if (
     publicUrl &&
@@ -82,33 +84,40 @@ export function createKnowledgeArchive(options: KnowledgeOptions) {
       );
     }
     const sha256 = createHash('sha256').update(bytes).digest('hex');
-    if (snapshot?.sha256 !== sha256)
-      snapshot = { sha256, index: await readVersionArchive(options.archiveRoot) };
-    const index = snapshot.index;
-    const releases = index.releases
-      .filter((entry) => options.allowDrafts || entry.channel === 'stable')
-      .map((entry) => ({
-        ...entry,
-        packages: entry.packages.filter((pkg) =>
-          knowledgePackages.some((ready) => ready.id === pkg.id),
-        ),
-      }));
+    latestSha256 = sha256;
+    let current = snapshot;
+    if (!current || current.sha256 !== sha256) {
+      let validation = validations.get(sha256);
+      if (!validation) {
+        validation = readVersionArchiveSnapshot(options.archiveRoot, bytes);
+        validations.set(sha256, validation);
+      }
+      try {
+        current = { sha256, ...await validation };
+      } finally {
+        if (validations.get(sha256) === validation) validations.delete(sha256);
+      }
+      if (latestSha256 === sha256) snapshot = current;
+    }
+    const index = current.index;
+    const releases = current.releases
+      .filter((release) => options.allowDrafts || release.entry.channel === 'stable')
+      .map((release) => {
+        const entry = {
+          ...release.entry,
+          packages: release.entry.packages.filter((pkg) =>
+            knowledgePackages.some((ready) => ready.id === pkg.id),
+          ),
+        };
+        verifiedReleases.set(entry, release);
+        return entry;
+      });
     return { index, releases };
   };
   async function archivedRelease(entry: ReleaseIndexEntry) {
-    const key = `${entry.releaseId}:${entry.manifestSha256}`;
-    let release = verifiedReleases.get(key);
-    if (!release) {
-      const canonical = snapshot?.index.releases.find(
-        (registered) =>
-          registered.releaseId === entry.releaseId &&
-          registered.manifestSha256 === entry.manifestSha256,
-      );
-      if (!canonical)
-        throw new KnowledgeError('INTEGRITY_MISMATCH', '검증한 index에 없는 release입니다.');
-      release = await readReleaseEntry(options.archiveRoot, canonical);
-      verifiedReleases.set(key, release);
-    }
+    const release = verifiedReleases.get(entry);
+    if (!release)
+      throw new KnowledgeError('INTEGRITY_MISMATCH', '검증한 index에 없는 release입니다.');
     return release;
   }
   async function resolve(input: {

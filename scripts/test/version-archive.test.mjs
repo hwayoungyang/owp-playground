@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHook } from 'node:async_hooks';
 import { mkdir, readFile, readdir, rm, symlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
@@ -52,8 +53,34 @@ test('preserves older releases and selects latest when package versions and avai
   assert.equal((await readArchivedPackage(fixture.archiveRoot, { releaseId: second.releaseId, packageId: 'datagrid' })).dataset.version, '3.6.0');
 });
 
+test('reuses the selected release from complete archive verification without another filesystem scan', async (t) => {
+  // Given
+  const fixture = await publish(t);
+  let operations = 0;
+  const hook = createHook({ init(_id, type) { if (type === 'FSREQPROMISE') operations += 1; } });
+  // When
+  hook.enable();
+  let completeOperations;
+  let selectionOperations;
+  try {
+    await readVersionArchive(fixture.archiveRoot);
+    completeOperations = operations;
+    operations = 0;
+    const release = await readArchivedRelease(fixture.archiveRoot, fixture.release.releaseId);
+    selectionOperations = operations;
+    assert.equal(release.entry.releaseId, fixture.release.releaseId);
+  } finally {
+    hook.disable();
+  }
+  // Then
+  t.diagnostic(`complete archive: ${completeOperations} FSREQPROMISE; selected release: ${selectionOperations} FSREQPROMISE`);
+  assert.equal(selectionOperations, completeOperations,
+    `complete archive: ${completeOperations} FSREQPROMISE; selected release: ${selectionOperations} FSREQPROMISE`);
+});
+
 test('rejects tampered file bytes even when file size is unchanged', async (t) => {
   const fixture = await publish(t);
+  await readVersionArchive(fixture.archiveRoot);
   await writeFile(path.join(fixture.archiveRoot, 'versions', fixture.release.releaseId, 'assets/app.js'), 'document.body.dataset.ready = "evil";');
   await assert.rejects(readVersionArchive(fixture.archiveRoot), code('INTEGRITY_MISMATCH'));
 });

@@ -16,6 +16,10 @@ export type ArchivedRelease = {
   readonly entry: ReleaseIndexEntry;
   readonly manifest: KnowledgeRelease;
 };
+export type VersionArchiveSnapshot = {
+  readonly index: ReleaseIndex;
+  readonly releases: readonly ArchivedRelease[];
+};
 
 /** 검증한 index entry에 해당하는 manifest와 전체 파일의 무결성을 확인합니다. */
 export async function readReleaseEntry(archiveRoot: string, entry: ReleaseIndexEntry): Promise<ArchivedRelease> {
@@ -39,11 +43,12 @@ export async function readReleaseEntry(archiveRoot: string, entry: ReleaseIndexE
   return { directory, entry, manifest };
 }
 
-export async function readVersionArchive(archiveRoot: string): Promise<ReleaseIndex> {
+/** 읽은 index와 전체 무결성 검증을 마친 release를 함께 반환합니다. */
+export async function readVersionArchiveSnapshot(archiveRoot: string, indexBytes?: Buffer): Promise<VersionArchiveSnapshot> {
   let bytes: Buffer;
   try {
     await assertArchiveDirectory(archiveRoot);
-    bytes = await readArchiveBytes(archiveRoot, 'versions/index.json');
+    bytes = indexBytes ?? await readArchiveBytes(archiveRoot, 'versions/index.json');
   } catch (error) {
     if (filesystemErrorCode(error) === 'ENOENT') {
       throw new VersionArchiveError('ARCHIVE_NOT_FOUND', '버전 아카이브 index가 없습니다.', { cause: error });
@@ -51,16 +56,21 @@ export async function readVersionArchive(archiveRoot: string): Promise<ReleaseIn
     throw error;
   }
   const index = parseArchiveJson(releaseIndexSchema, bytes, 'versions/index.json');
-  for (const entry of index.releases) await readReleaseEntry(archiveRoot, entry);
-  return index;
+  const releases: ArchivedRelease[] = [];
+  for (const entry of index.releases) releases.push(await readReleaseEntry(archiveRoot, entry));
+  return { index, releases };
+}
+
+export async function readVersionArchive(archiveRoot: string): Promise<ReleaseIndex> {
+  return (await readVersionArchiveSnapshot(archiveRoot)).index;
 }
 
 export async function readArchivedRelease(archiveRoot: string, releaseId: string): Promise<ArchivedRelease> {
   const id = parseArchiveData(releaseIdSchema, releaseId, 'releaseId');
-  const index = await readVersionArchive(archiveRoot);
-  const entry = index.releases.find((candidate) => candidate.releaseId === id);
-  if (!entry) throw new VersionArchiveError('RELEASE_NOT_FOUND', `릴리스가 없습니다: ${id}`);
-  return readReleaseEntry(archiveRoot, entry);
+  const snapshot = await readVersionArchiveSnapshot(archiveRoot);
+  const release = snapshot.releases.find((candidate) => candidate.entry.releaseId === id);
+  if (!release) throw new VersionArchiveError('RELEASE_NOT_FOUND', `릴리스가 없습니다: ${id}`);
+  return release;
 }
 
 export async function readArchivedFile(release: ArchivedRelease, relativePath: string): Promise<Buffer> {

@@ -118,6 +118,11 @@ test('Given failed local dependency preparation, When deployment runs, Then it s
 test('Given a successful deployment, When all phases run, Then every phase shares one session and verification precedes commit', async (t) => {
   const fixture = await mcpFixture(t);
   const { calls, dependencies } = scenario();
+  dependencies.verify = async (_config, _bundle, options) => {
+    assert.equal(options?.log, dependencies.log);
+    calls.push('verify');
+    return { http: true, mcp: true };
+  };
   assert.equal((await runMcpDeployment({ bundle: fixture.bundle }, dependencies)).stage, 'deployed');
   assert.deepEqual(calls, ['confirm', 'prepare-offline', 'port', 'connect', 'probe', 'bootstrap', 'preflight', 'transfer', 'activate', 'verify', 'commit', 'close']);
 });
@@ -154,7 +159,8 @@ test('Given an intervening deployment after preflight, When rollback returns its
   const release = JSON.parse(await readFile(path.join(fixture.bundle, 'release.json')));
   const manifest = JSON.parse(await readFile(path.join(fixture.archiveRoot, `versions/${release.releaseId}/knowledge-release.json`)));
   let verifies = 0;
-  dependencies.verify = async (_config, selected) => {
+  dependencies.verify = async (_config, selected, options) => {
+    assert.equal(options?.log, dependencies.log);
     calls.push(verifies++ === 0 ? 'verify-new' : 'verify-restored');
     if (verifies === 1) throw new Error('new release invalid');
     assert.deepEqual(selected.manifest, manifest);
