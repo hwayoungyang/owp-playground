@@ -1,6 +1,6 @@
 import { OwpFilePickerButton, OwpMoreActionsButton, OwpSection, OwpTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
-import { Stack, Typography } from '@mui/material';
+import { NoSsr, Stack, Typography } from '@mui/material';
 import type { ComponentsExampleProps } from '../model/types';
 import { ExampleSection } from '../runtime/ExampleSection';
 import { useComponentExampleState } from './components/component-state';
@@ -41,18 +41,20 @@ export function ComponentsExample(props: ComponentsExampleProps) {
             >
               {t('파일 선택')}
             </OwpFilePickerButton>
-            <OwpMoreActionsButton
-              actions={[
-                {
-                  id: 'clear-file-list',
-                  label: t('선택 목록 지우기'),
-                  onClick: ({ close }) => {
-                    change('files', []);
-                    close();
+            <NoSsr>
+              <OwpMoreActionsButton
+                actions={[
+                  {
+                    id: 'clear-file-list',
+                    label: t('선택 목록 지우기'),
+                    onClick: ({ close }) => {
+                      change('files', []);
+                      close();
+                    },
                   },
-                },
-              ]}
-            />
+                ]}
+              />
+            </NoSsr>
           </Stack>
         }
       >
