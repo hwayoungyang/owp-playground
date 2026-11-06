@@ -12,14 +12,14 @@ export const integrationsEnglish: Readonly<Record<string, string>> = {
   'OwpTimePicker와 OwpTimeWheel로 24시간·오전/오후 시간과 통합 일시를 선택하고 간격 옵션을 비교합니다.':
     'Select 24-hour, AM/PM, and combined date-time values with OwpTimePicker and OwpTimeWheel, and compare step options.',
   '배열 데이터 내보내기': 'Array data export',
-  'createExportDataToExcelBuffer와 exportExcelByBuffer로 헤더·접두사·접미사를 매핑해 xlsx 버퍼를 생성하고 다운로드합니다.':
-    'Map headers, prefixes, and suffixes with createExportDataToExcelBuffer and exportExcelByBuffer to generate and download an xlsx buffer.',
+  'createExcelExport와 downloadExcelBuffer로 헤더·접두사·접미사를 매핑해 xlsx 버퍼를 생성하고 다운로드합니다.':
+    'Map headers, prefixes, and suffixes with createExcelExport and downloadExcelBuffer to generate and download an xlsx buffer.',
   '셀·병합 서식 구성': 'Cell & merge styling',
-  'loadExcelJSBrowser로 워크시트를 열고 setMergeCells·setCellValue·getLettersByIndex로 제목 병합과 셀 서식을 지정합니다.':
-    'Open a worksheet with loadExcelJSBrowser and configure merged titles and cell styles with setMergeCells, setCellValue, and getLettersByIndex.',
+  'loadExcelJSBrowser로 워크시트를 열고 setMergeCells·setCellValue·columnNumberToLetters로 제목 병합과 셀 서식을 지정합니다.':
+    'Open a worksheet with loadExcelJSBrowser and configure merged titles and cell styles with setMergeCells, setCellValue, and columnNumberToLetters.',
   'PDF 문서 생성과 다운로드': 'PDF document generation & download',
-  'Document·Page·View·Text·StyleSheet로 Helvetica 기반 요약 문서를 구성하고 renderPdfToBlob·downloadPdf로 생성·저장합니다.':
-    'Compose a Helvetica-based summary document with Document, Page, View, Text, and StyleSheet, and render or download it with renderPdfToBlob and downloadPdf.',
+  'Document·OwpPdfPage·View·Text·StyleSheet로 Helvetica 기반 요약 문서를 구성하고 renderPdfToBlob·downloadPdf로 생성·저장합니다.':
+    'Compose a Helvetica-based summary document with Document, OwpPdfPage, View, Text, and StyleSheet, and render or download it with renderPdfToBlob and downloadPdf.',
   'SVG 도형 포함 리포트': 'Report with SVG shapes',
   'Svg·Rect·Line과 표 레이아웃을 조합해 지표 막대가 포함된 PDF 리포트 Blob을 생성하고 미리보기 정보를 확인합니다.':
     'Combine Svg, Rect, Line, and layout views to generate a PDF report Blob with metric bars and inspect the output.',
@@ -27,19 +27,19 @@ export const integrationsEnglish: Readonly<Record<string, string>> = {
   'defaultThemes·changeThemeMode·getThemeWithButtonPaletteDefaults와 로컬 ThemeProvider로 light·dark 모드, primary 색상, radius 변경을 미리 봅니다.':
     'Preview light and dark modes, primary colors, and corner radius changes inside a local ThemeProvider using defaultThemes, changeThemeMode, and getThemeWithButtonPaletteDefaults.',
   'Table·DataGrid·DatePicker 토큰': 'Table, DataGrid & DatePicker tokens',
-  'OwpThemeProvider에 table·dataGrid·datePicker 토큰을 전달하고 useTableTheme·useGridTheme·useDatePickerTheme으로 하위 컴포넌트에서 조회합니다.':
-    'Pass table, dataGrid, and datePicker tokens to OwpThemeProvider and read them in descendant components with useTableTheme, useGridTheme, and useDatePickerTheme.',
+  'OwpThemeProvider에 table·dataGrid·datePicker 토큰을 전달하고 useTableThemeConfig·useGridTheme·useDatePickerThemeConfig으로 하위 컴포넌트에서 조회합니다.':
+    'Pass table, dataGrid, and datePicker tokens to OwpThemeProvider and read them in descendant components with useTableThemeConfig, useGridTheme, and useDatePickerThemeConfig.',
   '숫자·문자열·폼 기본값 포맷': 'Number, string & form default formatting',
   'formatNumber·toFiniteNumber·getDisplayValue·getTrimmedValue·isNilOrEmptyString·getFormDefaultValues로 입력값을 정규화합니다.':
     'Normalize input values with formatNumber, toFiniteNumber, getDisplayValue, getTrimmedValue, isNilOrEmptyString, and getFormDefaultValues.',
   'QR 코드 Data URL 생성': 'QR code Data URL generation',
-  'generateQrCodeDataUrl과 generateQrCodeUrl로 크기·여백·오류 정정 수준·색상 옵션을 적용한 QR 코드 이미지를 생성합니다.':
-    'Generate QR code images with size, margin, error correction level, and color options using generateQrCodeDataUrl and generateQrCodeUrl.',
+  'generateQrCodeDataUrl로 크기·여백·오류 정정 수준·색상 옵션을 적용한 QR 코드 이미지를 생성합니다.':
+    'Generate QR code images with size, margin, error correction level, and color options using generateQrCodeDataUrl.',
 
   // date-range-picker.tsx
   '단일 날짜와 연·월 선택': 'Single date and year-month selection',
-  'OwpDatePicker로 일자(YYYY-MM-DD)와 연·월(YYYY-MM)을 선택하고 getTodayYmd로 오늘 날짜를 바로 채웁니다.':
-    'Select a date (YYYY-MM-DD) and year-month (YYYY-MM) with OwpDatePicker, or fill today immediately with getTodayYmd.',
+  'OwpDatePicker로 일자(YYYY-MM-DD)와 연·월(YYYY-MM)을 선택하고 formatToday로 오늘 날짜를 바로 채웁니다.':
+    'Select a date (YYYY-MM-DD) and year-month (YYYY-MM) with OwpDatePicker, or fill today immediately with formatToday.',
   '기준 일자': 'Reference date',
   '정산 연월': 'Settlement month',
   '오늘 날짜로 채우기': 'Fill with today',
@@ -105,8 +105,8 @@ export const integrationsEnglish: Readonly<Record<string, string>> = {
   'Excel 버퍼를 생성하지 못했습니다. 다시 시도해 주세요.':
     'Could not generate the Excel buffer. Please try again.',
   '매퍼 설정과 Excel 버퍼 생성': 'Mapper configuration & Excel buffer generation',
-  'createExportDataToExcelBuffer에 ExcelHeader와 ExcelDataMapper(prefix·suffix)를 전달해 xlsx 버퍼를 만들고 exportExcelByBuffer로 저장합니다.':
-    'Pass ExcelHeader and ExcelDataMapper (prefix and suffix) to createExportDataToExcelBuffer to build an xlsx buffer and save it with exportExcelByBuffer.',
+  'createExcelExport에 ExcelHeader와 ExcelColumnMapping(prefix·suffix)를 전달해 xlsx 버퍼를 만들고 downloadExcelBuffer로 저장합니다.':
+    'Pass ExcelHeader and ExcelColumnMapping (prefix and suffix) to createExcelExport to build an xlsx buffer and save it with downloadExcelBuffer.',
   '내보낼 파일명': 'Export file name',
   '특수문자는 안전한 파일명으로 정규화됩니다.':
     'Special characters are normalized into a safe file name.',
@@ -121,8 +121,8 @@ export const integrationsEnglish: Readonly<Record<string, string>> = {
   '생성 완료: {{name}}.xlsx ({{bytes}} bytes · {{mode}})':
     'Generated: {{name}}.xlsx ({{bytes}} bytes · {{mode}})',
   '매핑된 워크시트 데이터 미리보기': 'Mapped worksheet data preview',
-  'ExcelDataMapper가 각 행의 속성에 접두사와 접미사를 적용해 셀에 기록하는 결과를 미리 확인합니다.':
-    'Preview how ExcelDataMapper applies prefixes and suffixes to each row before writing cells.',
+  'ExcelColumnMapping이 각 행의 속성에 접두사와 접미사를 적용해 셀에 기록하는 결과를 미리 확인합니다.':
+    'Preview how ExcelColumnMapping applies prefixes and suffixes to each row before writing cells.',
   '매핑된 워크시트 행': 'Mapped worksheet rows',
 
   // cell-merge-style.tsx
@@ -149,8 +149,8 @@ export const integrationsEnglish: Readonly<Record<string, string>> = {
   '워크시트 버퍼 크기: {{bytes}} bytes · 병합 범위: {{ranges}} · 강조 ARGB: {{argb}}':
     'Worksheet buffer size: {{bytes}} bytes · Merged ranges: {{ranges}} · Highlight ARGB: {{argb}}',
   '컬럼 인덱스·문자 변환 확인': 'Column index & letter conversion',
-  'getLettersByIndex와 getIndexByLetters로 1 기반 컬럼 번호와 Excel 열 문자(A~Z, AA~)를 양방향 변환합니다.':
-    'Convert between 1-based column numbers and Excel column letters (A–Z, AA–) using getLettersByIndex and getIndexByLetters.',
+  'columnNumberToLetters와 columnLettersToNumber로 1 기반 컬럼 번호와 Excel 열 문자(A~Z, AA~)를 양방향 변환합니다.':
+    'Convert between 1-based column numbers and Excel column letters (A–Z, AA–) using columnNumberToLetters and columnLettersToNumber.',
   '컬럼 {{index}} ({{letter}})': 'Column {{index}} ({{letter}})',
   '병합 범위와 컬럼 변환 결과': 'Merged ranges and column conversion results',
   '사용 API': 'API used',
@@ -164,8 +164,8 @@ export const integrationsEnglish: Readonly<Record<string, string>> = {
   'PDF 문서를 생성하지 못했습니다. 다시 시도해 주세요.':
     'Could not generate the PDF document. Please try again.',
   'Helvetica 기반 PDF 생성과 다운로드': 'Helvetica-based PDF generation & download',
-  'Page style에 표준 폰트(Helvetica)를 지정해 외부 폰트 네트워크 요청 없이 브라우저에서 즉시 PDF Blob을 렌더링하고 downloadPdf로 저장합니다.':
-    'Specify the standard Helvetica font on Page style to render a PDF Blob directly in the browser without external font requests, and save it with downloadPdf.',
+  'OwpPdfPage style에 표준 폰트(Helvetica)를 지정해 외부 폰트 네트워크 요청 없이 브라우저에서 즉시 PDF Blob을 렌더링하고 downloadPdf로 저장합니다.':
+    'Specify the standard Helvetica font on OwpPdfPage style to render a PDF Blob directly in the browser without external font requests, and save it with downloadPdf.',
   '문서 제목 (ASCII)': 'Document title (ASCII)',
   '참조 번호 (ASCII)': 'Reference code (ASCII)',
   '저장 파일명': 'Save file name',
@@ -175,8 +175,8 @@ export const integrationsEnglish: Readonly<Record<string, string>> = {
   'PDF 생성 완료: {{title}} · {{size}} bytes ({{type}})':
     'PDF generated: {{title}} · {{size}} bytes ({{type}})',
   '문서 본문 항목 미리보기': 'Document line items preview',
-  'Document·Page·View·Text 레이아웃으로 PDF에 기록되는 명세 항목과 생성된 Blob 정보입니다.':
-    'Line items and Blob metadata written to the PDF using Document, Page, View, and Text.',
+  'Document·OwpPdfPage·View·Text 레이아웃으로 PDF에 기록되는 명세 항목과 생성된 Blob 정보입니다.':
+    'Line items and Blob metadata written to the PDF using Document, OwpPdfPage, View, and Text.',
   'PDF 문서 항목': 'PDF document items',
   코드: 'Code',
   내역: 'Description',
@@ -232,8 +232,8 @@ export const integrationsEnglish: Readonly<Record<string, string>> = {
   '토큰 속성': 'Token property',
   '해석된 값': 'Resolved value',
   'OwpThemeProvider 토큰 상속과 Hook 조회': 'OwpThemeProvider token inheritance & Hook lookup',
-  'OwpThemeProvider에 table·dataGrid·datePicker 설정을 주입하고 하위 컴포넌트에서 useTableTheme·useGridTheme·useDatePickerTheme으로 토큰을 읽습니다.':
-    'Provide table, dataGrid, and datePicker settings to OwpThemeProvider and read the tokens in a child component with useTableTheme, useGridTheme, and useDatePickerTheme.',
+  'OwpThemeProvider에 table·dataGrid·datePicker 설정을 주입하고 하위 컴포넌트에서 useTableThemeConfig·useGridTheme·useDatePickerThemeConfig으로 토큰을 읽습니다.':
+    'Provide table, dataGrid, and datePicker settings to OwpThemeProvider and read the tokens in a child component with useTableThemeConfig, useGridTheme, and useDatePickerThemeConfig.',
   '상위 Provider를 생략한 토큰은 기본 테마 토큰과 자동 병합됩니다.':
     'Tokens omitted from the provider are merged automatically with the default theme tokens.',
 
@@ -269,8 +269,8 @@ export const integrationsEnglish: Readonly<Record<string, string>> = {
   'QR 코드 이미지를 생성하지 못했습니다. 다시 시도해 주세요.':
     'Could not generate the QR code image. Please try again.',
   'QR 코드 이미지 Data URL 생성': 'Create a QR code data URL',
-  'generateQrCodeDataUrl과 generateQrCodeUrl로 너비·여백·오류 정정 수준(L/M/Q/H)·색상 옵션을 지정해 QR 코드 Data URL을 생성합니다.':
-    'Generate a QR code Data URL with width, margin, error correction level (L/M/Q/H), and color options using generateQrCodeDataUrl and generateQrCodeUrl.',
+  'generateQrCodeDataUrl로 너비·여백·오류 정정 수준(L/M/Q/H)·색상 옵션을 지정해 QR 코드 Data URL을 생성합니다.':
+    'Generate a QR code Data URL with width, margin, error correction level (L/M/Q/H), and color options using generateQrCodeDataUrl.',
   'QR 코드 텍스트·URL': 'QR code text or URL',
   '여백 {{margin}}': 'Margin {{margin}}',
   '정정 수준 {{level}}': 'Level {{level}}',
@@ -280,6 +280,8 @@ export const integrationsEnglish: Readonly<Record<string, string>> = {
   'QR 코드 생성 메타데이터': 'QR code metadata',
   '크기 / 여백 / 정정 수준': 'Size / Margin / Error correction',
   '시간 선택 (24시간제·12시간제)': 'Time selection (24-hour / 12-hour)',
+  'valueFormat은 HH:mm:ss로 값을 유지하고, useAmPm은 선택창의 오전·오후 표시를 제어합니다.':
+    'valueFormat keeps values in HH:mm:ss, while useAmPm controls AM/PM display in the picker.',
   '24시간제와 12시간제의 시간 입력·날짜와 시간 선택·시간 휠을 각각 비교합니다.':
     'Compare time input, date-time selection, and time wheels in 24-hour and 12-hour modes.',
   '24시간제': '24-hour mode',

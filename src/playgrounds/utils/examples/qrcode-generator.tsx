@@ -1,7 +1,6 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import {
   generateQrCodeDataUrl,
-  generateQrCodeUrl,
   type QrCodeErrorCorrectionLevel,
 } from '@owp/utils/qrcode';
 import {
@@ -111,7 +110,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
           light: colorThemes[colorKey].light,
         },
       }),
-      generateQrCodeUrl(trimmed, width),
+      generateQrCodeDataUrl(trimmed, { width }),
     ])
       .then(([dataUrl, quickUrl]) => {
         if (cancelled || !mountedRef.current) return;

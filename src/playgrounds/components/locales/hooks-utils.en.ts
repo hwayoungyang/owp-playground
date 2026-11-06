@@ -9,8 +9,8 @@ export const hooksUtilsEnglish = {
   확인: 'OK',
   취소: 'Cancel',
   '문구를 직접 지정한 확인창': 'Custom confirmation text',
-  'confirm에 제목과 버튼 문구를 지정하고 true 또는 false 결과를 받습니다.':
-    'Set the title and buttons; receive true or false.',
+  'onClose callback은 한 번 실행되고 완료 후 결과 Promise가 끝납니다. closeAll에서는 callback이 false를 받고 Promise 결과는 undefined입니다.':
+    'onClose runs once and completes before the result Promise resolves. With closeAll, the callback receives false and the Promise result is undefined.',
   '확인 버튼만 있는 안내': 'Information with one button',
   'confirmInfo는 기본 안내 문구와 확인 버튼을 사용합니다.':
     'confirmInfo uses its default text and an OK button.',

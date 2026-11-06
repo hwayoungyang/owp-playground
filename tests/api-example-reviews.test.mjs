@@ -97,7 +97,7 @@ it('keeps rejected associations in review metadata while removing them from exec
 
 it('changes the API owner and target label together when review identifies a different contract', () => {
   // Given
-  const replacement = { id: '@owp/charts:CoreChartProps.data', label: 'CoreChart.data' };
+  const replacement = { id: '@owp/charts:ChartCanvasProps.data', label: 'ChartCanvas.data' };
   const reviewer = createExampleCodeReviews(
     { charts: [{ ...review, action: 'replace', replacement }] },
     { [file]: sha256 },

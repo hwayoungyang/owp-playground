@@ -1,5 +1,13 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import { Document, downloadPdf, Page, renderPdfToBlob, StyleSheet, Text, View } from '@owp/pdf';
+import {
+  Document,
+  downloadPdf,
+  OwpPdfPage,
+  renderPdfToBlob,
+  StyleSheet,
+  Text,
+  View,
+} from '@owp/pdf';
 import {
   Alert,
   Button,
@@ -75,7 +83,7 @@ function createInvoiceDocument(title: string, referenceCode: string) {
   const safeReference = toAsciiText(referenceCode, 'REF-2026-1106');
   return (
     <Document title={safeTitle} author="OWP Playground">
-      <Page size="A4" style={pdfStyles.page}>
+      <OwpPdfPage size="A4" style={pdfStyles.page}>
         <View style={pdfStyles.header}>
           <Text style={pdfStyles.title}>{safeTitle}</Text>
           <Text style={pdfStyles.subtitle}>
@@ -97,7 +105,7 @@ function createInvoiceDocument(title: string, referenceCode: string) {
         <Text style={pdfStyles.footer}>
           Generated locally by @owp/pdf without external font network requests.
         </Text>
-      </Page>
+      </OwpPdfPage>
     </Document>
   );
 }

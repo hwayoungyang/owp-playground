@@ -3,7 +3,7 @@ import type {
   BoxPlotDatasetOptions,
   BoxPlotDatum,
   BoxPlotStatistics,
-  CoreChartProps,
+  ChartCanvasProps,
   HeatmapDatasetOptions,
   HeatmapPoint,
   OwpBoxPlotChartProps,
@@ -44,16 +44,16 @@ describe('special native chart contracts', () => {
 
     // Then
     expectTypeOf<OwpBoxPlotChartProps['chartRef']>().toEqualTypeOf<
-      CoreChartProps<'boxPlot', BoxPlotDatum[], string>['chartRef']
+      ChartCanvasProps<'boxPlot', BoxPlotDatum[], string>['chartRef']
     >();
     expectTypeOf<OwpTreemapChartProps['chartRef']>().toEqualTypeOf<
-      CoreChartProps<'treemap', TreemapNode[], string>['chartRef']
+      ChartCanvasProps<'treemap', TreemapNode[], string>['chartRef']
     >();
     expectTypeOf<OwpHeatmapChartProps['chartRef']>().toEqualTypeOf<
-      CoreChartProps<'heatmap', HeatmapPoint[], string>['chartRef']
+      ChartCanvasProps<'heatmap', HeatmapPoint[], string>['chartRef']
     >();
     expectTypeOf<
-      Extract<CoreChartProps['type'], 'owpBoxPlot' | 'owpTreemap' | 'owpHeatmap'>
+      Extract<ChartCanvasProps['type'], 'owpBoxPlot' | 'owpTreemap' | 'owpHeatmap'>
     >().toEqualTypeOf<never>();
   });
 
@@ -113,14 +113,42 @@ describe('special native chart contracts', () => {
     // When
     const data: ChartData<'treemap', TreemapNode[], string> = { datasets: [dataset] };
     const options: ChartOptions<'treemap'> = {
-      datasets: { treemap: { gap: 2, sort: 'descending', labels: true } },
+      groupSort: 'descending',
+      datasets: { treemap: { gap: 2, itemSort: 'descending', labels: true } },
       plugins: { tooltip: { callbacks: { label: (item) => String(item.parsed.y) } } },
     };
 
     // Then
     expect(data.datasets[0]?.data[0]?.raw).toBe(records[0]);
     expect(options.datasets?.treemap?.gap).toBe(2);
+    expect(options.datasets?.treemap?.itemSort).toBe('descending');
+    expect(options.groupSort).toBe('descending');
     expectTypeOf<TooltipItem<'treemap'>['parsed']>().toEqualTypeOf<{ x: number; y: number }>();
+  });
+
+  it('accepts wrapper tile styles and independent treemap item and group ordering', () => {
+    const records = [{ id: '__proto__/設備:가', group: 'line/A', value: 30, color: '#123456' }];
+    const treemap: OwpTreemapChartProps<(typeof records)[number]> = {
+      data: records,
+      itemSort: false,
+      groupSort: 'ascending',
+      tileStyle: ({ raw }) => ({ backgroundColor: raw.color }),
+    };
+    const heatmap: OwpHeatmapChartProps = {
+      data: [{ x: 'Tue', y: '08:00', value: 0 }],
+      tileStyle: { borderColor: '#ffffff', borderWidth: 2 },
+    };
+    const nodes = createTreemapData(treemap.data);
+    const node = nodes[0];
+    if (!node || typeof treemap.tileStyle !== 'function')
+      throw new TypeError('The treemap fixture must provide a node and scriptable tile style.');
+
+    expect(node.id).toBe(records[0]?.id);
+    expect(node.raw).toBe(records[0]);
+    expect(treemap.tileStyle(node)).toEqual({ backgroundColor: '#123456' });
+    expect(treemap.itemSort).toBe(false);
+    expect(treemap.groupSort).toBe('ascending');
+    expect(heatmap.tileStyle).toEqual({ borderColor: '#ffffff', borderWidth: 2 });
   });
 
   it('preserves heatmap nulls and category order in native datasets and tooltip options', () => {

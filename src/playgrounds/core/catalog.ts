@@ -254,7 +254,7 @@ export const coreCatalog = [
     'Excel 내보내기',
     'integration',
     'Excel 패키지로 파일을 생성하고 MUI 버튼에서 다운로드합니다.',
-    ['@owp/excel:createExportDataToExcelBuffer', '@owp/components:OwpTable'],
+    ['@owp/excel:createExcelExport', '@owp/components:OwpTable'],
   ),
   entry(
     'error-boundary',

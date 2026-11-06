@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { createExportDataToExcelBuffer, exportExcelByBuffer } from '@owp/excel';
+import { createExcelExport, downloadExcelBuffer } from '@owp/excel';
 import { useFeedback } from '@owp/components/feedback';
 import { useEffect, useRef, useState } from 'react';
 import { OwpPageContent, OwpTable } from '@owp/components';
@@ -27,16 +27,16 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
     exportPendingRef.current = true;
     setExportPending(true);
     try {
-      const { buffer, exportName } = await createExportDataToExcelBuffer({
+      const { buffer, exportName } = await createExcelExport({
         data: rows,
         exportName: 'core-items',
         header: [
-          { key: 'A1', value: t('항목명') },
-          { key: 'B1', value: t('상태') },
+          { address: 'A1', value: t('항목명') },
+          { address: 'B1', value: t('상태') },
         ],
-        columnMappers: [{ key: 'name' }, { key: 'status' }],
+        columnMappings: [{ key: 'name' }, { key: 'status' }],
       });
-      exportExcelByBuffer(buffer, exportName);
+      downloadExcelBuffer(buffer, exportName);
     } catch (error) {
       notify(t('Message.엑셀 저장 중 오류가 발생했습니다.'), { variant: 'error' });
       onRecord('excel.download.error', error instanceof Error ? error.message : String(error));

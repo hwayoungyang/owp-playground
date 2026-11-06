@@ -18,8 +18,8 @@ async function resourcesFor(files) {
 
 it('includes lazy public imports in source manifests without loading the module', async () => {
   // Given
-  const content = `import type { CoreChartProps } from '@owp/charts/types';
-    export const load = () => import('@owp/charts').then(({ CoreChart }) => CoreChart);`;
+  const content = `import type { ChartCanvasProps } from '@owp/charts/types';
+    export const load = () => import('@owp/charts').then(({ ChartCanvas }) => ChartCanvas);`;
   // When
   const resources = await resourcesFor({ 'entry.ts': content });
   // Then

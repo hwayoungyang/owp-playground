@@ -74,7 +74,7 @@ export const referenceCatalog = [
       'type',
       'createTreemapData',
       'data',
-      'style',
+      'tileStyle',
       'formatter',
     ],
   },

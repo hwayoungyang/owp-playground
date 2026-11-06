@@ -1,5 +1,15 @@
 import { useOwpTranslation } from '@owp/components/hooks';
-import { Document, Line, Page, Rect, renderPdfToBlob, StyleSheet, Svg, Text, View } from '@owp/pdf';
+import {
+  Document,
+  Line,
+  OwpPdfPage,
+  Rect,
+  renderPdfToBlob,
+  StyleSheet,
+  Svg,
+  Text,
+  View,
+} from '@owp/pdf';
 import {
   Alert,
   Box,
@@ -60,7 +70,7 @@ function createVectorReportDocument(presetKey: keyof typeof reportPresets) {
   const preset = reportPresets[presetKey];
   return (
     <Document title={`OWP KPI ${preset.period}`}>
-      <Page size="A4" style={vectorStyles.page}>
+      <OwpPdfPage size="A4" style={vectorStyles.page}>
         <Text style={vectorStyles.heading}>OWP Vector KPI Summary ({preset.period})</Text>
         {preset.metrics.map((metric) => {
           const barWidth = Math.round((metric.score / 100) * 240);
@@ -78,7 +88,7 @@ function createVectorReportDocument(presetKey: keyof typeof reportPresets) {
             </View>
           );
         })}
-      </Page>
+      </OwpPdfPage>
     </Document>
   );
 }

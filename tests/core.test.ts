@@ -8,8 +8,8 @@ import { readCodeLocation } from '../src/features/code/code-location';
 import { exampleSourcePath } from '../src/features/code/source-paths';
 
 describe('Core Playground integration', () => {
-  it('uses the installed 10.4.0 contract and a useful default route', () => {
-    expect(corePackage.version).toBe('10.4.0');
+  it('uses the installed 11.0.0 contract and a useful default route', () => {
+    expect(corePackage.version).toBe('11.0.0');
     expect(readPlaygroundRoute('?package=%40owp%2Fcore')).toMatchObject({
       status: 'core',
       playground: { id: 'core' },

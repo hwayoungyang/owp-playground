@@ -1,8 +1,8 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import {
-  createExportDataToExcelBuffer,
-  exportExcelByBuffer,
-  type ExcelDataMapper,
+  createExcelExport,
+  downloadExcelBuffer,
+  type ExcelColumnMapping,
   type ExcelHeader,
 } from '@owp/excel';
 import {
@@ -54,14 +54,14 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
   }, []);
 
   const headers: ExcelHeader[] = [
-    { key: 'A1', value: t('라인 코드') },
-    { key: 'B1', value: t('설비명') },
-    { key: 'C1', value: t('처리 수량') },
-    { key: 'D1', value: t('가동률') },
-    { key: 'E1', value: t('예산') },
+    { address: 'A1', value: t('라인 코드') },
+    { address: 'B1', value: t('설비명') },
+    { address: 'C1', value: t('처리 수량') },
+    { address: 'D1', value: t('가동률') },
+    { address: 'E1', value: t('예산') },
   ];
 
-  const columnMappers: ExcelDataMapper[] = [
+  const columnMappings: ExcelColumnMapping[] = [
     { key: 'code' },
     { key: 'item' },
     { key: 'quantity', ...(includeUnitSuffix ? { suffix: t('건') } : {}) },
@@ -100,15 +100,15 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
     setErrorMessage(null);
     onRecord(`excel.${mode}.start`, trimmedName);
     try {
-      const { buffer, exportName } = await createExportDataToExcelBuffer({
+      const { buffer, exportName } = await createExcelExport({
         header: headers,
-        columnMappers,
+        columnMappings,
         data: localizedRows,
         exportName: trimmedName,
       });
       if (!mountedRef.current) return;
       if (mode === 'download') {
-        exportExcelByBuffer(buffer, exportName);
+        downloadExcelBuffer(buffer, exportName);
       }
       const summary = {
         exportName,

@@ -45,7 +45,7 @@ describe('source resources', () => {
         '/src/playgrounds/core/styles.css',
       ],
     });
-    expect(manifest.packageVersion).toBe('10.4.0');
+    expect(manifest.packageVersion).toBe('11.0.0');
     expect(manifest.samples.map((sample) => sample.id)).toEqual(
       coreCatalog.map((sample) => sample.id),
     );

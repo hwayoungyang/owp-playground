@@ -106,10 +106,7 @@ export const coreTypeRoles: Readonly<Record<string, readonly [string, string]>> 
   TAdditionalFields: ['파일과 함께 전송할 추가 필드', 'Additional file upload fields'],
   ThemeFormConfigTypes: ['테마 설정 필드 구성', 'Theme settings field configuration'],
   UseEnsureCurrentUserSeqOptions: ['사용자 USERSEQ 확인 옵션', 'User USERSEQ validation options'],
-  UseFilteredCommonCodeListProps: [
-    '공통코드 목록 필터링 옵션',
-    'Common-code list filtering options',
-  ],
+  FilterCommonCodesOptions: ['공통코드 목록 필터링 옵션', 'Common-code list filtering options'],
   UseFormDataUploadMutationProps: ['파일 업로드 Hook 옵션', 'File upload Hook options'],
   UseFormDataUploadMutationResult: ['파일 업로드 Hook 반환값', 'File upload Hook result'],
   UseInitAppOptions: ['앱 초기화 옵션', 'Application initialization options'],

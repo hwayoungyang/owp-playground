@@ -371,7 +371,7 @@ summaryRows는 실제 rows와 분리된 고정 집계행. filtered/all은 loaded
     '차트 구성과 native 옵션 사용.',
     [
       'ChartFrameProps',
-      'CoreChartProps',
+      'ChartCanvasProps',
       'mergeChartOptions',
       'registerChartTime',
       'ChartTimeValue',
@@ -519,13 +519,13 @@ semiCircle·rotation·cutout과 outsideLabels는 전용 props. 좁은 화면에�
     ['box-plot', 'treemap', 'heatmap'],
     `Box plot은 요약 통계와 원자료의 입력 계약을 구분. summarizeBox·resolveBoxStatistics의 사분위수·수염·이상치 정책을 사용하고 빈 입력·null·비유한수 처리는 공개 옵션을 확인.
 
-설치된 @owp/charts 6.1.1의 native 타입명은 boxPlot·treemap·heatmap. CoreChart·ChartFrame의 type으로 직접 지정할 수 있으며 필요한 controller는 자동 등록. Chart.js instance를 직접 생성할 때는 @owp/charts/chartjs/register의 registerChartCore()를 먼저 호출.
+설치된 @owp/charts 7.0.0의 native 타입명은 boxPlot·treemap·heatmap. ChartCanvas·ChartFrame의 type으로 직접 지정할 수 있으며 필요한 controller는 자동 등록. Chart.js instance를 직접 생성할 때는 @owp/charts/chartjs/register의 registerChartCore()를 먼저 호출.
 
 전용 OwpBoxPlotChart·OwpTreemapChart·OwpHeatmapChart도 같은 native 타입을 사용. 5.0.0에서는 이전 owpBoxPlot·owpTreemap·owpHeatmap 타입명이 제거됨. ChartData·ChartOptions·ChartDataset·ScriptableContext·TooltipItem·chartRef와 options.datasets key를 해당 native 타입으로 맞춤.
 
 별도 dataset 옵션은 BoxPlotDatasetOptions<'boxPlot'>·TreemapDatasetOptions<'treemap'>·HeatmapDatasetOptions<'heatmap'>를 사용하며 generic을 생략해도 같은 native 타입이 기본값. createBoxPlotTooltipCallbacks(labels)는 boxPlot callback을 반환하며 type generic을 받지 않음.
 
-Treemap의 data는 항목 ID·값·그룹을 가진 데이터이며 formatter와 style로 표시를 조정. TreemapDatum 형태는 기본 accessor를 사용하고 다른 row 타입은 accessors 지정 필요. 현재 실행 예제는 기본 입력과 data·style·formatter를 사용. 면적 layout과 hit test는 패키지가 함께 처리.
+Treemap의 data는 항목 ID·값·그룹을 가진 데이터이며 formatter와 tileStyle로 표시를 조정. TreemapDatum 형태는 기본 accessor를 사용하고 다른 row 타입은 accessors 지정 필요. 현재 실행 예제는 기본 입력과 data·tileStyle·formatter를 사용. itemSort와 groupSort로 항목과 그룹 순서를 각각 지정하며 기본값은 descending. native dataset의 항목 순서는 itemSort, 그룹 partition의 순서는 options.groupSort로 지정. 저수준 layoutTreemap의 options.sort는 유지. 면적 layout과 hit test는 패키지가 함께 처리.
 
 Heatmap은 x·y와 value를 가진 점 및 축 항목을 사용. domain·colors·valueLabels로 색상 범위와 값을 표시. 0과 null을 구분하고 중복 좌표 집계는 createHeatmapData의 aggregation 계약을 사용.
 
@@ -549,7 +549,7 @@ Heatmap은 x·y와 value를 가진 점 및 축 항목을 사용. domain·colors�
 
 createHistogram은 숫자 경계와 빈도를 반환하고 locale·자릿수·구간 문자열은 호출자 formatter에서 지정. createPareto는 정렬된 원본 item과 누적 합계·0~1 비율을 반환하며 기준선 UI는 앱에서 구성.
 
-downsampleMinMax는 원본 객체·순서·양끝점·bucket 극값과 개수 상한을 보존. Native decimation과 지원 조건·출력 범위가 같다고 가정하지 않음. Sparkline은 CoreChart 조합을 우선 사용.
+downsampleMinMax는 원본 객체·순서·양끝점·bucket 극값과 개수 상한을 보존. Native decimation과 지원 조건·출력 범위가 같다고 가정하지 않음. Sparkline은 ChartCanvas 조합을 우선 사용.
 
 useChartPalette·createChartColors는 mode·surface·minContrast로 기본 색상을 구성. 명시한 colors는 자동 보정하지 않고 실제 panel 배경이 theme paper와 다르면 surface를 전달. CSS 변수·미지원 색상·투명 surface fallback은 대비 검증 보장이 아님.`,
   ),
@@ -558,7 +558,7 @@ useChartPalette·createChartColors는 mode·surface·minContrast로 기본 색�
     'export-layout',
     'PNG 내보내기·반응형·성능',
     'PNG 내보내기·레이아웃·대량 데이터 처리.',
-    ['ChartFrameProps.exportRef', 'ChartFrameExportHandle', 'CoreChartProps.height'],
+    ['ChartFrameProps.exportRef', 'ChartFrameExportHandle', 'ChartCanvasProps.height'],
     ['png-export', 'small-multiples'],
     `exportRef는 차트와 범례를 PNG base64·Blob·data URL로 반환하거나 다운로드. 파일명·pixelRatio·배경 등은 공개 export 옵션을 사용. 업무 버튼과 다운로드 시점은 앱이 담당.
 

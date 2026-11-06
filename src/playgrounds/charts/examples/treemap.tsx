@@ -81,7 +81,7 @@ export function ChartExample(props: ChartExampleProps) {
       <div ref={plot} className="chart-canvas chart-native">
         <OwpTreemapChart
           data={data}
-          style={({ raw }) => ({
+          tileStyle={({ raw }) => ({
             backgroundColor: raw.color,
             color: getContrastRatio(raw.color, '#ffffff') >= 4.5 ? '#ffffff' : '#000000',
           })}

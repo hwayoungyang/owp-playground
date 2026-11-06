@@ -23,7 +23,7 @@ const packages = {
   },
   theme: { '.': ['defaultThemes'] },
   utils: { './browser': ['recoverFromDynamicImportChunkLoadError'], './zip': ['saveZipFile'] },
-  excel: { '.': ['createExportDataToExcelBuffer'] },
+  excel: { '.': ['createExcelExport'] },
 };
 for (const [name, entries] of Object.entries(packages)) {
   const directory = path.join(root, 'node_modules/@owp', name);
@@ -74,7 +74,7 @@ describe('static public OWP contracts with independent package fixtures', () => 
       import { defaultThemes } from '@owp/theme';
       import { saveZipFile } from '@owp/utils/zip';
       import { recoverFromDynamicImportChunkLoadError } from '@owp/utils/browser';
-      import { createExportDataToExcelBuffer } from '@owp/excel';
+      import { createExcelExport } from '@owp/excel';
       import { OwpRouteErrorElement } from '@owp/core';
       import { useSearchAction, usePageLeaveGuard } from '@owp/core/hooks';
     `)

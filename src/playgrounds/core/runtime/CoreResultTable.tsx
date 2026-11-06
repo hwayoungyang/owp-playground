@@ -18,7 +18,7 @@ import {
   getDefaultTableBorderColor,
   resolveOwpTableTheme,
   useGridTheme,
-  useTableTheme,
+  useTableThemeConfig,
 } from '@owp/theme';
 
 type ResultTableState = {
@@ -40,7 +40,7 @@ export function CoreResultTable({
 }) {
   const { t } = useOwpTranslation();
   const muiTheme = useTheme();
-  const tableTheme = resolveOwpTableTheme(useTableTheme(), {
+  const tableTheme = resolveOwpTableTheme(useTableThemeConfig(), {
     ...defaultStyledTableTheme,
     borderColor: getDefaultTableBorderColor(muiTheme.palette.mode),
   });

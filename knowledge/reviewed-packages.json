@@ -1,18 +1,18 @@
 {
   "@owp/core": {
-    "version": "10.4.0",
-    "declarationHash": "1321b258a1860e9208c473eb0deef02c675ac656c573f0c3dc07886842c724cc",
-    "runtimeHash": "db1e346260b2cafeb685daa61fc267b31c73835b8c322593a3fa11dd95c42c98"
+    "version": "11.0.0",
+    "declarationHash": "fadc9ec13cabe4b9467b72a22d54e1ebfc7f849fd16584a455060f65e2342f27",
+    "runtimeHash": "45d4fe65fe8295c126739a5b371edb263cda4e5e0df863f714f7aacbe3f3111f"
   },
   "@owp/datagrid": {
-    "version": "3.5.5",
+    "version": "4.0.0",
     "declarationHash": "7bcc60733fff2bd34d9af4cd79687e4f87ef6ef9e720b84a98b0af455a5ea695",
-    "runtimeHash": "ef8409fa2288c76e497981a775ef076492cd4f8f5a66cafa8d8aac19dff4858a"
+    "runtimeHash": "c705db7ea6fa27e01fce21292a63244fc4f69100ed21d43eff84fa2296cb27c2"
   },
   "@owp/charts": {
-    "version": "6.1.1",
-    "declarationHash": "f1194fc56c9fdef6083608709eefb39279f5ea34c8ab53f5b0332835a53bc52e",
-    "runtimeHash": "a115ce11b5c79049cb39bba79f0b1b5f3dedaba727e2a135cc0032a7696abc96"
+    "version": "7.0.0",
+    "declarationHash": "7f2b6b5f69303a0dbae86f2addb1304476b7ce7b688298baf902cbb9b7825922",
+    "runtimeHash": "d6e3ab946942d4800201ac1a74facd88115851df4d98661d251bfc66e7b91e5e"
   },
   "chart.js": {
     "version": "4.5.1",
@@ -35,33 +35,33 @@
     "runtimeHash": "f966db5709e2e6281931b8119f15ebbe942e2cc2a4f2bc49d15bfe5739f2437d"
   },
   "@owp/components": {
-    "version": "4.0.2",
-    "declarationHash": "0b520571aff4f276c558de9dc5ff1585d053830faadf8a6c992f48d6e4bc9446",
-    "runtimeHash": "9c834fbbb332fe979a7838603caf40eebd39efeb719fc5234f8b68c9bc88a59d"
+    "version": "5.0.0",
+    "declarationHash": "23e17f11fba8aeb045fec66d00a4f8f6cea872831277f32e2de4110420dcd2e4",
+    "runtimeHash": "7b2467ae16d2ea0a44bda326447d0f0002c2143dc483a57c889728879c401110"
   },
   "@owp/theme": {
-    "version": "3.0.0",
-    "declarationHash": "83a3ff101d4a47311b29710fb15b5c7eff6e6c5ba5109713055a2cb7bb5b314c",
-    "runtimeHash": "4d253b5c8472703f25ec5cb58852caa5ea7de7072a8b192a610d2fcedcb5c919"
+    "version": "4.0.0",
+    "declarationHash": "e23aa9808335008439950698b0d01c311a64812da5f8c1c2cd1c44b7d07848e0",
+    "runtimeHash": "a29b1b62cba7156104eb7bddfcbfc4fd3431a110e1b63787452921c8fb3fa712"
   },
   "@owp/date-picker": {
-    "version": "2.1.2",
-    "declarationHash": "a24ac464e99279a05a69e6f8f1b4af0c3d31a45e82cc19de65cfb3a9ec5a2650",
-    "runtimeHash": "179ad35bd35b3d6ba56f6d7c2c5b6c95d9484225ec9ee564fee5cb43bb3ee2af"
+    "version": "3.0.0",
+    "declarationHash": "aa4eedd6b3572ec26bad235d5de3704a8675a278ca858eb80e1c7c35a7668261",
+    "runtimeHash": "5d75f70b9be4d0dc53fd1cadd36ced8d4b91d378cd359bd99ec255503c9597be"
   },
   "@owp/utils": {
-    "version": "1.1.0",
-    "declarationHash": "fc210d5086ecdc64234b29d74fa784c280184241411cab73c69874b2c41788f6",
-    "runtimeHash": "3076380a47b5583e166d921512743d516587a859255222f9cae8fd4b6234cb5c"
+    "version": "2.0.0",
+    "declarationHash": "26314270c105c3f33619b8694534cc5d0cbbb24adde9c5e0d223ec6d43aac784",
+    "runtimeHash": "4ce2e77ac330c9526e1fa3b0a3b8672ca3ce0dd8e91c245748808387d941d6e9"
   },
   "@owp/excel": {
-    "version": "3.0.0",
-    "declarationHash": "2139acb83ae50cb6758e7796608c6d46c4f616fe2e3ce1371c3a3cf864343160",
-    "runtimeHash": "585ea1d81605a00470f63659d1ac4fee4dcba4fcd1f3af7ba8d2c59ac6f2fe95"
+    "version": "4.0.0",
+    "declarationHash": "49c7fbfa3a22617aebee61028b40f91ee67d9fcd04a8798e9507048e0dd0baac",
+    "runtimeHash": "1a3fb37c569f9545557e58e7dda1265ef78048bd34c375b8c1b42502afd24de6"
   },
   "@owp/pdf": {
-    "version": "3.1.0",
-    "declarationHash": "08be08ec4fe152ccfe9337fc48723c030fd8fa79f685b032face3072b9297a47",
-    "runtimeHash": "49390b933dde3887d224005096f4c6ea386f3a7374d2a9d2e211c280956ff2ae"
+    "version": "4.0.0",
+    "declarationHash": "717a0b238906f551b323e1e5131cca86add19d31b5c3869c82923b202ae047f7",
+    "runtimeHash": "c464ce021df74ec8658302f83f09160f5fc5371881e484aef07b686433f1a638"
   }
 }

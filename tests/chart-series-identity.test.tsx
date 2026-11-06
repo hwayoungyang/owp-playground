@@ -95,4 +95,13 @@ describe('chart example series identity', () => {
       { id: 'actual-series', values: [8] },
     ]);
   });
+
+  it('keeps exotic explicit dataset IDs without deriving them from labels', () => {
+    const ids = ['__proto__', 'constructor', 'line/A:設備 가'];
+    const data = renderChartData(
+      ids.map((id) => ({ id, dataKey: 'actual', label: '같은 label', type: 'line' })),
+    );
+    expect(data.datasets.map((series) => series.id)).toEqual(ids);
+    expect(data.datasets.map((series) => series.data)).toEqual([[8], [8], [8]]);
+  });
 });

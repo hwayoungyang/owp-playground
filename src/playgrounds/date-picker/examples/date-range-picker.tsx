@@ -7,10 +7,10 @@ import {
 } from '@owp/date-picker';
 import dayjs from '@owp/date-picker/dayjs';
 import {
-  formatDateToYmd,
-  getTodayYmd,
-  VALUE_DATE_FORMATTER,
-  VALUE_MONTH_FORMATTER,
+  formatDate,
+  formatToday,
+  VALUE_DATE_FORMAT,
+  VALUE_MONTH_FORMAT,
 } from '@owp/date-picker/utils';
 import { Button, FormControl, InputLabel, MenuItem, Select, Tab, Tabs } from '@mui/material';
 import { useEffect, useId, useState } from 'react';
@@ -21,7 +21,7 @@ type DatePickerTab = 'date' | 'range' | 'month' | 'monthRange' | 'week';
 
 function stringifyPickerValue(value: string | Date | undefined, format: string): string {
   if (!value) return '';
-  return typeof value === 'string' ? value : formatDateToYmd(value, format);
+  return typeof value === 'string' ? value : formatDate(value, format);
 }
 
 export function formatWeekValue(value: string, toYearWeek: boolean): string {
@@ -127,7 +127,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   variant="outlined"
                   textFieldProps={{ size: 'small' }}
                   onChange={(next) => {
-                    const resolved = stringifyPickerValue(next, VALUE_DATE_FORMATTER);
+                    const resolved = stringifyPickerValue(next, VALUE_DATE_FORMAT);
                     setSingleDate(resolved);
                     onRecord('datePicker.singleDate', resolved || '(empty)');
                   }}
@@ -137,7 +137,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                     size="small"
                     variant="text"
                     onClick={() => {
-                      const today = getTodayYmd(VALUE_DATE_FORMATTER);
+                      const today = formatToday(VALUE_DATE_FORMAT);
                       setSingleDate(today);
                       onRecord('datePicker.fillToday', today);
                     }}
@@ -163,7 +163,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   variant="outlined"
                   textFieldProps={{ size: 'small' }}
                   onChange={(next) => {
-                    const resolved = stringifyPickerValue(next, VALUE_DATE_FORMATTER);
+                    const resolved = stringifyPickerValue(next, VALUE_DATE_FORMAT);
                     setDateRange(resolved);
                     onRecord('dateRangePicker.dateRange', resolved || '(empty)');
                   }}
@@ -186,7 +186,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   variant="outlined"
                   textFieldProps={{ size: 'small' }}
                   onChange={(next) => {
-                    const resolved = stringifyPickerValue(next, VALUE_MONTH_FORMATTER);
+                    const resolved = stringifyPickerValue(next, VALUE_MONTH_FORMAT);
                     setSingleMonth(resolved);
                     onRecord('datePicker.singleMonth', resolved || '(empty)');
                   }}
@@ -213,7 +213,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   variant="outlined"
                   textFieldProps={{ size: 'small' }}
                   onChange={(next) => {
-                    const resolved = stringifyPickerValue(next, VALUE_MONTH_FORMATTER);
+                    const resolved = stringifyPickerValue(next, VALUE_MONTH_FORMAT);
                     setMonthRange(resolved);
                     onRecord('dateRangePicker.monthRange', resolved || '(empty)');
                   }}
@@ -237,7 +237,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   variant="outlined"
                   textFieldProps={{ size: 'small' }}
                   onChange={(next) => {
-                    const resolved = stringifyPickerValue(next, VALUE_DATE_FORMATTER);
+                    const resolved = stringifyPickerValue(next, VALUE_DATE_FORMAT);
                     setWeekValue(resolved);
                     onRecord('weekDatePicker.change', resolved || '(empty)');
                   }}

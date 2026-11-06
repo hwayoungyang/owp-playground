@@ -1,4 +1,4 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { Box, Tab, Tabs, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import {
@@ -24,8 +24,6 @@ type ViewId = 'time' | 'dateTime' | 'wheel';
 export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps) {
   const { t } = useOwpTranslation();
   const baseId = useId();
-  const scope = useRef<HTMLDivElement>(null);
-  const scrollPosition = useRef<number | null>(null);
 
   const [activeView, setActiveView] = useState<ViewId>('time');
   const [activeMode, setActiveMode] = useState<ModeId>('24h');
@@ -35,12 +33,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
     '12h': { time: '14:15:00', dateTime: '2026-11-06 14:15:00', accepted: '' },
   });
 
-  const saveScrollPosition = () => {
-    scrollPosition.current = scope.current?.closest('main')?.scrollTop ?? null;
-  };
-
   const updateValues = (modeId: ModeId, next: Partial<TimeValues>) => {
-    saveScrollPosition();
     setValues((previous) => ({
       ...previous,
       [modeId]: { ...previous[modeId], ...next },
@@ -50,13 +43,6 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
   useEffect(() => {
     onData(values);
   }, [values, onData]);
-
-  useLayoutEffect(() => {
-    // 단독 휠의 선택 항목 정렬이나 탭/모드 전환이 바깥 메인 화면까지 스크롤하지 않게 합니다.
-    if (scrollPosition.current === null) return;
-    scope.current?.closest('main')?.scrollTo({ top: scrollPosition.current, behavior: 'instant' });
-    scrollPosition.current = null;
-  }, [values, activeView, activeMode]);
 
   const currentValues = values[activeMode];
   const useAmPm = activeMode === '12h';
@@ -86,13 +72,12 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
   }
 
   return (
-    <OwpDatePickerStyleScope ref={scope}>
+    <OwpDatePickerStyleScope>
       <div className="integration-demo">
         <div className="integration-demo-toolbar">
           <Tabs
             value={activeView}
             onChange={(_, next: ViewId) => {
-              saveScrollPosition();
               setActiveView(next);
             }}
             aria-label={t('시간·일시 선택')}
@@ -116,7 +101,6 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
             value={activeMode}
             onChange={(_, next: ModeId | null) => {
               if (next !== null) {
-                saveScrollPosition();
                 setActiveMode(next);
               }
             }}
@@ -142,7 +126,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   useAmPm={useAmPm}
                   label={t('시간 ({{mode}})', { mode: activeMode })}
                   value={currentValues.time}
-                  format={useAmPm ? 'hh:mm:ss A' : 'HH:mm:ss'}
+                  valueFormat="HH:mm:ss"
                   timeSteps={{ minutes: 5, seconds: 15 }}
                   variant="outlined"
                   textFieldProps={{ size: 'small' }}
@@ -151,6 +135,11 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                     onRecord('timePicker.' + activeMode, next || '(empty)');
                   }}
                 />
+                <Typography variant="caption" color="text.secondary">
+                  {t(
+                    'valueFormat은 HH:mm:ss로 값을 유지하고, useAmPm은 선택창의 오전·오후 표시를 제어합니다.',
+                  )}
+                </Typography>
               </div>
             </div>
           </div>

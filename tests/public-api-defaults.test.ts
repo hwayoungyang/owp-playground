@@ -14,37 +14,44 @@ afterEach(() => {
 });
 
 describe('공개 Props 기본값의 실제 근거', () => {
-  it('검토한 DataGrid 버전과 두 구현 파일이 일치할 때만 export 기본값을 보완한다', () => {
+  it('검토한 DataGrid 버전과 세 구현 파일이 일치할 때만 export 기본값을 보완한다', () => {
     const root = mkdtempSync(join(tmpdir(), 'owp-verified-defaults-'));
     directories.push(root);
     const installed = fileURLToPath(new URL('../node_modules/@owp/datagrid/', import.meta.url));
+    const installedRoot = fileURLToPath(new URL('..', import.meta.url));
+    const installedPackage: unknown = JSON.parse(readFileSync(join(installed, 'package.json'), 'utf8'));
+    expect(installedPackage).toMatchObject({ version: '4.0.0' });
+    const expected = {
+      OwpDataGridExportExcelButton: {
+        exportName: '"sheet"',
+        useAppendCurrentDateTimeToExportName: 'false',
+        saveMode: '"auto"',
+      },
+    };
+    expect(verifiedComponentDefaults(installedRoot, 'datagrid', '4.0.0')).toEqual(expected);
     const packageRoot = join(root, 'node_modules/@owp/datagrid');
-    const files = ['dist/index.js', 'dist/chunks/C8z2ndwY.js'];
+    const files = ['dist/index.js', 'dist/chunks/C8z2ndwY.js', 'dist/chunks/COyRmcMd.js'];
     for (const relative of files) {
       const file = join(packageRoot, relative);
       mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, readFileSync(join(installed, relative)));
     }
-    for (const version of ['3.5.4', '3.5.5']) {
-      expect(verifiedComponentDefaults(root, 'datagrid', version)).toEqual({
-        OwpDataGridExportExcelButton: {
-          exportName: '"sheet"',
-          useAppendCurrentDateTimeToExportName: 'false',
-          saveMode: '"auto"',
-        },
-      });
+    expect(verifiedComponentDefaults(root, 'datagrid', '4.0.0')).toEqual(expected);
+    for (const version of ['3.5.4', '3.5.5', '4.0.1']) {
+      expect(verifiedComponentDefaults(root, 'datagrid', version)).toEqual({});
     }
-    expect(verifiedComponentDefaults(root, 'datagrid', '3.5.6')).toEqual({});
-    expect(verifiedComponentDefaults(root, 'core', '3.5.5')).toEqual({});
+    expect(verifiedComponentDefaults(root, 'core', '4.0.0')).toEqual({});
     for (const relative of files) {
       const file = join(packageRoot, relative);
       const original = readFileSync(file);
       writeFileSync(file, Buffer.concat([original, Buffer.from('\n// changed\n')]));
-      expect(verifiedComponentDefaults(root, 'datagrid', '3.5.5'), relative).toEqual({});
+      expect(verifiedComponentDefaults(root, 'datagrid', '4.0.0'), relative).toEqual({});
+      writeFileSync(file, original);
+      rmSync(file);
+      expect(verifiedComponentDefaults(root, 'datagrid', '4.0.0'), relative).toEqual({});
       writeFileSync(file, original);
     }
-    rmSync(join(packageRoot, 'dist/chunks/C8z2ndwY.js'));
-    expect(verifiedComponentDefaults(root, 'datagrid', '3.5.5')).toEqual({});
+    expect(verifiedComponentDefaults(root, 'datagrid', '4.0.0')).toEqual(expected);
   });
 
   it('모듈 실행 없이 re-export·wrapper의 구조 분해 기본값을 추적한다', () => {

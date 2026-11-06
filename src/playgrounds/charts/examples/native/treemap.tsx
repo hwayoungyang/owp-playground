@@ -54,7 +54,7 @@ export function ChartExample(props: ChartExampleProps) {
         label: line,
         data: nodes,
         gap: 2,
-        sort: 'descending',
+        itemSort: 'descending',
         labels: true,
         minLabelWidth: 24,
         minLabelHeight: 18,
@@ -74,6 +74,7 @@ export function ChartExample(props: ChartExampleProps) {
     animation: { ...chartMotion.animation, duration: 160 },
     interaction: { mode: 'nearest', intersect: true, axis: 'xy' },
     layout: { padding: 0 },
+    groupSort: 'descending',
     onClick: (_event, items) =>
       props.onRecord?.(
         'click',

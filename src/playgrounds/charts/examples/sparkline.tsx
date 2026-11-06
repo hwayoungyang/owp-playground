@@ -1,4 +1,4 @@
-import { CoreChart } from '@owp/charts';
+import { ChartCanvas } from '@owp/charts';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { OwpDataGrid } from '@owp/datagrid';
 import type { OwpDataGridColumn } from '@owp/datagrid/types';
@@ -27,7 +27,7 @@ const Sparkline = memo(function Sparkline({ values }: { readonly values: readonl
         value: values.at(-1) ?? 0,
       })}
     >
-      <CoreChart
+      <ChartCanvas
         aria-hidden="true"
         type="line"
         data={{

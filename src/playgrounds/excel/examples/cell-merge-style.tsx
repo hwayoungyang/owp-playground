@@ -3,9 +3,9 @@ import {
   DEFAULT_CELL_ALIGNMENT,
   DEFAULT_HEADER_FILL,
   DEFAULT_HEADER_FONT,
-  exportExcelByBuffer,
-  getIndexByLetters,
-  getLettersByIndex,
+  downloadExcelBuffer,
+  columnLettersToNumber,
+  columnNumberToLetters,
   loadExcelJSBrowser,
   setCellValue,
   setMergeCells,
@@ -59,8 +59,8 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
 
   const selectedHighlight =
     highlightOptions.find((option) => option.id === highlightId) ?? highlightOptions[0];
-  const convertedLetter = getLettersByIndex(columnIndexInput);
-  const convertedIndex = getIndexByLetters(convertedLetter);
+  const convertedLetter = columnNumberToLetters(columnIndexInput);
+  const convertedIndex = columnLettersToNumber(convertedLetter);
 
   useEffect(() => {
     onData({
@@ -133,7 +133,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
       const subHeaders = [t('공정 코드'), t('항목'), t('측정치'), t('판정')];
       subHeaders.forEach((label, idx) => {
         setCellValue(worksheet, {
-          key: `${getLettersByIndex(idx + 1)}3`,
+          address: `${columnNumberToLetters(idx + 1)}3`,
           value: label,
           isHeader: true,
         });
@@ -145,7 +145,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
         cells.forEach((cellValue, colIdx) => {
           const isStatus = colIdx === 3;
           setCellValue(worksheet, {
-            key: `${getLettersByIndex(colIdx + 1)}${rowNumber}`,
+            address: `${columnNumberToLetters(colIdx + 1)}${rowNumber}`,
             value: cellValue,
             alignment: DEFAULT_CELL_ALIGNMENT,
             fill: isStatus
@@ -162,7 +162,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
       const buffer = await workbook.xlsx.writeBuffer();
       if (!mountedRef.current) return;
       if (mode === 'download') {
-        exportExcelByBuffer(buffer, 'quality-merge-report');
+        downloadExcelBuffer(buffer, 'quality-merge-report');
       }
       const summary = {
         byteLength: buffer.byteLength,
@@ -345,13 +345,13 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                     setColumnIndexInput(indexValue);
                     onRecord(
                       'excel.columnIndex',
-                      `${indexValue} -> ${getLettersByIndex(indexValue)}`,
+                      `${indexValue} -> ${columnNumberToLetters(indexValue)}`,
                     );
                   }}
                 >
                   {t('컬럼 {{index}} ({{letter}})', {
                     index: indexValue,
-                    letter: getLettersByIndex(indexValue),
+                    letter: columnNumberToLetters(indexValue),
                   })}
                 </Button>
               ))}
@@ -361,8 +361,8 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                 <TableHead>
                   <TableRow>
                     <TableCell>{t('컬럼 번호')}</TableCell>
-                    <TableCell>getLettersByIndex</TableCell>
-                    <TableCell>getIndexByLetters</TableCell>
+                    <TableCell>columnNumberToLetters</TableCell>
+                    <TableCell>columnLettersToNumber</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

@@ -9,7 +9,7 @@ export const chartRoles: Readonly<Record<string, readonly [string, string]>> = {
   ChartSeriesIndicator: ['차트 시리즈 표시', 'Chart series indicator'],
   ChartZoomResetButton: ['차트 확대 초기화 버튼', 'Reset chart zoom button'],
   ChartZoomSliders: ['차트 확대 범위 슬라이더', 'Chart zoom sliders'],
-  CoreChart: ['Chart.js 공통 차트', 'Shared Chart.js chart'],
+  ChartCanvas: ['Chart.js 공통 차트', 'Shared Chart.js chart'],
   createAreaChartData: ['영역 차트 데이터 생성', 'Create area chart data'],
   createAxisDomain: ['축 범위 생성', 'Create an axis domain'],
   createAxisTicks: ['축 눈금 생성', 'Create axis ticks'],

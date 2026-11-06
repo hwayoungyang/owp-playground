@@ -4,9 +4,9 @@ import {
   OwpThemeProvider,
   resolveOwpGridTheme,
   resolveOwpTableTheme,
-  useDatePickerTheme,
+  useDatePickerThemeConfig,
   useGridTheme,
-  useTableTheme,
+  useTableThemeConfig,
 } from '@owp/theme';
 import { Box, Typography, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
@@ -42,9 +42,9 @@ const surfacePresets = {
 
 function ScopedTokenConsumer() {
   const { t } = useOwpTranslation();
-  const tableTheme = useTableTheme();
+  const tableTheme = useTableThemeConfig();
   const gridTheme = useGridTheme('dataGrid');
-  const pickerTheme = useDatePickerTheme();
+  const pickerTheme = useDatePickerThemeConfig();
   const resolvedTable = resolveOwpTableTheme(tableTheme, defaultStyledTableTheme);
   const rowHoverBackground =
     tableTheme.row?.hoverBackgroundColor ?? resolvedTable.cell.backgroundColor;
@@ -84,7 +84,7 @@ function ScopedTokenConsumer() {
         rows={[
           {
             label: t('Table 헤더'),
-            api: 'useTableTheme',
+            api: 'useTableThemeConfig',
             value: colorValue(resolvedTable.header.backgroundColor, resolvedTable.header.color),
           },
           {
@@ -94,13 +94,13 @@ function ScopedTokenConsumer() {
           },
           {
             label: t('DatePicker 선택 배경'),
-            api: 'useDatePickerTheme',
+            api: 'useDatePickerThemeConfig',
             value: colorValue(
               pickerTheme.selectedBackground ?? '',
               pickerTheme.selectedColor ?? '',
             ),
           },
-          { label: 'radius', api: 'useTableTheme', value: tableTheme.borderRadius },
+          { label: 'radius', api: 'useTableThemeConfig', value: tableTheme.borderRadius },
         ]}
       />
     </Box>

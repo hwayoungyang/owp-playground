@@ -120,7 +120,7 @@ MCP는 공유 서버 <OWP_MCP_URL>/mcp에 Streamable HTTP로 연결해 Core의 A
 
 이 예제는 src/playgrounds/core/data의 JSON을 ?url&no-inline으로 불러 실제 same-origin 요청을 실행한다. 정상·빈 목록·실패 resultCode를 별도 파일로 제공하며 외부 서버와 fetch 교체를 사용하지 않는다. 정적 JSON은 서버 검색 조건을 처리하지 않는다. queryKeyDeps로 필터·언어 변경을 query key에 반영한다. queryClientConfig에서 retry=false로 설정해 실패 상태를 즉시 비교한다.
 
-OwpCommonCodeSelector와 OwpCommonCodeRadioGroup은 groupId에 맞는 초기화된 공통코드 cache가 필요하다. 실제 앱은 서버 초기화 과정에서 cache를 제공한다. 예제는 독립 OwpStoreProvider 안에서 공개 useSetCommonCodeList로 샘플을 넣고, setter가 기록한 sessionStorage 원문을 즉시 복원한다. 기존 cache 저장 내용을 보존한다.
+OwpCommonCodeSelector와 OwpCommonCodeRadioGroup은 groupId에 맞는 초기화된 공통코드 cache가 필요하다. 실제 앱은 서버 초기화 과정에서 cache를 제공한다. 예제는 독립 OwpStoreProvider 안에서 공개 useSetCommonCodesByGroup로 샘플을 넣고, setter가 기록한 sessionStorage 원문을 즉시 복원한다. 기존 cache 저장 내용을 보존한다.
 
 API 선택은 조회된 항목, 공통코드 선택은 공통코드 항목으로 라벨을 구분한다. 조회 결과 없음은 응답 본문이 없다는 뜻이 아니라 resultData가 빈 목록인 정상 응답. outlined Select는 표시 라벨과 OutlinedInput의 label을 함께 연결해 outline이 라벨 영역을 비우도록 구성한다.`,
   },
@@ -173,6 +173,6 @@ Core OwpStyleProvider는 앱 설정을 Theme와 Components에 전달한다. Tabl
 
 일반 render 오류는 Components OwpErrorBoundary, Data Router 오류 해석은 Core OwpRouteErrorElement를 사용한다. chunk 복구 callback은 Utils/browser에서 가져온다. 같은 URL·오류의 sessionStorage key당 한 번 reload를 시도하며 storage 실패 시 reload하지 않는다. 오류 보고 callback은 앱에서 지정한다.
 
-Excel 예제는 @owp/excel의 createExportDataToExcelBuffer와 exportExcelByBuffer를 MUI Button에서 호출한다. ZIP은 @owp/utils/zip의 saveZipFile에 파일 목록과 최종 다운로드 이름을 전달한다. 변환·번역·알림은 호출부가 정한다. createJsonBody·createJsonString은 OWP 요청 계약으로 Core에 남으며 중복 rebuildValue API는 제공하지 않는다.`,
+Excel 예제는 @owp/excel의 createExcelExport와 downloadExcelBuffer를 MUI Button에서 호출한다. ZIP은 @owp/utils/zip의 saveZipFile에 파일 목록과 최종 다운로드 이름을 전달한다. 변환·번역·알림은 호출부가 정한다. createJsonBody·createJsonString은 OWP 요청 계약으로 Core에 남으며 중복 rebuildValue API는 제공하지 않는다.`,
   },
 ];

@@ -77,7 +77,7 @@ const exampleTargets = {
     treemap: {
       type: '@owp/charts:ChartFrameProps.type',
       data: '@owp/charts:OwpTreemapChartProps.data',
-      style: '@owp/charts:OwpTreemapChartProps.style',
+      tileStyle: '@owp/charts:OwpTreemapChartProps.tileStyle',
       formatter: '@owp/charts:OwpTreemapChartProps.formatter',
     },
     heatmap: {
@@ -95,7 +95,7 @@ const ownPackages = new Set(knowledgePackages.map((entry) => entry.name));
 /** 예제의 컴포넌트와 선언의 참조 관계로 API 설명 대상을 확인합니다. */
 export function resolveExampleReferences({ packageId, examples, records, sourceText }) {
   const byId = new Map(records.map((record) => [record.id, record]));
-  const rootNames = packageId === 'datagrid' ? ['OwpDataGridProps', 'OwpDataGridColumn', 'OwpDataGridApi'] : packageId === 'core' ? [] : ['ChartFrameProps', 'CoreChartProps', 'ChartSeriesConfig', 'CreateChartDataParams'];
+  const rootNames = packageId === 'datagrid' ? ['OwpDataGridProps', 'OwpDataGridColumn', 'OwpDataGridApi'] : packageId === 'core' ? [] : ['ChartFrameProps', 'ChartCanvasProps', 'ChartSeriesConfig', 'CreateChartDataParams'];
   function follow(record, parts, seen = new Set()) {
     if (!record || seen.has(`${record.id}/${parts.join('.')}`)) return [];
     if (!parts.length) return [record];
@@ -105,7 +105,7 @@ export function resolveExampleReferences({ packageId, examples, records, sourceT
     return record.related.flatMap((id) => follow(byId.get(id), parts, seen));
   }
   return examples.map((example) => {
-    const component = sourceText.get(example.id)?.match(/<(Owp\w+|ChartFrame|CoreChart)(?:\s|<)/)?.[1];
+    const component = sourceText.get(example.id)?.match(/<(Owp\w+|ChartFrame|ChartCanvas)(?:\s|<)/)?.[1];
     const preferred = component ? [`${component}Props`, ...rootNames] : rootNames;
     const references = example.api.map((raw) => {
       const label = raw.includes(':') ? raw.slice(raw.indexOf(':') + 1) : raw;

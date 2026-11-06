@@ -58,7 +58,7 @@ function PageContentFixture({ loading, responsive, rows }) {
           <OwpExportDataToExcelButton
             exportName="core-items"
             header={[{ key: 'A1', value: '항목명' }]}
-            columnMappers={[{ key: 'name' }]} data={rows}
+            columnMappings={[{ key: 'name' }]} data={rows}
           >
             다운로드
           </OwpExportDataToExcelButton>

@@ -3,7 +3,7 @@ import { Alert, OutlinedInput } from '@mui/material';
 import { OwpCommonCodeRadioGroup, OwpCommonCodeSelector } from '@owp/core';
 import { OwpStoreProvider } from '@owp/core/contexts';
 import { STORAGE_KEYS } from '@owp/core/constants';
-import { useGetCommonCodeList, useSetCommonCodeList } from '@owp/core/hooks';
+import { useCommonCodesByGroup, useSetCommonCodesByGroup } from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { CoreExampleProps } from '../model/types';
 import { commonCodeGroup, queryFixture } from '../model/fixtures';
@@ -14,8 +14,8 @@ const selectorOptions = ['Select', 'RadioGroup'] as const;
 
 function CommonCodeDemo({ onRecord, onData }: CoreExampleProps) {
   const { t, i18n } = useOwpTranslation();
-  const setCodes = useSetCommonCodeList();
-  const codes = useGetCommonCodeList();
+  const setCodes = useSetCommonCodesByGroup();
+  const codes = useCommonCodesByGroup();
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [value, setValue] = useState('A');
   const [selector, setSelector] = useState<(typeof selectorOptions)[number]>('Select');
@@ -33,7 +33,7 @@ function CommonCodeDemo({ onRecord, onData }: CoreExampleProps) {
             'IPX_COMMONCODE.WDATE': '2026-10-24T00:00:00Z',
             'IPX_COMMONCODE.REMARK': 'Local Playground fixture',
             'IPX_COMMONCODE.DESCRIPTION': row.active ? 'active' : 'inactive',
-          }) satisfies ReturnType<typeof useGetCommonCodeList>[string][number],
+          }) satisfies NonNullable<ReturnType<typeof useCommonCodesByGroup>>[string][number],
       ),
     [i18n.language],
   );

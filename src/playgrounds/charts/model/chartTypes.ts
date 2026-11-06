@@ -1,4 +1,4 @@
-import type { CoreChartProps } from '@owp/charts/types';
+import type { ChartCanvasProps } from '@owp/charts/types';
 
 export type NativeChartType = 'bar' | 'line' | 'doughnut' | 'scatter' | 'bubble';
 export type NativeValue =
@@ -6,12 +6,12 @@ export type NativeValue =
   | [number, number]
   | { x: number; y: number | null; r?: number }
   | null;
-type CoreProps = CoreChartProps<NativeChartType, NativeValue[]>;
-export type NativeData = Omit<CoreProps['data'], 'datasets'> & {
-  readonly datasets: (CoreProps['data']['datasets'][number] & { readonly id?: string })[];
+type CanvasProps = ChartCanvasProps<NativeChartType, NativeValue[]>;
+export type NativeData = Omit<CanvasProps['data'], 'datasets'> & {
+  readonly datasets: (CanvasProps['data']['datasets'][number] & { readonly id?: string })[];
 };
-export type NativeOptions = NonNullable<CoreProps['options']>;
-export type NativePlugin = NonNullable<CoreProps['plugins']>[number];
+export type NativeOptions = NonNullable<CanvasProps['options']>;
+export type NativePlugin = NonNullable<CanvasProps['plugins']>[number];
 export type NativeInstance = NonNullable<
-  Extract<CoreProps['chartRef'], { current: unknown }>['current']
+  Extract<CanvasProps['chartRef'], { current: unknown }>['current']
 >;

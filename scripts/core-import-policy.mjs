@@ -17,7 +17,7 @@ register(
 register(
   '@owp/components/hooks',
   `
-  useOwpDialogs useConfirm ConfirmProps useDiscardGuard useOwpTranslation useResponsiveDevice
+  useOwpDialogs useConfirm UseConfirmOptions useDiscardGuard useOwpTranslation useResponsiveDevice
   useDialogOpenFocusCleanup useHeaderWrapState
 `,
 );
@@ -43,7 +43,7 @@ register(
   `
   OwpThemeProvider defaultTheme defaultThemes defaultThemeOptions mustHaveThemeOptions
   extendThemeWithMixins lightPaletteText darkPaletteText defaultSnackbarTheme snackbarVariantKeys
-  changeThemeMode getThemeWithButtonPaletteDefaults useGridTheme useTableTheme useDatePickerTheme
+  changeThemeMode getThemeWithButtonPaletteDefaults useGridTheme useTableThemeConfig useDatePickerThemeConfig
 `,
 );
 register(
@@ -64,7 +64,7 @@ register(
 register('@owp/utils/zip', 'saveZipFile readZipEntryText readZipEntryJson loadJSZip');
 register(
   '@owp/excel',
-  'loadExcelJSBrowser createExportDataToExcelBuffer exportExcelByBuffer ExcelDataMapper ExcelHeader OwpExcelJSBrowserModule',
+  'loadExcelJSBrowser createExcelExport downloadExcelBuffer ExcelColumnMapping ExcelHeader OwpExcelJSBrowserModule',
 );
 register(
   '@owp/core/query',

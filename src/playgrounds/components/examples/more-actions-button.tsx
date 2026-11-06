@@ -20,8 +20,11 @@ export function ComponentsExample(props: ComponentsExampleProps) {
         description="컴포넌트가 메뉴 열림을 관리하고 클릭한 작업에서 메뉴를 닫습니다."
       >
         <OwpMoreActionsButton
+          buttonSx={{ color: 'primary.main' }}
+          menuSx={{ minWidth: 180 }}
           actions={[
             {
+              id: 'view-detail',
               label: t('상세 보기'),
               onClick: ({ close }) => {
                 change('basic', 'detail');
@@ -29,6 +32,7 @@ export function ComponentsExample(props: ComponentsExampleProps) {
               },
             },
             {
+              id: 'clear-selection',
               label: t('선택 초기화'),
               onClick: ({ close }) => {
                 change('basic', 'clear');
@@ -54,6 +58,7 @@ export function ComponentsExample(props: ComponentsExampleProps) {
             onOpenChange={(open) => change('controlledOpen', open)}
             actions={[
               {
+                id: 'record-selection',
                 label: t('선택 기록'),
                 onClick: ({ close }) => {
                   change('controlledAction', 'selected');
@@ -71,6 +76,7 @@ export function ComponentsExample(props: ComponentsExampleProps) {
         <OwpMoreActionsButton
           actions={[
             {
+              id: 'upload-text-files',
               type: 'fileUpload',
               label: t('텍스트 파일 선택'),
               fileUploadProps: {

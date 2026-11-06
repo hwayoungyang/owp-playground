@@ -44,6 +44,7 @@ export function ComponentsExample(props: ComponentsExampleProps) {
             <OwpMoreActionsButton
               actions={[
                 {
+                  id: 'clear-file-list',
                   label: t('선택 목록 지우기'),
                   onClick: ({ close }) => {
                     change('files', []);

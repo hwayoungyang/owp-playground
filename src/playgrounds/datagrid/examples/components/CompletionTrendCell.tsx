@@ -1,12 +1,12 @@
 import { useOwpTranslation } from '@owp/components/hooks';
 import { Box, useTheme } from '@mui/material';
-import type { CoreChartProps } from '@owp/charts/types';
+import type { ChartCanvasProps } from '@owp/charts/types';
 import { lazy, Suspense } from 'react';
 import type { Task } from '../../types';
 import { initialTasks } from '../../model/data';
 
 const CompletionTrendChart = lazy(() =>
-  import('@owp/charts').then(({ CoreChart }) => ({ default: CoreChart })),
+  import('@owp/charts').then(({ ChartCanvas }) => ({ default: ChartCanvas })),
 );
 
 const trendOptions = {
@@ -15,7 +15,7 @@ const trendOptions = {
   maintainAspectRatio: false,
   plugins: { legend: { display: false }, tooltip: { enabled: false } },
   scales: { x: { display: false }, y: { display: false, min: -10, max: 110 } },
-} satisfies CoreChartProps<'line'>['options'];
+} satisfies ChartCanvasProps<'line'>['options'];
 
 export function CompletionTrendCell({ row }: { readonly row: Task }) {
   const { t } = useOwpTranslation();

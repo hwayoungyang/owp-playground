@@ -68,11 +68,11 @@ test('예제별 qualified ID는 직접 속성보다 우선하며 패키지를 �
   assert.deepEqual(
     resolve(
       [
-        record('@owp/charts:CoreChartProps'),
-        record('@owp/charts:CoreChartProps.animation'),
+        record('@owp/charts:ChartCanvasProps'),
+        record('@owp/charts:ChartCanvasProps.animation'),
         record(target),
       ],
-      { packageId: 'charts', id: 'sparkline', component: 'CoreChart', label: 'animation' },
+      { packageId: 'charts', id: 'sparkline', component: 'ChartCanvas', label: 'animation' },
     ),
     {
       label: 'animation',
@@ -333,7 +333,7 @@ const regressions = [
   ['charts', 'box-plot', 'BoxPlotDatasetOptions', '@owp/charts:BoxPlotDatasetOptions'],
   ['charts', 'box-plot', 'type', '@owp/charts:ChartFrameProps.type'],
   ['charts', 'treemap', 'type', '@owp/charts:ChartFrameProps.type'],
-  ['charts', 'treemap', 'style', '@owp/charts:OwpTreemapChartProps.style'],
+  ['charts', 'treemap', 'tileStyle', '@owp/charts:OwpTreemapChartProps.tileStyle'],
   ['charts', 'heatmap', 'type', '@owp/charts:ChartFrameProps.type'],
   ['charts', 'heatmap', 'domain', '@owp/charts:OwpHeatmapChartProps.domain'],
   ['datagrid', 'context-menu', 'getRows', '@owp/datagrid:OwpDataGridApi.getRows'],

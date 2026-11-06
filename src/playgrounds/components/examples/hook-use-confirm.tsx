@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Stack } from '@mui/material';
 import { OwpDialogsProvider } from '@owp/components/feedback';
-import { useConfirm, useOwpTranslation } from '@owp/components/hooks';
+import { useConfirm, useOwpTranslation, type UseConfirmOptions } from '@owp/components/hooks';
 import { ExampleResult, useExampleData, type SectionObserver } from './components/hook-observation';
 import type { ComponentsExampleProps } from '../model/types';
 import { ExampleSection } from '../runtime/ExampleSection';
@@ -22,27 +22,47 @@ function ConfirmSample({
 }) {
   const { t } = useOwpTranslation();
   const confirms = useConfirm();
-  const [result, setResult] = useState<boolean | null>(null);
+  const [result, setResult] = useState<boolean | null | undefined>(null);
+  const [callbackCount, setCallbackCount] = useState(0);
+  const [callbackResult, setCallbackResult] = useState<boolean | null>(null);
   const [method, setMethod] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   useEffect(() => {
-    report(id, { result, method, pending });
-  }, [report, id, result, method, pending]);
+    report(id, {
+      result: result === undefined ? 'undefined' : result,
+      method,
+      pending,
+      callbackCount,
+      callbackResult,
+    });
+  }, [report, id, result, method, pending, callbackCount, callbackResult]);
   async function request(kind: (typeof methods)[number]) {
     setPending(true);
+    setCallbackCount(0);
+    setCallbackResult(null);
     setMethod(kind);
     onRecord(`${id}.open`, kind);
     try {
+      const options: UseConfirmOptions = {
+        onClose: async (accepted) => {
+          setCallbackCount((count) => count + 1);
+          setCallbackResult(accepted);
+          await Promise.resolve();
+          onRecord(`${id}.onClose`, String(accepted));
+        },
+      };
       setResult(
         await (kind === 'confirm'
           ? confirms.confirm({
+              ...options,
               title: t('계속 진행하시겠습니까?'),
               description: t('확인하거나 취소할 수 있습니다.'),
               okText: t('확인'),
               cancelText: t('취소'),
             })
-          : confirms[kind]()),
+          : confirms[kind](options)),
       );
+      onRecord(`${id}.resolved`, kind);
     } finally {
       setPending(false);
     }
@@ -61,7 +81,15 @@ function ConfirmSample({
           </Button>
         ))}
       </Stack>
-      <ExampleResult value={{ method, result, pending }} />
+      <ExampleResult
+        value={{
+          method,
+          result: result === undefined ? 'undefined' : result,
+          pending,
+          callbackCount,
+          callbackResult,
+        }}
+      />
     </Stack>
   );
 }
@@ -72,7 +100,7 @@ export function ComponentsExample({ onData, onRecord }: ComponentsExampleProps) 
       <>
         <ExampleSection
           title="문구를 직접 지정한 확인창"
-          description="confirm에 제목과 버튼 문구를 지정하고 true 또는 false 결과를 받습니다."
+          description="onClose callback은 한 번 실행되고 완료 후 결과 Promise가 끝납니다. closeAll에서는 callback이 false를 받고 Promise 결과는 undefined입니다."
         >
           <ConfirmSample id="custom" methods={['confirm']} report={report} onRecord={onRecord} />
         </ExampleSection>

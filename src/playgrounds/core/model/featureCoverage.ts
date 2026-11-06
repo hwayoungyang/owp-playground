@@ -53,9 +53,9 @@ export const coreFeatureCoverage = [
       'OwpCommonCodeRadioGroup',
       'OwpCommonCodeSelector',
       'transformCommonCodeBasedOnGroupId',
-      'useFilteredCommonCodeList',
-      'useGetCommonCodeList',
-      'useSetCommonCodeList',
+      'useFilteredCommonCodes',
+      'useCommonCodesByGroup',
+      'useSetCommonCodesByGroup',
     ],
   },
   {
@@ -176,7 +176,7 @@ export const coreFeatureCoverage = [
     body: 'Core의 앱 기능과 Components·Theme·Excel·Utils의 공개 API를 필요한 위치에 직접 연결합니다. 공통 UI의 동작과 타입은 소유 패키지에서 확인합니다.',
     samples: ['getting-started', 'page-skeleton', 'query-selector', 'page-content', 'excel-export'],
     api: [
-      '@owp/excel:createExportDataToExcelBuffer',
+      '@owp/excel:createExcelExport',
       '@owp/components:OwpFieldTable',
       'OwpLayout',
       '@owp/components:OwpPageCarded',

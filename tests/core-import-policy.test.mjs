@@ -18,7 +18,7 @@ describe('strict Core import ownership', () => {
       import { defaultThemes } from '@owp/theme';
       import { recoverFromDynamicImportChunkLoadError } from '@owp/utils/browser';
       import { saveZipFile } from '@owp/utils/zip';
-      import { createExportDataToExcelBuffer } from '@owp/excel';
+      import { createExcelExport } from '@owp/excel';
       import { useQueryClient, QueryClientProvider, isCancelledError } from '@owp/core/query';
       import { OwpRouteErrorElement, OwpQuerySelector } from '@owp/core';
       import { useSearchAction, usePageLeaveGuard } from '@owp/core/hooks';

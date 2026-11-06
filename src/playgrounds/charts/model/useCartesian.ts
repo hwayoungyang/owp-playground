@@ -2,7 +2,7 @@ import { useChartPalette } from '@owp/charts';
 
 export { useChartPalette } from '@owp/charts';
 
-import type { ChartSeriesConfig, CoreChartProps } from '@owp/charts/types';
+import type { ChartSeriesConfig, ChartCanvasProps } from '@owp/charts/types';
 import { createChartColorMap, createChartData } from '@owp/charts/utils';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { useEffect, useMemo } from 'react';
@@ -10,7 +10,7 @@ import { chartMotion } from './chartMotion';
 import { monthlyRecords } from './data';
 import type { ChartExampleProps, ChartRecord } from './types';
 
-export type ChartOptions = NonNullable<CoreChartProps['options']>;
+export type ChartOptions = NonNullable<ChartCanvasProps['options']>;
 export type Series = ChartSeriesConfig<ChartRecord>;
 export function useMonthlyRecords() {
   const { t } = useOwpTranslation();
