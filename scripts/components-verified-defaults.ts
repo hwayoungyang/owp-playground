@@ -11,8 +11,8 @@ const gridFiles = {
 } as const;
 
 export function verifiedComponentDefaults(root: string, packageId: string, version: string): VerifiedDefaults {
-  // 4.0.0의 버튼·export helper와 streaming·buffered 파일명 helper를 검토한 SHA-256입니다.
-  if (packageId !== 'datagrid' || version !== '4.0.0') return {};
+  // 4.0.0·4.0.1의 버튼·export helper와 streaming·buffered 파일명 helper를 검토한 SHA-256입니다.
+  if (packageId !== 'datagrid' || (version !== '4.0.0' && version !== '4.0.1')) return {};
   for (const [relative, expected] of Object.entries(gridFiles)) {
     const file = resolve(root, 'node_modules/@owp/datagrid', relative);
     if (!existsSync(file) || createHash('sha256').update(readFileSync(file)).digest('hex') !== expected) return {};

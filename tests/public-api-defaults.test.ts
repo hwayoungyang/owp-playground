@@ -19,8 +19,10 @@ describe('공개 Props 기본값의 실제 근거', () => {
     directories.push(root);
     const installed = fileURLToPath(new URL('../node_modules/@owp/datagrid/', import.meta.url));
     const installedRoot = fileURLToPath(new URL('..', import.meta.url));
-    const installedPackage: unknown = JSON.parse(readFileSync(join(installed, 'package.json'), 'utf8'));
-    expect(installedPackage).toMatchObject({ version: '4.0.0' });
+    const installedPackage: unknown = JSON.parse(
+      readFileSync(join(installed, 'package.json'), 'utf8'),
+    );
+    expect(installedPackage).toMatchObject({ version: '4.0.1' });
     const expected = {
       OwpDataGridExportExcelButton: {
         exportName: '"sheet"',
@@ -28,7 +30,12 @@ describe('공개 Props 기본값의 실제 근거', () => {
         saveMode: '"auto"',
       },
     };
-    expect(verifiedComponentDefaults(installedRoot, 'datagrid', '4.0.0')).toEqual(expected);
+    const supportedVersions = ['4.0.0', '4.0.1'] as const;
+    for (const version of supportedVersions) {
+      expect(verifiedComponentDefaults(installedRoot, 'datagrid', version), version).toEqual(
+        expected,
+      );
+    }
     const packageRoot = join(root, 'node_modules/@owp/datagrid');
     const files = ['dist/index.js', 'dist/chunks/C8z2ndwY.js', 'dist/chunks/COyRmcMd.js'];
     for (const relative of files) {
@@ -36,22 +43,36 @@ describe('공개 Props 기본값의 실제 근거', () => {
       mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, readFileSync(join(installed, relative)));
     }
-    expect(verifiedComponentDefaults(root, 'datagrid', '4.0.0')).toEqual(expected);
-    for (const version of ['3.5.4', '3.5.5', '4.0.1']) {
+    for (const version of supportedVersions) {
+      expect(verifiedComponentDefaults(root, 'datagrid', version), version).toEqual(expected);
+      expect(verifiedComponentDefaults(root, 'core', version), version).toEqual({});
+    }
+    for (const version of ['3.5.4', '3.5.5', '4.0.2', '5.0.0']) {
       expect(verifiedComponentDefaults(root, 'datagrid', version)).toEqual({});
     }
-    expect(verifiedComponentDefaults(root, 'core', '4.0.0')).toEqual({});
     for (const relative of files) {
       const file = join(packageRoot, relative);
       const original = readFileSync(file);
       writeFileSync(file, Buffer.concat([original, Buffer.from('\n// changed\n')]));
-      expect(verifiedComponentDefaults(root, 'datagrid', '4.0.0'), relative).toEqual({});
+      for (const version of supportedVersions) {
+        expect(
+          verifiedComponentDefaults(root, 'datagrid', version),
+          `${version}: ${relative}`,
+        ).toEqual({});
+      }
       writeFileSync(file, original);
       rmSync(file);
-      expect(verifiedComponentDefaults(root, 'datagrid', '4.0.0'), relative).toEqual({});
+      for (const version of supportedVersions) {
+        expect(
+          verifiedComponentDefaults(root, 'datagrid', version),
+          `${version}: ${relative}`,
+        ).toEqual({});
+      }
       writeFileSync(file, original);
     }
-    expect(verifiedComponentDefaults(root, 'datagrid', '4.0.0')).toEqual(expected);
+    for (const version of supportedVersions) {
+      expect(verifiedComponentDefaults(root, 'datagrid', version), version).toEqual(expected);
+    }
   });
 
   it('모듈 실행 없이 re-export·wrapper의 구조 분해 기본값을 추적한다', () => {

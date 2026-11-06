@@ -6,10 +6,11 @@ import { corePackage } from '../src/playgrounds/packages';
 import { coreEnglish } from '../src/playgrounds/core/locales/en';
 import { readCodeLocation } from '../src/features/code/code-location';
 import { exampleSourcePath } from '../src/features/code/source-paths';
+import projectPackage from '../package.json' with { type: 'json' };
 
 describe('Core Playground integration', () => {
-  it('uses the installed 11.0.0 contract and a useful default route', () => {
-    expect(corePackage.version).toBe('11.0.0');
+  it('uses the pinned Core version and a useful default route', () => {
+    expect(corePackage.version).toBe(projectPackage.dependencies['@owp/core']);
     expect(readPlaygroundRoute('?package=%40owp%2Fcore')).toMatchObject({
       status: 'core',
       playground: { id: 'core' },

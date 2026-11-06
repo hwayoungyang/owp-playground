@@ -11,6 +11,7 @@ import {
 } from '../scripts/source-resources';
 import { gridCatalog } from '../src/playgrounds/datagrid/catalog';
 import { coreCatalog } from '../src/playgrounds/core/catalog';
+import projectPackage from '../package.json' with { type: 'json' };
 
 const roots: string[] = [];
 async function fixture(files: Readonly<Record<string, string>>) {
@@ -45,7 +46,7 @@ describe('source resources', () => {
         '/src/playgrounds/core/styles.css',
       ],
     });
-    expect(manifest.packageVersion).toBe('11.0.0');
+    expect(manifest.packageVersion).toBe(projectPackage.dependencies['@owp/core']);
     expect(manifest.samples.map((sample) => sample.id)).toEqual(
       coreCatalog.map((sample) => sample.id),
     );
