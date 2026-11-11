@@ -4,10 +4,12 @@ import path from 'node:path';
 import { connectBrowserForVerification } from './browser-session.mjs';
 import { parseSync, Visitor } from 'vite';
 import { legacySourcePaths } from '../src/features/code/source-paths.ts';
+import { readSourceResources } from './source-resources.ts';
 
 const origin = process.env.PLAYGROUND_URL ?? 'http://127.0.0.1:4173';
 const output = '.omo/evidence/structure';
 const files = (await readdir('src', { recursive: true })).filter(file => /\.(?:ts|tsx|css|json)$/.test(file));
+const resources = await readSourceResources(process.cwd());
 for (const file of files.filter(file => /\.(?:ts|tsx)$/.test(file))) {
   const source = await readFile(`src/${file}`, 'utf8');
   const parsed = parseSync(file, source);
@@ -17,6 +19,12 @@ for (const file of files.filter(file => /\.(?:ts|tsx)$/.test(file))) {
     if (typeof specifier !== 'string' || !specifier.startsWith('.')) return;
     if (new URLSearchParams(specifier.split('?')[1]).has('raw')) return;
     const base = path.posix.normalize(path.posix.join(path.posix.dirname(file), specifier.split('?')[0]));
+    const installedManifest = /^\.\.\/node_modules\/(@owp\/[a-z][a-z0-9-]*)\/package\.json$/.exec(base);
+    if (installedManifest) {
+      // 소스 수집기가 이름·버전을 검증한 설치 metadata는 snippet 의존성이 아닙니다.
+      assert.ok(resources.get(`/src/${file}`)?.externalImports.includes(installedManifest[1]), `${file} -> ${specifier}`);
+      return;
+    }
     assert.ok([base, `${base}.ts`, `${base}.tsx`, `${base}.css`, `${base}/index.ts`].some(candidate => files.includes(candidate)), `${file} -> ${specifier}`);
     if (file.startsWith('shared/') || file.startsWith('features/code/') && file !== 'features/code/source-paths.ts') {
       assert.ok(!base.startsWith('playgrounds/') && !base.startsWith('app/'), `Shared ownership: ${file} -> ${specifier}`);

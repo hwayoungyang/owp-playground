@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { knowledge, packageDataset, recordsById } from './fixtures/api-knowledge';
 import { completedPlaygroundPackages } from '../src/playgrounds/packages';
 import projectPackage from '../package.json' with { type: 'json' };
+import chartsManifest from '@owp/charts/package.json' with { type: 'json' };
 
 describe('installed package export contracts', () => {
   it('keeps the OWP QueryKey and the TanStack reexport distinct', () => {
@@ -70,7 +71,7 @@ describe('installed package export contracts', () => {
     expect(chartData?.imports).toContain('@owp/charts/chartjs/types');
     expect(chartData?.related).toContain('chart.js:ChartData');
     expect(nativeData?.package).toBe('chart.js');
-    expect(nativeData?.packageVersion).toBe('4.5.1');
+    expect(nativeData?.packageVersion).toBe(chartsManifest.dependencies['chart.js']);
     expect(helper?.imports).toEqual([
       '@owp/charts/chartjs',
       '@owp/charts/chartjs/utils',

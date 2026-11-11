@@ -11,6 +11,7 @@ import {
 } from '../scripts/source-resources';
 import { gridCatalog } from '../src/playgrounds/datagrid/catalog';
 import { coreCatalog } from '../src/playgrounds/core/catalog';
+import { integrationExamplesFor } from '../src/playgrounds/integrations/catalog';
 import projectPackage from '../package.json' with { type: 'json' };
 
 const roots: string[] = [];
@@ -31,6 +32,30 @@ afterEach(async () => {
 });
 
 describe('source resources', () => {
+  it.each(['utils', 'date-picker'])(
+    'collects the original %s integration entrypoints and public imports',
+    async (packageId) => {
+      const root = path.resolve(import.meta.dirname, '..');
+      const resources = await readSourceResources(root);
+      const manifest = await createPackageSourceManifest({
+        root,
+        resources,
+        catalog: integrationExamplesFor(packageId).map((entry) => ({ ...entry, kind: 'example' })),
+        packageName: `@owp/${packageId}`,
+      });
+      const id = packageId === 'utils' ? 'value-format' : 'kst-date-time';
+      const sample = manifest.samples.find((entry) => entry.id === id);
+      expect(sample?.entrypoint).toBe(`/snippets/playgrounds/${packageId}/examples/${id}.tsx`);
+      expect(sample?.externalImports).toContain(
+        packageId === 'utils' ? '@owp/utils' : '@owp/date-picker/utils',
+      );
+      const entry = sample?.files.find((file) => file.path === sample.entrypoint);
+      const source = await readFile(
+        path.join(root, `src/playgrounds/${packageId}/examples/${id}.tsx`),
+      );
+      expect(entry?.sha256).toBe(createHash('sha256').update(source).digest('hex'));
+    },
+  );
   it('includes Core providers, styles and fetched JSON with the deployment base path', async () => {
     const root = path.resolve(import.meta.dirname, '..');
     const resources = await readSourceResources(root);

@@ -1,4 +1,9 @@
 export const integrationsEnglish: Readonly<Record<string, string>> = {
+  'KST 날짜·시간 유틸리티': 'KST date and time utilities',
+  'Unix 밀리초의 KST 포맷·날짜 조정·자정 계산과 문자열 파싱을 확인합니다.':
+    'Explore KST formatting, date adjustment, midnight calculation, and string parsing using Unix milliseconds.',
+  '숫자·문자열 변환과 값 존재 여부를 비교하고 폼 기본값을 병합합니다.':
+    'Compare number and string conversions and value presence, and merge form defaults.',
   '패키지 실행 영역': 'Package workspace',
   '날짜·시간 선택': 'Date & time selection',
   '워크시트와 내보내기': 'Worksheets & export',

@@ -1,4 +1,18 @@
 export const focusedUtilsEnglish: Readonly<Record<string, string>> = {
+  '값 존재 여부': 'Value presence',
+  'hasValue는 null·undefined·빈 문자열만 제외합니다. 0·false·공백 문자열·NaN은 유지합니다.':
+    'hasValue excludes only null, undefined, and empty strings. It retains 0, false, whitespace strings, and NaN.',
+  '타입이 있는 입력 예시': 'Typed input preset',
+  '직접 입력 (문자열)': 'Custom input (string)',
+  '값 존재 여부 비교': 'Value presence comparison',
+  '원본 값과 타입': 'Original value and type',
+  '원본의 빈 값 여부': 'Is the original value empty',
+  '원본에서 두 판정은 반대입니다.': 'The two checks are opposites for the original value.',
+  '문자열 공백 제거 결과': 'Trimmed string result',
+  '문자열에만 적용합니다.': 'Applies only to strings.',
+  '공백 제거 후 값 존재 여부': 'Value presence after trimming',
+  '필터 입력 (예시 + 현재 값)': 'Filter input (presets + current value)',
+  '필터 결과 (0과 false 유지)': 'Filter result (retains 0 and false)',
   '소수 자릿수': 'Fraction digits',
   '입력 프리셋': 'Input preset',
   '소수 포함': 'Decimal',

@@ -1,18 +1,19 @@
 # OWP Playground
 
-MUI 기반 OWP 컴포넌트를 실행하고 소스 코드를 확인할 수 있는 Playground입니다. `@owp/datagrid`, `@owp/charts`, `@owp/core`의 실행 예제와 시작 가이드를 제공합니다. 현재 [package.json](./package.json)에 고정된 OWP dependencies는 다음과 같습니다.
+MUI 기반 OWP 컴포넌트를 실행하고 소스 코드를 확인할 수 있는 Playground입니다. `@owp/datagrid`, `@owp/charts`, `@owp/core`의 실행 예제와 시작 가이드를 제공합니다. 현재 [package.json](./package.json)에 고정된 OWP 패키지 버전은 다음과 같습니다.
 
 | 패키지 | 버전 |
 | --- | --- |
-| `@owp/datagrid` | `4.0.1` |
-| `@owp/charts` | `7.0.1` |
-| `@owp/core` | `11.0.1` |
-| `@owp/components` | `5.0.1` |
-| `@owp/date-picker` | `3.0.1` |
-| `@owp/utils` | `2.0.0` |
-| `@owp/theme` | `4.0.0` |
-| `@owp/excel` | `4.0.0` |
+| `@owp/datagrid` | `4.0.2` |
+| `@owp/charts` | `7.0.2` |
+| `@owp/core` | `11.0.2` |
+| `@owp/components` | `5.0.2` |
+| `@owp/date-picker` | `3.1.0` |
+| `@owp/utils` | `2.1.0` |
+| `@owp/theme` | `4.0.1` |
+| `@owp/excel` | `4.0.1` |
 | `@owp/pdf` | `4.0.0` |
+| `@owp/tailwind-config` (devDependencies) | `4.0.1` |
 
 `@owp/utils`는 Core·Components에서 분리된 공통 값·browser·barcode·QR·ZIP 유틸리티 패키지입니다. 직접 사용하는 함수는 `@owp/utils` 또는 `@owp/utils/browser` 등 기능별 public entry에서 import합니다. Core·Components는 이관된 함수의 호환 export를 제공하지 않습니다. DataGrid의 숫자 변환·focus 처리는 패키지 내부에서 Utils를 사용하므로 기존 DataGrid public API와 샘플의 `numberOptions` 설정은 유지합니다.
 

@@ -132,7 +132,6 @@ export function harness(factoryOptions: Partial<CreateOwpApiHooksOptions> = {}) 
 export function renderApiHook<Result>(client: QueryClient, useRead: () => Result): Result {
   let result: { readonly value: Result } | undefined;
   function Reader() {
-    // oxlint-disable-next-line react/globals -- SSR 검증은 Effect 없이 hook 반환값만 캡처합니다.
     result = { value: useRead() };
     return null;
   }

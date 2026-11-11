@@ -7,6 +7,58 @@ import projectPackage from '../package.json' with { type: 'json' };
 const guides = knowledge.records.filter((record) => record.kind === 'guide');
 
 describe('standalone guide metadata', () => {
+  it.each([
+    {
+      packageId: 'utils',
+      importPath: '@owp/utils',
+      guide: '@owp/utils:guide.value-presence',
+      names: ['hasValue'],
+    },
+    {
+      packageId: 'date-picker',
+      importPath: '@owp/date-picker/utils',
+      guide: '@owp/date-picker:guide.kst-date-time',
+      names: [
+        'formatKstDateTime',
+        'getKstToday',
+        'getKstCurrentTime',
+        'getKstCurrentDateTime',
+        'getKstDate',
+        'getKstDayStart',
+        'parseKstDateTime',
+        'KstDateOptions',
+      ],
+    },
+  ])(
+    'exports $packageId utility contracts without inventing Knowledge execution examples',
+    ({ packageId, importPath, guide, names }) => {
+      // Given / When
+      const contracts = names.map((name) =>
+        knowledge.records.find((record) => record.id === `@owp/${packageId}:${name}`),
+      );
+      const utilityGuide = knowledge.records.find((record) => record.id === guide);
+      // Then
+      expect(utilityGuide?.kind).toBe('guide');
+      expect(utilityGuide?.examples).toEqual([]);
+      expect(knowledge.examples.filter((example) => example.packageId === packageId)).toEqual([]);
+      for (const record of contracts) {
+        expect(record?.imports).toEqual([importPath]);
+        expect(record?.guideIds).toContain(guide);
+      }
+    },
+  );
+
+  it('retains the installed KST option defaults in generated type members', () => {
+    // Given / When
+    const defaults = ['months', 'days', 'startOfMonth'].map(
+      (name) =>
+        knowledge.records.find((record) => record.id === `@owp/date-picker:KstDateOptions.${name}`)
+          ?.defaultDescription,
+    );
+    // Then
+    expect(defaults).toEqual(['0', '0', 'false']);
+  });
+
   it('routes every supported package API and guide through its canonical owner', () => {
     expect(data.packages.map((entry) => entry.id)).toEqual([
       'datagrid',

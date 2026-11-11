@@ -41,6 +41,8 @@ export const integrationExampleLoaders: Readonly<
     import('../date-picker/examples/date-range-picker'),
   'playgrounds/date-picker/examples/time-picker.tsx': () =>
     import('../date-picker/examples/time-picker'),
+  'playgrounds/date-picker/examples/kst-date-time.tsx': () =>
+    import('../date-picker/examples/kst-date-time'),
   'playgrounds/excel/examples/data-export.tsx': () => import('../excel/examples/data-export'),
   'playgrounds/excel/examples/cell-merge-style.tsx': () =>
     import('../excel/examples/cell-merge-style'),

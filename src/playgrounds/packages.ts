@@ -7,6 +7,7 @@ import excelManifest from '@owp/excel/package.json' with { type: 'json' };
 import pdfManifest from '@owp/pdf/package.json' with { type: 'json' };
 import themeManifest from '@owp/theme/package.json' with { type: 'json' };
 import utilsManifest from '@owp/utils/package.json' with { type: 'json' };
+import tailwindManifest from '../../node_modules/@owp/tailwind-config/package.json' with { type: 'json' };
 import { z } from 'zod';
 
 export const playgroundPackageIdSchema = z.string().regex(/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/);
@@ -66,7 +67,7 @@ export const packageCatalog = [
   available('pdf', pdfManifest.version),
   available('theme', themeManifest.version),
   available('utils', utilsManifest.version),
-  available('tailwind-config', '4.0.0'),
+  available('tailwind-config', tailwindManifest.version),
 ] as const;
 
 /** 설치본의 공개 API와 가이드를 검증해 Knowledge로 제공하는 패키지입니다. */

@@ -4,6 +4,7 @@ import { McpGettingStarted } from '../features/mcp/McpGettingStarted';
 import { PlaygroundLink } from '../shared/ui/PlaygroundLink';
 import { GettingStartedHeader } from '../shared/ui/GettingStartedHeader';
 import { hasStandaloneGuide, packageGuideEntry } from './introductions';
+import { getUtilityGuide } from './integrations/utility-guides';
 
 export function PackageGettingStarted({
   playground,
@@ -19,6 +20,7 @@ export function PackageGettingStarted({
   if (!hasStandaloneGuide(playground.id) || !playground.version)
     throw new RangeError(`Unknown package guide: ${playground.id}`);
   const example = packageGuideEntry(playground);
+  const utilityGuide = getUtilityGuide(playground.id);
   return (
     <section className="workspace getting-started" aria-label={t('설치 및 사용 안내')}>
       <GettingStartedHeader example={example} packageId={playground.id} />
@@ -63,6 +65,22 @@ export function PackageGettingStarted({
             {t('{{packageName}} API 보기', { packageName: playground.name })}
           </PlaygroundLink>
         </section>
+        {utilityGuide && (
+          <section aria-labelledby={`${playground.id}-utilities`}>
+            <h2 id={`${playground.id}-utilities`}>{t(utilityGuide.title)}</h2>
+            {utilityGuide.sections.map((section) => (
+              <section key={section.title}>
+                <h3>{t(section.title)}</h3>
+                <p>{t(section.body)}</p>
+              </section>
+            ))}
+            <PlaygroundLink
+              href={`?${new URLSearchParams({ package: playground.id, sample: utilityGuide.sample, lang: i18n.language })}`}
+            >
+              {t('실행 예제에서 확인하기')}
+            </PlaygroundLink>
+          </section>
+        )}
       </div>
     </section>
   );

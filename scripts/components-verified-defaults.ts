@@ -9,11 +9,18 @@ const gridFiles = {
   'dist/chunks/C8z2ndwY.js': 'de83161ff79c79adf5093200a3b857248ef5ad4cb15fe396c296ac1e68e90afd',
   'dist/chunks/COyRmcMd.js': '3273e18e07abb024b1d2c97915f050b42345b7bd276d5b36e351fedf5732e5d9',
 } as const;
+const verifiedGridFiles: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+  '4.0.0': gridFiles,
+  '4.0.1': gridFiles,
+  '4.0.2': { ...gridFiles, 'dist/index.js': 'ef72d50068fc60bda6590ca205b912c32fcfd07cb3dd0bfc0481ff5640c92623' },
+};
 
 export function verifiedComponentDefaults(root: string, packageId: string, version: string): VerifiedDefaults {
-  // 4.0.0·4.0.1의 버튼·export helper와 streaming·buffered 파일명 helper를 검토한 SHA-256입니다.
-  if (packageId !== 'datagrid' || (version !== '4.0.0' && version !== '4.0.1')) return {};
-  for (const [relative, expected] of Object.entries(gridFiles)) {
+  // 버전별 버튼·export helper와 streaming·buffered 파일명 helper를 검토한 SHA-256입니다.
+  if (packageId !== 'datagrid' || !Object.hasOwn(verifiedGridFiles, version)) return {};
+  const files = verifiedGridFiles[version];
+  if (!files) return {};
+  for (const [relative, expected] of Object.entries(files)) {
     const file = resolve(root, 'node_modules/@owp/datagrid', relative);
     if (!existsSync(file) || createHash('sha256').update(readFileSync(file)).digest('hex') !== expected) return {};
   }

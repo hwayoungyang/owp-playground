@@ -21,6 +21,9 @@ describe('한국어 API 참조 문체', () => {
     ).toBe('앱에서 실행합니다. `소비앱` 또는 "소비 앱"은 인용입니다.');
   });
   it.each([
+    ['호스트 DST의 영향을 피한다. 날짜를 파싱한다.', '호스트 DST의 영향을 피함. 날짜 파싱.'],
+    ['days는 Math.round로 반올림합니다.', 'days는 Math.round로 반올림.'],
+    ['반대 결과입니다. 다른 연산입니다. Unix 밀리초입니다.', '반대 결과. 다른 연산. Unix 밀리초.'],
     [
       '같은 검색 폼입니다. 같은 화면 구조입니다. 값을 받습니다. 대상을 좁힙니다.',
       '같은 검색 폼. 같은 화면 구조. 값을 받음. 대상을 좁힘.',
@@ -181,7 +184,7 @@ describe('한국어 API 참조 문체', () => {
   });
 
   it('모든 가이드의 description·body 문체와 API·예제 참조를 유지한다', () => {
-    expect(guides).toHaveLength(38);
+    expect(guides).toHaveLength(40);
     for (const guide of guides) {
       expect(proseEnding.test(guide.description), guide.id).toBe(false);
       expect(proseEnding.test(guide.body), guide.id).toBe(false);

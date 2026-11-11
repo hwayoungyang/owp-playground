@@ -1,10 +1,10 @@
-import { OwpTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
 import {
   formatNumber,
   getDisplayValue,
   getFormDefaultValues,
   getTrimmedValue,
+  hasValue,
   isNilOrEmptyString,
   toFiniteNumber,
 } from '@owp/utils';
@@ -22,6 +22,12 @@ import {
 import { useEffect, useId, useMemo, useState } from 'react';
 import { DemoResultTable } from '../../integrations/DemoResultTable';
 import type { IntegrationExampleProps } from '../../integrations/catalog';
+import { describeValue, presencePresets, ValuePresencePanel } from './value-presence-panel';
+import {
+  defaultFormTarget,
+  serverPayloadPresets,
+  FormDefaultsPanel,
+} from './form-default-values-panel';
 
 const inputPresets = [
   { id: 'decimal', label: '소수 포함', raw: '  1284500.456  ' },
@@ -30,37 +36,31 @@ const inputPresets = [
   { id: 'invalid', label: '비숫자', raw: '  N/A  ' },
 ] as const;
 
-const defaultFormTarget = {
-  code: 'LINE-DEFAULT',
-  quantity: 10,
-  manager: '미지정',
-};
-
-const serverPayloadPresets = {
-  prefixed: {
-    label: '점(.) 경로 키 병합',
-    payload: {
-      'order.code': 'LINE-A200',
-      'order.quantity': 85,
-      'order.ignoredKey': '제외됨',
-    },
-  },
-  partial: {
-    label: '일부 필드만 전달',
-    payload: {
-      code: 'LINE-B310',
-    },
-  },
-} as const;
-
 export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps) {
   const { t } = useOwpTranslation();
   const baseId = useId();
-  const [view, setView] = useState<'format' | 'form'>('format');
+  const [view, setView] = useState<'format' | 'form' | 'presence'>('format');
   const [rawInput, setRawInput] = useState('  1284500.456  ');
   const [fractionDigits, setFractionDigits] = useState<0 | 2 | 3>(2);
   const [emptyFallback, setEmptyFallback] = useState('-');
   const [payloadKey, setPayloadKey] = useState<keyof typeof serverPayloadPresets>('prefixed');
+  const [presenceKey, setPresenceKey] = useState('null');
+  const [presenceInput, setPresenceInput] = useState('');
+  const originalValue =
+    presenceKey === 'custom'
+      ? presenceInput
+      : presencePresets.find((preset) => preset.id === presenceKey)?.value;
+  const presence = useMemo(() => {
+    const values = [...presencePresets.map((preset) => preset.value), originalValue];
+    return {
+      original: describeValue(originalValue),
+      hasValue: hasValue(originalValue),
+      isNilOrEmptyString: isNilOrEmptyString(originalValue),
+      trimmed: typeof originalValue === 'string' ? getTrimmedValue(originalValue) : null,
+      input: values.map(describeValue),
+      filtered: values.filter(hasValue).map(describeValue),
+    };
+  }, [originalValue]);
 
   const trimmed = getTrimmedValue(rawInput);
   const nilOrEmpty = isNilOrEmptyString(trimmed);
@@ -87,6 +87,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
       displayText,
       payloadKey,
       mergedFormValues,
+      presence,
     });
   }, [
     rawInput,
@@ -99,14 +100,17 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
     payloadKey,
     mergedFormValues,
     onData,
+    presence,
   ]);
 
   return (
     <section className="integration-demo" aria-label={t('숫자·문자열 포맷과 공백·빈 값 처리')}>
       <Tabs
         value={view}
-        onChange={(_, next: 'format' | 'form') => setView(next)}
+        onChange={(_, next: 'format' | 'form' | 'presence') => setView(next)}
         aria-label={t('값 변환 예제')}
+        variant="scrollable"
+        scrollButtons="auto"
       >
         <Tab
           value="format"
@@ -115,13 +119,19 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
           aria-controls={`${baseId}-panel-format`}
         />
         <Tab
+          value="presence"
+          label={t('값 존재 여부')}
+          id={`${baseId}-tab-presence`}
+          aria-controls={`${baseId}-panel-presence`}
+        />
+        <Tab
           value="form"
           label={t('폼 기본값')}
           id={`${baseId}-tab-form`}
           aria-controls={`${baseId}-panel-form`}
         />
       </Tabs>
-      {view === 'format' ? (
+      {view === 'format' && (
         <div
           role="tabpanel"
           id={`${baseId}-panel-format`}
@@ -202,55 +212,26 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
             ]}
           />
         </div>
-      ) : (
-        <div
-          role="tabpanel"
-          id={`${baseId}-panel-form`}
-          aria-labelledby={`${baseId}-tab-form`}
-          className="integration-demo"
-        >
-          <FormControl size="small" className="integration-demo-select">
-            <InputLabel id={`${baseId}-form-preset-label`}>{t('입력 예시')}</InputLabel>
-            <Select
-              labelId={`${baseId}-form-preset-label`}
-              label={t('입력 예시')}
-              value={payloadKey}
-              onChange={(event) => {
-                const next = event.target.value;
-                if (next !== 'prefixed' && next !== 'partial') return;
-                setPayloadKey(next);
-                onRecord('utils.formDefaultPreset', next);
-              }}
-            >
-              {(Object.keys(serverPayloadPresets) as Array<keyof typeof serverPayloadPresets>).map(
-                (key) => (
-                  <MenuItem key={key} value={key}>
-                    {t(serverPayloadPresets[key].label)}
-                  </MenuItem>
-                ),
-              )}
-            </Select>
-          </FormControl>
-          <div className="integration-result-table">
-            <OwpTable
-              sx={{ '& th, & td': { textAlign: 'left' } }}
-              size="small"
-              aria-label={t('폼 기본값 병합 결과')}
-              headers={{
-                field: t('필드 키'),
-                defaultValue: t('기본값'),
-                mergedValue: t('병합된 값'),
-              }}
-              rows={(Object.keys(defaultFormTarget) as Array<keyof typeof defaultFormTarget>).map(
-                (fieldKey) => ({
-                  field: <code>{fieldKey}</code>,
-                  defaultValue: String(defaultFormTarget[fieldKey]),
-                  mergedValue: String(mergedFormValues[fieldKey]),
-                }),
-              )}
-            />
-          </div>
-        </div>
+      )}
+      {view === 'presence' && (
+        <ValuePresencePanel
+          baseId={baseId}
+          presenceKey={presenceKey}
+          setPresenceKey={setPresenceKey}
+          presenceInput={presenceInput}
+          setPresenceInput={setPresenceInput}
+          presence={presence}
+          onRecord={onRecord}
+        />
+      )}
+      {view === 'form' && (
+        <FormDefaultsPanel
+          baseId={baseId}
+          payloadKey={payloadKey}
+          setPayloadKey={setPayloadKey}
+          mergedFormValues={mergedFormValues}
+          onRecord={onRecord}
+        />
       )}
     </section>
   );

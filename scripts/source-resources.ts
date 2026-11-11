@@ -89,6 +89,16 @@ export async function readSourceResources(root: string): Promise<ReadonlyMap<str
         continue;
       }
       const base = path.posix.normalize(path.posix.join(path.posix.dirname(file), source));
+      const installedManifest = /^\.\.\/node_modules\/(@owp\/[a-z][a-z0-9-]*)\/package\.json$/.exec(base);
+      const installedPackage = installedManifest?.[1];
+      if (installedPackage) {
+        // exports에 package.json이 없는 패키지의 설치 버전은 source가 아닌 metadata로 읽습니다.
+        z.object({ name: z.literal(installedPackage), version: z.string().min(1) }).parse(
+          JSON.parse(await readFile(path.join(root, 'node_modules', installedPackage, 'package.json'), 'utf8')),
+        );
+        if (runtime) externalImports.add(installedPackage);
+        continue;
+      }
       const dependency = [base, `${base}.ts`, `${base}.tsx`, `${base}/index.ts`, `${base}/index.tsx`]
         .find((candidate) => known.has(candidate));
       if (!dependency) throw new SourceDependencyError(`/src/${file}`, specifier);
