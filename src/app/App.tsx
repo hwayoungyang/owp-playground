@@ -39,8 +39,17 @@ import { Sidebar } from './layout/Sidebar';
 import { Provider } from './providers/Provider';
 import { WorkspaceLoading } from '../shared/ui/WorkspaceLoading';
 import { hasStandaloneGuide, packageGuideEntry } from '../playgrounds/introductions';
+import { DistributionBoundary } from '../features/distribution/DistributionBoundary';
 
 export function App() {
+  return (
+    <DistributionBoundary>
+      <FullWorkspace />
+    </DistributionBoundary>
+  );
+}
+
+function FullWorkspace() {
   const { t, i18n } = useOwpTranslation();
   const [route, setRoute] = useState(() => readPlaygroundRoute(location.search));
   const mainContent = useRef<HTMLElement>(null);

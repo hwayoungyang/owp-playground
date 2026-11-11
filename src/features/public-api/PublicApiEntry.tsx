@@ -10,6 +10,7 @@ import { displayPublicDescription } from './descriptions';
 import { PublicApiCode } from './PublicApiCode';
 import type { PublicApiEntry as EntryData } from './types';
 import { publicApiNavigationGroup } from './grouping';
+import { ProviderHistoryButton } from '../distribution/ProviderHistoryButton';
 
 const IconPreview = lazy(() =>
   import('./PublicApiIcon').then((module) => ({ default: module.PublicApiIconPreview })),
@@ -91,6 +92,14 @@ export function PublicApiEntry({ entry }: { readonly entry: EntryData }) {
         </Suspense>
       )}
       <div className="public-api-entry-actions">
+        <ProviderHistoryButton
+          feature={{
+            owner: entry.owner,
+            name: entry.name,
+            modules: entry.modules,
+            asset: entry.kind === 'asset',
+          }}
+        />
         {entry.owner !== `@owp/${entry.packageId}` && (
           <p className="components-api-meta">
             {t('{{name}}의 API를 re-export합니다.', { name: entry.owner })}

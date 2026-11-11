@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "mode": "company",
+  "defaultAudience": "hankum",
+  "profiles": {
+    "hankum": {
+      "label": "한금",
+      "audience": "company",
+      "companyId": "hankum",
+      "manifest": "./provided-manifest.json",
+      "runtimeSource": "local-tarballs"
+    }
+  }
+}

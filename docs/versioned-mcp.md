@@ -285,6 +285,8 @@ AI 클라이언트 안내에는 `<OWP_MCP_URL>/mcp`로 표기하며 `<OWP_MCP_UR
 pnpm test:deploy:mcp
 ```
 
+전체 테스트(`pnpm test`)의 VPN 거부 검사는 로컬 배포 준비 자료가 없는 상태를 전제로 합니다. `.omo/evidence/deploy-prepared/playground`에 현재 Git 상태와 다른 자료가 있으면 지문 검사가 먼저 실패하므로, 기존 자료를 백업해 잠시 분리한 뒤 해당 실패 사례만 재검증하고 성공·실패와 관계없이 원래 위치에 복원합니다. 이 검증을 위해 준비 자료를 재생성하거나 실제 배포를 실행하지 않습니다.
+
 ## 개인 로컬 stdio
 
 ```sh

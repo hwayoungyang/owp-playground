@@ -15,6 +15,7 @@ import { ApiTypeDetails } from './ApiTypeDetails';
 import { useApiKnowledge } from './ApiKnowledgeContext';
 import type { ApiRecord } from './model/knowledge';
 import { apiExampleKey } from './model/package-data';
+import { ProviderHistoryButton } from '../distribution/ProviderHistoryButton';
 
 export { RecordLink } from './ApiRecordContent';
 
@@ -65,6 +66,16 @@ export function ApiDetail({
           </>
         )}
       </div>
+      {record.kind !== 'guide' && (
+        <ProviderHistoryButton
+          feature={{
+            owner: record.package,
+            name: record.path ? record.owner : record.name,
+            modules: record.imports,
+            member: record.path || undefined,
+          }}
+        />
+      )}
       {record.description ? (
         <ApiDescription record={record} />
       ) : (

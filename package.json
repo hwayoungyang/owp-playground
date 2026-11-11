@@ -99,5 +99,8 @@
   },
   "engines": {
     "node": "^22.23.4 || ^24.22.1 || >=26.12.1"
+  },
+  "owpDistribution": {
+    "config": "./owp-distribution.config.json"
   }
 }

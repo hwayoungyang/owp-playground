@@ -4,355 +4,389 @@ import { readFileSync } from 'node:fs';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite-plus';
-import { sourceGraphPlugin } from './scripts/source-graph.ts';
-import { componentsApiPlugin } from './scripts/components-api-plugin.ts';
-import { publicApiPlugin } from './scripts/public-api-plugin.ts';
-import { knowledgeResourcesPlugin, reviewedApiCatalog } from './scripts/knowledge-resources.ts';
 import {
-  createDataGridSourceManifest,
-  createPackageSourceManifest,
-  readSourceResources,
-  SourceDependencyError,
-} from './scripts/source-resources.ts';
-import { legacySourcePaths } from './src/features/code/source-paths.ts';
-import { chartCatalog } from './src/playgrounds/charts/catalog.ts';
-import { chartEnglish } from './src/playgrounds/charts/locales/en.ts';
-import { gridCatalog } from './src/playgrounds/datagrid/catalog.ts';
-import { coreCatalog } from './src/playgrounds/core/catalog.ts';
-import { componentsCatalog } from './src/playgrounds/components/catalog.ts';
-import knowledgeData from './src/features/api/data/knowledge.generated.json';
-import { coreEnglish } from './src/playgrounds/core/locales/en.ts';
-import { catalogEnglish } from './src/playgrounds/datagrid/locales/catalog.en.ts';
-import { packageCatalog } from './src/playgrounds/registry.ts';
+  assertFullApplicationContext,
+  readDistributionContext,
+} from './scripts/distribution/context.ts';
 
-const gridDocumentationCatalog = reviewedApiCatalog(gridCatalog, 'datagrid');
-const chartDocumentationCatalog = reviewedApiCatalog(chartCatalog, 'charts');
-const coreDocumentationCatalog = reviewedApiCatalog(coreCatalog, 'core');
-const publicBase = process.env.OWP_PUBLIC_BASE ?? '/';
-const versionUiFingerprint = createHash('sha256');
-for (const file of [
-  'package.json',
-  'pnpm-lock.yaml',
-  'scripts/version-presentation.ts',
-  'src/features/releases/VersionSelector.tsx',
-  'src/features/releases/standalone.tsx',
-  'src/features/releases/version-menu.css',
-  'src/features/releases/model/navigation.ts',
-  'src/features/releases/model/navigation-metadata.ts',
-  'src/features/releases/model/presentation.ts',
-  'src/features/releases/model/schema.ts',
-  'src/shared/i18n/app.en.ts',
-  'src/shared/theme/tokens.ts',
-])
-  versionUiFingerprint.update(readFileSync(new URL(file, import.meta.url)));
-if (!/^\/(?:[A-Za-z0-9_.-]+\/)*$/.test(publicBase))
-  throw new TypeError('OWP_PUBLIC_BASE는 /로 시작하고 끝나는 안전한 공개 경로여야 합니다.');
-
-export default defineConfig({
-  base: publicBase,
-  resolve: {
-    // 중첩 설치된 OWP 패키지도 앱과 같은 테마·번역 인스턴스를 사용합니다.
-    dedupe: ['@owp/theme', 'i18next', 'react-i18next'],
-  },
-  define: {
-    __OWP_VERSION_UI__: JSON.stringify(versionUiFingerprint.digest('hex')),
-    __OWP_RELEASE__: JSON.stringify({
-      releaseId: process.env.OWP_RELEASE_ID ?? null,
-      createdAt: process.env.OWP_RELEASE_CREATED_AT ?? null,
-      channel: process.env.OWP_RELEASE_CHANNEL ?? 'draft',
-    }),
-  },
-  lint: {
-    ignorePatterns: [
-      '/*',
-      '!/src/',
-      '!/mcp/',
-      '!/tests/',
-      '!/vite.config.ts',
-      '!/vitest.config.ts',
-    ],
-    plugins: ['typescript', 'unicorn', 'oxc', 'react', 'jsx-a11y'],
-    options: { denyWarnings: true, reportUnusedDisableDirectives: 'error' },
-    rules: {
-      'no-unused-vars': ['error', { args: 'none', ignoreRestSiblings: true }],
-      'no-var': 'error',
-      'prefer-const': 'error',
-      'typescript/no-explicit-any': 'error',
-      'typescript/no-non-null-assertion': 'error',
-      'typescript/consistent-type-imports': 'error',
-      'jsx-a11y/no-autofocus': ['error', { ignoreNonDOM: true }],
-      // 기존 role과 MUI 컴포넌트의 DOM 구조를 보존합니다.
-      'jsx-a11y/prefer-tag-over-role': 'off',
-      // React Compiler 최적화 규칙 도입은 별도 작업으로 분리합니다.
-      'react/refs': 'off',
-      'react/set-state-in-effect': 'off',
-      'react/immutability': 'off',
-      'react/preserve-manual-memoization': 'off',
-      'react/rules-of-hooks': 'error',
-      'react/exhaustive-deps': 'error',
-    },
-  },
-  fmt: {
-    ignorePatterns: [
-      'dist/**',
-      'scripts/**',
-      'public/**',
-      '**/*.md',
-      'src/features/api/data/*.generated.json',
-      'pnpm-lock.yaml',
-      'pnpm-workspace.yaml',
-    ],
-    printWidth: 100,
-    tabWidth: 2,
-    useTabs: false,
-    singleQuote: true,
-    semi: true,
-    trailingComma: 'all',
-    sortImports: false,
-    sortPackageJson: false,
-    overrides: [{ files: ['**/*.css'], options: { singleQuote: false } }],
-  },
-  plugins: [
-    tailwindcss(),
-    publicApiPlugin(),
-    componentsApiPlugin(),
-    react(),
-    sourceGraphPlugin(),
-    knowledgeResourcesPlugin(),
+export default defineConfig(async () => {
+  const root = fileURLToPath(new URL('.', import.meta.url));
+  const distribution = readDistributionContext(root, {
+    configFile: process.env.OWP_DISTRIBUTION_CONFIG,
+  });
+  assertFullApplicationContext(distribution);
+  // 고객 mode를 거부한 뒤에만 full catalog와 resource plugin을 불러옵니다.
+  const [
+    { sourceGraphPlugin },
+    { componentsApiPlugin },
+    { publicApiPlugin },
+    { knowledgeResourcesPlugin, reviewedApiCatalog },
     {
-      name: 'version-ui-runtime',
-      generateBundle(_options, bundle) {
-        const entry = Object.values(bundle).find(
-          (file) => file.type === 'chunk' && file.isEntry && file.name === 'version-menu',
-        );
-        if (!entry || entry.type !== 'chunk')
-          throw new TypeError('공통 버전 메뉴 entry가 없습니다.');
-        this.emitFile({
-          type: 'asset',
-          fileName: 'version-ui/runtime.json',
-          source: JSON.stringify({
-            schemaVersion: 1,
-            entry: {
-              path: entry.fileName,
-              bytes: Buffer.byteLength(entry.code),
-              sha256: createHash('sha256').update(entry.code).digest('hex'),
-            },
-          }),
-        });
+      createDataGridSourceManifest,
+      createPackageSourceManifest,
+      readSourceResources,
+      SourceDependencyError,
+    },
+    { legacySourcePaths },
+    { chartCatalog },
+    { chartEnglish },
+    { gridCatalog },
+    { coreCatalog },
+    { componentsCatalog },
+    { default: knowledgeData },
+    { coreEnglish },
+    { catalogEnglish },
+    { packageCatalog },
+  ] = await Promise.all([
+    import('./scripts/source-graph.ts'),
+    import('./scripts/components-api-plugin.ts'),
+    import('./scripts/public-api-plugin.ts'),
+    import('./scripts/knowledge-resources.ts'),
+    import('./scripts/source-resources.ts'),
+    import('./src/features/code/source-paths.ts'),
+    import('./src/playgrounds/charts/catalog.ts'),
+    import('./src/playgrounds/charts/locales/en.ts'),
+    import('./src/playgrounds/datagrid/catalog.ts'),
+    import('./src/playgrounds/core/catalog.ts'),
+    import('./src/playgrounds/components/catalog.ts'),
+    import('./src/features/api/data/knowledge.generated.json', { with: { type: 'json' } }),
+    import('./src/playgrounds/core/locales/en.ts'),
+    import('./src/playgrounds/datagrid/locales/catalog.en.ts'),
+    import('./src/playgrounds/registry.ts'),
+  ]);
+
+  const gridDocumentationCatalog = reviewedApiCatalog(gridCatalog, 'datagrid');
+  const chartDocumentationCatalog = reviewedApiCatalog(chartCatalog, 'charts');
+  const coreDocumentationCatalog = reviewedApiCatalog(coreCatalog, 'core');
+  const publicBase = process.env.OWP_PUBLIC_BASE ?? '/';
+  const versionUiFingerprint = createHash('sha256');
+  for (const file of [
+    'package.json',
+    'pnpm-lock.yaml',
+    'scripts/version-presentation.ts',
+    'src/features/releases/VersionSelector.tsx',
+    'src/features/releases/standalone.tsx',
+    'src/features/releases/version-menu.css',
+    'src/features/releases/model/navigation.ts',
+    'src/features/releases/model/navigation-metadata.ts',
+    'src/features/releases/model/presentation.ts',
+    'src/features/releases/model/schema.ts',
+    'src/shared/i18n/app.en.ts',
+    'src/shared/theme/tokens.ts',
+  ])
+    versionUiFingerprint.update(readFileSync(new URL(file, import.meta.url)));
+  if (!/^\/(?:[A-Za-z0-9_.-]+\/)*$/.test(publicBase))
+    throw new TypeError('OWP_PUBLIC_BASE는 /로 시작하고 끝나는 안전한 공개 경로여야 합니다.');
+
+  return {
+    base: publicBase,
+    resolve: {
+      // 중첩 설치된 OWP 패키지도 앱과 같은 테마·번역 인스턴스를 사용합니다.
+      dedupe: ['@owp/theme', 'i18next', 'react-i18next'],
+    },
+    define: {
+      __OWP_DISTRIBUTION__: JSON.stringify(distribution),
+      __OWP_VERSION_UI__: JSON.stringify(versionUiFingerprint.digest('hex')),
+      __OWP_RELEASE__: JSON.stringify({
+        releaseId: process.env.OWP_RELEASE_ID ?? null,
+        createdAt: process.env.OWP_RELEASE_CREATED_AT ?? null,
+        channel: process.env.OWP_RELEASE_CHANNEL ?? 'draft',
+      }),
+    },
+    lint: {
+      ignorePatterns: [
+        '/*',
+        '!/src/',
+        '!/mcp/',
+        '!/tests/',
+        '!/vite.config.ts',
+        '!/vitest.config.ts',
+      ],
+      plugins: ['typescript', 'unicorn', 'oxc', 'react', 'jsx-a11y'],
+      options: { denyWarnings: true, reportUnusedDisableDirectives: 'error' },
+      rules: {
+        'no-unused-vars': ['error', { args: 'none', ignoreRestSiblings: true }],
+        'no-var': 'error',
+        'prefer-const': 'error',
+        'typescript/no-explicit-any': 'error',
+        'typescript/no-non-null-assertion': 'error',
+        'typescript/consistent-type-imports': 'error',
+        'jsx-a11y/no-autofocus': ['error', { ignoreNonDOM: true }],
+        // 기존 role과 MUI 컴포넌트의 DOM 구조를 보존합니다.
+        'jsx-a11y/prefer-tag-over-role': 'off',
+        // React Compiler 최적화 규칙 도입은 별도 작업으로 분리합니다.
+        'react/refs': 'off',
+        'react/set-state-in-effect': 'off',
+        'react/immutability': 'off',
+        'react/preserve-manual-memoization': 'off',
+        'react/rules-of-hooks': 'error',
+        'react/exhaustive-deps': 'error',
       },
     },
-    {
-      name: 'reuse-dev-browser-tab',
-      configureServer() {
-        if (
-          process.platform === 'darwin' &&
-          process.env.BROWSER === undefined &&
-          !process.env.BROWSER_ARGS
-        ) {
-          process.env.BROWSER = fileURLToPath(
-            new URL('./scripts/open-browser.js', import.meta.url),
+    fmt: {
+      ignorePatterns: [
+        'dist/**',
+        'scripts/**',
+        'public/**',
+        '**/*.md',
+        'src/features/api/data/*.generated.json',
+        'pnpm-lock.yaml',
+        'pnpm-workspace.yaml',
+      ],
+      printWidth: 100,
+      tabWidth: 2,
+      useTabs: false,
+      singleQuote: true,
+      semi: true,
+      trailingComma: 'all',
+      sortImports: false,
+      sortPackageJson: false,
+      overrides: [{ files: ['**/*.css'], options: { singleQuote: false } }],
+    },
+    plugins: [
+      tailwindcss(),
+      publicApiPlugin(),
+      componentsApiPlugin(),
+      react(),
+      sourceGraphPlugin(),
+      knowledgeResourcesPlugin(),
+      {
+        name: 'version-ui-runtime',
+        generateBundle(_options, bundle) {
+          const entry = Object.values(bundle).find(
+            (file) => file.type === 'chunk' && file.isEntry && file.name === 'version-menu',
           );
-        }
-      },
-    },
-    {
-      name: 'playground-resources',
-      async generateBundle() {
-        const root = fileURLToPath(new URL('.', import.meta.url));
-        const sources = await readSourceResources(root);
-        this.emitFile({
-          type: 'asset',
-          fileName: 'catalogs/core.sources.json',
-          source: JSON.stringify(
-            await createPackageSourceManifest({
-              root,
-              catalog: coreDocumentationCatalog,
-              resources: sources,
-              packageName: '@owp/core',
-              basePath: publicBase,
-              supportFiles: [
-                '/src/playgrounds/core/runtime/CoreProviders.tsx',
-                '/src/playgrounds/core/runtime/CoreEnvironmentScope.tsx',
-                '/src/playgrounds/core/styles.css',
-              ],
-            }),
-            null,
-            2,
-          ),
-        });
-        for (const language of ['ko', 'en'])
+          if (!entry || entry.type !== 'chunk')
+            throw new TypeError('공통 버전 메뉴 entry가 없습니다.');
           this.emitFile({
             type: 'asset',
-            fileName: `catalogs/core${language === 'en' ? '.en' : ''}.json`,
-            source: JSON.stringify(
-              {
-                version: 1,
-                package: '@owp/core',
-                language,
-                samples: coreDocumentationCatalog.map((example) => ({
-                  ...example,
-                  title:
-                    language === 'en'
-                      ? (coreEnglish[example.title] ?? example.title)
-                      : example.title,
-                  description:
-                    language === 'en'
-                      ? (coreEnglish[example.description] ?? example.description)
-                      : example.description,
-                })),
+            fileName: 'version-ui/runtime.json',
+            source: JSON.stringify({
+              schemaVersion: 1,
+              entry: {
+                path: entry.fileName,
+                bytes: Buffer.byteLength(entry.code),
+                sha256: createHash('sha256').update(entry.code).digest('hex'),
               },
+            }),
+          });
+        },
+      },
+      {
+        name: 'reuse-dev-browser-tab',
+        configureServer() {
+          if (
+            process.platform === 'darwin' &&
+            process.env.BROWSER === undefined &&
+            !process.env.BROWSER_ARGS
+          ) {
+            process.env.BROWSER = fileURLToPath(
+              new URL('./scripts/open-browser.js', import.meta.url),
+            );
+          }
+        },
+      },
+      {
+        name: 'playground-resources',
+        async generateBundle() {
+          const root = fileURLToPath(new URL('.', import.meta.url));
+          const sources = await readSourceResources(root);
+          this.emitFile({
+            type: 'asset',
+            fileName: 'catalogs/core.sources.json',
+            source: JSON.stringify(
+              await createPackageSourceManifest({
+                root,
+                catalog: coreDocumentationCatalog,
+                resources: sources,
+                packageName: '@owp/core',
+                basePath: publicBase,
+                supportFiles: [
+                  '/src/playgrounds/core/runtime/CoreProviders.tsx',
+                  '/src/playgrounds/core/runtime/CoreEnvironmentScope.tsx',
+                  '/src/playgrounds/core/styles.css',
+                ],
+              }),
               null,
               2,
             ),
           });
-        this.emitFile({
-          type: 'asset',
-          fileName: 'catalogs/datagrid.sources.json',
-          source: JSON.stringify(
-            await createDataGridSourceManifest({
-              root,
-              catalog: gridDocumentationCatalog,
-              resources: sources,
-              basePath: publicBase,
-            }),
-            null,
-            2,
-          ),
-        });
-        this.emitFile({
-          type: 'asset',
-          fileName: 'packages.json',
-          source: JSON.stringify(
-            {
-              version: 1,
-              packages: packageCatalog.map((entry) => ({
-                ...entry,
-                knowledge: knowledgeData.packages.some((supported) => supported.id === entry.id),
-              })),
-            },
-            null,
-            2,
-          ),
-        });
-        for (const entry of knowledgeData.packages) {
-          if (['core', 'datagrid', 'charts'].includes(entry.id)) continue;
+          for (const language of ['ko', 'en'])
+            this.emitFile({
+              type: 'asset',
+              fileName: `catalogs/core${language === 'en' ? '.en' : ''}.json`,
+              source: JSON.stringify(
+                {
+                  version: 1,
+                  package: '@owp/core',
+                  language,
+                  samples: coreDocumentationCatalog.map((example) => ({
+                    ...example,
+                    title:
+                      language === 'en'
+                        ? (coreEnglish[example.title] ?? example.title)
+                        : example.title,
+                    description:
+                      language === 'en'
+                        ? (coreEnglish[example.description] ?? example.description)
+                        : example.description,
+                  })),
+                },
+                null,
+                2,
+              ),
+            });
           this.emitFile({
             type: 'asset',
-            fileName: `catalogs/${entry.id}.sources.json`,
+            fileName: 'catalogs/datagrid.sources.json',
             source: JSON.stringify(
-              await createPackageSourceManifest({
+              await createDataGridSourceManifest({
                 root,
-                catalog:
-                  entry.id === 'components' ? reviewedApiCatalog(componentsCatalog, entry.id) : [],
+                catalog: gridDocumentationCatalog,
                 resources: sources,
-                packageName: entry.name,
                 basePath: publicBase,
               }),
               null,
               2,
             ),
           });
-        }
-        this.emitFile({
-          type: 'asset',
-          fileName: 'catalogs/charts.sources.json',
-          source: JSON.stringify(
-            await createPackageSourceManifest({
-              root,
-              catalog: chartDocumentationCatalog,
-              resources: sources,
-              packageName: '@owp/charts',
-              basePath: publicBase,
-            }),
-            null,
-            2,
-          ),
-        });
-        this.emitFile({
-          type: 'asset',
-          fileName: 'catalog.json',
-          source: JSON.stringify(
-            { version: 1, package: '@owp/datagrid', samples: gridDocumentationCatalog },
-            null,
-            2,
-          ),
-        });
-        this.emitFile({
-          type: 'asset',
-          fileName: 'catalog.en.json',
-          source: JSON.stringify(
-            {
-              version: 1,
-              language: 'en',
-              package: '@owp/datagrid',
-              samples: gridDocumentationCatalog.map((example) => ({
-                ...example,
-                title: catalogEnglish[example.title] ?? example.title,
-                description: catalogEnglish[example.description] ?? example.description,
-              })),
-            },
-            null,
-            2,
-          ),
-        });
-        for (const language of ['ko', 'en']) {
           this.emitFile({
             type: 'asset',
-            fileName: `catalogs/charts${language === 'en' ? '.en' : ''}.json`,
+            fileName: 'packages.json',
             source: JSON.stringify(
               {
                 version: 1,
-                package: '@owp/charts',
-                language,
-                samples: chartDocumentationCatalog.map((example) => ({
-                  ...example,
-                  title:
-                    language === 'en'
-                      ? (chartEnglish[example.title] ??
-                        catalogEnglish[example.title] ??
-                        example.title)
-                      : example.title,
-                  description:
-                    language === 'en'
-                      ? (chartEnglish[example.description] ?? example.description)
-                      : example.description,
+                packages: packageCatalog.map((entry) => ({
+                  ...entry,
+                  knowledge: knowledgeData.packages.some((supported) => supported.id === entry.id),
                 })),
               },
               null,
               2,
             ),
           });
-        }
-        for (const [file, resource] of sources) {
+          for (const entry of knowledgeData.packages) {
+            if (['core', 'datagrid', 'charts'].includes(entry.id)) continue;
+            this.emitFile({
+              type: 'asset',
+              fileName: `catalogs/${entry.id}.sources.json`,
+              source: JSON.stringify(
+                await createPackageSourceManifest({
+                  root,
+                  catalog:
+                    entry.id === 'components'
+                      ? reviewedApiCatalog(componentsCatalog, entry.id)
+                      : [],
+                  resources: sources,
+                  packageName: entry.name,
+                  basePath: publicBase,
+                }),
+                null,
+                2,
+              ),
+            });
+          }
           this.emitFile({
             type: 'asset',
-            fileName: file.replace(/^\/src\//, 'snippets/'),
-            source: resource.content,
+            fileName: 'catalogs/charts.sources.json',
+            source: JSON.stringify(
+              await createPackageSourceManifest({
+                root,
+                catalog: chartDocumentationCatalog,
+                resources: sources,
+                packageName: '@owp/charts',
+                basePath: publicBase,
+              }),
+              null,
+              2,
+            ),
           });
-        }
-        for (const [legacy, file] of Object.entries(legacySourcePaths)) {
-          const resource = sources.get(`/src/${file}`);
-          if (!resource) throw new SourceDependencyError(legacy, file);
           this.emitFile({
             type: 'asset',
-            fileName: `snippets/${legacy}`,
-            source: resource.content,
+            fileName: 'catalog.json',
+            source: JSON.stringify(
+              { version: 1, package: '@owp/datagrid', samples: gridDocumentationCatalog },
+              null,
+              2,
+            ),
           });
-        }
+          this.emitFile({
+            type: 'asset',
+            fileName: 'catalog.en.json',
+            source: JSON.stringify(
+              {
+                version: 1,
+                language: 'en',
+                package: '@owp/datagrid',
+                samples: gridDocumentationCatalog.map((example) => ({
+                  ...example,
+                  title: catalogEnglish[example.title] ?? example.title,
+                  description: catalogEnglish[example.description] ?? example.description,
+                })),
+              },
+              null,
+              2,
+            ),
+          });
+          for (const language of ['ko', 'en']) {
+            this.emitFile({
+              type: 'asset',
+              fileName: `catalogs/charts${language === 'en' ? '.en' : ''}.json`,
+              source: JSON.stringify(
+                {
+                  version: 1,
+                  package: '@owp/charts',
+                  language,
+                  samples: chartDocumentationCatalog.map((example) => ({
+                    ...example,
+                    title:
+                      language === 'en'
+                        ? (chartEnglish[example.title] ??
+                          catalogEnglish[example.title] ??
+                          example.title)
+                        : example.title,
+                    description:
+                      language === 'en'
+                        ? (chartEnglish[example.description] ?? example.description)
+                        : example.description,
+                  })),
+                },
+                null,
+                2,
+              ),
+            });
+          }
+          for (const [file, resource] of sources) {
+            this.emitFile({
+              type: 'asset',
+              fileName: file.replace(/^\/src\//, 'snippets/'),
+              source: resource.content,
+            });
+          }
+          for (const [legacy, file] of Object.entries(legacySourcePaths)) {
+            const resource = sources.get(`/src/${file}`);
+            if (!resource) throw new SourceDependencyError(legacy, file);
+            this.emitFile({
+              type: 'asset',
+              fileName: `snippets/${legacy}`,
+              source: resource.content,
+            });
+          }
+        },
+      },
+    ],
+    build: {
+      target: 'es2022',
+      outDir: process.env.OWP_BUILD_OUT_DIR ?? 'dist',
+      rollupOptions: {
+        input: {
+          app: fileURLToPath(new URL('./index.html', import.meta.url)),
+          'version-menu': fileURLToPath(
+            new URL('./src/features/releases/standalone.tsx', import.meta.url),
+          ),
+        },
+        preserveEntrySignatures: 'strict',
       },
     },
-  ],
-  build: {
-    target: 'es2022',
-    outDir: process.env.OWP_BUILD_OUT_DIR ?? 'dist',
-    rollupOptions: {
-      input: {
-        app: fileURLToPath(new URL('./index.html', import.meta.url)),
-        'version-menu': fileURLToPath(
-          new URL('./src/features/releases/standalone.tsx', import.meta.url),
-        ),
-      },
-      preserveEntrySignatures: 'strict',
-    },
-  },
+  };
 });

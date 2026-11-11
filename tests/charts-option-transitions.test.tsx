@@ -288,7 +288,13 @@ describe('route selected standalone chart configurations', () => {
     const frames: { readonly key: string | null; readonly header: string | undefined }[] = [];
     function Probe() {
       const [step, setStep] = useState(0);
-      const tree = App();
+      const shell = App();
+      const fullWorkspace: ReactElement<Record<string, never>> = shell.props.children;
+      if (typeof fullWorkspace.type !== 'function')
+        throw new TypeError('The full workspace component is missing.');
+      const tree = (fullWorkspace.type as (props: Record<string, never>) => ReactElement)(
+        fullWorkspace.props,
+      );
       const router = element<Parameters<typeof WorkspaceRouter>[0]>(tree, WorkspaceRouter);
       const workspace = element<Parameters<typeof ChartsWorkspace>[0]>(
         WorkspaceRouter(router.props),

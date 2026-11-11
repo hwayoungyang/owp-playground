@@ -22,6 +22,12 @@ import type { ColorMode } from '../../shared/theme/tokens';
 import type { ExampleMetadata } from '../../shared/types/playground';
 import { VersionSelector } from '../../features/releases/VersionSelector';
 import { RecentVisitsMenu } from './RecentVisitsMenu';
+import { ProfileSelector } from '../../features/distribution/ProfileSelector';
+import {
+  distributionContext,
+  isDistributionContext,
+  selectDistributionProfile,
+} from '../../features/distribution/model';
 
 const packageMenuEntries = [
   corePackage,
@@ -54,6 +60,7 @@ export function Header({
 }) {
   const { t, i18n } = useOwpTranslation();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  const distribution = distributionContext();
   return (
     <header className="app-header">
       <div className="brand">
@@ -102,6 +109,13 @@ export function Header({
         </nav>
       </div>
       <div className="header-actions">
+        {isDistributionContext(distribution) && distribution.mode === 'internal' && (
+          <ProfileSelector
+            context={distribution}
+            selected={selectDistributionProfile(distribution, location.search)}
+            colorMode={mode}
+          />
+        )}
         <Button
           className="package-selector"
           onClick={(event) => setAnchor(event.currentTarget)}

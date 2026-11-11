@@ -1,0 +1,162 @@
+.distribution-shell {
+  --pg-header-padding: 24px;
+  min-height: 100dvh;
+  background: var(--pg-canvas);
+  color: var(--pg-ink);
+}
+
+.distribution-header {
+  position: relative;
+  flex-wrap: wrap;
+  min-height: 56px;
+  padding-block: 12px;
+}
+.distribution-header .brand {
+  display: flex;
+  flex: none;
+  gap: 4px;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+}
+
+.app-shell:has(.distribution-selector) {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.app-shell:has(.distribution-selector) .app-header {
+  min-height: var(--pg-header-height);
+  height: auto;
+}
+.app-shell:has(.distribution-selector) .header-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.distribution-selector {
+  max-width: 200px;
+}
+
+.distribution-status {
+  max-width: 960px;
+  margin-inline: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.distribution-status h1,
+.distribution-history h3,
+.distribution-history h4,
+.distribution-status p,
+.distribution-history p {
+  margin: 0;
+}
+
+.distribution-status h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
+.distribution-status p,
+.distribution-history {
+  font-size: 14px;
+  line-height: 1.8;
+}
+.distribution-profile-label {
+  flex: 1;
+  margin-right: 16px;
+}
+.distribution-history,
+.distribution-history-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.distribution-history-profile h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+.distribution-history h4 {
+  font-size: 14px;
+  font-weight: 600;
+}
+.distribution-build-label {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.distribution-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  margin: 0;
+}
+.distribution-facts div {
+  min-width: 0;
+}
+.distribution-facts dt {
+  color: var(--pg-secondary);
+  font-size: 13px;
+}
+.distribution-facts dd {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+.distribution-blockers {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.distribution-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.distribution-table {
+  width: 100%;
+  text-align: left;
+  font-size: 13px;
+}
+.distribution-table th,
+.distribution-table td {
+  border-color: var(--pg-line);
+  padding: 12px;
+  vertical-align: top;
+  text-align: left;
+  font-size: 13px;
+}
+.distribution-table th {
+  font-weight: 600;
+}
+.distribution-table .MuiTableHead-root .MuiTableCell-head {
+  background: var(--pg-subtle);
+  color: var(--pg-ink);
+}
+.distribution-table code,
+.distribution-facts code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+@media (max-width: 599px) {
+  .distribution-shell {
+    --pg-header-padding: 16px;
+  }
+  .distribution-status {
+    padding: 16px;
+  }
+  .distribution-header .header-actions {
+    flex-wrap: wrap;
+  }
+  .distribution-shell .distribution-header {
+    height: auto;
+  }
+  .app-shell:has(.distribution-selector) .app-header {
+    flex-wrap: wrap;
+    padding-block: 8px;
+  }
+  .header-actions .distribution-selector {
+    font-size: 11px;
+    padding: 4px;
+  }
+}
