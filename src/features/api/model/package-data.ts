@@ -1,5 +1,5 @@
 import type { ApiExampleSummary } from './schema.ts';
-import { referencePackagesFor } from '../../../playgrounds/packages.ts';
+import { referencePackagesFor } from '../../../playgrounds/package-contracts.ts';
 
 type ReferenceRecord = {
   readonly id: string;

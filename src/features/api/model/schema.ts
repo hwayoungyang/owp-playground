@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { playgroundPackageIdSchema, referencePackagesFor } from '../../../playgrounds/packages.ts';
+import {
+  playgroundPackageIdSchema,
+  referencePackagesFor,
+} from '../../../playgrounds/package-contracts.ts';
 import { codeLocationSchema } from '../../code/code-location.ts';
 import { apiExampleKey, apiRecordReferenceIds } from './package-data.ts';
 

@@ -1,15 +1,30 @@
 import { request } from 'node:http';
-import { readFile, rm, writeFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import {
+  cp,
+  lstat,
+  mkdir,
+  mkdtemp,
+  readFile,
+  realpath,
+  rm,
+  symlink,
+  writeFile,
+} from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
+import { promisify } from 'node:util';
 import { Client, StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
 import { StdioClientTransport } from '@modelcontextprotocol/client/stdio';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { startKnowledgeHttpServer } from '../mcp/http.ts';
 import { createMcpFixture } from '../mcp/test-fixture.ts';
+import { listOutput } from '../mcp/schema.ts';
 import { createHash } from 'node:crypto';
 
 let root: string;
 const cleanup: (() => Promise<void>)[] = [];
+const execute = promisify(execFile);
 beforeEach(async () => {
   root = await createMcpFixture();
 });
@@ -21,6 +36,66 @@ async function httpServer(options: { readonly bearerToken?: string } = {}) {
   const server = await startKnowledgeHttpServer({ archiveRoot: root, port: 0, ...options });
   cleanup.push(() => server.close());
   return `http://127.0.0.1:${server.port}`;
+}
+
+async function productionApp() {
+  const app = await realpath(await mkdtemp(path.join(tmpdir(), 'owp-mcp-production-')));
+  cleanup.push(() => rm(app, { recursive: true, force: true }));
+  const sources = [
+    'mcp/cli.ts',
+    'mcp/http.ts',
+    'mcp/server.ts',
+    'mcp/package.json',
+    'mcp/schema.ts',
+    'mcp/knowledge.ts',
+    'mcp/knowledge-archive.ts',
+    'mcp/knowledge-example.ts',
+    'scripts/version-archive.ts',
+    'scripts/version-archive-build.ts',
+    'scripts/version-archive-files.ts',
+    'scripts/version-archive-write.ts',
+    'scripts/version-presentation.ts',
+    'src/features/releases/model/schema.ts',
+    'src/features/api/model/schema.ts',
+    'src/features/api/model/package-data.ts',
+    'src/features/api/model/search.ts',
+    'src/features/code/code-location.ts',
+    'src/shared/i18n/app.en.ts',
+    'src/shared/i18n/workbench.en.ts',
+    'src/shared/i18n/package-guides.en.ts',
+    'src/playgrounds/packages.ts',
+    'src/playgrounds/knowledge-package-ids.ts',
+    'src/playgrounds/package-contracts.ts',
+  ];
+  for (const source of sources) {
+    const target = path.join(app, source);
+    await mkdir(path.dirname(target), { recursive: true });
+    await cp(path.resolve(source), target);
+  }
+  await writeFile(path.join(app, 'package.json'), '{"type":"module"}\n');
+  for (const dependency of [
+    '@modelcontextprotocol/server',
+    '@modelcontextprotocol/node',
+    'zod',
+    '@owp/datagrid',
+    '@owp/charts',
+    '@owp/core',
+    '@owp/components',
+    '@owp/date-picker',
+    '@owp/excel',
+    '@owp/pdf',
+    '@owp/theme',
+    '@owp/utils',
+  ]) {
+    const target = path.join(app, 'node_modules', dependency);
+    await mkdir(path.dirname(target), { recursive: true });
+    await symlink(await realpath(path.resolve('node_modules', dependency)), target, 'dir');
+  }
+  expect(path.relative(path.resolve('.'), app).startsWith(`..${path.sep}`)).toBe(true);
+  await expect(lstat(path.join(app, 'node_modules/@owp/tailwind-config'))).rejects.toMatchObject({
+    code: 'ENOENT',
+  });
+  return app;
 }
 async function wire(
   url: string,
@@ -63,6 +138,105 @@ async function wire(
 }
 
 describe('real MCP SDK transports', () => {
+  it('starts the production CLI and queries the pinned API without development dependencies', async () => {
+    // Given
+    const app = await productionApp();
+    const client = new Client({ name: 'owp-production-test', version: '1.0.0' });
+    cleanup.push(() => client.close());
+    // When
+    const help = await execute(
+      process.execPath,
+      ['--experimental-strip-types', path.join(app, 'mcp/cli.ts'), '--help'],
+      {
+        cwd: app,
+        env: { NODE_PATH: '', NODE_OPTIONS: '' },
+        timeout: 10000,
+      },
+    );
+    await client.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: ['--experimental-strip-types', path.join(app, 'mcp/cli.ts'), '--archive-root', root],
+        cwd: app,
+        env: { NODE_PATH: '', NODE_OPTIONS: '' },
+        stderr: 'pipe',
+      }),
+    );
+    const response = await client.callTool({
+      name: 'get_api',
+      arguments: {
+        package: 'datagrid',
+        symbol: 'OwpDataGrid',
+        releaseId: 'release-old',
+        version: '1.0.0',
+      },
+    });
+    // Then
+    expect(help.stderr).not.toContain('ERR_MODULE_NOT_FOUND');
+    expect(response.isError).not.toBe(true);
+    expect(response.structuredContent).toMatchObject({
+      releaseId: 'release-old',
+      package: '@owp/datagrid',
+      packageVersion: '1.0.0',
+      record: { id: '@owp/datagrid:OwpDataGrid' },
+      sourceUrls: ['/versions/release-old/api/datagrid.json'],
+    });
+  }, 15000);
+
+  it('lists all nine production Knowledge packages while excluding tailwind-config', async () => {
+    // Given
+    const app = await productionApp();
+    const supported = [
+      'datagrid',
+      'charts',
+      'core',
+      'components',
+      'date-picker',
+      'excel',
+      'pdf',
+      'theme',
+      'utils',
+    ];
+    const archiveRoot = await createMcpFixture({
+      packages: [...supported, 'tailwind-config'].map((id) => ({
+        id,
+        name: `@owp/${id}`,
+        version: '2.0.0',
+      })),
+      dependencies: {},
+      records: [],
+      examples: [],
+    });
+    cleanup.push(() => rm(archiveRoot, { recursive: true, force: true }));
+    const client = new Client({ name: 'owp-production-catalog-test', version: '1.0.0' });
+    cleanup.push(() => client.close());
+    // When
+    await client.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [
+          '--experimental-strip-types',
+          path.join(app, 'mcp/cli.ts'),
+          '--archive-root',
+          archiveRoot,
+        ],
+        cwd: app,
+        env: { NODE_PATH: '', NODE_OPTIONS: '' },
+        stderr: 'pipe',
+      }),
+    );
+    const response = await client.callTool({ name: 'list_packages', arguments: {} });
+    // Then
+    expect(response.isError).not.toBe(true);
+    expect(response.structuredContent).toMatchObject({
+      releaseId: 'release-new',
+      packages: supported.map((id) => ({ id, name: `@owp/${id}`, version: '2.0.0' })),
+    });
+    expect(listOutput.parse(response.structuredContent).packages.map((entry) => entry.id)).toEqual(
+      supported,
+    );
+  }, 15000);
+
   for (const [transport, protocol] of [
     ['http', 'legacy'],
     ['stdio', 'legacy'],

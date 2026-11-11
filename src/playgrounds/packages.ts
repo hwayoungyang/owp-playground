@@ -8,9 +8,14 @@ import pdfManifest from '@owp/pdf/package.json' with { type: 'json' };
 import themeManifest from '@owp/theme/package.json' with { type: 'json' };
 import utilsManifest from '@owp/utils/package.json' with { type: 'json' };
 import tailwindManifest from '../../node_modules/@owp/tailwind-config/package.json' with { type: 'json' };
-import { z } from 'zod';
+import { knowledgePackageIds } from './knowledge-package-ids.ts';
+import { chartsReferencePackages, referencePackagesFor } from './package-contracts.ts';
 
-export const playgroundPackageIdSchema = z.string().regex(/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/);
+export {
+  chartsReferencePackages,
+  playgroundPackageIdSchema,
+  referencePackagesFor,
+} from './package-contracts.ts';
 
 export const dataGridPackage = {
   id: 'datagrid',
@@ -27,12 +32,7 @@ export const chartsPackage = {
   name: '@owp/charts',
   version: chartsManifest.version,
   status: 'ready',
-  referencePackages: [
-    'chart.js',
-    'react-chartjs-2',
-    'chartjs-plugin-annotation',
-    'chartjs-plugin-datalabels',
-  ],
+  referencePackages: chartsReferencePackages,
 } as const;
 
 export const corePackage = {
@@ -72,17 +72,7 @@ export const packageCatalog = [
 
 /** 설치본의 공개 API와 가이드를 검증해 Knowledge로 제공하는 패키지입니다. */
 export const knowledgePackages = packageCatalog.flatMap((entry) =>
-  ![
-    'datagrid',
-    'charts',
-    'core',
-    'components',
-    'date-picker',
-    'excel',
-    'pdf',
-    'theme',
-    'utils',
-  ].includes(entry.id)
+  !knowledgePackageIds.some((id) => id === entry.id)
     ? []
     : [{ ...entry, referencePackages: referencePackagesFor(entry.id) }],
 );
@@ -91,12 +81,6 @@ export function supportsApiReference(
   playground: (typeof packageCatalog)[number],
 ): playground is Exclude<(typeof packageCatalog)[number], { readonly id: 'tailwind-config' }> {
   return playground.id !== 'tailwind-config';
-}
-
-export function referencePackagesFor(packageId: string): readonly string[] {
-  return (
-    completedPlaygroundPackages.find((entry) => entry.id === packageId)?.referencePackages ?? []
-  );
 }
 
 export function apiPackageIdFor(packageName: string): string {

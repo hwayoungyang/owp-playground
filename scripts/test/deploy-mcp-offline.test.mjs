@@ -1,15 +1,18 @@
 import assert from 'node:assert/strict';
+import { execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { lstat, mkdir, mkdtemp, readFile, realpath, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
+import { promisify } from 'node:util';
 import { gzipSync } from 'node:zlib';
 import { assertMcpLinuxExecutable, extractMcpRuntimeMember, MCP_OFFLINE_RUNTIMES, prepareMcpOffline, prepareMcpRuntimes } from '../deploy-mcp-offline.mjs';
 import { inspectMcpDependencies } from '../deploy-mcp-offline-format.mjs';
 import { prepareCachedMcpOffline, readCachedMcpOffline } from '../deploy-mcp-prepared.mjs';
 
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex');
+const execute = promisify(execFile);
 function elf() {
   const bytes = Buffer.alloc(64);
   bytes.writeUInt32BE(0x7f454c46, 0);
@@ -35,6 +38,7 @@ async function fixture(t) {
 }
 async function installFixture(command, args, options) {
   if (args.includes('--version')) return '12.16.1\n';
+  if (args.includes('--help')) return '';
   await mkdir(path.join(options.cwd, 'node_modules/pkg'), { recursive: true });
   await writeFile(path.join(options.cwd, 'node_modules/pkg/package.json'), '{"name":"pkg"}');
   return '';
@@ -84,6 +88,13 @@ test('Given a frozen bundle, When offline artifacts are prepared, Then Linux pro
   assert.equal(calls[0].env.COREPACK_ENABLE_PROJECT_SPEC, '0');
   assert.equal(calls[0].env.npm_config_manage_package_manager_versions, 'false');
   assert.ok(invocation.args.at(-1).startsWith(`--store-dir=${path.dirname(invocation.cwd)}/store`));
+  const cli = calls.find((call) => call.args.includes('--help'));
+  assert.equal(cli.command, process.execPath);
+  assert.deepEqual(cli.args, ['--experimental-strip-types', path.join(invocation.cwd, 'mcp/cli.ts'), '--help']);
+  assert.equal(cli.cwd, invocation.cwd);
+  assert.equal(cli.env.NODE_PATH, '');
+  assert.equal(cli.env.NODE_OPTIONS, '');
+  assert.ok(calls.indexOf(cli) > calls.indexOf(invocation));
   await assert.rejects(lstat(path.dirname(invocation.cwd)), { code: 'ENOENT' });
   const inspected = inspectMcpDependencies(await readFile(path.join(bundle.directory, 'dependencies.bin.gz')), result.manifest);
   assert.deepEqual(inspected.entries.map((entry) => entry.path), ['pkg', 'pkg/package.json']);
@@ -102,13 +113,35 @@ test('Given only cached Corepack pnpm 12.16.1, When preparing, Then its exact ve
   assert.deepEqual(calls[2].args.slice(0, 2), ['pnpm@12.16.1', 'install']);
 });
 
-for (const mutation of ['changed-lock', 'install-failure', 'wrong-version', 'invalid-runtime']) test(`Given ${mutation}, When preparing, Then no artifact is published and the private stage is removed`, async (t) => {
+test('Given a production CLI with a missing manifest, When its real import fails, Then preparation removes the stage without publishing artifacts', async (t) => {
+  const { bundle, app } = await fixture(t);
+  await mkdir(path.join(app, 'mcp'));
+  const source = "import manifest from '../node_modules/@owp/tailwind-config/package.json' with { type: 'json' };\nprocess.stdout.write(manifest.version);\n";
+  await writeFile(path.join(app, 'mcp/cli.ts'), source);
+  let stage;
+  let cliChecked = false;
+  const run = async (command, args, options) => {
+    if (!args.includes('--help')) return installFixture(command, args, options);
+    stage = path.dirname(options.cwd);
+    cliChecked = true;
+    assert.equal(await readFile(args[1], 'utf8'), source);
+    assert.ok((await lstat(path.join(options.cwd, 'node_modules/pkg/package.json'))).isFile());
+    return (await execute(command, args, { ...options, encoding: 'utf8', timeout: 10000 })).stdout;
+  };
+  await assert.rejects(prepareMcpOffline(bundle, { run, prepareRuntime: () => assert.fail('runtime preparation must not start after CLI failure') }), { code: 1 });
+  assert.equal(cliChecked, true);
+  await assert.rejects(lstat(stage), { code: 'ENOENT' });
+  for (const name of ['runtime-node', 'runtime-pnpm', 'dependencies.bin.gz', 'offline.json']) await assert.rejects(lstat(path.join(bundle.directory, name)), { code: 'ENOENT' });
+});
+
+for (const mutation of ['changed-lock', 'install-failure', 'cli-import-failure', 'wrong-version', 'invalid-runtime']) test(`Given ${mutation}, When preparing, Then no artifact is published and the private stage is removed`, async (t) => {
   const { bundle, app } = await fixture(t);
   let stage;
   const original = await readFile(path.join(app, 'pnpm-lock.yaml'));
   const run = async (command, args, options) => {
     if (args.includes('--version')) return mutation === 'wrong-version' ? '11.0.0' : '12.16.1';
     stage = path.dirname(options.cwd);
+    if (mutation === 'cli-import-failure' && args.includes('--help')) throw new Error('production CLI import failed');
     if (mutation === 'install-failure') throw new Error('installation failed');
     if (mutation === 'changed-lock') await writeFile(path.join(options.cwd, 'pnpm-lock.yaml'), 'changed');
     return installFixture(command, args, options);

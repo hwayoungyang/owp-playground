@@ -55,6 +55,8 @@ const appFiles = [
   'mcp/cli.ts', 'package.json', 'pnpm-lock.yaml', 'scripts/version-archive.ts', 'scripts/version-archive-files.ts',
   'scripts/version-archive-build.ts', 'scripts/version-archive-write.ts', 'src/features/releases/model/schema.ts',
   'src/features/api/model/schema.ts', 'src/features/api/model/package-data.ts', 'src/features/code/code-location.ts', 'src/playgrounds/packages.ts',
+  'src/playgrounds/knowledge-package-ids.ts',
+  'src/playgrounds/package-contracts.ts',
 ];
 export async function mcpFixture(t) {
   const root = await realpath(await mkdtemp(path.join(tmpdir(), 'owp-mcp-test-')));

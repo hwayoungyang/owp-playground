@@ -206,6 +206,10 @@ export async function prepareMcpOffline(bundle, { log = () => {}, run = runComma
     log('Linux x64 glibc용 production 의존성을 준비합니다.');
     await run(pnpm.command, [...pnpm.prefix, 'install', '--prod', '--frozen-lockfile', '--ignore-scripts', '--ignore-pnpmfile', '--no-runtime', '--os', 'linux', '--cpu', 'x64', '--libc', 'glibc', '--node-linker=hoisted', '--config.package-import-method=copy', '--config.manage-package-manager-versions=false', `--store-dir=${path.join(stage, 'store')}`], options);
     if (JSON.stringify(await sourceFingerprints(app)) !== JSON.stringify(original) || JSON.stringify(await sourceFingerprints(source)) !== JSON.stringify(original)) throw new Error('의존성 준비 중 원본 package·lock·workspace가 변경됐습니다.');
+    log('production 의존성으로 MCP CLI import를 확인합니다.');
+    await run(process.execPath, ['--experimental-strip-types', path.join(app, 'mcp/cli.ts'), '--help'], {
+      ...options, env: { ...options.env, NODE_PATH: '', NODE_OPTIONS: '' },
+    });
     const dependencies = await packMcpDependencies(path.join(app, 'node_modules'));
     log('공식 Node·pnpm Linux 런타임과 체크섬을 확인합니다.');
     const runtimes = await prepareRuntime({ cacheDirectory, download });

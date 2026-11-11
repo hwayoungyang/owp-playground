@@ -219,7 +219,9 @@ pnpm deploy:mcp:preflight
 pnpm deploy:mcp
 ```
 
-`--dry-run`의 오프라인 자료는 `pending-preparation`으로 표시됩니다. `--preflight-only`는 로컬 다운로드·의존성 준비를 수행할 수 있지만 서버에 파일을 전송하거나 설치하지 않습니다. 서버에 전용 런타임이 아직 없으면 `preflight-bootstrap-required` 상태와 설치 필요 안내를 반환합니다. 이 상태는 기본 환경만 확인한 결과이며 Node·앱·서비스 상세 검사 완료를 뜻하지 않습니다. 실제 배포에서는 런타임 설치 후 배포 잠금 안에서 전체 검사를 이어 갑니다.
+`--dry-run`은 일치하는 오프라인 준비 자료가 있으면 `prepared`, 없으면 `pending-preparation`으로 표시합니다. `--preflight-only`는 로컬 다운로드·의존성 준비를 수행할 수 있지만 서버에 파일을 전송하거나 설치하지 않습니다. 서버에 전용 런타임이 아직 없으면 `preflight-bootstrap-required` 상태와 설치 필요 안내를 반환합니다. 이 상태는 기본 환경만 확인한 결과이며 Node·앱·서비스 상세 검사 완료를 뜻하지 않습니다. 실제 배포에서는 런타임 설치 후 배포 잠금 안에서 전체 검사를 이어 갑니다.
+
+MCP 준비 자료는 production 의존성만 설치한 독립 경로에서 CLI 모듈을 읽을 수 있어야 합니다. 묶음·파일의 SHA-256 검사와 별도로 이 기동 조건을 확인하고, 실제 MCP 조회도 production 의존성을 사용하는 클라이언트 연결로 검증합니다. MCP의 지원 패키지 ID는 UI의 설치 버전 조회와 분리한 순수 목록을 공유하며, 런타임에서 devDependency의 package.json을 요구하지 않습니다.
 
 Node.js `24.22.1`의 [공식 Linux x64 배포 파일](https://nodejs.org/en/blog/release/v24.22.1)과 pnpm `12.16.1`의 공식 Linux x64 배포 파일을 로컬에서 내려받아 고정된 SHA-256·integrity로 검사합니다. 압축 파일은 `.omo/evidence/mcp-offline/cache/`에 보관하며 재사용할 때도 검증합니다. 서버에서는 이 파일에서 추출한 실행 바이너리만 설치하므로 `tar`·`xz`·npm을 이용한 런타임 설치가 필요하지 않습니다.
 
