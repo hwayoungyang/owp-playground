@@ -26,28 +26,28 @@ const manifestLabels = {
   invalid: 'Manifest 유효하지 않음',
 } as const;
 const runtimeLabels = {
-  installed: '개발 환경에 패키지 설치됨',
+  installed: '개발 환경에 설치됨',
   unconfigured: '런타임 미설정',
-  verified: '패키지 파일·메타데이터 확인됨',
+  verified: '패키지 파일·정보 확인됨',
   missing: '런타임 없음',
   mismatch: '런타임 식별 정보 불일치',
 } as const;
 const issueLabels: Readonly<Record<string, string>> = {
-  'runtime-unconfigured': '런타임 descriptor가 연결되지 않았습니다.',
-  'runtime-identity-mismatch': '런타임과 Manifest의 고객사·빌드·digest가 일치하지 않습니다.',
-  'runtime-package-set-mismatch': '런타임의 패키지 목록이 Manifest와 일치하지 않습니다.',
+  'runtime-unconfigured': '런타임 정보가 없습니다.',
+  'runtime-identity-mismatch': '런타임과 Manifest의 고객사·빌드·digest가 다릅니다.',
+  'runtime-package-set-mismatch': '런타임과 Manifest의 패키지 목록이 다릅니다.',
   'runtime-package-missing': '필수 패키지가 없습니다.',
-  'runtime-metadata-mismatch': '패키지의 버전 또는 배포 metadata가 일치하지 않습니다.',
-  'artifact-contract-unverified': 'Framework artifact digest 계약 adapter가 연결되지 않았습니다.',
-  'runtime-digest-mismatch': '패키지 파일의 digest가 일치하지 않습니다.',
-  'preview-digest-mismatch': '분리된 미리보기의 파일 목록 또는 digest가 일치하지 않습니다.',
-  'runtime-metadata-invalid': '런타임의 metadata 형식이 유효하지 않습니다.',
-  'runtime-file-missing': '런타임의 필수 파일이 없습니다.',
-  'manifest-missing': '제공 Manifest가 없습니다.',
-  'manifest-invalid': '제공 Manifest 형식이 유효하지 않습니다.',
-  'manifest-digest-mismatch': '제공 Manifest의 digest가 일치하지 않습니다.',
-  'company-mismatch': '프로필과 Manifest의 고객사가 일치하지 않습니다.',
-  'package-identity-mismatch': '패키지 ID와 이름이 일치하지 않습니다.',
+  'runtime-metadata-mismatch': '패키지 버전 또는 배포 정보가 다릅니다.',
+  'artifact-contract-unverified': '패키지 digest 검증이 설정되지 않았습니다.',
+  'runtime-digest-mismatch': '패키지 파일의 digest가 다릅니다.',
+  'preview-digest-mismatch': '미리보기 파일 목록 또는 digest가 다릅니다.',
+  'runtime-metadata-invalid': '런타임 정보 형식이 잘못되었습니다.',
+  'runtime-file-missing': '런타임 필수 파일이 없습니다.',
+  'manifest-missing': 'Manifest가 없습니다.',
+  'manifest-invalid': 'Manifest 형식이 잘못되었습니다.',
+  'manifest-digest-mismatch': 'Manifest의 digest가 다릅니다.',
+  'company-mismatch': '프로필과 Manifest의 고객사가 다릅니다.',
+  'package-identity-mismatch': '패키지 ID와 이름이 다릅니다.',
 };
 
 export function ProfilePackages({ profile }: { readonly profile: DistributionTarget }) {
@@ -64,7 +64,7 @@ export function ProfilePackages({ profile }: { readonly profile: DistributionTar
       className="distribution-table"
       size="small"
       aria-label={t('제공 빌드의 패키지 버전')}
-      headers={{ name: t('패키지'), base: t('기준 버전'), version: t('고객사 빌드 버전') }}
+      headers={{ name: t('패키지'), base: t('기준 버전'), version: t('빌드 버전') }}
       rows={profile.packages.map((pkg) => ({
         name: <code>{pkg.name}</code>,
         base: pkg.baseVersion ?? t('미확인'),
@@ -138,15 +138,10 @@ function ProfileStatus({
           <h1>{t(profile ? '배포 준비 상태' : '배포 프로필을 사용할 수 없습니다.')}</h1>
           {!profile ? (
             <Alert severity="error">
-              {t(
-                '요청한 프로필 또는 배포 설정이 유효하지 않습니다. 배포 대상을 다시 선택해 주세요.',
-              )}
+              {t('배포 설정이 유효하지 않습니다. 대상을 다시 선택해 주세요.')}
             </Alert>
           ) : (
             <>
-              <p>
-                {t('이 화면은 내부 준비 상태입니다. 앱의 실행·납품·설치를 확인한 결과가 아닙니다.')}
-              </p>
               <dl className="distribution-facts">
                 <div>
                   <dt>{t('고객사')}</dt>
@@ -170,21 +165,12 @@ function ProfileStatus({
                   <dd>{t(runtimeLabels[profile.runtimeStatus])}</dd>
                 </div>
               </dl>
-              <Alert severity={preview ? 'info' : 'warning'}>
-                {t(
-                  preview
-                    ? '분리된 미리보기로 이동할 수 있습니다. 브라우저 실행 검증은 별도로 필요합니다.'
-                    : '식별 정보가 일치하는 분리된 미리보기가 준비되지 않았습니다. 전체 예제·API는 이 프로필에서 실행하지 않습니다.',
-                )}
-              </Alert>
+              {!preview && <Alert severity="warning">{t('미리보기가 준비되지 않았습니다.')}</Alert>}
               {profile.issues.length > 0 && (
                 <ul className="distribution-blockers">
                   {profile.issues.map((issue, index) => (
                     <li key={`${issue.code}-${index}`}>
-                      {t(
-                        issueLabels[issue.code] ??
-                          '배포 검증을 완료하지 못했습니다. 내부 설정을 확인해 주세요.',
-                      )}
+                      {t(issueLabels[issue.code] ?? '배포 설정을 확인해 주세요.')}
                     </li>
                   ))}
                 </ul>
@@ -217,10 +203,9 @@ function ProfileStatus({
                   preview: t(hasVerifiedPreview(build) ? '정적 검증 완료' : '준비 중'),
                 }))}
               />
-              <p>{t('제공된 빌드의 기록이며 현재 정책의 최신 승인을 뜻하지 않습니다.')}</p>
               {preview && (
                 <Button variant="outlined" onClick={() => location.assign(preview.href)}>
-                  {t('분리된 미리보기 열기')}
+                  {t('미리보기 열기')}
                 </Button>
               )}
             </>

@@ -80,7 +80,7 @@ export function CompanyVersionMenu({
     <>
       <Button
         className="distribution-selector"
-        aria-label={t('고객사 빌드 버전 선택')}
+        aria-label={t('빌드 버전 선택')}
         disabled={builds.length === 0}
         aria-haspopup="menu"
         aria-controls={anchor ? id : undefined}
@@ -88,7 +88,7 @@ export function CompanyVersionMenu({
         endIcon={<CaretDownIcon size={12} />}
         onClick={(event) => setAnchor(event.currentTarget)}
       >
-        {t(builds.length ? '고객사 빌드 버전 선택' : '미리보기 준비 중')}
+        {t(builds.length ? '빌드 버전 선택' : '미리보기 준비 중')}
       </Button>
       <Menu id={id} anchorEl={anchor} open={Boolean(anchor)} onClose={() => setAnchor(null)}>
         {builds.map((build) => (

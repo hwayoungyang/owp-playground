@@ -8,10 +8,8 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '사용 불가': 'Unavailable',
   '배포 준비 상태': 'Distribution readiness',
   '배포 프로필을 사용할 수 없습니다.': 'Distribution profile unavailable',
-  '요청한 프로필 또는 배포 설정이 유효하지 않습니다. 배포 대상을 다시 선택해 주세요.':
-    'The requested profile or distribution configuration is invalid. Select a distribution target again.',
-  '이 화면은 내부 준비 상태입니다. 앱의 실행·납품·설치를 확인한 결과가 아닙니다.':
-    'This is an internal preparation view. App execution, delivery, and installation have not been confirmed.',
+  '배포 설정이 유효하지 않습니다. 대상을 다시 선택해 주세요.':
+    'Distribution settings are invalid. Select a target again.',
   고객사: 'Customer',
   '제공 빌드': 'Provided build',
   런타임: 'Runtime',
@@ -20,24 +18,21 @@ export const appEnglish: Readonly<Record<string, string>> = {
   'Manifest 확인됨': 'Manifest verified',
   'Manifest 없음': 'Manifest missing',
   'Manifest 유효하지 않음': 'Manifest invalid',
-  '개발 환경에 패키지 설치됨': 'Packages installed in the development environment',
+  '개발 환경에 설치됨': 'Installed in the development environment',
   '런타임 미설정': 'Runtime unconfigured',
-  '패키지 파일·메타데이터 확인됨': 'Package files and metadata verified',
+  '패키지 파일·정보 확인됨': 'Package files and metadata verified',
   '런타임 없음': 'Runtime missing',
   '런타임 식별 정보 불일치': 'Runtime identity mismatch',
-  '분리된 미리보기로 이동할 수 있습니다. 브라우저 실행 검증은 별도로 필요합니다.':
-    'An isolated preview is available. Browser execution still requires separate verification.',
-  '식별 정보가 일치하는 분리된 미리보기가 준비되지 않았습니다. 전체 예제·API는 이 프로필에서 실행하지 않습니다.':
-    'An isolated preview with matching identity is not ready. Full examples and APIs do not run in this profile.',
+  '미리보기가 준비되지 않았습니다.': 'Preview is not ready.',
   '제공된 빌드의 기록이며 현재 정책의 최신 승인을 뜻하지 않습니다.':
     'This records the provided build and does not establish approval under the current policy.',
-  '분리된 미리보기 열기': 'Open isolated preview',
+  '미리보기 열기': 'Open preview',
   '패키지 버전 미확인': 'Package versions unconfirmed',
   '제공 빌드의 패키지 버전': 'Package versions in the provided build',
   패키지: 'Package',
   '기준 버전': 'Base version',
-  '고객사 빌드 버전': 'Customer build version',
-  '고객사 빌드 버전 선택': 'Select customer build version',
+  '빌드 버전': 'Build version',
+  '빌드 버전 선택': 'Select build version',
   '미리보기 준비 중': 'Preview in preparation',
   '빌드 준비 상태': 'Build readiness',
   '빌드 이름': 'Build name',
@@ -94,29 +89,25 @@ export const appEnglish: Readonly<Record<string, string>> = {
   '이 제공 빌드에 포함됨': 'Included in this provided build',
   '이 제공 빌드에 포함되지 않음': 'Not included in this provided build',
   'Manifest 포함 여부 미확인': 'Manifest inclusion unconfirmed',
-  '런타임 descriptor가 연결되지 않았습니다.': 'A runtime descriptor is not connected.',
-  '런타임과 Manifest의 고객사·빌드·digest가 일치하지 않습니다.':
+  '런타임 정보가 없습니다.': 'Runtime information is missing.',
+  '런타임과 Manifest의 고객사·빌드·digest가 다릅니다.':
     'Runtime customer, build, or digest does not match the manifest.',
-  '런타임의 패키지 목록이 Manifest와 일치하지 않습니다.':
+  '런타임과 Manifest의 패키지 목록이 다릅니다.':
     'The runtime package set does not match the manifest.',
   '필수 패키지가 없습니다.': 'A required package is missing.',
-  '패키지의 버전 또는 배포 metadata가 일치하지 않습니다.':
+  '패키지 버전 또는 배포 정보가 다릅니다.':
     'Package version or distribution metadata does not match.',
-  'Framework artifact digest 계약 adapter가 연결되지 않았습니다.':
-    'The Framework artifact digest contract adapter is not connected.',
-  '패키지 파일의 digest가 일치하지 않습니다.': 'Package file digests do not match.',
-  '분리된 미리보기의 파일 목록 또는 digest가 일치하지 않습니다.':
-    'The isolated preview file inventory or digest does not match.',
-  '런타임의 metadata 형식이 유효하지 않습니다.': 'Runtime metadata is invalid.',
-  '런타임의 필수 파일이 없습니다.': 'A required runtime file is missing.',
-  '제공 Manifest가 없습니다.': 'The provided manifest is missing.',
-  '제공 Manifest 형식이 유효하지 않습니다.': 'The provided manifest format is invalid.',
-  '제공 Manifest의 digest가 일치하지 않습니다.': 'The provided manifest digest does not match.',
-  '프로필과 Manifest의 고객사가 일치하지 않습니다.':
-    'The profile and manifest customer do not match.',
-  '패키지 ID와 이름이 일치하지 않습니다.': 'The package ID and name do not match.',
-  '배포 검증을 완료하지 못했습니다. 내부 설정을 확인해 주세요.':
-    'Distribution verification could not be completed. Check the internal configuration.',
+  '패키지 digest 검증이 설정되지 않았습니다.': 'Package digest verification is not configured.',
+  '패키지 파일의 digest가 다릅니다.': 'Package file digests do not match.',
+  '미리보기 파일 목록 또는 digest가 다릅니다.': 'Preview file inventory or digest does not match.',
+  '런타임 정보 형식이 잘못되었습니다.': 'Runtime metadata format is invalid.',
+  '런타임 필수 파일이 없습니다.': 'A required runtime file is missing.',
+  'Manifest가 없습니다.': 'The manifest is missing.',
+  'Manifest 형식이 잘못되었습니다.': 'The manifest format is invalid.',
+  'Manifest의 digest가 다릅니다.': 'The manifest digest does not match.',
+  '프로필과 Manifest의 고객사가 다릅니다.': 'The profile and manifest customer do not match.',
+  '패키지 ID와 이름이 다릅니다.': 'The package ID and name do not match.',
+  '배포 설정을 확인해 주세요.': 'Check the distribution settings.',
   ...workbenchEnglish,
   ...packageGuidesEnglish,
   'MCP 서버 연결': 'Connect to the MCP server',
