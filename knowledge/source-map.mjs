@@ -9,7 +9,7 @@ const source = (root, file, packageId, topics, scope = 'usage') => ({
 });
 
 export const sourceMap = [
-  source('framework', 'docs/core/11.0.1/README.md', 'core', [
+  source('framework', 'docs/core/11.1.0/README.md', 'core', [
     'setup',
     'composition',
     'api',

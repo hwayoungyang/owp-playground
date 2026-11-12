@@ -1,6 +1,90 @@
 [
   {
     "exampleId": "api-query",
+    "apiId": "@owp/core:OwpApiQueryBehaviorOptions.validateResponse",
+    "label": "OwpApiQueryBehaviorOptions.validateResponse",
+    "action": "locate",
+    "reason": "Query에 전달하는 전체 응답 검증 callback의 실제 선언을 연결합니다. 같은 이름의 UI 상태 변수와 구분합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/examples/api-query.tsx",
+        "snippet": "validateResponse: (response: ApiJsonBody) => {"
+      },
+      {
+        "file": "playgrounds/core/examples/api-query.tsx",
+        "snippet": "const query = api.useApiQuery('get', path, observedInit, {\n    ...responseOptions,\n    ...validationOptions,\n  });"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/examples/api-query.tsx",
+    "snippet": "validateResponse: (response: ApiJsonBody) => {"
+  },
+  {
+    "exampleId": "api-query",
+    "apiId": "@owp/core:isOwpApiAuthError",
+    "label": "isOwpApiAuthError",
+    "action": "locate",
+    "reason": "Core utils의 인증 오류 판별 함수를 retry guard에서 호출하여 인증 오류의 자동 재시도를 제외합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/examples/api-query.tsx",
+        "snippet": "import { isOwpApiAuthError } from '@owp/core/utils';"
+      },
+      {
+        "file": "playgrounds/core/examples/api-query.tsx",
+        "snippet": "isOwpApiAuthError(error) ||"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/examples/api-query.tsx",
+    "snippet": "isOwpApiAuthError(error) ||"
+  },
+  {
+    "exampleId": "api-setup",
+    "apiId": "@owp/core:OwpApiQueryBehaviorOptions.validateResponse",
+    "label": "OwpApiQueryBehaviorOptions.validateResponse",
+    "action": "locate",
+    "reason": "OpenAPI body 전체를 검증하는 callback을 Query·Suspense Query·queryOptions에 전달하는 공통 옵션의 실제 선언을 연결합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/guides/api-setup.tsx",
+        "snippet": "const itemQueryOptions = {\n  validateResponse: validateItemResponse,"
+      },
+      {
+        "file": "playgrounds/core/guides/api-setup.tsx",
+        "snippet": "export const itemsQueryOptions = queryOptions('get', '/items', {}, itemQueryOptions);"
+      },
+      {
+        "file": "playgrounds/core/guides/api-setup.tsx",
+        "snippet": "return useApiSuspenseQuery('get', '/items', {}, itemQueryOptions);"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/guides/api-setup.tsx",
+    "snippet": "const itemQueryOptions = {\n  validateResponse: validateItemResponse,"
+  },
+  {
+    "exampleId": "api-setup",
+    "apiId": "@owp/core:isOwpApiAuthError",
+    "label": "isOwpApiAuthError",
+    "action": "locate",
+    "reason": "Core utils에서 import한 인증 오류 판별 함수를 공통 retry guard에서 호출합니다.",
+    "evidence": [
+      {
+        "file": "playgrounds/core/guides/api-setup.tsx",
+        "snippet": "import { isOwpApiAuthError } from '@owp/core/utils';"
+      },
+      {
+        "file": "playgrounds/core/guides/api-setup.tsx",
+        "snippet": "isOwpApiAuthError(error) ||"
+      }
+    ],
+    "mode": "direct",
+    "file": "playgrounds/core/guides/api-setup.tsx",
+    "snippet": "isOwpApiAuthError(error) ||"
+  },
+  {
+    "exampleId": "api-query",
     "apiId": "@owp/core:OwpApiMutationBehaviorOptions.allowMissingResultCode",
     "label": "OwpApiMutationBehaviorOptions.allowMissingResultCode",
     "action": "locate",

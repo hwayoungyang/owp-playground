@@ -3,9 +3,56 @@ import { useOwpTranslation } from '@owp/components/hooks';
 import { CodeSnippet } from '../../../../features/code/CodeSnippet';
 import { JsonResult } from '../../../../features/code/JsonResult';
 import { apiResultCode } from '../../model/api-response-observation';
-import type { ApiOutcome, ApiRequestOptions } from '../../model/api-response';
+import type { ApiOutcome, ApiQueryState, ApiRequestOptions } from '../../model/api-response';
 
 export function ApiRequestResult({
+  outcome,
+  pending,
+  responseMode,
+  queryState,
+}: {
+  readonly outcome: ApiOutcome;
+  readonly pending: boolean;
+  readonly responseMode: ApiRequestOptions['responseMode'];
+  readonly queryState?: ApiQueryState;
+}) {
+  const { t } = useOwpTranslation();
+  return (
+    <>
+      {queryState && (
+        <Typography variant="body2" role="status">
+          {t('Query: {{status}} / {{fetchStatus}} · 요청 시도 {{attempts}}회 · 실패 {{failureCount}}회', {
+            status: queryState.status,
+            fetchStatus: queryState.fetchStatus,
+            attempts: queryState.attempts,
+            failureCount: queryState.failureCount,
+          })}
+        </Typography>
+      )}
+      {!pending && queryState?.error !== undefined && (
+        <Typography variant="body2">
+          {t('Query 오류: {{error}}', { error: queryState.error })}
+        </Typography>
+      )}
+      {pending && queryState?.failureReason !== undefined && (
+        <Typography variant="body2">
+          {t('Query 실패 원인: {{error}}', { error: queryState.failureReason })}
+        </Typography>
+      )}
+      <ApiRequestOutcome outcome={outcome} pending={pending} responseMode={responseMode} />
+      {queryState?.data !== undefined && (
+        <>
+          <Typography variant="body2" color="text.secondary">
+            {t('query.data는 마지막 정상 결과입니다. 재조회 실패와 취소 뒤에도 Query가 보존한 데이터를 표시합니다.')}
+          </Typography>
+          <JsonResult label="query.data" value={queryState.data} />
+        </>
+      )}
+    </>
+  );
+}
+
+function ApiRequestOutcome({
   outcome,
   pending,
   responseMode,
@@ -15,7 +62,7 @@ export function ApiRequestResult({
   readonly responseMode: ApiRequestOptions['responseMode'];
 }) {
   const { t } = useOwpTranslation();
-  if (pending)
+  if (pending || outcome.kind === 'pending')
     return (
       <Alert severity="info" role="status">
         {t('요청 중입니다.')}
@@ -26,6 +73,12 @@ export function ApiRequestResult({
       <Typography variant="body2" color="text.secondary">
         {t('조회 버튼을 눌러 주세요.')}
       </Typography>
+    );
+  if (outcome.kind === 'cancelled')
+    return (
+      <Alert severity="info" role="status">
+        {t('조회가 취소되었습니다. 이전 Query 데이터는 유지하며 이번 조회를 성공으로 처리하지 않습니다.')}
+      </Alert>
     );
 
   const body =

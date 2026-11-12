@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "sources": [
     {
-      "id": "framework/docs/core/11.0.1/README.md",
+      "id": "framework/docs/core/11.1.0/README.md",
       "packageId": "core",
-      "sha256": "c6d1379b08902ba2cb1838eb47223a520d3d9d00dee7b78344b7d72f2ec39ee7",
+      "sha256": "ae40e8281662b952ef240eab98099cf394018b5482e535192ed1468a2e87cec5",
       "sections": [
         {
           "heading": "@owp/core",
@@ -31,7 +31,7 @@
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
-          "heading": "Changes (2026-11-07)",
+          "heading": "Changes (2026-11-12)",
           "line": 11,
           "disposition": "mapped",
           "guideIds": [
@@ -128,7 +128,7 @@
         },
         {
           "heading": "라이선스 및 사용 정책 / License and Usage Policy",
-          "line": 123,
+          "line": 125,
           "disposition": "mapped",
           "guideIds": [
             "@owp/core:guide.setup",
@@ -950,7 +950,7 @@
     {
       "id": "agents/consumer/datagrid/references/usage.md",
       "packageId": "datagrid",
-      "sha256": "aa669126732e9569f636787c4783187743033bc371f59deb37ee6d7e2f1f5193",
+      "sha256": "c0ae7b2aa9050155b9b4e418ec73b1ab69d8f4ddf595dacc52e61852ad09b947",
       "sections": [
         {
           "heading": "OwpDataGrid 기본 연결",

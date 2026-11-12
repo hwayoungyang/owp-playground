@@ -5,6 +5,9 @@ import missingCodeUrl from '../data/processes-no-code.json?url&no-inline';
 import nullCodeUrl from '../data/processes-null-code.json?url&no-inline';
 import arrayUrl from '../data/processes-array.json?url&no-inline';
 import authUrl from '../data/processes-auth-error.json?url&no-inline';
+import authResponse from '../data/processes-auth-error.json';
+import invalidDataResponse from '../data/processes-invalid-data.json';
+import { queryFixtures as processFixtures } from './fixtures';
 import rawObjectUrl from '../data/api-raw-object.json?url&no-inline';
 import rawArrayUrl from '../data/api-raw-array.json?url&no-inline';
 import rawEmptyObjectUrl from '../data/api-raw-empty-object.json?url&no-inline';
@@ -58,6 +61,38 @@ export const queryPolicies = ['기본 검사', 'resultCode 누락 허용'] as co
 export const mutationPolicies = [...queryPolicies, '호출부 직접 판정'] as const;
 export const requestModes = ['Query', 'Mutation (GET)'] as const;
 export const responseModes = ['owp', 'raw'] as const;
+export const queryFixtures = [
+  '선택한 응답',
+  '정상 응답',
+  '빈 목록 1회 후 정상',
+  '잘못된 resultData 1회 후 정상',
+  '연속 검증 실패',
+  '인증 오류 응답',
+  'AbortError 발생',
+] as const;
+export type ApiQueryFixture = (typeof queryFixtures)[number];
+
+export function queryFixtureBody(fixture: ApiQueryFixture, attempt: number): ApiJsonBody | undefined {
+  switch (fixture) {
+    case '선택한 응답':
+    case 'AbortError 발생':
+      return undefined;
+    case '정상 응답':
+      return processFixtures.rows;
+    case '빈 목록 1회 후 정상':
+      return attempt === 1 ? processFixtures.empty : processFixtures.rows;
+    case '잘못된 resultData 1회 후 정상':
+      return attempt === 1 ? invalidDataResponse : processFixtures.rows;
+    case '연속 검증 실패':
+      return processFixtures.empty;
+    case '인증 오류 응답':
+      return authResponse;
+    default: {
+      const exhaustive: never = fixture;
+      return exhaustive;
+    }
+  }
+}
 export const requestInit = { headers: { Accept: 'application/json' }, parseAs: 'json' } as const;
 
 export type ApiJsonBody =
@@ -86,6 +121,8 @@ export type ApiRequestOptions = {
 };
 export type ApiOutcome =
   | { readonly kind: 'idle' }
+  | { readonly kind: 'pending' }
+  | { readonly kind: 'cancelled' }
   | {
       readonly kind: 'success';
       readonly data: ApiJsonBody;
@@ -96,6 +133,16 @@ export type ApiOutcome =
       readonly message: string;
       readonly response?: ApiResponseObservation;
     };
+
+export type ApiQueryState = {
+  readonly status: string;
+  readonly fetchStatus: string;
+  readonly failureCount: number;
+  readonly attempts: number;
+  readonly error: string | undefined;
+  readonly failureReason: string | undefined;
+  readonly data: ApiJsonBody | undefined;
+};
 
 export const responseGuidance = {
   raw: 'raw는 HTTP 성공 시 JSON body 전체를 반환합니다. 업무 코드·인증 응답 판정과 성공 알림은 생략하고 HTTP·네트워크 오류와 오류 알림 설정은 유지합니다.',

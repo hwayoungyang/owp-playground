@@ -6,7 +6,7 @@ MUI 기반 OWP 컴포넌트를 실행하고 소스 코드를 확인할 수 있�
 | --- | --- |
 | `@owp/datagrid` | `4.0.2` |
 | `@owp/charts` | `7.0.2` |
-| `@owp/core` | `11.0.2` |
+| `@owp/core` | `11.1.0` |
 | `@owp/components` | `5.0.2` |
 | `@owp/date-picker` | `3.1.0` |
 | `@owp/utils` | `2.1.0` |

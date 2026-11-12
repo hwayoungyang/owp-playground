@@ -1,5 +1,7 @@
 import { createOwpApiHooks } from '@owp/core/hooks';
-import { useQueryClient } from '@owp/core/query';
+import { isCancelledError, useQueryClient } from '@owp/core/query';
+import { isOwpApiAuthError } from '@owp/core/utils';
+import type { OwpApiListResponse, OwpApiQueryBehaviorOptions } from '@owp/core/types';
 
 type Item = { readonly id: string; readonly name: string };
 type ItemResponse = {
@@ -43,13 +45,48 @@ export const { useApiQuery, useApiSuspenseQuery, useApiMutation, queryOptions } 
     onAuthError: () => window.location.assign('/login'),
   });
 
+function retryQuery(failureCount: number, error: unknown) {
+  if (
+    isOwpApiAuthError(error) ||
+    isCancelledError(error) ||
+    (error instanceof Error && error.name === 'AbortError')
+  )
+    return false;
+  return failureCount < 1;
+}
+
+// 빈 목록도 기본적으로 정상입니다. 이 앱의 선택 정책으로만 오류를 발생시킵니다.
+function validateItemListResponse(response: OwpApiListResponse<Item>): void {
+  if (!Array.isArray(response.resultData) || response.resultData.length === 0)
+    throw new Error('비어 있지 않은 resultData 목록이 필요합니다.');
+}
+
+// OpenAPI 경로 추론은 row가 아닌 body 전체 ItemResponse를 callback에 전달합니다.
+const validateItemResponse: NonNullable<
+  OwpApiQueryBehaviorOptions<ItemResponse>['validateResponse']
+> = (response: ItemResponse) => {
+  validateItemListResponse(response);
+};
+
+// callback 반환값은 무시하고 원본 응답을 저장합니다. Promise<void>를 반환해도 됩니다.
+const itemQueryOptions = {
+  validateResponse: validateItemResponse,
+  retry: retryQuery,
+  retryDelay: 1000,
+  staleTime: 30_000,
+} as const;
+
+// queryOptions에도 같은 검증 정책을 적용해 fetchQuery·prefetchQuery에서 재사용합니다.
+export const itemsQueryOptions = queryOptions('get', '/items', {}, itemQueryOptions);
+
 // 생성한 queryKey를 그대로 재사용합니다. prefix 무효화는 같은 init의 응답 정책도 포함합니다.
-export const itemsQueryKey = queryOptions('get', '/items', {}).queryKey;
+export const itemsQueryKey = itemsQueryOptions.queryKey;
 
 export function useItems() {
   const queryClient = useQueryClient();
-  const query = useApiQuery('get', '/items', {}, { staleTime: 30_000 });
+  const query = useApiQuery('get', '/items', {}, itemQueryOptions);
   const save = useApiMutation('post', '/items', {
+    retry: false,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: itemsQueryKey }),
   });
 
@@ -59,6 +96,25 @@ export function useItems() {
 
   return { query, save, items: query.data?.resultData ?? [], createItem };
 }
+
+// 기존 <Row> generic의 callback은 OwpApiListResponse<Row>를 받습니다.
+export function useItemsByRow() {
+  return useApiQuery<Item>('get', '/items', {}, {
+    ...itemQueryOptions,
+    validateResponse: (response: OwpApiListResponse<Item>) => {
+      validateItemListResponse(response);
+    },
+  });
+}
+
+// 같은 key를 사용하는 조회는 같은 검증 정책을 사용하며, 상위에 Suspense·오류 경계를 둡니다.
+export function useSuspenseItems() {
+  return useApiSuspenseQuery('get', '/items', {}, itemQueryOptions);
+}
+
+// validateResponse는 새 조회만 검사하며 기존 cache·initialData를 소급 검사하지 않습니다.
+// select는 표시할 값의 변환입니다. 검증을 대신하거나 원본 cache를 바꾸지 않습니다.
+// mutation에는 validateResponse를 지정하지 않으며 저장은 자동 재시도하지 않습니다.
 
 // 요청별 options에 지정합니다. {}와 { resultData: [] }도 전체 객체로 반환합니다.
 export const connectionQueryOptions = queryOptions(

@@ -141,6 +141,22 @@ export const coreFoundations = [
         body: '기본 OWP key는 [method, path, init]입니다. raw는 네 번째 요소로 { owpResponsePolicy: { responseMode: "raw" } }를, 누락 허용은 { owpResponsePolicy: { responseMode: "owp", allowMissingResultCode: true } }를 추가해 캐시를 분리합니다. 명시적 owp·false는 기본 key와 같고 raw의 누락 허용 값은 key에 영향을 주지 않습니다. 이 구조는 계약 설명이며 앱에서는 queryOptions가 생성한 queryKey를 그대로 재사용합니다. 기본 3개 요소의 key로 invalidateQueries를 실행하면 같은 init의 정책별 캐시도 무효화합니다. exact: true는 지정한 정책의 key만 무효화합니다.',
       },
       {
+        title: '성공 응답 검증과 데이터 변환',
+        body: 'validateResponse는 useApiQuery·useApiSuspenseQuery·queryOptions의 요청별 옵션입니다. 새로 조회한 전체 성공 응답을 cache에 저장하기 전에 검사하며, async callback도 await합니다. callback이 throw하거나 Promise가 reject하면 원본 오류를 Query에 전달하고 retry·retryDelay를 따릅니다. 반환값은 무시하고 원본 응답을 그대로 사용합니다. select는 표시할 값을 변환하는 옵션이며 검증을 대신하지 않습니다. queryFn을 감싸서 검증할 필요가 없고 mutation에는 validateResponse를 지정할 수 없습니다. 빈 목록은 기본적으로 정상이며, 예제는 빈 resultData를 오류로 간주하는 선택 정책을 보여 줍니다.',
+      },
+      {
+        title: '검증 callback의 타입과 cache',
+        body: '설정 코드의 useApiQuery<Item> callback은 OwpApiListResponse<Item>을 받고, OpenAPI 경로로 추론하는 callback은 body 전체 ItemResponse를 받습니다. queryOptions와 useApiSuspenseQuery에도 같은 정책을 전달합니다. validateResponse는 기존 cache와 initialData를 소급 검증하지 않으며 검증 정책은 query key에 포함하지 않습니다. 같은 key는 진행 중인 요청과 cache를 공유하므로 같은 검증 정책을 사용해야 합니다. 검증 옵션을 켰다는 이유만으로 기존 데이터가 다시 검증되지는 않습니다.',
+      },
+      {
+        title: '검증 실패의 재시도와 취소',
+        body: '검증 예제와 설정 코드의 retry는 isOwpApiAuthError(error)·isCancelledError(error)·Error.name이 AbortError인 경우 false를 반환하고, 나머지는 failureCount < 1로 한 번만 재시도합니다. retryDelay는 1000ms이므로 최초 시도 뒤 1초 후 두 번째 시도를 합니다. 재조회가 끝내 실패해도 마지막 정상 결과는 별도 복사본 없이 query.data에 남습니다. AbortError fixture는 retry guard를 확인하는 오류이며 Query 취소와는 다릅니다. 조회 취소는 queryOptions가 만든 key와 exact: true로 queryClient.cancelQueries를 호출해 요청과 재시도 대기를 취소하고 이전 Query 상태를 복원합니다. 이때 CancelledError는 일반 재시도 오류와 구분되며, 복원된 data가 있어도 이번 조회를 성공으로 표시하지 않습니다. mutation의 재시도와 저장 판정은 이 검증 정책에 포함하지 않습니다.',
+      },
+      {
+        title: '검증 예제 재현',
+        body: 'API 요청에서 Query·owp를 선택하고 기본값이 꺼진 validateResponse 검증을 켭니다. 검증 fixture를 빈 목록 1회 후 정상 또는 잘못된 resultData 1회 후 정상으로 고른 뒤 조회하면 같은 endpoint·query key에서 두 번째 시도가 성공합니다. 연속 검증 실패는 두 번 뒤 종료하며, fixture만 정상 응답으로 바꿔 수동 조회하면 복구합니다. 정상 결과 뒤 연속 검증 실패로 바꿔 다시 조회하면 오류와 기존 query.data를 함께 확인할 수 있습니다. 인증 오류 응답과 AbortError 발생은 한 번으로 종료합니다. 재시도 대기 중 조회 취소를 누르면 취소 결과와 이전 데이터를 확인합니다. fixture는 진행 중 바꿀 수 없고, 요청 시도 횟수는 render 수가 아닌 middleware onRequest 실행 횟수입니다. 화면과 데이터 탭에 Query 상태·실패 횟수·최종 결과를 표시합니다.',
+      },
+      {
         title: '응답 타입과 기존 generic',
         body: 'OpenAPI paths로 추론한 응답은 body 전체 타입을 사용합니다. 기존 query·Suspense hook의 <Row>는 OwpApiListResponse<Row>, <Row, "single">은 OwpApiSingleResponse<Row>를 유지하고 mutation의 <Row>도 OwpApiMutationResponse<Row>를 유지합니다. raw 요청의 <Body>는 row가 아니라 body 전체 타입이며 결과는 Body의 undefined를 null로 정규화한 타입입니다. 일반 query·mutation의 초기 data에는 undefined가 추가될 수 있습니다. raw queryOptions<Body>의 queryFn과 fetchQuery 결과도 같은 body·null 계약을 따릅니다. allowMissingResultCode가 응답을 변환하거나 선언 타입을 자동으로 느슨하게 만들지는 않습니다.',
       },

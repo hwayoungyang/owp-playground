@@ -50,7 +50,7 @@
     "@mui/system": "^9.5.0",
     "@owp/charts": "7.0.2",
     "@owp/components": "5.0.2",
-    "@owp/core": "11.0.2",
+    "@owp/core": "11.1.0",
     "@owp/datagrid": "4.0.2",
     "@owp/date-picker": "3.1.0",
     "@owp/excel": "4.0.1",

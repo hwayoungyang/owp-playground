@@ -14214,6 +14214,11 @@
       "packageId": "core"
     },
     {
+      "label": "isOwpApiAuthError",
+      "id": "@owp/core:isOwpApiAuthError",
+      "packageId": "core"
+    },
+    {
       "label": "queryCancellation",
       "id": "@owp/core:OwpUiProviderProps.queryCancellation",
       "packageId": "core"
@@ -14231,6 +14236,11 @@
     {
       "label": "styledEngineProviderProps",
       "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpApiQueryBehaviorOptions.validateResponse",
+      "id": "@owp/core:OwpApiQueryBehaviorOptions.validateResponse",
       "packageId": "core"
     }
   ],
@@ -14323,6 +14333,11 @@
       "packageId": "core"
     },
     {
+      "label": "isOwpApiAuthError",
+      "id": "@owp/core:isOwpApiAuthError",
+      "packageId": "core"
+    },
+    {
       "label": "queryCancellation",
       "id": "@owp/core:OwpUiProviderProps.queryCancellation",
       "packageId": "core"
@@ -14340,6 +14355,11 @@
     {
       "label": "styledEngineProviderProps",
       "id": "@owp/core:OwpCoreProviderProps.styledEngineProviderProps",
+      "packageId": "core"
+    },
+    {
+      "label": "OwpApiQueryBehaviorOptions.validateResponse",
+      "id": "@owp/core:OwpApiQueryBehaviorOptions.validateResponse",
       "packageId": "core"
     }
   ],
