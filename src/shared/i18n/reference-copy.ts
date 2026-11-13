@@ -56,6 +56,15 @@ function rewriteProse(text: string): string {
       'renderer 출력은 사각형 안에서 clip됩니다.',
       'renderer 출력은 사각형 안에서 clip 처리.',
     )
+    .replace(/보여 줍니다(?=[.!?](?:\s|$)|$)/g, '보여 줌')
+    .replace(/시도를 합니다(?=[.!?](?:\s|$)|$)/g, '시도')
+    .replace(/남습니다(?=[.!?](?:\s|$)|$)/g, '남음')
+    .replace(/켭니다(?=[.!?](?:\s|$)|$)/g, '켬')
+    .replace(/횟수입니다(?=[.!?](?:\s|$)|$)/g, '횟수')
+    .replace(
+      /(?<![가-힣A-Za-z_])(검증|성공|복구|종료)(?:합니다|한다|하세요)(?=[.!?](?:\s|$)|$)/g,
+      '$1',
+    )
     .replace(/(?<![가-힣])정합니다(?=[.!?](?:\s|$)|$)/g, '지정');
   for (const [pattern, replacement] of endingPatterns)
     result = result.replace(pattern, replacement);

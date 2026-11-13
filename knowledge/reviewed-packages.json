@@ -5,9 +5,9 @@
     "runtimeHash": "3adf2970b807ada8b8f8605e89d867a29abb073982155c051dce66063693af0d"
   },
   "@owp/datagrid": {
-    "version": "4.0.2",
+    "version": "4.0.3",
     "declarationHash": "7bcc60733fff2bd34d9af4cd79687e4f87ef6ef9e720b84a98b0af455a5ea695",
-    "runtimeHash": "144dc7026b0c529427349d9b8771f20e20911e778d76bcd5a26a483828ffcded"
+    "runtimeHash": "ffa206c479faf2c8bcff299f5e8e106b3f9656f44b69a6d8c427655fe7a31387"
   },
   "@owp/charts": {
     "version": "7.0.2",

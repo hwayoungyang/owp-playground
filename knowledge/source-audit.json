@@ -1468,7 +1468,7 @@
     {
       "id": "agents/consumer/datagrid/references/number-formatting.md",
       "packageId": "datagrid",
-      "sha256": "82b1bc1e34435db51646a0582debcba98c584c75c3d61e87db63691d27a9062d",
+      "sha256": "bb171a0dca44cbe2fcfd7256a833237bd085d1c74e376bb148a6b150ff5142d3",
       "sections": [
         {
           "heading": "OwpDataGrid 숫자 표시와 Excel 규칙",
@@ -1493,14 +1493,14 @@
         },
         {
           "heading": "숫자 범위와 음수 제한",
-          "line": 25,
+          "line": 26,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.formatting"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."
         },
         {
           "heading": "Excel export",
-          "line": 32,
+          "line": 33,
           "disposition": "mapped",
           "guideIds": ["@owp/datagrid:guide.formatting"],
           "note": "공개 declaration 및 연결 예제와 대조한 사용 설명에 연결합니다."

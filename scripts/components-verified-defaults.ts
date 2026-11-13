@@ -13,6 +13,7 @@ const verifiedGridFiles: Readonly<Record<string, Readonly<Record<string, string>
   '4.0.0': gridFiles,
   '4.0.1': gridFiles,
   '4.0.2': { ...gridFiles, 'dist/index.js': 'ef72d50068fc60bda6590ca205b912c32fcfd07cb3dd0bfc0481ff5640c92623' },
+  '4.0.3': { ...gridFiles, 'dist/index.js': 'f9700564215958894f91c033524bd16ee966a358ecf776dd93f169eb2cd28d9b' },
 };
 
 export function verifiedComponentDefaults(root: string, packageId: string, version: string): VerifiedDefaults {

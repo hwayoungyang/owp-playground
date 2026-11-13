@@ -99,12 +99,17 @@ export function useItems() {
 
 // 기존 <Row> generic의 callback은 OwpApiListResponse<Row>를 받습니다.
 export function useItemsByRow() {
-  return useApiQuery<Item>('get', '/items', {}, {
-    ...itemQueryOptions,
-    validateResponse: (response: OwpApiListResponse<Item>) => {
-      validateItemListResponse(response);
+  return useApiQuery<Item>(
+    'get',
+    '/items',
+    {},
+    {
+      ...itemQueryOptions,
+      validateResponse: (response: OwpApiListResponse<Item>) => {
+        validateItemListResponse(response);
+      },
     },
-  });
+  );
 }
 
 // 같은 key를 사용하는 조회는 같은 검증 정책을 사용하며, 상위에 Suspense·오류 경계를 둡니다.

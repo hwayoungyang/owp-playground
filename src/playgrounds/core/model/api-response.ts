@@ -72,7 +72,10 @@ export const queryFixtures = [
 ] as const;
 export type ApiQueryFixture = (typeof queryFixtures)[number];
 
-export function queryFixtureBody(fixture: ApiQueryFixture, attempt: number): ApiJsonBody | undefined {
+export function queryFixtureBody(
+  fixture: ApiQueryFixture,
+  attempt: number,
+): ApiJsonBody | undefined {
   switch (fixture) {
     case '선택한 응답':
     case 'AbortError 발생':

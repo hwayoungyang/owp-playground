@@ -21,12 +21,15 @@ export function ApiRequestResult({
     <>
       {queryState && (
         <Typography variant="body2" role="status">
-          {t('Query: {{status}} / {{fetchStatus}} · 요청 시도 {{attempts}}회 · 실패 {{failureCount}}회', {
-            status: queryState.status,
-            fetchStatus: queryState.fetchStatus,
-            attempts: queryState.attempts,
-            failureCount: queryState.failureCount,
-          })}
+          {t(
+            'Query: {{status}} / {{fetchStatus}} · 요청 시도 {{attempts}}회 · 실패 {{failureCount}}회',
+            {
+              status: queryState.status,
+              fetchStatus: queryState.fetchStatus,
+              attempts: queryState.attempts,
+              failureCount: queryState.failureCount,
+            },
+          )}
         </Typography>
       )}
       {!pending && queryState?.error !== undefined && (
@@ -43,7 +46,9 @@ export function ApiRequestResult({
       {queryState?.data !== undefined && (
         <>
           <Typography variant="body2" color="text.secondary">
-            {t('query.data는 마지막 정상 결과입니다. 재조회 실패와 취소 뒤에도 Query가 보존한 데이터를 표시합니다.')}
+            {t(
+              'query.data는 마지막 정상 결과입니다. 재조회 실패와 취소 뒤에도 Query가 보존한 데이터를 표시합니다.',
+            )}
           </Typography>
           <JsonResult label="query.data" value={queryState.data} />
         </>
@@ -77,7 +82,9 @@ function ApiRequestOutcome({
   if (outcome.kind === 'cancelled')
     return (
       <Alert severity="info" role="status">
-        {t('조회가 취소되었습니다. 이전 Query 데이터는 유지하며 이번 조회를 성공으로 처리하지 않습니다.')}
+        {t(
+          '조회가 취소되었습니다. 이전 Query 데이터는 유지하며 이번 조회를 성공으로 처리하지 않습니다.',
+        )}
       </Alert>
     );
 

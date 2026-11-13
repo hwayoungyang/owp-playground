@@ -26,8 +26,8 @@ describe('공개 Props 기본값의 실제 근거', () => {
     const declaredPackage: unknown = JSON.parse(
       readFileSync(join(installedRoot, 'package.json'), 'utf8'),
     );
-    expect(declaredPackage).toMatchObject({ dependencies: { '@owp/datagrid': '4.0.2' } });
-    expect(installedPackage).toMatchObject({ version: '4.0.2' });
+    expect(declaredPackage).toMatchObject({ dependencies: { '@owp/datagrid': '4.0.3' } });
+    expect(installedPackage).toMatchObject({ version: '4.0.3' });
     const expected = {
       OwpDataGridExportExcelButton: {
         exportName: '"sheet"',
@@ -35,15 +35,15 @@ describe('공개 Props 기본값의 실제 근거', () => {
         saveMode: '"auto"',
       },
     };
-    const supportedVersions = ['4.0.2'] as const;
-    expect(verifiedComponentDefaults(installedRoot, 'datagrid', '4.0.2')).toEqual(expected);
+    const supportedVersions = ['4.0.3'] as const;
+    expect(verifiedComponentDefaults(installedRoot, 'datagrid', '4.0.3')).toEqual(expected);
     // 같은 기능 계약이어도 이전 버전의 index 지문을 새 버전으로 대체하지 않습니다.
-    for (const version of ['4.0.0', '4.0.1'])
+    for (const version of ['4.0.0', '4.0.1', '4.0.2'])
       expect(verifiedComponentDefaults(installedRoot, 'datagrid', version), version).toEqual({});
     const packageRoot = join(root, 'node_modules/@owp/datagrid');
     const files = ['dist/index.js', 'dist/chunks/C8z2ndwY.js', 'dist/chunks/COyRmcMd.js'];
     const fingerprints = [
-      'ef72d50068fc60bda6590ca205b912c32fcfd07cb3dd0bfc0481ff5640c92623',
+      'f9700564215958894f91c033524bd16ee966a358ecf776dd93f169eb2cd28d9b',
       'de83161ff79c79adf5093200a3b857248ef5ad4cb15fe396c296ac1e68e90afd',
       '3273e18e07abb024b1d2c97915f050b42345b7bd276d5b36e351fedf5732e5d9',
     ];
@@ -63,7 +63,7 @@ describe('공개 Props 기본값의 실제 근거', () => {
       expect(verifiedComponentDefaults(root, 'datagrid', version), version).toEqual(expected);
       expect(verifiedComponentDefaults(root, 'core', version), version).toEqual({});
     }
-    for (const version of ['3.5.4', '3.5.5', '4.0.3', '5.0.0', '__proto__', 'toString']) {
+    for (const version of ['3.5.4', '3.5.5', '4.0.4', '5.0.0', '__proto__', 'toString']) {
       expect(verifiedComponentDefaults(root, 'datagrid', version)).toEqual({});
     }
     for (const relative of files) {

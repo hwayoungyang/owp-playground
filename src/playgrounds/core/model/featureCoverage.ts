@@ -21,7 +21,7 @@ export const coreFeatureCoverage = [
     title: 'API 요청과 캐시',
     body: 'createOwpApiHooks에 API 주소와 응답 코드를 지정합니다. 조회·변경 hook과 QueryClient가 요청 상태와 캐시를 관리합니다.',
     samples: ['api-setup', 'api-query'],
-    api: ['createOpenapiQueryClient', 'createOwpApiHooks'],
+    api: ['createOpenapiQueryClient', 'createOwpApiHooks', 'isOwpApiAuthError'],
   },
   {
     id: 'auth',

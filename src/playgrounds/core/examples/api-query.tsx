@@ -318,10 +318,14 @@ function ApiRequest({
             />
           </Box>
           <Typography variant="body2" color="text.secondary">
-            {t('빈 목록은 기본적으로 정상입니다. 이 예제의 검증을 켜면 전체 성공 응답의 resultData가 비어 있지 않은 목록인지 검사합니다. fixture를 바꿔도 endpoint와 query key는 유지합니다.')}
+            {t(
+              '빈 목록은 기본적으로 정상입니다. 이 예제의 검증을 켜면 전체 성공 응답의 resultData가 비어 있지 않은 목록인지 검사합니다. fixture를 바꿔도 endpoint와 query key는 유지합니다.',
+            )}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {t('검증·일반 오류는 1초 후 한 번만 재시도합니다. 인증 오류·CancelledError·AbortError는 재시도하지 않습니다. AbortError fixture는 오류 guard를 재현하며, 조회 취소는 QueryClient로 실제 요청과 재시도 대기를 취소합니다.')}
+            {t(
+              '검증·일반 오류는 1초 후 한 번만 재시도합니다. 인증 오류·CancelledError·AbortError는 재시도하지 않습니다. AbortError fixture는 오류 guard를 재현하며, 조회 취소는 QueryClient로 실제 요청과 재시도 대기를 취소합니다.',
+            )}
           </Typography>
         </>
       )}

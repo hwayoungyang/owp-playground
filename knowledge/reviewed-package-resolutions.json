@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "owners": {
     "@owp/datagrid": {
-      "version": "4.0.2",
+      "version": "4.0.3",
       "dependencies": {
         "@owp/components": {
           "version": "5.0.2",
