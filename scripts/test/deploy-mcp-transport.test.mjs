@@ -9,11 +9,34 @@ import test from 'node:test';
 import { prepareMcpBundle } from '../deploy-mcp-bundle.mjs';
 import { installMcpDependencies } from '../deploy-mcp-remote.mjs';
 import { runMcpDeployment } from '../deploy-mcp.mjs';
-import { operateMcpRemote, pinMcpHelpers, preflightMcpRemote, transferMcpBundle } from '../deploy-mcp-transport.mjs';
+import { maintainMcpRemote, operateMcpRemote, pinMcpHelpers, preflightMcpRemote, transferMcpBundle } from '../deploy-mcp-transport.mjs';
+import { mcpMaintenanceHelperNames } from '../deploy-mcp-bootstrap.mjs';
 import { mcpFixture, stageMcpFixture } from './deploy-mcp-fixture.mjs';
 import { sha256 } from '../deploy-mcp-tar.mjs';
 
 const execute = promisify(execFile);
+test('the SHA-pinned maintenance subset runs before bulk artifacts exist and rejects a changed helper', async (t) => {
+  const fixture = await mcpFixture(t);
+  const bundle = await prepareMcpBundle(fixture.bundle);
+  t.after(bundle.cleanup);
+  const helpers = await pinMcpHelpers(bundle);
+  const preflight = helpers.find((file) => file.name === 'deploy-mcp-preflight.mjs');
+  const location = path.join(bundle.directory, preflight.name);
+  const source = (await readFile(location, 'utf8')).replace('export async function inspectMcpServer(config, dependencies = {}) {', 'export async function inspectMcpServer(config, dependencies = {}) { return {unitPath: config.unitDirectory + "/absent.service"};');
+  await writeFile(location, source);
+  preflight.bytes = Buffer.byteLength(source);
+  preflight.sha256 = sha256(source);
+  const staged = { directory: bundle.directory, metadata: bundle.metadata, transferFiles: helpers.filter((file) => mcpMaintenanceHelperNames.includes(file.name)) };
+  const plan = await stageMcpFixture(fixture, staged);
+  plan.storageDemands = [{ path: fixture.config.remoteRoot, bytes: '0', entries: '1' }];
+  const execution = { interactive: false, run: async (_command, args) => (await execute('/bin/sh', ['-c', args.at(-1)], { encoding: 'utf8' })).stdout };
+  const result = await maintainMcpRemote(plan, execution);
+  assert.ok(result.capacity.length > 0);
+  assert.deepEqual(result.cleanup.warnings, []);
+  await assert.rejects(readFile(path.join(plan.incoming, 'app.tar.gz')), { code: 'ENOENT' });
+  await writeFile(path.join(plan.incoming, 'deploy-mcp-storage.mjs'), 'tampered');
+  await assert.rejects(maintainMcpRemote(plan, execution));
+});
 test('Given a structured remote failure, When the generated SSH control command runs, Then its cause reaches the caller instead of a generic SSH status', async (t) => {
   const fixture = await mcpFixture(t);
   const bundle = await prepareMcpBundle(fixture.bundle);

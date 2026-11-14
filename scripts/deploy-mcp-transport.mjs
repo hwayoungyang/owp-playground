@@ -2,10 +2,12 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { authenticationOptions } from './deploy-ssh-options.mjs';
 import { shellQuote } from './deploy-mcp-config.mjs';
-import { sha256 } from './deploy-mcp-tar.mjs';
-import { discardMcpBootstrap } from './deploy-mcp-bootstrap.mjs';
+import { inspectMcpTar, sha256 } from './deploy-mcp-tar.mjs';
+import { discardMcpBootstrap, mcpMaintenanceHelperNames } from './deploy-mcp-bootstrap.mjs';
+import { inspectMcpDependencies, MCP_DEPENDENCIES_FILE } from './deploy-mcp-offline-format.mjs';
+import { mcpDeploymentDemands } from './deploy-mcp-storage.mjs';
 
-export const mcpHelperNames = ['config', 'preflight', 'tar', 'archive', 'unit', 'transaction', 'remote', 'offline-format'].map((part) => `deploy-mcp-${part}.mjs`);
+export const mcpHelperNames = ['config', 'preflight', 'tar', 'archive', 'unit', 'transaction', 'remote', 'offline-format', 'retention', 'storage'].map((part) => `deploy-mcp-${part}.mjs`);
 const encoded = (value) => Buffer.from(JSON.stringify(value)).toString('base64');
 const ssh = (config, command, execution) => execution.run('ssh', ['-p', String(config.sshPort), ...authenticationOptions(config, execution), `${config.user}@${config.host}`, command], { capture: true });
 const result = (output) => {
@@ -48,10 +50,41 @@ export async function transferMcpBundle(plan, bundle, execution) {
   const files = plan.files.filter((file) => !plan.runtime || !['runtime-node', 'runtime-pnpm'].includes(file.name));
   await execution.run('scp', ['-P', String(config.sshPort), ...authenticationOptions(config, execution), ...files.map((file) => path.join(bundle.directory, file.name)), `${config.user}@${config.host}:${directory}/`]);
 }
+export async function prepareMcpStoragePlan(plan, bundle) {
+  return mcpDeploymentDemands(plan, {
+    app: inspectMcpTar(await readFile(path.join(bundle.directory, 'app.tar.gz'))),
+    archive: inspectMcpTar(await readFile(path.join(bundle.directory, 'archive.tar.gz'))),
+    dependencies: inspectMcpDependencies(await readFile(path.join(bundle.directory, MCP_DEPENDENCIES_FILE)), plan.offline),
+  });
+}
+export async function maintainMcpRemote(plan, execution) {
+  const incoming = `${plan.config.remoteRoot}/.incoming-${plan.owner}`;
+  const helpers = plan.files.filter((file) => mcpMaintenanceHelperNames.includes(file.name));
+  if (helpers.length !== mcpMaintenanceHelperNames.length) throw new Error('정리 helper SHA 목록이 완전하지 않습니다.');
+  const checklist = helpers.map((file) => `${file.sha256}  ${incoming}/${file.name}`).join('\n');
+  const script = `
+const p = JSON.parse(Buffer.from(process.argv[1], 'base64'));
+const incoming = p.config.remoteRoot + '/.incoming-' + p.owner;
+const { pathToFileURL } = await import('node:url');
+const { readFile } = await import('node:fs/promises');
+const { inspectMcpServer, optionalStat } = await import(pathToFileURL(incoming + '/deploy-mcp-preflight.mjs'));
+const { maintainMcpDeployment } = await import(pathToFileURL(incoming + '/deploy-mcp-retention.mjs'));
+const { assertMcpStorage } = await import(pathToFileURL(incoming + '/deploy-mcp-storage.mjs'));
+const server = await inspectMcpServer(p.config, { runtime: p.runtime, lockOwner: p.owner });
+const cleanup = await maintainMcpDeployment({ ...p, incoming });
+let extra = BigInt(Buffer.byteLength(JSON.stringify(server.previousManifest ?? {}))) * 12n;
+for (const file of [server.unitPath, p.config.remoteRoot + '/deployment.json', p.config.remoteRoot + '/archive/versions/index.json']) {
+  if (await optionalStat(file)) extra += BigInt((await readFile(file)).length) * 8n;
+}
+if (!Array.isArray(p.storageDemands) || !p.storageDemands.length) throw Error('검증된 용량 계획이 없습니다.');
+const capacity = await assertMcpStorage([...p.storageDemands, { path: p.config.remoteRoot, bytes: String(extra), entries: '8' }]);
+console.log('OWP_MCP_RESULT ' + JSON.stringify({ cleanup, capacity }));`;
+  return result(await ssh(plan.config, `set -eu; printf '%s\\n' ${shellQuote(checklist)} | sha256sum -c - >/dev/null; ${runtimeCommand(plan)} --input-type=module -e ${shellQuote(script)} ${shellQuote(encoded(plan))}`, execution));
+}
 export async function operateMcpRemote(operation, plan, execution) {
   if (!['activate', 'rollback', 'rollback-finalize', 'commit'].includes(operation)) throw new Error('지원하지 않는 배포 작업입니다.');
   const incoming = `${plan.config.remoteRoot}/.incoming-${plan.owner}`;
-  const checklist = plan.files.map((file) => `${file.sha256}  ${incoming}/${file.name}`).join('\n');
+  const checklist = plan.files.map((file) => `${file.sha256}  ${file.name === 'runtime-node' && plan.runtime ? plan.runtime.node : file.name === 'runtime-pnpm' && plan.runtime ? plan.runtime.packageManager.command : `${incoming}/${file.name}`}`).join('\n');
   const command = `set -eu; printf '%s\\n' ${shellQuote(checklist)} | sha256sum -c - >/dev/null; set +e; owp_output=$(${runtimeCommand(plan)} ${shellQuote(`${incoming}/deploy-mcp-remote.mjs`)} ${shellQuote(operation)} ${shellQuote(encoded(plan))}); owp_status=$?; set -e; printf '%s\\n' "$owp_output"; if [ "$owp_status" -ne 0 ]; then case "$owp_output" in 'OWP_MCP_ERROR '*) ;; *) exit "$owp_status" ;; esac; fi`;
   return result(await ssh(plan.config, command, execution));
 }

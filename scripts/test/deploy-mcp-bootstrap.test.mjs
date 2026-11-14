@@ -12,6 +12,7 @@ import { inspectMcpRuntime, inspectMcpServer } from '../deploy-mcp-preflight.mjs
 import { sha256 } from '../deploy-mcp-tar.mjs';
 import { mcpFixture, systemShim } from './deploy-mcp-fixture.mjs';
 import { mcpDeploymentConfig, shellQuote } from '../deploy-mcp-config.mjs';
+import { pinMcpHelpers } from '../deploy-mcp-transport.mjs';
 
 const execute = promisify(execFile);
 const nodeStub = '#!/bin/sh\nprintf "v24.22.1\\n"\n';
@@ -39,7 +40,8 @@ async function scenario(t, options = {}) {
   };
   files['offline.json'] = Buffer.from(JSON.stringify(manifest));
   for (const [name, bytes] of Object.entries(files)) await writeFile(path.join(bundle.directory, name), bytes);
-  const plan = { config: fixture.config, owner: '11111111-1111-4111-8111-111111111111', metadata: bundle.metadata, offline: manifest };
+  const helpers = await pinMcpHelpers(bundle);
+  const plan = { config: fixture.config, owner: '11111111-1111-4111-8111-111111111111', metadata: bundle.metadata, offline: manifest, files: [...bundle.transferFiles, ...helpers, ...Object.entries(files).map(([name, bytes]) => ({ name, ...entry(bytes) }))] };
   const bin = path.join(fixture.root, 'bin');
   await mkdir(bin);
   for (const command of ['sh', 'sha256sum', 'mkdir', 'chmod', 'rm', 'rmdir', 'cat', 'wc', 'env']) {
@@ -51,6 +53,7 @@ async function scenario(t, options = {}) {
     uname: '#!/bin/sh\nif [ "$1" = "-s" ]; then printf "Linux\\n"; else printf "x86_64\\n"; fi\n',
     getconf: '#!/bin/sh\nprintf "glibc 2.34\\n"\n',
     systemctl: '#!/bin/sh\nexit 0\n', ss: '#!/bin/sh\nexit 0\n',
+    stat: `#!${process.execPath}\nimport{lstat}from'node:fs/promises';if(process.argv.includes('-c'))process.stdout.write(String((await lstat(process.argv.at(-1),{bigint:true})).dev));else process.stdout.write('4096 4096 10000000000 ${options.bavail ?? '9000000000'} 1000000000 ${options.ffree ?? '900000000'}');\n`,
     mv: `#!${process.execPath}\nimport{lstat,rename}from'node:fs/promises';const args=process.argv.slice(2).filter(x=>!['-Tn','--'].includes(x));try{await lstat(args[1]);}catch(e){if(e.code!=='ENOENT')throw e;await rename(args[0],args[1]);}\n`,
   };
   const selinuxStatePath = path.join(fixture.root, 'selinux-state.json');
@@ -77,8 +80,9 @@ async function scenario(t, options = {}) {
     assert.equal(command, 'scp');
     if (options.transferFail) throw new Error('local transfer failure');
     const incoming = `${plan.config.remoteRoot}/.incoming-${plan.owner}`;
-    for (const name of ['runtime-node', 'runtime-pnpm']) {
-      await cp(path.join(bundle.directory, name), path.join(incoming, name));
+    for (const source of args.filter((argument) => argument.startsWith(`${bundle.directory}/`))) {
+      const name = path.basename(source);
+      await cp(source, path.join(incoming, name));
       if (options.tamper && name === 'runtime-node') await writeFile(path.join(incoming, name), 'tampered');
     }
   } };
@@ -98,6 +102,12 @@ test('Given the default server policy, When planning the private runtime, Then t
   const runtime = mcpRuntimeForPlan(plan);
   assert.equal(runtime.node, `${runtime.directory}/bin/node`);
   assert.equal(runtime.packageManager.command, `${runtime.directory}/bin/pnpm`);
+});
+for (const [name, capacity] of [['bytes', { bavail: '0' }], ['inodes', { ffree: '0' }]]) test(`bootstrap refuses insufficient ${name} before helper or runtime upload and before creating the root`, async (t) => {
+  const { plan, bundle, execution, calls } = await scenario(t, capacity);
+  await assert.rejects(bootstrapMcpRemote(plan, bundle, execution), name === 'bytes' ? /용량 부족/ : /inode 부족/);
+  assert.equal(calls.includes('scp'), false);
+  await assert.rejects(lstat(plan.config.remoteRoot), { code: 'ENOENT' });
 });
 for (const selinuxMode of ['Enforcing', 'Permissive']) test(`Given SELinux ${selinuxMode}, When a read-only probe checks a missing runtime, Then it queries policy without applying contexts or creating files`, async (t) => {
   const { plan, execution, selinux } = await scenario(t, { selinuxMode });

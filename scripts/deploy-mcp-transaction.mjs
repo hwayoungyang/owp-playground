@@ -1,6 +1,7 @@
 import { readFile, readlink, readdir, rename, rm, rmdir, symlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { capture, hashContent, optionalStat, assertMcpUnitConfiguration, assertMcpDropInDirectories } from './deploy-mcp-preflight.mjs';
+import { cleanupMcpTerminal, durableMcpRecord, markMcpCleanup, markMcpCommit } from './deploy-mcp-retention.mjs';
 
 export const transactionPath = (context) => path.join(context.incoming, 'transaction.json');
 export async function assertMcpOwner(context) {
@@ -22,7 +23,7 @@ export async function atomicMcpLink(context, target) {
   await rename(temporary, path.join(context.config.remoteRoot, 'current'));
 }
 export async function saveMcpTransaction(context, state) {
-  await atomicMcpFile(transactionPath(context), JSON.stringify(state), context.owner);
+  await durableMcpRecord(transactionPath(context), state, context.owner);
 }
 export async function releaseMcpLock(context) {
   await assertMcpOwner(context);
@@ -41,6 +42,8 @@ export async function assertMcpTransactionState(context, state) {
   await assertMcpOwner(context);
   if (state.owner !== context.owner || state.root !== context.config.remoteRoot) throw new Error('transaction 소유 정보가 다릅니다.');
   const root = context.config.remoteRoot;
+  const expectedApp = path.join(root, 'apps', `${context.metadata.releaseId}-${context.owner}`);
+  if (state.appDirectory !== expectedApp || state.unitPath !== path.join(context.config.unitDirectory, `${context.config.service}.service`) || (state.beforeCurrent && path.dirname(path.resolve(root, state.beforeCurrent)) !== path.join(root, 'apps'))) throw new Error('transaction의 관리 경로가 다릅니다. 자료를 보존합니다.');
   const current = await optionalStat(path.join(root, 'current'));
   const link = current?.isSymbolicLink() ? await readlink(path.join(root, 'current')) : undefined;
   if ((current && !current.isSymbolicLink()) || ![state.beforeCurrent, state.appDirectory].includes(link)) throw new Error('current가 다른 작업에 의해 변경됐습니다. 복구를 중단합니다.');
@@ -72,7 +75,7 @@ export async function rollbackMcpTransaction(context, dependencies = {}) {
   if (!info.isFile() || info.isSymbolicLink()) throw new Error('transaction 기록이 일반 파일이 아닙니다.');
   const state = JSON.parse(await readFile(file, 'utf8'));
   if (state.phase === 'rolled-back') { await assertMcpOwner(context); return { rolledBack: true, changed: true, baseline: state.rollbackBaseline }; }
-  if (state.phase === 'committed') throw new Error('이미 commit된 배포는 자동 복구하지 않습니다.');
+  if (['committed', 'rollback-finalized'].includes(state.phase)) throw new Error('이미 종결된 배포는 자동 복구하지 않습니다.');
   await assertMcpTransactionState(context, state);
   const unit = `${context.config.service}.service`;
   const loadState = await run('systemctl', ['show', unit, '--property=LoadState', '--value']);
@@ -123,22 +126,47 @@ export async function commitMcpTransaction(context, dependencies = {}) {
   await assertMcpUnitConfiguration(context.config, run);
   state.phase = 'committed';
   await saveMcpTransaction(context, state);
-  await releaseMcpLock(context);
-  await rm(context.incoming, { recursive: true });
-  return receipt;
+  await markMcpCommit(context, receipt, state.rollbackBaseline?.receipt?.appDirectory ?? (state.beforeCurrent ? path.resolve(root, state.beforeCurrent) : undefined));
+  await markMcpCleanup(context, 'committed', state.appDirectory);
+  const cleanupWarnings = await cleanupMcpTerminal(context, releaseMcpLock, dependencies.cleanup);
+  return cleanupWarnings.length ? { ...receipt, cleanupWarnings } : receipt;
 }
 
-export async function finalizeMcpRollback(context) {
+export async function finalizeMcpRollback(context, dependencies = {}) {
   await assertMcpOwner(context);
   const info = await optionalStat(transactionPath(context));
+  let state;
   if (info) {
-    const state = JSON.parse(await readFile(transactionPath(context), 'utf8'));
+    if (!info.isFile() || info.isSymbolicLink()) throw new Error('transaction 기록이 일반 파일이 아닙니다.');
+    state = JSON.parse(await readFile(transactionPath(context), 'utf8'));
     if (state.phase !== 'rolled-back') throw new Error('복구가 완료되지 않아 잠금을 보존합니다.');
     await assertMcpTransactionState(context, state);
     const current = await optionalStat(path.join(context.config.remoteRoot, 'current'));
     if ((current ? await readlink(path.join(context.config.remoteRoot, 'current')) : undefined) !== state.beforeCurrent) throw new Error('복구된 current가 변경됐습니다.');
     for (const [file, before] of [[state.unitPath, state.previousUnit], [path.join(context.config.remoteRoot, 'archive/versions/index.json'), state.previousIndex], [path.join(context.config.remoteRoot, 'deployment.json'), state.previousReceipt]]) if (await optionalContent(file) !== before) throw new Error('복구된 파일이 변경됐습니다.');
+    state.phase = 'rollback-finalized';
+    await saveMcpTransaction(context, state);
+  } else {
+    const attemptPath = path.join(context.incoming, 'attempt.json');
+    const attemptInfo = await optionalStat(attemptPath);
+    if (attemptInfo && (!attemptInfo.isFile() || attemptInfo.isSymbolicLink())) throw new Error('attempt 기록이 일반 파일이 아닙니다.');
+    state = attemptInfo ? JSON.parse(await readFile(attemptPath, 'utf8')) : {
+      owner: context.owner, root: context.config.remoteRoot, releaseId: context.metadata.releaseId, head: context.metadata.head,
+      appDirectory: path.join(context.config.remoteRoot, 'apps', `${context.metadata.releaseId}-${context.owner}`),
+    };
+    if (state.owner !== context.owner || state.root !== context.config.remoteRoot) throw new Error('attempt 소유 정보가 다릅니다.');
+    if (state.appDirectory !== path.join(context.config.remoteRoot, 'apps', `${context.metadata.releaseId}-${context.owner}`) || state.releaseId !== context.metadata.releaseId || state.head !== context.metadata.head) throw new Error('attempt의 관리앱 경로가 다릅니다.');
+    if (attemptInfo) {
+      const current = await optionalStat(path.join(context.config.remoteRoot, 'current'));
+      if ((current ? await readlink(path.join(context.config.remoteRoot, 'current')) : undefined) !== state.beforeCurrent) throw new Error('transaction 이전 baseline current가 변경됐습니다.');
+      const expectedFiles = [path.join(context.config.unitDirectory, `${context.config.service}.service`), path.join(context.config.remoteRoot, 'deployment.json'), path.join(context.config.remoteRoot, 'archive/versions/index.json')];
+      if (!state.baselineFiles || Object.keys(state.baselineFiles).length !== expectedFiles.length || expectedFiles.some((file) => !/^[0-9a-f]{64}$/.test(state.baselineFiles[file]))) throw new Error('attempt의 baseline 경로 또는 SHA-256이 다릅니다.');
+      for (const file of expectedFiles) if (hashContent((await optionalContent(file)) ?? '') !== state.baselineFiles[file]) throw new Error('transaction 이전 baseline 파일이 변경됐습니다.');
+    } else if (await optionalStat(state.appDirectory)) throw new Error('귀속 attempt가 없는 앱을 보존합니다.');
+    state.phase = 'rollback-finalized';
+    await durableMcpRecord(attemptPath, state, context.owner);
   }
-  await releaseMcpLock(context);
-  return { rolledBack: true, finalized: true };
+  await markMcpCleanup(context, 'rollback-finalized', state.appDirectory);
+  const cleanupWarnings = await cleanupMcpTerminal(context, releaseMcpLock, dependencies.cleanup);
+  return { rolledBack: true, finalized: true, ...(cleanupWarnings.length ? { cleanupWarnings } : {}) };
 }

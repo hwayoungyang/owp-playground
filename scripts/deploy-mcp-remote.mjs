@@ -1,5 +1,5 @@
 import { execFile } from 'node:child_process';
-import { mkdir, readFile, readlink, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readlink } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { promisify } from 'node:util';
@@ -9,7 +9,9 @@ import { extractMcpTar, inspectMcpTar, sha256 } from './deploy-mcp-tar.mjs';
 import { prepareMcpArchiveMerge } from './deploy-mcp-archive.mjs';
 import { renderMcpUnit } from './deploy-mcp-unit.mjs';
 import { assertMcpOwner, atomicMcpFile, atomicMcpLink, saveMcpTransaction, rollbackMcpTransaction, commitMcpTransaction, finalizeMcpRollback } from './deploy-mcp-transaction.mjs';
-import { validateMcpOfflineManifest, extractMcpDependencies, MCP_DEPENDENCIES_FILE } from './deploy-mcp-offline-format.mjs';
+import { validateMcpOfflineManifest, extractMcpDependencies, inspectMcpDependencies, MCP_DEPENDENCIES_FILE } from './deploy-mcp-offline-format.mjs';
+import { durableMcpRecord } from './deploy-mcp-retention.mjs';
+import { assertMcpStorage, mcpDeploymentDemands } from './deploy-mcp-storage.mjs';
 
 const execute = promisify(execFile);
 async function serviceStartupError(run, unit, cause) {
@@ -51,7 +53,7 @@ export async function activateMcpDeployment(context, dependencies = {}) {
   await assertMcpOwner(context);
   const { config, incoming, owner, metadata, files } = context;
   for (const entry of files) {
-    const location = path.join(incoming, entry.name);
+    const location = entry.name === 'runtime-node' && context.runtime ? context.runtime.node : entry.name === 'runtime-pnpm' && context.runtime ? context.runtime.packageManager.command : path.join(incoming, entry.name);
     const info = await optionalStat(location);
     if (!/^[A-Za-z0-9_.-]+$/.test(entry.name) || !info?.isFile() || info.isSymbolicLink() || info.size !== entry.bytes) throw new Error('수신 파일 이름·유형·크기가 다릅니다.');
     if (sha256(await readFile(location)) !== entry.sha256) throw new Error(`수신 SHA-256이 다릅니다: ${entry.name}`);
@@ -59,25 +61,38 @@ export async function activateMcpDeployment(context, dependencies = {}) {
   if (!context.offline && !dependencies.install) throw new Error('로컬에서 준비한 오프라인 의존성이 필요합니다. 서버에서는 패키지를 다운로드하지 않습니다.');
   const server = await inspectMcpServer(config, { ...dependencies.preflight, ...(context.runtime ? { runtime: context.runtime } : {}), lockOwner: owner });
   const rollbackBaseline = { receipt: server.receipt, manifest: server.previousManifest, active: server.active, enabled: server.enabled };
-  await writeFile(path.join(incoming, 'baseline.json'), JSON.stringify({ owner, root: config.remoteRoot, baseline: rollbackBaseline }), { flag: 'wx', mode: 0o600 });
   const appDirectory = path.join(config.remoteRoot, 'apps', `${metadata.releaseId}-${owner}`);
-  await mkdir(path.dirname(appDirectory), { recursive: true, mode: 0o755 });
   const appTar = inspectMcpTar(await readFile(path.join(incoming, 'app.tar.gz')));
   if (appTar.comment !== metadata.head) throw new Error('수신 source tar commit이 다릅니다.');
+  const archiveTar = inspectMcpTar(await readFile(path.join(incoming, 'archive.tar.gz')));
+  const inspected = { app: appTar, archive: archiveTar, ...(context.offline ? { dependencies: inspectMcpDependencies(await readFile(path.join(incoming, MCP_DEPENDENCIES_FILE)), context.offline) } : {}) };
+  const baselineFiles = {};
+  let baselineBytes = BigInt(Buffer.byteLength(JSON.stringify(server.previousManifest ?? {}))) * 12n;
+  for (const file of [server.unitPath, path.join(config.remoteRoot, 'deployment.json'), path.join(config.remoteRoot, 'archive/versions/index.json')]) {
+    const bytes = await optionalStat(file) ? await readFile(file) : Buffer.alloc(0);
+    baselineFiles[file] = hashContent(bytes);
+    baselineBytes += BigInt(bytes.length) * 8n;
+  }
+  const beforeCurrent = server.receipt ? await readlink(path.join(config.remoteRoot, 'current')) : undefined;
+  await (dependencies.storage ?? assertMcpStorage)([...mcpDeploymentDemands(context, inspected, 'extract'), { path: config.remoteRoot, bytes: String(baselineBytes), entries: '8' }]);
+  await durableMcpRecord(path.join(incoming, 'baseline.json'), { owner, root: config.remoteRoot, baseline: rollbackBaseline }, owner);
+  await durableMcpRecord(path.join(incoming, 'attempt.json'), { owner, root: config.remoteRoot, releaseId: metadata.releaseId, head: metadata.head, appDirectory, beforeCurrent, rollbackBaseline, baselineFiles, phase: 'installing' }, owner);
+  await mkdir(path.dirname(appDirectory), { recursive: true, mode: 0o755 });
   await extractMcpTar(appTar, appDirectory);
-  await extractMcpTar(inspectMcpTar(await readFile(path.join(incoming, 'archive.tar.gz'))), path.join(incoming, 'archive'));
+  await extractMcpTar(archiveTar, path.join(incoming, 'archive'));
   await (dependencies.install ?? ((directory) => installMcpOfflineDependencies(directory, context)))(appDirectory, server.packageManager);
   const merged = await prepareMcpArchiveMerge({ ...context, appDirectory });
   const nextUnit = renderMcpUnit(config, server.node);
   const receipt = { schemaVersion: 1, releaseId: metadata.releaseId, head: metadata.head, root: config.remoteRoot, url: config.url, service: config.service, appDirectory, node: server.node, packageManager: server.packageManager, owner, unitSha256: hashContent(nextUnit) };
   const state = {
     owner, root: config.remoteRoot, rollbackBaseline, phase: 'prepared', appDirectory, ...merged,
-    beforeCurrent: server.receipt ? await readlink(path.join(config.remoteRoot, 'current')) : undefined,
+    beforeCurrent,
     previousUnit: server.receipt ? await readFile(server.unitPath, 'utf8') : undefined,
     previousReceipt: server.receipt ? await readFile(path.join(config.remoteRoot, 'deployment.json'), 'utf8') : undefined,
     nextUnit, nextReceipt: `${JSON.stringify(receipt, null, 2)}\n`, unitPath: server.unitPath, active: server.active, enabled: server.enabled,
   };
-  await writeFile(path.join(incoming, 'transaction.json'), JSON.stringify(state), { flag: 'wx', mode: 0o600 });
+  if (await optionalStat(path.join(incoming, 'transaction.json'))) throw new Error('transaction 기록이 이미 있어 보존합니다.');
+  await saveMcpTransaction(context, state);
   await assertMcpOwner(context);
   await atomicMcpFile(path.join(config.remoteRoot, 'archive/versions/index.json'), state.nextIndex, owner);
   await atomicMcpLink(context, appDirectory);
@@ -102,7 +117,7 @@ export async function runMcpRemoteOperation(operation, plan, dependencies = {}) 
   const context = { ...plan, config, incoming: path.join(config.remoteRoot, `.incoming-${plan.owner}`) };
   if (operation === 'commit') return commitMcpTransaction(context, dependencies);
   if (operation === 'rollback') return rollbackMcpTransaction(context, dependencies);
-  if (operation === 'rollback-finalize') return finalizeMcpRollback(context);
+  if (operation === 'rollback-finalize') return finalizeMcpRollback(context, dependencies);
   if (operation !== 'activate') throw new Error('지원하지 않는 원격 작업입니다.');
   try { return await activateMcpDeployment(context, dependencies); }
   catch (error) {

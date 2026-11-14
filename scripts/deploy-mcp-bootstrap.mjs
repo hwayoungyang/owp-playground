@@ -2,8 +2,10 @@ import path from 'node:path';
 import { authenticationOptions } from './deploy-ssh-options.mjs';
 import { shellQuote, validateMcpConfig } from './deploy-mcp-config.mjs';
 import { validateMcpOfflineManifest } from './deploy-mcp-offline-format.mjs';
+import { checkMcpStorage, mcpDeploymentDemands } from './deploy-mcp-storage.mjs';
 
 const runtimeNames = ['runtime-node', 'runtime-pnpm'];
+export const mcpMaintenanceHelperNames = ['preflight', 'retention', 'storage'].map((name) => `deploy-mcp-${name}.mjs`);
 const ssh = (config, command, execution) => execution.run('ssh', ['-p', String(config.sshPort), ...authenticationOptions(config, execution), `${config.user}@${config.host}`, command], { capture: true });
 const result = (output) => {
   const line = output.trim().split('\n').findLast((item) => item.startsWith('OWP_MCP_RESULT '));
@@ -29,7 +31,7 @@ function shellContext(plan) {
 }
 
 export function renderMcpBootstrapScript(plan, phase = 'probe') {
-  if (!['probe', 'incoming', 'install', 'discard'].includes(phase)) throw new Error('지원하지 않는 런타임 준비 단계입니다.');
+  if (!['probe', 'capacity', 'incoming', 'install', 'discard'].includes(phase)) throw new Error('지원하지 않는 런타임 준비 단계입니다.');
   const { config, runtime, receipt } = shellContext(plan);
   const pending = JSON.stringify({ runtimePending: true });
   const ready = JSON.stringify({ runtimePending: false, runtime });
@@ -141,8 +143,17 @@ cleanup || fail '다른 소유자 또는 알 수 없는 파일이 있어 수신 
 [ "$(uname -s)" = 'Linux' ] && [ "$(uname -m)" = 'x86_64' ] || fail 'Linux x86_64 서버가 필요합니다.'
 case "$(getconf GNU_LIBC_VERSION)" in 'glibc '*) ;; *) fail 'glibc 서버가 필요합니다.' ;; esac
 for directory in "$root" ${shellQuote(config.unitDirectory)} "$root/apps" "$root/archive/versions" "$root/runtime" "$runtime"; do real_ancestors "$directory"; done
-if [ -e "$lock" ] || [ -L "$lock" ]; then ${phase === 'install' ? 'owned "$lock"' : 'false'} || fail '다른 배포가 진행 중이거나 잠금이 남아 있습니다.'; fi
+if [ -e "$lock" ] || [ -L "$lock" ]; then ${['install', 'capacity'].includes(phase) ? 'owned "$lock"' : 'false'} || fail '다른 배포가 진행 중이거나 잠금이 남아 있습니다.'; fi
 check_selinux
+`;
+  if (phase === 'capacity') return `${checks}
+command -v stat >/dev/null 2>&1 || fail '용량 검사에 GNU stat이 필요합니다.'
+${mcpDeploymentDemands(plan, undefined, 'bootstrap').map((demand, index) => `here=${shellQuote(demand.path)}
+real_ancestors "$here"
+while [ ! -d "$here" ]; do here=\${here%/*}; [ -n "$here" ] || here=/; done
+device=$(stat -c '%d' -- "$here") || fail '용량 검사 device 조회에 실패했습니다.'
+counters=$(stat -f --format='%S %s %b %a %c %d' -- "$here") || fail '용량/inode counter를 조회하지 못했습니다.'
+printf 'OWP_MCP_STORAGE ${index} %s %s\\n' "$device" "$counters"`).join('\n')}
 `;
   if (phase === 'probe') return `${checks}
 if [ -d "$runtime" ]; then check_runtime probe; printf '%s\\n' ${shellQuote(`OWP_MCP_RESULT ${ready}`)};
@@ -161,9 +172,9 @@ restore_owned_context "$incoming"
   }).join('\n');
   return `${checks}
 owned "$incoming" || fail '수신 디렉터리 소유자가 다릅니다.'
-${integrity}
 if [ -d "$runtime" ]; then check_runtime install;
 else
+  ${integrity}
   create_parent "$root/runtime"
   create_owned "$stage"
   mkdir -- "$stage/bin"
@@ -194,10 +205,20 @@ export async function discardMcpBootstrap(plan, execution) {
 export async function bootstrapMcpRemote(plan, bundle, execution) {
   let incomingAttempted = false;
   try {
-    await probeMcpRemote(plan, execution);
+    const probe = await probeMcpRemote(plan, execution);
+    plan.runtimeReused = !probe.runtimePending;
+    await checkMcpBootstrapCapacity(plan, execution);
     incomingAttempted = true;
     await ssh(plan.config, renderMcpBootstrapScript(plan, 'incoming'), execution);
-    await execution.run('scp', ['-P', String(plan.config.sshPort), ...authenticationOptions(plan.config, execution), ...runtimeNames.map((name) => path.join(bundle.directory, name)), `${plan.config.user}@${plan.config.host}:${plan.config.remoteRoot}/.incoming-${plan.owner}/`]);
+    const helpers = (plan.files ?? []).filter((file) => mcpMaintenanceHelperNames.includes(file.name));
+    if (helpers.length) {
+      if (helpers.length !== mcpMaintenanceHelperNames.length) throw new Error('선전송 helper 목록이 완전하지 않습니다.');
+      await execution.run('scp', ['-P', String(plan.config.sshPort), ...authenticationOptions(plan.config, execution), ...helpers.map((file) => path.join(bundle.directory, file.name)), `${plan.config.user}@${plan.config.host}:${plan.config.remoteRoot}/.incoming-${plan.owner}/`]);
+      const checklist = helpers.map((file) => `${file.sha256}  ${plan.config.remoteRoot}/.incoming-${plan.owner}/${file.name}`).join('\n');
+      await ssh(plan.config, `set -eu; printf '%s\\n' ${shellQuote(checklist)} | sha256sum -c - >/dev/null`, execution);
+    }
+    await checkMcpBootstrapCapacity(plan, execution);
+    if (!plan.runtimeReused) await execution.run('scp', ['-P', String(plan.config.sshPort), ...authenticationOptions(plan.config, execution), ...runtimeNames.map((name) => path.join(bundle.directory, name)), `${plan.config.user}@${plan.config.host}:${plan.config.remoteRoot}/.incoming-${plan.owner}/`]);
     const installed = result(await ssh(plan.config, renderMcpBootstrapScript(plan, 'install'), execution));
     plan.runtime = installed.runtime;
     return installed;
@@ -208,4 +229,15 @@ export async function bootstrapMcpRemote(plan, bundle, execution) {
     }
     throw error;
   }
+}
+
+export async function checkMcpBootstrapCapacity(plan, execution) {
+  const demands = mcpDeploymentDemands(plan, undefined, 'bootstrap');
+  const output = await ssh(plan.config, renderMcpBootstrapScript(plan, 'capacity'), execution);
+  const measurements = output.trim().split('\n').filter((line) => line.startsWith('OWP_MCP_STORAGE ')).map((line) => {
+    const parts = line.split(' ');
+    if (parts.length !== 9 || !/^\d+$/.test(parts[1]) || !demands[Number(parts[1])]) throw new Error('용량 검사 응답이 올바르지 않습니다.');
+    return { path: demands[Number(parts[1])].path, ...Object.fromEntries(['dev', 'frsize', 'bsize', 'blocks', 'bavail', 'files', 'ffree'].map((name, index) => [name, parts[index + 2]])) };
+  });
+  return checkMcpStorage(demands, measurements);
 }

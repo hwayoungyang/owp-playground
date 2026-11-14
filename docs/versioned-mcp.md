@@ -197,7 +197,7 @@ pnpm deploy:mcp --help
 배포 대상은 `root@192.168.100.20:22`이며 현재 오프라인 런타임의 대상은 Linux x64 glibc입니다. Rocky Linux 9 x86_64 서버에 다음 기본 환경이 필요합니다.
 
 - SSH·SCP 접속, root 권한, systemd와 `ss`가 필요합니다.
-- 기본 명령 `sh`, `id`, `uname`, `getconf`, `sha256sum`, `mkdir`, `chmod`, GNU `mv`(`-Tn` 지원), `rm`, `rmdir`, `cat`, `wc`, `env`가 필요합니다. Node.js 실행에 필요한 시스템 라이브러리도 있어야 합니다. 준비한 바이너리가 실제로 실행되는지 서비스 변경 전에 검사합니다.
+- 기본 명령 `sh`, `id`, `uname`, `getconf`, `sha256sum`, `mkdir`, `chmod`, GNU `mv`(`-Tn` 지원), GNU `stat`(`-f --format` 지원), `rm`, `rmdir`, `cat`, `wc`, `env`가 필요합니다. Node.js 실행에 필요한 시스템 라이브러리도 있어야 합니다. 준비한 바이너리가 실제로 실행되는지 서비스 변경 전에 검사합니다.
 - SELinux가 Enforcing 또는 Permissive이면 `restorecon`과 `matchpathcon`이 필요합니다. 런타임의 `bin/node`와 `bin/pnpm`에 적용될 기본 정책이 `bin_t`인지 읽기 전용으로 확인하며, 설치 시 소유권과 무결성을 확인한 전용 경로에 기본 컨텍스트를 적용합니다.
 - 30011번 포트가 비어 있거나 이 스크립트로 설치한 MCP 서비스가 사용 중이어야 합니다. 기존 수동 서비스·알 수 없는 앱 경로·관리되지 않은 systemd 추가 설정(drop-in)은 자동으로 인수하지 않습니다.
 - 30011의 사내 접근 허용과 선택적인 `mcp.env`는 운영 정책에 맞게 준비합니다.
@@ -256,6 +256,20 @@ CLI는 로컬의 비공개 임시 경로에 묶음을 복사해 검증한 뒤 �
 
 서버의 영구 archive는 실제 디렉터리로 유지합니다. 기존 stable을 보존하면서 신규 스냅샷을 등록하고 index를 전환합니다. 같은 release ID의 내용이 다르거나 서버의 최신 stable보다 오래된 묶음이면 중단합니다. archive에는 `rsync --delete`, 정적 사이트의 최근 5개 릴리스 정리나 자동 삭제를 적용하지 않습니다.
 
+수정한 CLI를 사용하는 다음 배포부터 실행본 자동정리와 용량·inode 사전검사를 적용합니다. 현재 실행본과 정상 commit marker의 실제 predecessor를 우선 보호하고, 복구용 실행본을 합쳐 총 3개를 유지합니다. 현재 앱의 릴리스가 과거 버전이어도 우선 보호합니다. 새 앱을 검증하는 동안에는 기존 복구용 실행본 3개를 지우지 않으므로 일시적으로 4개가 남습니다. 배포 잠금 owner가 확인된 상태에서 해당 root의 `apps/` 직계 실행본과 `.incoming-<owner>` 자료만 정리하며, `archive/` 전체(내부 `.incoming-*` 포함), `runtime/`, `mcp.env`와 다른 서비스 경로는 정리하지 않습니다.
+
+기존 current는 관리 unit·receipt·manifest와 실제 앱 경로를 검사하고, 로컬 HTTP·MCP 검증까지 통과하면 정상 이력의 시작점으로 채택합니다. 현재 앱의 정상 marker 또는 이렇게 검증한 current가 있어야 marker 없는 과거 legacy 앱을 정리 후보로 판별합니다. 후보는 `apps/<YYYYMMDD-HHMMSS-12hex>-<canonical UUID>`의 엄격한 직계 경로, realpath와 파일 소유 관계, 해당 영구 archive의 clean stable `knowledge-release.json`에 기록된 releaseId·commit, `package.json`·`pnpm-lock.yaml`·`mcp/cli.ts`·`scripts/version-archive.ts`의 실제 source 구조를 모두 확인합니다. 이 근거는 관리 복사본의 식별에만 사용하며, 해당 앱이 과거에 HTTP·MCP 검증을 통과했다고 기록하지 않습니다.
+
+정상 marker chain의 실제 존재하고 식별된 current·predecessor를 먼저 유지합니다. 이미 없는 predecessor는 경고하고 복구본 수에 포함하지 않습니다. 3개에 못 미치면 식별된 정상 앱, 증명된 legacy 관리 복사본 순으로 releaseId 최신순을 적용해 빈 복구 슬롯을 채웁니다. 이 정렬은 복구 후보를 고르는 기준이며 과거 검증 순서를 새로 기록하지 않습니다. 남은 비참조 관리 복사본만 정리하므로 기존 CLI가 남긴 관리 앱도 3개로 수렴합니다. 증거 없는 앱, 다른 owner의 미종결 transaction이 참조하는 앱과 실제 beforeCurrent·baseline, 손상된 marker·control metadata, symlink control 경로, mount device나 검사 중 내용이 바뀐 자료는 보존합니다. 확인할 수 없는 자료나 추가 복구 참조가 있으면 경고와 함께 실행본 수가 3개를 넘을 수 있습니다. 앱 내부 `node_modules` symlink는 target을 따라 삭제하지 않습니다.
+
+각 정리 pass는 계획 시작 시 잠금·owner·current·deployment receipt와 모든 incoming의 transaction·attempt·baseline·종결 자료를 고정해 비교합니다. 보호 중인 앱과 정상·legacy·실패 후보 전체의 디렉터리 identity 또는 부재도 고정합니다. 앱 삭제 직전에는 계획한 source·marker 증거를 다시 확인하고, 각 삭제 전후와 다음 후보를 처리하기 전에 참조 변경을 검사합니다. 자기 정리가 작성한 정확한 control 파일, 삭제가 완료된 incoming과 앱의 부재만 예상 변경으로 반영합니다. 삭제한 앱 경로가 다시 나타나거나 외부 참조가 바뀌면 경고하고 후속 앱·incoming 삭제를 중단합니다. 정상 앱도 archive commit의 7~40자리 소문자 hex 형식과 `dirty === false`를 확인하며, 손상된 manifest로 귀속을 판정하지 않습니다. 이 보호는 협조적인 배포 잠금과 검사에서 관측한 변경을 기준으로 하며, 잠금을 무시하는 root 프로세스와의 원자적인 삭제까지 보장하지 않습니다.
+
+정상·legacy·실패 앱을 재귀 삭제하기 전에는 root의 `.retention-cleanup.json`에 단일 삭제 intent를 atomic write하고 파일·상위 디렉터리를 sync합니다. 최대 64 KiB의 이 기록은 대상 앱과 incoming 밖에 유지하며, root·앱 경로·releaseId·owner·확인된 commit(정상 앱과 실패 앱은 전체 head)·최초 디렉터리 dev/ino/uid/gid/mode를 담습니다. 정상·legacy 앱은 source/marker·영구 archive 증거를, 실패 앱은 root 직계 `.incoming-<owner>`의 identity와 귀속·종결을 검증한 owner·attempt·transaction·baseline·cleanup·release control 파일의 해시 및 부재를 기록합니다. 실패 앱에는 완전한 source나 해당 release의 영구 archive를 요구하지 않습니다. 쓰기나 sync가 실패하면 앱을 삭제하지 않습니다. 삭제가 일부만 진행되어도 다음 owner는 intent에 저장한 최초 identity와 현재 보호 참조, 남은 증명 파일 또는 incoming control 해시를 재검증해 그 잔여 앱만 회수합니다. 남은 증명이 바뀌거나 디렉터리가 교체되거나 symlink·다른 owner/device이면 intent·앱·실패 incoming을 보존하고 다른 앱의 정리도 멈춥니다. 미완료 intent를 덮어쓰지 않으며, 대상 앱이 완전히 사라졌음을 확인한 뒤에만 기록을 제거하고 다음 후보로 진행합니다. 알 수 없는 형식·다른 root·symlink intent도 보존합니다. 종결 incoming 정리나 잠금 해제로 이 기록을 지우지 않습니다.
+
+전용 runtime을 업로드하거나 복사하기 전에 GNU `stat`의 원시 정수 counter를 로컬 BigInt로 판정합니다. 먼저 작은 SHA-256 고정 helper만 선전송하고 runtime을 준비한 뒤, 앱 대량 전송 전에 정리와 전체 수요 검사를 수행합니다. 앱 추출 직전에도 다시 검사합니다. helper와 제어자료를 쓸 공간도 없으면 대량 업로드 전에 중단합니다. `--dry-run`은 SSH를 사용하지 않고, `--preflight-only`는 helper 업로드나 서버 정리를 하지 않습니다.
+
+수요에는 검증한 source·archive·의존성의 실제 파일 바이트와 일반 파일·symlink·명시/암묵적 디렉터리 수, `node_modules` 루트, 수신 압축 파일, runtime 수신/설치 사본, archive 수신 추출/영구 사본, atomic index·unit·receipt·transaction metadata와 root 삭제 intent·atomic write 사본의 최대 128 KiB·파일 2개를 포함합니다. 항목마다 allocation unit 두 개의 할당 여유와 20% 여유를 더합니다. 가장 가까운 기존 실제 디렉터리에서 파일시스템을 측정하여 device별로 합산하며, 예약 블록을 제외한 `bavail`과 free inode를 각각 검사합니다. 블록 단위가 다르면 큰 단위를 수요에, 작은 단위를 가용량에 적용합니다. counter가 없거나 미지원·음수·sentinel이면 여유가 있다고 처리하지 않고 검사 불가로 중단합니다. 큰 정수는 결과 JSON에 decimal string으로 기록합니다. 이 검사는 공간을 예약하지 않으므로 검사 이후 다른 프로세스가 소비하는 공간까지 보장하지는 않습니다.
+
 새 앱은 `apps/`에 보관하고 검증된 앱으로 `current` 연결을 전환한 뒤 `owp-playground-mcp.service`를 등록·활성화·시작합니다. 서비스는 `0.0.0.0:30011`에서 실행하며 공개 origin은 `http://192.168.100.20:30011`입니다. 선택적 서버 환경 파일 `/opt/owp-playground-mcp/mcp.env`를 유지합니다. 인증 토큰을 쓴다면 서버의 `OWP_MCP_BEARER_TOKEN`과 같은 값을 로컬 검증 프로세스의 환경 변수에도 제공하며, 명령 인자나 저장소에 기록하지 않습니다. 브라우저 화면에도 토큰을 요구하면 인증 프록시가 해당 헤더를 처리해야 합니다.
 
 전환 후에는 루트의 query 보존·307 이동, stable index와 최신 ID, 고정 버전 HTML·asset의 실제 SHA-256을 검사합니다. 로컬 MCP SDK로 연결·초기화하고 `list_packages`와 패키지별 가이드 조회의 release ID·버전을 확인합니다. 프로세스 시작 직후의 연결 거부·연결 시간 초과는 최대 30초 동안 재시도하며 파일 내용·릴리스 불일치는 즉시 실패합니다. HTTP 200 또는 `/mcp`의 단순 GET만으로 성공 처리하지 않습니다.
@@ -266,7 +280,11 @@ CLI는 로컬의 비공개 임시 경로에 묶음을 복사해 검증한 뒤 �
 
 배포 검증 CLI는 로컬 작업 트리의 코드를 사용하며, 서버는 선택한 묶음의 `app.tar.gz`에 고정된 소스를 실행합니다. 서버 코드 변경을 반영할 때는 변경 commit으로 준비한 새 묶음을 사용합니다. 기존 묶음은 생성 당시 소스를 계속 사용합니다.
 
-설치·시작·검증에 실패하면 배포 잠금을 유지한 상태에서 이전 앱 연결·index·unit과 활성화 상태를 복구합니다. 최초 설치가 실패하면 이번 실행이 만든 서비스와 앱 연결만 해제합니다. 실패한 자료와 과거 스냅샷은 원인 확인을 위해 보존하며, 복구에 성공해도 명령은 실패 코드로 끝납니다.
+설치·시작·검증에 실패하면 배포 잠금을 유지한 상태에서 이전 앱 연결·index·unit과 활성화 상태를 복구합니다. 최초 설치가 실패하면 이번 실행이 만든 서비스와 앱 연결만 해제합니다. 큰 쓰기 전에 attempt와 실제 baseline을 기록하므로 transaction 생성 전 설치 실패 앱도 이번 owner의 자료로 식별할 수 있습니다. 현재 배포 시도의 실패 앱과 incoming은 rollback 응답에 담긴 실제 baseline을 로컬 HTTP·MCP로 확인하고 finalize한 뒤 정리합니다. 복구 검증이 실패하거나 강제 종료로 종결 여부가 불명확하면 자료와 잠금을 보존합니다. 영구 archive는 실패 여부와 관계없이 보존하며, 복구에 성공해도 원래 배포 명령은 실패 코드로 끝납니다.
+
+이전 CLI의 실패 자료는 새 owner가 전역 잠금을 보유하고 현재 앱을 HTTP·MCP로 새로 검증한 경우에만 추가로 회수할 수 있습니다. `baseline.json`이 owner·root를 증명하고 유효한 `release.json`의 head·releaseId와 실패 앱 namespace가 일치하며 transaction이 없으면 current·unit 전환 이전 실패로 판별합니다. 유효한 `rolled-back` transaction도 현재 앱이나 다른 보호 참조가 실패 앱을 가리키지 않으면 회수할 수 있습니다. 이때 큰 자료를 삭제하기 전에 `superseded` attempt와 `superseded-pre-transaction` 또는 `superseded-rolled-back` 종결 기록을 durable하게 저장합니다. 이 기록은 현재 검증된 앱이 과거 실패를 대체했다는 근거이며 과거 복구의 HTTP 검증 기록을 대신하지 않습니다. `prepared`·`activated`·손상 transaction, owner만 남은 자료와 귀속 근거가 부족한 자료는 보존합니다. 실패 후보도 수집 시점의 디렉터리 identity 또는 명시적 부재를 고정하며, 다른 후보를 처리하는 동안 교체되거나 새로 나타난 앱은 삭제하지 않습니다. 실패 앱을 삭제하지 못하면 incoming의 귀속·종결 증거도 함께 유지합니다.
+
+commit 또는 복구 finalize의 durable 종결 기록 뒤에 발생한 정리 실패는 `cleanupWarnings`와 로그로 반환합니다. 현재 incoming은 정상 commit 증거가 확인되거나 실패 앱의 실제 부재·귀속·종결 증거와 보호 참조를 검증한 경우에만 삭제하며, 손상된 삭제 intent·검사 예외 등으로 안전 여부를 확인하지 못하면 보존합니다. 실패 앱이 이미 없어도 incoming의 release·baseline 등 control 자료를 파싱해 귀속과 해시를 검사합니다. 잠금 해제 뒤 현재 incoming을 삭제하기 직전에도 모든 앱의 identity·부재와 해당 증거를 다시 확인합니다. 성공 배포를 정리 실패 때문에 rollback하지 않습니다. 종결 기록을 쓰지 못하면 성공 처리하지 않으며, commit 응답이 유실되거나 receipt가 불명확하면 commit 여부를 추정해 자동 rollback하지 않습니다. 서버의 실제 current·receipt·정상 commit marker·transaction과 잠금을 확인해야 합니다.
 
 서비스 시작에 실패하면 `ActiveState`, `SubState`, `Result`, `ExecMainStatus`와 로그 확인 명령을 로컬 오류에 함께 표시합니다. 예를 들어 `ExecMainStatus=203`이면 실행 파일과 실행 경로의 권한·SELinux 컨텍스트를 확인합니다. 상세 로그는 자동으로 수집하지 않습니다.
 

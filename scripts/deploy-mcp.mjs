@@ -12,7 +12,7 @@ import { prepareCachedMcpOffline, readCachedMcpOffline } from './deploy-mcp-prep
 import { probeMcpRemote, bootstrapMcpRemote } from './deploy-mcp-bootstrap.mjs';
 import { knowledgeReleaseSchema } from '../src/features/releases/model/schema.ts';
 import { verifyMcpDeployment } from './deploy-mcp-verify.mjs';
-import { pinMcpHelpers, preflightMcpRemote, transferMcpBundle, operateMcpRemote, discardMcpIncoming } from './deploy-mcp-transport.mjs';
+import { pinMcpHelpers, preflightMcpRemote, transferMcpBundle, operateMcpRemote, discardMcpIncoming, maintainMcpRemote, prepareMcpStoragePlan } from './deploy-mcp-transport.mjs';
 
 export { mcpDeploymentConfig, parseMcpDeployOptions };
 export const help = `OWP versioned Playground + MCP 배포 (port 30011)
@@ -54,6 +54,7 @@ export async function runMcpDeployment(options, dependencies = {}) {
   let incoming = false;
   let transferred = false;
   let activationStarted = false;
+  let commitStarted = false;
   let server;
   let cancelled = false;
   let plan;
@@ -107,6 +108,14 @@ export async function runMcpDeployment(options, dependencies = {}) {
     if (server.previousManifest) knowledgeReleaseSchema.parse(server.previousManifest);
     log('서버 Node·pnpm·systemd·port·관리 service 사전 검사: OK');
     if (options.preflightOnly) return { stage: 'preflight-checked', plan, server };
+    if (server.receipt && server.active === 'active') {
+      await verify(config, { manifest: server.previousManifest }, { log });
+      plan.baselineVerified = { appDirectory: server.receipt.appDirectory, releaseId: server.receipt.releaseId, head: server.receipt.head };
+    }
+    plan.storageDemands = await (dependencies.prepareStorage ?? prepareMcpStoragePlan)(plan, bundle);
+    const maintenance = await (dependencies.maintain ?? maintainMcpRemote)(plan, execution);
+    for (const warning of maintenance?.cleanup?.warnings ?? []) log(`MCP 정리 경고: ${warning}`);
+    assertRunning();
     await (dependencies.transfer ?? transferMcpBundle)(plan, bundle, execution);
     transferred = true;
     assertRunning();
@@ -115,12 +124,15 @@ export async function runMcpDeployment(options, dependencies = {}) {
     assertRunning();
     const verification = await verify(config, bundle, { log });
     assertRunning();
+    commitStarted = true;
     const receipt = await operate('commit', plan, execution);
     if (receipt.releaseId !== plan.releaseId || receipt.head !== plan.head || receipt.root !== config.remoteRoot || receipt.url !== config.url || receipt.owner !== plan.owner) throw new Error('성공 receipt의 release·head·root·url·owner가 배포 계획과 다릅니다.');
     incoming = false;
+    for (const warning of receipt.cleanupWarnings ?? []) log(`MCP 정리 경고: ${warning}`);
     log(`MCP 배포 완료: ${plan.releaseId}\nHEAD: ${plan.head}\nRoot: ${config.remoteRoot}\nURL: ${config.url}`);
     return { stage: 'deployed', releaseId: plan.releaseId, head: plan.head, root: config.remoteRoot, url: config.url, receipt, verification };
   } catch (error) {
+    if (commitStarted) throw new Error(`commit 결과를 확인하지 못한 미확정 상태입니다: ${error.message} 자동 rollback하지 않았습니다. deployment receipt와 정상 commit marker, transaction·잠금을 확인해 주세요: ${config.remoteRoot}`, { cause: error });
     if (incoming && session) {
       const execution = { interactive, run: session.run };
       try {
@@ -132,7 +144,8 @@ export async function runMcpDeployment(options, dependencies = {}) {
             const manifest = knowledgeReleaseSchema.parse(baseline.manifest);
             await verify(config, { manifest }, { log });
           }
-          await operate('rollback-finalize', plan, execution);
+          const finalized = await operate('rollback-finalize', plan, execution);
+          for (const warning of finalized.cleanupWarnings ?? []) log(`MCP 정리 경고: ${warning}`);
           log('이전 service 상태 복구와 검증을 완료했습니다.');
         } else await (dependencies.discard ?? discardMcpIncoming)(plan, execution);
       } catch (rollbackError) {

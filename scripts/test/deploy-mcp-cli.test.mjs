@@ -24,6 +24,8 @@ function scenario() {
     connect: async () => { calls.push('connect'); return { run, close: async () => calls.push('close') }; },
     probe: async () => { calls.push('probe'); return { runtimePending: false, runtime }; },
     bootstrap: async (plan) => { calls.push('bootstrap'); plan.runtime = runtime; },
+    prepareStorage: async () => [],
+    maintain: async () => { calls.push('maintain'); return { cleanup: { warnings: [] } }; },
     preflight: async (_config, execution) => { assert.equal(execution.run, run); calls.push('preflight'); return {}; },
     transfer: async (_plan, _bundle, execution) => { assert.equal(execution.run, run); calls.push('transfer'); },
     operate: async (operation, plan, execution) => {
@@ -124,7 +126,41 @@ test('Given a successful deployment, When all phases run, Then every phase share
     return { http: true, mcp: true };
   };
   assert.equal((await runMcpDeployment({ bundle: fixture.bundle }, dependencies)).stage, 'deployed');
-  assert.deepEqual(calls, ['confirm', 'prepare-offline', 'port', 'connect', 'probe', 'bootstrap', 'preflight', 'transfer', 'activate', 'verify', 'commit', 'close']);
+  assert.deepEqual(calls, ['confirm', 'prepare-offline', 'port', 'connect', 'probe', 'bootstrap', 'preflight', 'maintain', 'transfer', 'activate', 'verify', 'commit', 'close']);
+});
+test('an uncertain commit response never rolls back a potentially committed deployment', async (t) => {
+  const fixture = await mcpFixture(t);
+  const { calls, dependencies } = scenario();
+  const operate = dependencies.operate;
+  dependencies.operate = async (...args) => {
+    if (args[0] === 'commit') { calls.push('commit'); throw new Error('commit response lost'); }
+    return operate(...args);
+  };
+  await assert.rejects(runMcpDeployment({ bundle: fixture.bundle }, dependencies), /commit.*확인|commit.*미확정/);
+  assert.equal(calls.includes('rollback'), false);
+});
+test('terminal cleanup warnings preserve a successful deployment without rollback', async (t) => {
+  const fixture = await mcpFixture(t);
+  const { calls, dependencies } = scenario();
+  const operate = dependencies.operate;
+  dependencies.operate = async (...args) => ({ ...await operate(...args), ...(args[0] === 'commit' ? { cleanupWarnings: ['cleanup denied'] } : {}) });
+  const deployed = await runMcpDeployment({ bundle: fixture.bundle }, dependencies);
+  assert.equal(deployed.stage, 'deployed');
+  assert.deepEqual(deployed.receipt.cleanupWarnings, ['cleanup denied']);
+  assert.equal(calls.includes('rollback'), false);
+});
+test('an active legacy baseline is verified over HTTP and MCP before adoption and bulk transfer', async (t) => {
+  const fixture = await mcpFixture(t);
+  const { calls, dependencies } = scenario();
+  const release = JSON.parse(await readFile(path.join(fixture.bundle, 'release.json')));
+  const manifest = JSON.parse(await readFile(path.join(fixture.archiveRoot, `versions/${release.releaseId}/knowledge-release.json`)));
+  const receipt = { appDirectory: '/managed/apps/current', releaseId: release.releaseId, head: release.head };
+  dependencies.preflight = async () => { calls.push('preflight'); return { receipt, active: 'active', previousManifest: manifest }; };
+  dependencies.verify = async (_config, selected) => { calls.push(selected.manifest ? 'verify-baseline' : 'verify-new'); };
+  dependencies.maintain = async (plan) => { calls.push('maintain'); assert.deepEqual(plan.baselineVerified, receipt); return {}; };
+  await runMcpDeployment({ bundle: fixture.bundle }, dependencies);
+  assert.ok(calls.indexOf('verify-baseline') < calls.indexOf('maintain'));
+  assert.ok(calls.indexOf('maintain') < calls.indexOf('transfer'));
 });
 for (const reason of ['HTTP stale HTML', 'MCP wrong release']) test(`Given ${reason}, When post-verification fails, Then rollback finalizes before the connection closes`, async (t) => {
   const fixture = await mcpFixture(t);

@@ -6,8 +6,56 @@ import path from 'node:path';
 import test from 'node:test';
 import { gzipSync } from 'node:zlib';
 import { extractMcpDependencies, inspectMcpDependencies, MCP_DEPENDENCIES_FILE, packMcpDependencies, validateMcpOfflineManifest } from '../deploy-mcp-offline-format.mjs';
+import { checkMcpStorage, measureMcpStorage, mcpDeploymentDemands, mcpTreeDemand } from '../deploy-mcp-storage.mjs';
+import { inspectMcpTar } from '../deploy-mcp-tar.mjs';
+import { tarBytes } from './deploy-mcp-fixture.mjs';
 
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex');
+const storage = (destination, patch = {}) => ({ path: destination, dev: '1', frsize: '4096', bsize: '4096', blocks: '10000000', bavail: '9000000', files: '1000000', ffree: '900000', ...patch });
+test('storage counts expanded tar payload, implicit directories, dependency links and the node_modules root', () => {
+  const compressed = tarBytes([{ name: 'deep/implicit/blob', content: Buffer.alloc(4 * 1024 * 1024) }]);
+  assert.ok(compressed.length < 8192);
+  const inspected = inspectMcpTar(compressed);
+  assert.deepEqual(mcpTreeDemand(inspected.entries), { bytes: '4194304', entries: '4' });
+  assert.deepEqual(mcpTreeDemand([dir('pkg'), file('pkg/file', 'abc'), soft('link', 'pkg/file')], 'dependencies'), { bytes: '11', entries: '4' });
+  const demands = mcpDeploymentDemands({ config: { remoteRoot: '/opt/mcp', unitDirectory: '/units' }, owner: 'owner', files: [{ name: 'app.tar.gz', bytes: compressed.length }] }, { app: inspected, archive: inspected, dependencies: { entries: [dir('pkg'), file('pkg/file', 'abc')] } });
+  assert.ok(BigInt(demands.find((item) => item.path === '/opt/mcp/apps').bytes) >= 4194307n);
+  assert.equal(demands.filter((item) => item.bytes === '4194304').length, 2);
+});
+test('storage groups allocation and inode demand by device, uses bavail and returns decimal strings', () => {
+  const demands = [{ path: '/a', bytes: '4000', entries: '1' }, { path: '/b', bytes: '4000', entries: '1' }];
+  assert.throws(() => checkMcpStorage(demands, [storage('/a', { bavail: '5' }), storage('/b', { bavail: '5' })]), /용량 부족/);
+  assert.equal(checkMcpStorage(demands, [storage('/a', { bavail: '5' }), storage('/b', { dev: '2', bavail: '5' })]).length, 2);
+  assert.throws(() => checkMcpStorage(demands, [storage('/a', { ffree: '1' }), storage('/b', { dev: '2' })]), /inode 부족/);
+  assert.throws(() => checkMcpStorage(demands, [storage('/a', { bfree: '9000000', bavail: '0' }), storage('/b')]), /용량 부족/);
+  const result = checkMcpStorage([{ path: '/a', bytes: '0', entries: '1' }], [storage('/a', { bsize: '8192' })]);
+  assert.equal(result[0].requiredBytes, '19661');
+  assert.equal(typeof result[0].availableBytes, 'string');
+});
+test('storage reserves the bounded root cleanup intent and its atomic write copy in every phase', () => {
+  const plan = { config: { remoteRoot: '/opt/mcp', unitDirectory: '/units' }, owner: 'owner' };
+  const inspected = { app: { entries: [] }, archive: { entries: [] } };
+  for (const phase of ['bootstrap', 'transfer', 'extract']) {
+    const root = mcpDeploymentDemands(plan, inspected, phase).find((item) => item.path === '/opt/mcp');
+    assert.equal(BigInt(root.bytes), BigInt(Buffer.byteLength(JSON.stringify(plan))) * 8n + 2n * 64n * 1024n);
+    assert.equal(root.entries, phase === 'bootstrap' ? '18' : '34');
+  }
+});
+test('storage rejects unavailable, negative, zero-total and sentinel counters', () => {
+  const demands = [{ path: '/a', bytes: '1', entries: '1' }];
+  for (const patch of [{ files: '0' }, { ffree: '-1' }, { ffree: '18446744073709551615' }, { blocks: '0' }, { bavail: undefined }, { frsize: '0' }, { bsize: '0' }]) assert.throws(() => checkMcpStorage(demands, [storage('/a', patch)]), /검사 불가/);
+});
+test('storage measures the nearest existing real ancestor and refuses symlinks and concurrent replacement', async () => {
+  const observed = [];
+  const info = (patch = {}) => ({ dev: 7n, ino: 8n, isDirectory: () => true, isSymbolicLink: () => false, ...patch });
+  const inspect = async (file) => { if (file.includes('missing')) throw Object.assign(new Error('missing'), { code: 'ENOENT' }); return info(); };
+  const samples = await measureMcpStorage([{ path: '/exists/missing/nested' }], { lstat: inspect, statfs: async (file) => { observed.push(file); return { bsize: 4096n, frsize: 2048n, blocks: 100n, bavail: 50n, files: 100n, ffree: 80n }; } });
+  assert.deepEqual(observed, ['/exists']);
+  assert.equal(samples[0].frsize, '2048');
+  await assert.rejects(measureMcpStorage([{ path: '/link/child' }], { lstat: async () => info({ isSymbolicLink: () => true }) }), /실제 디렉터리/);
+  let replaced = false;
+  await assert.rejects(measureMcpStorage([{ path: '/exists' }], { lstat: async () => info({ ino: replaced ? 9n : 8n }), statfs: async () => { replaced = true; return {}; } }), /바뀌었습니다/);
+});
 const file = (name, content = 'x') => ({ path: name, type: 'file', mode: 0o644, bytes: Buffer.byteLength(content), sha256: digest(content) });
 const dir = (name) => ({ path: name, type: 'directory', mode: 0o755 });
 const soft = (name, target) => ({ path: name, type: 'symlink', target });
