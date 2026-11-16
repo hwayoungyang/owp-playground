@@ -2,11 +2,11 @@ packages:
   - '.'
 
 pmOnFail: download
-nodeVersion: 24.22.1
+nodeVersion: 24.22.3
 verifyDepsBeforeRun: false
 
 overrides:
-  'vite@*': npm:@voidzero-dev/vite-plus-core@1.5.0
+  'vite@*': npm:@voidzero-dev/vite-plus-core@1.5.1
   'vitest@*': 5.1.0
   'exceljs@4.4.0>uuid': 14.0.3
   '@owp/core@8.1.0>@tanstack/react-query': 5.104.5
@@ -14,7 +14,7 @@ overrides:
 
 peerDependencyRules:
   allowedVersions:
-    vite: 1.5.0
+    vite: 1.5.1
 
 minimumReleaseAgeExclude:
   - '@owp/charts@4.0.6-rc.0 || 4.0.6 || 5.0.0 || 5.0.1 || 5.0.2 || 5.0.3 || 6.0.0 || 6.1.0 || 6.1.1 || 7.0.0 || 7.0.1 || 7.0.2'

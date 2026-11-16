@@ -19,7 +19,7 @@ MUI 기반 OWP 컴포넌트를 실행하고 소스 코드를 확인할 수 있�
 
 ## 실행
 
-Node.js 24.22.1 LTS와 프로젝트에 고정된 pnpm 12.16.1을 사용하며, 지원하는 Node.js 범위는 `package.json`의 `engines.node`를 따릅니다. 기존 OWP 사내 레지스트리 접근이 필요합니다. `.npmrc`의 `@owp:registry`를 환경에 맞게 설정하세요. 인증 정보는 저장소에 넣지 않습니다.
+Node.js 24.22.3 LTS와 프로젝트에 고정된 pnpm 12.16.1을 사용하며, 지원하는 Node.js 범위는 `package.json`의 `engines.node`를 따릅니다. 기존 OWP 사내 레지스트리 접근이 필요합니다. `.npmrc`의 `@owp:registry`를 환경에 맞게 설정하세요. 인증 정보는 저장소에 넣지 않습니다.
 
 브라우저는 ES2023 배열 API(`toSorted`, `toReversed`, `findLast`)를 지원해야 합니다. TypeScript의 `lib`는 ES2023이며 빌드 구문 target은 ES2022를 유지합니다. target 설정은 표준 내장 API의 polyfill을 추가하지 않습니다. 배열을 복사한 뒤 정렬·역순 처리하거나 마지막 일치 항목을 찾는 코드는 [ECMAScript 2023 표준 메서드](https://tc39.es/ecma262/2023/multipage/indexed-collections.html)를 사용합니다.
 
@@ -34,7 +34,7 @@ corepack pnpm dev
 
 OWP 패키지나 lockfile을 갱신한 뒤에는 실행 중인 개발 서버를 정상 종료하고 `pnpm dev`로 다시 실행한 다음, 열려 있던 Playground 탭을 새로고침합니다. 갱신 전 dependency chunk를 참조하는 탭에서는 `504 Outdated Optimize Dep`나 동적 import 오류가 발생할 수 있습니다.
 
-`devEngines.runtime`에 따라 pnpm이 프로젝트용 Node.js `24.22.1`을 자동으로 내려받아 사용합니다. `pnpm node -v`가 `v24.22.1`인지 확인하고, 프로젝트 명령은 `pnpm run`, `pnpm exec` 또는 `pnpm node`로 실행합니다. 전역 Node.js 버전은 다를 수 있습니다.
+`devEngines.runtime`에 따라 pnpm이 프로젝트용 Node.js `24.22.3`을 자동으로 내려받아 사용합니다. `pnpm node -v`가 `v24.22.3`인지 확인하고, 프로젝트 명령은 `pnpm run`, `pnpm exec` 또는 `pnpm node`로 실행합니다. 전역 Node.js 버전은 다를 수 있습니다.
 
 `pnpm dev`는 개발 서버를 실행하고 브라우저를 자동으로 엽니다. 기존에 생성된 Knowledge 자료를 사용하며 Knowledge·스냅샷·MCP를 자동으로 갱신하지 않습니다. 패키지 계약 검토와 Knowledge 갱신은 별도로 요청한 작업에서 진행합니다. TypeScript 7로 타입을 검사하고, Vite+로 개발·빌드·테스트를 실행합니다. 설치와 스크립트 실행에는 프로젝트에 고정한 pnpm CLI를 사용합니다. `packageManager`에 고정된 pnpm 12.16.1을 자동으로 선택하며 `pnpm-workspace.yaml`의 `pmOnFail: download`로 이를 유지합니다. `verifyDepsBeforeRun: false`로 명령 실행 전에 dependencies가 자동으로 설치되지 않도록 합니다. `.npmrc`는 사내 OWP 레지스트리 설정을 유지합니다.
 
