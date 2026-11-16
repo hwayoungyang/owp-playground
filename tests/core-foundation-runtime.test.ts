@@ -25,7 +25,7 @@ const { QueryClient }: { readonly QueryClient: new () => OwpQueryClient } = awai
 it('invalidates the populated list cache with the key used after a successful save', async () => {
   const client = new QueryClient();
   const listKey = queryOptions('get', '/items', {}).queryKey;
-  client.setQueryData(listKey, { resultCode: 'STATUS_1', resultData: [] });
+  client.setQueryData(listKey, { resultCode: 'STATUS_1', resultMessage: '', resultData: [] });
   try {
     await client.invalidateQueries({ queryKey: itemsQueryKey });
     expect(client.getQueryState(listKey)?.isInvalidated).toBe(true);
