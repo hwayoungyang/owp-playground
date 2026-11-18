@@ -4,6 +4,7 @@ import {
   getDisplayValue,
   getFormDefaultValues,
   getTrimmedValue,
+  getTypedFormDefaultValues,
   hasValue,
   isNilOrEmptyString,
   toFiniteNumber,
@@ -27,7 +28,35 @@ import {
   defaultFormTarget,
   serverPayloadPresets,
   FormDefaultsPanel,
+  type FormDefaultTypeRow,
+  type PayloadKey,
 } from './form-default-values-panel';
+
+// 같은 초기값으로 병합합니다. 두 결과의 quantity는 런타임에서 모두 문자열 "85"입니다.
+const stringQuantityInitialValues = serverPayloadPresets.numericString.payload;
+const legacyStringQuantity = getFormDefaultValues(defaultFormTarget, stringQuantityInitialValues);
+const typedStringQuantity = getTypedFormDefaultValues(defaultFormTarget, stringQuantityInitialValues);
+
+type LegacyQuantity = typeof legacyStringQuantity.quantity; // number
+type TypedQuantity = typeof typedStringQuantity.quantity; // number | "85"
+const legacyExample: LegacyQuantity = 85;
+// 타입 단언 없이 문자열을 대입할 수 있습니다.
+const typedExample: TypedQuantity = '85';
+const legacyQuantityRuntime: unknown = legacyStringQuantity.quantity;
+const formDefaultTypeRows: readonly FormDefaultTypeRow[] = [
+  {
+    api: 'getFormDefaultValues',
+    runtime: typeof legacyQuantityRuntime,
+    type: 'number',
+    example: JSON.stringify(legacyExample),
+  },
+  {
+    api: 'getTypedFormDefaultValues',
+    runtime: typeof typedStringQuantity.quantity,
+    type: 'number | "85"',
+    example: JSON.stringify(typedExample),
+  },
+];
 
 const inputPresets = [
   { id: 'decimal', label: '소수 포함', raw: '  1284500.456  ' },
@@ -43,7 +72,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
   const [rawInput, setRawInput] = useState('  1284500.456  ');
   const [fractionDigits, setFractionDigits] = useState<0 | 2 | 3>(2);
   const [emptyFallback, setEmptyFallback] = useState('-');
-  const [payloadKey, setPayloadKey] = useState<keyof typeof serverPayloadPresets>('prefixed');
+  const [payloadKey, setPayloadKey] = useState<PayloadKey>('prefixed');
   const [presenceKey, setPresenceKey] = useState('null');
   const [presenceInput, setPresenceInput] = useState('');
   const originalValue =
@@ -75,6 +104,10 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
     () => getFormDefaultValues(defaultFormTarget, serverPayloadPresets[payloadKey].payload),
     [payloadKey],
   );
+  const typedFormValues: Readonly<Record<string, unknown>> = useMemo(
+    () => getTypedFormDefaultValues(defaultFormTarget, serverPayloadPresets[payloadKey].payload),
+    [payloadKey],
+  );
 
   useEffect(() => {
     onData({
@@ -87,6 +120,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
       displayText,
       payloadKey,
       mergedFormValues,
+      typedFormValues,
       presence,
     });
   }, [
@@ -99,6 +133,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
     displayText,
     payloadKey,
     mergedFormValues,
+    typedFormValues,
     onData,
     presence,
   ]);
@@ -230,6 +265,8 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
           payloadKey={payloadKey}
           setPayloadKey={setPayloadKey}
           mergedFormValues={mergedFormValues}
+          typedFormValues={typedFormValues}
+          typeRows={formDefaultTypeRows}
           onRecord={onRecord}
         />
       )}

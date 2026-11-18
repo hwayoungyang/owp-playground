@@ -64,6 +64,18 @@ export const focusedDateEnglish: Readonly<Record<string, string>> = {
   '시작 {{start}} ~ 종료 {{end}}': 'Start {{start}} ~ End {{end}}',
   '반환 주차': 'Return format',
   '오늘 날짜': 'Today',
+  '날짜 시간대': 'Date time zone',
+  '미래 날짜 비활성화': 'Disable future dates',
+  '내일 날짜와 시간 {{dateTime}}을 입력해 보세요. 미래 날짜는 확정할 수 없습니다.':
+    'Try entering tomorrow’s date and time ({{dateTime}}). Future dates cannot be committed.',
+  '같은 Date 값을 날짜와 기간 picker에 전달합니다. 기간 picker는 같은 날짜를 양쪽에 표시합니다. 브라우저의 로컬 날짜가 UTC 날짜와 같으면 두 결과도 같습니다.':
+    'Both the date and range pickers receive the same Date. The range picker shows that date at both ends. Results match when the local date and UTC date are the same.',
+  '날짜 ({{mode}})': 'Date ({{mode}})',
+  '기간 ({{mode}})': 'Range ({{mode}})',
+  '내일 날짜 {{date}}를 입력하거나 달력에서 선택해 보세요. 미래 날짜는 확정할 수 없습니다.':
+    'Try entering tomorrow’s date ({{date}}) or choosing it on the calendar. Future dates cannot be committed.',
+  '브라우저 시간대: {{timeZone}}': 'Browser time zone: {{timeZone}}',
+  '고정 값(UTC): {{iso}}': 'Fixed value (UTC): {{iso}}',
 
   // 시간 탭
   시간: 'Time',

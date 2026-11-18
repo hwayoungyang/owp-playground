@@ -9,7 +9,7 @@ import {
   Text,
   View,
 } from '@owp/pdf';
-import { Alert, Button, Stack, TextField } from '@mui/material';
+import { Alert, Button, Stack, TextField, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { DemoResultTable } from '../../integrations/DemoResultTable';
 import type { IntegrationExampleProps } from '../../integrations/catalog';
@@ -202,6 +202,11 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
         aria-label={t('Helvetica 기반 PDF 생성과 다운로드')}
       >
         <div className="components-example-content">
+          <Typography variant="body2" color="text.secondary">
+            {t(
+              'Pretendard 폰트를 사용하는 최초 렌더링이 모두 실패하면 PDF가 폰트 등록을 해제합니다. 정상 fontAssetBasePath를 지정해 renderPdfToBlob 또는 downloadPdf를 다시 호출할 수 있습니다. 한 번 성공한 뒤에는 등록 경로를 바꿀 수 없습니다. 이 예제는 Helvetica를 사용합니다.',
+            )}
+          </Typography>
           <div className="components-example-grid">
             <TextField
               size="small"

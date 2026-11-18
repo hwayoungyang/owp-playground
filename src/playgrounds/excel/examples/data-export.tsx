@@ -3,6 +3,7 @@ import { useOwpTranslation } from '@owp/components/hooks';
 import {
   createExcelExport,
   downloadExcelBuffer,
+  loadExcelJSBrowser,
   type ExcelColumnMapping,
   type ExcelHeader,
 } from '@owp/excel';
@@ -11,6 +12,7 @@ import {
   Button,
   Stack,
   TextField,
+  Typography,
   ToggleButton,
   ToggleButtonGroup,
   FormControlLabel,
@@ -38,6 +40,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
   const [lastAction, setLastAction] = useState<'buffer' | 'download'>('buffer');
   const [lastResult, setLastResult] = useState<{
     readonly exportName: string;
+    readonly worksheetName: string | undefined;
     readonly byteLength: number;
     readonly downloaded: boolean;
   } | null>(null);
@@ -102,12 +105,17 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
         data: localizedRows,
         exportName: trimmedName,
       });
+      const { Workbook } = await loadExcelJSBrowser();
+      const workbook = new Workbook();
+      await workbook.xlsx.load(buffer);
+      const worksheetName = workbook.worksheets[0]?.name;
       if (!mountedRef.current) return;
       if (mode === 'download') {
         downloadExcelBuffer(buffer, exportName);
       }
       const summary = {
         exportName,
+        worksheetName,
         byteLength: buffer.byteLength,
         downloaded: mode === 'download',
       };
@@ -140,13 +148,18 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
               label={t('내보낼 파일명')}
               value={fileName}
               disabled={busy}
-              helperText={t('특수문자는 안전한 파일명으로 정규화됩니다.')}
+              helperText={t('입력값 하나에서 다운로드 파일명과 워크시트 이름을 각각 만듭니다.')}
               onChange={(event) => {
                 setFileName(event.target.value);
                 setErrorMessage(null);
               }}
             />
           </div>
+          <Typography variant="body2" color="text.secondary">
+            {t(
+              '다운로드 파일명은 파일명 금지 문자를 밑줄로 바꿉니다. 워크시트 이름은 대괄호도 밑줄로 바꾸고, 31자로 자르며, 양끝 작은따옴표를 밑줄로 바꿉니다. 예약 이름 History는 워크시트에서만 History_가 됩니다.',
+            )}
+          </Typography>
           <div className="integration-demo-controls">
             <ToggleButtonGroup
               className="integration-choice"
@@ -179,6 +192,9 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
               }
             />
           </div>
+          <Typography variant="body2" color="text.secondary">
+            {t('예: Q1:[라인]은 Q1_[라인].xlsx로 저장되며 워크시트 이름은 Q1__라인_입니다.')}
+          </Typography>
           <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: 'wrap' }}>
             <Button
               size="small"
@@ -228,6 +244,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   label: t('파일명'),
                   value: `${lastResult.exportName}.xlsx`,
                 },
+                { label: t('워크시트 이름'), value: lastResult.worksheetName ?? '—' },
                 { label: t('파일 크기'), value: `${lastResult.byteLength.toLocaleString()} bytes` },
                 {
                   label: t('실행한 동작'),

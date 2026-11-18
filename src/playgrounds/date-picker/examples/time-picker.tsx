@@ -1,5 +1,14 @@
 import { useEffect, useId, useState } from 'react';
-import { Box, Tab, Tabs, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import {
+  Box,
+  FormControlLabel,
+  Switch,
+  Tab,
+  Tabs,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from '@mui/material';
 import { useOwpTranslation } from '@owp/components/hooks';
 import {
   OwpDatePicker,
@@ -27,6 +36,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
 
   const [activeView, setActiveView] = useState<ViewId>('time');
   const [activeMode, setActiveMode] = useState<ModeId>('24h');
+  const [disableFuture, setDisableFuture] = useState(false);
 
   const [values, setValues] = useState<Readonly<Record<ModeId, TimeValues>>>({
     '24h': { time: '14:15:00', dateTime: '2026-11-06 14:15:00', accepted: '' },
@@ -157,6 +167,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   fullWidth
                   clearable
                   showTimePicker
+                  disableFuture={disableFuture}
                   useAmPm={useAmPm}
                   datetimeFormat="YYYY-MM-DD HH:mm:ss"
                   label={t('날짜·시간')}
@@ -178,6 +189,26 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                     onRecord('dateTimePicker.' + activeMode + '.accept', accepted);
                   }}
                 />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      size="small"
+                      checked={disableFuture}
+                      onChange={(event) => {
+                        setDisableFuture(event.target.checked);
+                        onRecord('dateTimePicker.disableFuture', String(event.target.checked));
+                      }}
+                    />
+                  }
+                  label={t('미래 날짜 비활성화')}
+                />
+                {disableFuture && (
+                  <Typography variant="body2" color="text.secondary">
+                    {t('내일 날짜와 시간 {{dateTime}}을 입력해 보세요. 미래 날짜는 확정할 수 없습니다.', {
+                      dateTime: dayjs().add(1, 'day').format('YYYY-MM-DD [09:00:00]'),
+                    })}
+                  </Typography>
+                )}
               </div>
             </div>
           </div>

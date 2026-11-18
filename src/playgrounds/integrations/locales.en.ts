@@ -1,4 +1,17 @@
 export const integrationsEnglish: Readonly<Record<string, string>> = {
+  'Date Picker의 selectedBackground에 CSS 변수를 지정하면 선택 배경에 적용합니다. 파생 색상은 MUI 기본 primary를 기준으로 계산합니다. 선택 배경이 비어 있으면 MUI 기본 primary를 사용합니다.':
+    'A CSS variable in Date Picker selectedBackground is used for the selection. Derived colors use the MUI primary color. A blank selection background falls back to the MUI primary color.',
+  '입력값 하나에서 다운로드 파일명과 워크시트 이름을 각각 만듭니다.':
+    'One input is used to create the download filename and the worksheet name separately.',
+  '다운로드 파일명은 파일명 금지 문자를 밑줄로 바꿉니다. 워크시트 이름은 대괄호도 밑줄로 바꾸고, 31자로 자르며, 양끝 작은따옴표를 밑줄로 바꿉니다. 예약 이름 History는 워크시트에서만 History_가 됩니다.':
+    'The download filename replaces prohibited filename characters with underscores. The worksheet name also replaces square brackets, is limited to 31 characters, and replaces leading and trailing apostrophes with underscores. The reserved name History becomes History_ only in the worksheet.',
+  '워크시트 이름': 'Worksheet name',
+  '예: Q1:[라인]은 Q1_[라인].xlsx로 저장되며 워크시트 이름은 Q1__라인_입니다.':
+    'For example, Q1:[라인] saves as Q1_[라인].xlsx and the worksheet is named Q1__라인_.',
+  'Pretendard 폰트를 사용하는 최초 렌더링이 모두 실패하면 PDF가 폰트 등록을 해제합니다. 정상 fontAssetBasePath를 지정해 renderPdfToBlob 또는 downloadPdf를 다시 호출할 수 있습니다. 한 번 성공한 뒤에는 등록 경로를 바꿀 수 없습니다. 이 예제는 Helvetica를 사용합니다.':
+    'If all initial renders using Pretendard fail, PDF releases the font registration. Call renderPdfToBlob or downloadPdf again with a valid fontAssetBasePath. The registered path cannot change after a successful render. This example uses Helvetica.',
+  '오션 블루는 정렬 아이콘의 opacity와 색상에 undefined를 전달해 기본값을 사용합니다. 슬레이트 그레이는 0과 빈 문자열을 전달하고 두 값이 그대로 유지됩니다. 틸 그린은 별도의 opacity와 색상을 지정합니다.':
+    'Ocean Blue passes undefined to use the default sort icon opacity and color. Slate Gray passes 0 and an empty string; both values are preserved. Teal Green sets an explicit opacity and color.',
   'KST 날짜·시간 유틸리티': 'KST date and time utilities',
   'Unix 밀리초의 KST 포맷·날짜 조정·자정 계산과 문자열 파싱을 확인합니다.':
     'Explore KST formatting, date adjustment, midnight calculation, and string parsing using Unix milliseconds.',

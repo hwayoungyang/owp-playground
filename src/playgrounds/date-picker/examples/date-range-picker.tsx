@@ -6,23 +6,47 @@ import {
   OwpWeekDatePicker,
 } from '@owp/date-picker';
 import dayjs from '@owp/date-picker/dayjs';
+import type {
+  OwpDatePickerProps,
+  OwpDateRangePickerProps,
+  OwpWeekDatePickerProps,
+} from '@owp/date-picker/types';
 import {
   formatDate,
   formatToday,
   VALUE_DATE_FORMAT,
   VALUE_MONTH_FORMAT,
 } from '@owp/date-picker/utils';
-import { Button, FormControl, InputLabel, MenuItem, Select, Tab, Tabs } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  Switch,
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material';
 import { useEffect, useId, useState } from 'react';
 import { DemoResultTable } from '../../integrations/DemoResultTable';
 import type { IntegrationExampleProps } from '../../integrations/catalog';
 
-type DatePickerTab = 'date' | 'range' | 'month' | 'monthRange' | 'week';
+type DatePickerTab = 'date' | 'range' | 'month' | 'monthRange' | 'week' | 'timeZone';
+
+type DateValueTimeZone = NonNullable<OwpDatePickerProps['dateValueTimeZone']>;
+
+// UTC 2026-11-05 15:30은 KST(+09:00)에서 2026-11-06 00:30입니다.
+const utcDateBoundary = new Date('2026-11-05T15:30:00.000Z');
+const timeZoneModes: readonly DateValueTimeZone[] = ['local', 'utc'];
+const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 function stringifyPickerValue(value: string | Date | undefined, format: string): string {
   if (!value) return '';
   return typeof value === 'string' ? value : formatDate(value, format);
 }
+
 
 export function formatWeekValue(value: string, toYearWeek: boolean): string {
   if (!value) return '';
@@ -52,6 +76,9 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
   const [monthRange, setMonthRange] = useState('2026-09,2026-11');
   const [weekValue, setWeekValue] = useState('2026-45');
   const [useYearWeekValue, setUseYearWeekValue] = useState(true);
+  const [disableFuture, setDisableFuture] = useState(false);
+  const rangeOptions = { disableFuture } satisfies Pick<OwpDateRangePickerProps, 'disableFuture'>;
+  const weekOptions = { useYearWeekValue } satisfies Pick<OwpWeekDatePickerProps, 'useYearWeekValue'>;
 
   const [rangeStart = '', rangeEnd = ''] = dateRange.split(',');
   const [monthStart = '', monthEnd = ''] = monthRange.split(',');
@@ -89,6 +116,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
     { id: 'month', label: t('월') },
     { id: 'monthRange', label: t('월 범위') },
     { id: 'week', label: t('주차') },
+    { id: 'timeZone', label: t('날짜 시간대') },
   ];
 
   return (
@@ -112,7 +140,30 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
               />
             ))}
           </Tabs>
+          {(activeTab === 'date' || activeTab === 'range') && (
+            <FormControlLabel
+              control={
+                <Switch
+                  size="small"
+                  checked={disableFuture}
+                  onChange={(event) => {
+                    setDisableFuture(event.target.checked);
+                    onRecord('datePicker.disableFuture', String(event.target.checked));
+                  }}
+                />
+              }
+              label={t('미래 날짜 비활성화')}
+            />
+          )}
         </div>
+
+        {disableFuture && (activeTab === 'date' || activeTab === 'range') && (
+          <Typography variant="body2" color="text.secondary">
+            {t('내일 날짜 {{date}}를 입력하거나 달력에서 선택해 보세요. 미래 날짜는 확정할 수 없습니다.', {
+              date: dayjs().add(1, 'day').format(VALUE_DATE_FORMAT),
+            })}
+          </Typography>
+        )}
 
         {activeTab === 'date' && (
           <div id={`${baseId}-panel-date`} role="tabpanel" aria-labelledby={`${baseId}-tab-date`}>
@@ -122,6 +173,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   fullWidth
                   clearable
                   showWeekNumbers
+                  disableFuture={disableFuture}
                   label={t('날짜')}
                   value={singleDate}
                   variant="outlined"
@@ -158,6 +210,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   fullWidth
                   clearable
                   showWeekNumbers
+                  {...rangeOptions}
                   label={t('기간')}
                   value={dateRange}
                   variant="outlined"
@@ -231,7 +284,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   fullWidth
                   clearable
                   showWeekNumbers
-                  useYearWeekValue={useYearWeekValue}
+                  {...weekOptions}
                   label={t('주차')}
                   value={weekValue}
                   variant="outlined"
@@ -265,6 +318,49 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
                   </FormControl>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+        {activeTab === 'timeZone' && (
+          <div
+            id={`${baseId}-panel-timeZone`}
+            role="tabpanel"
+            aria-labelledby={`${baseId}-tab-timeZone`}
+          >
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
+              {t(
+                '같은 Date 값을 날짜와 기간 picker에 전달합니다. 기간 picker는 같은 날짜를 양쪽에 표시합니다. 브라우저의 로컬 날짜가 UTC 날짜와 같으면 두 결과도 같습니다.',
+              )}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" component="p">
+              {t('브라우저 시간대: {{timeZone}}', { timeZone: browserTimeZone })}
+              {' · '}
+              {t('고정 값(UTC): {{iso}}', { iso: utcDateBoundary.toISOString() })}
+            </Typography>
+            <div className="integration-demo-picker">
+              {timeZoneModes.map((mode) => {
+                const dateProps = { value: utcDateBoundary, dateValueTimeZone: mode } as const;
+                return (
+                  <div key={mode} className="integration-demo">
+                    <OwpDatePicker
+                      {...dateProps}
+                      fullWidth
+                      readOnly
+                      label={t('날짜 ({{mode}})', { mode })}
+                      variant="outlined"
+                      textFieldProps={{ size: 'small' }}
+                    />
+                    <OwpDateRangePicker
+                      {...dateProps}
+                      fullWidth
+                      readOnly
+                      label={t('기간 ({{mode}})', { mode })}
+                      variant="outlined"
+                      textFieldProps={{ size: 'small' }}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

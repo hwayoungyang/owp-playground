@@ -21,6 +21,8 @@ const surfacePresets = {
     rowHoverBackground: '#f0f9ff',
     borderRadius: '10px',
     pickerSelectedBackground: '#0284c7',
+    sortIconInactiveOpacity: undefined,
+    sortIconColor: undefined,
   },
   slate: {
     label: '슬레이트 그레이',
@@ -29,6 +31,8 @@ const surfacePresets = {
     rowHoverBackground: '#f8fafc',
     borderRadius: '6px',
     pickerSelectedBackground: '#475569',
+    sortIconInactiveOpacity: 0,
+    sortIconColor: '',
   },
   teal: {
     label: '틸 그린',
@@ -37,6 +41,8 @@ const surfacePresets = {
     rowHoverBackground: '#f0fdfa',
     borderRadius: '12px',
     pickerSelectedBackground: '#0d9488',
+    sortIconInactiveOpacity: 0.75,
+    sortIconColor: '#f0fdfa',
   },
 } as const;
 
@@ -92,6 +98,8 @@ function ScopedTokenConsumer() {
             api: 'useGridTheme',
             value: colorValue(gridTheme.header.backgroundColor, gridTheme.header.color),
           },
+          { label: 'sortIconInactiveOpacity', value: gridTheme.header.sortIconInactiveOpacity },
+          { label: 'sortIconColor', value: JSON.stringify(gridTheme.header.sortIconColor) },
           {
             label: t('DatePicker 선택 배경'),
             api: 'useDatePickerThemeConfig',
@@ -112,19 +120,19 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
   const [presetKey, setPresetKey] = useState<keyof typeof surfacePresets>('ocean');
   const preset = surfacePresets[presetKey];
 
-  const resolvedGridPreview = useMemo(
-    () =>
-      resolveOwpGridTheme({
-        header: {
-          backgroundColor: preset.headerBackground,
-          color: preset.headerColor,
-        },
-        state: {
-          hoverBackgroundColor: preset.rowHoverBackground,
-        },
-      }),
+  const gridConfig = useMemo(
+    () => ({
+      header: {
+        backgroundColor: preset.headerBackground,
+        color: preset.headerColor,
+        sortIconInactiveOpacity: preset.sortIconInactiveOpacity,
+        sortIconColor: preset.sortIconColor,
+      },
+      state: { hoverBackgroundColor: preset.rowHoverBackground },
+    }),
     [preset],
   );
+  const resolvedGridPreview = useMemo(() => resolveOwpGridTheme(gridConfig), [gridConfig]);
 
   useEffect(() => {
     onData({
@@ -132,6 +140,8 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
       preset,
       gridHeaderBackground: resolvedGridPreview.header.backgroundColor,
       gridHoverRowBackground: resolvedGridPreview.state.hoverRowBackgroundColor,
+      sortIconInactiveOpacity: resolvedGridPreview.header.sortIconInactiveOpacity,
+      sortIconColor: resolvedGridPreview.header.sortIconColor,
     });
   }, [presetKey, preset, resolvedGridPreview, onData]);
 
@@ -168,15 +178,7 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
               hoverBackgroundColor: preset.rowHoverBackground,
             },
           }}
-          dataGrid={{
-            header: {
-              backgroundColor: preset.headerBackground,
-              color: preset.headerColor,
-            },
-            state: {
-              hoverBackgroundColor: preset.rowHoverBackground,
-            },
-          }}
+          dataGrid={gridConfig}
           datePicker={{
             selectedBackground: preset.pickerSelectedBackground,
             selectedColor: '#ffffff',
@@ -187,7 +189,12 @@ export function IntegrationExample({ onData, onRecord }: IntegrationExampleProps
 
         <Typography variant="body2" color="text.secondary">
           {t(
-            '색상과 radius를 미리 봅니다. Table·DataGrid의 행에 마우스를 올려 배경색도 확인하세요.',
+            '오션 블루는 정렬 아이콘의 opacity와 색상에 undefined를 전달해 기본값을 사용합니다. 슬레이트 그레이는 0과 빈 문자열을 전달하고 두 값이 그대로 유지됩니다. 틸 그린은 별도의 opacity와 색상을 지정합니다.',
+          )}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {t(
+            'Date Picker의 selectedBackground에 CSS 변수를 지정하면 선택 배경에 적용합니다. 파생 색상은 MUI 기본 primary를 기준으로 계산합니다. 선택 배경이 비어 있으면 MUI 기본 primary를 사용합니다.',
           )}
         </Typography>
       </div>

@@ -38,6 +38,18 @@ export const focusedUtilsEnglish: Readonly<Record<string, string>> = {
   담당자: 'Manager',
   '점(.) 접두사를 제거하고 대상 폼 키만 병합합니다.':
     'Strips dot-separated prefixes and merges only target form keys.',
+  '숫자 기본값에 문자열 전달': 'String value for a numeric default',
+  '같은 입력으로 getFormDefaultValues와 getTypedFormDefaultValues를 비교합니다. 점(.) 키는 마지막 이름이 기본값에 있는 필드만 병합합니다.':
+    'Compare getFormDefaultValues and getTypedFormDefaultValues with the same input. A dotted key merges only when its last name exists in the defaults.',
+  'Typed 병합 값': 'Typed merged value',
+  '런타임 결과 동일': 'Same runtime result',
+  '숫자 기본값 quantity에 문자열 "85"를 넣어도 런타임 결과는 같고, 반환 타입의 후보만 다릅니다.':
+    'Passing the string "85" for the numeric quantity default gives the same runtime result; only the candidate return types differ.',
+  '반환 타입 비교': 'Return type comparison',
+  함수: 'Function',
+  'typeof 런타임 값': 'Runtime typeof value',
+  'typeof result.quantity 타입': 'Type of result.quantity',
+  '타입이 받는 값 예시': 'Example value accepted by the type',
   슬레이트: 'Slate',
   '오션 블루': 'Ocean Blue',
   에메랄드: 'Emerald',
