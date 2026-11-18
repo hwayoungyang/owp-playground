@@ -5,6 +5,7 @@ import { McpGettingStarted } from '../../../features/mcp/McpGettingStarted';
 import { GettingStartedHeader } from '../../../shared/ui/GettingStartedHeader';
 import { dataGridPackage } from '../../registry';
 import type { GridCatalogEntry } from '../catalog';
+import { GettingStartedGrid } from './getting-started';
 import source from './getting-started.tsx?raw';
 
 const registry = '@owp:registry=<OWP_REGISTRY_URL>';
@@ -40,10 +41,26 @@ export function GridGettingStarted({
           <h2 id="usage-heading">Usage</h2>
           <p>
             {t(
-              'field·getRowId로 API 필드와 행 ID를 연결합니다. 문자열의 숫자·boolean 변환과 트리 행 연결은 model/apiData.ts를 참고해 주세요.',
+              '전체 목록을 조회만 할 때는 OwpDataGridReadOnlyProps로 getRowId를 생략할 수 있습니다. 원본 ID와 작업명이 모두 같은 두 행도 각각 표시하고 선택할 수 있습니다.',
             )}
           </p>
+          <p>
+            {t(
+              '자동 행 ID 표에서 행을 선택하고 작업 헤더로 정렬하거나 필터를 적용했다가 해제해 보세요. 같은 rows 배열을 쓰므로 선택은 유지됩니다. 같은 데이터로 재조회하면 새 배열을 받아 자동 ID의 선택이 해제됩니다.',
+            )}
+          </p>
+          <p>
+            {t(
+              "getRowId를 지정하면 기본 strict는 중복 ID 오류를 표 안에 표시합니다. preserve는 중복 행도 모두 표시합니다. preserve 표에서 원본 ID 1과 2의 행을 선택하고 재조회하면 고유 ID 1의 선택은 유지되고 중복 ID 2에 속한 행의 선택은 해제됩니다.",
+            )}
+          </p>
+          <GettingStartedGrid />
           <CodeSnippet label="GettingStartedGrid.tsx" code={source} language="typescript" />
+          <p>
+            {t(
+              '기존 OwpDataGridProps는 getRowId를 필수로 유지합니다. 행 이동·서버 조회와 저장·편집·트리·상세 패널처럼 재조회 뒤에도 같은 행을 식별해야 하는 기능에는 안정적인 고유 ID를 지정해 주세요.',
+            )}
+          </p>
           <p>{t('Hook과 Ref는 같은 Grid API를 제공하며 연결 방식만 다릅니다.')}</p>
           <p>
             {t(

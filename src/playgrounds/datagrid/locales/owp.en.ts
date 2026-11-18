@@ -1,4 +1,6 @@
 export const owpEnglish: Readonly<Record<string, string>> = {
+  'Message.행 ID가 중복되어 조회 결과를 표시할 수 없습니다.':
+    'The query results cannot be displayed because row IDs are duplicated.',
   'Label.DataGrid': 'OwpDataGrid',
   'Label.{{label}} 날짜 선택': 'Choose {{label}} date',
   'Label.{{label}} 시간 선택': 'Choose {{label}} time',

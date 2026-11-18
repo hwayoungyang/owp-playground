@@ -1,4 +1,19 @@
 export const catalogEnglish: Readonly<Record<string, string>> = {
+  '설비 일상 점검': 'Routine equipment inspection',
+  '센서 교정': 'Sensor calibration',
+  '생산 품질 검사': 'Production quality inspection',
+  '원본 ID': 'Source ID',
+  '같은 데이터로 재조회': 'Reload the same data',
+  '자동 행 ID': 'Automatic row IDs',
+  '선택: {{count}}개 행': 'Selected rows: {{count}}',
+  '전체 목록을 조회만 할 때는 OwpDataGridReadOnlyProps로 getRowId를 생략할 수 있습니다. 원본 ID와 작업명이 모두 같은 두 행도 각각 표시하고 선택할 수 있습니다.':
+    'Use OwpDataGridReadOnlyProps to omit getRowId when displaying a complete read-only list. Even two rows with the same source ID and task name can be displayed and selected separately.',
+  '자동 행 ID 표에서 행을 선택하고 작업 헤더로 정렬하거나 필터를 적용했다가 해제해 보세요. 같은 rows 배열을 쓰므로 선택은 유지됩니다. 같은 데이터로 재조회하면 새 배열을 받아 자동 ID의 선택이 해제됩니다.':
+    'Select rows in the automatic ID grid, then sort by Task or apply and clear a filter. Selection stays intact because the rows array is the same. Reloading the same data supplies a new array and clears selection tied to automatic IDs.',
+  'getRowId를 지정하면 기본 strict는 중복 ID 오류를 표 안에 표시합니다. preserve는 중복 행도 모두 표시합니다. preserve 표에서 원본 ID 1과 2의 행을 선택하고 재조회하면 고유 ID 1의 선택은 유지되고 중복 ID 2에 속한 행의 선택은 해제됩니다.':
+    'With getRowId, the default strict mode shows duplicate ID errors inside the grid. The preserve mode displays every row. In the preserve grid, select rows with source IDs 1 and 2 and reload. The unique ID 1 stays selected; selection for rows that share ID 2 clears.',
+  '기존 OwpDataGridProps는 getRowId를 필수로 유지합니다. 행 이동·서버 조회와 저장·편집·트리·상세 패널처럼 재조회 뒤에도 같은 행을 식별해야 하는 기능에는 안정적인 고유 ID를 지정해 주세요.':
+    'OwpDataGridProps still requires getRowId. Supply stable, unique IDs for features that need to identify the same rows across reloads, such as reordering, server queries and saves, editing, trees, and detail panels.',
   '작성한 정규식은 정규식 적용 버튼을 눌러야 Grid에 반영됩니다.':
     'Choose Apply pattern to update the Grid with the draft pattern.',
   '빈 정규식은 문자 제한을 두지 않습니다.': 'An empty pattern leaves characters unrestricted.',

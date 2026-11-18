@@ -8,7 +8,7 @@ export const datagridKoreanClarity: Readonly<Record<string, string>> = {
   'useDataGridApi() 객체를 Grid의 api에 연결합니다. 이벤트·Effect에서 최신 Grid 값을 조회할 수 있습니다. 객체·메서드 reference를 유지합니다. React 상태 자동 구독은 지원하지 않습니다.':
     'useDataGridApi() 객체를 Grid의 api에 연결합니다. 이벤트·Effect에서 최신 Grid 값을 조회할 수 있습니다. 객체·메서드 reference는 유지되며, React state를 자동으로 구독하지는 않습니다.',
   'API 객체당 Grid 하나에만 연결할 수 있습니다. 연결 전·해제 후에 호출하면 ReferenceError가 발생합니다. Grid가 마운트된 동안에만 호출해 주세요. 기존 ref와 함께 연결할 수 있습니다.':
-    'API 객체 하나에는 Grid 하나만 연결할 수 있습니다. 연결 전이나 해제 후에 호출하면 ReferenceError가 발생하므로 Grid가 mount된 동안에만 호출하세요. 기존 ref와 함께 연결할 수 있습니다.',
+    'API 객체 하나에는 Grid 하나만 연결할 수 있습니다. 연결 전이나 해제 후에 호출하면 ReferenceError가 발생하므로 Grid가 mount된 동안에만 호출해 주세요. 기존 ref와 함께 연결할 수 있습니다.',
   '로딩 중·데이터 없음·오류 화면을 확인하고, 오류 화면에서 다시 조회 가능.':
     '로딩 중·데이터 없음·오류 화면을 비교하고 오류 화면에서 다시 조회할 수 있습니다.',
   '단일 선택과 다중 선택의 동작을 비교 가능.': '단일 선택과 다중 선택의 동작을 비교할 수 있습니다.',
