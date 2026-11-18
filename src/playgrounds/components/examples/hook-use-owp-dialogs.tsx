@@ -4,6 +4,7 @@ import { OwpDialog } from '@owp/components';
 import { OwpDialogsProvider } from '@owp/components/feedback';
 import { useOwpDialogs, useOwpTranslation } from '@owp/components/hooks';
 import type { DialogProps } from '@owp/components/types';
+import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import { ExampleResult, useExampleData, type SectionObserver } from './components/hook-observation';
 import type { ComponentsExampleProps } from '../model/types';
 import { ExampleSection } from '../runtime/ExampleSection';
@@ -36,6 +37,13 @@ function InputDialog({ payload, open, onClose }: DialogProps<InputPayload, strin
   );
 }
 
+const strictPayloadSnippet = `const dialogs = useOwpDialogs({ strictPayload: true });
+
+// 컴파일 오류: InputDialog에는 payload가 필요합니다.
+// await dialogs.open(InputDialog);
+
+await dialogs.open(InputDialog, { initialValue: '' });`;
+
 const buttonLabels = {
   alert: '알림 창 열기',
   confirm: '확인 창 열기',
@@ -48,7 +56,7 @@ function DialogSample({
   onRecord,
 }: SectionObserver & { readonly kind: keyof typeof buttonLabels }) {
   const { t } = useOwpTranslation();
-  const dialogs = useOwpDialogs();
+  const dialogs = useOwpDialogs({ strictPayload: true });
   const [result, setResult] = useState<string | boolean | null>(null);
   const [settled, setSettled] = useState(false);
   const [pending, setPending] = useState(false);
@@ -117,6 +125,12 @@ export function ComponentsExample({ onData, onRecord }: ComponentsExampleProps) 
           description="dialogs.open으로 custom OwpDialog를 엽니다. 예제의 확인 버튼은 입력 문자열을, 취소는 null을 전달합니다."
         >
           <DialogSample id="input" kind="input" report={report} onRecord={onRecord} />
+        </ExampleSection>
+        <ExampleSection
+          title="strictPayload 호출 규칙"
+          description="strictPayload가 켜져 있으면 payload가 필요한 Dialog는 payload와 함께 열어야 합니다. 아래의 오류 호출은 설명용 문자열이며 실행하지 않습니다."
+        >
+          <CodeSnippet label="strictPayload" code={strictPayloadSnippet} language="typescript" />
         </ExampleSection>
       </>
     </OwpDialogsProvider>

@@ -117,7 +117,13 @@ const entries = [
     package: '@owp/components',
     source: 'examples/field-table.tsx',
     description: 'label/value 배치·matrix 셀 병합·사용자 입력 셀을 비교합니다.',
-    api: ['OwpFieldTable'],
+    api: [
+      'OwpFieldTable',
+      'OwpFieldTableProps',
+      'OwpNumberFieldProps',
+      'OwpTextMaskFieldProps',
+      'OwpSectionProps',
+    ],
   },
   {
     id: 'tabs',

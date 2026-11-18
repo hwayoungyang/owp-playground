@@ -1,4 +1,10 @@
 export const hooksUtilsEnglish = {
+  'Dialog 열기 완료 전달': 'Report dialog entry completion',
+  '열기 완료 후 닫기': 'Complete entry, then close',
+  '닫기 시작 후 열기 완료 전달': 'Start closing, then report entry',
+  '닫기 시작과 늦은 onEntered': 'Closing starts before onEntered',
+  '열기 완료 후 닫으면 consumer.onEntered가 기록됩니다. 닫기를 먼저 시작하면 transition.onEntered를 전달해도 consumer.onEntered는 실행되지 않습니다.':
+    'When entry completes before closing, consumer.onEntered is recorded. If closing starts first, reporting transition.onEntered does not call consumer.onEntered.',
   '메모 입력': 'Enter a note',
   '알림 창 열기': 'Open alert',
   '확인 창 열기': 'Open confirmation',
@@ -279,4 +285,7 @@ export const hooksUtilsEnglish = {
     'Convert a MUI width class into an OWP device name.',
   'device별 media query를 생성하고 현재 viewport와 비교합니다.':
     'Generate a media query for a device and match it to the current viewport.',
+  'strictPayload 호출 규칙': 'strictPayload call rule',
+  'strictPayload가 켜져 있으면 payload가 필요한 Dialog는 payload와 함께 열어야 합니다. 아래의 오류 호출은 설명용 문자열이며 실행하지 않습니다.':
+    'With strictPayload enabled, a Dialog that needs a payload must be opened with one. The erroneous call below is an explanatory string and is not executed.',
 };

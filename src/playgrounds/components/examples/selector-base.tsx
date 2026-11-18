@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import { OwpSelectorBase } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
 import type { ComponentsExampleProps } from '../model/types';
@@ -10,6 +11,27 @@ export function ComponentsExample(props: ComponentsExampleProps) {
     { select: 'active', autocomplete: 'inactive', multiple: 'active,inactive' },
     props,
   );
+  const options = [
+    { value: 'active', label: t('사용') },
+    { value: 'inactive', label: t('미사용') },
+    { value: 'locked', label: t('선택 불가'), disabled: true },
+  ];
+  const singleOptions = [
+    ...options,
+    { value: 'north, team 1', label: t('쉼표, 공백 포함 항목') },
+  ];
+
+  function renderSelection(value: string) {
+    const label = singleOptions.find((option) => option.value === value)?.label;
+    return (
+      <Typography variant="caption" color="text.secondary" role="status">
+        {t('단일 ID: {{id}} · 선택 라벨: {{label}}', {
+          id: JSON.stringify(value),
+          label: label ?? '—',
+        })}
+      </Typography>
+    );
+  }
   return (
     <>
       <ExampleSection
@@ -22,16 +44,13 @@ export function ComponentsExample(props: ComponentsExampleProps) {
             label={t('상태')}
             name="select"
             value={values.select}
-            options={[
-              { value: 'active', label: t('사용') },
-              { value: 'inactive', label: t('미사용') },
-              { value: 'locked', label: t('선택 불가'), disabled: true },
-            ]}
+            options={singleOptions}
             selectorType="select"
             showAllOption={false}
             selectProps={{ size: 'small' }}
             onChange={(event) => change('select', event.target.value)}
           />
+          {renderSelection(values.select)}
         </div>
       </ExampleSection>
       <ExampleSection
@@ -44,16 +63,13 @@ export function ComponentsExample(props: ComponentsExampleProps) {
             label={t('상태')}
             name="autocomplete"
             value={values.autocomplete}
-            options={[
-              { value: 'active', label: t('사용') },
-              { value: 'inactive', label: t('미사용') },
-              { value: 'locked', label: t('선택 불가'), disabled: true },
-            ]}
+            options={singleOptions}
             selectorType="autocomplete"
             showAllOption={false}
             textFieldProps={{ size: 'small' }}
             onChange={(event) => change('autocomplete', event.target.value)}
           />
+          {renderSelection(values.autocomplete)}
         </div>
       </ExampleSection>
       <ExampleSection
@@ -66,11 +82,7 @@ export function ComponentsExample(props: ComponentsExampleProps) {
             label={t('상태')}
             name="multiple"
             value={values.multiple}
-            options={[
-              { value: 'active', label: t('사용') },
-              { value: 'inactive', label: t('미사용') },
-              { value: 'locked', label: t('선택 불가'), disabled: true },
-            ]}
+            options={options}
             selectorType="autocomplete"
             multiple
             showAllOption={false}

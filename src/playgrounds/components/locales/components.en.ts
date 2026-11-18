@@ -1,4 +1,6 @@
 export const componentEnglish = {
+  'DataGrid 스타일에서 항목명은 두 헤더 행에 걸치고, 항목 정보는 상태와 금액 두 열을 묶습니다.':
+    'In the DataGrid style, Item name spans both header rows and Item details groups the Status and Amount columns.',
   금액: 'Amount',
   '구분 기호 없이 저장되는 값: {{value}}': 'Stored value without separators: {{value}}',
   '모바일 가상 키보드 차단': 'Prevent mobile virtual keyboard',
@@ -599,4 +601,13 @@ export const componentEnglish = {
   '코드 네 자리를 입력했습니다.': 'All four code digits have been entered.',
   'A001은 샘플 중복 코드입니다.': 'A001 is the sample duplicate code.',
   '샘플 중복 코드와 다릅니다.': 'The code differs from the sample duplicate.',
+  '쉼표, 공백 포함 항목': 'Item with a comma and spaces',
+  'footer 비교': 'Compare footers',
+  'footerSlot 사용': 'Use footerSlot',
+  '기본 건수 footer': 'Default count footer',
+  'totalCount는 현재 표시한 row 수와 다른 전체 건수를 받을 수 있습니다. footerSlot을 지정하거나 생략해 사용자 footer와 기본 건수 footer를 비교합니다.':
+    'totalCount can represent a total larger than the displayed rows. Provide or omit footerSlot to compare a custom footer with the default count footer.',
+  '제네릭 layout key와 공개 타입': 'Generic layout keys and public types',
+  'OwpFieldTableProps의 두 번째 제네릭 인자는 layout의 key 후보입니다. 필드 props와 Section props 타입은 공개 import로 가져옵니다. 아래 코드는 설명용 문자열입니다.':
+    'The second generic argument of OwpFieldTableProps is the set of keys allowed in layout. Field and Section prop types come from public imports. The code below is an explanatory string.',
 };

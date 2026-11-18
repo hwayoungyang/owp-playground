@@ -1,9 +1,27 @@
 import { TextField } from '@mui/material';
 import { OwpFieldTable } from '@owp/components';
 import { useOwpTranslation } from '@owp/components/hooks';
+import { CodeSnippet } from '../../../features/code/CodeSnippet';
 import type { ComponentsExampleProps } from '../model/types';
 import { ExampleSection } from '../runtime/ExampleSection';
 import { useComponentExampleState } from './components/component-state';
+
+const fieldTableTypesSnippet = `import type {
+  OwpFieldTableProps,
+  OwpNumberFieldProps,
+  OwpSectionProps,
+  OwpTextMaskFieldProps,
+} from '@owp/components/types';
+
+type OrderRow = { readonly name: string; readonly amount: number };
+type OrderFieldKey = keyof OrderRow;
+
+const layout: OwpFieldTableProps<OrderRow, OrderFieldKey>['layout'] = [
+  [{ key: 'name', title: '항목명' }],
+  [{ key: 'amount', title: '금액', contentType: 'number' }],
+];
+
+// NumberField, TextMaskField, Section의 wrapper props도 같은 경로에서 가져옵니다.`;
 
 export function ComponentsExample(props: ComponentsExampleProps) {
   const { t } = useOwpTranslation();
@@ -83,6 +101,12 @@ export function ComponentsExample(props: ComponentsExampleProps) {
             ],
           ]}
         />
+      </ExampleSection>
+      <ExampleSection
+        title="제네릭 layout key와 공개 타입"
+        description="OwpFieldTableProps의 두 번째 제네릭 인자는 layout의 key 후보입니다. 필드 props와 Section props 타입은 공개 import로 가져옵니다. 아래 코드는 설명용 문자열입니다."
+      >
+        <CodeSnippet label="OwpFieldTableProps" code={fieldTableTypesSnippet} language="typescript" />
       </ExampleSection>
     </>
   );
