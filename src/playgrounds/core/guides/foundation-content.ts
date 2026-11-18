@@ -149,16 +149,24 @@ export const coreFoundations = [
         body: '설정 코드의 useApiQuery<Item> callback은 OwpApiListResponse<Item>을 받고, OpenAPI 경로로 추론하는 callback은 body 전체 ItemResponse를 받습니다. queryOptions와 useApiSuspenseQuery에도 같은 정책을 전달합니다. validateResponse는 기존 cache와 initialData를 소급 검증하지 않으며 검증 정책은 query key에 포함하지 않습니다. 같은 key는 진행 중인 요청과 cache를 공유하므로 같은 검증 정책을 사용해야 합니다. 검증 옵션을 켰다는 이유만으로 기존 데이터가 다시 검증되지는 않습니다.',
       },
       {
-        title: '검증 실패의 재시도와 취소',
-        body: '검증 예제와 설정 코드의 retry는 isOwpApiAuthError(error)·isCancelledError(error)·Error.name이 AbortError인 경우 false를 반환하고, 나머지는 failureCount < 1로 한 번만 재시도합니다. retryDelay는 1000ms이므로 최초 시도 뒤 1초 후 두 번째 시도를 합니다. 재조회가 끝내 실패해도 마지막 정상 결과는 별도 복사본 없이 query.data에 남습니다. AbortError fixture는 retry guard를 확인하는 오류이며 Query 취소와는 다릅니다. 조회 취소는 queryOptions가 만든 key와 exact: true로 queryClient.cancelQueries를 호출해 요청과 재시도 대기를 취소하고 이전 Query 상태를 복원합니다. 이때 CancelledError는 일반 재시도 오류와 구분되며, 복원된 data가 있어도 이번 조회를 성공으로 표시하지 않습니다. mutation의 재시도와 저장 판정은 이 검증 정책에 포함하지 않습니다.',
+        title: '오류 분류와 재시도',
+        body: 'classifyOwpApiQueryError는 쿼리 오류를 http·network·validation·unknown으로 구분합니다. createOwpApiQueryRetry는 네트워크에 두 번, 응답 검증에 한 번의 재시도를 허용합니다. 그 외에는 fallback: false를 적용하고 인증 오류·CancelledError·AbortError는 분류 결과와 관계없이 먼저 제외합니다. 횟수는 현재 조회의 전체 실패 횟수를 기준으로 계산하며, 조회 취소는 같은 queryKey의 요청과 재시도 대기를 중단합니다.',
       },
       {
         title: '검증 예제 재현',
-        body: 'API 요청에서 Query·owp를 선택하고 기본값이 꺼진 validateResponse 검증을 켭니다. 검증 fixture를 빈 목록 1회 후 정상 또는 잘못된 resultData 1회 후 정상으로 고른 뒤 조회하면 같은 endpoint·query key에서 두 번째 시도가 성공합니다. 연속 검증 실패는 두 번 뒤 종료하며, fixture만 정상 응답으로 바꿔 수동 조회하면 복구합니다. 정상 결과 뒤 연속 검증 실패로 바꿔 다시 조회하면 오류와 기존 query.data를 함께 확인할 수 있습니다. 인증 오류 응답과 AbortError 발생은 한 번으로 종료합니다. 재시도 대기 중 조회 취소를 누르면 취소 결과와 이전 데이터를 확인합니다. fixture는 진행 중 바꿀 수 없고, 요청 시도 횟수는 render 수가 아닌 middleware onRequest 실행 횟수입니다. 화면과 데이터 탭에 Query 상태·실패 횟수·최종 결과를 표시합니다.',
+        body: 'API 요청에서 Query·owp를 선택하고 validateResponse 검증을 켜 주세요. 연속 네트워크 실패는 최초 시도를 포함해 세 번, 연속 검증 실패는 두 번 뒤 종료합니다. 빈 목록 1회 후 정상은 두 번째 시도에 성공합니다. 인증 오류 응답·AbortError 발생과 HTTP 404는 한 번으로 종료합니다. HTTP 404의 상세 메시지와 상태는 데이터·이벤트 탭에서, 공통 안내는 예제 화면에서 확인할 수 있습니다.',
       },
       {
         title: '응답 타입과 기존 generic',
         body: 'OpenAPI paths로 추론한 응답은 body 전체 타입을 사용합니다. 기존 query·Suspense hook의 <Row>는 OwpApiListResponse<Row>, <Row, "single">은 OwpApiSingleResponse<Row>를 유지하고 mutation의 <Row>도 OwpApiMutationResponse<Row>를 유지합니다. raw 요청의 <Body>는 row가 아니라 body 전체 타입이며 결과는 Body의 undefined를 null로 정규화한 타입입니다. 일반 query·mutation의 초기 data에는 undefined가 추가될 수 있습니다. raw queryOptions<Body>의 queryFn과 fetchQuery 결과도 같은 body·null 계약을 따릅니다. allowMissingResultCode가 응답을 변환하거나 선언 타입을 자동으로 느슨하게 만들지는 않습니다.',
+      },
+      {
+        title: 'select와 queryOptions 공유',
+        body: 'OpenAPI 응답의 resultData에서 이름만 고르면 hook의 data는 string[] | undefined로 추론됩니다. 같은 queryOptions를 useQuery·fetchQuery·prefetchQuery에 전달하고, 반환된 queryKey로 getQueryData와 무효화를 연결합니다. select는 hook에서 보는 값만 변환하므로 fetchQuery와 cache에는 원본 응답 전체가 남습니다.',
+      },
+      {
+        title: '세션 전환과 요청 전송',
+        body: 'Core 인증 흐름에서 세션이 바뀌면 이전 세션의 Core API 요청과 캐시를 정리합니다. Core 밖에서 getAccessToken의 반환값만 교체하는 앱은 캐시 수명을 직접 관리해야 합니다. bearer 모드에서는 Authorization 헤더를 사용하고 URL에 직접 넣은 TOKEN도 제거합니다. multipart 요청은 FormData의 필드와 파일을 유지하며 브라우저가 boundary를 설정하도록 Content-Type을 직접 지정하지 않습니다. 실제 인증·업로드가 필요한 동작이므로 이 예제에서는 안내만 제공합니다.',
       },
       {
         title: '수동 mutation의 판정과 표시 옵션',
@@ -166,7 +174,7 @@ export const coreFoundations = [
       },
       {
         title: 'HTTP 오류와 인증 오류',
-        body: 'HTTP 실패는 status·statusText·responseData를 가진 Error로 전달합니다. STATUS_0의 비어 있지 않은 resultMessage를 표시 메시지로 우선하고, 그 외에는 trace와 message, resultMessage, HTTP 상태 순으로 사용합니다. 인증 판별은 표시 메시지와 별도로 원본 trace와 message를 우선하므로 표시할 오류 문구가 달라도 authErrors가 일치할 수 있습니다. 자동 처리에서는 인증 오류에 snackbar 대신 onAuthError를 실행합니다. 수동 mutation에서는 HTTP 실패도 reject하지만 공통 안내와 자동 인증 처리는 실행하지 않습니다.',
+        body: 'HTTP 실패 시 기본 오류 알림에는 공통 안내가 표시됩니다. 호출부에는 서버 상세 메시지와 status·statusText·responseData를 가진 Error가 전달됩니다. classifyOwpApiQueryError의 http 결과에서도 상태 코드와 상태 문구를 확인할 수 있습니다. 인증 오류는 공통 알림 대신 인증 callback으로 처리합니다. 수동 mutation은 HTTP 실패를 호출부에 전달하며 자동 안내와 인증 처리를 생략합니다.',
       },
       {
         title: '연결 실패와 요청 취소',

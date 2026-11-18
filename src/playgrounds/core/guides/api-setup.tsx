@@ -1,6 +1,6 @@
 import { createOwpApiHooks } from '@owp/core/hooks';
-import { isCancelledError, useQueryClient } from '@owp/core/query';
-import { isOwpApiAuthError } from '@owp/core/utils';
+import { isCancelledError, useQuery, useQueryClient } from '@owp/core/query';
+import { createOwpApiQueryRetry, isOwpApiAuthError } from '@owp/core/utils';
 import type { OwpApiListResponse, OwpApiQueryBehaviorOptions } from '@owp/core/types';
 
 type Item = { readonly id: string; readonly name: string };
@@ -45,6 +45,8 @@ export const { useApiQuery, useApiSuspenseQuery, useApiMutation, queryOptions } 
     onAuthError: () => window.location.assign('/login'),
   });
 
+const retryByKind = createOwpApiQueryRetry({ network: 2, validation: 1, fallback: false });
+
 function retryQuery(failureCount: number, error: unknown) {
   if (
     isOwpApiAuthError(error) ||
@@ -52,7 +54,7 @@ function retryQuery(failureCount: number, error: unknown) {
     (error instanceof Error && error.name === 'AbortError')
   )
     return false;
-  return failureCount < 1;
+  return retryByKind(failureCount, error);
 }
 
 // 빈 목록도 기본적으로 정상입니다. 이 앱의 선택 정책으로만 오류를 발생시킵니다.
@@ -77,14 +79,17 @@ const itemQueryOptions = {
 } as const;
 
 // queryOptions에도 같은 검증 정책을 적용해 fetchQuery·prefetchQuery에서 재사용합니다.
-export const itemsQueryOptions = queryOptions('get', '/items', {}, itemQueryOptions);
+export const itemsQueryOptions = queryOptions('get', '/items', {}, {
+  ...itemQueryOptions,
+  select: (response) => response.resultData.map((item) => item.name),
+});
 
 // 생성한 queryKey를 그대로 재사용합니다. prefix 무효화는 같은 init의 응답 정책도 포함합니다.
 export const itemsQueryKey = itemsQueryOptions.queryKey;
 
 export function useItems() {
   const queryClient = useQueryClient();
-  const query = useApiQuery('get', '/items', {}, itemQueryOptions);
+  const query = useQuery(itemsQueryOptions);
   const save = useApiMutation('post', '/items', {
     retry: false,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: itemsQueryKey }),
@@ -94,7 +99,23 @@ export function useItems() {
     save.mutate({ body: { name } });
   }
 
-  return { query, save, items: query.data?.resultData ?? [], createItem };
+  // Hook의 data는 string[] | undefined, 캐시와 fetchQuery에는 원본 ItemResponse를 사용합니다.
+  return {
+    query,
+    save,
+    itemNames: query.data ?? [],
+    readCachedResponse: () => queryClient.getQueryData(itemsQueryKey),
+    fetchResponse: () => queryClient.fetchQuery(itemsQueryOptions),
+    createItem,
+  };
+}
+
+// useApiQuery에 select를 직접 넘겨도 반환 타입은 string[] | undefined로 추론됩니다.
+export function useItemNames() {
+  return useApiQuery('get', '/items', {}, {
+    ...itemQueryOptions,
+    select: (response) => response.resultData.map((item) => item.name),
+  });
 }
 
 // 기존 <Row> generic의 callback은 OwpApiListResponse<Row>를 받습니다.

@@ -43,6 +43,20 @@ export function createApiResponseObserver() {
         listeners.delete(listener);
       };
     },
+    // 이 예제 요청에만 주입합니다. fetch 단계에서 reject해야 Core가 network로 분류합니다.
+    fetch: async (request: Request) => {
+      request.signal.throwIfAborted();
+      if (fixture === '연속 네트워크 실패') {
+        throw new TypeError('Simulated network failure');
+      }
+      if (new URL(request.url).pathname === '/core-api-unavailable.json') {
+        return Response.json(
+          { message: 'Mock document was not found' },
+          { status: 404, statusText: 'Not Found' },
+        );
+      }
+      return fetch(request);
+    },
     middleware: [
       {
         onRequest({ request }: { readonly request: Request }) {

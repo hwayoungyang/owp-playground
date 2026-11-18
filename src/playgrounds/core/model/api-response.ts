@@ -67,6 +67,7 @@ export const queryFixtures = [
   '빈 목록 1회 후 정상',
   '잘못된 resultData 1회 후 정상',
   '연속 검증 실패',
+  '연속 네트워크 실패',
   '인증 오류 응답',
   'AbortError 발생',
 ] as const;
@@ -79,6 +80,7 @@ export function queryFixtureBody(
   switch (fixture) {
     case '선택한 응답':
     case 'AbortError 발생':
+    case '연속 네트워크 실패':
       return undefined;
     case '정상 응답':
       return processFixtures.rows;
@@ -134,6 +136,7 @@ export type ApiOutcome =
   | {
       readonly kind: 'error';
       readonly message: string;
+      readonly errorKind?: string;
       readonly response?: ApiResponseObservation;
     };
 
@@ -144,6 +147,7 @@ export type ApiQueryState = {
   readonly attempts: number;
   readonly error: string | undefined;
   readonly failureReason: string | undefined;
+  readonly errorKind: string | undefined;
   readonly data: ApiJsonBody | undefined;
 };
 

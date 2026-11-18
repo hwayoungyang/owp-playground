@@ -1,0 +1,6 @@
+{
+  "resultCode": "STATUS_1",
+  "resultData": [
+    { "id": "A, B 01", "nameKo": "복합 ID 항목", "nameEn": "Item with a compound ID", "active": true }
+  ]
+}

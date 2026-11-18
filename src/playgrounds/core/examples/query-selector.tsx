@@ -1,5 +1,5 @@
 import { useEffect, useEffectEvent, useState } from 'react';
-import { Alert, OutlinedInput } from '@mui/material';
+import { Alert, OutlinedInput, Typography } from '@mui/material';
 import { OwpQuerySelector } from '@owp/core';
 import { useQueryClient } from '@owp/core/query';
 import { useOwpTranslation } from '@owp/components/hooks';
@@ -10,14 +10,26 @@ import { CoreChoice, CoreToggle } from '../runtime/Controls';
 import itemsUrl from '../data/processes.json?url&no-inline';
 import emptyItemsUrl from '../data/processes-empty.json?url&no-inline';
 import failedItemsUrl from '../data/processes-error.json?url&no-inline';
+import singleIdItemsUrl from '../data/processes-single-id.json?url&no-inline';
+import singleIdFixture from '../data/processes-single-id.json';
 
 const responses = {
   '조회 결과 있음': { url: itemsUrl, fixture: queryFixtures.rows },
   '조회 결과 없음': { url: emptyItemsUrl, fixture: queryFixtures.empty },
   '오류 응답': { url: failedItemsUrl, fixture: queryFixtures.error },
+  '쉼표와 공백이 있는 ID': { url: singleIdItemsUrl, fixture: singleIdFixture },
 } as const;
-const responseOptions = ['조회 결과 있음', '조회 결과 없음', '오류 응답'] as const;
+const responseOptions = [
+  '조회 결과 있음',
+  '조회 결과 없음',
+  '오류 응답',
+  '쉼표와 공백이 있는 ID',
+] as const;
 const selectorOptions = ['Select', 'Autocomplete'] as const;
+
+function resolveLabel(row: QueryFixtureItem, language: string) {
+  return language === 'en' ? row.nameEn : row.nameKo;
+}
 
 export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const { t, i18n } = useOwpTranslation();
@@ -28,6 +40,8 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
   const [value, setValue] = useState('');
   const [requestState, setRequestState] = useState<Readonly<Record<string, unknown>>>({});
   const apiUrl = new URL(responses[response].url, window.location.href).href;
+  const selectedItem = responses[response].fixture.resultData.find((row) => row.id === value);
+  const selectedLabel = selectedItem ? resolveLabel(selectedItem, i18n.language) : '';
 
   const onQueryResult = useEffectEvent(onRecord);
 
@@ -60,9 +74,10 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
       selector,
       activeOnly,
       value,
+      selectedLabel,
       request: requestState,
     });
-  }, [activeOnly, apiUrl, onData, requestState, response, selector, value]);
+  }, [activeOnly, apiUrl, onData, requestState, response, selectedLabel, selector, value]);
 
   return (
     <CoreDemo
@@ -105,7 +120,7 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
             apiUrl={apiUrl}
             query={{}}
             valueKey="id"
-            labelResolver={(row) => (i18n.language === 'en' ? row.nameEn : row.nameKo)}
+            labelResolver={(row) => resolveLabel(row, i18n.language)}
             {...(selector === 'Select'
               ? { selectorType: 'select' as const }
               : { selectorType: 'autocomplete' as const })}
@@ -127,6 +142,14 @@ export function CoreExample({ onRecord, onData }: CoreExampleProps) {
             }}
           />
         </div>
+        {response === '쉼표와 공백이 있는 ID' && (
+          <Typography variant="body2" role="status">
+            {t('단일 ID: {{id}} · 선택 라벨: {{label}}', {
+              id: JSON.stringify(value),
+              label: selectedLabel || '—',
+            })}
+          </Typography>
+        )}
         {requestState.status === 'error' && (
           <Alert severity="error">
             {t('목록을 불러오지 못했습니다. 응답 유형을 변경해 다시 시도해 주세요.')}

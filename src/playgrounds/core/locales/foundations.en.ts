@@ -1,4 +1,34 @@
 export const foundationEnglish: Readonly<Record<string, string>> = {
+  '연속 네트워크 실패':
+    'Repeated network failure',
+  '오류 분류: {{kind}}':
+    'Error classification: {{kind}}',
+  'Message.요청을 완료하지 못했습니다. 연결 상태와 처리 결과를 확인해 주세요.':
+    'Could not complete the request. Check your connection and the result.',
+  '네트워크 오류는 최대 두 번, 응답 검증 오류는 한 번 재시도합니다. HTTP·인증 오류와 취소는 재시도하지 않습니다. 재시도 대기 중 조회 취소를 누르면 다음 시도를 중단합니다.':
+    'Network failures retry up to twice. Response validation failures retry once. HTTP errors, authentication errors, and cancellations do not retry. Cancel the query during the retry delay to prevent the next attempt.',
+  'HTTP 404의 화면 안내는 공통 문구를 사용합니다. 호출부가 받은 상세 메시지·HTTP 상태는 데이터와 이벤트 탭에서 확인할 수 있습니다.':
+    'HTTP 404 shows a common message in the preview. The Data and Events tabs show the detailed message and HTTP status received by the caller.',
+  '쉼표와 공백이 있는 ID':
+    'ID with a comma and spaces',
+  '단일 ID: {{id}} · 선택 라벨: {{label}}':
+    'Single ID: {{id}} · Selected label: {{label}}',
+  '오류 분류와 재시도':
+    'Error classification and retries',
+  'classifyOwpApiQueryError는 쿼리 오류를 http·network·validation·unknown으로 구분합니다. createOwpApiQueryRetry는 네트워크에 두 번, 응답 검증에 한 번의 재시도를 허용합니다. 그 외에는 fallback: false를 적용하고 인증 오류·CancelledError·AbortError는 분류 결과와 관계없이 먼저 제외합니다. 횟수는 현재 조회의 전체 실패 횟수를 기준으로 계산하며, 조회 취소는 같은 queryKey의 요청과 재시도 대기를 중단합니다.':
+    'classifyOwpApiQueryError distinguishes http, network, validation, and unknown failures. createOwpApiQueryRetry allows two network retries and one validation retry. Other errors use fallback: false, and authentication errors, CancelledError, and AbortError are excluded before classification can affect retries. Limits apply to the total failures in the current query. Cancelling the query stops the request and pending retries for the same queryKey.',
+  'API 요청에서 Query·owp를 선택하고 validateResponse 검증을 켜 주세요. 연속 네트워크 실패는 최초 시도를 포함해 세 번, 연속 검증 실패는 두 번 뒤 종료합니다. 빈 목록 1회 후 정상은 두 번째 시도에 성공합니다. 인증 오류 응답·AbortError 발생과 HTTP 404는 한 번으로 종료합니다. HTTP 404의 상세 메시지와 상태는 데이터·이벤트 탭에서, 공통 안내는 예제 화면에서 확인할 수 있습니다.':
+    'In API requests, choose Query and owp and enable validateResponse validation. Repeated network failure ends after three attempts, and repeated validation failure ends after two. An empty list followed by a valid response succeeds on the second attempt. Authentication errors, AbortError, and HTTP 404 stop after one attempt. The Data and Events tabs show the detailed HTTP 404 message and status. The preview shows a common message.',
+  'HTTP 실패 시 기본 오류 알림에는 공통 안내가 표시됩니다. 호출부에는 서버 상세 메시지와 status·statusText·responseData를 가진 Error가 전달됩니다. classifyOwpApiQueryError의 http 결과에서도 상태 코드와 상태 문구를 확인할 수 있습니다. 인증 오류는 공통 알림 대신 인증 callback으로 처리합니다. 수동 mutation은 HTTP 실패를 호출부에 전달하며 자동 안내와 인증 처리를 생략합니다.':
+    'The default HTTP error notification uses a common message. The caller receives an Error with the server detail, status, statusText, and responseData. The http classification also includes the status code and status text. Authentication errors invoke the auth callback. Manual mutations propagate HTTP failures and omit automatic notifications and authentication handling.',
+  'select와 queryOptions 공유':
+    'select and shared queryOptions',
+  'OpenAPI 응답의 resultData에서 이름만 고르면 hook의 data는 string[] | undefined로 추론됩니다. 같은 queryOptions를 useQuery·fetchQuery·prefetchQuery에 전달하고, 반환된 queryKey로 getQueryData와 무효화를 연결합니다. select는 hook에서 보는 값만 변환하므로 fetchQuery와 cache에는 원본 응답 전체가 남습니다.':
+    'Selecting only the names from an OpenAPI response gives the hook data the inferred type string[] | undefined. Pass the same queryOptions to useQuery, fetchQuery, and prefetchQuery. Reuse its queryKey to read or invalidate the cache. select transforms the hook result; fetchQuery and the cache retain the complete response.',
+  '세션 전환과 요청 전송':
+    'Session changes and request transport',
+  'Core 인증 흐름에서 세션이 바뀌면 이전 세션의 Core API 요청과 캐시를 정리합니다. Core 밖에서 getAccessToken의 반환값만 교체하는 앱은 캐시 수명을 직접 관리해야 합니다. bearer 모드에서는 Authorization 헤더를 사용하고 URL에 직접 넣은 TOKEN도 제거합니다. multipart 요청은 FormData의 필드와 파일을 유지하며 브라우저가 boundary를 설정하도록 Content-Type을 직접 지정하지 않습니다. 실제 인증·업로드가 필요한 동작이므로 이 예제에서는 안내만 제공합니다.':
+    'The Core authentication flow clears the previous session’s Core API requests and cache on session change. Apps that only change the value returned by getAccessToken outside Core must manage the cache lifetime. Bearer mode uses the Authorization header and removes TOKEN even if it is present in the supplied URL. Multipart requests preserve FormData fields and files; let the browser set the Content-Type boundary. These behaviors are documented here without performing real authentication or uploads.',
   'validateResponse 검증': 'Validate with validateResponse',
   '검증 fixture': 'Validation fixture',
   '선택한 응답': 'Selected response',
@@ -12,8 +42,6 @@ export const foundationEnglish: Readonly<Record<string, string>> = {
     'This example treats an empty resultData list as a validation error.',
   '빈 목록은 기본적으로 정상입니다. 이 예제의 검증을 켜면 전체 성공 응답의 resultData가 비어 있지 않은 목록인지 검사합니다. fixture를 바꿔도 endpoint와 query key는 유지합니다.':
     'An empty list is valid by default. Enabling validation in this example checks that the complete successful response has a nonempty resultData list. Changing the fixture preserves the endpoint and query key.',
-  '검증·일반 오류는 1초 후 한 번만 재시도합니다. 인증 오류·CancelledError·AbortError는 재시도하지 않습니다. AbortError fixture는 오류 guard를 재현하며, 조회 취소는 QueryClient로 실제 요청과 재시도 대기를 취소합니다.':
-    'Validation and ordinary errors retry once after one second. Authentication errors, CancelledError, and AbortError do not retry. The AbortError fixture exercises the error guard; Cancel query uses QueryClient to cancel the actual request and any retry wait.',
   '조회 취소': 'Cancel query',
   'Query: {{status}} / {{fetchStatus}} · 요청 시도 {{attempts}}회 · 실패 {{failureCount}}회':
     'Query: {{status}} / {{fetchStatus}} · Request attempts: {{attempts}} · Failures: {{failureCount}}',
@@ -33,12 +61,7 @@ export const foundationEnglish: Readonly<Record<string, string>> = {
   '검증 callback의 타입과 cache': 'Validation callback types and caching',
   '설정 코드의 useApiQuery<Item> callback은 OwpApiListResponse<Item>을 받고, OpenAPI 경로로 추론하는 callback은 body 전체 ItemResponse를 받습니다. queryOptions와 useApiSuspenseQuery에도 같은 정책을 전달합니다. validateResponse는 기존 cache와 initialData를 소급 검증하지 않으며 검증 정책은 query key에 포함하지 않습니다. 같은 key는 진행 중인 요청과 cache를 공유하므로 같은 검증 정책을 사용해야 합니다. 검증 옵션을 켰다는 이유만으로 기존 데이터가 다시 검증되지는 않습니다.':
     'In the setup code, the useApiQuery<Item> callback receives OwpApiListResponse<Item>, while the callback inferred from an OpenAPI path receives the complete ItemResponse body. queryOptions and useApiSuspenseQuery use the same policy. validateResponse does not retroactively validate cached data or initialData, and its policy is not part of the query key. Calls sharing a key share in-flight requests and cached data, so they must use the same validation policy. Enabling validation alone does not revalidate existing data.',
-  '검증 실패의 재시도와 취소': 'Validation retries and cancellation',
-  '검증 예제와 설정 코드의 retry는 isOwpApiAuthError(error)·isCancelledError(error)·Error.name이 AbortError인 경우 false를 반환하고, 나머지는 failureCount < 1로 한 번만 재시도합니다. retryDelay는 1000ms이므로 최초 시도 뒤 1초 후 두 번째 시도를 합니다. 재조회가 끝내 실패해도 마지막 정상 결과는 별도 복사본 없이 query.data에 남습니다. AbortError fixture는 retry guard를 확인하는 오류이며 Query 취소와는 다릅니다. 조회 취소는 queryOptions가 만든 key와 exact: true로 queryClient.cancelQueries를 호출해 요청과 재시도 대기를 취소하고 이전 Query 상태를 복원합니다. 이때 CancelledError는 일반 재시도 오류와 구분되며, 복원된 data가 있어도 이번 조회를 성공으로 표시하지 않습니다. mutation의 재시도와 저장 판정은 이 검증 정책에 포함하지 않습니다.':
-    'The validation example and setup code return false from retry for isOwpApiAuthError(error), isCancelledError(error), and an Error named AbortError. Other errors retry once with failureCount < 1. retryDelay is 1000ms, so the second attempt starts one second after the first failure. If refetch ultimately fails, the last successful result remains in query.data without a separate copy. The AbortError fixture exercises the retry guard and differs from Query cancellation. Cancel query calls queryClient.cancelQueries with the generated key and exact: true to cancel the request and retry wait, restoring the previous Query state. CancelledError is handled separately from ordinary retry errors; restored data does not make this request a success. This validation policy does not apply to mutation retries or write-result checks.',
   '검증 예제 재현': 'Trying the validation example',
-  'API 요청에서 Query·owp를 선택하고 기본값이 꺼진 validateResponse 검증을 켭니다. 검증 fixture를 빈 목록 1회 후 정상 또는 잘못된 resultData 1회 후 정상으로 고른 뒤 조회하면 같은 endpoint·query key에서 두 번째 시도가 성공합니다. 연속 검증 실패는 두 번 뒤 종료하며, fixture만 정상 응답으로 바꿔 수동 조회하면 복구합니다. 정상 결과 뒤 연속 검증 실패로 바꿔 다시 조회하면 오류와 기존 query.data를 함께 확인할 수 있습니다. 인증 오류 응답과 AbortError 발생은 한 번으로 종료합니다. 재시도 대기 중 조회 취소를 누르면 취소 결과와 이전 데이터를 확인합니다. fixture는 진행 중 바꿀 수 없고, 요청 시도 횟수는 render 수가 아닌 middleware onRequest 실행 횟수입니다. 화면과 데이터 탭에 Query 상태·실패 횟수·최종 결과를 표시합니다.':
-    'In API requests, select Query and owp, then enable validateResponse validation, which defaults to off. Choose Empty list once, then valid or Invalid resultData once, then valid and fetch: the second attempt succeeds with the same endpoint and query key. Repeated validation failure stops after two attempts; change only the fixture to Valid response and fetch manually to recover. After a successful result, refetch with Repeated validation failure to see the error alongside preserved query.data. Authentication error and Throw AbortError stop after one attempt. Choose Cancel query during the retry wait to inspect cancellation and previous data. The fixture cannot change during a request. Attempts count middleware onRequest executions rather than renders. The preview and Data tab show Query state, failure count, and the final outcome.',
   목차: 'Contents',
   '프로바이더 구성': 'Provider setup',
   OwpCoreProvider: 'OwpCoreProvider',
@@ -156,8 +179,6 @@ export const foundationEnglish: Readonly<Record<string, string>> = {
   'allowMissingResultCode는 useApiQuery·useApiSuspenseQuery·queryOptions·useApiMutation이 지원하며 기본 false입니다. true이면 HTTP 2xx의 비배열 객체에 resultCode 자체 필드가 없을 때만 성공 코드 검사를 생략하고 body 전체를 반환합니다. {}와 { resultData: [] }도 정상 객체입니다. resultCode가 null·빈 문자열·실패 코드이면 검사를 유지하며 배열·primitive·null·잘못된 JSON에는 적용되지 않습니다. 이 옵션은 resultData만 꺼내는 변환 기능이 아닙니다.':
     'allowMissingResultCode is supported by useApiQuery, useApiSuspenseQuery, queryOptions, and useApiMutation, and defaults to false. When true, it skips the success-code check only for an HTTP 2xx non-array object without an own resultCode field and returns the entire body. Both {} and { resultData: [] } are valid objects. Explicit null, empty, or failure codes still undergo checks; arrays, primitives, null, and invalid JSON are not covered. This option does not extract resultData.',
   'HTTP 오류와 인증 오류': 'HTTP and authentication errors',
-  'HTTP 실패는 status·statusText·responseData를 가진 Error로 전달합니다. STATUS_0의 비어 있지 않은 resultMessage를 표시 메시지로 우선하고, 그 외에는 trace와 message, resultMessage, HTTP 상태 순으로 사용합니다. 인증 판별은 표시 메시지와 별도로 원본 trace와 message를 우선하므로 표시할 오류 문구가 달라도 authErrors가 일치할 수 있습니다. 자동 처리에서는 인증 오류에 snackbar 대신 onAuthError를 실행합니다. 수동 mutation에서는 HTTP 실패도 reject하지만 공통 안내와 자동 인증 처리는 실행하지 않습니다.':
-    'HTTP failures reject with an Error containing status, statusText, and responseData. A non-empty STATUS_0 resultMessage takes priority for display; otherwise trace and message, resultMessage, then the HTTP status are used. Authentication matching independently prioritizes the original trace and message, so authErrors can match even when the displayed error differs. Automatic handling runs onAuthError instead of a snackbar for authentication errors. Manual mutations still reject HTTP failures, but skip common guidance and automatic authentication handling.',
   '연결 실패와 요청 취소': 'Connection failures and cancellation',
   '응답을 받지 못한 fetch 실패는 원본 오류 객체를 그대로 reject하고 onAuthError를 실행하지 않습니다. isErrorMessageEnabled와 mutation의 isServerErrorMessageEnabled가 모두 true일 때 연결 상태와 처리 결과를 확인하라는 공통 snackbar를 표시합니다. query에는 factory의 안내 옵션이 적용됩니다. AbortSignal이 이미 취소됐거나 오류 이름이 AbortError이면 이 안내를 생략합니다. Inspector를 활성화하면 실패와 취소 요청도 기록합니다. query는 QueryClient의 취소와 연결되며 mutation을 취소하려면 호출부가 AbortSignal을 전달해야 합니다. 취소가 서버의 저장 결과를 되돌리지는 않으므로 재시도 전에 결과를 확인합니다.':
     'A fetch failure before receiving a response rejects with the original error object and does not run onAuthError. Common guidance to check the connection and operation result appears only when isErrorMessageEnabled and the mutation’s isServerErrorMessageEnabled are both true. Queries use the factory message option. This guidance is skipped when the AbortSignal is already aborted or the error name is AbortError. When enabled, Inspector records failed and canceled requests too. Queries connect to QueryClient cancellation; callers must supply an AbortSignal to cancel mutations. Cancellation does not undo server writes, so confirm the result before retrying.',

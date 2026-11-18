@@ -1,4 +1,18 @@
 export const coreKoreanClarity: Readonly<Record<string, string>> = {
+  'allowMissingResultCode는 useApiQuery·useApiSuspenseQuery·queryOptions·useApiMutation이 지원하며 기본 false입니다. true이면 HTTP 2xx의 비배열 객체에 resultCode 자체 필드가 없을 때만 성공 코드 검사를 생략하고 body 전체를 반환합니다. {}와 { resultData: [] }도 정상 객체입니다. resultCode가 null·빈 문자열·실패 코드이면 검사를 유지하며 배열·primitive·null·잘못된 JSON에는 적용되지 않습니다. 이 옵션은 resultData만 꺼내는 변환 기능이 아닙니다.':
+    'allowMissingResultCode는 useApiQuery·useApiSuspenseQuery·queryOptions·useApiMutation이 지원하며 기본값은 false입니다. true이면 HTTP 2xx의 비배열 객체에 resultCode 자체 필드가 없을 때만 성공 코드 검사를 생략하고 body 전체를 반환합니다. {}와 { resultData: [] }도 정상 객체입니다. resultCode가 null·빈 문자열·실패 코드이면 검사를 유지하며 배열·primitive·null·잘못된 JSON에는 적용되지 않습니다. 이 옵션은 resultData만 꺼내는 변환 기능이 아닙니다.',
+  'OpenAPI paths로 추론한 응답은 body 전체 타입을 사용합니다. 기존 query·Suspense hook의 <Row>는 OwpApiListResponse<Row>, <Row, "single">은 OwpApiSingleResponse<Row>를 유지하고 mutation의 <Row>도 OwpApiMutationResponse<Row>를 유지합니다. raw 요청의 <Body>는 row가 아니라 body 전체 타입이며 결과는 Body의 undefined를 null로 정규화한 타입입니다. 일반 query·mutation의 초기 data에는 undefined가 추가될 수 있습니다. raw queryOptions<Body>의 queryFn과 fetchQuery 결과도 같은 body·null 계약을 따릅니다. allowMissingResultCode가 응답을 변환하거나 선언 타입을 자동으로 느슨하게 만들지는 않습니다.':
+    'OpenAPI paths로 추론한 응답은 body 전체 타입을 사용합니다. 기존 query·Suspense Hook의 <Row>는 OwpApiListResponse<Row>, <Row, "single">은 OwpApiSingleResponse<Row>를 유지하고 mutation의 <Row>도 OwpApiMutationResponse<Row>를 유지합니다. raw 요청의 <Body>는 row가 아니라 body 전체 타입이며 결과는 Body의 undefined를 null로 정규화한 타입입니다. 일반 query·mutation의 초기 data에는 undefined가 추가될 수 있습니다. raw queryOptions<Body>의 queryFn과 fetchQuery 결과도 같은 body·null 계약을 따릅니다. allowMissingResultCode가 응답을 변환하거나 선언 타입을 자동으로 느슨하게 만들지는 않습니다.',
+  'API hook과 QueryClient로 응답 검증·재시도 정책과 조회 cache를 공유합니다.':
+    'API Hook과 QueryClient로 응답 검증·재시도 정책과 조회 cache를 공유합니다.',
+  'OwpQuerySelector로 API 응답 목록을 Select·Autocomplete에 표시하고 선택 값을 확인합니다.':
+    'OwpQuerySelector로 API 응답 목록을 Select·Autocomplete에 표시하고 선택값을 확인합니다.',
+  'classifyOwpApiQueryError는 쿼리 오류를 http·network·validation·unknown으로 구분합니다. createOwpApiQueryRetry는 네트워크에 두 번, 응답 검증에 한 번의 재시도를 허용합니다. 그 외에는 fallback: false를 적용하고 인증 오류·CancelledError·AbortError는 분류 결과와 관계없이 먼저 제외합니다. 횟수는 현재 조회의 전체 실패 횟수를 기준으로 계산하며, 조회 취소는 같은 queryKey의 요청과 재시도 대기를 중단합니다.':
+    'classifyOwpApiQueryError는 쿼리 오류를 http·network·validation·unknown으로 구분합니다. createOwpApiQueryRetry는 네트워크 오류 시 최대 두 번, 응답 검증 오류 시 최대 한 번까지 재시도를 허용합니다. 그 외에는 fallback: false를 적용하고 인증 오류·CancelledError·AbortError는 분류 결과와 관계없이 먼저 제외합니다. 횟수는 현재 조회의 전체 실패 횟수를 기준으로 계산하며, 조회 취소는 같은 queryKey의 요청과 재시도 대기를 중단합니다.',
+  'API 요청에서 Query·owp를 선택하고 validateResponse 검증을 켜 주세요. 연속 네트워크 실패는 최초 시도를 포함해 세 번, 연속 검증 실패는 두 번 뒤 종료합니다. 빈 목록 1회 후 정상은 두 번째 시도에 성공합니다. 인증 오류 응답·AbortError 발생과 HTTP 404는 한 번으로 종료합니다. HTTP 404의 상세 메시지와 상태는 데이터·이벤트 탭에서, 공통 안내는 예제 화면에서 확인할 수 있습니다.':
+    'API 요청에서 Query·owp를 선택하고 validateResponse 검증을 켜 주세요. 연속 네트워크 실패는 최초 시도를 포함해 세 번, 연속 검증 실패는 두 번 시도한 뒤 종료됩니다. 빈 목록 1회 후 정상은 두 번째 시도에 성공합니다. 인증 오류 응답·AbortError 발생과 HTTP 404는 재시도 없이 한 번에 종료됩니다. HTTP 404의 상세 메시지와 상태는 데이터·이벤트 탭에서, 공통 안내는 예제 화면에서 확인할 수 있습니다.',
+  'Message.요청을 완료하지 못했습니다. 연결 상태와 처리 결과를 확인해 주세요.':
+    '요청을 완료하지 못했습니다. 연결 상태와 처리 결과를 확인해 주세요.',
   'API 요청과 캐시': 'API 요청과 cache',
   '캐시를 사용하는 기본 Select': 'cache를 사용하는 기본 Select',
   '프로바이더 구성': 'Provider 구성',
@@ -42,7 +56,7 @@ export const coreKoreanClarity: Readonly<Record<string, string>> = {
   '페이지를 새로고침하지 않고 Core 선택값과 앱의 번역을 변경합니다. 상단 메뉴와 예제 문구도 함께 확인하세요.':
     '페이지를 새로고침하지 않고 Core 선택값과 앱의 번역을 변경합니다. 상단 메뉴와 예제 문구가 함께 바뀌는지도 확인하세요.',
   'endpoint·method·요청 body·응답을 OpenAPI 타입으로 확인하고, token 전달과 서버 실패 판정을 화면마다 반복하지 않게 됩니다. 같은 QueryClient와 query key를 쓰는 조회는 캐시를 공유합니다. 예제의 staleTime 30초는 그동안 데이터를 fresh로 취급하는 설정이며, 30초마다 자동 조회하는 timer가 아닙니다. 캐시 key에는 조회 조건과 언어 등 결과에 영향을 주는 값을 포함해야 합니다.':
-    'OpenAPI 타입으로 endpoint·method·요청 body·응답을 확인할 수 있습니다. token 전달과 서버 응답의 실패 여부를 판정하는 코드를 화면마다 반복할 필요도 줄어듭니다. 같은 QueryClient와 query key를 쓰는 조회는 cache를 공유합니다. 예제의 staleTime 30초는 그동안 데이터를 fresh로 취급하는 설정이며, 30초마다 자동 조회하는 timer가 아닙니다. cache key에는 조회 조건과 언어 등 결과에 영향을 주는 값을 포함해야 합니다.',
+    'OpenAPI 타입으로 endpoint·method·요청 body·응답을 확인할 수 있습니다. token 전달과 응답 실패 판정 코드를 화면마다 반복하지 않아도 됩니다. 같은 QueryClient와 query key를 쓰는 조회는 cache를 공유합니다. 예제의 staleTime 30초는 그동안 데이터를 fresh로 취급하는 설정이며, 30초마다 자동 조회하는 timer가 아닙니다. cache key에는 조회 조건과 언어 등 결과에 영향을 주는 값을 포함해야 합니다.',
   'providers의 app·store·query·styledEngine으로 내부 Provider를 선택합니다. 상위에서 제공하는 context를 재사용하려면 해당 항목을 false로 지정합니다. 제외한 Provider는 생성되지 않으므로 하위 컴포넌트에 필요한 context는 상위에서 제공해야 합니다.':
     'providers의 app·store·query·styledEngine으로 사용할 내부 Provider를 선택합니다. 상위에서 제공하는 context를 재사용하려면 해당 항목을 false로 지정합니다. 제외한 Provider는 생성되지 않으므로 하위 컴포넌트에 필요한 context는 상위에서 제공해야 합니다.',
   'providers의 cache·muiTheme·owpTheme·scrollbars로 내부 Provider를 선택합니다. false로 지정한 Provider는 생성하지 않습니다. 상위 테마·cache·스크롤바 context를 재사용할 때 해당 항목을 제외하며, 하위 컴포넌트가 요구하는 context는 유지해야 합니다.':

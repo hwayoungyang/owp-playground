@@ -3,7 +3,11 @@ import { Box, Button, Typography } from '@mui/material';
 import { createOwpApiHooks } from '@owp/core/hooks';
 import { useOwpTranslation } from '@owp/components/hooks';
 import { isCancelledError, useQueryClient } from '@owp/core/query';
-import { isOwpApiAuthError } from '@owp/core/utils';
+import {
+  classifyOwpApiQueryError,
+  createOwpApiQueryRetry,
+  isOwpApiAuthError,
+} from '@owp/core/utils';
 import { ApiRequestResult } from './components/api-request-result';
 import { createApiResponseObserver } from '../model/api-response-observation';
 import type { CoreExampleProps } from '../model/types';
@@ -30,8 +34,30 @@ import type {
 import { CoreDemo, DemoSection } from '../runtime/Demo';
 import { CoreChoice, CoreToggle } from '../runtime/Controls';
 
+const retryByKind = createOwpApiQueryRetry({ network: 2, validation: 1, fallback: false });
+
+function retryQuery(failureCount: number, error: unknown) {
+  if (isOwpApiAuthError(error) || isCancelledError(error) || isAbortError(error)) return false;
+  return retryByKind(failureCount, error);
+}
+
+function isAbortError(error: unknown) {
+  return error instanceof Error && error.name === 'AbortError';
+}
+
 function errorDetails(error: unknown) {
-  return error instanceof Error ? { name: error.name, message: error.message } : null;
+  if (!(error instanceof Error)) return undefined;
+  const classification = classifyOwpApiQueryError(error);
+  return {
+    kind: classification.kind,
+    name: error.name,
+    message: error.message,
+    ...(classification.kind === 'http' && {
+      status: classification.status,
+      statusText: classification.statusText,
+      responseData: 'responseData' in error ? error.responseData : undefined,
+    }),
+  };
 }
 
 export function CoreExample(props: CoreExampleProps) {
@@ -119,7 +145,7 @@ function ApiRequest({
   const validateResponse = mode === 'Query' && responseMode === 'owp' && validationEnabled;
   const attempts = useSyncExternalStore(observer.subscribe, observer.getSnapshot);
   const observedInit = useMemo(
-    () => ({ ...requestInit, middleware: observer.middleware }),
+    () => ({ ...requestInit, fetch: observer.fetch, middleware: observer.middleware }),
     [observer],
   );
   const api = useMemo(
@@ -160,18 +186,8 @@ function ApiRequest({
               if (response.resultData.length === 0)
                 throw new Error(t('이 예제에서는 빈 resultData를 검증 오류로 처리합니다.'));
             },
-            retry: (failureCount: number, error: unknown) => {
-              if (
-                isOwpApiAuthError(error) ||
-                isCancelledError(error) ||
-                (error instanceof Error && error.name === 'AbortError')
-              )
-                return false;
-              return failureCount < 1;
-            },
-            retryDelay: 1000,
           }
-        : { retry: false as const },
+        : {},
     [validateResponse, t],
   );
   const queryKey = useMemo(
@@ -182,6 +198,8 @@ function ApiRequest({
   const query = api.useApiQuery('get', path, observedInit, {
     ...responseOptions,
     ...validationOptions,
+    retry: retryQuery,
+    retryDelay: 1000,
   });
   const mutation = api.useApiMutation('get', path, {
     responseMode,
@@ -191,6 +209,8 @@ function ApiRequest({
     allowMissingResultCode: responseOptions.allowMissingResultCode,
   });
   const pending = query.isFetching || mutation.isPending || outcome.kind === 'pending';
+  const queryError = errorDetails(query.error);
+  const queryFailure = errorDetails(query.failureReason);
   useEffect(() => {
     const pendingRequest = new AbortController();
     mutationAbortController.current = pendingRequest;
@@ -253,7 +273,7 @@ function ApiRequest({
     const currentRequest = { cancelled: false };
     activeRequest.current = currentRequest;
     setOutcome({ kind: 'pending' });
-    // fixture 선택값은 수동 조회 시작에 고정하고, 자동 retry에는 같은 시리즈를 사용합니다.
+    // fixture 선택값은 수동 조회를 시작할 때 고정하고, 자동 retry에는 같은 시리즈를 사용합니다.
     observer.reset(validateResponse ? fixture : '선택한 응답');
     onRecord('request', `${mode} ${path}`);
     try {
@@ -277,8 +297,14 @@ function ApiRequest({
         onRecord('request.cancelled', path);
         return;
       }
-      setOutcome({ kind: 'error', message: error.message, response: observer.read() });
-      onRecord('request.error', error.message);
+      const details = errorDetails(error);
+      setOutcome({
+        kind: 'error',
+        message: error.message,
+        errorKind: details?.kind,
+        response: observer.read(),
+      });
+      onRecord('request.error', JSON.stringify(details));
     } finally {
       if (activeRequest.current === currentRequest) activeRequest.current = null;
     }
@@ -324,7 +350,7 @@ function ApiRequest({
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {t(
-              '검증·일반 오류는 1초 후 한 번만 재시도합니다. 인증 오류·CancelledError·AbortError는 재시도하지 않습니다. AbortError fixture는 오류 guard를 재현하며, 조회 취소는 QueryClient로 실제 요청과 재시도 대기를 취소합니다.',
+              '네트워크 오류는 최대 두 번, 응답 검증 오류는 한 번 재시도합니다. HTTP·인증 오류와 취소는 재시도하지 않습니다. 재시도 대기 중 조회 취소를 누르면 다음 시도를 중단합니다.',
             )}
           </Typography>
         </>
@@ -340,6 +366,11 @@ function ApiRequest({
       <Typography variant="body2" color="text.secondary">
         {t(responseGuidance[responseMode === 'raw' ? 'raw' : policy])}
       </Typography>
+      <Typography variant="body2" color="text.secondary">
+        {t(
+          'HTTP 404의 화면 안내는 공통 문구를 사용합니다. 호출부가 받은 상세 메시지·HTTP 상태는 데이터와 이벤트 탭에서 확인할 수 있습니다.',
+        )}
+      </Typography>
       <ApiRequestResult
         outcome={outcome}
         pending={pending}
@@ -351,8 +382,9 @@ function ApiRequest({
                 fetchStatus: query.fetchStatus,
                 failureCount: query.failureCount,
                 attempts: outcome.kind === 'idle' ? 0 : attempts,
-                error: errorDetails(query.error)?.message,
-                failureReason: errorDetails(query.failureReason)?.message,
+                error: queryError?.kind === 'http' ? undefined : queryError?.message,
+                failureReason: queryFailure?.kind === 'http' ? undefined : queryFailure?.message,
+                errorKind: (queryError ?? queryFailure)?.kind,
                 data: query.data,
               }
             : undefined

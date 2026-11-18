@@ -32,6 +32,11 @@ export function ApiRequestResult({
           )}
         </Typography>
       )}
+      {queryState?.errorKind && (
+        <Typography variant="body2">
+          {t('오류 분류: {{kind}}', { kind: queryState.errorKind })}
+        </Typography>
+      )}
       {!pending && queryState?.error !== undefined && (
         <Typography variant="body2">
           {t('Query 오류: {{error}}', { error: queryState.error })}
@@ -94,7 +99,9 @@ function ApiRequestOutcome({
       : outcome.response?.body;
   const code = body?.kind === 'json' ? apiResultCode(body.value) : undefined;
   const businessFailure = responseMode === 'owp' && code === 'STATUS_0';
-  const httpFailure = outcome.response !== undefined && outcome.response.status >= 400;
+  const httpFailure =
+    (outcome.kind === 'error' && outcome.errorKind === 'http') ||
+    (outcome.response !== undefined && outcome.response.status >= 400);
   const title =
     outcome.kind === 'error'
       ? httpFailure
@@ -118,16 +125,18 @@ function ApiRequestOutcome({
       >
         <AlertTitle>{t(title)}</AlertTitle>
         {outcome.kind === 'error'
-          ? outcome.message
+          ? httpFailure
+            ? t('Message.요청을 완료하지 못했습니다. 연결 상태와 처리 결과를 확인해 주세요.')
+            : outcome.message
           : businessFailure
             ? t('요청은 완료되었지만 resultCode가 STATUS_0입니다. 응답 내용을 확인해 주세요.')
             : t('아래에서 응답 JSON을 확인할 수 있습니다.')}
-        {outcome.response !== undefined && (
+        {outcome.response !== undefined && !httpFailure && (
           <div>{t('HTTP 상태: {{status}}', { status: outcome.response.status })}</div>
         )}
       </Alert>
-      {body?.kind === 'json' && <JsonResult label="response.json" value={body.value} />}
-      {body?.kind === 'text' && <CodeSnippet label="response.txt" code={body.value} />}
+      {!httpFailure && body?.kind === 'json' && <JsonResult label="response.json" value={body.value} />}
+      {!httpFailure && body?.kind === 'text' && <CodeSnippet label="response.txt" code={body.value} />}
     </>
   );
 }
